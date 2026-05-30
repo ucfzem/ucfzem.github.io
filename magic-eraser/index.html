@@ -495,105 +495,7 @@ resetBtn.onclick = clearMask;
 
 processBtn.onclick = processImage;
 
-function teleaInpaint(imgData, maskData, radius) {
-  const w = imgData.width, h = imgData.height;
-  const d = new Uint8ClampedArray(imgData.data);
-  const m = new Uint8Array(maskData.data.length >> 2);
-  const dist = new Float32Array(w * h);
-  const flag = new Int32Array(w * h); // 0=known, 1=border, 2=inside
-  const INF = 1e9;
-  type: Set;
-
-  for (let i = 0; i < m.length; i++) {
-    const mx = maskData.data[i * 4];
-    m[i] = mx > 128 ? 1 : 0;
-    flag[i] = m[i] ? 2 : 0;
-    dist[i] = m[i] ? INF : 0;
-  }
-
-  // Find border pixels
-  const border = [];
-  const neighbors = [[-1,0],[1,0],[0,-1],[0,1]];
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      const idx = y * w + x;
-      if (flag[idx] === 2) {
-        for (const [nx, ny] of neighbors) {
-          const ni = (y + ny) * w + (x + nx);
-          if (ni >= 0 && ni < w * h && flag[ni] === 0) {
-            flag[idx] = 1;
-            dist[idx] = 0;
-            border.push([x, y]);
-            break;
-          }
-        }
-      }
-    }
-  }
-
-  function idx(x, y) { return (y * w + x); }
-  function getPixel(x, y) {
-    const i = idx(x, y) * 4;
-    return [d[i], d[i+1], d[i+2]];
-  }
-  function setPixel(x, y, r, g, b) {
-    const i = idx(x, y) * 4;
-    d[i] = r; d[i+1] = g; d[i+2] = b;
-  }
-
-  const maxIter = 10000;
-  let iter = 0;
-  while (border.length > 0 && iter < maxIter) {
-    iter++;
-    border.sort((a, b) => dist[a[1] * w + a[0]] - dist[b[1] * w + b[0]]);
-    const [cx, cy] = border.shift();
-    const ci = cy * w + cx;
-    flag[ci] = 0;
-    m[ci] = 0;
-
-    // Compute weighted average of neighbors
-    let totalWeight = 0;
-    let cr = 0, cg = 0, cb = 0;
-    for (let dy = -radius; dy <= radius; dy++) {
-      for (let dx = -radius; dx <= radius; dx++) {
-        if (dx === 0 && dy === 0) continue;
-        const nx = cx + dx, ny = cy + dy;
-        if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue;
-        const ni = ny * w + nx;
-        if (flag[ni] !== 0 || m[ni]) continue;
-        const nd = Math.sqrt(dx * dx + dy * dy);
-        if (nd > radius) continue;
-        const dir = (dx * 1 + dy * 0) / (nd + 0.001) || 0;
-        const weight = 1 / (nd * nd + 0.001) * Math.abs(dir);
-        const [pr, pg, pb] = getPixel(nx, ny);
-        cr += pr * weight;
-        cg += pg * weight;
-        cb += pb * weight;
-        totalWeight += weight;
-      }
-    }
-    if (totalWeight > 0) {
-      setPixel(cx, cy, cr / totalWeight, cg / totalWeight, cb / totalWeight);
-    }
-
-    // Add neighbors to border
-    for (const [nx, ny] of neighbors) {
-      const tx = cx + nx, ty = cy + ny;
-      if (tx < 0 || tx >= w || ty < 0 || ty >= h) continue;
-      const ti = ty * w + tx;
-      if (flag[ti] === 2 && m[ti]) {
-        flag[ti] = 1;
-        dist[ti] = dist[ci] + Math.sqrt(nx * nx + ny * ny);
-        border.push([tx, ty]);
-      }
-    }
-  }
-
-  const out = new ImageData(d, w, h);
-  return out;
-}
-
-async function processImage() {
+function processImage() {
   hideError();
   const maskData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
   let hasMask = false;
@@ -603,27 +505,94 @@ async function processImage() {
 
   processBtn.disabled = true;
   loading.classList.add('show');
-  loadingText.textContent = 'Processing... (100% client-side)';
+  loadingText.textContent = 'Removing object...';
   resultArea.style.display = 'none';
 
-  setTimeout(() => {
-    try {
-      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const result = teleaInpaint(imgData, maskData, Math.max(canvas.width, canvas.height) * 0.03);
-      const tempCanvas = document.createElement('canvas');
-      tempCanvas.width = canvas.width;
-      tempCanvas.height = canvas.height;
-      tempCanvas.getContext('2d').putImageData(result, 0, 0);
-      resultImg.src = tempCanvas.toDataURL();
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = new Uint8ClampedArray(imgData.data);
+  const w = imgData.width, h = imgData.height;
+  const m = new Uint8Array(w * h);
+  const fill = new Uint8Array(w * h);
+
+  for (let i = 0; i < w * h; i++) {
+    m[i] = maskData.data[i * 4] > 128 ? 1 : 0;
+    fill[i] = m[i];
+  }
+
+  function getIdx(x, y) { return y * w + x; }
+
+  let completed = false;
+  const maxPasses = Math.max(w, h);
+
+  function doPass() {
+    let changed = false;
+    for (let y = 1; y < h - 1; y++) {
+      for (let x = 1; x < w - 1; x++) {
+        const idx = getIdx(x, y);
+        if (!fill[idx]) continue;
+        let hasKnown = false;
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue;
+            if (!fill[getIdx(x + dx, y + dy)]) { hasKnown = true; break; }
+          }
+          if (hasKnown) break;
+        }
+        if (!hasKnown) continue;
+
+        let tr = 0, tg = 0, tb = 0, n = 0;
+        for (let dy = -2; dy <= 2; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
+            if (dx === 0 && dy === 0) continue;
+            const ni = getIdx(x + dx, y + dy);
+            if (fill[ni]) continue;
+            const pi = ni * 4;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const wt = 1 / (dist + 0.5);
+            tr += d[pi] * wt; tg += d[pi + 1] * wt; tb += d[pi + 2] * wt;
+            n += wt;
+          }
+        }
+        if (n > 0) {
+          const pi = idx * 4;
+          d[pi] = tr / n; d[pi + 1] = tg / n; d[pi + 2] = tb / n;
+          fill[idx] = 0;
+          changed = true;
+        }
+      }
+    }
+    return changed;
+  }
+
+  function processChunk() {
+    const start = performance.now();
+    let pass = 0;
+    while (pass < 50) {
+      pass++;
+      if (!doPass()) break;
+      if (performance.now() - start > 30) break;
+    }
+
+    const remaining = fill.reduce((s, v) => s + v, 0);
+    const total = m.reduce((s, v) => s + v, 0);
+    const pct = total > 0 ? Math.round((1 - remaining / total) * 100) : 100;
+    loadingText.textContent = 'Removing object... ' + pct + '%';
+
+    if (remaining > 0 && pass >= 50) {
+      requestAnimationFrame(processChunk);
+    } else {
+      const out = new ImageData(d, w, h);
+      const tc = document.createElement('canvas');
+      tc.width = w; tc.height = h;
+      tc.getContext('2d').putImageData(out, 0, 0);
+      resultImg.src = tc.toDataURL();
       resultArea.style.display = 'block';
       loading.classList.remove('show');
       showToast('✅ Object removed!');
-    } catch (err) {
-      loading.classList.remove('show');
-      showError(err.message);
-      processBtn.disabled = false;
     }
-  }, 100);
+  }
+
+  requestAnimationFrame(processChunk);
 }
 
 downloadBtn.onclick = () => {
