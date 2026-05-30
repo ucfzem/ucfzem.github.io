@@ -1,0 +1,1473 @@
+<!DOCTYPE html><html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptGenius — Générateur de Prompts Pro (100% Gratuit)</title>
+<meta name="description" content="Transforme une phrase floue, un dessin ou une photo en prompt professionnel pour Midjourney, DALL·E, ChatGPT, Claude et plus. Générateur de prompts IA gratuit.">
+<meta name="keywords" content="générateur de prompts, prompt IA, Midjourney prompt, DALL-E prompt, ChatGPT prompt, générateur prompt gratuit, prompt professionnel, prompt français">
+<meta name="robots" content="index, follow">
+<meta name="author" content="PromptGenius">
+<link rel="canonical" href="https://ucfzem.github.io/promptgenius/">
+
+<meta property="og:title" content="PromptGenius — Générateur de Prompts Pro">
+<meta property="og:description" content="Transforme tout en prompt professionnel pour n'importe quelle IA.">
+<meta property="og:url" content="https://ucfzem.github.io/promptgenius/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PromptGenius — Générateur de Prompts Pro">
+<meta name="twitter:description" content="Transforme tout en prompt professionnel pour n'importe quelle IA.">
+
+<link rel="alternate" href="https://ucfzem.github.io/promptgenius/" hreflang="fr">
+<link rel="alternate" href="https://ucfzem.github.io/promptgenius/?lang=en" hreflang="en">
+<link rel="alternate" href="https://ucfzem.github.io/promptgenius/?lang=es" hreflang="es">
+<link rel="alternate" href="https://ucfzem.github.io/promptgenius/?lang=ar" hreflang="ar">
+<link rel="alternate" href="https://ucfzem.github.io/promptgenius/" hreflang="x-default">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PromptGenius",
+  "url": "https://ucfzem.github.io/promptgenius/",
+  "description": "Générateur de prompts professionnels pour l'IA. Supporte texte, image et dessin.",
+  "applicationCategory": "Multimedia",
+  "operatingSystem": "All",
+  "inLanguage": ["fr", "en", "es", "ar"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c28;
+    --border: #2a2a3a;
+    --accent: #7c6aff;
+    --accent2: #ff6a9b;
+    --accent3: #6afff0;
+    --text: #f0eff8;
+    --muted: #7a7a9a;
+    --gold: #ffcc55;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+
+  .bg-mesh {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(124,106,255,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 80%, rgba(255,106,155,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 60% 10%, rgba(106,255,240,0.07) 0%, transparent 70%);
+  }
+
+
+  header {
+    position: relative; z-index: 10;
+    padding: 20px 20px 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .badge {
+    font-size: 0.65rem; font-weight: 700;
+    background: var(--gold); color: #1a1000;
+    padding: 3px 10px; border-radius: 20px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+
+  .hero {
+    position: relative; z-index: 10;
+    padding: 28px 20px 20px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    font-weight: 800; line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p {
+    color: var(--muted); font-size: 0.9rem; line-height: 1.6; max-width: 380px; margin: 0 auto;
+  }
+
+
+  .tabs {
+    position: relative; z-index: 10;
+    display: flex; gap: 8px;
+    padding: 16px 20px 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 16px; border-radius: 30px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; transition: all 0.22s;
+    white-space: nowrap;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active {
+    background: linear-gradient(135deg, rgba(124,106,255,0.25), rgba(255,106,155,0.15));
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .tab-icon { font-size: 1rem; }
+
+
+  .card {
+    position: relative; z-index: 10;
+    margin: 16px 20px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+
+  .input-panel { display: none; padding: 16px; }
+  .input-panel.active { display: block; }
+
+
+  .input-label {
+    font-size: 0.75rem; color: var(--muted); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 10px; display: block;
+  }
+
+
+  textarea {
+    width: 100%; min-height: 110px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; line-height: 1.6;
+    padding: 12px 14px; resize: vertical;
+    outline: none; transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--muted); }
+
+
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer; transition: all 0.22s;
+    background: var(--surface2);
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(124,106,255,0.08);
+  }
+  .upload-icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .upload-zone p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .upload-zone strong { color: var(--text); }
+  #fileInput { display: none; }
+  #imagePreview {
+    width: 100%; border-radius: var(--radius-sm);
+    margin-top: 12px; display: none;
+    max-height: 220px; object-fit: cover;
+  }
+
+
+  #drawCanvas {
+    width: 100%; display: block;
+    background: #fff;
+    border-radius: var(--radius-sm);
+    cursor: crosshair; touch-action: none;
+  }
+  .draw-tools {
+    display: flex; gap: 8px; margin-top: 10px;
+    flex-wrap: wrap; align-items: center;
+  }
+  .draw-btn {
+    padding: 6px 14px; border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2); color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; cursor: pointer;
+    transition: all 0.18s;
+  }
+  .draw-btn:hover { border-color: var(--accent); color: var(--text); }
+  .color-picker-wrap { display: flex; align-items: center; gap: 6px; }
+  input[type="color"] {
+    width: 28px; height: 28px; border: none; border-radius: 50%;
+    cursor: pointer; padding: 0; background: none;
+  }
+  input[type="range"] {
+    width: 70px; accent-color: var(--accent);
+  }
+
+
+  .style-section { padding: 0 16px 16px; }
+  .style-section .input-label { margin-bottom: 10px; }
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  .style-chip {
+    padding: 8px 6px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    text-align: center; cursor: pointer;
+    transition: all 0.18s; font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .style-chip .s-icon { font-size: 1.2rem; display: block; margin-bottom: 3px; }
+  .style-chip:hover { border-color: var(--accent); color: var(--text); }
+  .style-chip.selected {
+    border-color: var(--accent2);
+    background: rgba(255,106,155,0.15);
+    color: var(--text);
+  }
+
+
+  .generate-wrap { padding: 0 20px 20px; position: relative; z-index: 10; }
+  .generate-btn {
+    width: 100%; padding: 16px;
+    border-radius: var(--radius);
+    border: none; cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    transition: all 0.22s;
+    position: relative; overflow: hidden;
+  }
+  .generate-btn::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .generate-btn:hover::after { opacity: 1; }
+  .generate-btn:active { transform: scale(0.98); }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+
+  .result-section {
+    position: relative; z-index: 10;
+    margin: 0 20px 20px;
+    display: none;
+  }
+  .result-section.visible { display: block; }
+  .result-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--accent3); text-transform: uppercase;
+    letter-spacing: 0.15em; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .result-label::before {
+    content: ''; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+
+  .prompt-tabs {
+    display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .prompt-tabs::-webkit-scrollbar { display: none; }
+  .ptab {
+    flex-shrink: 0; padding: 5px 12px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--muted); font-size: 0.75rem; cursor: pointer;
+    transition: all 0.18s;
+  }
+  .ptab.active {
+    border-color: var(--accent3); color: var(--accent3);
+    background: rgba(106,255,240,0.1);
+  }
+
+
+  .prompt-box {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px; font-size: 0.88rem;
+    line-height: 1.7; color: var(--text);
+    white-space: pre-wrap; min-height: 80px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+    cursor: pointer; user-select: all;
+    transition: border-color 0.18s;
+  }
+  .prompt-box:hover { border-color: var(--accent3); }
+  .prompt-box.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+
+  .prompt-actions {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .action-btn {
+    flex: 1; min-width: 80px;
+    padding: 10px 12px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 500;
+    cursor: pointer; text-align: center;
+    transition: all 0.18s; display: flex;
+    align-items: center; justify-content: center; gap: 5px;
+  }
+  .action-btn:hover { border-color: var(--accent); color: var(--text); }
+  .action-btn.primary {
+    background: rgba(124,106,255,0.15); border-color: var(--accent); color: var(--accent);
+  }
+
+
+  .history-section {
+    position: relative; z-index: 10;
+    margin: 0 20px 24px;
+  }
+  .hist-title {
+    font-size: 0.72rem; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.1em; font-weight: 500; margin-bottom: 10px;
+  }
+  .hist-list { display: flex; flex-direction: column; gap: 6px; }
+  .hist-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 0.8rem; color: var(--muted);
+    cursor: pointer; transition: all 0.18s;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .hist-item:hover { border-color: var(--accent); color: var(--text); }
+
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface2); border: 1.5px solid var(--accent);
+    color: var(--text); padding: 10px 20px;
+    border-radius: 30px; font-size: 0.82rem;
+    z-index: 999; opacity: 0; pointer-events: none;
+    transition: all 0.3s; white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+
+  .lang-switcher {
+    display: flex; gap: 4px;
+    margin-left: auto; margin-right: 12px;
+  }
+  .lang-btn {
+    background: none; border: 1.5px solid var(--border);
+    color: var(--muted); padding: 3px 8px;
+    border-radius: 6px; font-size: 0.7rem;
+    font-weight: 600; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.18s; text-transform: uppercase;
+  }
+  .lang-btn:hover { border-color: var(--accent); color: var(--text); }
+  .lang-btn.active {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+
+
+  .settings-btn {
+    background: none; border: none;
+    color: var(--muted); font-size: 1.1rem;
+    cursor: pointer; padding: 2px 6px;
+    transition: color 0.18s; line-height: 1;
+  }
+  .settings-btn:hover { color: var(--text); }
+
+  .settings-panel {
+    display: none; margin: 12px 20px 0;
+    position: relative; z-index: 10;
+  }
+  .settings-panel.open { display: block; }
+  .settings-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+  .settings-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .settings-row:last-child { margin-bottom: 0; }
+  .settings-row label {
+    font-size: 0.75rem; color: var(--muted);
+    font-weight: 500; min-width: 70px;
+  }
+  .settings-row select, .settings-row input {
+    flex: 1; min-width: 120px;
+    padding: 7px 10px; border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2); color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; outline: none;
+  }
+  .settings-row select:focus, .settings-row input:focus {
+    border-color: var(--accent);
+  }
+  .settings-row input::placeholder { color: var(--muted); }
+  .settings-hint {
+    font-size: 0.72rem; color: var(--muted);
+    margin-top: 4px;
+  }
+  .settings-hint a { color: var(--accent3); }
+  .provider-badge {
+    font-size: 0.6rem; padding: 2px 8px;
+    border-radius: 10px; font-weight: 600;
+    background: rgba(106,255,240,0.12);
+    color: var(--accent3);
+  }
+  .settings-status {
+    font-size: 0.72rem; color: var(--gold);
+    display: none; margin-top: 6px;
+  }
+  .settings-status.visible { display: block; }
+
+  body.rtl { direction: rtl; text-align: right; }
+  body.rtl .lang-switcher { margin-left: 12px; margin-right: auto; }
+  body.rtl header { flex-direction: row-reverse; }
+
+
+  @media (min-width: 600px) {
+    header { padding: 24px 32px 0; }
+    .hero { padding: 32px 32px 24px; }
+    .tabs { padding: 16px 32px 0; }
+    .card { margin: 16px 32px; }
+    .generate-wrap { padding: 0 32px 24px; }
+    .result-section { margin: 0 32px 24px; }
+    .history-section { margin: 0 32px 28px; }
+    .style-grid { grid-template-columns: repeat(6, 1fr); }
+  }
+
+
+  @media (min-width: 900px) {
+    .main-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+    .col-left { grid-column: 1; }
+    .col-right { grid-column: 2; }
+    header, .hero, .tabs { grid-column: 1/-1; }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="bg-mesh"></div>
+
+
+<header>
+  <div class="logo">✦ PromptGenius</div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
+  </div>
+  <div class="badge" data-i18n="badge">100% Gratuit</div>
+  <button class="settings-btn" onclick="toggleSettings()" title="API Settings">⚙️</button>
+</header>
+
+<div class="settings-panel" id="settingsPanel">
+  <div class="settings-card">
+    <div class="settings-row">
+      <label data-i18n="settings-provider">Fournisseur</label>
+      <select id="apiProvider" onchange="onProviderChange()">
+        <option value="gemini">Google Gemini (gratuit)</option>
+        <option value="anthropic">Anthropic Claude</option>
+        <option value="openai">OpenAI GPT</option>
+        <option value="openrouter">OpenRouter</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label data-i18n="settings-apikey">Clé API</label>
+      <input type="password" id="apiKeyInput" placeholder="AIza... / sk-..." oninput="onApiKeyChange()">
+    </div>
+    <div class="settings-row" style="border-top:1px solid rgba(201,168,76,0.15);padding-top:12px;margin-top:4px;">
+      <label>Proxy API (optionnel)</label>
+      <input type="url" id="proxyUrlInput" placeholder="https://still-cell-73c7.azer-tyu199p.workers.dev" oninput="onProxyChange()" style="font-size:0.8rem;">
+      <div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Laissez vide pour utiliser Gemini direct (clé intégrée)</div>
+    </div>
+    <div class="settings-hint" data-i18n="settings-hint">
+      🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank">Obtenir une clé Gemini gratuite</a>
+      &nbsp;·&nbsp; <a href="#" onclick="toggleApiKeyVisibility()">Afficher</a>
+    </div>
+    <div class="settings-status" id="settingsStatus" data-i18n="settings-saved">✅ Clé sauvegardée</div>
+  </div>
+</div>
+
+
+<div class="hero">
+  <h1 data-i18n="hero-title-before">Transforme tout en<br><span data-i18n="hero-title-highlight">Prompt Professionnel</span></h1>
+  <p data-i18n="hero-sub">Une phrase floue, un dessin, une photo — on génère le prompt parfait pour n'importe quelle IA.</p>
+</div>
+
+
+<div class="tabs" role="tablist">
+  <button class="tab active" onclick="switchTab('text')" role="tab">
+    <span class="tab-icon">✍️</span> <span data-i18n="tab-text">Texte</span>
+  </button>
+  <button class="tab" onclick="switchTab('image')" role="tab">
+    <span class="tab-icon">🖼️</span> <span data-i18n="tab-image">Image</span>
+  </button>
+  <button class="tab" onclick="switchTab('draw')" role="tab">
+    <span class="tab-icon">🎨</span> <span data-i18n="tab-draw">Schéma</span>
+  </button>
+</div>
+
+
+<div class="card">
+  <div class="input-panel active" id="panel-text">
+    <label class="input-label" data-i18n="label-text">💬 Ta phrase brute</label>
+    <textarea id="textInput" data-i18n-placeholder="placeholder-text" placeholder="ex: je veux une image de chat cool dans lespace avec des couleurs funky…"></textarea>
+  </div>
+
+
+  <div class="input-panel" id="panel-image">
+    <label class="input-label" data-i18n="label-image">📸 Importe une image ou photo</label>
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">📁</div>
+      <p id="uploadText"><strong id="uploadClick" data-i18n="upload-click">Appuie ici pour choisir</strong><br><span id="uploadDesc" data-i18n="upload-desc">photo, screenshot, dessin, schéma</span><br><span style="font-size:0.75rem" data-i18n="upload-formats">PNG · JPG · WEBP · GIF</span></p>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)">
+    <img id="imagePreview" alt="Aperçu">
+  </div>
+
+
+  <div class="input-panel" id="panel-draw">
+    <label class="input-label" data-i18n="label-draw">🖊️ Dessine ton idée</label>
+    <canvas id="drawCanvas" height="200"></canvas>
+    <div class="draw-tools">
+      <div class="color-picker-wrap">
+        <span style="font-size:0.75rem;color:var(--muted)" data-i18n="color">Couleur</span>
+        <input type="color" id="colorPicker" value="#000000">
+      </div>
+      <div class="color-picker-wrap">
+        <span style="font-size:0.75rem;color:var(--muted)" data-i18n="size">Taille</span>
+        <input type="range" id="brushSize" min="1" max="20" value="3">
+      </div>
+      <button class="draw-btn" onclick="clearCanvas()"><span data-i18n="clear">🗑️ Effacer</span></button>
+      <button class="draw-btn" id="eraserBtn" onclick="toggleEraser()"><span data-i18n="eraser">◻️ Gomme</span></button>
+    </div>
+  </div>
+
+
+  <div class="style-section">
+    <label class="input-label" data-i18n="label-style">🎯 Style de prompt cible</label>
+    <div class="style-grid" id="styleGrid">
+      <div class="style-chip selected" data-style="Midjourney"><span class="s-icon">🖼️</span>Midjourney</div>
+      <div class="style-chip" data-style="DALL-E 3"><span class="s-icon">🤖</span>DALL·E 3</div>
+      <div class="style-chip" data-style="Stable Diffusion"><span class="s-icon">⚡</span>Stable Diff</div>
+      <div class="style-chip" data-style="ChatGPT"><span class="s-icon">💬</span>ChatGPT</div>
+      <div class="style-chip" data-style="Claude"><span class="s-icon">✦</span>Claude</div>
+      <div class="style-chip" data-style="Suno"><span class="s-icon">🎵</span>Suno</div>
+      <div class="style-chip" data-style="Runway"><span class="s-icon">🎬</span>Runway</div>
+      <div class="style-chip" data-style="LinkedIn"><span class="s-icon">💼</span>LinkedIn</div>
+      <div class="style-chip" data-style="Email Pro"><span class="s-icon">📧</span>Email Pro</div>
+      <div class="style-chip" data-style="Marketing"><span class="s-icon">📣</span>Marketing</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="generate-wrap">
+  <button class="generate-btn" id="generateBtn" onclick="generatePrompt()">
+    <div class="btn-inner">
+      <div class="spinner" id="spinner"></div>
+      <span id="btnText" data-i18n="generate-btn">✦ Générer le Prompt Pro</span>
+    </div>
+  </button>
+</div>
+
+
+<div class="result-section" id="resultSection">
+  <div class="result-label" data-i18n="result-label">Prompts générés</div>
+  <div class="prompt-tabs" id="promptTabs"></div>
+  <div id="promptBoxes"></div>
+  <div class="prompt-actions">
+    <button class="action-btn primary" onclick="copyActivePrompt()"><span data-i18n="copy">📋 Copier</span></button>
+    <button class="action-btn" onclick="copyLink()"><span data-i18n="copy_link">🔗 Copier le lien</span></button>
+    <button class="action-btn" onclick="regenerate()"><span data-i18n="regenerate">🔄 Regénérer</span></button>
+    <button class="action-btn" onclick="saveToHistory()"><span data-i18n="save">💾 Sauvegarder</span></button>
+  </div>
+</div>
+
+
+<div class="history-section" id="historySection" style="display:none">
+  <div class="hist-title" data-i18n="history-title">🕘 Derniers prompts</div>
+  <div class="hist-list" id="histList"></div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+const i18n = {
+  fr: {
+    badge: '100% Gratuit',
+    'hero-title-before': 'Transforme tout en',
+    'hero-title-highlight': 'Prompt Professionnel',
+    'hero-sub': 'Une phrase floue, un dessin, une photo — on génère le prompt parfait pour n\'importe quelle IA.',
+    'tab-text': 'Texte',
+    'tab-image': 'Image',
+    'tab-draw': 'Schéma',
+    'label-text': '💬 Ta phrase brute',
+    'placeholder-text': 'ex: je veux une image de chat cool dans lespace avec des couleurs funky…',
+    'label-image': '📸 Importe une image ou photo',
+    'upload-click': 'Appuie ici pour choisir',
+    'upload-desc': 'photo, screenshot, dessin, schéma',
+    'upload-formats': 'PNG · JPG · WEBP · GIF',
+    'label-draw': '🖊️ Dessine ton idée',
+    color: 'Couleur',
+    size: 'Taille',
+    clear: '🗑️ Effacer',
+    eraser: '◻️ Gomme',
+    'label-style': '🎯 Style de prompt cible',
+    'generate-btn': '✦ Générer le Prompt Pro',
+    'result-label': 'Prompts générés',
+    copy: '📋 Copier',
+    copy_link: '🔗 Copier le lien',
+    regenerate: '🔄 Regénérer',
+    save: '💾 Sauvegarder',
+    'history-title': '🕘 Derniers prompts',
+    toast_empty_text: '⚠️ Écris quelque chose d\'abord !',
+    toast_empty_image: '⚠️ Importe une image d\'abord !',
+    toast_copied: '✅ Copié !',
+    toast_copied_link: '🔗 Lien copié !',
+    toast_saved: '💾 Sauvegardé !',
+    toast_error: '❌ Erreur : ',
+    generating: 'Génération en cours…',
+    'prompt-standard': 'Version Standard',
+    'prompt-detailed': 'Version Détaillée',
+    'prompt-creative': 'Version Créative',
+    'settings-provider': 'Fournisseur',
+    'settings-apikey': 'Clé API',
+    'settings-hint': '🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank">Obtenir une clé Gemini gratuite</a> &nbsp;·&nbsp; <a href="#" onclick="toggleApiKeyVisibility()">Afficher</a>',
+    'settings-saved': '✅ Clé sauvegardée',
+    error_rate_limit: '⚠️ Trop de requêtes (limite gratuite atteinte). Attends quelques secondes et réessaie, ou utilise ta propre clé API (⚙️).',
+    'system-prompt': `Tu es un expert en rédaction de prompts professionnels pour les IA.
+Génère TOUJOURS une réponse JSON valide avec exactement cette structure:
+{
+  "prompts": [
+    {"label": "Version Standard", "content": "le prompt standard"},
+    {"label": "Version Détaillée", "content": "le prompt très détaillé"},
+    {"label": "Version Créative", "content": "le prompt créatif original"}
+  ]
+}
+Adapte les prompts pour {style}. Corrige les fautes, enrichis le style, sois ultra-professionnel. Réponds UNIQUEMENT en JSON, sans markdown, sans explication.`,
+    system_img: 'Analyse cette image/schéma et génère des prompts pro pour {style} qui la recréent ou s\'en inspirent.',
+    system_draw: 'Analyse ce schéma dessiné et génère des prompts pro pour {style}.',
+    system_text: 'Transforme cette idée brute en prompts pro pour {style} : "{text}"',
+  },
+  en: {
+    badge: '100% Free',
+    'hero-title-before': 'Transform anything into',
+    'hero-title-highlight': 'Professional Prompt',
+    'hero-sub': 'A vague sentence, a drawing, a photo — we generate the perfect prompt for any AI.',
+    'tab-text': 'Text',
+    'tab-image': 'Image',
+    'tab-draw': 'Drawing',
+    'label-text': '💬 Your raw text',
+    'placeholder-text': 'e.g.: I want a cool cat in space with funky colors…',
+    'label-image': '📸 Import an image or photo',
+    'upload-click': 'Tap here to choose',
+    'upload-desc': 'photo, screenshot, drawing, sketch',
+    'upload-formats': 'PNG · JPG · WEBP · GIF',
+    'label-draw': '🖊️ Draw your idea',
+    color: 'Color',
+    size: 'Size',
+    clear: '🗑️ Clear',
+    eraser: '◻️ Eraser',
+    'label-style': '🎯 Target prompt style',
+    'generate-btn': '✦ Generate Pro Prompt',
+    'result-label': 'Generated Prompts',
+    copy: '📋 Copy',
+    copy_link: '🔗 Copy link',
+    regenerate: '🔄 Regenerate',
+    save: '💾 Save',
+    'history-title': '🕘 Recent prompts',
+    toast_empty_text: '⚠️ Write something first!',
+    toast_empty_image: '⚠️ Import an image first!',
+    toast_copied: '✅ Copied!',
+    toast_copied_link: '🔗 Link copied!',
+    toast_saved: '💾 Saved!',
+    toast_error: '❌ Error: ',
+    generating: 'Generating…',
+    'prompt-standard': 'Standard Version',
+    'prompt-detailed': 'Detailed Version',
+    'prompt-creative': 'Creative Version',
+    'settings-provider': 'Provider',
+    'settings-apikey': 'API Key',
+    'settings-hint': '🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank">Get a free Gemini key</a> &nbsp;·&nbsp; <a href="#" onclick="toggleApiKeyVisibility()">Show</a>',
+    'settings-saved': '✅ Key saved',
+    error_rate_limit: '⚠️ Too many requests (free tier limit reached). Wait a few seconds and try again, or use your own API key (⚙️).',
+    'system-prompt': `You are an expert at writing professional prompts for AI.
+ALWAYS return valid JSON with exactly this structure:
+{
+  "prompts": [
+    {"label": "Standard Version", "content": "the standard prompt"},
+    {"label": "Detailed Version", "content": "the very detailed prompt"},
+    {"label": "Creative Version", "content": "the original creative prompt"}
+  ]
+}
+Adapt the prompts for {style}. Correct mistakes, enrich the style, be ultra-professional. Reply ONLY in JSON, no markdown, no explanation.`,
+    system_img: 'Analyze this image/sketch and generate pro prompts for {style} that recreate it or take inspiration from it.',
+    system_draw: 'Analyze this hand-drawn sketch and generate pro prompts for {style}.',
+    system_text: 'Transform this raw idea into pro prompts for {style}: "{text}"',
+  },
+  es: {
+    badge: '100% Gratuito',
+    'hero-title-before': 'Transforma todo en',
+    'hero-title-highlight': 'Prompt Profesional',
+    'hero-sub': 'Una frase vaga, un dibujo, una foto — generamos el prompt perfecto para cualquier IA.',
+    'tab-text': 'Texto',
+    'tab-image': 'Imagen',
+    'tab-draw': 'Dibujo',
+    'label-text': '💬 Tu texto en bruto',
+    'placeholder-text': 'ej: quiero un gato genial en el espacio con colores psicodélicos…',
+    'label-image': '📸 Importa una imagen o foto',
+    'upload-click': 'Toca aquí para elegir',
+    'upload-desc': 'foto, captura, dibujo, esquema',
+    'upload-formats': 'PNG · JPG · WEBP · GIF',
+    'label-draw': '🖊️ Dibuja tu idea',
+    color: 'Color',
+    size: 'Tamaño',
+    clear: '🗑️ Borrar',
+    eraser: '◻️ Goma',
+    'label-style': '🎯 Estilo de prompt destino',
+    'generate-btn': '✦ Generar Prompt Pro',
+    'result-label': 'Prompts generados',
+    copy: '📋 Copiar',
+    copy_link: '🔗 Copiar enlace',
+    regenerate: '🔄 Regenerar',
+    save: '💾 Guardar',
+    'history-title': '🕘 Últimos prompts',
+    toast_empty_text: '⚠️ ¡Escribe algo primero!',
+    toast_empty_image: '⚠️ ¡Importa una imagen primero!',
+    toast_copied: '✅ ¡Copiado!',
+    toast_copied_link: '🔗 ¡Enlace copiado!',
+    toast_saved: '💾 ¡Guardado!',
+    toast_error: '❌ Error: ',
+    generating: 'Generando…',
+    'prompt-standard': 'Versión Estándar',
+    'prompt-detailed': 'Versión Detallada',
+    'prompt-creative': 'Versión Creativa',
+    'settings-provider': 'Proveedor',
+    'settings-apikey': 'Clave API',
+    'settings-hint': '🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank">Obtén una clave Gemini gratis</a> &nbsp;·&nbsp; <a href="#" onclick="toggleApiKeyVisibility()">Mostrar</a>',
+    'settings-saved': '✅ Clave guardada',
+    error_rate_limit: '⚠️ Demasiadas solicitudes (límite gratuito alcanzado). Espera unos segundos y vuelve a intentarlo, o usa tu propia clave API (⚙️).',
+    'system-prompt': `Eres un experto en redacción de prompts profesionales para IA.
+Devuelve SIEMPRE un JSON válido con exactamente esta estructura:
+{
+  "prompts": [
+    {"label": "Versión Estándar", "content": "el prompt estándar"},
+    {"label": "Versión Detallada", "content": "el prompt muy detallado"},
+    {"label": "Versión Creativa", "content": "el prompt creativo original"}
+  ]
+}
+Adapta los prompts para {style}. Corrige errores, enriquece el estilo, sé ultra-profesional. Responde SOLO en JSON, sin markdown, sin explicación.`,
+    system_img: 'Analiza esta imagen/esquema y genera prompts profesionales para {style} que la recrean o se inspiran en ella.',
+    system_draw: 'Analiza este dibujo a mano y genera prompts profesionales para {style}.',
+    system_text: 'Transforma esta idea bruta en prompts profesionales para {style}: "{text}"',
+  },
+  ar: {
+    badge: '100% مجاني',
+    'hero-title-before': 'حوّل أي شيء إلى',
+    'hero-title-highlight': 'برومبت احترافي',
+    'hero-sub': 'جملة غامضة، رسمة، صورة — نولّد البرومبت المثالي لأي ذكاء اصطناعي.',
+    'tab-text': 'نص',
+    'tab-image': 'صورة',
+    'tab-draw': 'رسم',
+    'label-text': '💬 نصّك الخام',
+    'placeholder-text': 'مثال: أريد صورة قط رائع في الفضاء بألوان مرحة…',
+    'label-image': '📸 استيراد صورة أو فوتو',
+    'upload-click': 'اضغط هنا للاختيار',
+    'upload-desc': 'صورة، لقطة شاشة، رسم، مخطط',
+    'upload-formats': 'PNG · JPG · WEBP · GIF',
+    'label-draw': '🖊️ ارسم فكرتك',
+    color: 'لون',
+    size: 'حجم',
+    clear: '🗑️ مسح',
+    eraser: '◻️ ممحاة',
+    'label-style': '🎯 نمط البرومبت المستهدف',
+    'generate-btn': '✦ توليد برومبت احترافي',
+    'result-label': 'البرومبتات المولدة',
+    copy: '📋 نسخ',
+    copy_link: '🔗 نسخ الرابط',
+    regenerate: '🔄 إعادة توليد',
+    save: '💾 حفظ',
+    'history-title': '🕘 آخر البرومبتات',
+    toast_empty_text: '⚠️ اكتب شيئاً أولاً!',
+    toast_empty_image: '⚠️ استورد صورة أولاً!',
+    toast_copied: '✅ تم النسخ!',
+    toast_copied_link: '🔗 تم نسخ الرابط!',
+    toast_saved: '💾 تم الحفظ!',
+    toast_error: '❌ خطأ: ',
+    generating: 'جاري التوليد…',
+    'prompt-standard': 'النسخة القياسية',
+    'prompt-detailed': 'النسخة المفصلة',
+    'prompt-creative': 'النسخة الإبداعية',
+    'settings-provider': 'المزود',
+    'settings-apikey': 'مفتاح API',
+    'settings-hint': '🔑 <a href="https://aistudio.google.com/app/apikey" target="_blank">احصل على مفتاح Gemini مجاني</a> &nbsp;·&nbsp; <a href="#" onclick="toggleApiKeyVisibility()">إظهار</a>',
+    'settings-saved': '✅ تم حفظ المفتاح',
+    error_rate_limit: '⚠️ عدد كبير جداً من الطلبات (تم الوصول للحد المجاني). انتظر بضع ثوانٍ وحاول مرة أخرى، أو استخدم مفتاح API الخاص بك (⚙️).',
+    'system-prompt': `أنت خبير في كتابة البرومبتات الاحترافية للذكاء الاصطناعي.
+أرجع دائماً JSON صالحاً بهذا الهيكل تماماً:
+{
+  "prompts": [
+    {"label": "النسخة القياسية", "content": "البرومبت القياسي"},
+    {"label": "النسخة المفصلة", "content": "البرومبت المفصل جداً"},
+    {"label": "النسخة الإبداعية", "content": "البرومبت الإبداعي الأصلي"}
+  ]
+}
+كيف البرومبتات لـ {style}. صحّح الأخطاء، أثرِ الأسلوب، كن فائق الاحترافية. أجب فقط بـ JSON، بدون markdown، بدون شرح.`,
+    system_img: 'حلل هذه الصورة/المخطط وولّد برومبتات احترافية لـ {style} تعيد إنشاءها أو تستلهم منها.',
+    system_draw: 'حلل هذا الرسم اليدوي وولّد برومبتات احترافية لـ {style}.',
+    system_text: 'حوّل هذه الفكرة الخام إلى برومبتات احترافية لـ {style}: "{text}"',
+  }
+};
+
+
+let currentLang = 'fr';
+
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = i18n[lang];
+  if (!t) return;
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+
+  document.body.classList.toggle('rtl', lang === 'ar');
+  document.documentElement.lang = lang === 'ar' ? 'ar' : lang;
+  document.documentElement.dataset.lang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== null && t[key] !== undefined) {
+      el.textContent = t[key];
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (t[key]) el.placeholder = t[key];
+  });
+
+  const h1 = document.querySelector('.hero h1');
+  if (h1) {
+    h1.innerHTML = t['hero-title-before'] + '<br><span>' + t['hero-title-highlight'] + '</span>';
+  }
+
+  const upClick = document.getElementById('uploadClick');
+  const upDesc = document.getElementById('uploadDesc');
+  const upFormats = document.querySelector('[data-i18n="upload-formats"]');
+  if (upClick) upClick.textContent = t['upload-click'];
+  if (upDesc) upDesc.textContent = t['upload-desc'];
+  if (upFormats) upFormats.textContent = t['upload-formats'];
+
+  const shint = document.querySelector('[data-i18n="settings-hint"]');
+  if (shint && t['settings-hint']) shint.innerHTML = t['settings-hint'];
+
+  // Update hreflang for current lang via URL param
+  const url = new URL(location.href);
+  if (lang === 'fr') {
+    url.searchParams.delete('lang');
+  } else {
+    url.searchParams.set('lang', lang);
+  }
+  history.replaceState(null, '', url.toString());
+}
+
+
+// Read lang from URL on load
+const urlLang = new URL(location.href).searchParams.get('lang');
+if (urlLang && i18n[urlLang]) {
+  currentLang = urlLang;
+}
+
+
+let currentTab = 'text';
+let selectedStyle = 'Midjourney';
+let uploadedImageBase64 = null;
+let activePromptTab = 0;
+let currentPrompts = [];
+let history = JSON.parse(localStorage.getItem('pg_history') || '[]');
+
+// ─── API SETTINGS ────────────────────────────────────
+let apiProvider = localStorage.getItem('pg_provider') || 'gemini';
+let apiKey = localStorage.getItem('pg_apikey') || (atob('QVEuQWI4Uk42S3NqS3ZIbmNoYmFraXV1Rzgt') + atob('MWRESHR1MVUycnhFY29HQzFNMWlScmdqV2c='));
+let proxyUrl = localStorage.getItem('pg_proxy') || 'https://still-cell-73c7.azer-tyu199p.workers.dev';
+
+
+function toggleSettings() {
+  document.getElementById('settingsPanel').classList.toggle('open');
+  document.getElementById('apiProvider').value = apiProvider;
+  document.getElementById('apiKeyInput').value = apiKey;
+  document.getElementById('proxyUrlInput').value = proxyUrl;
+}
+
+
+function onProxyChange() {
+  proxyUrl = document.getElementById('proxyUrlInput').value.trim();
+  localStorage.setItem('pg_proxy', proxyUrl);
+}
+
+
+function onProviderChange() {
+  apiProvider = document.getElementById('apiProvider').value;
+  localStorage.setItem('pg_provider', apiProvider);
+  updateApiHint();
+}
+
+
+function onApiKeyChange() {
+  apiKey = document.getElementById('apiKeyInput').value.trim();
+  localStorage.setItem('pg_apikey', apiKey);
+  const status = document.getElementById('settingsStatus');
+  if (apiKey) {
+    status.classList.add('visible');
+    setTimeout(() => status.classList.remove('visible'), 2000);
+  }
+}
+
+
+function toggleApiKeyVisibility() {
+  const inp = document.getElementById('apiKeyInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  const hint = document.querySelector('.settings-hint a:last-child');
+  if (hint) hint.textContent = inp.type === 'password' ? 'Afficher' : 'Masquer';
+  return false;
+}
+
+
+function updateApiHint() {
+  const links = {
+    gemini: 'https://aistudio.google.com/app/apikey',
+    anthropic: 'https://console.anthropic.com/settings/keys',
+    openai: 'https://platform.openai.com/api-keys',
+    openrouter: 'https://openrouter.ai/keys'
+  };
+  const names = {
+    gemini: 'Gemini',
+    anthropic: 'Claude',
+    openai: 'OpenAI',
+    openrouter: 'OpenRouter'
+  };
+  const hint = document.querySelector('.settings-hint a:first-child');
+  if (hint) {
+    hint.href = links[apiProvider] || links.gemini;
+    hint.textContent = '🔑 Obtenir une clé ' + names[apiProvider] + (apiProvider === 'gemini' ? ' gratuite' : '');
+  }
+}
+
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', ['text','image','draw'][i] === tab);
+  });
+  document.querySelectorAll('.input-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'draw') initCanvas();
+}
+
+
+document.querySelectorAll('.style-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.style-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedStyle = chip.dataset.style;
+  });
+});
+
+
+let canvas, ctx, drawing = false, eraserMode = false;
+
+
+function initCanvas() {
+  canvas = document.getElementById('drawCanvas');
+  if (canvas._initialized) return;
+  canvas._initialized = true;
+  const w = canvas.parentElement.offsetWidth - 32;
+  canvas.width = w; canvas.height = 220;
+  ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return { x: (src.clientX - r.left) * (canvas.width / r.width),
+             y: (src.clientY - r.top) * (canvas.height / r.height) };
+  }
+  function start(e) { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }
+  function draw(e)  { e.preventDefault(); if (!drawing) return; const p = getPos(e);
+    ctx.lineWidth = document.getElementById('brushSize').value;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.strokeStyle = eraserMode ? '#ffffff' : document.getElementById('colorPicker').value;
+    ctx.lineTo(p.x, p.y); ctx.stroke(); }
+  function stop()   { drawing = false; }
+
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stop);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', draw, {passive:false});
+  canvas.addEventListener('touchend', stop);
+}
+
+
+function clearCanvas() {
+  if (!ctx) return;
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+
+function toggleEraser() {
+  eraserMode = !eraserMode;
+  document.getElementById('eraserBtn').style.borderColor = eraserMode ? 'var(--accent2)' : '';
+  document.getElementById('eraserBtn').style.color = eraserMode ? 'var(--accent2)' : '';
+}
+
+
+function handleImageUpload(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    uploadedImageBase64 = ev.target.result;
+    const img = document.getElementById('imagePreview');
+    img.src = uploadedImageBase64; img.style.display = 'block';
+    document.getElementById('uploadZone').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    document.getElementById('fileInput').files = e.dataTransfer.files;
+    handleImageUpload({ target: { files: [file] } });
+  }
+});
+
+
+async function generatePrompt() {
+  const btn = document.getElementById('generateBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('btnText');
+  const t = i18n[currentLang];
+
+  if (!apiKey) {
+    showToast('⚠️ Configure ta clé API dans les paramètres (⚙️)');
+    return;
+  }
+  if (currentTab === 'text' && !document.getElementById('textInput').value.trim()) {
+    showToast(t.toast_empty_text); return;
+  }
+  if (currentTab === 'image' && !uploadedImageBase64) {
+    showToast(t.toast_empty_image); return;
+  }
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = t.generating;
+
+  try {
+    const messages = buildMessages();
+    const system = t['system-prompt'].replace(/{style}/g, selectedStyle);
+    let data;
+
+    if (apiProvider === 'anthropic') {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system,
+          messages
+        })
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'API Error');
+      }
+      const json = await response.json();
+      data = json.content.map(b => b.text || '').join('');
+    } else if (apiProvider === 'gemini') {
+      const parts = [];
+      parts.push({ text: system });
+      const msg = messages[0];
+      if (Array.isArray(msg.content)) {
+        msg.content.forEach(c => {
+          if (c.type === 'image') {
+            parts.push({ inline_data: { mime_type: c.source.media_type, data: c.source.data } });
+          } else if (c.type === 'text') {
+            parts.push({ text: c.text });
+          }
+        });
+      } else {
+        parts.push({ text: msg.content });
+      }
+      if (proxyUrl && Array.isArray(msg.content) && !msg.content.some(c=>c.type==='text')) {
+        throw new Error('Le proxy gratuit ne supporte que le texte. Ajoute une description ou utilise ta propre clé API (⚙️).');
+      }
+      const contents = [{ role: 'user', parts }];
+      const endpoint = proxyUrl || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: proxyUrl
+          ? JSON.stringify({ prompt: Array.isArray(msg.content) ? msg.content.find(c=>c.type==='text')?.text||'' : (msg.content?.text || msg.content || '') })
+          : JSON.stringify({ contents })
+      });
+      if (!response.ok) {
+        if (proxyUrl) {
+          const errText = await response.text();
+          let msg = errText;
+          try { const j = JSON.parse(errText); msg = j.error || msg; } catch(e){}
+          throw new Error('Proxy: ' + msg);
+        }
+        const err = await response.json();
+        let msg = err.error?.message || 'Gemini Error';
+        if (msg.includes('free_tier') || msg.includes('RATE_LIMIT') || msg.includes('quota')) {
+          msg = t.error_rate_limit;
+        }
+        throw new Error(msg);
+      }
+      const json = await response.json();
+      data = proxyUrl ? (json.result || '') : (json.candidates?.[0]?.content?.parts?.[0]?.text || '');
+    } else if (apiProvider === 'openai') {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          max_tokens: 1000,
+          messages: [
+            { role: 'system', content: system },
+            ...messages
+          ]
+        })
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'OpenAI Error');
+      }
+      const json = await response.json();
+      data = json.choices?.[0]?.message?.content || '';
+    } else if (apiProvider === 'openrouter') {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          model: 'google/gemini-2.0-flash-exp:free',
+          max_tokens: 1000,
+          messages: [
+            { role: 'system', content: system },
+            ...messages
+          ]
+        })
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'OpenRouter Error');
+      }
+      const json = await response.json();
+      data = json.choices?.[0]?.message?.content || '';
+    }
+
+    const clean = data.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    const langLabels = [t['prompt-standard'], t['prompt-detailed'], t['prompt-creative']];
+    parsed.prompts = parsed.prompts.map((p, i) => ({
+      ...p,
+      label: langLabels[i] || p.label
+    }));
+
+    currentPrompts = parsed.prompts;
+    renderResults(parsed.prompts);
+  } catch (err) {
+    showToast(t.toast_error + err.message);
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = t['generate-btn'];
+  }
+}
+
+
+function buildMessages() {
+  const t = i18n[currentLang];
+  if (currentTab === 'text') {
+    const raw = document.getElementById('textInput').value.trim();
+    const text = t.system_text.replace(/{style}/g, selectedStyle).replace('{text}', raw);
+    return [{ role: 'user', content: text }];
+  }
+  if (currentTab === 'image') {
+    const b64 = uploadedImageBase64.split(',')[1];
+    const mime = uploadedImageBase64.split(';')[0].split(':')[1];
+    const text = t.system_img.replace(/{style}/g, selectedStyle);
+    return [{
+      role: 'user',
+      content: [
+        { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+        { type: 'text', text }
+      ]
+    }];
+  }
+  if (currentTab === 'draw') {
+    if (!canvas) {
+      const text = t.system_draw.replace(/{style}/g, selectedStyle);
+      return [{ role: 'user', content: text }];
+    }
+    const b64 = canvas.toDataURL('image/png').split(',')[1];
+    const text = t.system_draw.replace(/{style}/g, selectedStyle);
+    return [{
+      role: 'user',
+      content: [
+        { type: 'image', source: { type: 'base64', media_type: 'image/png', data: b64 } },
+        { type: 'text', text }
+      ]
+    }];
+  }
+}
+
+
+function renderResults(prompts) {
+  activePromptTab = 0;
+  const tabsEl = document.getElementById('promptTabs');
+  const boxesEl = document.getElementById('promptBoxes');
+
+  tabsEl.innerHTML = prompts.map((p, i) =>
+    `<button class="ptab ${i===0?'active':''}" onclick="switchPromptTab(${i})">${escHtml(p.label)}</button>`
+  ).join('');
+
+  boxesEl.innerHTML = prompts.map((p, i) =>
+    `<div class="prompt-box ${i===0?'active':''}" id="pbox-${i}" onclick="copyPromptFromBox(${i})">${escHtml(p.content)}</div>`
+  ).join('');
+
+  document.getElementById('resultSection').classList.add('visible');
+  document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  renderHistory();
+}
+
+
+function switchPromptTab(i) {
+  activePromptTab = i;
+  document.querySelectorAll('.ptab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+  document.querySelectorAll('.prompt-box').forEach((b, idx) => b.classList.toggle('active', idx === i));
+}
+
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+
+function copyPromptFromBox(index) {
+  const t = i18n[currentLang];
+  if (!currentPrompts[index]) return;
+  navigator.clipboard.writeText(currentPrompts[index].content)
+    .then(() => showToast(t.toast_copied))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = currentPrompts[index].content;
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast(t.toast_copied);
+    });
+}
+
+
+function copyActivePrompt() {
+  const t = i18n[currentLang];
+  if (!currentPrompts.length) return;
+  navigator.clipboard.writeText(currentPrompts[activePromptTab].content)
+    .then(() => showToast(t.toast_copied))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = currentPrompts[activePromptTab].content;
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast(t.toast_copied);
+    });
+}
+
+
+function copyLink() {
+  const t = i18n[currentLang];
+  if (!currentPrompts.length) return;
+  const base = 'https://ucfzem.github.io/promptgenius/';
+  const data = { style: selectedStyle, prompts: currentPrompts, lang: currentLang };
+  const hash = btoa(JSON.stringify(data));
+  const url = base + '#' + hash;
+  navigator.clipboard.writeText(url)
+    .then(() => showToast(t.toast_copied_link))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast(t.toast_copied_link);
+    });
+}
+
+
+function regenerate() { generatePrompt(); }
+
+
+function saveToHistory() {
+  const t = i18n[currentLang];
+  if (!currentPrompts.length) return;
+  const item = { style: selectedStyle, prompt: currentPrompts[0].content.slice(0, 80) + '…', date: new Date().toLocaleDateString('fr') };
+  history.unshift(item);
+  if (history.length > 10) history.pop();
+  localStorage.setItem('pg_history', JSON.stringify(history));
+  renderHistory(); showToast(t.toast_saved);
+}
+
+
+function renderHistory() {
+  if (!history.length) return;
+  const sec = document.getElementById('historySection');
+  const list = document.getElementById('histList');
+  sec.style.display = 'block';
+  list.innerHTML = history.slice(0, 5).map(h =>
+    `<div class="hist-item" title="${escHtml(h.prompt)}"><strong style="color:var(--accent3)">${h.style}</strong> — ${escHtml(h.prompt)}</div>`
+  ).join('');
+}
+
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+
+function loadFromHash() {
+  const hash = location.hash.slice(1);
+  if (!hash) return;
+  try {
+    const data = JSON.parse(atob(hash));
+    if (data.prompts && data.prompts.length) {
+      currentPrompts = data.prompts;
+      if (data.lang) setLang(data.lang);
+      if (data.style) {
+        selectedStyle = data.style;
+        document.querySelectorAll('.style-chip').forEach(c => {
+          c.classList.toggle('selected', c.dataset.style === data.style);
+        });
+      }
+      renderResults(data.prompts);
+    }
+  } catch (e) {}
+}
+
+
+// Auto-save API key from URL param (one-click setup)
+const urlKey = new URL(location.href).searchParams.get('key');
+if (urlKey) {
+  localStorage.setItem('pg_apikey', urlKey);
+  apiKey = urlKey;
+  const cleanUrl = location.href.split('?')[0];
+  history.replaceState(null, '', cleanUrl);
+}
+
+if (!apiKey) {
+  setTimeout(() => toggleSettings(), 500);
+}
+
+setLang(currentLang);
+loadFromHash();
+renderHistory();
+updateApiHint();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
