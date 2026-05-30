@@ -1189,9 +1189,7 @@ async function generatePrompt() {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: proxyUrl
-          ? JSON.stringify({ prompt: Array.isArray(msg.content) ? msg.content.find(c=>c.type==='text')?.text||'' : (msg.content?.text || msg.content || '') })
-          : JSON.stringify({ contents })
+        body: JSON.stringify({ contents })
       });
       if (!response.ok) {
         if (proxyUrl) {
