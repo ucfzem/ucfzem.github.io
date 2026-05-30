@@ -513,7 +513,7 @@ body {
 
   <div class="carousel-section">
     <div class="carousel-header">
-      <h2 id="carouselTitle">خدمات سريعة</h2>
+      <h2 id="carouselTitle" data-key="carTitle">خدمات سريعة</h2>
       <div class="carousel-nav">
         <button onclick="scrollCarousel(-1)"></button>
         <button onclick="scrollCarousel(1)"></button>
@@ -1138,9 +1138,9 @@ function applyLang(langCode) {
   });
 
   // SOS modal
-  document.getElementById('sosAmb').textContent = l.sosAmb;
-  document.getElementById('sosFire').textContent = l.sosFire;
-  document.getElementById('sosPol').textContent = l.sosPol;
+document.getElementById('sosAmbulance').textContent = l.sosAmb;
+document.getElementById('sosFire').textContent = l.sosFire;
+document.getElementById('sosPolice').textContent = l.sosPol;
 
   // Profile
   document.getElementById('profileName').textContent = l.profileName;
