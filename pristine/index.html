@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pristine — AI Photo Editor</title>
+<meta name="description" content="Remove objects, erase backgrounds, and enhance photos with AI. Free daily credits.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="manifest" href="data:application/json,{"name":"Pristine","short_name":"Pristine","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#0a0a0f","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%237c6aff'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%237c6aff'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>P</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c28;--border:#2a2a3a;--accent:#7c6aff;--accent2:#ff6a9b;--text:#f0eff8;--muted:#7a7a9a;--gold:#ffcc55;--radius:16px;--radius-sm:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 20%20%,rgba(124,106,255,0.12)0%,transparent 70%),radial-gradient(ellipse 50%60% at 80%80%,rgba(255,106,155,0.10)0%,transparent 70%),radial-gradient(ellipse 40%40% at 60%10%,rgba(106,255,240,0.07)0%,transparent 70%)}
+header{position:relative;z-index:10;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.badge{font-size:0.65rem;font-weight:700;background:var(--gold);color:#1a1000;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.container{position:relative;z-index:10;max-width:800px;margin:0 auto;padding:0 20px 40px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;background:var(--surface);border-radius:var(--radius);padding:4px;border:1px solid var(--border)}
+.tab{flex:1;text-align:center;padding:8px 4px;border-radius:var(--radius-sm);font-size:0.8rem;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted)}
+.tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:600}
+.tab .tab-icon{display:block;font-size:1.2rem;margin-bottom:2px}
+.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:40px 20px;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:rgba(124,106,255,0.05)}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:10px}
+.upload-zone p{color:var(--muted);font-size:0.9rem}
+.upload-zone .btn{display:inline-block;margin-top:10px;padding:10px 24px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:40px;color:#fff;font-weight:600;font-size:0.9rem;cursor:pointer}
+.upload-zone input[type=file]{display:none}
+.editor{display:none;background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.canvas-wrap{position:relative;width:100%;background:#000;min-height:280px;display:flex;align-items:center;justify-content:center}
+.canvas-wrap canvas{display:block;width:100%;max-height:55vh;object-fit:contain;touch-action:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;align-items:center;border-top:1px solid var(--border);background:var(--surface2)}
+.toolbar .group{display:flex;align-items:center;gap:5px}
+.toolbar label{font-size:0.7rem;color:var(--muted);white-space:nowrap}
+.toolbar input[type=range]{width:70px;accent-color:var(--accent);background:transparent}
+.tool-btn{padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.78rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tool-btn:hover{border-color:var(--accent)}
+.tool-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
+.tool-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;font-weight:700;flex:1;text-align:center}
+.tool-btn.primary:disabled{opacity:0.4;cursor:not-allowed}
+.tool-btn.danger{background:linear-gradient(135deg,#ff4444,#cc3333);border-color:transparent;color:#fff}
+.separator{width:1px;height:20px;background:var(--border);margin:0 4px}
+.result-area{display:none;margin-top:12px;background:var(--surface);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.result-area img{display:block;width:100%;max-height:60vh;object-fit:contain;background:#000}
+.result-actions{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--border)}
+.result-actions .tool-btn{flex:1;text-align:center}
+.loading{display:none;position:absolute;inset:0;background:rgba(0,0,0,0.8);z-index:20;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--radius)}
+.loading.show{display:flex}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{margin-top:12px;font-size:0.85rem;color:var(--text)}
+.loading .hint{font-size:0.7rem;color:var(--muted);margin-top:6px}
+.credits-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--surface2);border-radius:var(--radius-sm);margin-top:12px;border:1px solid var(--border)}
+.credits-bar .info{font-size:0.8rem;color:var(--muted)}
+.credits-bar .count{font-weight:700;color:var(--gold);font-size:1rem}
+.credits-bar .upgrade-btn{padding:6px 16px;background:var(--gold);border:none;border-radius:20px;color:#1a1000;font-weight:700;font-size:0.78rem;cursor:pointer}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);padding:10px 20px;border-radius:var(--radius-sm);font-size:0.85rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+.error-msg{color:var(--accent2);font-size:0.85rem;margin-top:8px;display:none;text-align:center}
+.api-section{margin-top:10px;padding:10px 14px;background:var(--surface2);border-radius:var(--radius-sm);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.api-section label{font-size:0.75rem;color:var(--muted)}
+.api-section input{flex:1;min-width:100px;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.8rem;outline:none}
+.api-section input:focus{border-color:var(--accent)}
+.api-section .tool-btn{font-size:0.7rem;padding:5px 10px}
+.api-section a{color:var(--accent);font-size:0.7rem;text-decoration:none}
+.reminder{font-size:0.7rem;color:var(--muted);text-align:center;padding:16px 0 8px}
+@media(max-width:500px){
+  .tabs .tab{font-size:0.7rem;padding:6px 2px}
+  .tabs .tab .tab-icon{font-size:1rem}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .toolbar .group{justify-content:center}
+  .separator{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<header>
+  <div class="logo">Pristine ✦</div>
+  <span class="badge" id="creditBadge">5 credits</span>
+</header>
+<div class="container">
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-tab="remove"><span class="tab-icon">🧹</span>Remove</div>
+    <div class="tab" data-tab="bg"><span class="tab-icon">🖼️</span>BG</div>
+    <div class="tab" data-tab="enhance"><span class="tab-icon">✨</span>Enhance</div>
+  </div>
+
+  <div class="upload-zone" id="uploadZone">
+    <div class="icon">📸</div>
+    <p id="uploadText">Tap to choose a photo</p>
+    <button class="btn" id="uploadBtn">Choose Photo</button>
+    <input type="file" id="fileInput" accept="image/*">
+  </div>
+
+  <div class="editor" id="editor">
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="mainCanvas"></canvas>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p id="loadingText">Processing...</p>
+        <p class="hint" id="loadingHint">This may take 10-30 seconds</p>
+      </div>
+    </div>
+    <div class="toolbar" id="maskToolbar">
+      <div class="group">
+        <label>Mode:</label>
+        <button class="tool-btn active" id="drawMode">✏️ Draw</button>
+        <button class="tool-btn" id="eraseMode">🧹 Erase</button>
+      </div>
+      <div class="separator"></div>
+      <div class="group">
+        <label>Size:</label>
+        <input type="range" id="brushSize" min="5" max="80" value="25">
+        <span id="sizeDisplay" style="font-size:0.75rem;color:var(--muted);min-width:20px;text-align:center">25</span>
+      </div>
+      <div class="separator"></div>
+      <div class="group">
+        <button class="tool-btn" id="undoBtn">↩</button>
+        <button class="tool-btn" id="resetBtn">✕</button>
+      </div>
+      <button class="tool-btn primary" id="processBtn">✨ Remove Object</button>
+    </div>
+    <div class="toolbar" id="simpleToolbar" style="display:none">
+      <button class="tool-btn primary" id="simpleProcessBtn">✨ Process</button>
+    </div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <img id="resultImg" alt="Result">
+    <div class="result-actions">
+      <button class="tool-btn" id="downloadBtn">⬇ Download</button>
+      <button class="tool-btn" id="retryBtn">↻ Try Again</button>
+      <button class="tool-btn" id="newBtn">🖼 New</button>
+    </div>
+  </div>
+
+  <div class="credits-bar">
+    <div><span class="count" id="creditCount">5</span> <span class="info">credits left today</span></div>
+    <button class="upgrade-btn" id="upgradeBtn">⭐ Unlimited</button>
+  </div>
+
+  <div class="api-section">
+    <label>🔑 API Key:</label>
+    <input type="password" id="apiKeyInput" placeholder="r8_... your key">
+    <button class="tool-btn" id="saveKeyBtn">Save</button>
+    <a href="https://replicate.com/account/api-tokens" target="_blank">Get key</a>
+  </div>
+
+  <p class="reminder">⚡ Daily credits reset at midnight. No account needed.</p>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// === App State ===
+const $=id=>document.getElementById(id);
+const tabs=$$=>document.querySelectorAll($$);
+const currentTab=()=>document.querySelector('.tab.active')?.dataset.tab||'remove';
+
+let activeImage=null,imageData=null,maskCanvas=null,maskCtx=null;
+let isDrawing=false,history=[],currentStep=-1,brushMode='draw';
+let processing=false;
+
+const API_KEY_STORAGE='pristine_api_key';
+
+// === DOM Refs ===
+const uploadZone=$('uploadZone'),fileInput=$('fileInput'),uploadBtn=$('uploadBtn');
+const editor=$('editor'),canvas=$('mainCanvas'),ctx=canvas.getContext('2d');
+const loading=$('loading'),loadingText=$('loadingText'),loadingHint=$('loadingHint');
+const resultArea=$('resultArea'),resultImg=$('resultImg');
+const processBtn=$('processBtn'),simpleProcessBtn=$('simpleProcessBtn');
+const maskToolbar=$('maskToolbar'),simpleToolbar=$('simpleToolbar');
+const drawModeEl=$('drawMode'),eraseModeEl=$('eraseMode');
+const brushSize=$('brushSize'),sizeDisplay=$('sizeDisplay');
+const undoBtn=$('undoBtn'),resetBtn=$('resetBtn');
+const downloadBtn=$('downloadBtn'),retryBtn=$('retryBtn'),newBtn=$('newBtn');
+const creditCount=$('creditCount'),creditBadge=$('creditBadge');
+const apiKeyInput=$('apiKeyInput'),saveKeyBtn=$('saveKeyBtn');
+const errorMsg=$('errorMsg'),toast=$('toast'),upgradeBtn=$('upgradeBtn');
+
+// === Credits System ===
+function getCredits(){
+  const d=localStorage.getItem('p_cred_date');
+  const today=new Date().toDateString();
+  if(d!==today){localStorage.setItem('p_cred_date',today);localStorage.setItem('p_cred_used','0')}
+  return Math.max(0,5-parseInt(localStorage.getItem('p_cred_used')||'0'));}
+function useCredit(){
+  const remaining=getCredits();
+  if(remaining<=0)return false;
+  localStorage.setItem('p_cred_used',parseInt(localStorage.getItem('p_cred_used')||'0')+1);
+  updateCreditsUI();return true;}
+function updateCreditsUI(){
+  const c=getCredits();
+  creditCount.textContent=c;creditBadge.textContent=c+' credits';
+  if(c<=0)creditBadge.style.background='#ff4444';else creditBadge.style.background='';}
+function showToast(m){toast.textContent=m;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000);}
+function showError(m){errorMsg.textContent=m;errorMsg.style.display='block';}
+function hideError(){errorMsg.style.display='none';}
+updateCreditsUI();
+
+// === API Key ===
+apiKeyInput.value=localStorage.getItem(API_KEY_STORAGE)||'';
+saveKeyBtn.onclick=()=>{
+  const k=apiKeyInput.value.trim();
+  if(!k){showError('Enter your Replicate API key');return}
+  localStorage.setItem(API_KEY_STORAGE,k);
+  hideError();showToast('✅ API key saved');};
+
+// === Tab Switching ===
+tabs('.tab').forEach(tab=>{
+  tab.onclick=()=>{
+    tabs('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const t=tab.dataset.tab;
+    maskToolbar.style.display=(t==='remove')?'flex':'none';
+    simpleToolbar.style.display=(t==='remove')?'none':'flex';
+    processBtn.textContent='🧹 Remove Object';
+    simpleProcessBtn.textContent=t==='bg'?'🖼️ Remove Background':'✨ Enhance Photo';
+    hideResult();hideError();};});
+
+// === Image Upload ===
+uploadBtn.onclick=()=>fileInput.click();
+uploadZone.onclick=()=>fileInput.click();
+uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('dragover')});
+uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('dragover');if(e.dataTransfer.files.length)loadImage(e.dataTransfer.files[0])});
+fileInput.onchange=()=>{if(fileInput.files.length)loadImage(fileInput.files[0])};
+
+function loadImage(file){
+  if(!file.type.startsWith('image/')){showError('Please select an image file');return}
+  hideError();
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      activeImage=img;
+      const maxW=1024;let w=img.width,h=img.height;
+      if(w>maxW){h=h*maxW/w;w=maxW}
+      canvas.width=w;canvas.height=h;
+      ctx.drawImage(img,0,0,w,h);
+      imageData=ctx.getImageData(0,0,w,h);
+      initMask();
+      renderCombined();
+      uploadZone.style.display='none';
+      editor.style.display='block';
+      resultArea.style.display='none';
+      processing=false;};
+    img.src=e.target.result;};
+  reader.readAsDataURL(file);}
+
+// === Mask Drawing ===
+function initMask(){
+  maskCanvas=document.createElement('canvas');
+  maskCanvas.width=canvas.width;maskCanvas.height=canvas.height;
+  maskCtx=maskCanvas.getContext('2d');
+  maskCtx.fillStyle='#000';maskCtx.fillRect(0,0,maskCanvas.width,maskCanvas.height);
+  history=[];currentStep=-1;saveState();}
+function saveState(){
+  const d=maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height);
+  currentStep++;history[currentStep]=d;history.length=currentStep+1;}
+function undo(){
+  if(currentStep<=0)return;
+  currentStep--;maskCtx.putImageData(history[currentStep],0,0);
+  renderCombined();}
+function clearMask(){
+  if(!maskCtx)return;
+  maskCtx.fillStyle='#000';maskCtx.fillRect(0,0,maskCanvas.width,maskCanvas.height);
+  saveState();renderCombined();}
+function renderCombined(){
+  if(!imageData||!maskCanvas)return;
+  const id=new ImageData(new Uint8ClampedArray(imageData.data),imageData.width,imageData.height);
+  const d=id.data;
+  const md=maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height).data;
+  for(let i=0;i<d.length;i+=4){
+    if(md[i]>128){
+      d[i]=d[i]*0.3+255*0.7;
+      d[i+1]=d[i+1]*0.3+100*0.7;
+      d[i+2]=d[i+2]*0.3+100*0.7;}}
+  const tc=document.createElement('canvas');
+  tc.width=canvas.width;tc.height=canvas.height;
+  tc.getContext('2d').putImageData(id,0,0);
+  ctx.drawImage(tc,0,0);}
+
+function canvasPos(e){
+  const r=canvas.getBoundingClientRect();
+  const sx=canvas.width/r.width,sy=canvas.height/r.height;
+  const t=e.touches?e.touches[0]:e;
+  return{x:(t.clientX-r.left)*sx,y:(t.clientY-r.top)*sy};}
+function startDraw(e){
+  e.preventDefault();if(!maskCtx||processing)return;
+  isDrawing=true;const p=canvasPos(e);
+  maskCtx.beginPath();maskCtx.moveTo(p.x,p.y);
+  maskCtx.lineCap='round';maskCtx.lineJoin='round';
+  const s=parseInt(brushSize.value);
+  maskCtx.strokeStyle=brushMode==='draw'?'#fff':'#000';
+  maskCtx.fillStyle=brushMode==='draw'?'#fff':'#000';
+  maskCtx.lineWidth=s;
+  maskCtx.arc(p.x,p.y,s/2,0,Math.PI*2);maskCtx.fill();}
+function doDraw(e){
+  e.preventDefault();if(!isDrawing||!maskCtx||processing)return;
+  const p=canvasPos(e);
+  maskCtx.lineWidth=parseInt(brushSize.value);
+  maskCtx.lineTo(p.x,p.y);maskCtx.stroke();
+  renderCombined();}
+function endDraw(e){e.preventDefault();if(!isDrawing)return;isDrawing=false;saveState();}
+
+canvas.addEventListener('mousedown',startDraw);
+canvas.addEventListener('mousemove',doDraw);
+canvas.addEventListener('mouseup',endDraw);
+canvas.addEventListener('mouseleave',endDraw);
+canvas.addEventListener('touchstart',startDraw,{passive:false});
+canvas.addEventListener('touchmove',doDraw,{passive:false});
+canvas.addEventListener('touchend',endDraw,{passive:false});
+
+drawModeEl.onclick=()=>{brushMode='draw';drawModeEl.classList.add('active');eraseModeEl.classList.remove('active')};
+eraseModeEl.onclick=()=>{brushMode='erase';eraseModeEl.classList.add('active');drawModeEl.classList.remove('active')};
+brushSize.oninput=()=>sizeDisplay.textContent=brushSize.value;
+undoBtn.onclick=undo;
+resetBtn.onclick=clearMask;
+
+// === Process ===
+processBtn.onclick=()=>processImage('remove');
+simpleProcessBtn.onclick=()=>processImage(currentTab());
+
+async function processImage(mode){
+  if(processing)return;
+  hideError();
+  const apiKey=apiKeyInput.value.trim()||localStorage.getItem(API_KEY_STORAGE);
+  if(!apiKey){showError('Enter your Replicate API key');return}
+
+  // Check credits
+  if(getCredits()<=0){showError('No credits left. Upgrade for unlimited use or wait for reset.');return}
+
+  if(mode==='remove'){
+    const md=maskCtx?.getImageData(0,0,maskCanvas.width,maskCanvas.height);
+    let has=false;
+    if(md)for(let i=0;i<md.data.length;i+=4){if(md.data[i]>128){has=true;break}}
+    if(!has){showError('Draw on the area you want to remove first');return}}
+
+  if(!useCredit()){showError('No credits left');return}
+  updateCreditsUI();
+
+  processing=true;
+  const btns=mode==='remove'?[processBtn]:[simpleProcessBtn];
+  btns.forEach(b=>b.disabled=true);
+  loading.classList.add('show');
+  loadingText.textContent='Uploading...';
+  loadingHint.textContent='Please wait';
+  resultArea.style.display='none';
+
+  try{
+    const imgBlob=await new Promise(r=>canvas.toBlob(r,'image/png'));
+    loadingText.textContent='Sending to AI...';
+
+    // Upload image
+    const imgUrl=await uploadFile(imgBlob,apiKey);
+    let maskUrl=null,input;
+
+    if(mode==='remove'){
+      const maskBlob=await new Promise(r=>maskCanvas.toBlob(r,'image/png'));
+      maskUrl=await uploadFile(maskBlob,apiKey);
+      input={image:imgUrl,mask:maskUrl,prompt:'Remove the marked object, fill naturally'};
+    }else if(mode==='bg'){
+      input={image:imgUrl};
+    }else{
+      input={image:imgUrl,scale:2};}
+
+    loadingText.textContent='AI is processing...';
+    loadingHint.textContent='This may take 10-30 seconds';
+
+    const model=mode==='remove'?'stability-ai/stable-diffusion-inpainting':
+                 mode==='bg'?'cjwbw/rembg':
+                 'tencentarc/gfpgan';
+
+    const pred=await createPrediction(apiKey,model,input);
+    if(pred.error)throw new Error(pred.error);
+
+    const result=await pollPrediction(apiKey,pred.id);
+    if(result.error)throw new Error(result.error);
+
+    const outputUrl=Array.isArray(result.output)?result.output[0]:result.output;
+    if(!outputUrl)throw new Error('AI returned no output');
+
+    resultImg.src=outputUrl;
+    resultArea.style.display='block';
+    loading.classList.remove('show');
+    showToast('✅ Done!');
+  }catch(err){
+    loading.classList.remove('show');
+    showError(err.message);
+    // Refund credit on error
+    const used=parseInt(localStorage.getItem('p_cred_used')||'0');
+    if(used>0)localStorage.setItem('p_cred_used',String(used-1));
+    updateCreditsUI();}
+  finally{processing=false;btns.forEach(b=>b.disabled=false)}}
+
+async function uploadFile(blob,apiKey){
+  const fd=new FormData();
+  fd.append('file',blob,'image.png');
+  const r=await fetch('https://api.replicate.com/v1/files',{
+    method:'POST',
+    headers:{'Authorization':'Token '+apiKey},
+    body:fd});
+  if(!r.ok){let e;try{e=(await r.json()).detail||await r.text()}catch{e=await r.text()};throw new Error('Upload: '+e)}
+  const d=await r.json();
+  return d.urls.get;}
+
+async function createPrediction(apiKey,modelName,input){
+  const r=await fetch('https://api.replicate.com/v1/models/'+modelName+'/predictions',{
+    method:'POST',
+    headers:{
+      'Authorization':'Token '+apiKey,
+      'Content-Type':'application/json',
+      'Prefer':'wait=5'
+    },
+    body:JSON.stringify({input})});
+  if(!r.ok){let e;try{e=(await r.json()).detail||await r.text()}catch{e=await r.text()};return{error:e}}
+  return r.json();}
+
+async function pollPrediction(apiKey,id){
+  for(let i=0;i<60;i++){
+    await new Promise(r=>setTimeout(r,2000));
+    const r=await fetch('https://api.replicate.com/v1/predictions/'+id,{
+      headers:{'Authorization':'Token '+apiKey}});
+    const d=await r.json();
+    if(d.status==='succeeded')return d;
+    if(d.status==='failed')return{error:d.error||'Processing failed'};
+    if(d.status==='canceled')return{error:'Canceled'};}
+  return{error:'Timeout'};}
+
+// === Result Actions ===
+function hideResult(){resultArea.style.display='none';}
+downloadBtn.onclick=()=>{const a=document.createElement('a');a.href=resultImg.src;a.download='pristine-result.png';a.click()};
+retryBtn.onclick=()=>{resultArea.style.display='none';processing=false;hideError()};
+newBtn.onclick=()=>{resultArea.style.display='none';editor.style.display='none';uploadZone.style.display='block';fileInput.value='';activeImage=null;imageData=null;processing=false;hideError()};
+
+// === Upgrade ===
+upgradeBtn.onclick=()=>showToast('⭐ Premium coming soon!');
+
+// === PWA ===
+if('serviceWorker'in navigator){
+  navigator.serviceWorker.register('data:text/javascript;base64,'+btoa('self.addEventListener("fetch",()=>{});self.addEventListener("install",()=>self.skipWaiting());self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));'))
+  .catch(()=>{});}
+
+showToast('✨ Upload a photo to start');
+</script>
+</body>
+</html>
