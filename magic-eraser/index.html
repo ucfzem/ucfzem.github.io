@@ -273,12 +273,7 @@ header {
         <button class="tool-btn primary" id="processBtn">✨ Erase Object</button>
       </div>
     </div>
-    <div class="api-section">
-      <label>🔑 HF Token:</label>
-      <input type="password" id="hfToken" placeholder="hf_xxxxxxxx..." style="min-width:80px">
-      <button class="tool-btn" id="saveTokenBtn">Save</button>
-      <a href="https://huggingface.co/settings/tokens" target="_blank">Get free token</a>
-    </div>
+
     <div class="api-section">
       <label>🔁 Proxy URL:</label>
       <input type="url" id="proxyUrl" placeholder="https://hf-proxy.azer-tyu199p.workers.dev">
@@ -321,8 +316,6 @@ const resetBtn = $('resetBtn');
 const downloadBtn = $('downloadBtn');
 const retryBtn = $('retryBtn');
 const newBtn = $('newBtn');
-const hfToken = $('hfToken');
-const saveTokenBtn = $('saveTokenBtn');
 const errorMsg = $('errorMsg');
 const toast = $('toast');
 
@@ -334,10 +327,6 @@ let isDrawing = false;
 let history = [];
 let currentStep = -1;
 let brushMode = 'draw';
-
-hfToken.value = localStorage.getItem('me_hf_token') || '';
-const proxyUrlInput = $('proxyUrl');
-proxyUrlInput.value = localStorage.getItem('me_proxy_url') || '';
 
 function showToast(msg) {
   toast.textContent = msg;
@@ -504,28 +493,108 @@ brushSize.oninput = () => { sizeDisplay.textContent = brushSize.value; };
 undoBtn.onclick = undo;
 resetBtn.onclick = clearMask;
 
-saveTokenBtn.onclick = () => {
-  const token = hfToken.value.trim();
-  if (!token) { showError('Enter your HF token'); return; }
-  localStorage.setItem('me_hf_token', token);
-  hideError();
-  showToast('✅ Token saved'); };
-$('saveProxyBtn').onclick = () => {
-  const url = proxyUrlInput.value.trim();
-  if (!url) { showError('Enter the proxy URL'); return; }
-  localStorage.setItem('me_proxy_url', url);
-  hideError();
-  showToast('✅ Proxy URL saved'); };
-
 processBtn.onclick = processImage;
+
+function teleaInpaint(imgData, maskData, radius) {
+  const w = imgData.width, h = imgData.height;
+  const d = new Uint8ClampedArray(imgData.data);
+  const m = new Uint8Array(maskData.data.length >> 2);
+  const dist = new Float32Array(w * h);
+  const flag = new Int32Array(w * h); // 0=known, 1=border, 2=inside
+  const INF = 1e9;
+  type: Set;
+
+  for (let i = 0; i < m.length; i++) {
+    const mx = maskData.data[i * 4];
+    m[i] = mx > 128 ? 1 : 0;
+    flag[i] = m[i] ? 2 : 0;
+    dist[i] = m[i] ? INF : 0;
+  }
+
+  // Find border pixels
+  const border = [];
+  const neighbors = [[-1,0],[1,0],[0,-1],[0,1]];
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = y * w + x;
+      if (flag[idx] === 2) {
+        for (const [nx, ny] of neighbors) {
+          const ni = (y + ny) * w + (x + nx);
+          if (ni >= 0 && ni < w * h && flag[ni] === 0) {
+            flag[idx] = 1;
+            dist[idx] = 0;
+            border.push([x, y]);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  function idx(x, y) { return (y * w + x); }
+  function getPixel(x, y) {
+    const i = idx(x, y) * 4;
+    return [d[i], d[i+1], d[i+2]];
+  }
+  function setPixel(x, y, r, g, b) {
+    const i = idx(x, y) * 4;
+    d[i] = r; d[i+1] = g; d[i+2] = b;
+  }
+
+  const maxIter = 10000;
+  let iter = 0;
+  while (border.length > 0 && iter < maxIter) {
+    iter++;
+    border.sort((a, b) => dist[a[1] * w + a[0]] - dist[b[1] * w + b[0]]);
+    const [cx, cy] = border.shift();
+    const ci = cy * w + cx;
+    flag[ci] = 0;
+    m[ci] = 0;
+
+    // Compute weighted average of neighbors
+    let totalWeight = 0;
+    let cr = 0, cg = 0, cb = 0;
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        if (dx === 0 && dy === 0) continue;
+        const nx = cx + dx, ny = cy + dy;
+        if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue;
+        const ni = ny * w + nx;
+        if (flag[ni] !== 0 || m[ni]) continue;
+        const nd = Math.sqrt(dx * dx + dy * dy);
+        if (nd > radius) continue;
+        const dir = (dx * 1 + dy * 0) / (nd + 0.001) || 0;
+        const weight = 1 / (nd * nd + 0.001) * Math.abs(dir);
+        const [pr, pg, pb] = getPixel(nx, ny);
+        cr += pr * weight;
+        cg += pg * weight;
+        cb += pb * weight;
+        totalWeight += weight;
+      }
+    }
+    if (totalWeight > 0) {
+      setPixel(cx, cy, cr / totalWeight, cg / totalWeight, cb / totalWeight);
+    }
+
+    // Add neighbors to border
+    for (const [nx, ny] of neighbors) {
+      const tx = cx + nx, ty = cy + ny;
+      if (tx < 0 || tx >= w || ty < 0 || ty >= h) continue;
+      const ti = ty * w + tx;
+      if (flag[ti] === 2 && m[ti]) {
+        flag[ti] = 1;
+        dist[ti] = dist[ci] + Math.sqrt(nx * nx + ny * ny);
+        border.push([tx, ty]);
+      }
+    }
+  }
+
+  const out = new ImageData(d, w, h);
+  return out;
+}
 
 async function processImage() {
   hideError();
-  const token = hfToken.value.trim() || localStorage.getItem('me_hf_token');
-  const proxyUrl = proxyUrlInput.value.trim() || localStorage.getItem('me_proxy_url');
-  if (!token) { showError('Enter your Hugging Face token first (get one free at huggingface.co/settings/tokens)'); return; }
-  if (!proxyUrl) { showError('Enter the Proxy URL (deploy hf-proxy worker on Cloudflare)'); return; }
-
   const maskData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
   let hasMask = false;
   for (let i = 0; i < maskData.data.length; i += 4) {
@@ -534,50 +603,28 @@ async function processImage() {
 
   processBtn.disabled = true;
   loading.classList.add('show');
-  loadingText.textContent = 'AI is removing the object...';
+  loadingText.textContent = 'Processing... (100% client-side)';
   resultArea.style.display = 'none';
 
-  try {
-    const toBase64 = (canvas) => new Promise(resolve =>
-      canvas.toBlob(b => {
-        const r = new FileReader();
-        r.onload = () => resolve(r.result.split(',')[1]);
-        r.readAsDataURL(b);
-      }, 'image/png'));
-
-    const image = await toBase64(canvas);
-    const mask = await toBase64(maskCanvas);
-
-    const response = await fetch(proxyUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image, mask, token }) });
-
-    if (!response.ok) {
-      let msg;
-      try { const j = await response.json(); msg = j.error || msg; } catch { msg = await response.text(); }
-      if (response.status === 503) {
-        msg = '⏳ Model is loading (cold start). Please wait 30-60s and try again.';
-        loadingText.textContent = '⏳ Model is loading...'; }
-      if (msg && msg.includes('token')) msg = 'Invalid HF token. Check your token at huggingface.co/settings/tokens';
-      throw new Error(msg || 'HTTP ' + response.status); }
-
-    const contentType = response.headers.get('content-type') || '';
-    if (contentType.includes('image')) {
-      const blob = await response.blob();
-      resultImg.src = URL.createObjectURL(blob);
-    } else {
-      const j = await response.json();
-      if (j.error) throw new Error(j.error);
-      throw new Error('Unexpected response: ' + JSON.stringify(j).slice(0,200)); }
-
-    resultArea.style.display = 'block';
-    loading.classList.remove('show');
-    showToast('✅ Object removed!');
-  } catch (err) {
-    loading.classList.remove('show');
-    showError(err.message);
-    processBtn.disabled = false; } }
+  setTimeout(() => {
+    try {
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const result = teleaInpaint(imgData, maskData, Math.max(canvas.width, canvas.height) * 0.03);
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      tempCanvas.getContext('2d').putImageData(result, 0, 0);
+      resultImg.src = tempCanvas.toDataURL();
+      resultArea.style.display = 'block';
+      loading.classList.remove('show');
+      showToast('✅ Object removed!');
+    } catch (err) {
+      loading.classList.remove('show');
+      showError(err.message);
+      processBtn.disabled = false;
+    }
+  }, 100);
+}
 
 downloadBtn.onclick = () => {
   const a = document.createElement('a');
