@@ -541,7 +541,7 @@
     </div>
     <div class="settings-row" style="border-top:1px solid rgba(201,168,76,0.15);padding-top:12px;margin-top:4px;">
       <label>Proxy API (optionnel)</label>
-      <input type="url" id="proxyUrlInput" placeholder="https://still-cell-73c7.azer-tyu199p.workers.dev" oninput="onProxyChange()" style="font-size:0.8rem;">
+      <input type="url" id="proxyUrlInput" placeholder="https://still-cell-73c7.azer-tyu199p.workers.dev/v1/chat" oninput="onProxyChange()" style="font-size:0.8rem;">
       <div style="font-size:0.7rem;color:var(--muted);margin-top:4px;">Laissez vide pour utiliser Gemini direct (clé intégrée)</div>
     </div>
     <div class="settings-hint" data-i18n="settings-hint">
@@ -958,7 +958,7 @@ let history = JSON.parse(localStorage.getItem('pg_history') || '[]');
 // ─── API SETTINGS ────────────────────────────────────
 let apiProvider = localStorage.getItem('pg_provider') || 'gemini';
 let apiKey = localStorage.getItem('pg_apikey') || '';
-let proxyUrl = localStorage.getItem('pg_proxy') || 'https://still-cell-73c7.azer-tyu199p.workers.dev';
+let proxyUrl = localStorage.getItem('pg_proxy') || 'https://still-cell-73c7.azer-tyu199p.workers.dev/v1/chat';
 
 
 function toggleSettings() {
