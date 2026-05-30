@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>رفيق</title>
-<meta name="description" content="رفيق - تطبيق الصحة والخدمات">
-<meta property="og:title" content="رفيق">
-<meta property="og:description" content="تطبيق الصحة والخدمات">
+<title>Rafeeq</title>
+<meta name="description" content="Rafeeq - Health & Services App">
+<meta property="og:title" content="Rafeeq">
+<meta property="og:description" content="Health & Services App">
 <meta property="og:url" content="https://ucfzem.github.io/rafeeq/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -26,11 +26,44 @@ body {
   position: relative;
   overflow-x: hidden;
 }
+.ltr { direction: ltr; font-family: -apple-system, 'Segoe UI', sans-serif; }
+.ltr .gi-label, .ltr .nav-item, .ltr .sc-title, .ltr .med-name, .ltr .med-time, .ltr .header-greeting { font-family: -apple-system, 'Segoe UI', sans-serif; }
+
+/* Language Bar */
+.lang-bar {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px 0;
+  flex-wrap: wrap;
+}
+.lang-btn {
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: rgba(26,35,50,0.7);
+  font-family: 'Tajawal', sans-serif;
+}
+.ltr .lang-btn { font-family: -apple-system, 'Segoe UI', sans-serif; }
+.lang-btn .flag { font-size: 0.85rem; }
+.lang-btn.active {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(255,255,255,0.8);
+  color: #1a2332;
+}
 
 /* Header */
 .header {
   background: linear-gradient(135deg, #e2b714 0%, #f5a623 100%);
-  padding: 20px 20px 40px;
+  padding: 8px 20px 28px;
   border-radius: 0 0 28px 28px;
   color: #1a2332;
   position: relative;
@@ -39,10 +72,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 .header-top h1 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 900;
   letter-spacing: 0.02em;
 }
@@ -51,115 +85,104 @@ body {
   gap: 16px;
 }
 .header-icons span {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 .header-date {
-  font-size: 0.85rem;
-  opacity: 0.85;
+  font-size: 0.8rem;
+  opacity: 0.8;
   font-weight: 500;
 }
 .header-greeting {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin-top: 4px;
   opacity: 0.9;
 }
 
 /* Search */
 .search-box {
-  margin: -20px 16px 16px;
+  margin: -16px 16px 16px;
   position: relative;
   z-index: 2;
 }
 .search-box input {
   width: 100%;
-  padding: 14px 44px 14px 16px;
+  padding: 12px 40px 12px 14px;
   border: none;
-  border-radius: 16px;
+  border-radius: 14px;
   background: white;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #1a2332;
   outline: none;
 }
+.ltr .search-box input { font-family: -apple-system, 'Segoe UI', sans-serif; }
 .search-box input::placeholder { color: #94a3b8; }
 .search-box .search-icon {
   position: absolute;
-  right: 16px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #94a3b8;
 }
 
-/* Pages */
 .page { display: none; }
 .page.active { display: block; }
 
 /* Carousel */
 .carousel-section {
   padding: 0 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .carousel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
-.carousel-header h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1a2332;
-}
-.carousel-header .carousel-nav {
-  display: flex;
-  gap: 8px;
-}
+.carousel-header h2 { font-size: 0.95rem; font-weight: 700; color: #1a2332; }
+.carousel-header .carousel-nav { display: flex; gap: 6px; }
 .carousel-header .carousel-nav button {
-  width: 32px;
-  height: 32px;
+  width: 30px; height: 30px;
   border-radius: 50%;
   border: 1px solid #e2e8f0;
   background: white;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #64748b;
   transition: all 0.2s;
 }
-.carousel-header .carousel-nav button:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-}
+.carousel-header .carousel-nav button:hover { background: #f1f5f9; border-color: #cbd5e1; }
 .carousel-track {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   scrollbar-width: none;
 }
 .carousel-track::-webkit-scrollbar { display: none; }
 .carousel-card {
-  min-width: 200px;
+  min-width: 180px;
   background: linear-gradient(135deg, #e2b714, #f5a623);
   color: #1a2332;
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 14px;
+  padding: 16px;
   scroll-snap-align: start;
   flex-shrink: 0;
   cursor: pointer;
   transition: transform 0.2s;
 }
 .carousel-card:hover { transform: scale(0.97); }
-.carousel-card .card-icon { font-size: 2rem; margin-bottom: 8px; }
-.carousel-card .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
-.carousel-card .card-desc { font-size: 0.8rem; opacity: 0.8; }
+.carousel-card .card-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.carousel-card .card-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 2px; }
+.carousel-card .card-desc { font-size: 0.75rem; opacity: 0.8; }
 .carousel-card:nth-child(2) { background: linear-gradient(135deg, #e2b714, #d4a010); }
 .carousel-card:nth-child(3) { background: linear-gradient(135deg, #f5a623, #e0940e); }
 
@@ -167,18 +190,18 @@ body {
 .grid-menu {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 10px;
   padding: 0 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 .grid-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 14px 4px;
+  gap: 4px;
+  padding: 12px 4px;
   background: white;
-  border-radius: 16px;
+  border-radius: 14px;
   border: 1px solid #f1f5f9;
   cursor: pointer;
   transition: all 0.2s;
@@ -191,16 +214,16 @@ body {
   border-color: #e2e8f0;
 }
 .grid-item .gi-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 .grid-item .gi-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 500;
   color: #475569;
   text-align: center;
@@ -215,32 +238,27 @@ body {
 .gi-shop { background: #e0f2fe; }
 
 /* SOS Button */
-.sos-section {
-  padding: 0 16px;
-  margin-bottom: 20px;
-}
+.sos-section { padding: 0 16px; margin-bottom: 16px; }
 .sos-btn {
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   border: none;
-  border-radius: 16px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
   font-family: 'Tajawal', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 20px rgba(239,68,68,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 }
-.sos-btn:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 30px rgba(239, 68, 68, 0.4);
-}
+.ltr .sos-btn { font-family: -apple-system, 'Segoe UI', sans-serif; }
+.sos-btn:hover { transform: scale(1.02); box-shadow: 0 6px 30px rgba(239,68,68,0.4); }
 
 /* Bottom Nav */
 .bottom-nav {
@@ -254,24 +272,23 @@ body {
   border-top: 1px solid #f1f5f9;
   display: flex;
   justify-content: space-around;
-  padding: 8px 0 20px;
+  padding: 6px 0 18px;
   z-index: 100;
 }
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  font-size: 0.65rem;
+  gap: 1px;
+  font-size: 0.62rem;
   color: #94a3b8;
   cursor: pointer;
   transition: color 0.2s;
 }
 .nav-item.active { color: #c8960e; }
-.nav-item .nav-icon { font-size: 1.3rem; }
+.nav-item .nav-icon { font-size: 1.2rem; }
 
-.spacer { height: 80px; }
-
+.spacer { height: 70px; }
 .carousel-nav button:first-child::before { content: "‹"; }
 .carousel-nav button:last-child::before { content: "›"; }
 
@@ -290,34 +307,30 @@ body {
   display: none;
   animation: slideIn 0.3s ease;
 }
-@keyframes slideIn {
-  from { transform: translateX(-50%) translateY(100%); }
-  to { transform: translateX(-50%) translateY(0); }
-}
+@keyframes slideIn { from { transform: translateX(-50%) translateY(100%); } to { transform: translateX(-50%) translateY(0); } }
 .detail-page.open { display: block; }
 .detail-header {
   background: linear-gradient(135deg, #e2b714 0%, #f5a623 100%);
-  padding: 20px;
+  padding: 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   color: #1a2332;
 }
 .detail-header .back-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px; height: 32px;
   border-radius: 10px;
   background: rgba(0,0,0,0.1);
   border: none;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #1a2332;
 }
-.detail-header h2 { font-size: 1.2rem; font-weight: 700; }
-.detail-body { padding: 20px; }
+.detail-header h2 { font-size: 1.1rem; font-weight: 700; }
+.detail-body { padding: 16px; }
 
 /* SOS Modal */
 .sos-modal {
@@ -338,42 +351,40 @@ body {
 .sos-modal-content {
   background: white;
   border-radius: 24px;
-  padding: 28px 24px;
+  padding: 24px 20px;
   width: calc(100% - 40px);
-  max-width: 360px;
+  max-width: 340px;
   text-align: center;
   animation: popIn 0.3s ease;
 }
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.sos-modal-content h2 { font-size: 1.4rem; margin-bottom: 8px; }
-.sos-modal-content p { color: #64748b; margin-bottom: 20px; font-size: 0.9rem; }
+@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.sos-modal-content h2 { font-size: 1.3rem; margin-bottom: 6px; }
+.sos-modal-content p { color: #64748b; margin-bottom: 16px; font-size: 0.85rem; }
 .sos-number {
   display: block;
-  padding: 14px;
-  margin-bottom: 10px;
-  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 12px;
   background: #fee2e2;
   color: #dc2626;
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
 }
 .sos-close {
-  margin-top: 12px;
-  padding: 10px 32px;
+  margin-top: 10px;
+  padding: 8px 28px;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   background: white;
   cursor: pointer;
   font-family: 'Tajawal', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #64748b;
 }
+.ltr .sos-close { font-family: -apple-system, 'Segoe UI', sans-serif; }
 
-/* Notifications Panel */
+/* Notifications */
 .notif-panel {
   position: fixed;
   top: 0;
@@ -390,78 +401,57 @@ body {
 .notif-content {
   background: white;
   border-radius: 0 0 24px 24px;
-  padding: 20px;
+  padding: 16px;
   animation: slideDown 0.3s ease;
 }
-@keyframes slideDown {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
-}
-.notif-content h2 { font-size: 1.1rem; margin-bottom: 12px; }
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+.notif-content h2 { font-size: 1rem; margin-bottom: 10px; }
 .notif-item {
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #f1f5f9;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
 }
 .notif-item:last-child { border-bottom: none; }
-.notif-item .ni-icon { font-size: 1.3rem; }
+.notif-item .ni-icon { font-size: 1.2rem; }
 .notif-item .ni-text { flex: 1; }
-.notif-item .ni-text .ni-title { font-weight: 600; font-size: 0.9rem; }
-.notif-item .ni-text .ni-time { font-size: 0.75rem; color: #94a3b8; }
+.notif-item .ni-text .ni-title { font-weight: 600; font-size: 0.85rem; }
+.notif-item .ni-text .ni-time { font-size: 0.72rem; color: #94a3b8; }
 
 /* Services page */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 16px;
-}
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 14px; }
 .service-card {
   background: white;
-  border-radius: 16px;
-  padding: 24px 16px;
+  border-radius: 14px;
+  padding: 20px 14px;
   text-align: center;
   border: 1px solid #f1f5f9;
   cursor: pointer;
   transition: all 0.2s;
 }
-.service-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-.service-card .sc-icon { font-size: 2rem; margin-bottom: 8px; }
-.service-card .sc-title { font-weight: 600; font-size: 0.9rem; }
+.service-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.service-card .sc-icon { font-size: 1.8rem; margin-bottom: 6px; }
+.service-card .sc-title { font-weight: 600; font-size: 0.85rem; }
 
 /* Medicine list */
-.med-list { padding: 16px; }
+.med-list { padding: 14px; }
 .med-item {
   background: white;
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 10px;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   border: 1px solid #f1f5f9;
 }
-.med-item .med-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #dbeafe;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
+.med-item .med-icon { width: 40px; height: 40px; border-radius: 10px; background: #dbeafe; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
 .med-item .med-info { flex: 1; }
-.med-item .med-info .med-name { font-weight: 600; font-size: 0.9rem; }
-.med-item .med-info .med-time { font-size: 0.78rem; color: #64748b; }
+.med-item .med-info .med-name { font-weight: 600; font-size: 0.85rem; }
+.med-item .med-info .med-time { font-size: 0.75rem; color: #64748b; }
 .med-item .med-check {
-  width: 24px;
-  height: 24px;
+  width: 22px; height: 22px;
   border-radius: 50%;
   border: 2px solid #e2e8f0;
   cursor: pointer;
@@ -470,95 +460,60 @@ body {
   justify-content: center;
   transition: all 0.2s;
 }
-.med-item .med-check.done {
-  background: #22c55e;
-  border-color: #22c55e;
-  color: white;
-}
+.med-item .med-check.done { background: #22c55e; border-color: #22c55e; color: white; }
 
 /* Profile */
-.profile-card {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  margin: 16px;
-  border: 1px solid #f1f5f9;
-}
-.profile-card .pv-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #e2b714, #f5a623);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  margin: 0 auto 12px;
-  color: #1a2332;
-}
-.profile-card .pv-name { font-weight: 700; font-size: 1.1rem; }
-.profile-card .pv-email { font-size: 0.85rem; color: #94a3b8; }
-.profile-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 0 16px;
-}
-.stat-box {
-  background: white;
-  border-radius: 14px;
-  padding: 16px;
-  text-align: center;
-  border: 1px solid #f1f5f9;
-}
-.stat-box .stat-num { font-weight: 900; font-size: 1.3rem; color: #c8960e; }
-.stat-box .stat-label { font-size: 0.72rem; color: #94a3b8; }
+.profile-card { background: white; border-radius: 14px; padding: 20px; text-align: center; margin: 14px; border: 1px solid #f1f5f9; }
+.profile-card .pv-icon { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #e2b714, #f5a623); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 10px; color: #1a2332; }
+.profile-card .pv-name { font-weight: 700; font-size: 1rem; }
+.profile-card .pv-email { font-size: 0.8rem; color: #94a3b8; }
+.profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 14px; }
+.stat-box { background: white; border-radius: 12px; padding: 14px; text-align: center; border: 1px solid #f1f5f9; }
+.stat-box .stat-num { font-weight: 900; font-size: 1.2rem; color: #c8960e; }
+.stat-box .stat-label { font-size: 0.68rem; color: #94a3b8; }
 
 /* Toast */
 .toast {
   position: fixed;
-  bottom: 100px;
+  bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
   background: #1a2332;
   color: white;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-size: 0.85rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.8rem;
   z-index: 400;
   display: none;
   animation: fadeUp 0.3s ease;
 }
-@keyframes fadeUp {
-  from { transform: translateX(-50%) translateY(20px); opacity: 0; }
-  to { transform: translateX(-50%) translateY(0); opacity: 1; }
-}
+@keyframes fadeUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
 </style>
 </head>
 <body>
 
 <div id="pageAccueil" class="page active">
   <div class="header">
+    <div class="lang-bar" id="langBar"></div>
     <div class="header-top">
-      <h1>رفيق</h1>
+      <h1>Rafeeq</h1>
       <div class="header-icons">
         <span onclick="toggleNotif()">🔔</span>
         <span onclick="navigate('profile')">👤</span>
       </div>
     </div>
     <div class="header-date" id="headerDate"></div>
-    <div class="header-greeting">مرحباً بك في رفيق 👋</div>
+    <div class="header-greeting" id="headerGreeting">مرحباً بك في رفيق 👋</div>
   </div>
 
   <div class="search-box">
     <span class="search-icon">🔍</span>
-    <input type="text" placeholder="ابحث عن خدمة..." oninput="searchService(this.value)" />
+    <input type="text" id="searchInput" placeholder="ابحث عن خدمة..." oninput="searchService(this.value)" />
   </div>
 
   <div class="carousel-section">
     <div class="carousel-header">
-      <h2>خدمات سريعة</h2>
+      <h2 id="carouselTitle">خدمات سريعة</h2>
       <div class="carousel-nav">
         <button onclick="scrollCarousel(-1)"></button>
         <button onclick="scrollCarousel(1)"></button>
@@ -567,147 +522,139 @@ body {
     <div class="carousel-track" id="carouselTrack">
       <div class="carousel-card" onclick="openDetail('sante')">
         <div class="card-icon">🩺</div>
-        <div class="card-title">استشارة طبية</div>
-        <div class="card-desc">تحدث مع طبيب أونلاين</div>
+        <div class="card-title" data-key="carConsult">استشارة طبية</div>
+        <div class="card-desc" data-key="carConsultDesc">تحدث مع طبيب أونلاين</div>
       </div>
       <div class="carousel-card" onclick="openDetail('medic')">
         <div class="card-icon">💊</div>
-        <div class="card-title">تذكير الأدوية</div>
-        <div class="card-desc">لا تنسى جرعتك اليومية</div>
+        <div class="card-title" data-key="carMedic">تذكير الأدوية</div>
+        <div class="card-desc" data-key="carMedicDesc">لا تنسى جرعتك اليومية</div>
       </div>
       <div class="carousel-card" onclick="openDetail('analyses')">
         <div class="card-icon">📋</div>
-        <div class="card-title">التحاليل</div>
-        <div class="card-desc">نتائج تحاليلك الطبية</div>
+        <div class="card-title" data-key="carAnalyses">التحاليل</div>
+        <div class="card-desc" data-key="carAnalysesDesc">نتائج تحاليلك الطبية</div>
       </div>
     </div>
   </div>
 
-  <div class="grid-menu">
+  <div class="grid-menu" id="gridMenu">
     <div class="grid-item" onclick="openDetail('sante')">
       <div class="gi-icon gi-sante">🩺</div>
-      <span class="gi-label">الصحة</span>
+      <span class="gi-label" data-key="health">الصحة</span>
     </div>
     <div class="grid-item" onclick="openDetail('medic')">
       <div class="gi-icon gi-medic">💊</div>
-      <span class="gi-label">الأدوية</span>
+      <span class="gi-label" data-key="medicines">الأدوية</span>
     </div>
     <div class="grid-item" onclick="openDetail('rdv')">
       <div class="gi-icon gi-rdv">📅</div>
-      <span class="gi-label">المواعيد</span>
+      <span class="gi-label" data-key="appointments">المواعيد</span>
     </div>
     <div class="grid-item" onclick="openSOS()">
       <div class="gi-icon gi-sos">🆘</div>
-      <span class="gi-label">SOS</span>
+      <span class="gi-label" data-key="sos">SOS</span>
     </div>
     <div class="grid-item" onclick="openDetail('urgence')">
       <div class="gi-icon gi-urg">🚑</div>
-      <span class="gi-label">الطوارئ</span>
+      <span class="gi-label" data-key="emergency">الطوارئ</span>
     </div>
     <div class="grid-item" onclick="openDetail('settings')">
       <div class="gi-icon gi-settings">⚙️</div>
-      <span class="gi-label">الإعدادات</span>
+      <span class="gi-label" data-key="settings">الإعدادات</span>
     </div>
     <div class="grid-item" onclick="openDetail('family')">
       <div class="gi-icon gi-family">👨‍👩‍👧‍👦</div>
-      <span class="gi-label">العائلة</span>
+      <span class="gi-label" data-key="family">العائلة</span>
     </div>
     <div class="grid-item" onclick="openDetail('shop')">
       <div class="gi-icon gi-shop">🛒</div>
-      <span class="gi-label">المتجر</span>
+      <span class="gi-label" data-key="shop">المتجر</span>
     </div>
   </div>
 
   <div class="sos-section">
-    <button class="sos-btn" onclick="openSOS()">🆘 طلب مساعدة عاجلة</button>
+    <button class="sos-btn" onclick="openSOS()" id="sosBtn">🆘 طلب مساعدة عاجلة</button>
   </div>
-
   <div class="spacer"></div>
 </div>
 
 <div id="pageServices" class="page">
-  <div class="header" style="border-radius:0;">
+  <div class="header" style="border-radius:0;padding:16px 20px;">
     <div class="header-top">
-      <h1>الخدمات</h1>
+      <h1 data-key="services">الخدمات</h1>
       <div></div>
     </div>
   </div>
   <div class="services-grid">
     <div class="service-card" onclick="openDetail('sante')">
       <div class="sc-icon">🩺</div>
-      <div class="sc-title">الصحة</div>
+      <div class="sc-title" data-key="health">الصحة</div>
     </div>
     <div class="service-card" onclick="openDetail('medic')">
       <div class="sc-icon">💊</div>
-      <div class="sc-title">الأدوية</div>
+      <div class="sc-title" data-key="medicines">الأدوية</div>
     </div>
     <div class="service-card" onclick="openDetail('rdv')">
       <div class="sc-icon">📅</div>
-      <div class="sc-title">المواعيد</div>
+      <div class="sc-title" data-key="appointments">المواعيد</div>
     </div>
     <div class="service-card" onclick="openDetail('urgence')">
       <div class="sc-icon">🚑</div>
-      <div class="sc-title">الطوارئ</div>
+      <div class="sc-title" data-key="emergency">الطوارئ</div>
     </div>
     <div class="service-card" onclick="openDetail('family')">
       <div class="sc-icon">👨‍👩‍👧‍👦</div>
-      <div class="sc-title">العائلة</div>
+      <div class="sc-title" data-key="family">العائلة</div>
     </div>
     <div class="service-card" onclick="openDetail('shop')">
       <div class="sc-icon">🛒</div>
-      <div class="sc-title">المتجر</div>
+      <div class="sc-title" data-key="shop">المتجر</div>
     </div>
   </div>
   <div class="spacer"></div>
 </div>
 
 <div id="pageMedic" class="page">
-  <div class="header" style="border-radius:0;">
+  <div class="header" style="border-radius:0;padding:16px 20px;">
     <div class="header-top">
-      <h1>الأدوية</h1>
+      <h1 data-key="medicines">الأدوية</h1>
       <div></div>
     </div>
   </div>
-  <div class="med-list" id="medList">
-    <div style="text-align:center;padding:40px 20px;color:#94a3b8;">
-      <div style="font-size:3rem;margin-bottom:12px;">💊</div>
-      <p>لا توجد أدوية مسجلة بعد</p>
-      <button onclick="addMed()" style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:'Tajawal',sans-serif;font-weight:600;cursor:pointer;">+ إضافة دواء</button>
-    </div>
-  </div>
+  <div class="med-list" id="medList"></div>
   <div class="spacer"></div>
 </div>
 
 <div id="pageProfile" class="page">
-  <div class="header" style="border-radius:0;">
+  <div class="header" style="border-radius:0;padding:16px 20px;">
     <div class="header-top">
-      <h1>حسابي</h1>
+      <h1 data-key="myAccount">حسابي</h1>
       <div></div>
     </div>
   </div>
   <div class="profile-card">
     <div class="pv-icon">👤</div>
-    <div class="pv-name">مستخدم رفيق</div>
+    <div class="pv-name" id="profileName">مستخدم رفيق</div>
     <div class="pv-email">user@rafeeq.app</div>
   </div>
   <div class="profile-stats">
     <div class="stat-box">
-      <div class="stat-num">0</div>
-      <div class="stat-label">مواعيد</div>
+      <div class="stat-num" id="statRdv">0</div>
+      <div class="stat-label" data-key="appointments">مواعيد</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="statMed">0</div>
+      <div class="stat-label" data-key="medicines">أدوية</div>
     </div>
     <div class="stat-box">
       <div class="stat-num">0</div>
-      <div class="stat-label">أدوية</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num">0</div>
-      <div class="stat-label">أيام</div>
+      <div class="stat-label" data-key="days">أيام</div>
     </div>
   </div>
   <div class="spacer"></div>
 </div>
 
-<!-- Detail Page -->
 <div class="detail-page" id="detailPage">
   <div class="detail-header">
     <button class="back-btn" onclick="closeDetail()">→</button>
@@ -716,62 +663,500 @@ body {
   <div class="detail-body" id="detailBody"></div>
 </div>
 
-<!-- SOS Modal -->
 <div class="sos-modal" id="sosModal">
   <div class="sos-modal-content">
-    <h2>🆘 مساعدة عاجلة</h2>
-    <p>اتصل بأرقام الطوارئ في بلدك</p>
-    <a class="sos-number" href="tel:19">🚑 الإسعاف: 19</a>
-    <a class="sos-number" href="tel:15">🔥 الوقاية المدنية: 15</a>
-    <a class="sos-number" href="tel:17">👮 الأمن: 17</a>
-    <button class="sos-close" onclick="closeSOS()">إغلاق</button>
+    <h2 data-key="sosTitle">🆘 مساعدة عاجلة</h2>
+    <p data-key="sosDesc">اتصل بأرقام الطوارئ في بلدك</p>
+    <a class="sos-number" href="tel:19" id="sosAmbulance">🚑 الإسعاف: 19</a>
+    <a class="sos-number" href="tel:15" id="sosFire">🔥 الوقاية المدنية: 15</a>
+    <a class="sos-number" href="tel:17" id="sosPolice">👮 الأمن: 17</a>
+    <button class="sos-close" onclick="closeSOS()" data-key="close">إغلاق</button>
   </div>
 </div>
 
-<!-- Notifications -->
 <div class="notif-panel" id="notifPanel" onclick="this.classList.remove('open')">
   <div class="notif-content" onclick="event.stopPropagation()">
-    <h2>🔔 الإشعارات</h2>
+    <h2 data-key="notifications">🔔 الإشعارات</h2>
     <div class="notif-item">
       <span class="ni-icon">💊</span>
       <div class="ni-text">
-        <div class="ni-title">موعد الدواء</div>
-        <div class="ni-time">لا توجد إشعارات جديدة</div>
+        <div class="ni-title" data-key="noNotif">لا توجد إشعارات جديدة</div>
+        <div class="ni-time"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bottom Nav -->
-<div class="bottom-nav">
+<div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" onclick="navigate('accueil')">
     <span class="nav-icon">🏠</span>
-    الرئيسية
+    <span data-key="home">الرئيسية</span>
   </div>
   <div class="nav-item" onclick="navigate('services')">
     <span class="nav-icon">📋</span>
-    الخدمات
+    <span data-key="services">الخدمات</span>
   </div>
   <div class="nav-item" onclick="navigate('medic')">
     <span class="nav-icon">💊</span>
-    الأدوية
+    <span data-key="medicines">الأدوية</span>
   </div>
   <div class="nav-item" onclick="navigate('profile')">
     <span class="nav-icon">👤</span>
-    حسابي
+    <span data-key="myAccount">حسابي</span>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-function scrollCarousel(dir) {
-  document.getElementById('carouselTrack').scrollBy({ left: dir * 220, behavior: 'smooth' });
+var LANG = {
+  ar: {
+    flag: '🇲🇦', label: 'العربية', dir: 'rtl',
+    greeting: 'مرحباً بك في رفيق 👋',
+    search: 'ابحث عن خدمة...',
+    carTitle: 'خدمات سريعة',
+    carConsult: 'استشارة طبية',
+    carConsultDesc: 'تحدث مع طبيب أونلاين',
+    carMedic: 'تذكير الأدوية',
+    carMedicDesc: 'لا تنسى جرعتك اليومية',
+    carAnalyses: 'التحاليل',
+    carAnalysesDesc: 'نتائج تحاليلك الطبية',
+    health: 'الصحة', medicines: 'الأدوية', appointments: 'المواعيد',
+    sos: 'SOS', emergency: 'الطوارئ', settings: 'الإعدادات',
+    family: 'العائلة', shop: 'المتجر', services: 'الخدمات',
+    myAccount: 'حسابي', home: 'الرئيسية', days: 'أيام',
+    sosTitle: '🆘 مساعدة عاجلة',
+    sosDesc: 'اتصل بأرقام الطوارئ في بلدك',
+    sosAmb: '🚑 الإسعاف: 19',
+    sosFire: '🔥 الوقاية المدنية: 15',
+    sosPol: '👮 الأمن: 17',
+    close: 'إغلاق',
+    notifications: '🔔 الإشعارات',
+    noNotif: 'لا توجد إشعارات جديدة',
+    noMeds: 'لا توجد أدوية مسجلة بعد',
+    addMed: '+ إضافة دواء',
+    medList: 'قائمة الأدوية',
+    add: '+ إضافة',
+    medName: 'اسم الدواء:',
+    medTime: 'وقت الجرعة (مثال: 08:00):',
+    added: '✅ تمت إضافة ',
+    taken: '✅ تم تناول ',
+    found: 'تم العثور على ',
+    result: ' نتيجة',
+    profileName: 'مستخدم رفيق',
+    months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
+    detail: {
+      sante_title: 'الصحة', sante_heading: 'نصائح صحية',
+      sante_l1: '💧 اشرب 8 أكواب ماء يومياً',
+      sante_l2: '🥗 تناول طعاماً متوازناً',
+      sante_l3: '🚶 امشِ 30 دقيقة يومياً',
+      sante_l4: '😴 نم 7-8 ساعات يومياً',
+      medic_title: 'الأدوية',
+      rdv_title: 'المواعيد', rdv_heading: 'مواعيدك القادمة',
+      rdv_empty: 'لا توجد مواعيد مسجلة',
+      urgence_title: 'الطوارئ', urgence_heading: 'إرشادات الطوارئ',
+      urgence_l1: '🆘 اتصل بالإسعاف فوراً',
+      urgence_l2: '📌 حافظ على هدوئك',
+      urgence_l3: '📍 حدد موقعك بدقة',
+      settings_title: 'الإعدادات', settings_notif: '🔔 الإشعارات',
+      settings_notifVal: 'مفعلة', settings_night: '🌙 الوضع الليلي',
+      settings_nightVal: 'قريباً', settings_lang: '🌐 اللغة',
+      family_title: 'العائلة', family_add: '+ إضافة فرد',
+      shop_title: 'المتجر', shop_soon: 'المتجر قريباً',
+      analyses_title: 'التحاليل', analyses_text: 'نتائج تحاليلك ستظهر هنا'
+    }
+  },
+  fr: {
+    flag: '🇫🇷', label: 'FR', dir: 'ltr',
+    greeting: 'Bienvenue sur Rafeeq 👋',
+    search: 'Rechercher un service...',
+    carTitle: 'Services rapides',
+    carConsult: 'Consultation médicale',
+    carConsultDesc: 'Parlez à un médecin en ligne',
+    carMedic: 'Rappel médicaments',
+    carMedicDesc: 'N\'oubliez pas votre dose',
+    carAnalyses: 'Analyses',
+    carAnalysesDesc: 'Vos résultats médicaux',
+    health: 'Santé', medicines: 'Médicaments', appointments: 'Rendez-vous',
+    sos: 'SOS', emergency: 'Urgence', settings: 'Paramètres',
+    family: 'Famille', shop: 'Boutique', services: 'Services',
+    myAccount: 'Mon compte', home: 'Accueil', days: 'Jours',
+    sosTitle: '🆘 Aide urgente',
+    sosDesc: 'Appelez les numéros d\'urgence',
+    sosAmb: '🚑 Ambulance: 19',
+    sosFire: '🔥 Protection civile: 15',
+    sosPol: '👮 Police: 17',
+    close: 'Fermer',
+    notifications: '🔔 Notifications',
+    noNotif: 'Aucune nouvelle notification',
+    noMeds: 'Aucun médicament enregistré',
+    addMed: '+ Ajouter médicament',
+    medList: 'Liste des médicaments',
+    add: '+ Ajouter',
+    medName: 'Nom du médicament:',
+    medTime: 'Heure de prise (ex: 08:00):',
+    added: '✅ Ajouté ',
+    taken: '✅ Pris ',
+    found: 'Résultats trouvés: ',
+    result: '',
+    profileName: 'Utilisateur Rafeeq',
+    months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+    detail: {
+      sante_title: 'Santé', sante_heading: 'Conseils santé',
+      sante_l1: '💧 Buvez 8 verres d\'eau par jour',
+      sante_l2: '🥗 Mangez équilibré',
+      sante_l3: '🚶 Marchez 30 min par jour',
+      sante_l4: '😴 Dormez 7-8h par nuit',
+      medic_title: 'Médicaments',
+      rdv_title: 'Rendez-vous', rdv_heading: 'Vos prochains RDV',
+      rdv_empty: 'Aucun rendez-vous',
+      urgence_title: 'Urgence', urgence_heading: 'Consignes d\'urgence',
+      urgence_l1: '🆘 Appelez les secours',
+      urgence_l2: '📌 Restez calme',
+      urgence_l3: '📍 Donnez votre position',
+      settings_title: 'Paramètres', settings_notif: '🔔 Notifications',
+      settings_notifVal: 'Activées', settings_night: '🌙 Mode nuit',
+      settings_nightVal: 'Bientôt', settings_lang: '🌐 Langue',
+      family_title: 'Famille', family_add: '+ Ajouter membre',
+      shop_title: 'Boutique', shop_soon: 'Boutique bientôt disponible',
+      analyses_title: 'Analyses', analyses_text: 'Vos résultats d\'analyses apparaîtront ici'
+    }
+  },
+  en: {
+    flag: '🇬🇧', label: 'ENG', dir: 'ltr',
+    greeting: 'Welcome to Rafeeq 👋',
+    search: 'Search for a service...',
+    carTitle: 'Quick Services',
+    carConsult: 'Medical consultation',
+    carConsultDesc: 'Talk to a doctor online',
+    carMedic: 'Medicine reminder',
+    carMedicDesc: 'Don\'t miss your daily dose',
+    carAnalyses: 'Lab Results',
+    carAnalysesDesc: 'Your medical test results',
+    health: 'Health', medicines: 'Medicines', appointments: 'Appointments',
+    sos: 'SOS', emergency: 'Emergency', settings: 'Settings',
+    family: 'Family', shop: 'Store', services: 'Services',
+    myAccount: 'My Account', home: 'Home', days: 'Days',
+    sosTitle: '🆘 Emergency Help',
+    sosDesc: 'Call emergency numbers',
+    sosAmb: '🚑 Ambulance: 19',
+    sosFire: '🔥 Fire Dept: 15',
+    sosPol: '👮 Police: 17',
+    close: 'Close',
+    notifications: '🔔 Notifications',
+    noNotif: 'No new notifications',
+    noMeds: 'No medicines registered yet',
+    addMed: '+ Add medicine',
+    medList: 'Medicine list',
+    add: '+ Add',
+    medName: 'Medicine name:',
+    medTime: 'Dose time (e.g. 08:00):',
+    added: '✅ Added ',
+    taken: '✅ Taken ',
+    found: 'Found ',
+    result: ' result(s)',
+    profileName: 'Rafeeq User',
+    months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    detail: {
+      sante_title: 'Health', sante_heading: 'Health tips',
+      sante_l1: '💧 Drink 8 glasses of water daily',
+      sante_l2: '🥗 Eat balanced meals',
+      sante_l3: '🚶 Walk 30 min daily',
+      sante_l4: '😴 Sleep 7-8 hours',
+      medic_title: 'Medicines',
+      rdv_title: 'Appointments', rdv_heading: 'Upcoming appointments',
+      rdv_empty: 'No appointments scheduled',
+      urgence_title: 'Emergency', urgence_heading: 'Emergency guidelines',
+      urgence_l1: '🆘 Call emergency services',
+      urgence_l2: '📌 Stay calm',
+      urgence_l3: '📍 Provide your location',
+      settings_title: 'Settings', settings_notif: '🔔 Notifications',
+      settings_notifVal: 'Enabled', settings_night: '🌙 Night mode',
+      settings_nightVal: 'Coming soon', settings_lang: '🌐 Language',
+      family_title: 'Family', family_add: '+ Add member',
+      shop_title: 'Store', shop_soon: 'Store coming soon',
+      analyses_title: 'Lab Results', analyses_text: 'Your test results will appear here'
+    }
+  },
+  es: {
+    flag: '🇪🇸', label: 'ES', dir: 'ltr',
+    greeting: 'Bienvenido a Rafeeq 👋',
+    search: 'Buscar un servicio...',
+    carTitle: 'Servicios rápidos',
+    carConsult: 'Consulta médica',
+    carConsultDesc: 'Habla con un médico online',
+    carMedic: 'Recordatorio medicamentos',
+    carMedicDesc: 'No olvides tu dosis diaria',
+    carAnalyses: 'Análisis',
+    carAnalysesDesc: 'Tus resultados médicos',
+    health: 'Salud', medicines: 'Medicamentos', appointments: 'Citas',
+    sos: 'SOS', emergency: 'Emergencia', settings: 'Ajustes',
+    family: 'Familia', shop: 'Tienda', services: 'Servicios',
+    myAccount: 'Mi cuenta', home: 'Inicio', days: 'Días',
+    sosTitle: '🆘 Ayuda urgente',
+    sosDesc: 'Llama a emergencias',
+    sosAmb: '🚑 Ambulancia: 19',
+    sosFire: '🔥 Bomberos: 15',
+    sosPol: '👮 Policía: 17',
+    close: 'Cerrar',
+    notifications: '🔔 Notificaciones',
+    noNotif: 'Sin notificaciones nuevas',
+    noMeds: 'Sin medicamentos registrados',
+    addMed: '+ Añadir medicamento',
+    medList: 'Lista de medicamentos',
+    add: '+ Añadir',
+    medName: 'Nombre del medicamento:',
+    medTime: 'Hora (ej: 08:00):',
+    added: '✅ Añadido ',
+    taken: '✅ Tomado ',
+    found: 'Encontrado ',
+    result: ' resultado(s)',
+    profileName: 'Usuario Rafeeq',
+    months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    detail: {
+      sante_title: 'Salud', sante_heading: 'Consejos de salud',
+      sante_l1: '💧 Bebe 8 vasos de agua al día',
+      sante_l2: '🥗 Come equilibrado',
+      sante_l3: '🚶 Camina 30 min al día',
+      sante_l4: '😴 Duerme 7-8 horas',
+      medic_title: 'Medicamentos',
+      rdv_title: 'Citas', rdv_heading: 'Próximas citas',
+      rdv_empty: 'Sin citas programadas',
+      urgence_title: 'Emergencia', urgence_heading: 'Instrucciones',
+      urgence_l1: '🆘 Llama a emergencias',
+      urgence_l2: '📌 Mantén la calma',
+      urgence_l3: '📍 Da tu ubicación',
+      settings_title: 'Ajustes', settings_notif: '🔔 Notificaciones',
+      settings_notifVal: 'Activadas', settings_night: '🌙 Modo nocturno',
+      settings_nightVal: 'Próximamente', settings_lang: '🌐 Idioma',
+      family_title: 'Familia', family_add: '+ Añadir miembro',
+      shop_title: 'Tienda', shop_soon: 'Tienda próximamente',
+      analyses_title: 'Análisis', analyses_text: 'Tus resultados aparecerán aquí'
+    }
+  },
+  de: {
+    flag: '🇩🇪', label: 'GER', dir: 'ltr',
+    greeting: 'Willkommen bei Rafeeq 👋',
+    search: 'Service suchen...',
+    carTitle: 'Schnelle Services',
+    carConsult: 'Ärztliche Beratung',
+    carConsultDesc: 'Sprechen Sie mit einem Arzt online',
+    carMedic: 'Medikamentenerinnerung',
+    carMedicDesc: 'Tägliche Dosis nicht vergessen',
+    carAnalyses: 'Laborergebnisse',
+    carAnalysesDesc: 'Ihre medizinischen Ergebnisse',
+    health: 'Gesundheit', medicines: 'Medikamente', appointments: 'Termine',
+    sos: 'SOS', emergency: 'Notfall', settings: 'Einstellungen',
+    family: 'Familie', shop: 'Shop', services: 'Services',
+    myAccount: 'Mein Konto', home: 'Start', days: 'Tage',
+    sosTitle: '🆘 Notfallhilfe',
+    sosDesc: 'Notrufnummern anrufen',
+    sosAmb: '🚑 Krankenwagen: 19',
+    sosFire: '🔥 Feuerwehr: 15',
+    sosPol: '👮 Polizei: 17',
+    close: 'Schließen',
+    notifications: '🔔 Benachrichtigungen',
+    noNotif: 'Keine neuen Benachrichtigungen',
+    noMeds: 'Keine Medikamente registriert',
+    addMed: '+ Medikament hinzufügen',
+    medList: 'Medikamentenliste',
+    add: '+ Hinzufügen',
+    medName: 'Medikamentenname:',
+    medTime: 'Zeit (z.B. 08:00):',
+    added: '✅ Hinzugefügt ',
+    taken: '✅ Eingenommen ',
+    found: 'Gefunden ',
+    result: ' Ergebnis(se)',
+    profileName: 'Rafeeq Benutzer',
+    months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    detail: {
+      sante_title: 'Gesundheit', sante_heading: 'Gesundheitstipps',
+      sante_l1: '💧 Trinken Sie 8 Gläser Wasser täglich',
+      sante_l2: '🥗 Essen Sie ausgewogen',
+      sante_l3: '🚶 Gehen Sie 30 Min täglich',
+      sante_l4: '😴 Schlafen Sie 7-8 Stunden',
+      medic_title: 'Medikamente',
+      rdv_title: 'Termine', rdv_heading: 'Nächste Termine',
+      rdv_empty: 'Keine Termine geplant',
+      urgence_title: 'Notfall', urgence_heading: 'Notfallhinweise',
+      urgence_l1: '🆘 Rufen Sie den Notdienst',
+      urgence_l2: '📌 Bleiben Sie ruhig',
+      urgence_l3: '📍 Geben Sie Ihren Standort an',
+      settings_title: 'Einstellungen', settings_notif: '🔔 Benachrichtigungen',
+      settings_notifVal: 'Aktiviert', settings_night: '🌙 Nachtmodus',
+      settings_nightVal: 'Demnächst', settings_lang: '🌐 Sprache',
+      family_title: 'Familie', family_add: '+ Mitglied hinzufügen',
+      shop_title: 'Shop', shop_soon: 'Shop kommt bald',
+      analyses_title: 'Labor', analyses_text: 'Ihre Ergebnisse erscheinen hier'
+    }
+  },
+  nl: {
+    flag: '🇳🇱', label: 'NL', dir: 'ltr',
+    greeting: 'Welkom bij Rafeeq 👋',
+    search: 'Zoek een dienst...',
+    carTitle: 'Snelle diensten',
+    carConsult: 'Medisch consult',
+    carConsultDesc: 'Praat online met een arts',
+    carMedic: 'Medicijnherinnering',
+    carMedicDesc: 'Vergeet uw dosis niet',
+    carAnalyses: 'Labresultaten',
+    carAnalysesDesc: 'Uw medische testresultaten',
+    health: 'Gezondheid', medicines: 'Medicijnen', appointments: 'Afspraken',
+    sos: 'SOS', emergency: 'Noodgeval', settings: 'Instellingen',
+    family: 'Familie', shop: 'Winkel', services: 'Diensten',
+    myAccount: 'Mijn account', home: 'Home', days: 'Dagen',
+    sosTitle: '🆘 Noodhulp',
+    sosDesc: 'Bel de hulpdiensten',
+    sosAmb: '🚑 Ambulance: 19',
+    sosFire: '🔥 Brandweer: 15',
+    sosPol: '👮 Politie: 17',
+    close: 'Sluiten',
+    notifications: '🔔 Meldingen',
+    noNotif: 'Geen nieuwe meldingen',
+    noMeds: 'Nog geen medicijnen geregistreerd',
+    addMed: '+ Medicijn toevoegen',
+    medList: 'Medicijnlijst',
+    add: '+ Toevoegen',
+    medName: 'Medicijnnaam:',
+    medTime: 'Tijd (bijv. 08:00):',
+    added: '✅ Toegevoegd ',
+    taken: '✅ Ingenomen ',
+    found: 'Gevonden ',
+    result: ' resultaat/resultaten',
+    profileName: 'Rafeeq Gebruiker',
+    months: ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'],
+    detail: {
+      sante_title: 'Gezondheid', sante_heading: 'Gezondheidstips',
+      sante_l1: '💧 Drink 8 glazen water per dag',
+      sante_l2: '🥗 Eet gebalanceerd',
+      sante_l3: '🚶 Loop 30 min per dag',
+      sante_l4: '😴 Slaap 7-8 uur',
+      medic_title: 'Medicijnen',
+      rdv_title: 'Afspraken', rdv_heading: 'Komende afspraken',
+      rdv_empty: 'Geen afspraken gepland',
+      urgence_title: 'Noodgeval', urgence_heading: 'Noodinstructies',
+      urgence_l1: '🆘 Bel de hulpdiensten',
+      urgence_l2: '📌 Blijf kalm',
+      urgence_l3: '📍 Geef uw locatie door',
+      settings_title: 'Instellingen', settings_notif: '🔔 Meldingen',
+      settings_notifVal: 'Ingeschakeld', settings_night: '🌙 Nachtmodus',
+      settings_nightVal: 'Binnenkort', settings_lang: '🌐 Taal',
+      family_title: 'Familie', family_add: '+ Lid toevoegen',
+      shop_title: 'Winkel', shop_soon: 'Winkel binnenkort',
+      analyses_title: 'Labresultaten', analyses_text: 'Uw resultaten verschijnen hier'
+    }
+  },
+  it: {
+    flag: '🇮🇹', label: 'IT', dir: 'ltr',
+    greeting: 'Benvenuto su Rafeeq 👋',
+    search: 'Cerca un servizio...',
+    carTitle: 'Servizi rapidi',
+    carConsult: 'Consulto medico',
+    carConsultDesc: 'Parla con un medico online',
+    carMedic: 'Promemoria farmaci',
+    carMedicDesc: 'Non dimenticare la dose',
+    carAnalyses: 'Analisi',
+    carAnalysesDesc: 'I tuoi risultati medici',
+    health: 'Salute', medicines: 'Farmaci', appointments: 'Appuntamenti',
+    sos: 'SOS', emergency: 'Emergenza', settings: 'Impostazioni',
+    family: 'Famiglia', shop: 'Negozio', services: 'Servizi',
+    myAccount: 'Mio account', home: 'Home', days: 'Giorni',
+    sosTitle: '🆘 Aiuto urgente',
+    sosDesc: 'Chiama i numeri di emergenza',
+    sosAmb: '🚑 Ambulanza: 19',
+    sosFire: '🔥 Vigili del fuoco: 15',
+    sosPol: '👮 Polizia: 17',
+    close: 'Chiudi',
+    notifications: '🔔 Notifiche',
+    noNotif: 'Nessuna nuova notifica',
+    noMeds: 'Nessun farmaco registrato',
+    addMed: '+ Aggiungi farmaco',
+    medList: 'Elenco farmaci',
+    add: '+ Aggiungi',
+    medName: 'Nome del farmaco:',
+    medTime: 'Ora (es. 08:00):',
+    added: '✅ Aggiunto ',
+    taken: '✅ Preso ',
+    found: 'Trovato ',
+    result: ' risultato/i',
+    profileName: 'Utente Rafeeq',
+    months: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+    detail: {
+      sante_title: 'Salute', sante_heading: 'Consigli salute',
+      sante_l1: '💧 Bevi 8 bicchieri d\'acqua al giorno',
+      sante_l2: '🥗 Mangia in modo equilibrato',
+      sante_l3: '🚶 Cammina 30 min al giorno',
+      sante_l4: '😴 Dormi 7-8 ore',
+      medic_title: 'Farmaci',
+      rdv_title: 'Appuntamenti', rdv_heading: 'Prossimi appuntamenti',
+      rdv_empty: 'Nessun appuntamento',
+      urgence_title: 'Emergenza', urgence_heading: 'Istruzioni emergenza',
+      urgence_l1: '🆘 Chiama i soccorsi',
+      urgence_l2: '📌 Mantieni la calma',
+      urgence_l3: '📍 Fornisci la tua posizione',
+      settings_title: 'Impostazioni', settings_notif: '🔔 Notifiche',
+      settings_notifVal: 'Attive', settings_night: '🌙 Modalità notte',
+      settings_nightVal: 'Prossimamente', settings_lang: '🌐 Lingua',
+      family_title: 'Famiglia', family_add: '+ Aggiungi membro',
+      shop_title: 'Negozio', shop_soon: 'Negozio in arrivo',
+      analyses_title: 'Analisi', analyses_text: 'I tuoi risultati appariranno qui'
+    }
+  }
+};
+
+var currentLang = localStorage.getItem('rafeeq_lang') || 'ar';
+
+function applyLang(langCode) {
+  currentLang = langCode;
+  localStorage.setItem('rafeeq_lang', langCode);
+  var l = LANG[langCode];
+  document.documentElement.lang = langCode;
+  document.documentElement.dir = l.dir;
+  document.body.className = l.dir === 'ltr' ? 'ltr' : '';
+
+  // Greeting
+  document.getElementById('headerGreeting').textContent = l.greeting;
+  document.getElementById('searchInput').placeholder = l.search;
+
+  // Lang bar
+  var bar = document.getElementById('langBar');
+  var html = '';
+  Object.keys(LANG).forEach(function(k) {
+    var v = LANG[k];
+    html += '<button class="lang-btn' + (k === langCode ? ' active' : '') + '" onclick="applyLang(\'' + k + '\')"><span class="flag">' + v.flag + '</span>' + v.label + '</button>';
+  });
+  bar.innerHTML = html;
+
+  // Date
+  var now = new Date();
+  document.getElementById('headerDate').textContent = now.getDate() + ' ' + l.months[now.getMonth()] + ' ' + now.getFullYear();
+
+  // Elements with data-key
+  document.querySelectorAll('[data-key]').forEach(function(el) {
+    var key = el.getAttribute('data-key');
+    if (l[key] !== undefined) el.textContent = l[key];
+  });
+
+  // SOS modal
+  document.getElementById('sosAmb').textContent = l.sosAmb;
+  document.getElementById('sosFire').textContent = l.sosFire;
+  document.getElementById('sosPol').textContent = l.sosPol;
+
+  // Profile
+  document.getElementById('profileName').textContent = l.profileName;
+
+  // Bottom nav active
+  var idx = {accueil:0, services:1, medic:2, profile:3};
+  // No need to re-translate nav - data-key handles it
+
+  // Medicine page
+  renderMed();
+  updateStats();
 }
 
-var months = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
-var now = new Date();
-document.getElementById('headerDate').textContent = now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+function scrollCarousel(dir) {
+  document.getElementById('carouselTrack').scrollBy({ left: dir * 200, behavior: 'smooth' });
+}
 
 function navigate(page) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -779,54 +1164,59 @@ function navigate(page) {
   var pageMap = { accueil:'pageAccueil', services:'pageServices', medic:'pageMedic', profile:'pageProfile' };
   document.getElementById(pageMap[page]).classList.add('active');
   if (page === 'medic') renderMed();
-  document.querySelector('.nav-item:nth-child(' + ({accueil:1,services:2,medic:3,profile:4}[page]) + ')').classList.add('active');
+  var nth = {accueil:1,services:2,medic:3,profile:4}[page];
+  document.querySelector('.nav-item:nth-child(' + nth + ')').classList.add('active');
 }
 
 var detailData = {
-  sante: {
-    title: 'الصحة',
+  sante: function(l) { return {
+    title: l.detail.sante_title,
     icon: '🩺',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">نصائح صحية</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:10px;"><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>💧</span> اشرب 8 أكواب ماء يومياً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>🥗</span> تناول طعاماً متوازناً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>🚶</span> امشِ 30 دقيقة يومياً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>😴</span> نم 7-8 ساعات يومياً</li></ul></div>'
-  },
-  medic: {
-    title: 'الأدوية',
-    icon: '💊',
-    content: '<div style="text-align:center;padding:20px;color:#64748b;"><div style="font-size:3rem;margin-bottom:12px;">💊</div><p>إدارة أدويتك من صفحة الأدوية</p></div>'
-  },
-  rdv: {
-    title: 'المواعيد',
-    icon: '📅',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">مواعيدك القادمة</h3><div style="text-align:center;padding:20px;color:#94a3b8;"><div style="font-size:2.5rem;margin-bottom:8px;">📅</div><p>لا توجد مواعيد مسجلة</p></div></div>'
-  },
-  urgence: {
-    title: 'الطوارئ',
-    icon: '🚑',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">إرشادات الطوارئ</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:10px;"><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#fee2e2;border-radius:10px;"><span>🆘</span> اتصل بالإسعاف فوراً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#fef3c7;border-radius:10px;"><span>📌</span> حافظ على هدوئك</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#dbeafe;border-radius:10px;"><span>📍</span> حدد موقعك بدقة</li></ul></div>'
-  },
-  settings: {
-    title: 'الإعدادات',
-    icon: '⚙️',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;display:flex;flex-direction:column;gap:12px;"><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;"><span>🔔 الإشعارات</span><span style="color:#22c55e;">مفعلة</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;"><span>🌙 الوضع الليلي</span><span style="color:#94a3b8;">قريباً</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;"><span>🌐 اللغة</span><span>العربية</span></div></div>'
-  },
-  family: {
-    title: 'العائلة',
-    icon: '👨‍👩‍👧‍👦',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">👨‍👩‍👧‍👦</div><p style="color:#64748b;">أفراد عائلتك</p><button style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة فرد</button></div>'
-  },
-  shop: {
-    title: 'المتجر',
-    icon: '🛒',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">🛒</div><p style="color:#64748b;">المتجر قريباً</p></div>'
-  },
-  analyses: {
-    title: 'التحاليل',
-    icon: '📋',
-    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">📋</div><p style="color:#64748b;">نتائج تحاليلك ستظهر هنا</p></div>'
-  }
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.sante_heading + '</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l1 + '</span></li>' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l2 + '</span></li>' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l3 + '</span></li>' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l4 + '</span></li></ul></div>'
+  };},
+  medic: function(l) { return {
+    title: l.detail.medic_title, icon: '💊',
+    content: '<div style="text-align:center;padding:16px;color:#64748b;"><div style="font-size:2.5rem;margin-bottom:10px;">💊</div><p>' + l.medList + '</p></div>'
+  };},
+  rdv: function(l) { return {
+    title: l.detail.rdv_title, icon: '📅',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.rdv_heading + '</h3><div style="text-align:center;padding:16px;color:#94a3b8;"><div style="font-size:2rem;margin-bottom:6px;">📅</div><p>' + l.detail.rdv_empty + '</p></div></div>'
+  };},
+  urgence: function(l) { return {
+    title: l.detail.urgence_title, icon: '🚑',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.urgence_heading + '</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#fee2e2;border-radius:8px;"><span>' + l.detail.urgence_l1 + '</span></li>' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#fef3c7;border-radius:8px;"><span>' + l.detail.urgence_l2 + '</span></li>' +
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#dbeafe;border-radius:8px;"><span>' + l.detail.urgence_l3 + '</span></li></ul></div>'
+  };},
+  settings: function(l) { return {
+    title: l.detail.settings_title, icon: '⚙️',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;display:flex;flex-direction:column;gap:10px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;"><span>' + l.detail.settings_notif + '</span><span style="color:#22c55e;">' + l.detail.settings_notifVal + '</span></div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;"><span>' + l.detail.settings_night + '</span><span style="color:#94a3b8;">' + l.detail.settings_nightVal + '</span></div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;"><span>' + l.detail.settings_lang + '</span><span>' + LANG[currentLang].label + '</span></div></div>'
+  };},
+  family: function(l) { return {
+    title: l.detail.family_title, icon: '👨‍👩‍👧‍👦',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:2.5rem;margin-bottom:10px;">👨‍👩‍👧‍👦</div><p style="color:#64748b;">' + l.family + '</p><button style="margin-top:12px;padding:8px 20px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">' + l.detail.family_add + '</button></div>'
+  };},
+  shop: function(l) { return {
+    title: l.detail.shop_title, icon: '🛒',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:2.5rem;margin-bottom:10px;">🛒</div><p style="color:#64748b;">' + l.detail.shop_soon + '</p></div>'
+  };},
+  analyses: function(l) { return {
+    title: l.detail.analyses_title, icon: '📋',
+    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:2.5rem;margin-bottom:10px;">📋</div><p style="color:#64748b;">' + l.detail.analyses_text + '</p></div>'
+  };}
 };
 
 function openDetail(key) {
-  var d = detailData[key];
+  var l = LANG[currentLang];
+  var d = detailData[key](l);
   document.getElementById('detailTitle').textContent = d.icon + ' ' + d.title;
   document.getElementById('detailBody').innerHTML = d.content;
   document.getElementById('detailPage').classList.add('open');
@@ -850,48 +1240,43 @@ function toggleNotif() {
 
 function searchService(q) {
   if (q.trim() === '') return;
+  var l = LANG[currentLang];
   var results = [];
-  var items = [
-    { label:'الصحة', key:'sante' },
-    { label:'الأدوية', key:'medic' },
-    { label:'المواعيد', key:'rdv' },
-    { label:'الطوارئ', key:'urgence' },
-    { label:'الإعدادات', key:'settings' },
-    { label:'العائلة', key:'family' },
-    { label:'المتجر', key:'shop' },
-    { label:'استشارة طبية', key:'sante' },
-    { label:'تذكير الأدوية', key:'medic' },
-    { label:'التحاليل', key:'analyses' }
-  ];
-  items.forEach(function(i) {
-    if (i.label.indexOf(q) !== -1) results.push(i);
+  var keys = ['health','medicines','appointments','emergency','settings','family','shop'];
+  keys.forEach(function(k) {
+    var label = l[k];
+    if (label.indexOf(q) !== -1) results.push(k);
   });
   if (results.length > 0) {
-    showToast('تم العثور على ' + results.length + ' نتيجة');
-    openDetail(results[0].key);
+    var keyMap = { health:'sante', medicines:'medic', appointments:'rdv', emergency:'urgence', settings:'settings', family:'family', shop:'shop' };
+    showToast(l.found + results.length + l.result);
+    openDetail(keyMap[results[0]]);
   }
 }
 
 function addMed() {
-  var name = prompt('اسم الدواء:');
+  var l = LANG[currentLang];
+  var name = prompt(l.medName);
   if (!name) return;
-  var time = prompt('وقت الجرعة (مثال: 08:00):', '08:00');
+  var time = prompt(l.medTime, '08:00');
   if (!time) return;
   var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
   meds.push({ name: name, time: time, done: false, id: Date.now() });
   localStorage.setItem('rafeeq_meds', JSON.stringify(meds));
   renderMed();
-  showToast('✅ تمت إضافة ' + name);
+  updateStats();
+  showToast(l.added + name);
 }
 
 function renderMed() {
+  var l = LANG[currentLang];
   var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
   var list = document.getElementById('medList');
   if (meds.length === 0) {
-    list.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#94a3b8;"><div style="font-size:3rem;margin-bottom:12px;">💊</div><p>لا توجد أدوية مسجلة بعد</p><button onclick="addMed()" style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة دواء</button></div>';
+    list.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#94a3b8;"><div style="font-size:2.5rem;margin-bottom:10px;">💊</div><p>' + l.noMeds + '</p><button onclick="addMed()" style="margin-top:14px;padding:8px 20px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">' + l.addMed + '</button></div>';
     return;
   }
-  var h = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;"><span style="font-weight:700;font-size:0.9rem;">قائمة الأدوية</span><button onclick="addMed()" style="padding:6px 16px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة</button></div>';
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 14px;"><span style="font-weight:700;font-size:0.85rem;">' + l.medList + '</span><button onclick="addMed()" style="padding:4px 14px;border:none;border-radius:8px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">' + l.add + '</button></div>';
   meds.forEach(function(m, i) {
     h += '<div class="med-item"><div class="med-icon">💊</div><div class="med-info"><div class="med-name">' + m.name + '</div><div class="med-time">⏰ ' + m.time + '</div></div><div class="med-check' + (m.done ? ' done' : '') + '" onclick="toggleMed(' + i + ')">' + (m.done ? '✓' : '') + '</div></div>';
   });
@@ -899,11 +1284,18 @@ function renderMed() {
 }
 
 function toggleMed(i) {
+  var l = LANG[currentLang];
   var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
   meds[i].done = !meds[i].done;
   localStorage.setItem('rafeeq_meds', JSON.stringify(meds));
   renderMed();
-  if (meds[i].done) showToast('✅ تم تناول ' + meds[i].name);
+  updateStats();
+  if (meds[i].done) showToast(l.taken + meds[i].name);
+}
+
+function updateStats() {
+  var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  document.getElementById('statMed').textContent = meds.length;
 }
 
 function showToast(msg) {
@@ -912,6 +1304,8 @@ function showToast(msg) {
   t.style.display = 'block';
   setTimeout(function() { t.style.display = 'none'; }, 2000);
 }
+
+applyLang(currentLang);
 </script>
 </body>
 </html>
