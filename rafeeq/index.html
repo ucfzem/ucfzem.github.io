@@ -1,75 +1,393 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rafeeq</title>
-<meta name="description" content="Rafeeq - Compagnon IA">
-<meta property="og:title" content="Rafeeq">
-<meta property="og:description" content="Compagnon IA">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>رفيق</title>
+<meta name="description" content="رفيق - تطبيق الصحة والخدمات">
+<meta property="og:title" content="رفيق">
+<meta property="og:description" content="تطبيق الصحة والخدمات">
 <meta property="og:url" content="https://ucfzem.github.io/rafeeq/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://ucfzem.github.io/rafeeq/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
-  font-family: -apple-system, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  color: #eaeaea;
+  font-family: 'Tajawal', -apple-system, sans-serif;
+  background: #f5f7fa;
+  color: #1a2332;
   min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  padding: 20px 20px 40px;
+  border-radius: 0 0 28px 28px;
+  color: white;
+  position: relative;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.header-top h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+.header-icons {
+  display: flex;
+  gap: 16px;
+}
+.header-icons span {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+.header-date {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  font-weight: 500;
+}
+.header-greeting {
+  font-size: 0.95rem;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+
+/* Search */
+.search-box {
+  margin: -20px 16px 16px;
+  position: relative;
+  z-index: 2;
+}
+.search-box input {
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  border: none;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.9rem;
+  color: #1a2332;
+  outline: none;
+}
+.search-box input::placeholder { color: #94a3b8; }
+.search-box .search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  color: #94a3b8;
+}
+
+/* Carousel Section */
+.carousel-section {
+  padding: 0 16px;
+  margin-bottom: 20px;
+}
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.carousel-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a2332;
+}
+.carousel-header .carousel-nav {
+  display: flex;
+  gap: 8px;
+}
+.carousel-header .carousel-nav button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  transition: all 0.2s;
+}
+.carousel-header .carousel-nav button:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+.carousel-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-card {
+  min-width: 200px;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  color: white;
+  border-radius: 16px;
+  padding: 20px;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+.carousel-card .card-icon { font-size: 2rem; margin-bottom: 8px; }
+.carousel-card .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+.carousel-card .card-desc { font-size: 0.8rem; opacity: 0.85; }
+.carousel-card:nth-child(2) { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.carousel-card:nth-child(3) { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+/* Grid Menu */
+.grid-menu {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 0 16px;
+  margin-bottom: 20px;
+}
+.grid-item {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 6px;
+  padding: 14px 4px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  text-decoration: none;
+  color: #1a2332;
+}
+.grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-color: #e2e8f0;
+}
+.grid-item .gi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  font-size: 1.4rem;
+}
+.grid-item .gi-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #475569;
   text-align: center;
 }
-h1 {
-  font-size: 3rem;
+.gi-sante { background: #dcfce7; }
+.gi-medic { background: #dbeafe; }
+.gi-rdv { background: #fef3c7; }
+.gi-sos { background: #fee2e2; }
+.gi-urg { background: #ffe4e6; }
+.gi-settings { background: #f3e8ff; }
+.gi-family { background: #fce7f3; }
+.gi-shop { background: #e0f2fe; }
+
+/* SOS Button */
+.sos-section {
+  padding: 0 16px;
+  margin-bottom: 20px;
+}
+.sos-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, #e2b714, #f5a623);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
-.bio {
-  font-size: 1rem;
-  color: #8899aa;
-  margin-bottom: 32px;
+.sos-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 30px rgba(239, 68, 68, 0.4);
 }
-.btn {
-  display: inline-block;
-  padding: 14px 36px;
-  background: linear-gradient(135deg, #e2b714, #f5a623);
-  color: #1a1a2e;
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 20px;
+  z-index: 100;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.65rem;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  border-radius: 50px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(226, 183, 20, 0.3);
 }
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(226, 183, 20, 0.5);
-}
-footer {
-  margin-top: 48px;
-  font-size: 0.75rem;
-  color: #445566;
-}
+.nav-item.active { color: #0d9488; }
+.nav-item .nav-icon { font-size: 1.3rem; }
+
+.spacer { height: 80px; }
+
+/* RTL adjustments for carousel arrows */
+.carousel-nav button:first-child::before { content: "‹"; }
+.carousel-nav button:last-child::before { content: "›"; }
 </style>
 </head>
 <body>
 
-<h1>Rafeeq</h1>
-<p class="bio">Compagnon IA</p>
-<a class="btn" href="https://rafeeq.anyclaw.store/" target="_blank">Lancer Rafeeq →</a>
+<div class="header">
+  <div class="header-top">
+    <h1>رفيق</h1>
+    <div class="header-icons">
+      <span>🔔</span>
+      <span>👤</span>
+    </div>
+  </div>
+  <div class="header-date" id="headerDate"></div>
+  <div class="header-greeting">مرحباً بك في رفيق 👋</div>
+</div>
 
-<footer>ucfzem.github.io/rafeeq</footer>
+<div class="search-box">
+  <span class="search-icon">🔍</span>
+  <input type="text" placeholder="ابحث عن خدمة..." />
+</div>
 
+<div class="carousel-section">
+  <div class="carousel-header">
+    <h2>خدمات سريعة</h2>
+    <div class="carousel-nav">
+      <button onclick="scrollCarousel(-1)"></button>
+      <button onclick="scrollCarousel(1)"></button>
+    </div>
+  </div>
+  <div class="carousel-track" id="carouselTrack">
+    <div class="carousel-card">
+      <div class="card-icon">🩺</div>
+      <div class="card-title">استشارة طبية</div>
+      <div class="card-desc">تحدث مع طبيب أونلاين</div>
+    </div>
+    <div class="carousel-card">
+      <div class="card-icon">💊</div>
+      <div class="card-title">تذكير الأدوية</div>
+      <div class="card-desc">لا تنسى جرعتك اليومية</div>
+    </div>
+    <div class="carousel-card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">التحاليل</div>
+      <div class="card-desc">نتائج تحاليلك الطبية</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid-menu">
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-sante">🩺</div>
+    <span class="gi-label">الصحة</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-medic">💊</div>
+    <span class="gi-label">الأدوية</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-rdv">📅</div>
+    <span class="gi-label">المواعيد</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-sos">🆘</div>
+    <span class="gi-label">SOS</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-urg">🚑</div>
+    <span class="gi-label">الطوارئ</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-settings">⚙️</div>
+    <span class="gi-label">الإعدادات</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-family">👨‍👩‍👧‍👦</div>
+    <span class="gi-label">العائلة</span>
+  </a>
+  <a class="grid-item" href="#">
+    <div class="gi-icon gi-shop">🛒</div>
+    <span class="gi-label">المتجر</span>
+  </a>
+</div>
+
+<div class="sos-section">
+  <button class="sos-btn">🆘 طلب مساعدة عاجلة</button>
+</div>
+
+<div class="spacer"></div>
+
+<div class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <span class="nav-icon">🏠</span>
+    الرئيسية
+  </a>
+  <a class="nav-item" href="#">
+    <span class="nav-icon">📋</span>
+    الخدمات
+  </a>
+  <a class="nav-item" href="#">
+    <span class="nav-icon">💊</span>
+    الأدوية
+  </a>
+  <a class="nav-item" href="#">
+    <span class="nav-icon">👤</span>
+    حسابي
+  </a>
+</div>
+
+<script>
+function scrollCarousel(dir) {
+  var track = document.getElementById('carouselTrack');
+  track.scrollBy({ left: dir * 220, behavior: 'smooth' });
+}
+
+// Date
+var now = new Date();
+var months = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
+document.getElementById('headerDate').textContent = now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+</script>
 </body>
 </html>
