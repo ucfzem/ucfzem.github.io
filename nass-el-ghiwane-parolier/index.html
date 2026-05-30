@@ -35,11 +35,12 @@
       </div>
 
       <div class="book-wrapper">
-        <!-- Page turn zone (clickable) -->
-        <div class="turn-zone turn-prev" id="turnPrev"></div>
-        <div class="turn-zone turn-next" id="turnNext"></div>
 
         <div class="book-viewport" id="bookViewport">
+
+          <!-- Turn zones inside viewport for reliable click handling -->
+          <div class="turn-zone turn-prev" id="turnPrev"></div>
+          <div class="turn-zone turn-next" id="turnNext"></div>
 
           <!-- PAGES -->
           <div class="page spread" data-spread="0">

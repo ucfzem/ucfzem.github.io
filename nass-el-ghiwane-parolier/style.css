@@ -293,8 +293,8 @@ body {
 .turn-zone {
   position: absolute;
   top: 0; bottom: 0;
-  width: 35%;
-  z-index: 10;
+  width: 40%;
+  z-index: 30;
   cursor: pointer;
 }
 .turn-prev { left: 0; }
@@ -302,24 +302,18 @@ body {
 .turn-zone::after {
   content: '';
   position: absolute; top: 50%; transform: translateY(-50%);
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(193,122,63,0.15);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(193,122,63,0.12);
   transition: all 0.3s;
-  display: flex; align-items: center; justify-content: center;
 }
-.turn-prev::after {
-  left: 15px;
-  box-shadow: 3px 0 10px rgba(0,0,0,0.15);
-}
-.turn-next::after {
-  right: 15px;
-  box-shadow: -3px 0 10px rgba(0,0,0,0.15);
-}
+.turn-prev::after { left: 12px; }
+.turn-next::after { right: 12px; }
 .turn-zone:hover::after {
-  background: rgba(193,122,63,0.35);
-  width: 50px; height: 50px;
+  background: rgba(193,122,63,0.3);
+  width: 44px; height: 44px;
 }
-.turn-zone.disabled { pointer-events: none; opacity: 0.3; }
+.turn-zone.disabled { pointer-events: none; }
+.turn-zone.disabled::after { opacity: 0; }
 
 /* ===== FLIP OVERLAY (3D animation) ===== */
 .flip-overlay {
