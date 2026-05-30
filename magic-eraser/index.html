@@ -275,9 +275,15 @@ header {
     </div>
     <div class="api-section">
       <label>🔑 HF Token:</label>
-      <input type="password" id="hfToken" placeholder="hf_xxxxxxxx...">
+      <input type="password" id="hfToken" placeholder="hf_xxxxxxxx..." style="min-width:80px">
       <button class="tool-btn" id="saveTokenBtn">Save</button>
       <a href="https://huggingface.co/settings/tokens" target="_blank">Get free token</a>
+    </div>
+    <div class="api-section">
+      <label>🔁 Proxy URL:</label>
+      <input type="url" id="proxyUrl" placeholder="https://hf-proxy.azer-tyu199p.workers.dev">
+      <button class="tool-btn" id="saveProxyBtn">Save</button>
+      <span style="font-size:0.7rem;color:var(--muted)">Required (CORS bypass)</span>
     </div>
     <div class="error-msg" id="errorMsg"></div>
   </div>
@@ -330,6 +336,8 @@ let currentStep = -1;
 let brushMode = 'draw';
 
 hfToken.value = localStorage.getItem('me_hf_token') || '';
+const proxyUrlInput = $('proxyUrl');
+proxyUrlInput.value = localStorage.getItem('me_proxy_url') || '';
 
 function showToast(msg) {
   toast.textContent = msg;
@@ -502,13 +510,21 @@ saveTokenBtn.onclick = () => {
   localStorage.setItem('me_hf_token', token);
   hideError();
   showToast('✅ Token saved'); };
+$('saveProxyBtn').onclick = () => {
+  const url = proxyUrlInput.value.trim();
+  if (!url) { showError('Enter the proxy URL'); return; }
+  localStorage.setItem('me_proxy_url', url);
+  hideError();
+  showToast('✅ Proxy URL saved'); };
 
 processBtn.onclick = processImage;
 
 async function processImage() {
   hideError();
   const token = hfToken.value.trim() || localStorage.getItem('me_hf_token');
+  const proxyUrl = proxyUrlInput.value.trim() || localStorage.getItem('me_proxy_url');
   if (!token) { showError('Enter your Hugging Face token first (get one free at huggingface.co/settings/tokens)'); return; }
+  if (!proxyUrl) { showError('Enter the Proxy URL (deploy hf-proxy worker on Cloudflare)'); return; }
 
   const maskData = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
   let hasMask = false;
@@ -522,30 +538,39 @@ async function processImage() {
   resultArea.style.display = 'none';
 
   try {
-    const formData = new FormData();
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-    formData.append('image', blob, 'image.png');
-    const maskBlob = await new Promise(resolve => maskCanvas.toBlob(resolve, 'image/png'));
-    formData.append('mask', maskBlob, 'mask.png');
+    const toBase64 = (canvas) => new Promise(resolve =>
+      canvas.toBlob(b => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result.split(',')[1]);
+        r.readAsDataURL(b);
+      }, 'image/png'));
 
-    const response = await fetch('https://api-inference.huggingface.co/models/stable-diffusion-v1-5/stable-diffusion-inpainting', {
+    const image = await toBase64(canvas);
+    const mask = await toBase64(maskCanvas);
+
+    const response = await fetch(proxyUrl, {
       method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + token },
-      body: formData });
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image, mask, token }) });
 
     if (!response.ok) {
-      const err = await response.text();
       let msg;
-      try { const j = JSON.parse(err); msg = j.error || j[0]?.error || err; } catch { msg = err; }
+      try { const j = await response.json(); msg = j.error || msg; } catch { msg = await response.text(); }
       if (response.status === 503) {
         msg = '⏳ Model is loading (cold start). Please wait 30-60s and try again.';
         loadingText.textContent = '⏳ Model is loading...'; }
-      if (response.status === 403) msg = 'Invalid HF token. Check your token at huggingface.co/settings/tokens';
-      throw new Error(msg); }
+      if (msg && msg.includes('token')) msg = 'Invalid HF token. Check your token at huggingface.co/settings/tokens';
+      throw new Error(msg || 'HTTP ' + response.status); }
 
-    const resultBlob = await response.blob();
-    const url = URL.createObjectURL(resultBlob);
-    resultImg.src = url;
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('image')) {
+      const blob = await response.blob();
+      resultImg.src = URL.createObjectURL(blob);
+    } else {
+      const j = await response.json();
+      if (j.error) throw new Error(j.error);
+      throw new Error('Unexpected response: ' + JSON.stringify(j).slice(0,200)); }
+
     resultArea.style.display = 'block';
     loading.classList.remove('show');
     showToast('✅ Object removed!');
