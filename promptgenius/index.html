@@ -958,7 +958,7 @@ let history = JSON.parse(localStorage.getItem('pg_history') || '[]');
 // ─── API SETTINGS ────────────────────────────────────
 let apiProvider = localStorage.getItem('pg_provider') || 'gemini';
 let apiKey = localStorage.getItem('pg_apikey') || '';
-let proxyUrl = localStorage.getItem('pg_proxy') || 'https://still-cell-73c7.azer-tyu199p.workers.dev/v1/chat';
+let proxyUrl = localStorage.getItem('pg_proxy') || (location.hostname.includes('workers.dev') ? '/v1/chat' : 'https://still-cell-73c7.azer-tyu199p.workers.dev/v1/chat');
 
 
 function toggleSettings() {
