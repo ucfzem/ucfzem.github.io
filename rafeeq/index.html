@@ -93,7 +93,11 @@ body {
   color: #94a3b8;
 }
 
-/* Carousel Section */
+/* Pages */
+.page { display: none; }
+.page.active { display: block; }
+
+/* Carousel */
 .carousel-section {
   padding: 0 16px;
   margin-bottom: 20px;
@@ -149,7 +153,10 @@ body {
   padding: 20px;
   scroll-snap-align: start;
   flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
+.carousel-card:hover { transform: scale(0.97); }
 .carousel-card .card-icon { font-size: 2rem; margin-bottom: 8px; }
 .carousel-card .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
 .carousel-card .card-desc { font-size: 0.8rem; opacity: 0.8; }
@@ -176,7 +183,6 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  text-decoration: none;
   color: #1a2332;
 }
 .grid-item:hover {
@@ -260,134 +266,652 @@ body {
   color: #94a3b8;
   cursor: pointer;
   transition: color 0.2s;
-  text-decoration: none;
 }
 .nav-item.active { color: #c8960e; }
 .nav-item .nav-icon { font-size: 1.3rem; }
 
 .spacer { height: 80px; }
 
-/* RTL adjustments for carousel arrows */
 .carousel-nav button:first-child::before { content: "‹"; }
 .carousel-nav button:last-child::before { content: "›"; }
+
+/* Detail Page */
+.detail-page {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  background: #f5f7fa;
+  z-index: 200;
+  overflow-y: auto;
+  display: none;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(-50%) translateY(100%); }
+  to { transform: translateX(-50%) translateY(0); }
+}
+.detail-page.open { display: block; }
+.detail-header {
+  background: linear-gradient(135deg, #e2b714 0%, #f5a623 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #1a2332;
+}
+.detail-header .back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a2332;
+}
+.detail-header h2 { font-size: 1.2rem; font-weight: 700; }
+.detail-body { padding: 20px; }
+
+/* SOS Modal */
+.sos-modal {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.sos-modal.open { display: flex; }
+.sos-modal-content {
+  background: white;
+  border-radius: 24px;
+  padding: 28px 24px;
+  width: calc(100% - 40px);
+  max-width: 360px;
+  text-align: center;
+  animation: popIn 0.3s ease;
+}
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.sos-modal-content h2 { font-size: 1.4rem; margin-bottom: 8px; }
+.sos-modal-content p { color: #64748b; margin-bottom: 20px; font-size: 0.9rem; }
+.sos-number {
+  display: block;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: #fee2e2;
+  color: #dc2626;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.sos-close {
+  margin-top: 12px;
+  padding: 10px 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+/* Notifications Panel */
+.notif-panel {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  background: rgba(0,0,0,0.3);
+  z-index: 300;
+  display: none;
+}
+.notif-panel.open { display: block; }
+.notif-content {
+  background: white;
+  border-radius: 0 0 24px 24px;
+  padding: 20px;
+  animation: slideDown 0.3s ease;
+}
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+.notif-content h2 { font-size: 1.1rem; margin-bottom: 12px; }
+.notif-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item .ni-icon { font-size: 1.3rem; }
+.notif-item .ni-text { flex: 1; }
+.notif-item .ni-text .ni-title { font-weight: 600; font-size: 0.9rem; }
+.notif-item .ni-text .ni-time { font-size: 0.75rem; color: #94a3b8; }
+
+/* Services page */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 16px;
+}
+.service-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.service-card .sc-icon { font-size: 2rem; margin-bottom: 8px; }
+.service-card .sc-title { font-weight: 600; font-size: 0.9rem; }
+
+/* Medicine list */
+.med-list { padding: 16px; }
+.med-item {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #f1f5f9;
+}
+.med-item .med-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #dbeafe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.med-item .med-info { flex: 1; }
+.med-item .med-info .med-name { font-weight: 600; font-size: 0.9rem; }
+.med-item .med-info .med-time { font-size: 0.78rem; color: #64748b; }
+.med-item .med-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.med-item .med-check.done {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: white;
+}
+
+/* Profile */
+.profile-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  margin: 16px;
+  border: 1px solid #f1f5f9;
+}
+.profile-card .pv-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e2b714, #f5a623);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 12px;
+  color: #1a2332;
+}
+.profile-card .pv-name { font-weight: 700; font-size: 1.1rem; }
+.profile-card .pv-email { font-size: 0.85rem; color: #94a3b8; }
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 0 16px;
+}
+.stat-box {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+}
+.stat-box .stat-num { font-weight: 900; font-size: 1.3rem; color: #c8960e; }
+.stat-box .stat-label { font-size: 0.72rem; color: #94a3b8; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a2332;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  z-index: 400;
+  display: none;
+  animation: fadeUp 0.3s ease;
+}
+@keyframes fadeUp {
+  from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-top">
-    <h1>رفيق</h1>
-    <div class="header-icons">
-      <span>🔔</span>
-      <span>👤</span>
+<div id="pageAccueil" class="page active">
+  <div class="header">
+    <div class="header-top">
+      <h1>رفيق</h1>
+      <div class="header-icons">
+        <span onclick="toggleNotif()">🔔</span>
+        <span onclick="navigate('profile')">👤</span>
+      </div>
+    </div>
+    <div class="header-date" id="headerDate"></div>
+    <div class="header-greeting">مرحباً بك في رفيق 👋</div>
+  </div>
+
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="ابحث عن خدمة..." oninput="searchService(this.value)" />
+  </div>
+
+  <div class="carousel-section">
+    <div class="carousel-header">
+      <h2>خدمات سريعة</h2>
+      <div class="carousel-nav">
+        <button onclick="scrollCarousel(-1)"></button>
+        <button onclick="scrollCarousel(1)"></button>
+      </div>
+    </div>
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-card" onclick="openDetail('sante')">
+        <div class="card-icon">🩺</div>
+        <div class="card-title">استشارة طبية</div>
+        <div class="card-desc">تحدث مع طبيب أونلاين</div>
+      </div>
+      <div class="carousel-card" onclick="openDetail('medic')">
+        <div class="card-icon">💊</div>
+        <div class="card-title">تذكير الأدوية</div>
+        <div class="card-desc">لا تنسى جرعتك اليومية</div>
+      </div>
+      <div class="carousel-card" onclick="openDetail('analyses')">
+        <div class="card-icon">📋</div>
+        <div class="card-title">التحاليل</div>
+        <div class="card-desc">نتائج تحاليلك الطبية</div>
+      </div>
     </div>
   </div>
-  <div class="header-date" id="headerDate"></div>
-  <div class="header-greeting">مرحباً بك في رفيق 👋</div>
-</div>
 
-<div class="search-box">
-  <span class="search-icon">🔍</span>
-  <input type="text" placeholder="ابحث عن خدمة..." />
-</div>
-
-<div class="carousel-section">
-  <div class="carousel-header">
-    <h2>خدمات سريعة</h2>
-    <div class="carousel-nav">
-      <button onclick="scrollCarousel(-1)"></button>
-      <button onclick="scrollCarousel(1)"></button>
+  <div class="grid-menu">
+    <div class="grid-item" onclick="openDetail('sante')">
+      <div class="gi-icon gi-sante">🩺</div>
+      <span class="gi-label">الصحة</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('medic')">
+      <div class="gi-icon gi-medic">💊</div>
+      <span class="gi-label">الأدوية</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('rdv')">
+      <div class="gi-icon gi-rdv">📅</div>
+      <span class="gi-label">المواعيد</span>
+    </div>
+    <div class="grid-item" onclick="openSOS()">
+      <div class="gi-icon gi-sos">🆘</div>
+      <span class="gi-label">SOS</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('urgence')">
+      <div class="gi-icon gi-urg">🚑</div>
+      <span class="gi-label">الطوارئ</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('settings')">
+      <div class="gi-icon gi-settings">⚙️</div>
+      <span class="gi-label">الإعدادات</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('family')">
+      <div class="gi-icon gi-family">👨‍👩‍👧‍👦</div>
+      <span class="gi-label">العائلة</span>
+    </div>
+    <div class="grid-item" onclick="openDetail('shop')">
+      <div class="gi-icon gi-shop">🛒</div>
+      <span class="gi-label">المتجر</span>
     </div>
   </div>
-  <div class="carousel-track" id="carouselTrack">
-    <div class="carousel-card">
-      <div class="card-icon">🩺</div>
-      <div class="card-title">استشارة طبية</div>
-      <div class="card-desc">تحدث مع طبيب أونلاين</div>
+
+  <div class="sos-section">
+    <button class="sos-btn" onclick="openSOS()">🆘 طلب مساعدة عاجلة</button>
+  </div>
+
+  <div class="spacer"></div>
+</div>
+
+<div id="pageServices" class="page">
+  <div class="header" style="border-radius:0;">
+    <div class="header-top">
+      <h1>الخدمات</h1>
+      <div></div>
     </div>
-    <div class="carousel-card">
-      <div class="card-icon">💊</div>
-      <div class="card-title">تذكير الأدوية</div>
-      <div class="card-desc">لا تنسى جرعتك اليومية</div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card" onclick="openDetail('sante')">
+      <div class="sc-icon">🩺</div>
+      <div class="sc-title">الصحة</div>
     </div>
-    <div class="carousel-card">
-      <div class="card-icon">📋</div>
-      <div class="card-title">التحاليل</div>
-      <div class="card-desc">نتائج تحاليلك الطبية</div>
+    <div class="service-card" onclick="openDetail('medic')">
+      <div class="sc-icon">💊</div>
+      <div class="sc-title">الأدوية</div>
+    </div>
+    <div class="service-card" onclick="openDetail('rdv')">
+      <div class="sc-icon">📅</div>
+      <div class="sc-title">المواعيد</div>
+    </div>
+    <div class="service-card" onclick="openDetail('urgence')">
+      <div class="sc-icon">🚑</div>
+      <div class="sc-title">الطوارئ</div>
+    </div>
+    <div class="service-card" onclick="openDetail('family')">
+      <div class="sc-icon">👨‍👩‍👧‍👦</div>
+      <div class="sc-title">العائلة</div>
+    </div>
+    <div class="service-card" onclick="openDetail('shop')">
+      <div class="sc-icon">🛒</div>
+      <div class="sc-title">المتجر</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<div id="pageMedic" class="page">
+  <div class="header" style="border-radius:0;">
+    <div class="header-top">
+      <h1>الأدوية</h1>
+      <div></div>
+    </div>
+  </div>
+  <div class="med-list" id="medList">
+    <div style="text-align:center;padding:40px 20px;color:#94a3b8;">
+      <div style="font-size:3rem;margin-bottom:12px;">💊</div>
+      <p>لا توجد أدوية مسجلة بعد</p>
+      <button onclick="addMed()" style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:'Tajawal',sans-serif;font-weight:600;cursor:pointer;">+ إضافة دواء</button>
+    </div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<div id="pageProfile" class="page">
+  <div class="header" style="border-radius:0;">
+    <div class="header-top">
+      <h1>حسابي</h1>
+      <div></div>
+    </div>
+  </div>
+  <div class="profile-card">
+    <div class="pv-icon">👤</div>
+    <div class="pv-name">مستخدم رفيق</div>
+    <div class="pv-email">user@rafeeq.app</div>
+  </div>
+  <div class="profile-stats">
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">مواعيد</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">أدوية</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">أيام</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+<!-- Detail Page -->
+<div class="detail-page" id="detailPage">
+  <div class="detail-header">
+    <button class="back-btn" onclick="closeDetail()">→</button>
+    <h2 id="detailTitle">الصحة</h2>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<!-- SOS Modal -->
+<div class="sos-modal" id="sosModal">
+  <div class="sos-modal-content">
+    <h2>🆘 مساعدة عاجلة</h2>
+    <p>اتصل بأرقام الطوارئ في بلدك</p>
+    <a class="sos-number" href="tel:19">🚑 الإسعاف: 19</a>
+    <a class="sos-number" href="tel:15">🔥 الوقاية المدنية: 15</a>
+    <a class="sos-number" href="tel:17">👮 الأمن: 17</a>
+    <button class="sos-close" onclick="closeSOS()">إغلاق</button>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="notif-panel" id="notifPanel" onclick="this.classList.remove('open')">
+  <div class="notif-content" onclick="event.stopPropagation()">
+    <h2>🔔 الإشعارات</h2>
+    <div class="notif-item">
+      <span class="ni-icon">💊</span>
+      <div class="ni-text">
+        <div class="ni-title">موعد الدواء</div>
+        <div class="ni-time">لا توجد إشعارات جديدة</div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="grid-menu">
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-sante">🩺</div>
-    <span class="gi-label">الصحة</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-medic">💊</div>
-    <span class="gi-label">الأدوية</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-rdv">📅</div>
-    <span class="gi-label">المواعيد</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-sos">🆘</div>
-    <span class="gi-label">SOS</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-urg">🚑</div>
-    <span class="gi-label">الطوارئ</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-settings">⚙️</div>
-    <span class="gi-label">الإعدادات</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-family">👨‍👩‍👧‍👦</div>
-    <span class="gi-label">العائلة</span>
-  </a>
-  <a class="grid-item" href="#">
-    <div class="gi-icon gi-shop">🛒</div>
-    <span class="gi-label">المتجر</span>
-  </a>
-</div>
-
-<div class="sos-section">
-  <button class="sos-btn">🆘 طلب مساعدة عاجلة</button>
-</div>
-
-<div class="spacer"></div>
-
+<!-- Bottom Nav -->
 <div class="bottom-nav">
-  <a class="nav-item active" href="#">
+  <div class="nav-item active" onclick="navigate('accueil')">
     <span class="nav-icon">🏠</span>
     الرئيسية
-  </a>
-  <a class="nav-item" href="#">
+  </div>
+  <div class="nav-item" onclick="navigate('services')">
     <span class="nav-icon">📋</span>
     الخدمات
-  </a>
-  <a class="nav-item" href="#">
+  </div>
+  <div class="nav-item" onclick="navigate('medic')">
     <span class="nav-icon">💊</span>
     الأدوية
-  </a>
-  <a class="nav-item" href="#">
+  </div>
+  <div class="nav-item" onclick="navigate('profile')">
     <span class="nav-icon">👤</span>
     حسابي
-  </a>
+  </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 function scrollCarousel(dir) {
-  var track = document.getElementById('carouselTrack');
-  track.scrollBy({ left: dir * 220, behavior: 'smooth' });
+  document.getElementById('carouselTrack').scrollBy({ left: dir * 220, behavior: 'smooth' });
 }
 
-// Date
-var now = new Date();
 var months = ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
+var now = new Date();
 document.getElementById('headerDate').textContent = now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var pageMap = { accueil:'pageAccueil', services:'pageServices', medic:'pageMedic', profile:'pageProfile' };
+  document.getElementById(pageMap[page]).classList.add('active');
+  if (page === 'medic') renderMed();
+  document.querySelector('.nav-item:nth-child(' + ({accueil:1,services:2,medic:3,profile:4}[page]) + ')').classList.add('active');
+}
+
+var detailData = {
+  sante: {
+    title: 'الصحة',
+    icon: '🩺',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">نصائح صحية</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:10px;"><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>💧</span> اشرب 8 أكواب ماء يومياً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>🥗</span> تناول طعاماً متوازناً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>🚶</span> امشِ 30 دقيقة يومياً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#f8fafc;border-radius:10px;"><span>😴</span> نم 7-8 ساعات يومياً</li></ul></div>'
+  },
+  medic: {
+    title: 'الأدوية',
+    icon: '💊',
+    content: '<div style="text-align:center;padding:20px;color:#64748b;"><div style="font-size:3rem;margin-bottom:12px;">💊</div><p>إدارة أدويتك من صفحة الأدوية</p></div>'
+  },
+  rdv: {
+    title: 'المواعيد',
+    icon: '📅',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">مواعيدك القادمة</h3><div style="text-align:center;padding:20px;color:#94a3b8;"><div style="font-size:2.5rem;margin-bottom:8px;">📅</div><p>لا توجد مواعيد مسجلة</p></div></div>'
+  },
+  urgence: {
+    title: 'الطوارئ',
+    icon: '🚑',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:12px;">إرشادات الطوارئ</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:10px;"><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#fee2e2;border-radius:10px;"><span>🆘</span> اتصل بالإسعاف فوراً</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#fef3c7;border-radius:10px;"><span>📌</span> حافظ على هدوئك</li><li style="display:flex;gap:10px;align-items:center;padding:10px 12px;background:#dbeafe;border-radius:10px;"><span>📍</span> حدد موقعك بدقة</li></ul></div>'
+  },
+  settings: {
+    title: 'الإعدادات',
+    icon: '⚙️',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;display:flex;flex-direction:column;gap:12px;"><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;"><span>🔔 الإشعارات</span><span style="color:#22c55e;">مفعلة</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9;"><span>🌙 الوضع الليلي</span><span style="color:#94a3b8;">قريباً</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;"><span>🌐 اللغة</span><span>العربية</span></div></div>'
+  },
+  family: {
+    title: 'العائلة',
+    icon: '👨‍👩‍👧‍👦',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">👨‍👩‍👧‍👦</div><p style="color:#64748b;">أفراد عائلتك</p><button style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة فرد</button></div>'
+  },
+  shop: {
+    title: 'المتجر',
+    icon: '🛒',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">🛒</div><p style="color:#64748b;">المتجر قريباً</p></div>'
+  },
+  analyses: {
+    title: 'التحاليل',
+    icon: '📋',
+    content: '<div style="background:white;border-radius:16px;padding:20px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:3rem;margin-bottom:12px;">📋</div><p style="color:#64748b;">نتائج تحاليلك ستظهر هنا</p></div>'
+  }
+};
+
+function openDetail(key) {
+  var d = detailData[key];
+  document.getElementById('detailTitle').textContent = d.icon + ' ' + d.title;
+  document.getElementById('detailBody').innerHTML = d.content;
+  document.getElementById('detailPage').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailPage').classList.remove('open');
+}
+
+function openSOS() {
+  document.getElementById('sosModal').classList.add('open');
+}
+
+function closeSOS() {
+  document.getElementById('sosModal').classList.remove('open');
+}
+
+function toggleNotif() {
+  document.getElementById('notifPanel').classList.toggle('open');
+}
+
+function searchService(q) {
+  if (q.trim() === '') return;
+  var results = [];
+  var items = [
+    { label:'الصحة', key:'sante' },
+    { label:'الأدوية', key:'medic' },
+    { label:'المواعيد', key:'rdv' },
+    { label:'الطوارئ', key:'urgence' },
+    { label:'الإعدادات', key:'settings' },
+    { label:'العائلة', key:'family' },
+    { label:'المتجر', key:'shop' },
+    { label:'استشارة طبية', key:'sante' },
+    { label:'تذكير الأدوية', key:'medic' },
+    { label:'التحاليل', key:'analyses' }
+  ];
+  items.forEach(function(i) {
+    if (i.label.indexOf(q) !== -1) results.push(i);
+  });
+  if (results.length > 0) {
+    showToast('تم العثور على ' + results.length + ' نتيجة');
+    openDetail(results[0].key);
+  }
+}
+
+function addMed() {
+  var name = prompt('اسم الدواء:');
+  if (!name) return;
+  var time = prompt('وقت الجرعة (مثال: 08:00):', '08:00');
+  if (!time) return;
+  var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  meds.push({ name: name, time: time, done: false, id: Date.now() });
+  localStorage.setItem('rafeeq_meds', JSON.stringify(meds));
+  renderMed();
+  showToast('✅ تمت إضافة ' + name);
+}
+
+function renderMed() {
+  var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  var list = document.getElementById('medList');
+  if (meds.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#94a3b8;"><div style="font-size:3rem;margin-bottom:12px;">💊</div><p>لا توجد أدوية مسجلة بعد</p><button onclick="addMed()" style="margin-top:16px;padding:10px 24px;border:none;border-radius:12px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة دواء</button></div>';
+    return;
+  }
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 16px;"><span style="font-weight:700;font-size:0.9rem;">قائمة الأدوية</span><button onclick="addMed()" style="padding:6px 16px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ إضافة</button></div>';
+  meds.forEach(function(m, i) {
+    h += '<div class="med-item"><div class="med-icon">💊</div><div class="med-info"><div class="med-name">' + m.name + '</div><div class="med-time">⏰ ' + m.time + '</div></div><div class="med-check' + (m.done ? ' done' : '') + '" onclick="toggleMed(' + i + ')">' + (m.done ? '✓' : '') + '</div></div>';
+  });
+  list.innerHTML = h;
+}
+
+function toggleMed(i) {
+  var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  meds[i].done = !meds[i].done;
+  localStorage.setItem('rafeeq_meds', JSON.stringify(meds));
+  renderMed();
+  if (meds[i].done) showToast('✅ تم تناول ' + meds[i].name);
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function() { t.style.display = 'none'; }, 2000);
+}
 </script>
 </body>
 </html>
