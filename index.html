@@ -9,7 +9,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .bg-mesh{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 60%50% at 20%20%,rgba(124,106,255,0.1)0%,transparent 70%),radial-gradient(ellipse 50%60% at 80%80%,rgba(255,106,155,0.08)0%,transparent 70%)}
 .content{position:relative;z-index:10;max-width:600px;margin:0 auto;padding:32px 16px;width:100%}
 header{text-align:center;margin-bottom:28px}
-.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2rem;font-weight:700;color:#fff}
+.avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 12px;display:block;object-fit:cover}
 h1{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:4px}
 .bio{font-size:.85rem;color:var(--muted)}
 .projects{display:flex;flex-direction:column;gap:10px}
@@ -27,7 +27,7 @@ footer{position:relative;z-index:10;text-align:center;padding:24px;font-size:.75
 <div class="bg-mesh"></div>
 <div class="content">
   <header>
-    <div class="avatar">U</div>
+    <img class="avatar" src="images/avatar.png" alt="UcfZem">
     <h1>UcfZem</h1>
     <p class="bio">Free AI-powered tools &amp; apps</p>
   </header>
