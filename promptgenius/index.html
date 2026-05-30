@@ -1125,8 +1125,8 @@ async function generatePrompt() {
   const btnText = document.getElementById('btnText');
   const t = i18n[currentLang];
 
-  if (!apiKey) {
-    showToast('⚠️ Configure ta clé API dans les paramètres (⚙️)');
+  if (!apiKey && !proxyUrl) {
+    showToast('⚠️ Configure ta clé API ou un proxy dans les paramètres (⚙️)');
     return;
   }
   if (currentTab === 'text' && !document.getElementById('textInput').value.trim()) {
