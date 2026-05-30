@@ -1,11 +1,10 @@
 /* ================================================================
    ناس الغيوان - الپاروليير
-   Design marocain élégant années 70-80
+   Moroccan flipbook design — 3D CSS page turn
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 
-/* ========== VARIABLES ========== */
 :root {
   --maroc-ocre: #C17A3F;
   --maroc-ocre-light: #E8A86A;
@@ -23,698 +22,486 @@
   --text-gold: #D4A533;
   --zellige-blue: #2A5C8A;
   --zellige-teal: #2A7A6A;
-  --shadow-heavy: 0 20px 60px rgba(0,0,0,0.8);
-  --shadow-soft: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* ========== RESET & BASE ========== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+  font-family: 'Amiri', serif;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(44, 30, 18, 0.95) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 50%, rgba(60, 42, 31, 0.9) 0%, transparent 60%),
-    linear-gradient(180deg, #1A140F 0%, #2C1E12 30%, #3C2A1F 60%, #1A140F 100%);
+    radial-gradient(ellipse at 20% 50%, rgba(44,30,18,0.95) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(60,42,31,0.9) 0%, transparent 60%),
+    linear-gradient(180deg, #1A140F, #2C1E12 30%, #3C2A1F 60%, #1A140F);
   color: #F5E8C7;
-  margin: 0;
-  padding: 20px;
+  margin: 0; padding: 20px;
   direction: rtl;
   min-height: 100vh;
-  position: relative;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(193, 122, 63, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(46, 92, 46, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
+.container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-/* ========== ZELLIGE TOP DECORATION ========== */
+/* ===== ZELLIGE TOP ===== */
 .zellige-top {
   height: 12px;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--maroc-ocre) 0px, var(--maroc-ocre) 20px,
-      var(--maroc-vert) 20px, var(--maroc-vert) 40px,
-      var(--maroc-rouge) 40px, var(--maroc-rouge) 60px,
-      var(--zellige-blue) 60px, var(--zellige-blue) 80px,
-      var(--text-gold) 80px, var(--text-gold) 100px
-    );
-  border-radius: 6px;
-  margin-bottom: 20px;
+  background: repeating-linear-gradient(90deg,
+    var(--maroc-ocre) 0px, var(--maroc-ocre) 20px,
+    var(--maroc-vert) 20px, var(--maroc-vert) 40px,
+    var(--maroc-rouge) 40px, var(--maroc-rouge) 60px,
+    var(--zellige-blue) 60px, var(--zellige-blue) 80px,
+    var(--text-gold) 80px, var(--text-gold) 100px);
+  border-radius: 6px; margin-bottom: 20px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  position: relative;
 }
 
-.zellige-top::after {
-  content: '';
-  position: absolute;
-  top: 2px; left: 0; right: 0;
-  height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0px, transparent 9px,
-    rgba(255,255,255,0.1) 9px, rgba(255,255,255,0.1) 10px
-  );
-  pointer-events: none;
-}
-
-/* ========== OPEN BUTTON ========== */
+/* ===== OPEN BUTTON ===== */
 .open-btn {
   background: linear-gradient(145deg, var(--maroc-ocre), var(--maroc-ocre-dark));
-  color: #FFF;
-  font-size: 1.8rem;
-  font-family: inherit;
-  padding: 25px 70px;
-  border: 3px solid var(--text-gold);
-  border-radius: 15px;
-  cursor: pointer;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.2);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin: 80px auto;
-  position: relative;
-  overflow: hidden;
+  color: #FFF; font-size: 1.8rem; font-family: inherit;
+  padding: 25px 70px; border: 3px solid var(--text-gold);
+  border-radius: 15px; cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  display: flex; align-items: center; justify-content: center; gap: 15px;
+  margin: 80px auto; position: relative; overflow: hidden;
 }
-
-.open-btn::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
 .open-btn:hover {
   transform: scale(1.08);
   background: linear-gradient(145deg, var(--maroc-ocre-light), var(--maroc-ocre));
-  box-shadow:
-    0 15px 40px rgba(193, 122, 63, 0.4),
-    inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 15px 40px rgba(193,122,63,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
 }
+.btn-icon { font-size: 2rem; }
 
-.open-btn:hover::before {
-  opacity: 1;
-}
-
-.open-btn:active {
-  transform: scale(0.97);
-}
-
-.btn-icon {
-  font-size: 2rem;
-}
-
-/* ========== BOOK CONTAINER ========== */
+/* ===== BOOK CONTAINER ===== */
 .book-container {
-  background:
-    linear-gradient(135deg, var(--bois-fonce), var(--bois), var(--bois-clair));
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.9),
-    inset 0 1px 0 rgba(255,255,255,0.05);
-  position: relative;
-  border: 12px solid #2C1E12;
+  background: linear-gradient(135deg, var(--bois-fonce), var(--bois), var(--bois-clair));
+  padding: 20px; border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05);
+  border: 12px solid #2C1E12; position: relative;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
-/* Wood grain texture for book */
 .book-container::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0px, transparent 40px,
-    rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 42px
-  );
-  border-radius: 8px;
-  pointer-events: none;
-  z-index: 0;
+  content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+  background: repeating-linear-gradient(90deg,
+    transparent 0px, transparent 40px, rgba(0,0,0,0.03) 40px, rgba(0,0,0,0.03) 42px);
+  border-radius: 8px; pointer-events: none; z-index: 0;
 }
+.book-container.hidden { display: none; }
 
-.book-container.hidden {
-  display: none;
-}
-
-/* ========== BOOK HEADER ========== */
+/* ===== BOOK HEADER ===== */
 .book-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 3px solid var(--maroc-rouge);
-  padding-bottom: 12px;
-  position: relative;
-  z-index: 1;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 15px; border-bottom: 3px solid var(--maroc-rouge);
+  padding-bottom: 10px; position: relative; z-index: 1;
 }
-
 .book-header h1 {
-  font-size: 1.6rem;
-  color: var(--text-gold);
+  font-size: 1.4rem; color: var(--text-gold);
   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  font-weight: 700;
 }
-
-.header-ornament {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--maroc-ocre-light);
+.header-right { display: flex; align-items: center; gap: 15px; }
+.page-indicator {
+  color: var(--parchemin); font-size: 0.9rem; opacity: 0.8;
 }
-
+.header-ornament { display: flex; align-items: center; gap: 8px; color: var(--maroc-ocre-light); }
 .ornament-line {
-  width: 40px;
-  height: 2px;
+  width: 40px; height: 2px;
   background: linear-gradient(90deg, transparent, var(--maroc-ocre-light), transparent);
 }
+.ornament-diamond { font-size: 0.7rem; }
 
-.ornament-diamond {
-  font-size: 0.7rem;
-}
-
-/* ========== CLOSE BUTTON ========== */
+/* ===== CLOSE BUTTON ===== */
 .close-btn {
-  background: var(--maroc-rouge);
-  color: white;
+  background: var(--maroc-rouge); color: white;
   border: 2px solid var(--maroc-rouge-light);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 38px; height: 38px; border-radius: 50%; font-size: 1rem;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-
 .close-btn:hover {
-  background: var(--maroc-rouge-light);
-  transform: rotate(90deg);
-  box-shadow: 0 6px 15px rgba(156, 42, 42, 0.5);
+  background: var(--maroc-rouge-light); transform: rotate(90deg);
+  box-shadow: 0 6px 15px rgba(156,42,42,0.5);
 }
 
-/* ========== FLIPBOOK ========== */
-#flipbook {
-  width: 100%;
-  height: 550px;
-  margin: 0 auto;
-  box-shadow: 0 0 40px rgba(0,0,0,0.9);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-/* ========== COVER PAGES (hard) ========== */
-.hard {
-  background: linear-gradient(145deg, var(--bois), var(--bois-clair), var(--bois)) !important;
-  border: 2px solid var(--text-gold);
-}
-
-.cover-front, .cover-back {
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-}
-
-.cover-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 30px;
-  text-align: center;
-  color: var(--text-gold);
+/* ===== BOOK WRAPPER ===== */
+.book-wrapper {
   position: relative;
+  width: 100%;
 }
 
-.cover-content.back {
-  background: linear-gradient(145deg, var(--bois), var(--bois-fonce));
+/* ===== BOOK VIEWPORT (3D container) ===== */
+.book-viewport {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  perspective: 2500px;
+  perspective-origin: center center;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #2C1E12;
 }
+
+/* ===== SPREAD ===== */
+.spread {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+.spread.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* ===== PAGE SIDES ===== */
+.page-side {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(135deg, var(--parchemin), var(--parchemin-fonce));
+  color: var(--text-dark);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.06);
+}
+
+/* Cover pages */
+.cover-content {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; padding: 30px;
+  text-align: center; position: relative;
+  background: linear-gradient(145deg, var(--bois), #6B3A1F, var(--bois));
+  color: var(--text-gold);
+}
+.cover-content.back { background: linear-gradient(145deg, var(--bois), var(--bois-fonce)); }
 
 .cover-zellige {
-  width: 80%;
-  height: 60px;
-  margin-bottom: 30px;
-  background:
-    repeating-conic-gradient(
-      var(--maroc-ocre) 0% 25%, var(--maroc-vert) 0% 50%,
-      var(--maroc-rouge) 0% 75%, var(--zellige-blue) 0% 100%
-    ) 0 0 / 40px 40px;
-  border-radius: 8px;
-  border: 3px solid var(--text-gold);
-  opacity: 0.9;
-  position: relative;
-  overflow: hidden;
+  width: 80%; max-width: 300px; height: 60px; margin-bottom: 25px;
+  background: repeating-conic-gradient(var(--maroc-ocre) 0% 25%, var(--maroc-vert) 0% 50%,
+    var(--maroc-rouge) 0% 75%, var(--zellige-blue) 0% 100%) 0 0 / 40px 40px;
+  border-radius: 8px; border: 3px solid var(--text-gold); opacity: 0.9;
+  position: relative; overflow: hidden;
 }
-
 .cover-zellige::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
   background:
     repeating-linear-gradient(0deg, transparent 0px, transparent 8px, rgba(0,0,0,0.1) 8px, rgba(0,0,0,0.1) 10px),
     repeating-linear-gradient(90deg, transparent 0px, transparent 8px, rgba(0,0,0,0.1) 8px, rgba(0,0,0,0.1) 10px);
 }
+.cover-title { font-size: 2.8rem; text-shadow: 0 0 20px rgba(212,165,51,0.3), 0 4px 8px rgba(0,0,0,0.5); }
+.cover-subtitle { font-size: 1.3rem; color: var(--parchemin); margin: 10px 0; opacity: 0.9; }
+.cover-year { font-size: 1rem; color: var(--maroc-ocre-light); letter-spacing: 3px; }
+.cover-ornament { font-size: 1.3rem; margin: 12px 0; letter-spacing: 10px; }
+.cover-quote { font-size: 1.1rem; color: var(--parchemin); line-height: 1.8; opacity: 0.85; font-style: italic; }
+.back-quote { font-size: 1.5rem; line-height: 2; margin-bottom: 20px; }
 
-.cover-title {
-  font-size: 3rem;
-  color: var(--text-gold);
-  text-shadow:
-    0 0 20px rgba(212, 165, 51, 0.3),
-    0 4px 8px rgba(0,0,0,0.5);
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-
-.cover-subtitle {
-  font-size: 1.4rem;
-  color: var(--parchemin);
-  margin-bottom: 15px;
-  opacity: 0.9;
-}
-
-.cover-year {
-  font-size: 1.1rem;
-  color: var(--maroc-ocre-light);
-  margin-bottom: 20px;
-  letter-spacing: 3px;
-}
-
-.cover-ornament {
-  font-size: 1.5rem;
-  color: var(--text-gold);
-  margin: 15px 0;
-  letter-spacing: 10px;
-}
-
-.cover-quote {
-  font-size: 1.2rem;
-  color: var(--parchemin);
-  line-height: 1.8;
-  opacity: 0.85;
-  font-style: italic;
-}
-
-.back-quote {
-  font-size: 1.6rem;
-  color: var(--text-gold);
-  line-height: 2;
-  margin-bottom: 20px;
-}
-
-/* ========== INNER PAGES ========== */
-.turn-page, .page {
-  background:
-    linear-gradient(135deg, var(--parchemin) 0%, var(--parchemin-fonce) 100%) !important;
-  color: var(--text-dark);
-  padding: 35px 40px;
-  line-height: 2;
-  box-shadow:
-    inset 0 0 60px rgba(0,0,0,0.08),
-    inset -10px 0 20px rgba(0,0,0,0.03);
-  position: relative;
+/* ===== PAGE INNER CONTENT ===== */
+.page-inner {
+  padding: 25px 30px;
+  height: 100%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Page fold/aging effect */
-.page::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, transparent 50%, rgba(139, 94, 47, 0.15) 50%);
-  border-radius: 0 0 0 20px;
-  pointer-events: none;
-}
-
-/* Page ornaments */
 .page-ornament-top, .page-ornament-bottom {
-  text-align: center;
-  color: var(--maroc-ocre);
-  font-size: 0.9rem;
-  letter-spacing: 8px;
-  opacity: 0.5;
+  text-align: center; color: var(--maroc-ocre);
+  font-size: 0.85rem; letter-spacing: 8px; opacity: 0.5;
 }
-
-.page-ornament-top {
-  margin-bottom: 20px;
-}
-
-.page-ornament-bottom {
-  margin-top: 30px;
-}
+.page-ornament-top { margin-bottom: 15px; }
+.page-ornament-bottom { margin-top: 20px; }
 
 .page-title {
-  text-align: center;
-  font-size: 1.8rem;
-  color: var(--maroc-vert);
-  margin: 20px 0;
+  text-align: center; font-size: 1.5rem;
+  color: var(--maroc-vert); margin: 15px 0;
 }
-
 .page-divider {
-  text-align: center;
-  color: var(--maroc-ocre);
-  font-size: 1rem;
-  letter-spacing: 6px;
-  margin: 15px 0;
-  opacity: 0.6;
+  text-align: center; color: var(--maroc-ocre);
+  font-size: 0.9rem; letter-spacing: 6px; margin: 10px 0; opacity: 0.6;
 }
-
 .dedication {
-  text-align: center;
-  font-size: 1.2rem;
-  line-height: 2.2;
-  color: var(--bois-fonce);
-  margin: 30px 0;
+  text-align: center; font-size: 1.1rem;
+  line-height: 2; color: var(--bois-fonce); margin: 20px 0;
 }
 
-/* ========== SONG PAGES ========== */
 .song-title {
-  text-align: center;
-  font-size: 1.7rem;
-  color: var(--maroc-rouge);
-  margin-bottom: 5px;
-  font-weight: 700;
+  text-align: center; font-size: 1.5rem;
+  color: var(--maroc-rouge); margin-bottom: 3px;
 }
-
 .song-subtitle {
-  text-align: center;
-  color: var(--maroc-ocre);
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-  opacity: 0.7;
+  text-align: center; color: var(--maroc-ocre);
+  font-size: 0.85rem; margin-bottom: 15px; opacity: 0.7;
 }
-
 .lyrics {
-  font-size: 1.05rem;
-  line-height: 2.2;
-  text-align: center;
+  font-size: 1rem; line-height: 2.1; text-align: center;
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+}
+.lyrics p { margin-bottom: 6px; }
+.history-text { text-align: right; }
+.history-text p { margin-bottom: 10px; }
+.history-inner { justify-content: flex-start !important; }
+.history-inner .lyrics { justify-content: flex-start; padding-top: 10px; }
+
+/* ===== PAGE WITH PHOTO ===== */
+.photo-page {
+  background: var(--bois-fonce) !important;
+  display: flex; align-items: center; justify-content: center;
+}
+.photo-embed {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 15px;
+}
+.photo-embed img {
+  width: 100%; height: auto; max-height: 70%;
+  object-fit: cover; border-radius: 8px;
+  border: 3px solid var(--maroc-ocre);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.photo-caption {
+  color: var(--parchemin); margin-top: 10px;
+  font-size: 0.9rem; text-align: center;
+}
+.photo-embed.large img { max-height: 85%; }
+.photo-embed.small img { border-width: 2px; }
+
+/* ===== PHOTO GRID ===== */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 15px 0;
+}
+.photo-grid .photo-embed {
+  padding: 5px;
+}
+.photo-grid .photo-embed img {
+  max-height: 120px;
+  border-width: 2px;
+}
+.photo-grid-caption {
+  text-align: center; font-size: 0.85rem;
+  color: var(--maroc-ocre); margin-top: 5px;
 }
 
-.lyrics p {
-  margin-bottom: 10px;
+/* ===== TURN ZONES ===== */
+.turn-zone {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 35%;
+  z-index: 10;
+  cursor: pointer;
+}
+.turn-prev { left: 0; }
+.turn-next { right: 0; }
+.turn-zone::after {
+  content: '';
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(193,122,63,0.15);
+  transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
+}
+.turn-prev::after {
+  left: 15px;
+  box-shadow: 3px 0 10px rgba(0,0,0,0.15);
+}
+.turn-next::after {
+  right: 15px;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.15);
+}
+.turn-zone:hover::after {
+  background: rgba(193,122,63,0.35);
+  width: 50px; height: 50px;
+}
+.turn-zone.disabled { pointer-events: none; opacity: 0.3; }
+
+/* ===== FLIP OVERLAY (3D animation) ===== */
+.flip-overlay {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.flip-overlay.animating {
+  opacity: 1;
+  visibility: visible;
+}
+.flip-overlay.flip-forward {
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+}
+.flip-overlay.flip-forward.flipping {
+  transform: rotateY(-180deg);
+}
+.flip-overlay.flip-backward {
+  left: 0;
+  transform-origin: right center;
+  transform: rotateY(0deg);
+}
+.flip-overlay.flip-backward.flipping {
+  transform: rotateY(180deg);
 }
 
-.history-text {
-  text-align: right;
+.flip-front, .flip-back {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--parchemin), var(--parchemin-fonce));
+}
+.flip-front { z-index: 2; }
+.flip-back {
+  z-index: 1;
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, var(--parchemin), var(--parchemin-fonce));
 }
 
-.history-text p {
-  margin-bottom: 12px;
+/* Shadow effect during flip */
+.flip-overlay.flip-forward::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 5;
+  background: linear-gradient(90deg, rgba(0,0,0,0.15), transparent 60%);
+  pointer-events: none;
+}
+.flip-overlay.flip-forward.flipping::before {
+  background: linear-gradient(270deg, rgba(0,0,0,0.15), transparent 60%);
 }
 
-/* ========== RESPONSIVE FLIPBOOK ========== */
-@media (max-width: 960px) {
-  #flipbook {
-    height: 450px;
-  }
-  .book-container {
-    padding: 15px;
-  }
-  .page {
-    padding: 25px 20px;
-  }
-  .song-title {
-    font-size: 1.4rem;
-  }
-  .lyrics {
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 600px) {
-  #flipbook {
-    height: 380px;
-  }
-  .book-header h1 {
-    font-size: 1.1rem;
-  }
-  .page {
-    padding: 18px 15px;
-  }
-  .song-title {
-    font-size: 1.2rem;
-  }
-  .lyrics {
-    font-size: 0.85rem;
-    line-height: 1.9;
-  }
-  .close-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 0.9rem;
-  }
-  .cover-title {
-    font-size: 2rem;
-  }
-  .cover-subtitle {
-    font-size: 1rem;
-  }
-  .open-btn {
-    font-size: 1.3rem;
-    padding: 18px 40px;
-  }
-  .history-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .album-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-
-/* ========== HISTORY SECTION ========== */
-.history-section,
-.discography-section {
+/* ===== HISTORY SECTION (below book) ===== */
+.history-section, .discography-section {
   margin-top: 80px;
-  background: rgba(44, 30, 18, 0.85);
-  padding: 50px 40px;
-  border-radius: 15px;
+  background: rgba(44,30,18,0.85);
+  padding: 50px 40px; border-radius: 15px;
   border: 6px double var(--maroc-ocre);
-  position: relative;
   backdrop-filter: blur(10px);
 }
-
 .section-zellige-header {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 15px;
-  font-size: 1.5rem;
-  color: var(--maroc-ocre-light);
+  display: flex; justify-content: center; gap: 12px;
+  margin-bottom: 15px; font-size: 1.5rem; color: var(--maroc-ocre-light);
 }
-
-.section-title {
-  text-align: center;
-  font-size: 2rem;
-  color: var(--text-gold);
-  margin-bottom: 10px;
-}
-
+.section-title { text-align: center; font-size: 2rem; color: var(--text-gold); margin-bottom: 10px; }
 .section-underline {
-  width: 120px;
-  height: 3px;
+  width: 120px; height: 3px;
   background: linear-gradient(90deg, transparent, var(--maroc-ocre), transparent);
   margin: 0 auto 30px;
 }
-
 .history-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  gap: 40px;
-  align-items: start;
+  gap: 40px; align-items: start;
 }
+.history-text-block p { margin-bottom: 16px; line-height: 2; font-size: 1rem; }
+.history-text-block strong { color: var(--text-gold); }
 
-.history-text-block p {
-  margin-bottom: 16px;
-  line-height: 2;
-  font-size: 1.05rem;
-}
-
-.history-text-block strong {
-  color: var(--text-gold);
-}
-
-.history-photos {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
+.history-photos-block { display: flex; flex-direction: column; gap: 12px; }
 .photo-frame {
   background: linear-gradient(145deg, var(--bois), var(--bois-fonce));
-  border: 3px solid var(--maroc-ocre);
-  border-radius: 10px;
-  padding: 8px;
-  box-shadow:
-    0 8px 20px rgba(0,0,0,0.4),
-    inset 0 0 0 1px rgba(212, 165, 51, 0.2);
+  border: 3px solid var(--maroc-ocre); border-radius: 10px; padding: 6px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(212,165,51,0.2);
 }
-
-.photo-placeholder {
-  background: linear-gradient(145deg, #3C2A1F, #2C1E12);
+.photo-frame.main .photo-embed img {
+  max-height: 300px; width: 100%; object-fit: cover;
   border-radius: 5px;
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: var(--parchemin);
-  font-size: 0.95rem;
-  min-height: 100px;
-  border: 1px dashed var(--maroc-ocre);
+}
+.photo-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.photo-row .photo-embed img {
+  width: 100%; height: 150px; object-fit: cover; border-radius: 5px;
 }
 
-.photo-icon {
-  font-size: 2rem;
-}
-
-/* ========== DISCOGRAPHY ========== */
-.discography-section {
-  margin-top: 50px;
-}
-
+/* ===== DISCOGRAPHY ===== */
+.discography-section { margin-top: 50px; }
 .album-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
-
 .album-card {
-  background: linear-gradient(145deg, rgba(193, 122, 63, 0.2), rgba(60, 42, 31, 0.5));
-  border: 2px solid var(--maroc-ocre);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
+  background: linear-gradient(145deg, rgba(193,122,63,0.2), rgba(60,42,31,0.5));
+  border: 2px solid var(--maroc-ocre); border-radius: 12px;
+  padding: 20px; text-align: center;
   transition: all 0.3s ease;
 }
-
 .album-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(193, 122, 63, 0.3);
+  box-shadow: 0 10px 30px rgba(193,122,63,0.3);
   border-color: var(--text-gold);
 }
+.album-art { font-size: 2.5rem; margin-bottom: 10px; }
+.album-card h3 { font-size: 1rem; color: var(--parchemin); margin-bottom: 5px; }
+.album-card p { font-size: 0.85rem; color: var(--maroc-ocre-light); }
 
-.album-art {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.album-card h3 {
-  font-size: 1rem;
-  color: var(--parchemin);
-  margin-bottom: 5px;
-}
-
-.album-card p {
-  font-size: 0.85rem;
-  color: var(--maroc-ocre-light);
-}
-
-/* ========== FOOTER ========== */
+/* ===== FOOTER ===== */
 .footer {
-  text-align: center;
-  padding: 50px 20px 30px;
-  margin-top: 60px;
-  border-top: 2px solid rgba(193, 122, 63, 0.3);
+  text-align: center; padding: 50px 20px 30px;
+  margin-top: 60px; border-top: 2px solid rgba(193,122,63,0.3);
+}
+.footer-ornament { color: var(--maroc-ocre); font-size: 1.2rem; letter-spacing: 8px; margin: 10px 0; }
+.footer p { font-size: 1.1rem; color: var(--parchemin); margin: 8px 0; }
+.footer-small { font-size: 0.85rem !important; color: var(--maroc-ocre-light) !important; opacity: 0.8; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 960px) {
+  .book-viewport { height: 450px; }
+  .page-inner { padding: 18px 20px; }
+  .song-title { font-size: 1.3rem; }
+  .lyrics { font-size: 0.9rem; line-height: 1.9; }
+  .cover-title { font-size: 2.2rem; }
+  .book-header h1 { font-size: 1.1rem; }
+  .album-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.footer-ornament {
-  color: var(--maroc-ocre);
-  font-size: 1.2rem;
-  letter-spacing: 8px;
-  margin: 10px 0;
+@media (max-width: 600px) {
+  body { padding: 10px; }
+  .book-container { border-width: 8px; padding: 12px; border-radius: 15px; }
+  .book-viewport { height: 380px; }
+  .book-header h1 { font-size: 0.95rem; }
+  .page-inner { padding: 12px 15px; }
+  .song-title { font-size: 1.1rem; }
+  .lyrics { font-size: 0.78rem; line-height: 1.7; }
+  .cover-title { font-size: 1.6rem; }
+  .cover-subtitle { font-size: 1rem; }
+  .open-btn { font-size: 1.2rem; padding: 15px 35px; }
+  .turn-zone { width: 30%; }
+  .history-grid { grid-template-columns: 1fr; }
+  .history-section, .discography-section { padding: 25px 15px; margin-top: 40px; }
+  .section-title { font-size: 1.4rem; }
+  .album-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .album-card { padding: 12px; }
+  .photo-row { grid-template-columns: 1fr; }
+  .page-indicator { font-size: 0.75rem; }
+  .header-ornament { display: none; }
+  .close-btn { width: 32px; height: 32px; font-size: 0.85rem; }
 }
 
-.footer p {
-  font-size: 1.1rem;
-  color: var(--parchemin);
-  margin: 8px 0;
-}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bois-fonce); }
+::-webkit-scrollbar-thumb { background: var(--maroc-ocre); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--maroc-ocre-light); }
 
-.footer-small {
-  font-size: 0.85rem !important;
-  color: var(--maroc-ocre-light) !important;
-  opacity: 0.8;
-}
-
-/* ========== RESPONSIVE GENERAL ========== */
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-  .history-section,
-  .discography-section {
-    padding: 30px 20px;
-    margin-top: 50px;
-  }
-  .section-title {
-    font-size: 1.5rem;
-  }
-  .history-text-block p {
-    font-size: 0.95rem;
-  }
-  .book-container {
-    border-width: 8px;
-    padding: 12px;
-    border-radius: 15px;
-  }
-}
-
-/* ========== SCROLLBAR STYLING ========== */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bois-fonce);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--maroc-ocre);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--maroc-ocre-light);
-}
-
-/* ========== PRINT STYLES ========== */
+/* ===== PRINT ===== */
 @media print {
-  .open-btn,
-  .close-btn,
-  .zellige-top,
-  .footer {
-    display: none !important;
-  }
+  .open-btn, .close-btn, .zellige-top, .footer,
+  .history-section, .discography-section { display: none !important; }
+  .book-container.hidden { display: block !important; }
 }

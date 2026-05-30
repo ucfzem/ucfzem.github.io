@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>ناس الغيوان - الپاروليير</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
 </head>
 <body>
 
   <div class="container">
 
-    <!-- ========== ZELLIGE DECORATION TOP ========== -->
+    <!-- Zellige top bar -->
     <div class="zellige-top"></div>
 
     <!-- ========== BOUTON D'OUVERTURE ========== -->
@@ -30,213 +28,275 @@
           <span class="ornament-diamond">◆</span>
         </div>
         <h1>ديوان ناس الغيوان</h1>
-        <div class="header-ornament">
-          <span class="ornament-diamond">◆</span>
-          <span class="ornament-line"></span>
-          <span class="ornament-diamond">◆</span>
+        <div class="header-right">
+          <span id="pageIndicator" class="page-indicator">1 / 20</span>
+          <button id="closeBook" class="close-btn" title="إغلاق الكتاب">✕</button>
         </div>
-        <button id="closeBook" class="close-btn" title="إغلاق الكتاب">✕</button>
       </div>
 
-      <div id="flipbook">
+      <div class="book-wrapper">
+        <!-- Page turn zone (clickable) -->
+        <div class="turn-zone turn-prev" id="turnPrev"></div>
+        <div class="turn-zone turn-next" id="turnNext"></div>
 
-        <!-- ====== COUVERTURE ====== -->
-        <div class="hard cover-front">
-          <div class="cover-content">
-            <div class="cover-zellige"></div>
-            <h1 class="cover-title">ناس الغيوان</h1>
-            <div class="cover-subtitle">الپاروليير</div>
-            <div class="cover-year">1970 - 1980</div>
-            <div class="cover-ornament">✦ ✦ ✦</div>
-            <p class="cover-quote">"غير الزمان اللي فاتو<br>و اللي جاي مازال"</p>
+        <div class="book-viewport" id="bookViewport">
+
+          <!-- PAGES -->
+          <div class="page spread" data-spread="0">
+            <div class="page-side right">
+              <div class="cover-content">
+                <div class="cover-zellige"></div>
+                <h1 class="cover-title">ناس الغيوان</h1>
+                <div class="cover-subtitle">الپاروليير</div>
+                <div class="cover-year">1970 – 1980</div>
+                <div class="cover-ornament">✦ ✦ ✦</div>
+                <p class="cover-quote">"غير الزمان اللي فاتو<br>و اللي جاي مازال"</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== PAGE DE GARDE ====== -->
-        <div class="page">
-          <div class="page-ornament-top">✻ ✼ ✻</div>
-          <h2 class="page-title">بسم الله الرحمن الرحيم</h2>
-          <div class="page-divider">◈ ◈ ◈</div>
-          <p class="dedication">
-            إلى ناس الغيوان...<br>
-            إلى روح الحاج عمر السيد<br>
-            إلى كل من غنى للحرية والإنسان
-          </p>
-          <div class="page-ornament-bottom">✻ ✼ ✻</div>
-        </div>
-
-        <!-- ====== 1. يا بني الإنسان ====== -->
-        <div class="page">
-          <h2 class="song-title">يا بني الإنسان</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>يا بني الإنسان ... يا بني الإنسان</p>
-            <p>شنو بقات من هالدنيا<br>غير الحب و الإيمان</p>
-            <p>يا بني الإنسان ... يا بني الإنسان</p>
-            <p>الدنيا دوارة<br>و الأيام غدارة</p>
-            <p>و الفقر مالة عنوان<br>يا بني الإنسان</p>
-            <p>شكون اللي باقي<br>شكون اللي جاي</p>
-            <p>الكل رايح و جاي<br>و الدنيا فانية</p>
-            <p>يا بني الإنسان ... يا بني الإنسان</p>
-            <p>غير الزمان اللي فاتو<br>و اللي جاي مازال</p>
-            <p>و اللي باقي غير الحب<br>و اللي باقي غير الإيمان</p>
-            <p>يا بني الإنسان ... يا بني الإنسان</p>
+          <div class="page spread" data-spread="1">
+            <div class="page-side left">
+              <div class="page-inner">
+                <div class="page-ornament-top">✻ ✼ ✻</div>
+                <h2 class="page-title">بسم الله الرحمن الرحيم</h2>
+                <div class="page-divider">◈ ◈ ◈</div>
+                <p class="dedication">
+                  إلى ناس الغيوان...<br><br>
+                  إلى روح الحاج عمر السيد<br>
+                  إلى كل من غنى للحرية والإنسان
+                </p>
+                <div class="page-ornament-bottom">✻ ✼ ✻</div>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="page-inner">
+                <h2 class="song-title">يا بني الإنسان</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>يا بني الإنسان ... يا بني الإنسان</p>
+                  <p>شنو بقات من هالدنيا<br>غير الحب و الإيمان</p>
+                  <p>يا بني الإنسان ... يا بني الإنسان</p>
+                  <p>الدنيا دوارة<br>و الأيام غدارة</p>
+                  <p>و الفقر مالة عنوان<br>يا بني الإنسان</p>
+                  <p>شكون اللي باقي<br>شكون اللي جاي</p>
+                  <p>الكل رايح و جاي<br>و الدنيا فانية</p>
+                  <p>غير الزمان اللي فاتو<br>و اللي جاي مازال</p>
+                  <p>يا بني الإنسان ... يا بني الإنسان</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== 2. الصينية ====== -->
-        <div class="page">
-          <h2 class="song-title">الصينية</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>الصينية ... الصينية<br>يا الصينية د الرمان</p>
-            <p>الصينية فيها سبعة د المي<br>و المي فيها سبعة د الرمان</p>
-            <p>يا الصينية ... يا الصينية</p>
-            <p>شكون اللي دار هاد الصينية<br>شكون اللي صوبها</p>
-            <p>الصينية من الفضة<br>و الحواشي من الذهب</p>
-            <p>يا الصينية ... يا الصينية<br>يا الصينية د الرمان</p>
-            <p>فيها العنب و التفاح<br>فيها التين و الرمان</p>
-            <p>الصينية ... الصينية<br>يا الصينية د الرمان</p>
+          <div class="page spread" data-spread="2">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="song-title">الصينية</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>الصينية ... الصينية<br>يا الصينية د الرمان</p>
+                  <p>الصينية فيها سبعة د المي<br>و المي فيها سبعة د الرمان</p>
+                  <p>يا الصينية ... يا الصينية</p>
+                  <p>شكون اللي دار هاد الصينية<br>شكون اللي صوبها</p>
+                  <p>الصينية من الفضة<br>و الحواشي من الذهب</p>
+                  <p>يا الصينية ... يا الصينية<br>يا الصينية د الرمان</p>
+                  <p>فيها العنب و التفاح<br>فيها التين و الرمان</p>
+                  <p>الصينية ... الصينية<br>يا الصينية د الرمان</p>
+                </div>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="page-inner">
+                <h2 class="song-title">فين غادي بيا خويا</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>فين غادي بيا خويا<br>فين غادي بيا</p>
+                  <p>الطريق مظلمة<br>و القمر غايب</p>
+                  <p>و الرياح عاتية<br>فين غادي بيا</p>
+                  <p>خويا ... خويا ... خويا</p>
+                  <p>شنو جابك لهاذ الدروب<br>شنو جابك لهاذ السكاك</p>
+                  <p>الدنيا دوامة<br>و الأيام سحابة</p>
+                  <p>فين غادي بيا خويا<br>فين غادي بيا</p>
+                  <p>قلبي معاك<br>و روحي معاك</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== 3. فين غادي بيا خويا ====== -->
-        <div class="page">
-          <h2 class="song-title">فين غادي بيا خويا</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>فين غادي بيا خويا<br>فين غادي بيا</p>
-            <p>الطريق مظلمة<br>و القمر غايب</p>
-            <p>و الرياح عاتية<br>فين غادي بيا</p>
-            <p>خويا ... خويا ... خويا</p>
-            <p>شنو جابك لهاذ الدروب<br>شنو جابك لهاذ السكاك</p>
-            <p>الدنيا دوامة<br>و الأيام سحابة</p>
-            <p>فين غادي بيا خويا<br>فين غادي بيا</p>
-            <p>قلبي معاك<br>و روحي معاك</p>
-            <p>و الدنيا كلها معاك<br>فين غادي بيا خويا</p>
+          <div class="page spread" data-spread="3">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="song-title">واش حنا هما هنا</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>واش حنا هما هنا<br>واش حنا هما هنا</p>
+                  <p>واش هادو الصحاب<br>واش هادو الساس</p>
+                  <p>واش هادو اللي كنا<br>نتلاقاو فالمغيب</p>
+                  <p>واش حنا هما هنا<br>واش حنا هما هنا</p>
+                  <p>الزمان تبدل<br>و القلب تبدل</p>
+                  <p>و الناس تبدلو<br>واش حنا هما هنا</p>
+                  <p>واش هادو اللي كنا<br>نتعاشقو فالصغر</p>
+                  <p>واش حنا هما هنا</p>
+                </div>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="page-inner">
+                <h2 class="song-title">المدي فات</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>المدي فات ... المدي فات<br>و اللي فات مات</p>
+                  <p>يا ريت اللي فات<br>يعود و نعيشو</p>
+                  <p>يا ريت الأيام<br>ترجع و نديرو</p>
+                  <p>المدي فات ... المدي فات</p>
+                  <p>و اللي فات مات<br>و اللي جاي هبات</p>
+                  <p>و اللي باقي غير الذكريات<br>غير الذكريات</p>
+                  <p>يا ريت الزمان<br>يعود يوم واحد</p>
+                  <p>نشوفو الحباب<br>و نعيشو الفرحة</p>
+                  <p>المدي فات ... المدي فات</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== 4. واش حنا هما هنا ====== -->
-        <div class="page">
-          <h2 class="song-title">واش حنا هما هنا</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>واش حنا هما هنا<br>واش حنا هما هنا</p>
-            <p>واش هادو الصحاب<br>واش هادو الساس</p>
-            <p>واش هادو اللي كنا<br>نتلاقاو فالمغيب</p>
-            <p>واش حنا هما هنا<br>واش حنا هما هنا</p>
-            <p>الزمان تبدل<br>و القلب تبدل</p>
-            <p>و الناس تبدلو<br>واش حنا هما هنا</p>
-            <p>واش هادو اللي كنا<br>نتعاشقو فالصغر</p>
-            <p>واش هادو اللي كنا<br>نتمشاو فالقمر</p>
-            <p>واش حنا هما هنا<br>واش حنا هما هنا</p>
+          <div class="page spread" data-spread="4">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="song-title">يامينة</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>يامينة ... يامينة<br>يامينة يا لالة</p>
+                  <p>عينيك يا مينة<br>كالعسل و الحليب</p>
+                  <p>شعرك يا مينة<br>كالحرير الذهب</p>
+                  <p>يامينة ... يامينة<br>يامينة يا لالة</p>
+                  <p>ضحكتك يا مينة<br>كالقمر الليلة</p>
+                  <p>صوتك يا مينة<br>كالماء الجاري</p>
+                  <p>يامينة ... يامينة<br>يامينة يا لالة</p>
+                </div>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="page-inner">
+                <h2 class="song-title">الله يا مولانا</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>الله يا مولانا ... الله يا مولانا</p>
+                  <p>دانة دامي<br>دانة دامي</p>
+                  <p>الله يا مولانا<br>هاذ الدنيا فانية</p>
+                  <p>دانة دامي<br>دانة دامي</p>
+                  <p>و الأيام راحلة<br>و القلب حزين</p>
+                  <p>الله يا مولانا<br>هاذ الدنيا فانية</p>
+                  <p>دانة دامي<br>دانة دامي</p>
+                  <p>و اللي فات مات<br>و اللي باقي غير الله</p>
+                  <p>الله يا مولانا ... الله يا مولانا</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== 5. المدي فات ====== -->
-        <div class="page">
-          <h2 class="song-title">المدي فات</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>المدي فات ... المدي فات<br>و اللي فات مات</p>
-            <p>يا ريت اللي فات<br>يعود و نعيشو</p>
-            <p>يا ريت الأيام<br>ترجع و نديرو</p>
-            <p>المدي فات ... المدي فات</p>
-            <p>و اللي فات مات<br>و اللي جاي هبات</p>
-            <p>و اللي باقي غير الذكريات<br>غير الذكريات</p>
-            <p>يا ريت الزمان<br>يعود يوم واحد</p>
-            <p>نشوفو الحباب<br>و نعيشو الفرحة</p>
-            <p>المدي فات ... المدي فات</p>
+          <div class="page spread" data-spread="5">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="song-title">محمومة</h2>
+                <div class="song-subtitle">—— ✦ ——</div>
+                <div class="lyrics">
+                  <p>محمومة ... محمومة<br>هاذ الدنيا محمومة</p>
+                  <p>محمومة بالهموم<br>محمومة بالغموم</p>
+                  <p>محمومة ... محمومة</p>
+                  <p>و الناس تايهة<br>و القلوب ساهية</p>
+                  <p>يا ريت تبرد<br>يا ريت تسكن</p>
+                  <p>يا ريت الأيام<br>ترجع كما كانت</p>
+                  <p>محمومة ... محمومة</p>
+                  <p>غير الصبر<br>و الدعاء لله</p>
+                  <p>محمومة ... محمومة</p>
+                </div>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="page-inner history-inner">
+                <h2 class="page-title">ناس الغيوان</h2>
+                <div class="song-subtitle">—— القصة ——</div>
+                <div class="lyrics history-text">
+                  <p>تأسست فرقة ناس الغيوان سنة 1970 في حي المحمدي بالدار البيضاء.</p>
+                  <p>الأعضاء المؤسسون:<br>
+                  ✦ الحاج عمر السيد (كمان)<br>
+                  ✦ البنجس (غناء)<br>
+                  ✦ العرايشي (غناء)<br>
+                  ✦ لاربي (تعريجة)<br>
+                  ✦ مكوار (إيقاع)</p>
+                  <p>كانت الفرقة صوت الفقراء والمهمشين، تغني بالدارجة المغربية عن الحرية والحب والعدالة الاجتماعية.</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- ====== 6. يامينة ====== -->
-        <div class="page">
-          <h2 class="song-title">يامينة</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>يامينة ... يامينة<br>يامينة يا لالة</p>
-            <p>عينيك يا مينة<br>كالعسل و الحليب</p>
-            <p>شعرك يا مينة<br>كالحرير الذهب</p>
-            <p>يامينة ... يامينة<br>يامينة يا لالة</p>
-            <p>ضحكتك يا مينة<br>كالقمر الليلة</p>
-            <p>صوتك يا مينة<br>كالماء الجاري</p>
-            <p>يامينة ... يامينة<br>يامينة يا لالة</p>
-            <p>قلبي معاك<br>و روحي فداك</p>
-            <p>يامينة ... يامينة<br>يامينة يا لالة</p>
+          <div class="page spread" data-spread="6">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="page-title">الحاج عمر السيد</h2>
+                <div class="song-subtitle">—— 1948 – 2022 ——</div>
+                <div class="lyrics history-text">
+                  <p>الحاج عمر السيد، مؤسس فرقة ناس الغيوان وعازف الكمان الأسطوري.</p>
+                  <p>ولد في الدار البيضاء وبدأ مسيرته الفنية في الستينيات. كان العقل المدبر للفرقة والملحن الرئيسي.</p>
+                  <p>توفي في شتنبر 2022، لكن موسيقاه لا تزال حية في قلوب المغاربة.</p>
+                  <p>✿ ✿ ✿</p>
+                  <p style="font-style:italic;color:#9C2A2A;">"الموت غيبة ولكن الفن باق"</p>
+                </div>
+              </div>
+            </div>
+            <div class="page-side right photo-page">
+                <div class="photo-embed">
+                  <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop" alt="Omar Sayed" loading="lazy">
+                  <div class="photo-caption">الحاج عمر السيد — روح ناس الغيوان</div>
+                </div>
+              </div>
+            </div>
+
+          <div class="page spread" data-spread="7">
+            <div class="page-side left">
+              <div class="page-inner">
+                <h2 class="page-title">ناس الغيوان</h2>
+                <div class="song-subtitle">—— صور تاريخية ——</div>
+                <div class="photo-grid">
+                  <div class="photo-embed small">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=150&fit=crop" alt="Nass El Ghiwane" loading="lazy">
+                  </div>
+                  <div class="photo-embed small">
+                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=200&h=150&fit=crop" alt="Moroccan music" loading="lazy">
+                  </div>
+                  <div class="photo-embed small">
+                    <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=200&h=150&fit=crop" alt="Performance" loading="lazy">
+                  </div>
+                  <div class="photo-embed small">
+                    <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&h=150&fit=crop" alt="Music instruments" loading="lazy">
+                  </div>
+                </div>
+                <p class="photo-grid-caption">صور من مسيرة الفرقة — السبعينيات والثمانينيات</p>
+              </div>
+            </div>
+            <div class="page-side right">
+              <div class="cover-content back">
+                <div class="cover-zellige"></div>
+                <p class="back-quote">"ناس الغيوان<br>فن الخلود"</p>
+                <div class="cover-year">الدار البيضاء — المغرب</div>
+                <div class="cover-ornament">✦ ✦ ✦</div>
+              </div>
+            </div>
           </div>
+
+        </div><!-- /book-viewport -->
+
+        <!-- Flipping page overlay for animation -->
+        <div class="flip-overlay" id="flipOverlay">
+          <div class="flip-front" id="flipFront"></div>
+          <div class="flip-back" id="flipBack"></div>
         </div>
 
-        <!-- ====== 7. الله يا مولانا (Dane Damy) ====== -->
-        <div class="page">
-          <h2 class="song-title">الله يا مولانا</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>الله يا مولانا ... الله يا مولانا</p>
-            <p>دانة دامي<br>دانة دامي</p>
-            <p>الله يا مولانا<br>هاذ الدنيا فانية</p>
-            <p>دانة دامي<br>دانة دامي</p>
-            <p>و الأيام راحلة<br>و القلب حزين</p>
-            <p>الله يا مولانا<br>هاذ الدنيا فانية</p>
-            <p>دانة دامي<br>دانة دامي</p>
-            <p>و اللي فات مات<br>و اللي جاي هبات</p>
-            <p>و اللي باقي غير الله<br>غير الله يا مولانا</p>
-            <p>الله يا مولانا ... الله يا مولانا</p>
-          </div>
-        </div>
-
-        <!-- ====== 8. محمومة ====== -->
-        <div class="page">
-          <h2 class="song-title">محمومة</h2>
-          <div class="song-subtitle">—— ✦ ——</div>
-          <div class="lyrics">
-            <p>محمومة ... محمومة<br>هاذ الدنيا محمومة</p>
-            <p>محمومة بالهموم<br>محمومة بالغموم</p>
-            <p>محمومة ... محمومة</p>
-            <p>و الناس تايهة<br>و القلوب ساهية</p>
-            <p>و الدنيا دوامة<br>محمومة ... محمومة</p>
-            <p>يا ريت تبرد<br>يا ريت تسكن</p>
-            <p>يا ريت الأيام<br>ترجع كما كانت</p>
-            <p>محمومة ... محمومة<br>هاذ الدنيا محمومة</p>
-            <p>غير الصبر<br>غير الصبر</p>
-            <p>و الدعاء لله<br>هو اللي يفرجها</p>
-            <p>محمومة ... محمومة</p>
-          </div>
-        </div>
-
-        <!-- ====== PAGE DE L'HISTOIRE (dans le livre) ====== -->
-        <div class="page">
-          <h2 class="song-title">ناس الغيوان</h2>
-          <div class="song-subtitle">—— القصة ——</div>
-          <div class="lyrics history-text">
-            <p>تأسست فرقة ناس الغيوان سنة 1970 في حي المحمدي بالدار البيضاء.</p>
-            <p>الأعضاء المؤسسون:<br>
-            الحاج عمر السيد (الكمان)<br>
-            البنجس (الغناء)<br>
-            العرايشي (الغناء)<br>
-            لاربي (التعريجة)<br>
-            مكوار (الإيقاع)</p>
-            <p>كانت الفرقة صوت الفقراء والمهمشين، تغني بالدارجة المغربية عن الحرية والحب والعدالة.</p>
-            <p>تأثرت بالموسيقى الأفريقية والأندلسية والطرب الغناوي، وكونت أسلوباً فريداً لا يزال خالداً في ذاكرة المغاربة.</p>
-          </div>
-        </div>
-
-        <!-- ====== DERNIÈRE COUVERTURE ====== -->
-        <div class="hard cover-back">
-          <div class="cover-content back">
-            <div class="cover-zellige"></div>
-            <p class="back-quote">"ناس الغيوان<br>فن الخلود"</p>
-            <div class="cover-year">الدار البيضاء - المغرب</div>
-            <div class="cover-ornament">✦ ✦ ✦</div>
-          </div>
-        </div>
-
-      </div><!-- /flipbook -->
+      </div><!-- /book-wrapper -->
     </div><!-- /book-container -->
 
 
-    <!-- ========== SECTION HISTOIRE & PHOTOS ========== -->
+    <!-- ========== SECTION HISTOIRE ========== -->
     <div class="history-section">
       <div class="section-zellige-header">
         <span>◆</span><span>◇</span><span>◆</span><span>◇</span><span>◆</span>
@@ -249,31 +309,30 @@
           <p><strong>ناس الغيوان</strong> فرقة موسيقية مغربية أسطورية، تأسست في بداية السبعينيات بحي المحمدي الفقير في الدار البيضاء. اسم "الغيوان" مستوحى من "الغيوان" وهي كلمة مغربية تعني الهيام والوله.</p>
           <p>كانت الفرقة من أوائل الفرق التي غنت بالدارجة المغربية، متناولة قضايا الفقر والظلم والحب والحرية. تأثرت فرق كثيرة بأسلوبهم، من الطرقي إلى مهرجان كناوة.</p>
           <p>أعضاء الفرقة عبر التاريخ:<br>
-          ✦ الحاج عمر السيد (كمان)<br>
-          ✦ البنجس (غناء)<br>
-          ✦ العرايشي (غناء)<br>
-          ✦ عبد الرحمن لاربي (تعريجة)<br>
-          ✦ مكوار (إيقاع)<br>
-          ✦ مصطفى الطاهري (غناء)</p>
-          <p>توفى الحاج عمر السيد في 2022، تاركاً إرثاً فنياً لا يُمحى في الذاكرة المغربية.</p>
+          ✦ الحاج عمر السيد — كمان<br>
+          ✦ البنجس — غناء<br>
+          ✦ العرايشي — غناء<br>
+          ✦ عبد الرحمن لاربي — تعريجة<br>
+          ✦ مكوار — إيقاع<br>
+          ✦ مصطفى الطاهري — غناء</p>
+          <p>توفى الحاج عمر السيد في 2022، تاركاً إرثاً فنياً لا يُمحى في الذاكرة المغربية. فرقة ناس الغيوان ليست مجرد فرقة موسيقية، بل هي مدرسة فنية كاملة أثرت في الأجيال.</p>
         </div>
-        <div class="history-photos">
-          <div class="photo-frame">
-            <div class="photo-placeholder">
-              <div class="photo-icon">📷</div>
-              <span>صورة جماعية</span>
+        <div class="history-photos-block">
+          <div class="photo-frame main">
+            <div class="photo-embed large">
+              <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&h=400&fit=crop" alt="Nass El Ghiwane" loading="lazy">
             </div>
           </div>
-          <div class="photo-frame">
-            <div class="photo-placeholder">
-              <div class="photo-icon">🎵</div>
-              <span>الحاج عمر السيد</span>
+          <div class="photo-row">
+            <div class="photo-frame">
+              <div class="photo-embed">
+                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=200&fit=crop" alt="Performance" loading="lazy">
+              </div>
             </div>
-          </div>
-          <div class="photo-frame">
-            <div class="photo-placeholder">
-              <div class="photo-icon">🎤</div>
-              <span>البنجس و العرايشي</span>
+            <div class="photo-frame">
+              <div class="photo-embed">
+                <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=300&h=200&fit=crop" alt="Moroccan music" loading="lazy">
+              </div>
             </div>
           </div>
         </div>
@@ -285,7 +344,7 @@
       <div class="section-zellige-header">
         <span>✦</span><span>✧</span><span>✦</span><span>✧</span><span>✦</span>
       </div>
-      <h2 class="section-title">ألبومات و أغاني</h2>
+      <h2 class="section-title">أشهر الأغاني</h2>
       <div class="section-underline"></div>
       <div class="album-grid">
         <div class="album-card">
@@ -314,12 +373,12 @@
     <!-- ========== FOOTER ========== -->
     <div class="footer">
       <div class="footer-ornament">✦ ✦ ✦</div>
-      <p>ناس الغيوان — الإرث الخالد 💚</p>
+      <p>ناس الغيوان — الإرث الخالد</p>
       <p class="footer-small">الدار البيضاء — المغرب | 1970 — إلى الأبد</p>
       <div class="footer-ornament">✦ ✦ ✦</div>
     </div>
 
-  </div><!-- /container -->
+  </div>
 
   <script src="script.js"></script>
 </body>

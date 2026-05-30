@@ -1,207 +1,233 @@
 /* ================================================================
    ناس الغيوان - الپاروليير
-   Script principal - Flipbook, swipe, animations
+   Custom 3D flipbook — no external dependencies
    ================================================================ */
 
-$(document).ready(function() {
+(function() {
+  'use strict';
 
-  var $flipbook = $('#flipbook');
-  var $bookContainer = $('.book-container');
-  var $openBtn = $('#openBook');
-  var $closeBtn = $('#closeBook');
+  var bookViewport = document.getElementById('bookViewport');
+  var spreads = document.querySelectorAll('.spread');
+  var flOverlay = document.getElementById('flipOverlay');
+  var flFront = document.getElementById('flipFront');
+  var flBack = document.getElementById('flipBack');
+  var turnPrev = document.getElementById('turnPrev');
+  var turnNext = document.getElementById('turnNext');
+  var pageIndicator = document.getElementById('pageIndicator');
+  var openBtn = document.getElementById('openBook');
+  var closeBtn = document.getElementById('closeBook');
+  var bookContainer = document.getElementById('bookContainer');
+
+  var currentSpread = 0;
+  var totalSpreads = spreads.length;
+  var isAnimating = false;
+  var totalPages = totalSpreads * 2;
 
   // ============================================================
-  //  INITIALISATION DU FLIPBOOK
+  //  UPDATE DISPLAY
   // ============================================================
 
-  function initFlipbook() {
-    var width = $flipbook.width();
-    var height = Math.min(width * 0.65, 600);
-
-    if (window.innerWidth <= 600) {
-      height = Math.min(width * 0.7, 400);
-    } else if (window.innerWidth <= 960) {
-      height = Math.min(width * 0.65, 500);
-    }
-
-    $flipbook.turn({
-      width: width,
-      height: height,
-      autoCenter: true,
-      gradients: true,
-      acceleration: true,
-      duration: 1000,
-      elevation: 50,
-      pages: $flipbook.children().length,
-      when: {
-        turning: function(e, page) {
-          // Optional: track page turns
-        },
-        turned: function(e, page) {
-          // Optional: page turned callback
-        }
-      }
+  function updatePages() {
+    spreads.forEach(function(s, i) {
+      s.classList.toggle('active', i === currentSpread);
     });
 
-    // Fix first page visibility
-    if (!$flipbook.turn('is')) return;
-    $flipbook.turn('page', 1);
+    var pageNum = currentSpread * 2 + 1;
+    pageIndicator.textContent = pageNum + ' / ' + totalPages;
+
+    turnPrev.classList.toggle('disabled', currentSpread === 0);
+    turnNext.classList.toggle('disabled', currentSpread >= totalSpreads - 1);
   }
 
   // ============================================================
-  //  OUVRIR / FERMER LE LIVRE
+  //  3D FLIP ANIMATION
   // ============================================================
 
-  $openBtn.on('click', function() {
-    $bookContainer.removeClass('hidden');
-    $(this).fadeOut(400);
+  function cloneContent(el) {
+    return el ? el.innerHTML : '';
+  }
 
-    // Init flipbook after display
-    setTimeout(function() {
-      if (!$flipbook.turn('is')) {
-        initFlipbook();
+  function flipForward() {
+    if (isAnimating || currentSpread >= totalSpreads - 1) return;
+    isAnimating = true;
+
+    var currentRight = spreads[currentSpread].querySelector('.page-side.right');
+    var nextLeft = spreads[currentSpread + 1].querySelector('.page-side.left');
+
+    flFront.innerHTML = cloneContent(currentRight);
+    flBack.innerHTML = cloneContent(nextLeft);
+
+    flOverlay.className = 'flip-overlay flip-forward animating';
+
+    requestAnimationFrame(function() {
+      flOverlay.classList.add('flipping');
+    });
+
+    flOverlay.addEventListener('transitionend', function handler() {
+      flOverlay.removeEventListener('transitionend', handler);
+      flOverlay.classList.remove('animating', 'flipping');
+      flOverlay.className = 'flip-overlay';
+      flFront.innerHTML = '';
+      flBack.innerHTML = '';
+      currentSpread++;
+      updatePages();
+      isAnimating = false;
+    });
+  }
+
+  function flipBackward() {
+    if (isAnimating || currentSpread <= 0) return;
+    isAnimating = true;
+
+    var currentLeft = spreads[currentSpread].querySelector('.page-side.left');
+    var prevRight = spreads[currentSpread - 1].querySelector('.page-side.right');
+
+    flFront.innerHTML = cloneContent(currentLeft);
+    flBack.innerHTML = cloneContent(prevRight);
+
+    flOverlay.className = 'flip-overlay flip-backward animating';
+
+    requestAnimationFrame(function() {
+      flOverlay.classList.add('flipping');
+    });
+
+    flOverlay.addEventListener('transitionend', function handler() {
+      flOverlay.removeEventListener('transitionend', handler);
+      flOverlay.classList.remove('animating', 'flipping');
+      flOverlay.className = 'flip-overlay';
+      flFront.innerHTML = '';
+      flBack.innerHTML = '';
+      currentSpread--;
+      updatePages();
+      isAnimating = false;
+    });
+  }
+
+  // ============================================================
+  //  TURN ZONE CLICKS
+  // ============================================================
+
+  turnNext.addEventListener('click', flipForward);
+  turnPrev.addEventListener('click', flipBackward);
+
+  // ============================================================
+  //  TOUCH / SWIPE
+  // ============================================================
+
+  var touch = { startX: 0, startY: 0, endX: 0, endY: 0, swiping: false };
+
+  bookViewport.addEventListener('touchstart', function(e) {
+    var t = e.changedTouches[0];
+    touch.startX = t.clientX;
+    touch.startY = t.clientY;
+    touch.swiping = true;
+  }, { passive: true });
+
+  bookViewport.addEventListener('touchmove', function(e) {
+    if (!touch.swiping) return;
+    var t = e.changedTouches[0];
+    touch.endX = t.clientX;
+    touch.endY = t.clientY;
+  }, { passive: true });
+
+  bookViewport.addEventListener('touchend', function(e) {
+    if (!touch.swiping) return;
+    touch.swiping = false;
+
+    var dx = touch.endX - touch.startX;
+    var dy = touch.endY - touch.startY;
+    var absDx = Math.abs(dx);
+    var absDy = Math.abs(dy);
+
+    if (absDx > absDy && absDx > 30) {
+      if (dx < 0) {
+        flipForward();
       } else {
-        $flipbook.turn('resize');
+        flipBackward();
       }
-    }, 100);
-  });
-
-  $closeBtn.on('click', function() {
-    $bookContainer.addClass('hidden');
-    $openBtn.fadeIn(400);
-
-    // Reset to first page on close
-    if ($flipbook.turn('is')) {
-      $flipbook.turn('page', 1);
     }
-  });
-
-  // Double-click on book background (not on pages) to close
-  $bookContainer.on('dblclick', function(e) {
-    if (!$(e.target).closest('#flipbook').length &&
-        !$(e.target).closest('.close-btn').length &&
-        !$(e.target).closest('.book-header').length) {
-      $closeBtn.trigger('click');
-    }
-  });
+  }, { passive: true });
 
   // ============================================================
-  //  KEYBOARD NAVIGATION
+  //  KEYBOARD
   // ============================================================
 
-  $(document).on('keydown', function(e) {
-    if ($bookContainer.is(':hidden')) return;
+  document.addEventListener('keydown', function(e) {
+    if (bookContainer.classList.contains('hidden')) return;
 
-    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    if (e.key === 'ArrowRight') {
       e.preventDefault();
-      if (e.key === 'ArrowRight') {
-        $flipbook.turn('next');
-      } else {
-        $flipbook.turn('previous');
-      }
-    }
-
-    // Escape to close
-    if (e.key === 'Escape') {
-      $closeBtn.trigger('click');
+      flipForward();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      flipBackward();
+    } else if (e.key === 'Escape') {
+      closeBook();
     }
   });
 
   // ============================================================
-  //  TOUCH & SWIPE SUPPORT
+  //  OPEN / CLOSE BOOK
   // ============================================================
 
-  var touchStartX = 0;
-  var touchStartY = 0;
-  var touchEndX = 0;
-  var touchEndY = 0;
-  var isSwiping = false;
+  function openBook() {
+    bookContainer.classList.remove('hidden');
+    openBtn.style.display = 'none';
+    setTimeout(function() {
+      updatePages();
+      resizeViewport();
+    }, 50);
+  }
 
-  $flipbook.on('touchstart', function(e) {
-    var touch = e.originalEvent.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    touchEndX = touch.clientX;
-    touchEndY = touch.clientY;
-    isSwiping = true;
-  });
+  function closeBook() {
+    bookContainer.classList.add('hidden');
+    openBtn.style.display = '';
+    currentSpread = 0;
+    updatePages();
+  }
 
-  $flipbook.on('touchmove', function(e) {
-    if (!isSwiping) return;
-    var touch = e.originalEvent.touches[0];
-    touchEndX = touch.clientX;
-    touchEndY = touch.clientY;
-  });
+  openBtn.addEventListener('click', openBook);
+  closeBtn.addEventListener('click', closeBook);
 
-  $flipbook.on('touchend', function(e) {
-    if (!isSwiping) return;
-    isSwiping = false;
-
-    var deltaX = touchEndX - touchStartX;
-    var deltaY = touchEndY - touchStartY;
-    var absDeltaX = Math.abs(deltaX);
-    var absDeltaY = Math.abs(deltaY);
-
-    // Only trigger if horizontal swipe is dominant and significant
-    if (absDeltaX > absDeltaY && absDeltaX > 40) {
-      if (deltaX < 0) {
-        $flipbook.turn('next');
-      } else {
-        $flipbook.turn('previous');
-      }
-    }
-  });
-
-  // Click on edges of pages as fallback
-  $flipbook.on('click', function(e) {
-    var clickX = e.clientX || e.pageX;
-    var offset = $flipbook.offset();
-    var relX = clickX - offset.left;
-    var width = $flipbook.width();
-
-    // Click on right 30% -> next, left 30% -> previous
-    if (relX > width * 0.7) {
-      $flipbook.turn('next');
-    } else if (relX < width * 0.3) {
-      $flipbook.turn('previous');
+  // Double-click on background to close
+  bookContainer.addEventListener('dblclick', function(e) {
+    var t = e.target;
+    if (!t.closest('.book-header') && !t.closest('.turn-zone')) {
+      closeBook();
     }
   });
 
   // ============================================================
-  //  RESPONSIVE RESIZE
+  //  RESIZE
   // ============================================================
+
+  function resizeViewport() {
+    var w = bookViewport.offsetWidth;
+    var h;
+
+    if (window.innerWidth <= 600) {
+      h = Math.min(w * 0.7, 400);
+    } else if (window.innerWidth <= 960) {
+      h = Math.min(w * 0.6, 500);
+    } else {
+      h = Math.min(w * 0.58, 600);
+    }
+
+    bookViewport.style.height = h + 'px';
+  }
 
   var resizeTimer;
-  $(window).on('resize', function() {
+  window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
-      if ($flipbook.turn('is')) {
-        var width = $flipbook.width();
-        var height = Math.min(width * 0.65, 600);
-
-        if (window.innerWidth <= 600) {
-          height = Math.min(width * 0.7, 400);
-        } else if (window.innerWidth <= 960) {
-          height = Math.min(width * 0.65, 500);
-        }
-
-        $flipbook.turn('size', width, height);
-        $flipbook.turn('resize');
-      }
-    }, 250);
+    resizeTimer = setTimeout(resizeViewport, 200);
   });
 
   // ============================================================
-  //  PREVENT CONTEXT MENU ON BOOK (clean UX)
+  //  INIT
   // ============================================================
 
-  $flipbook.on('contextmenu', function(e) {
-    e.preventDefault();
-  });
+  updatePages();
+  resizeViewport();
 
-  // ============================================================
-  //  LOG READY
-  // ============================================================
-
-  console.log('📖 ناس الغيوان - الپاروليير جاهز !');
-});
+  console.log('📖 ناس الغيوان - الپاروليير جاهز');
+})();
