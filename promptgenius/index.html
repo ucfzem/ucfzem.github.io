@@ -1167,29 +1167,30 @@ async function generatePrompt() {
       const json = await response.json();
       data = json.content.map(b => b.text || '').join('');
     } else if (apiProvider === 'gemini') {
-      const parts = [];
-      parts.push({ text: system });
       const msg = messages[0];
+      const userParts = [];
       if (Array.isArray(msg.content)) {
         msg.content.forEach(c => {
           if (c.type === 'image') {
-            parts.push({ inline_data: { mime_type: c.source.media_type, data: c.source.data } });
+            userParts.push({ inline_data: { mime_type: c.source.media_type, data: c.source.data } });
           } else if (c.type === 'text') {
-            parts.push({ text: c.text });
+            userParts.push({ text: c.text });
           }
         });
       } else {
-        parts.push({ text: msg.content });
+        userParts.push({ text: msg.content });
       }
       if (proxyUrl && Array.isArray(msg.content) && !msg.content.some(c=>c.type==='text')) {
         throw new Error('Le proxy gratuit ne supporte que le texte. Ajoute une description ou utilise ta propre clé API (⚙️).');
       }
-      const contents = [{ role: 'user', parts }];
       const endpoint = proxyUrl || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+      const body = proxyUrl
+        ? { system, contents: [{ role: 'user', parts: userParts }] }
+        : { contents: [{ role: 'user', parts: [{ text: system }, ...userParts] }] };
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents })
+        body: JSON.stringify(body)
       });
       if (!response.ok) {
         if (proxyUrl) {
