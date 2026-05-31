@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Rafeeq</title>
-<meta name="description" content="Rafeeq - Health & Services App">
-<meta property="og:title" content="Rafeeq">
-<meta property="og:description" content="Health & Services App">
+<title>Rafeeq رفيق — تطبيق الصحة والأدوية | Health & Medicine App Maroc</title>
+<meta name="description" content="Rafeeq رفيق : تطبيق صحي متعدد اللغات — تذكير الأدوية، أرقام الطوارئ المغرب، نصائح صحية. Health app with medicine reminders, emergency numbers Morocco, 7 languages.">
+<meta property="og:title" content="Rafeeq رفيق — تطبيق الصحة والأدوية">
+<meta property="og:description" content="تطبيق صحي متعدد اللغات — تذكير الأدوية، أرقام الطوارئ، نصائح صحية. Health & medicine app Morocco.">
 <meta property="og:url" content="https://ucfzem.github.io/rafeeq/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -343,6 +343,32 @@ body {
 .detail-header h2 { font-size: 1.1rem; font-weight: 700; }
 .detail-body { padding: 16px; }
 
+/* Onboarding */
+.onboard-modal {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.onboard-modal.open { display: flex; }
+.onboard-content {
+  background: white;
+  border-radius: 24px;
+  padding: 28px 24px;
+  width: calc(100% - 40px);
+  max-width: 340px;
+  text-align: center;
+  animation: popIn 0.3s ease;
+}
+
 /* SOS Modal */
 .sos-modal {
   position: fixed;
@@ -674,10 +700,24 @@ body {
   <div class="detail-body" id="detailBody"></div>
 </div>
 
+<div class="onboard-modal" id="onboardModal">
+  <div class="onboard-content">
+    <div style="font-size:3rem;margin-bottom:10px;">👋</div>
+    <h2 data-key="onboardTitle" style="font-size:1.3rem;margin-bottom:6px;">مرحباً بك في رفيق</h2>
+    <p data-key="onboardDesc" style="color:#64748b;font-size:0.85rem;margin-bottom:16px;">تطبيقك الصحي الشامل — تذكير الأدوية، المواعيد، أرقام الطوارئ</p>
+    <div style="display:flex;flex-direction:column;gap:8px;text-align:right;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:8px;padding:8px 10px;"><span style="font-size:1.2rem;">💊</span><span data-key="onboard1" style="font-size:0.82rem;">أضف أدويتك وجرعاتك اليومية</span></div>
+      <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:8px;padding:8px 10px;"><span style="font-size:1.2rem;">📅</span><span data-key="onboard2" style="font-size:0.82rem;">سجل مواعيدك الطبية</span></div>
+      <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:8px;padding:8px 10px;"><span style="font-size:1.2rem;">🆘</span><span data-key="onboard3" style="font-size:0.82rem;">أرقام الطوارئ المغرب بنقرة واحدة</span></div>
+    </div>
+    <button onclick="closeOnboard()" style="width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#e2b714,#f5a623);color:#1a2332;font-family:'Tajawal',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;" data-key="onboardBtn">ابدأ الآن</button>
+  </div>
+</div>
+
 <div class="sos-modal" id="sosModal">
   <div class="sos-modal-content">
     <h2 data-key="sosTitle">🆘 مساعدة عاجلة</h2>
-    <p data-key="sosDesc">اتصل بأرقام الطوارئ في بلدك</p>
+    <p data-key="sosDesc">اتصل بأرقام الطوارئ في المغرب</p>
     <a class="sos-number" href="tel:19" id="sosAmbulance">🚑 الإسعاف: 19</a>
     <a class="sos-number" href="tel:15" id="sosFire">🔥 الوقاية المدنية: 15</a>
     <a class="sos-number" href="tel:17" id="sosPolice">👮 الأمن: 17</a>
@@ -687,12 +727,14 @@ body {
 
 <div class="notif-panel" id="notifPanel" onclick="this.classList.remove('open')">
   <div class="notif-content" onclick="event.stopPropagation()">
-    <h2 data-key="notifications">🔔 الإشعارات</h2>
-    <div class="notif-item">
-      <span class="ni-icon">💊</span>
-      <div class="ni-text">
-        <div class="ni-title" data-key="noNotif">لا توجد إشعارات جديدة</div>
-        <div class="ni-time"></div>
+    <h2 data-key="notifications" id="notifTitle">🔔 الإشعارات</h2>
+    <div id="notifList">
+      <div class="notif-item">
+        <span class="ni-icon">💊</span>
+        <div class="ni-text">
+          <div class="ni-title" data-key="noNotif">لا توجد إشعارات جديدة</div>
+          <div class="ni-time"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -738,10 +780,10 @@ var LANG = {
     myAccount: 'حسابي', home: 'الرئيسية', days: 'أيام',
     sosBtn: '🆘 طلب مساعدة عاجلة',
     sosTitle: '🆘 مساعدة عاجلة',
-    sosDesc: 'اتصل بأرقام الطوارئ في بلدك',
-    sosAmb: '🚑 الإسعاف: 19',
-    sosFire: '🔥 الوقاية المدنية: 15',
-    sosPol: '👮 الأمن: 17',
+    sosDesc: 'اتصل بأرقام الطوارئ في المغرب',
+    sosAmb: '🚑 الإسعاف: 19 (المغرب)',
+    sosFire: '🔥 الوقاية المدنية: 15 (المغرب)',
+    sosPol: '👮 الأمن: 17 (المغرب)',
     close: 'إغلاق',
     notifications: '🔔 الإشعارات',
     noNotif: 'لا توجد إشعارات جديدة',
@@ -756,6 +798,12 @@ var LANG = {
     found: 'تم العثور على ',
     result: ' نتيجة',
     profileName: 'مستخدم رفيق',
+    onboardTitle: 'مرحباً بك في رفيق',
+    onboardDesc: 'تطبيقك الصحي الشامل — تذكير الأدوية، المواعيد، أرقام الطوارئ',
+    onboard1: 'أضف أدويتك وجرعاتك اليومية',
+    onboard2: 'سجل مواعيدك الطبية',
+    onboard3: 'أرقام الطوارئ المغرب بنقرة واحدة',
+    onboardBtn: 'ابدأ الآن',
     months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
     detail: {
       sante_title: 'الصحة', sante_heading: 'نصائح صحية',
@@ -763,9 +811,10 @@ var LANG = {
       sante_l2: '🥗 تناول طعاماً متوازناً',
       sante_l3: '🚶 امشِ 30 دقيقة يومياً',
       sante_l4: '😴 نم 7-8 ساعات يومياً',
+      sante_contact: 'اتصل بطبيب 📞',
       medic_title: 'الأدوية',
       rdv_title: 'المواعيد', rdv_heading: 'مواعيدك القادمة',
-      rdv_empty: 'لا توجد مواعيد مسجلة',
+      rdv_empty: 'لا توجد مواعيد مسجلة', rdv_add: 'إضافة موعد',
       urgence_title: 'الطوارئ', urgence_heading: 'إرشادات الطوارئ',
       urgence_l1: '🆘 اتصل بالإسعاف فوراً',
       urgence_l2: '📌 حافظ على هدوئك',
@@ -795,10 +844,10 @@ var LANG = {
     myAccount: 'Mon compte', home: 'Accueil', days: 'Jours',
     sosBtn: '🆘 Aide urgente',
     sosTitle: '🆘 Aide urgente',
-    sosDesc: 'Appelez les numéros d\'urgence',
-    sosAmb: '🚑 Ambulance: 19',
-    sosFire: '🔥 Protection civile: 15',
-    sosPol: '👮 Police: 17',
+    sosDesc: 'Appelez les numéros d\'urgence (Maroc)',
+    sosAmb: '🚑 Ambulance: 19 (Maroc)',
+    sosFire: '🔥 Protection civile: 15 (Maroc)',
+    sosPol: '👮 Police: 17 (Maroc)',
     close: 'Fermer',
     notifications: '🔔 Notifications',
     noNotif: 'Aucune nouvelle notification',
@@ -813,6 +862,12 @@ var LANG = {
     found: 'Résultats trouvés: ',
     result: '',
     profileName: 'Utilisateur Rafeeq',
+    onboardTitle: 'Bienvenue sur Rafeeq',
+    onboardDesc: 'Votre app santé — rappels de médicaments, rendez-vous, numéros d\'urgence',
+    onboard1: 'Ajoutez vos médicaments et doses',
+    onboard2: 'Planifiez vos rendez-vous médicaux',
+    onboard3: 'Numéros d\'urgence Maroc en 1 clic',
+    onboardBtn: 'C\'est parti',
     months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     detail: {
       sante_title: 'Santé', sante_heading: 'Conseils santé',
@@ -820,9 +875,10 @@ var LANG = {
       sante_l2: '🥗 Mangez équilibré',
       sante_l3: '🚶 Marchez 30 min par jour',
       sante_l4: '😴 Dormez 7-8h par nuit',
+      sante_contact: 'Appeler un médecin 📞',
       medic_title: 'Médicaments',
       rdv_title: 'Rendez-vous', rdv_heading: 'Vos prochains RDV',
-      rdv_empty: 'Aucun rendez-vous',
+      rdv_empty: 'Aucun rendez-vous', rdv_add: 'Ajouter un RDV',
       urgence_title: 'Urgence', urgence_heading: 'Consignes d\'urgence',
       urgence_l1: '🆘 Appelez les secours',
       urgence_l2: '📌 Restez calme',
@@ -852,10 +908,10 @@ var LANG = {
     myAccount: 'My Account', home: 'Home', days: 'Days',
     sosBtn: '🆘 Emergency Help',
     sosTitle: '🆘 Emergency Help',
-    sosDesc: 'Call emergency numbers',
-    sosAmb: '🚑 Ambulance: 19',
-    sosFire: '🔥 Fire Dept: 15',
-    sosPol: '👮 Police: 17',
+    sosDesc: 'Call emergency numbers (Morocco)',
+    sosAmb: '🚑 Ambulance: 19 (Morocco)',
+    sosFire: '🔥 Fire Dept: 15 (Morocco)',
+    sosPol: '👮 Police: 17 (Morocco)',
     close: 'Close',
     notifications: '🔔 Notifications',
     noNotif: 'No new notifications',
@@ -870,6 +926,12 @@ var LANG = {
     found: 'Found ',
     result: ' result(s)',
     profileName: 'Rafeeq User',
+    onboardTitle: 'Welcome to Rafeeq',
+    onboardDesc: 'Your all-in-one health app — medicine reminders, appointments, emergency numbers',
+    onboard1: 'Add your medicines & daily doses',
+    onboard2: 'Schedule your medical appointments',
+    onboard3: 'Morocco emergency numbers in 1 tap',
+    onboardBtn: 'Get started',
     months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
     detail: {
       sante_title: 'Health', sante_heading: 'Health tips',
@@ -877,9 +939,10 @@ var LANG = {
       sante_l2: '🥗 Eat balanced meals',
       sante_l3: '🚶 Walk 30 min daily',
       sante_l4: '😴 Sleep 7-8 hours',
+      sante_contact: 'Call a doctor 📞',
       medic_title: 'Medicines',
       rdv_title: 'Appointments', rdv_heading: 'Upcoming appointments',
-      rdv_empty: 'No appointments scheduled',
+      rdv_empty: 'No appointments scheduled', rdv_add: 'Add appointment',
       urgence_title: 'Emergency', urgence_heading: 'Emergency guidelines',
       urgence_l1: '🆘 Call emergency services',
       urgence_l2: '📌 Stay calm',
@@ -909,10 +972,10 @@ var LANG = {
     myAccount: 'Mi cuenta', home: 'Inicio', days: 'Días',
     sosBtn: '🆘 Ayuda urgente',
     sosTitle: '🆘 Ayuda urgente',
-    sosDesc: 'Llama a emergencias',
-    sosAmb: '🚑 Ambulancia: 19',
-    sosFire: '🔥 Bomberos: 15',
-    sosPol: '👮 Policía: 17',
+    sosDesc: 'Llama a emergencias (Marruecos)',
+    sosAmb: '🚑 Ambulancia: 19 (Marruecos)',
+    sosFire: '🔥 Bomberos: 15 (Marruecos)',
+    sosPol: '👮 Policía: 17 (Marruecos)',
     close: 'Cerrar',
     notifications: '🔔 Notificaciones',
     noNotif: 'Sin notificaciones nuevas',
@@ -927,6 +990,12 @@ var LANG = {
     found: 'Encontrado ',
     result: ' resultado(s)',
     profileName: 'Usuario Rafeeq',
+    onboardTitle: 'Bienvenido a Rafeeq',
+    onboardDesc: 'Tu app de salud integral — recordatorios, citas, emergencias',
+    onboard1: 'Añade tus medicamentos y dosis',
+    onboard2: 'Programa tus citas médicas',
+    onboard3: 'Emergencias Marruecos en 1 toque',
+    onboardBtn: 'Empezar',
     months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
     detail: {
       sante_title: 'Salud', sante_heading: 'Consejos de salud',
@@ -934,9 +1003,10 @@ var LANG = {
       sante_l2: '🥗 Come equilibrado',
       sante_l3: '🚶 Camina 30 min al día',
       sante_l4: '😴 Duerme 7-8 horas',
+      sante_contact: 'Llamar a un médico 📞',
       medic_title: 'Medicamentos',
       rdv_title: 'Citas', rdv_heading: 'Próximas citas',
-      rdv_empty: 'Sin citas programadas',
+      rdv_empty: 'Sin citas programadas', rdv_add: 'Añadir cita',
       urgence_title: 'Emergencia', urgence_heading: 'Instrucciones',
       urgence_l1: '🆘 Llama a emergencias',
       urgence_l2: '📌 Mantén la calma',
@@ -966,10 +1036,10 @@ var LANG = {
     myAccount: 'Mein Konto', home: 'Start', days: 'Tage',
     sosBtn: '🆘 Notfallhilfe',
     sosTitle: '🆘 Notfallhilfe',
-    sosDesc: 'Notrufnummern anrufen',
-    sosAmb: '🚑 Krankenwagen: 19',
-    sosFire: '🔥 Feuerwehr: 15',
-    sosPol: '👮 Polizei: 17',
+    sosDesc: 'Notrufnummern anrufen (Marokko)',
+    sosAmb: '🚑 Krankenwagen: 19 (Marokko)',
+    sosFire: '🔥 Feuerwehr: 15 (Marokko)',
+    sosPol: '👮 Polizei: 17 (Marokko)',
     close: 'Schließen',
     notifications: '🔔 Benachrichtigungen',
     noNotif: 'Keine neuen Benachrichtigungen',
@@ -984,6 +1054,12 @@ var LANG = {
     found: 'Gefunden ',
     result: ' Ergebnis(se)',
     profileName: 'Rafeeq Benutzer',
+    onboardTitle: 'Willkommen bei Rafeeq',
+    onboardDesc: 'Ihre Gesundheits-App — Medikamente, Termine, Notrufnummern',
+    onboard1: 'Fügen Sie Medikamente & Dosen hinzu',
+    onboard2: 'Planen Sie Ihre Arzttermine',
+    onboard3: 'Notrufnummern Marokko mit 1 Klick',
+    onboardBtn: 'Los geht\'s',
     months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     detail: {
       sante_title: 'Gesundheit', sante_heading: 'Gesundheitstipps',
@@ -991,9 +1067,10 @@ var LANG = {
       sante_l2: '🥗 Essen Sie ausgewogen',
       sante_l3: '🚶 Gehen Sie 30 Min täglich',
       sante_l4: '😴 Schlafen Sie 7-8 Stunden',
+      sante_contact: 'Arzt anrufen 📞',
       medic_title: 'Medikamente',
       rdv_title: 'Termine', rdv_heading: 'Nächste Termine',
-      rdv_empty: 'Keine Termine geplant',
+      rdv_empty: 'Keine Termine geplant', rdv_add: 'Termin hinzufügen',
       urgence_title: 'Notfall', urgence_heading: 'Notfallhinweise',
       urgence_l1: '🆘 Rufen Sie den Notdienst',
       urgence_l2: '📌 Bleiben Sie ruhig',
@@ -1023,10 +1100,10 @@ var LANG = {
     myAccount: 'Mijn account', home: 'Home', days: 'Dagen',
     sosBtn: '🆘 Noodhulp',
     sosTitle: '🆘 Noodhulp',
-    sosDesc: 'Bel de hulpdiensten',
-    sosAmb: '🚑 Ambulance: 19',
-    sosFire: '🔥 Brandweer: 15',
-    sosPol: '👮 Politie: 17',
+    sosDesc: 'Bel de hulpdiensten (Marokko)',
+    sosAmb: '🚑 Ambulance: 19 (Marokko)',
+    sosFire: '🔥 Brandweer: 15 (Marokko)',
+    sosPol: '👮 Politie: 17 (Marokko)',
     close: 'Sluiten',
     notifications: '🔔 Meldingen',
     noNotif: 'Geen nieuwe meldingen',
@@ -1041,6 +1118,12 @@ var LANG = {
     found: 'Gevonden ',
     result: ' resultaat/resultaten',
     profileName: 'Rafeeq Gebruiker',
+    onboardTitle: 'Welkom bij Rafeeq',
+    onboardDesc: 'Uw gezondheidsapp — medicijnen, afspraken, noodnummers',
+    onboard1: 'Voeg medicijnen & doses toe',
+    onboard2: 'Plan uw afspraken',
+    onboard3: 'Noodnummers Marokko in 1 tik',
+    onboardBtn: 'Beginnen',
     months: ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'],
     detail: {
       sante_title: 'Gezondheid', sante_heading: 'Gezondheidstips',
@@ -1048,9 +1131,10 @@ var LANG = {
       sante_l2: '🥗 Eet gebalanceerd',
       sante_l3: '🚶 Loop 30 min per dag',
       sante_l4: '😴 Slaap 7-8 uur',
+      sante_contact: 'Bel een arts 📞',
       medic_title: 'Medicijnen',
       rdv_title: 'Afspraken', rdv_heading: 'Komende afspraken',
-      rdv_empty: 'Geen afspraken gepland',
+      rdv_empty: 'Geen afspraken gepland', rdv_add: 'Afspraak toevoegen',
       urgence_title: 'Noodgeval', urgence_heading: 'Noodinstructies',
       urgence_l1: '🆘 Bel de hulpdiensten',
       urgence_l2: '📌 Blijf kalm',
@@ -1080,10 +1164,10 @@ var LANG = {
     myAccount: 'Mio account', home: 'Home', days: 'Giorni',
     sosBtn: '🆘 Aiuto urgente',
     sosTitle: '🆘 Aiuto urgente',
-    sosDesc: 'Chiama i numeri di emergenza',
-    sosAmb: '🚑 Ambulanza: 19',
-    sosFire: '🔥 Vigili del fuoco: 15',
-    sosPol: '👮 Polizia: 17',
+    sosDesc: 'Chiama i numeri di emergenza (Marocco)',
+    sosAmb: '🚑 Ambulanza: 19 (Marocco)',
+    sosFire: '🔥 Vigili del fuoco: 15 (Marocco)',
+    sosPol: '👮 Polizia: 17 (Marocco)',
     close: 'Chiudi',
     notifications: '🔔 Notifiche',
     noNotif: 'Nessuna nuova notifica',
@@ -1098,6 +1182,12 @@ var LANG = {
     found: 'Trovato ',
     result: ' risultato/i',
     profileName: 'Utente Rafeeq',
+    onboardTitle: 'Benvenuto su Rafeeq',
+    onboardDesc: 'La tua app salute — farmaci, appuntamenti, numeri emergenza',
+    onboard1: 'Aggiungi farmaci e dosi',
+    onboard2: 'Pianifica appuntamenti medici',
+    onboard3: 'Numeri emergenza Marocco in 1 tap',
+    onboardBtn: 'Inizia',
     months: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
     detail: {
       sante_title: 'Salute', sante_heading: 'Consigli salute',
@@ -1105,9 +1195,10 @@ var LANG = {
       sante_l2: '🥗 Mangia in modo equilibrato',
       sante_l3: '🚶 Cammina 30 min al giorno',
       sante_l4: '😴 Dormi 7-8 ore',
+      sante_contact: 'Chiama un medico 📞',
       medic_title: 'Farmaci',
       rdv_title: 'Appuntamenti', rdv_heading: 'Prossimi appuntamenti',
-      rdv_empty: 'Nessun appuntamento',
+      rdv_empty: 'Nessun appuntamento', rdv_add: 'Aggiungi appuntamento',
       urgence_title: 'Emergenza', urgence_heading: 'Istruzioni emergenza',
       urgence_l1: '🆘 Chiama i soccorsi',
       urgence_l2: '📌 Mantieni la calma',
@@ -1194,16 +1285,28 @@ var detailData = {
       '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l1 + '</span></li>' +
       '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l2 + '</span></li>' +
       '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l3 + '</span></li>' +
-      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l4 + '</span></li></ul></div>'
+      '<li style="display:flex;gap:10px;align-items:center;padding:8px 10px;background:#f8fafc;border-radius:8px;"><span>' + l.detail.sante_l4 + '</span></li></ul>' +
+      '<a href="tel:19" style="display:block;margin-top:12px;padding:10px;border-radius:10px;background:#e2b714;color:#1a2332;text-decoration:none;text-align:center;font-weight:600;">🩺 ' + l.detail.sante_contact + '</a></div>'
   };},
   medic: function(l) { return {
     title: l.detail.medic_title, icon: '💊',
     content: '<div style="text-align:center;padding:16px;color:#64748b;"><div style="font-size:2.5rem;margin-bottom:10px;">💊</div><p>' + l.medList + '</p></div>'
   };},
-  rdv: function(l) { return {
-    title: l.detail.rdv_title, icon: '📅',
-    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.rdv_heading + '</h3><div style="text-align:center;padding:16px;color:#94a3b8;"><div style="font-size:2rem;margin-bottom:6px;">📅</div><p>' + l.detail.rdv_empty + '</p></div></div>'
-  };},
+  rdv: function(l) { 
+    var rdvs = JSON.parse(localStorage.getItem('rafeeq_rdvs') || '[]');
+    var html = '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.rdv_heading + '</h3>';
+    if (rdvs.length === 0) {
+      html += '<div style="text-align:center;padding:16px;color:#94a3b8;"><div style="font-size:2rem;margin-bottom:6px;">📅</div><p>' + l.detail.rdv_empty + '</p></div>';
+    } else {
+      html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      rdvs.forEach(function(r) {
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border-radius:8px;padding:10px 12px;"><span><strong>' + r.title + '</strong><br><span style="font-size:0.8rem;color:#64748b;">📅 ' + r.date + '</span></span><span style="color:#22c55e;font-size:0.8rem;">✓</span></div>';
+      });
+      html += '</div>';
+    }
+    html += '<button onclick="addRdv()" style="margin-top:12px;width:100%;padding:10px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">+ ' + l.detail.rdv_add + '</button></div>';
+    return { title: l.detail.rdv_title, icon: '📅', content: html };
+  },
   urgence: function(l) { return {
     title: l.detail.urgence_title, icon: '🚑',
     content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;"><h3 style="margin-bottom:10px;">' + l.detail.urgence_heading + '</h3><ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">' +
@@ -1218,10 +1321,21 @@ var detailData = {
       '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;"><span>' + l.detail.settings_night + '</span><span style="color:#94a3b8;">' + l.detail.settings_nightVal + '</span></div>' +
       '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;"><span>' + l.detail.settings_lang + '</span><span>' + LANG[currentLang].label + '</span></div></div>'
   };},
-  family: function(l) { return {
-    title: l.detail.family_title, icon: '👨‍👩‍👧‍👦',
-    content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:2.5rem;margin-bottom:10px;">👨‍👩‍👧‍👦</div><p style="color:#64748b;">' + l.family + '</p><button style="margin-top:12px;padding:8px 20px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">' + l.detail.family_add + '</button></div>'
-  };},
+  family: function(l) {
+    var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+    var html = '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;">';
+    if (fam.length === 0) {
+      html += '<div style="font-size:2.5rem;margin-bottom:10px;">👨‍👩‍👧‍👦</div><p style="color:#64748b;margin-bottom:10px;">' + l.family + '</p>';
+    } else {
+      html += '<div style="display:flex;flex-direction:column;gap:8px;text-align:right;margin-bottom:12px;">';
+      fam.forEach(function(f) {
+        html += '<div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border-radius:8px;padding:10px 12px;"><span style="font-size:1.2rem;">👤</span><span>' + f.name + '</span></div>';
+      });
+      html += '</div>';
+    }
+    html += '<button onclick="addFamily()" style="padding:10px 24px;border:none;border-radius:10px;background:#e2b714;color:#1a2332;font-family:\'Tajawal\',sans-serif;font-weight:600;cursor:pointer;">' + l.detail.family_add + '</button></div>';
+    return { title: l.detail.family_title, icon: '👨‍👩‍👧‍👦', content: html };
+  },
   shop: function(l) { return {
     title: l.detail.shop_title, icon: '🛒',
     content: '<div style="background:white;border-radius:14px;padding:16px;border:1px solid #f1f5f9;text-align:center;"><div style="font-size:2.5rem;margin-bottom:10px;">🛒</div><p style="color:#64748b;">' + l.detail.shop_soon + '</p></div>'
@@ -1252,7 +1366,27 @@ function closeSOS() {
   document.getElementById('sosModal').classList.remove('open');
 }
 
+function openOnboard() {
+  document.getElementById('onboardModal').classList.add('open');
+}
+function closeOnboard() {
+  document.getElementById('onboardModal').classList.remove('open');
+  localStorage.setItem('rafeeq_onboarded', '1');
+}
+
 function toggleNotif() {
+  var l = LANG[currentLang];
+  var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  var list = document.getElementById('notifList');
+  if (meds.length === 0) {
+    list.innerHTML = '<div class="notif-item"><span class="ni-icon">💊</span><div class="ni-text"><div class="ni-title">' + l.noNotif + '</div></div></div>';
+  } else {
+    var h = '';
+    meds.forEach(function(m) {
+      h += '<div class="notif-item"><span class="ni-icon">💊</span><div class="ni-text"><div class="ni-title">' + m.name + '</div><div class="ni-time">⏰ ' + m.time + (m.done ? ' ✅' : ' ⏳') + '</div></div></div>';
+    });
+    list.innerHTML = h;
+  }
   document.getElementById('notifPanel').classList.toggle('open');
 }
 
@@ -1313,7 +1447,34 @@ function toggleMed(i) {
 
 function updateStats() {
   var meds = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+  var rdvs = JSON.parse(localStorage.getItem('rafeeq_rdvs') || '[]');
   document.getElementById('statMed').textContent = meds.length;
+  document.getElementById('statRdv').textContent = rdvs.length;
+}
+
+function addRdv() {
+  var l = LANG[currentLang];
+  var title = prompt(l.rdvTitle || 'Titre du rendez-vous:');
+  if (!title) return;
+  var date = prompt(l.rdvDate || 'Date (ex: 2026-06-15):');
+  if (!date) return;
+  var rdvs = JSON.parse(localStorage.getItem('rafeeq_rdvs') || '[]');
+  rdvs.push({ title: title, date: date, id: Date.now() });
+  localStorage.setItem('rafeeq_rdvs', JSON.stringify(rdvs));
+  updateStats();
+  openDetail('rdv');
+  showToast(l.rdvAdded || '✅ Rendez-vous ajouté');
+}
+
+function addFamily() {
+  var l = LANG[currentLang];
+  var name = prompt(l.familyName || 'Nom:');
+  if (!name) return;
+  var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+  fam.push({ name: name, id: Date.now() });
+  localStorage.setItem('rafeeq_family', JSON.stringify(fam));
+  openDetail('family');
+  showToast(l.familyAdded || '✅ Ajouté');
 }
 
 function showToast(msg) {
@@ -1321,6 +1482,11 @@ function showToast(msg) {
   t.textContent = msg;
   t.style.display = 'block';
   setTimeout(function() { t.style.display = 'none'; }, 2000);
+}
+
+// Onboarding first visit
+if (!localStorage.getItem('rafeeq_onboarded')) {
+  setTimeout(openOnboard, 500);
 }
 
 applyLang(currentLang);
