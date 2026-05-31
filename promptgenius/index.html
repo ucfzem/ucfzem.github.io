@@ -1172,7 +1172,7 @@ async function generatePrompt() {
       if (Array.isArray(msg.content)) {
         msg.content.forEach(c => {
           if (c.type === 'image') {
-            userParts.push({ inline_data: { mime_type: c.source.media_type, data: c.source.data } });
+            userParts.push({ inlineData: { mimeType: c.source.media_type, data: c.source.data } });
           } else if (c.type === 'text') {
             userParts.push({ text: c.text });
           }
