@@ -711,8 +711,8 @@ Génère TOUJOURS une réponse JSON valide avec exactement cette structure:
     {"label": "Version Créative", "content": "le prompt créatif original"}
   ]
 }
-Adapte les prompts pour {style}. Corrige les fautes, enrichis le style, sois ultra-professionnel. Réponds UNIQUEMENT en JSON, sans markdown, sans explication.`,
-    system_img: 'Analyse cette image/schéma et génère des prompts pro pour {style} qui la recréent ou s\'en inspirent.',
+Base-toi STRICTEMENT sur le texte ou l'image fourni(e) par l'utilisateur. Adapte les prompts pour {style}. Corrige les fautes, enrichis le style, sois ultra-professionnel. Réponds UNIQUEMENT en JSON, sans markdown, sans explication.`,
+    system_img: 'Décris précisément cette image (couleurs, formes, composition, style, éléments) et génère des prompts pro pour {style} qui la reproduisent fidèlement.',
     system_draw: 'Analyse ce schéma dessiné et génère des prompts pro pour {style}.',
     system_text: 'Transforme cette idée brute en prompts pro pour {style} : "{text}"',
   },
@@ -762,13 +762,13 @@ Adapte les prompts pour {style}. Corrige les fautes, enrichis le style, sois ult
 ALWAYS return valid JSON with exactly this structure:
 {
   "prompts": [
-    {"label": "Standard Version", "content": "the standard prompt"},
-    {"label": "Detailed Version", "content": "the very detailed prompt"},
-    {"label": "Creative Version", "content": "the original creative prompt"}
+    {"label": "Version Standard", "content": "the standard prompt"},
+    {"label": "Version Détaillée", "content": "the detailed prompt"},
+    {"label": "Version Créative", "content": "the creative prompt"}
   ]
 }
-Adapt the prompts for {style}. Correct mistakes, enrich the style, be ultra-professional. Reply ONLY in JSON, no markdown, no explanation.`,
-    system_img: 'Analyze this image/sketch and generate pro prompts for {style} that recreate it or take inspiration from it.',
+Base yourself STRICTLY on the user's provided text or image. Adapt the prompts for {style}. Fix typos, enrich style, be ultra-professional. Reply ONLY with JSON, no markdown, no explanation.`,
+    system_img: 'Analyze this image in detail (colors, shapes, composition, style, elements) and generate 3 pro prompts for {style} that accurately describe it for faithful reproduction.',
     system_draw: 'Analyze this hand-drawn sketch and generate pro prompts for {style}.',
     system_text: 'Transform this raw idea into pro prompts for {style}: "{text}"',
   },
@@ -815,7 +815,7 @@ Adapt the prompts for {style}. Correct mistakes, enrich the style, be ultra-prof
     'settings-saved': '✅ Clave guardada',
     error_rate_limit: '⚠️ Demasiadas solicitudes (límite gratuito alcanzado). Espera unos segundos y vuelve a intentarlo, o usa tu propia clave API (⚙️).',
     'system-prompt': `Eres un experto en redacción de prompts profesionales para IA.
-Devuelve SIEMPRE un JSON válido con exactamente esta estructura:
+Genera SIEMPRE una respuesta JSON válida con exactamente esta estructura:
 {
   "prompts": [
     {"label": "Versión Estándar", "content": "el prompt estándar"},
@@ -823,8 +823,8 @@ Devuelve SIEMPRE un JSON válido con exactamente esta estructura:
     {"label": "Versión Creativa", "content": "el prompt creativo original"}
   ]
 }
-Adapta los prompts para {style}. Corrige errores, enriquece el estilo, sé ultra-profesional. Responde SOLO en JSON, sin markdown, sin explicación.`,
-    system_img: 'Analiza esta imagen/esquema y genera prompts profesionales para {style} que la recrean o se inspiran en ella.',
+Basate ESTRICTAMENTE en el texto o imagen proporcionado por el usuario. Adapta los prompts para {style}. Corrige errores, enriquece el estilo, sé ultra-profesional. Responde SOLO en JSON, sin markdown, sin explicación.`,
+    system_img: 'Analiza esta imagen en detalle (colores, formas, composición, estilo, elementos) y genera 3 prompts profesionales para {style} que la describan con precisión para reproducirla fielmente.',
     system_draw: 'Analiza este dibujo a mano y genera prompts profesionales para {style}.',
     system_text: 'Transforma esta idea bruta en prompts profesionales para {style}: "{text}"',
   },
@@ -879,8 +879,8 @@ Adapta los prompts para {style}. Corrige errores, enriquece el estilo, sé ultra
     {"label": "النسخة الإبداعية", "content": "البرومبت الإبداعي الأصلي"}
   ]
 }
-كيف البرومبتات لـ {style}. صحّح الأخطاء، أثرِ الأسلوب، كن فائق الاحترافية. أجب فقط بـ JSON، بدون markdown، بدون شرح.`,
-    system_img: 'حلل هذه الصورة/المخطط وولّد برومبتات احترافية لـ {style} تعيد إنشاءها أو تستلهم منها.',
+اعتمد بشكل صارم على النص أو الصورة التي قدمها المستخدم. كيف البرومبتات لـ {style}. صحّح الأخطاء، أثرِ الأسلوب، كن فائق الاحترافية. أجب فقط بـ JSON، بدون markdown، بدون شرح.`,
+    system_img: 'حلل هذه الصورة بالتفصيل (الألوان، الأشكال، التكوين، الأسلوب، العناصر) وولّد برومبتات احترافية لـ {style} تصفها بدقة لإعادة إنشائها بأمانة.',
     system_draw: 'حلل هذا الرسم اليدوي وولّد برومبتات احترافية لـ {style}.',
     system_text: 'حوّل هذه الفكرة الخام إلى برومبتات احترافية لـ {style}: "{text}"',
   }
