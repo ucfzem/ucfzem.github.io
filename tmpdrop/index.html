@@ -374,7 +374,7 @@ function showUploadPage() {
       <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
       <div id="uploadPercent" class="">0%</div>
       <button class="btn btn-primary" id="uploadBtn" disabled>Choisissez un fichier</button>
-      <div class="result show" id="result">
+      <div class="result" id="result">
         <div id="successMsg" style="display:none;margin-bottom:0.8rem;color:var(--gold);font-weight:600;">✅ Fichier partagé !</div>
         <div class="copy-row">
           <a class="link-box" id="shareLink" target="_blank"></a>
@@ -443,6 +443,9 @@ function setupUpload() {
   }
 
 
+  document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
+
+
   function setStatus(msg, isError) {
     statusEl.textContent = msg;
     statusEl.style.display = msg ? 'block' : 'none';
@@ -473,52 +476,70 @@ function setupUpload() {
     if (!selectedFile) { setStatus('Veuillez sélectionner un fichier.', true); return; }
     this.disabled = true;
     this.textContent = 'Upload en cours...';
-    progressBar.classList.add('show');
-    uploadPercent.classList.add('show');
-    progressFill.style.width = '0%';
-    uploadPercent.textContent = '0%';
     setStatus('');
 
+      // Fallback progress timer (increments every 800ms when lengthComputable false)
+      var fakePct = 0;
+      var fakeTimer = setInterval(function() {
+        fakePct = Math.min(fakePct + 3 + Math.floor(Math.random() * 5), 92);
+        progressFill.style.width = fakePct + '%';
+        uploadPercent.textContent = fakePct + '%';
+      }, 800);
 
-    try {
-      var f = selectedFile;
-      var ext = f.name.split('.').pop();
-      var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
+      progressBar.classList.add('show');
+      uploadPercent.classList.add('show');
+      progressFill.style.width = '0%';
+      uploadPercent.textContent = '0%';
 
-      // Use XMLHttpRequest for real progress tracking
-      var uploadRes = await new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
-        xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
-        xhr.setRequestHeader('Content-Type', f.type || 'application/octet-stream');
 
-        xhr.upload.onprogress = function(e) {
-          if (e.lengthComputable) {
-            var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
-            progressFill.style.width = pct + '%';
-            uploadPercent.textContent = pct + '%';
-          }
-        };
+      try {
+        var f = selectedFile;
+        var ext = f.name.split('.').pop();
+        var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
 
-        xhr.onload = function() {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            resolve({ ok: true, status: xhr.status });
-          } else {
-            reject(new Error('Upload échoué (code ' + xhr.status + ')'));
-          }
-        };
+        // Use XMLHttpRequest for real progress tracking
+        var uploadRes = await new Promise(function(resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.timeout = 60000;
+          xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
+          xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
+          xhr.setRequestHeader('Content-Type', f.type || 'application/octet-stream');
 
-        xhr.onerror = function() {
-          reject(new Error('Erreur réseau pendant l\'upload'));
-        };
+          xhr.upload.onprogress = function(e) {
+            if (e.lengthComputable) {
+              var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
+              progressFill.style.width = pct + '%';
+              uploadPercent.textContent = pct + '%';
+              fakePct = pct;
+            }
+          };
 
-        xhr.send(f);
-      });
+          xhr.onload = function() {
+            clearInterval(fakeTimer);
+            if (xhr.status >= 200 && xhr.status < 300) {
+              resolve({ ok: true, status: xhr.status });
+            } else {
+              reject(new Error('Upload échoué (code ' + xhr.status + ')'));
+            }
+          };
 
-      // also maybe 404 issue on GH pages for og-image.png etc
+          xhr.onerror = function() {
+            clearInterval(fakeTimer);
+            reject(new Error('Erreur réseau pendant l\'upload'));
+          };
 
-      progressFill.style.width = '70%';
-      uploadPercent.textContent = '70%';
+          xhr.ontimeout = function() {
+            clearInterval(fakeTimer);
+            reject(new Error('Délai d\'attente dépassé (60s)'));
+          };
+
+          xhr.send(f);
+        });
+
+        clearInterval(fakeTimer);
+
+        progressFill.style.width = '70%';
+        uploadPercent.textContent = '70%';
 
       var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
       var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
@@ -542,6 +563,7 @@ function setupUpload() {
       fileInfo.classList.remove('show');
       fileInfo.style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('result').classList.add('show');
       progressBar.classList.remove('show');
       uploadPercent.classList.remove('show');
       setStatus('');
@@ -580,10 +602,8 @@ function setupUpload() {
       };
 
 
-      document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
-
-
     } catch (err) {
+      clearInterval(fakeTimer);
       setStatus('Erreur : ' + err.message, true);
       this.disabled = false;
       this.textContent = selectedFile ? 'Uploader' : 'Choisissez un fichier';
