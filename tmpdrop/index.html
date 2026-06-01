@@ -486,13 +486,16 @@ function setupUpload() {
     uploadPercent.textContent = '0%';
 
     var displayPct = 0;
+    var tick = 0;
     var fakeTimer = setInterval(function() {
-      if (displayPct < 99) {
-        displayPct += 1;
+      tick++;
+      var fake = Math.min(99, Math.round(100 * (1 - Math.pow(0.96, tick))));
+      if (fake > displayPct) {
+        displayPct = fake;
         progressFill.style.width = displayPct + '%';
         uploadPercent.textContent = displayPct + '%';
       }
-    }, 400);
+    }, 500);
 
     function setPct(pct) {
       if (pct > displayPct) {
