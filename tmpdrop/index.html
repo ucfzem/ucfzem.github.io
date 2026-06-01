@@ -127,15 +127,7 @@ body {
   width: 0%;
   background: var(--gold);
   border-radius: 3px;
-  transition: width 0.3s;
-}
-.progress-fill.indeterminate {
-  width: 100% !important;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  transition: width 0.15s;
 }
 #uploadPercent {
   text-align: center;
@@ -306,8 +298,6 @@ body {
 <script>
 const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTY5NTcsImV4cCI6MjA5NTczMjk1N30.UaXpJKBVxUslGYOdkXJF-vg_QJC0cCArzlDYPVQVHN4';
-const CLOUD_NAME = 'deyzstrtv';
-const UPLOAD_PRESET = 'tmpdrop_preset2';
 
 
 const params = new URLSearchParams(window.location.search);
@@ -384,7 +374,7 @@ function showUploadPage() {
       <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
       <div id="uploadPercent" class="">0%</div>
       <button class="btn btn-primary" id="uploadBtn" disabled>Choisissez un fichier</button>
-      <div class="result" id="result">
+      <div class="result show" id="result">
         <div id="successMsg" style="display:none;margin-bottom:0.8rem;color:var(--gold);font-weight:600;">✅ Fichier partagé !</div>
         <div class="copy-row">
           <a class="link-box" id="shareLink" target="_blank"></a>
@@ -453,9 +443,6 @@ function setupUpload() {
   }
 
 
-  document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
-
-
   function setStatus(msg, isError) {
     statusEl.textContent = msg;
     statusEl.style.display = msg ? 'block' : 'none';
@@ -486,50 +473,85 @@ function setupUpload() {
     if (!selectedFile) { setStatus('Veuillez sélectionner un fichier.', true); return; }
     this.disabled = true;
     this.textContent = 'Upload en cours...';
-    setStatus('');
-
     progressBar.classList.add('show');
     uploadPercent.classList.add('show');
+    progressFill.style.width = '0%';
     uploadPercent.textContent = '0%';
+    setStatus('');
 
-    function setPct(pct) {
-      progressFill.style.width = pct + '%';
-      uploadPercent.textContent = pct + '%';
-    }
-
-    function finishBar() {
-      setPct(100);
-    }
-
-    function showIndeterminate() {
-      progressFill.style.width = '100%';
-      progressFill.classList.add('indeterminate');
-      uploadPercent.textContent = 'Upload...';
-    }
-
-    var link = null;
 
     try {
-      showIndeterminate();
-      link = await directUpload(selectedFile, finishBar);
+      var f = selectedFile;
+      var ext = f.name.split('.').pop();
+      var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
 
-      // Show result
-      finishBar();
+      // Use XMLHttpRequest for real progress tracking
+      var uploadRes = await new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
+        xhr.setRequestHeader('Content-Type', f.type || 'application/octet-stream');
+
+        xhr.upload.onprogress = function(e) {
+          if (e.lengthComputable) {
+            var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
+            progressFill.style.width = pct + '%';
+            uploadPercent.textContent = pct + '%';
+          }
+        };
+
+        xhr.onload = function() {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve({ ok: true, status: xhr.status });
+          } else {
+            reject(new Error('Upload échoué (code ' + xhr.status + ')'));
+          }
+        };
+
+        xhr.onerror = function() {
+          reject(new Error('Erreur réseau pendant l\'upload'));
+        };
+
+        xhr.send(f);
+      });
+
+      // also maybe 404 issue on GH pages for og-image.png etc
+
+      progressFill.style.width = '70%';
+      uploadPercent.textContent = '70%';
+
+      var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
+      var recordRes = await fetch(SUPABASE_URL + '/rest/v1/uploads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
+        body: JSON.stringify({ file_url: fileUrl, file_name: f.name, file_size: f.size, mime_type: f.type || null, share_id: sid }),
+      });
+      if (!recordRes.ok) {
+        var errText = await recordRes.text().catch(function(){ return ''; });
+        throw new Error('Enregistrement échoué: ' + errText);
+      }
+      progressFill.style.width = '100%';
+      uploadPercent.textContent = '100%';
+
+
+      var link = window.location.origin + BASE + '?d=' + sid;
+      shareLink.textContent = link;
+      shareLink.href = link;
       this.style.display = 'none';
       fileInfo.classList.remove('show');
       fileInfo.style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
-      document.getElementById('result').classList.add('show');
       progressBar.classList.remove('show');
       uploadPercent.classList.remove('show');
       setStatus('');
 
-      document.getElementById('shareLink').textContent = link;
-      document.getElementById('shareLink').href = link;
 
       var encodedUrl = encodeURIComponent(link);
       document.getElementById('uploadShareTiles').innerHTML = shareTilesHTML(encodedUrl, link);
 
+
+      // Native share (mobile)
       var nativeBtn = document.getElementById('nativeShareBtn');
       if (navigator.share) {
         nativeBtn.style.display = 'flex';
@@ -539,6 +561,7 @@ function setupUpload() {
         });
       }
 
+
       copyBtn.onclick = function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(link).then(function() {
@@ -547,7 +570,7 @@ function setupUpload() {
           });
         } else {
           var r = document.createRange();
-          r.selectNodeContents(document.getElementById('shareLink'));
+          r.selectNodeContents(shareLink);
           var s = window.getSelection();
           s.removeAllRanges(); s.addRange(r);
           document.execCommand('copy');
@@ -556,117 +579,17 @@ function setupUpload() {
         }
       };
 
+
+      document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
+
+
     } catch (err) {
-    clearInterval(fakeTimer);
-    setStatus('Erreur : ' + err.message, true);
-    this.disabled = false;
-    this.textContent = selectedFile ? 'Uploader' : 'Choisissez un fichier';
-    progressBar.classList.remove('show');
-    uploadPercent.classList.remove('show');
-  }
-});
-
-} // closes setupUpload()
-
-
-/* Cloudinary upload (primary) — XHR progress fiable, 25 Go/mois gratuit */
-function cloudinaryUpload(file, setPct, finishBar) {
-  return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.timeout = 120000;
-    xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/auto/upload');
-
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        setPct(Math.floor((e.loaded / e.total) * 100));
-      }
-    };
-
-    xhr.onload = function() {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-
-          // Save metadata to Supabase DB (timeout 8s max)
-          var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
-          var ctrl = new AbortController();
-var to = setTimeout(function() { ctrl.abort(); }, 20000);
-          fetch(SUPABASE_URL + '/rest/v1/uploads', {
-            method: 'POST',
-            signal: ctrl.signal,
-            headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
-            body: JSON.stringify({ file_url: data.secure_url, file_name: file.name, file_size: file.size, mime_type: file.type || null, share_id: sid }),
-          }).then(function(r) {
-            clearTimeout(to);
-            if (!r.ok) throw new Error();
-          }).catch(function() {
-            clearTimeout(to);
-          }).finally(function() {
-            finishBar();
-            resolve(window.location.origin + BASE + '?d=' + sid);
-          });
-        } catch(e) {
-          reject(new Error('Réponse Cloudinary invalide'));
-        }
-      } else {
-        reject(new Error('Code Cloudinary ' + xhr.status));
-      }
-    };
-
-    xhr.onerror = function() { reject(new Error('Erreur réseau Cloudinary')); };
-    xhr.ontimeout = function() { reject(new Error('Délai Cloudinary dépassé')); };
-
-    var fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    xhr.send(fd);
-  });
-}
-
-
-/* Supabase direct upload (fallback) — indeterminate progress */
-function directUpload(file, finishBar) {
-  return new Promise(function(resolve, reject) {
-    var ext = file.name.split('.').pop();
-    var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
-
-    var xhr = new XMLHttpRequest();
-    xhr.timeout = 600000;
-    xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
-    xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
-    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
-
-    xhr.onload = function() {
-      if (xhr.status >= 200 && xhr.status < 300) {
-
-        // Save to DB (timeout 8s max)
-        var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
-        var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
-        var ctrl = new AbortController();
-        var to = setTimeout(function() { ctrl.abort(); }, 20000);
-        fetch(SUPABASE_URL + '/rest/v1/uploads', {
-          method: 'POST',
-          signal: ctrl.signal,
-          headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
-          body: JSON.stringify({ file_url: fileUrl, file_name: file.name, file_size: file.size, mime_type: file.type || null, share_id: sid }),
-        }).then(function(r) {
-          clearTimeout(to);
-          if (!r.ok) throw new Error();
-        }).catch(function() {
-          clearTimeout(to);
-        }).finally(function() {
-          finishBar();
-          resolve(window.location.origin + BASE + '?d=' + sid);
-        });
-
-      } else {
-        reject(new Error('Code ' + xhr.status));
-      }
-    };
-
-    xhr.onerror = function() { reject(new Error('Erreur réseau')); };
-    xhr.ontimeout = function() { reject(new Error('Délai dépassé')); };
-    xhr.send(file);
+      setStatus('Erreur : ' + err.message, true);
+      this.disabled = false;
+      this.textContent = selectedFile ? 'Uploader' : 'Choisissez un fichier';
+      progressBar.classList.remove('show');
+      uploadPercent.classList.remove('show');
+    }
   });
 }
 
