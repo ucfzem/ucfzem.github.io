@@ -510,15 +510,8 @@ function setupUpload() {
     var link = null;
 
     try {
-      try {
-        // 1/2 — Cloudinary (XHR progress fiable)
-        link = await cloudinaryUpload(selectedFile, setPct, finishBar);
-      } catch (err1) {
-        // 2/2 — Fallback Supabase (progress peu fiable → indéterminé)
-        showIndeterminate();
-        setStatus('Tentative directe...');
-        link = await directUpload(selectedFile, finishBar);
-      }
+      showIndeterminate();
+      link = await directUpload(selectedFile, finishBar);
 
       // Show result
       finishBar();
