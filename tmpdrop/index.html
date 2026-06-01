@@ -483,14 +483,15 @@ function setupUpload() {
       progressFill.style.width = '0%';
       uploadPercent.textContent = '0%';
 
-      // Fallback progress timer (never decreases display)
+      // Fallback progress timer — never decreases display
       var fakePct = 0;
       var lastRealPct = -1;
+      var displayPct = 0;
       var fakeTimer = setInterval(function() {
-        fakePct = Math.min(fakePct + 3 + Math.floor(Math.random() * 5), 92);
-        var d = Math.max(fakePct, lastRealPct);
-        progressFill.style.width = d + '%';
-        uploadPercent.textContent = d + '%';
+        fakePct = Math.min(fakePct + 5 + Math.floor(Math.random() * 8), 95);
+        displayPct = Math.max(fakePct, lastRealPct);
+        progressFill.style.width = displayPct + '%';
+        uploadPercent.textContent = displayPct + '%';
       }, 800);
 
 
@@ -511,9 +512,9 @@ function setupUpload() {
             if (e.lengthComputable) {
               var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
               lastRealPct = pct;
-              var d = Math.max(fakePct, pct);
-              progressFill.style.width = d + '%';
-              uploadPercent.textContent = d + '%';
+              displayPct = Math.max(displayPct, pct);
+              progressFill.style.width = displayPct + '%';
+              uploadPercent.textContent = displayPct + '%';
             }
           };
 
@@ -541,8 +542,9 @@ function setupUpload() {
 
         clearInterval(fakeTimer);
 
-        progressFill.style.width = '70%';
-        uploadPercent.textContent = '70%';
+        displayPct = Math.max(displayPct, 70);
+        progressFill.style.width = displayPct + '%';
+        uploadPercent.textContent = displayPct + '%';
 
       var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
       var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
@@ -555,6 +557,7 @@ function setupUpload() {
         var errText = await recordRes.text().catch(function(){ return ''; });
         throw new Error('Enregistrement échoué: ' + errText);
       }
+      displayPct = 100;
       progressFill.style.width = '100%';
       uploadPercent.textContent = '100%';
 
