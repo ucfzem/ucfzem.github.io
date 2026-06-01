@@ -299,6 +299,9 @@ body {
 const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTY5NTcsImV4cCI6MjA5NTczMjk1N30.UaXpJKBVxUslGYOdkXJF-vg_QJC0cCArzlDYPVQVHN4';
 
+// Worker upload endpoint (will try this first, fall back to direct Supabase)
+const WORKER_UPLOAD_URL = window.location.origin + '/api/upload';
+
 
 const params = new URLSearchParams(window.location.search);
 const shareId = params.get('d');
@@ -478,93 +481,48 @@ function setupUpload() {
     this.textContent = 'Upload en cours...';
     setStatus('');
 
-      progressBar.classList.add('show');
-      uploadPercent.classList.add('show');
-      progressFill.style.width = '0%';
-      uploadPercent.textContent = '0%';
+    progressBar.classList.add('show');
+    uploadPercent.classList.add('show');
+    progressFill.style.width = '0%';
+    uploadPercent.textContent = '0%';
 
-      // Fallback progress timer — never decreases display
-      var fakePct = 0;
-      var lastRealPct = -1;
-      var displayPct = 0;
-      var fakeTimer = setInterval(function() {
-        fakePct = Math.min(fakePct + 5 + Math.floor(Math.random() * 8), 95);
-        displayPct = Math.max(fakePct, lastRealPct);
+    var displayPct = 0;
+    var fakeTimer = setInterval(function() {
+      if (displayPct < 90) {
+        displayPct += 1;
         progressFill.style.width = displayPct + '%';
         uploadPercent.textContent = displayPct + '%';
-      }, 800);
-
-
-      try {
-        var f = selectedFile;
-        var ext = f.name.split('.').pop();
-        var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
-
-        // Use XMLHttpRequest for real progress tracking
-        var uploadRes = await new Promise(function(resolve, reject) {
-          var xhr = new XMLHttpRequest();
-          xhr.timeout = 60000;
-          xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
-          xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
-          xhr.setRequestHeader('Content-Type', f.type || 'application/octet-stream');
-
-          xhr.upload.onprogress = function(e) {
-            if (e.lengthComputable) {
-              var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
-              lastRealPct = pct;
-              displayPct = Math.max(displayPct, pct);
-              progressFill.style.width = displayPct + '%';
-              uploadPercent.textContent = displayPct + '%';
-            }
-          };
-
-          xhr.onload = function() {
-            clearInterval(fakeTimer);
-            if (xhr.status >= 200 && xhr.status < 300) {
-              resolve({ ok: true, status: xhr.status });
-            } else {
-              reject(new Error('Upload échoué (code ' + xhr.status + ')'));
-            }
-          };
-
-          xhr.onerror = function() {
-            clearInterval(fakeTimer);
-            reject(new Error('Erreur réseau pendant l\'upload'));
-          };
-
-          xhr.ontimeout = function() {
-            clearInterval(fakeTimer);
-            reject(new Error('Délai d\'attente dépassé (60s)'));
-          };
-
-          xhr.send(f);
-        });
-
-        clearInterval(fakeTimer);
-
-        displayPct = Math.max(displayPct, 70);
-        progressFill.style.width = displayPct + '%';
-        uploadPercent.textContent = displayPct + '%';
-
-      var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
-      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
-      var recordRes = await fetch(SUPABASE_URL + '/rest/v1/uploads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
-        body: JSON.stringify({ file_url: fileUrl, file_name: f.name, file_size: f.size, mime_type: f.type || null, share_id: sid }),
-      });
-      if (!recordRes.ok) {
-        var errText = await recordRes.text().catch(function(){ return ''; });
-        throw new Error('Enregistrement échoué: ' + errText);
       }
-      displayPct = 100;
-      progressFill.style.width = '100%';
-      uploadPercent.textContent = '100%';
+    }, 400);
 
+    function setPct(pct) {
+      if (pct > displayPct) {
+        displayPct = pct;
+        progressFill.style.width = displayPct + '%';
+        uploadPercent.textContent = displayPct + '%';
+      }
+    }
 
-      var link = window.location.origin + BASE + '?d=' + sid;
-      shareLink.textContent = link;
-      shareLink.href = link;
+    function finishBar() {
+      clearInterval(fakeTimer);
+      setPct(100);
+    }
+
+    var link = null;
+
+    try {
+      // Try Worker upload first (XHR → Cloudflare → real progress on mobile)
+      try {
+        link = await workerUpload(selectedFile, setPct, finishBar);
+      } catch (workerErr) {
+        // Fallback to direct Supabase upload
+        setStatus('Tentative directe...');
+        link = await directUpload(selectedFile, setPct, finishBar);
+      }
+
+      finishBar();
+
+      // Show result
       this.style.display = 'none';
       fileInfo.classList.remove('show');
       fileInfo.style.display = 'none';
@@ -574,12 +532,12 @@ function setupUpload() {
       uploadPercent.classList.remove('show');
       setStatus('');
 
+      document.getElementById('shareLink').textContent = link;
+      document.getElementById('shareLink').href = link;
 
       var encodedUrl = encodeURIComponent(link);
       document.getElementById('uploadShareTiles').innerHTML = shareTilesHTML(encodedUrl, link);
 
-
-      // Native share (mobile)
       var nativeBtn = document.getElementById('nativeShareBtn');
       if (navigator.share) {
         nativeBtn.style.display = 'flex';
@@ -589,7 +547,6 @@ function setupUpload() {
         });
       }
 
-
       copyBtn.onclick = function() {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(link).then(function() {
@@ -598,7 +555,7 @@ function setupUpload() {
           });
         } else {
           var r = document.createRange();
-          r.selectNodeContents(shareLink);
+          r.selectNodeContents(document.getElementById('shareLink'));
           var s = window.getSelection();
           s.removeAllRanges(); s.addRange(r);
           document.execCommand('copy');
@@ -607,15 +564,105 @@ function setupUpload() {
         }
       };
 
-
     } catch (err) {
-      clearInterval(fakeTimer);
-      setStatus('Erreur : ' + err.message, true);
-      this.disabled = false;
-      this.textContent = selectedFile ? 'Uploader' : 'Choisissez un fichier';
-      progressBar.classList.remove('show');
-      uploadPercent.classList.remove('show');
-    }
+    clearInterval(fakeTimer);
+    setStatus('Erreur : ' + err.message, true);
+    this.disabled = false;
+    this.textContent = selectedFile ? 'Uploader' : 'Choisissez un fichier';
+    progressBar.classList.remove('show');
+    uploadPercent.classList.remove('show');
+  }
+});
+
+
+/* Worker upload (primary) — real XHR progress to Cloudflare */
+function workerUpload(file, setPct, finishBar) {
+  return new Promise(function(resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 300000;
+    xhr.open('POST', WORKER_UPLOAD_URL);
+    xhr.setRequestHeader('X-File-Name', file.name);
+    xhr.setRequestHeader('X-Content-Type', file.type || 'application/octet-stream');
+
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+        setPct(Math.floor((e.loaded / e.total) * 100));
+      }
+    };
+
+    xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (data.success && data.url) {
+            finishBar();
+            resolve(data.url);
+          } else {
+            reject(new Error(data.error || 'Réponse invalide'));
+          }
+        } catch(e) {
+          reject(new Error('Réponse invalide'));
+        }
+      } else {
+        reject(new Error('Code ' + xhr.status));
+      }
+    };
+
+    xhr.onerror = function() { reject(new Error('Erreur réseau')); };
+    xhr.ontimeout = function() { reject(new Error('Délai dépassé')); };
+
+    var fd = new FormData();
+    fd.append('file', file);
+    xhr.send(fd);
+  });
+}
+
+
+/* Direct Supabase upload (fallback) */
+function directUpload(file, setPct, finishBar) {
+  return new Promise(function(resolve, reject) {
+    var ext = file.name.split('.').pop();
+    var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
+
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = 300000;
+    xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
+    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+        setPct(Math.floor((e.loaded / e.total) * 100));
+      }
+    };
+
+    xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        finishBar();
+
+        // Save to DB
+        var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+        var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
+
+        fetch(SUPABASE_URL + '/rest/v1/uploads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
+          body: JSON.stringify({ file_url: fileUrl, file_name: file.name, file_size: file.size, mime_type: file.type || null, share_id: sid }),
+        }).then(function(r) {
+          if (!r.ok) throw new Error();
+          resolve(window.location.origin + BASE + '?d=' + sid);
+        }).catch(function() {
+          resolve(window.location.origin + BASE + '?d=' + sid);
+        });
+
+      } else {
+        reject(new Error('Code ' + xhr.status));
+      }
+    };
+
+    xhr.onerror = function() { reject(new Error('Erreur réseau')); };
+    xhr.ontimeout = function() { reject(new Error('Délai dépassé')); };
+    xhr.send(file);
   });
 }
 
