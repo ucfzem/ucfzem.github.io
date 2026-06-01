@@ -489,11 +489,16 @@ function setupUpload() {
     var tick = 0;
     var fakeTimer = setInterval(function() {
       tick++;
-      var fake = Math.min(99, Math.round(100 * (1 - Math.pow(0.96, tick))));
+      var fake = Math.round(100 * (1 - Math.pow(0.96, tick)));
       if (fake > displayPct) {
-        displayPct = fake;
+        if (fake >= 99) {
+          displayPct = 99;
+          uploadPercent.textContent = 'Finalisation...';
+        } else {
+          displayPct = fake;
+        }
         progressFill.style.width = displayPct + '%';
-        uploadPercent.textContent = displayPct + '%';
+        if (displayPct < 99) uploadPercent.textContent = displayPct + '%';
       }
     }, 500);
 
@@ -583,8 +588,8 @@ function setupUpload() {
 function cloudinaryUpload(file, setPct, finishBar) {
   return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
-    xhr.timeout = 90000;
-    xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/raw/upload');
+    xhr.timeout = 120000;
+    xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUD_NAME + '/auto/upload');
 
     xhr.upload.onprogress = function(e) {
       if (e.lengthComputable) {
@@ -637,7 +642,7 @@ function directUpload(file, setPct, finishBar) {
     var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
 
     var xhr = new XMLHttpRequest();
-    xhr.timeout = 300000;
+    xhr.timeout = 600000;
     xhr.open('POST', SUPABASE_URL + '/storage/v1/object/tmp-files/' + storagePath);
     xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
