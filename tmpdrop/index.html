@@ -597,7 +597,7 @@ function cloudinaryUpload(file, setPct, finishBar) {
           // Save metadata to Supabase DB (timeout 8s max)
           var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
           var ctrl = new AbortController();
-          var to = setTimeout(function() { ctrl.abort(); }, 8000);
+var to = setTimeout(function() { ctrl.abort(); }, 20000);
           fetch(SUPABASE_URL + '/rest/v1/uploads', {
             method: 'POST',
             signal: ctrl.signal,
@@ -650,7 +650,7 @@ function directUpload(file, finishBar) {
         var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
         var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
         var ctrl = new AbortController();
-        var to = setTimeout(function() { ctrl.abort(); }, 8000);
+        var to = setTimeout(function() { ctrl.abort(); }, 20000);
         fetch(SUPABASE_URL + '/rest/v1/uploads', {
           method: 'POST',
           signal: ctrl.signal,
