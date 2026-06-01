@@ -300,7 +300,6 @@ const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
 const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTY5NTcsImV4cCI6MjA5NTczMjk1N30.UaXpJKBVxUslGYOdkXJF-vg_QJC0cCArzlDYPVQVHN4';
 
 // Worker upload endpoint (will try this first, fall back to direct Supabase)
-const WORKER_UPLOAD_URL = window.location.origin + '/api/upload';
 
 
 const params = new URLSearchParams(window.location.search);
@@ -488,7 +487,7 @@ function setupUpload() {
 
     var displayPct = 0;
     var fakeTimer = setInterval(function() {
-      if (displayPct < 90) {
+      if (displayPct < 99) {
         displayPct += 1;
         progressFill.style.width = displayPct + '%';
         uploadPercent.textContent = displayPct + '%';
@@ -511,14 +510,8 @@ function setupUpload() {
     var link = null;
 
     try {
-      // Try Worker upload first (XHR → Cloudflare → real progress on mobile)
-      try {
-        link = await workerUpload(selectedFile, setPct, finishBar);
-      } catch (workerErr) {
-        // Fallback to direct Supabase upload
-        setStatus('Tentative directe...');
-        link = await directUpload(selectedFile, setPct, finishBar);
-      }
+      // Upload directly to Supabase Storage (no proxy — avoids Worker timeout)
+      link = await directUpload(selectedFile, setPct, finishBar);
 
       finishBar();
 
@@ -577,50 +570,7 @@ function setupUpload() {
 } // closes setupUpload()
 
 
-/* Worker upload (primary) — real XHR progress to Cloudflare */
-function workerUpload(file, setPct, finishBar) {
-  return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    xhr.timeout = 300000;
-    xhr.open('POST', WORKER_UPLOAD_URL);
-    xhr.setRequestHeader('X-File-Name', file.name);
-    xhr.setRequestHeader('X-Content-Type', file.type || 'application/octet-stream');
-
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        setPct(Math.floor((e.loaded / e.total) * 100));
-      }
-    };
-
-    xhr.onload = function() {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          if (data.success && data.url) {
-            finishBar();
-            resolve(data.url);
-          } else {
-            reject(new Error(data.error || 'Réponse invalide'));
-          }
-        } catch(e) {
-          reject(new Error('Réponse invalide'));
-        }
-      } else {
-        reject(new Error('Code ' + xhr.status));
-      }
-    };
-
-    xhr.onerror = function() { reject(new Error('Erreur réseau')); };
-    xhr.ontimeout = function() { reject(new Error('Délai dépassé')); };
-
-    var fd = new FormData();
-    fd.append('file', file);
-    xhr.send(fd);
-  });
-}
-
-
-/* Direct Supabase upload (fallback) */
+/* Direct Supabase upload — fake timer + real XHR progress */
 function directUpload(file, setPct, finishBar) {
   return new Promise(function(resolve, reject) {
     var ext = file.name.split('.').pop();
