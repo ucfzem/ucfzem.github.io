@@ -127,7 +127,15 @@ body {
   width: 0%;
   background: var(--gold);
   border-radius: 3px;
-  transition: width 0.15s;
+  transition: width 0.3s;
+}
+.progress-fill.indeterminate {
+  width: 100% !important;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 #uploadPercent {
   text-align: center;
@@ -482,54 +490,38 @@ function setupUpload() {
 
     progressBar.classList.add('show');
     uploadPercent.classList.add('show');
-    progressFill.style.width = '0%';
     uploadPercent.textContent = '0%';
 
-    var displayPct = 0;
-    var tick = 0;
-    var fakeTimer = setInterval(function() {
-      tick++;
-      var fake = Math.round(100 * (1 - Math.pow(0.96, tick)));
-      if (fake > displayPct) {
-        if (fake >= 99) {
-          displayPct = 99;
-          uploadPercent.textContent = 'Finalisation...';
-        } else {
-          displayPct = fake;
-        }
-        progressFill.style.width = displayPct + '%';
-        if (displayPct < 99) uploadPercent.textContent = displayPct + '%';
-      }
-    }, 500);
-
     function setPct(pct) {
-      if (pct > displayPct) {
-        displayPct = pct;
-        progressFill.style.width = displayPct + '%';
-        uploadPercent.textContent = displayPct + '%';
-      }
+      progressFill.style.width = pct + '%';
+      uploadPercent.textContent = pct + '%';
     }
 
     function finishBar() {
-      clearInterval(fakeTimer);
       setPct(100);
+    }
+
+    function showIndeterminate() {
+      progressFill.style.width = '100%';
+      progressFill.classList.add('indeterminate');
+      uploadPercent.textContent = 'Upload...';
     }
 
     var link = null;
 
     try {
       try {
-        // 1/3 — Cloudinary (rapide, 25 Go/mois gratuit)
+        // 1/2 — Cloudinary (XHR progress fiable)
         link = await cloudinaryUpload(selectedFile, setPct, finishBar);
       } catch (err1) {
-        // 2/3 — Fallback Supabase
-        setStatus('Cloudinary indisponible, tentative directe...');
-        link = await directUpload(selectedFile, setPct, finishBar);
+        // 2/2 — Fallback Supabase (progress peu fiable → indéterminé)
+        showIndeterminate();
+        setStatus('Tentative directe...');
+        link = await directUpload(selectedFile, finishBar);
       }
 
-      finishBar();
-
       // Show result
+      finishBar();
       this.style.display = 'none';
       fileInfo.classList.remove('show');
       fileInfo.style.display = 'none';
@@ -602,19 +594,22 @@ function cloudinaryUpload(file, setPct, finishBar) {
         try {
           var data = JSON.parse(xhr.responseText);
 
-          // Save metadata to Supabase DB
+          // Save metadata to Supabase DB (timeout 8s max)
           var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
+          var ctrl = new AbortController();
+          var to = setTimeout(function() { ctrl.abort(); }, 8000);
           fetch(SUPABASE_URL + '/rest/v1/uploads', {
             method: 'POST',
+            signal: ctrl.signal,
             headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
             body: JSON.stringify({ file_url: data.secure_url, file_name: file.name, file_size: file.size, mime_type: file.type || null, share_id: sid }),
           }).then(function(r) {
-            finishBar();
+            clearTimeout(to);
             if (!r.ok) throw new Error();
-            resolve(window.location.origin + BASE + '?d=' + sid);
           }).catch(function() {
+            clearTimeout(to);
+          }).finally(function() {
             finishBar();
-            // DB save failed but file is uploaded — still give the link
             resolve(window.location.origin + BASE + '?d=' + sid);
           });
         } catch(e) {
@@ -636,8 +631,8 @@ function cloudinaryUpload(file, setPct, finishBar) {
 }
 
 
-/* Supabase direct upload (fallback) */
-function directUpload(file, setPct, finishBar) {
+/* Supabase direct upload (fallback) — indeterminate progress */
+function directUpload(file, finishBar) {
   return new Promise(function(resolve, reject) {
     var ext = file.name.split('.').pop();
     var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
@@ -648,28 +643,25 @@ function directUpload(file, setPct, finishBar) {
     xhr.setRequestHeader('Authorization', 'Bearer ' + ANON_KEY);
     xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
 
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        setPct(Math.floor((e.loaded / e.total) * 100));
-      }
-    };
-
     xhr.onload = function() {
       if (xhr.status >= 200 && xhr.status < 300) {
 
-        // Save to DB
+        // Save to DB (timeout 8s max)
         var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
         var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
-
+        var ctrl = new AbortController();
+        var to = setTimeout(function() { ctrl.abort(); }, 8000);
         fetch(SUPABASE_URL + '/rest/v1/uploads', {
           method: 'POST',
+          signal: ctrl.signal,
           headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
           body: JSON.stringify({ file_url: fileUrl, file_name: file.name, file_size: file.size, mime_type: file.type || null, share_id: sid }),
         }).then(function(r) {
-          finishBar();
+          clearTimeout(to);
           if (!r.ok) throw new Error();
-          resolve(window.location.origin + BASE + '?d=' + sid);
         }).catch(function() {
+          clearTimeout(to);
+        }).finally(function() {
           finishBar();
           resolve(window.location.origin + BASE + '?d=' + sid);
         });
