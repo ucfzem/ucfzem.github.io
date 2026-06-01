@@ -478,18 +478,20 @@ function setupUpload() {
     this.textContent = 'Upload en cours...';
     setStatus('');
 
-      // Fallback progress timer (increments every 800ms when lengthComputable false)
-      var fakePct = 0;
-      var fakeTimer = setInterval(function() {
-        fakePct = Math.min(fakePct + 3 + Math.floor(Math.random() * 5), 92);
-        progressFill.style.width = fakePct + '%';
-        uploadPercent.textContent = fakePct + '%';
-      }, 800);
-
       progressBar.classList.add('show');
       uploadPercent.classList.add('show');
       progressFill.style.width = '0%';
       uploadPercent.textContent = '0%';
+
+      // Fallback progress timer (never decreases display)
+      var fakePct = 0;
+      var lastRealPct = -1;
+      var fakeTimer = setInterval(function() {
+        fakePct = Math.min(fakePct + 3 + Math.floor(Math.random() * 5), 92);
+        var d = Math.max(fakePct, lastRealPct);
+        progressFill.style.width = d + '%';
+        uploadPercent.textContent = d + '%';
+      }, 800);
 
 
       try {
@@ -508,9 +510,10 @@ function setupUpload() {
           xhr.upload.onprogress = function(e) {
             if (e.lengthComputable) {
               var pct = Math.min(Math.round((e.loaded / e.total) * 100), 99);
-              progressFill.style.width = pct + '%';
-              uploadPercent.textContent = pct + '%';
-              fakePct = pct;
+              lastRealPct = pct;
+              var d = Math.max(fakePct, pct);
+              progressFill.style.width = d + '%';
+              uploadPercent.textContent = d + '%';
             }
           };
 
