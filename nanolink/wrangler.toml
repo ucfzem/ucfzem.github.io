@@ -1,0 +1,16 @@
+name = "nanolink"
+main = "worker.js"
+compatibility_date = "2025-04-01"
+
+[env.production]
+vars = { BASE_URL = "https://nanolink.to" }
+
+# ── Secrets à configurer ──
+# wrangler secret put SUPABASE_URL
+# wrangler secret put SUPABASE_ANON_KEY
+
+# ── Routage ──
+# Dans le dashboard Cloudflare → Workers & Routes :
+#   *nanolink.to/*  →  nanolink (worker)
+# Ou avec wrangler.toml :
+# routes = ["nanolink.to/*"]
