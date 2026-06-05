@@ -657,10 +657,9 @@
   <!-- SETUP BANNER -->
   <div class="setup-banner" id="setupBanner">
     <strong>⚙️ DEMO MODE</strong> — Pour activer le vrai backend :<br>
-    1. Crée un projet sur <a href="https://supabase.com" target="_blank">supabase.com</a><br>
-    2. Lance le SQL dans le fichier <code>supabase-schema.sql</code><br>
-    3. Remplace <strong>SUPABASE_URL</strong> et <strong>SUPABASE_ANON_KEY</strong> dans la config<br>
-    4. Déploie le <strong>Cloudflare Worker</strong> pour les redirections
+    1. <code>wrangler d1 create nanolink</code> → copie l'ID dans <code>wrangler.toml</code><br>
+    2. <code>wrangler d1 execute nanolink --file=d1-schema.sql</code><br>
+    3. <code>wrangler pages deploy . --project-name=nanolink</code>
   </div>
 
   <!-- TABS -->
@@ -768,68 +767,41 @@
   </div>
 
   <footer>
-    built with ♥ · <span>NanoLink</span> · powered by Supabase + Cloudflare Workers
+    built with ♥ · <span>NanoLink</span> · powered by Cloudflare Pages + D1
   </footer>
 
 </div>
 
 <script>
 // ══════════════════════════════════════════════
-//  CONFIG — remplace avec tes vraies credentials
+//  CONFIG
 // ══════════════════════════════════════════════
-const CONFIG = {
-  supabaseUrl: 'YOUR_SUPABASE_URL',
-  supabaseKey: 'YOUR_SUPABASE_ANON_KEY',
-  baseUrl: 'https://nanolink.to'
-};
+const BASE_URL = window.location.origin;
+const API_BASE = ''; // same origin (worker handles /api/*)
 
-const isDemoMode = CONFIG.supabaseUrl === 'YOUR_SUPABASE_URL';
+const isDemoMode =
+  window.location.hostname === '127.0.0.1' ||
+  window.location.hostname === 'localhost';
 
 // ══════════════════════════════════════════════
 //  STATE
 // ══════════════════════════════════════════════
 let localLinks = JSON.parse(localStorage.getItem('nanolinks') || '[]');
 let chartInstance = null;
+let cachedStats = null;
 
 // ══════════════════════════════════════════════
-//  SUPABASE HELPERS
+//  WORKER API HELPER
 // ══════════════════════════════════════════════
-async function sbFetch(query = '') {
-  const url = `${CONFIG.supabaseUrl}/rest/v1/links?select=*${query}`;
-  const res = await fetch(url, {
-    headers: {
-      'apikey': CONFIG.supabaseKey,
-      'Authorization': `Bearer ${CONFIG.supabaseKey}`
-    }
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}/api${path}`, {
+    headers: { 'Content-Type': 'application/json', ...options.headers },
+    ...options,
   });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-}
-
-async function sbInsert(slug, url) {
-  const res = await fetch(`${CONFIG.supabaseUrl}/rest/v1/links`, {
-    method: 'POST',
-    headers: {
-      'apikey': CONFIG.supabaseKey,
-      'Authorization': `Bearer ${CONFIG.supabaseKey}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation'
-    },
-    body: JSON.stringify({ slug, url, clicks: 0 })
-  });
-  if (!res.ok) throw new Error(await res.text());
-  return (await res.json())[0];
-}
-
-async function sbFetchClickEvents(slug) {
-  const url = `${CONFIG.supabaseUrl}/rest/v1/click_events?select=clicked_at&slug=eq.${encodeURIComponent(slug)}&order=clicked_at.asc`;
-  const res = await fetch(url, {
-    headers: {
-      'apikey': CONFIG.supabaseKey,
-      'Authorization': `Bearer ${CONFIG.supabaseKey}`
-    }
-  });
-  if (!res.ok) return [];
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || `API error (${res.status})`);
+  }
   return res.json();
 }
 
@@ -838,7 +810,9 @@ async function sbFetchClickEvents(slug) {
 // ══════════════════════════════════════════════
 function randomSlug(len = 6) {
   const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
-  return Array.from({length: len}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return Array.from({ length: len }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join('');
 }
 
 function isValidUrl(s) {
@@ -854,7 +828,11 @@ function showError(msg) {
 
 function fmtDate(iso) {
   const d = new Date(iso);
-  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 function fmtShortDate(iso) {
@@ -866,13 +844,11 @@ function fmtShortDate(iso) {
 //  TABS
 // ══════════════════════════════════════════════
 function switchPanel(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
   document.getElementById(`panel-${name}`).classList.add('active');
   document.querySelector(`.tab[data-panel="${name}"]`).classList.add('active');
-  if (name === 'analytics') {
-    renderAnalytics();
-  }
+  if (name === 'analytics') renderAnalytics();
 }
 
 // ══════════════════════════════════════════════
@@ -880,14 +856,18 @@ function switchPanel(name) {
 // ══════════════════════════════════════════════
 async function shortenUrl() {
   const url = document.getElementById('urlInput').value.trim();
-  const alias = document.getElementById('aliasInput').value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  const alias = document
+    .getElementById('aliasInput')
+    .value.trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '');
   const btn = document.getElementById('shortenBtn');
 
   if (!url) return showError('⚠ Colle un lien d\'abord');
   if (!isValidUrl(url)) return showError('⚠ URL invalide — commence par https://');
 
   const slug = alias || randomSlug();
-  const shortUrl = `${CONFIG.baseUrl}/${slug}`;
+  const shortUrl = `${BASE_URL}/${slug}`;
 
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>Création...';
@@ -896,18 +876,25 @@ async function shortenUrl() {
     let linkData;
 
     if (isDemoMode) {
-      await new Promise(r => setTimeout(r, 600));
-      linkData = { slug, url, clicks: 0, created_at: new Date().toISOString() };
-      if (localLinks.find(l => l.slug === slug)) {
+      await new Promise((r) => setTimeout(r, 600));
+      linkData = {
+        slug,
+        url,
+        clicks: 0,
+        created_at: new Date().toISOString(),
+      };
+      if (localLinks.find((l) => l.slug === slug))
         throw new Error('Ce slug est déjà utilisé, essaie un autre alias');
-      }
-      // Generate mock click history
       linkData._clickDays = generateMockClickDays(linkData.created_at);
       localLinks.unshift(linkData);
       localStorage.setItem('nanolinks', JSON.stringify(localLinks.slice(0, 50)));
     } else {
-      linkData = await sbInsert(slug, url);
-      localLinks = await sbFetch('&order=created_at.desc&limit=20');
+      linkData = await apiFetch('/shorten', {
+        method: 'POST',
+        body: JSON.stringify({ url, slug: alias || undefined }),
+      });
+      const links = await apiFetch('/links');
+      localLinks = links;
     }
 
     showResult(shortUrl, linkData);
@@ -915,8 +902,7 @@ async function shortenUrl() {
     updateStats();
     document.getElementById('urlInput').value = '';
     document.getElementById('aliasInput').value = '';
-
-  } catch(e) {
+  } catch (e) {
     showError('❌ ' + (e.message || 'Erreur — slug déjà pris ou connexion impossible'));
   } finally {
     btn.disabled = false;
@@ -942,7 +928,7 @@ function showResult(shortUrl, data) {
     height: 100,
     colorDark: '#080b0f',
     colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.M
+    correctLevel: QRCode.CorrectLevel.M,
   });
 
   card.classList.add('show');
@@ -975,36 +961,57 @@ function renderLinks() {
   const links = localLinks.slice(0, 8);
 
   if (!links.length) {
-    list.innerHTML = '<div class="empty-state">[ aucun lien créé pour l\'instant ]</div>';
+    list.innerHTML =
+      "<div class=\"empty-state\">[ aucun lien créé pour l'instant ]</div>";
     return;
   }
 
-  list.innerHTML = links.map(l => `
-    <div class="link-item" onclick="navigator.clipboard.writeText('${CONFIG.baseUrl}/${l.slug}')">
+  list.innerHTML = links
+    .map(
+      (l) => `
+    <div class="link-item" onclick="navigator.clipboard.writeText('${BASE_URL}/${l.slug}')">
       <div class="link-dot"></div>
       <div class="link-details">
-        <div class="link-short">${CONFIG.baseUrl}/${l.slug}</div>
+        <div class="link-short">${BASE_URL}/${l.slug}</div>
         <div class="link-original">${l.url}</div>
       </div>
       <div class="link-clicks">${l.clicks || 0} clics</div>
     </div>
-  `).join('');
+  `
+    )
+    .join('');
 }
 
 // ══════════════════════════════════════════════
 //  STATS (overview numbers)
 // ══════════════════════════════════════════════
 function updateStats() {
-  const today = new Date().toDateString();
-  const todayLinks = localLinks.filter(l => new Date(l.created_at).toDateString() === today);
-  const totalClicks = localLinks.reduce((s, l) => s + (l.clicks || 0), 0);
-  const firstDate = localLinks.length ? localLinks[localLinks.length - 1].created_at : Date.now();
-  const daysActive = Math.max(1, Math.ceil((Date.now() - new Date(firstDate)) / 86400000));
-  const avg = Math.round(totalClicks / daysActive);
+  let total = localLinks.length;
+  let totalClicks = localLinks.reduce((s, l) => s + (l.clicks || 0), 0);
+  let todayClicks = localLinks.filter(
+    (l) => new Date(l.created_at).toDateString() === new Date().toDateString()
+  ).length;
+  let avg = 0;
 
-  animateNum('statTotal', localLinks.length);
+  const firstDate = localLinks.length
+    ? localLinks[localLinks.length - 1].created_at
+    : Date.now();
+  const daysActive = Math.max(
+    1,
+    Math.ceil((Date.now() - new Date(firstDate)) / 86400000)
+  );
+  avg = Math.round(totalClicks / daysActive);
+
+  if (!isDemoMode && cachedStats) {
+    total = cachedStats.total_links;
+    totalClicks = cachedStats.total_clicks;
+    todayClicks = cachedStats.today_clicks;
+    avg = cachedStats.avg_clicks;
+  }
+
+  animateNum('statTotal', total);
   animateNum('statClicks', totalClicks);
-  animateNum('statToday', todayLinks.length);
+  animateNum('statToday', todayClicks);
   animateNum('statAvg', avg);
 }
 
@@ -1025,9 +1032,7 @@ function animateNum(id, target) {
 //  ANALYTICS — CHART + TOP LINKS
 // ══════════════════════════════════════════════
 function getClickDataForLink(link) {
-  if (isDemoMode) {
-    return link._clickDays || generateMockClickDays(link.created_at);
-  }
+  if (isDemoMode) return link._clickDays || generateMockClickDays(link.created_at);
   return link._clickDays || [];
 }
 
@@ -1042,17 +1047,16 @@ function generateMockClickDays(createdAt) {
     d.setDate(d.getDate() + i);
     data.push({
       date: d.toISOString().split('T')[0],
-      count: Math.floor(Math.random() * 5) + 1
+      count: Math.floor(Math.random() * 5) + 1,
     });
   }
-  // If created today, add a couple more mock days for the chart to show
   if (data.length === 1) {
     for (let i = data.length; i < 3; i++) {
       const d = new Date(now);
       d.setDate(d.getDate() - (3 - i));
       data.unshift({
         date: d.toISOString().split('T')[0],
-        count: Math.floor(Math.random() * 4)
+        count: Math.floor(Math.random() * 4),
       });
     }
   }
@@ -1060,16 +1064,32 @@ function generateMockClickDays(createdAt) {
 }
 
 function aggregateDailyClicks() {
-  const dayMap = {};
+  if (!isDemoMode && cachedStats && cachedStats.clicks_by_day) {
+    const dayMap = {};
+    for (const { day, count } of cachedStats.clicks_by_day) {
+      dayMap[day] = count;
+    }
+    const result = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().split('T')[0];
+      result.push({
+        date: key,
+        label: fmtShortDate(key),
+        count: dayMap[key] || 0,
+      });
+    }
+    return result;
+  }
 
-  localLinks.forEach(link => {
+  const dayMap = {};
+  localLinks.forEach((link) => {
     const clickData = getClickDataForLink(link);
     clickData.forEach(({ date, count }) => {
       dayMap[date] = (dayMap[date] || 0) + count;
     });
   });
-
-  // Fill last 7 days
   const result = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
@@ -1078,7 +1098,7 @@ function aggregateDailyClicks() {
     result.push({
       date: key,
       label: fmtShortDate(key),
-      count: dayMap[key] || 0
+      count: dayMap[key] || 0,
     });
   }
   return result;
@@ -1090,37 +1110,35 @@ function renderChart() {
 
   const data = aggregateDailyClicks();
 
-  if (chartInstance) {
-    chartInstance.destroy();
-  }
+  if (chartInstance) chartInstance.destroy();
 
   chartInstance = new Chart(canvas, {
     type: 'line',
     data: {
-      labels: data.map(d => d.label),
-      datasets: [{
-        label: 'Clics',
-        data: data.map(d => d.count),
-        borderColor: '#00e5ff',
-        backgroundColor: 'rgba(0,229,255,0.08)',
-        borderWidth: 2,
-        pointRadius: 3,
-        pointBackgroundColor: '#00e5ff',
-        pointBorderColor: '#00e5ff',
-        fill: true,
-        tension: 0.35
-      }]
+      labels: data.map((d) => d.label),
+      datasets: [
+        {
+          label: 'Clics',
+          data: data.map((d) => d.count),
+          borderColor: '#00e5ff',
+          backgroundColor: 'rgba(0,229,255,0.08)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#00e5ff',
+          pointBorderColor: '#00e5ff',
+          fill: true,
+          tension: 0.35,
+        },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
         x: {
           grid: { color: 'rgba(30,42,53,0.5)', drawBorder: false },
-          ticks: { color: '#5a7a8a', font: { size: 10, family: 'DM Mono' } }
+          ticks: { color: '#5a7a8a', font: { size: 10, family: 'DM Mono' } },
         },
         y: {
           beginAtZero: true,
@@ -1128,24 +1146,24 @@ function renderChart() {
           ticks: {
             color: '#5a7a8a',
             font: { size: 10, family: 'DM Mono' },
-            stepSize: 1
-          }
-        }
+            stepSize: 1,
+          },
+        },
       },
-      interaction: {
-        intersect: false,
-        mode: 'index'
-      }
-    }
+      interaction: { intersect: false, mode: 'index' },
+    },
   });
 }
 
 function renderTopLinks() {
   const container = document.getElementById('topLinksContainer');
-  const sorted = [...localLinks].sort((a, b) => (b.clicks || 0) - (a.clicks || 0)).slice(0, 5);
+  const sorted = [...localLinks]
+    .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+    .slice(0, 5);
 
   if (!sorted.length) {
-    container.innerHTML = '<div class="empty-state">[ aucun clic pour l\'instant ]</div>';
+    container.innerHTML =
+      '<div class="empty-state">[ aucun clic pour l\'instant ]</div>';
     return;
   }
 
@@ -1160,21 +1178,36 @@ function renderTopLinks() {
         </tr>
       </thead>
       <tbody>
-        ${sorted.map((l, i) => `
+        ${sorted
+          .map(
+            (l, i) => `
           <tr>
             <td class="rank">#${i + 1}</td>
             <td class="top-slug">${l.slug}</td>
             <td class="top-url" title="${l.url}">${l.url}</td>
             <td class="top-clicks">${l.clicks || 0}</td>
           </tr>
-        `).join('')}
+        `
+          )
+          .join('')}
       </tbody>
     </table>
   `;
 }
 
-function renderAnalytics() {
-  document.getElementById('analyticsBadge').textContent = isDemoMode ? 'DEMO' : 'LIVE';
+async function renderAnalytics() {
+  document.getElementById('analyticsBadge').textContent = isDemoMode
+    ? 'DEMO'
+    : 'LIVE';
+
+  if (!isDemoMode) {
+    try {
+      cachedStats = await apiFetch('/stats');
+    } catch (e) {
+      console.warn('Stats fetch failed', e);
+    }
+  }
+
   updateStats();
   renderChart();
   renderTopLinks();
@@ -1183,7 +1216,7 @@ function renderAnalytics() {
 // ══════════════════════════════════════════════
 //  ENTER KEY
 // ══════════════════════════════════════════════
-document.getElementById('urlInput').addEventListener('keydown', e => {
+document.getElementById('urlInput').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') shortenUrl();
 });
 
@@ -1194,9 +1227,9 @@ document.getElementById('urlInput').addEventListener('keydown', e => {
   if (!isDemoMode) {
     document.getElementById('setupBanner').style.display = 'none';
     try {
-      localLinks = await sbFetch('&order=created_at.desc&limit=20');
+      localLinks = await apiFetch('/links');
     } catch (e) {
-      console.warn('Supabase fetch failed, falling back to localStorage', e);
+      console.warn('API fetch failed, falling back to localStorage', e);
     }
   }
   renderLinks();

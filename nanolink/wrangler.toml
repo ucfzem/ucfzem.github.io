@@ -1,16 +1,20 @@
 name = "nanolink"
-main = "worker.js"
 compatibility_date = "2025-04-01"
+compatibility_flags = ["nodejs_compat"]
 
-[env.production]
-vars = { BASE_URL = "https://nanolink.to" }
+pages_build_output_dir = "."
 
-# ── Secrets à configurer ──
-# wrangler secret put SUPABASE_URL
-# wrangler secret put SUPABASE_ANON_KEY
+[[d1_databases]]
+binding = "DB"
+database_name = "nanolink"
+database_id = ""
 
-# ── Routage ──
-# Dans le dashboard Cloudflare → Workers & Routes :
-#   *nanolink.to/*  →  nanolink (worker)
-# Ou avec wrangler.toml :
-# routes = ["nanolink.to/*"]
+# ── Étape 1 ──
+# wrangler d1 create nanolink
+#   → copier database_id ci-dessus
+
+# ── Étape 2 ──
+# wrangler d1 execute nanolink --file=d1-schema.sql
+
+# ── Étape 3 ──
+# wrangler pages deploy . --project-name=nanolink
