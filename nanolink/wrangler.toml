@@ -7,7 +7,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "nanolink"
-database_id = ""
+database_id = "f99664c1-1625-4f9d-8268-8fce3cb4f91b"
 
 # ── Étape 1 ──
 # wrangler d1 create nanolink
