@@ -968,7 +968,7 @@ async function shortenUrl() {
     .replace(/[^a-z0-9-]/g, '');
   const btn = document.getElementById('shortenBtn');
 
-  if (!url) return showError('⚠ Colle un lien d\'abord');
+  if (!url) return showError('⚠ Colle un lien d\u2019abord');
   if (!isValidUrl(url)) return showError('⚠ URL invalide — commence par https://');
 
   const slug = alias || randomSlug();
