@@ -1,0 +1,646 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus — Tech, AI & E-commerce Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f8f6f1;
+    --cream: #f0ece4;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --rust: #c4562a;
+    --muted: #7a7060;
+    --border: #e0dbd0;
+    --white: #fefcf9;
+    --surface: #fefcf9;
+    --success: #3a7d44;
+    --noise-opacity: 0.4;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  [data-theme="dark"] {
+    --ink: #e8e4dc;
+    --paper: #141210;
+    --cream: #1c1a17;
+    --gold: #d4a84c;
+    --gold-light: #e8c96a;
+    --rust: #e67e5a;
+    --muted: #8a7a6a;
+    --border: #2d2820;
+    --white: #1c1a17;
+    --surface: #1c1a17;
+    --success: #7ecba1;
+    --noise-opacity: 0.12;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background .3s, color .3s;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--noise-opacity);
+    transition: opacity .3s;
+  }
+
+  header {
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    transition: .3s;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo { display: flex; align-items: baseline; gap: 0.4rem; }
+  .logo-mark { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.02em; transition: color .3s; }
+  .logo-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--gold); padding: 1px 5px; border-radius: 2px; }
+
+  .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+  .theme-toggle { background: none; border: 1.5px solid var(--border); border-radius: 4px; padding: 0.35rem 0.55rem; cursor: pointer; font-size: 1rem; line-height: 1; transition: .2s; background: var(--surface); color: var(--ink); }
+  .theme-toggle:hover { border-color: var(--gold); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+  .hero { text-align: center; padding: 3.5rem 1.5rem 2.5rem; }
+  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; letter-spacing: -0.02em; max-width: 700px; margin: 0 auto 0.8rem; }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero p { font-size: 0.95rem; color: var(--muted); max-width: 550px; margin: 0 auto; line-height: 1.7; }
+
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; letter-spacing: -0.02em; margin: 2.5rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--gold); display: inline-block; }
+  .section-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+  .articles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
+  @media (max-width: 700px) { .articles { grid-template-columns: 1fr; } }
+
+  .article-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: .25s;
+    box-shadow: var(--card-shadow);
+  }
+  .article-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+  .article-card .thumb {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .article-card .thumb .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, var(--white) 100%);
+  }
+  .article-card .body { padding: 1.2rem 1.3rem 1.3rem; }
+  .article-card .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 2px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  .article-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; line-height: 1.3; margin-bottom: 0.4rem; }
+  .article-card h3 a { color: var(--ink); text-decoration: none; }
+  .article-card h3 a:hover { color: var(--gold); }
+  .article-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .article-card .meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-family: 'DM Mono', monospace; }
+
+  /* App preview miniatures */
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .app-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .25s;
+    box-shadow: var(--card-shadow);
+  }
+  .app-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+
+  .app-preview {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  /* Mini mockups for each app */
+  .mockup {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .mockup-bar {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    color: rgba(255,255,255,0.7);
+  }
+  .mockup-bar .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+  .mockup-body { flex: 1; padding: 6px 8px; display: flex; flex-direction: column; gap: 3px; }
+  .mockup-row { height: 6px; border-radius: 3px; opacity: 0.2; }
+  .mockup-row.w50 { width: 50%; }
+  .mockup-row.w70 { width: 70%; }
+  .mockup-row.w80 { width: 80%; }
+  .mockup-title { height: 10px; width: 60%; border-radius: 3px; margin-bottom: 2px; opacity: 0.35; }
+
+  .app-card .body { padding: 1rem 1.2rem 1.2rem; }
+  .app-card .app-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
+  .app-card h4 { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.3rem; }
+  .app-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+  .app-card .app-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-decoration: none;
+    border: 1px solid var(--gold);
+    padding: 3px 10px;
+    border-radius: 3px;
+    transition: .2s;
+  }
+  .app-card .app-link:hover { background: var(--gold); color: var(--white); }
+
+  .featured-post {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 650px) { .featured-post { grid-template-columns: 1fr; } }
+  .featured-post .fp-visual {
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+  }
+  .featured-post .fp-visual .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, var(--white) 100%);
+  }
+  .featured-post .fp-body { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+  .featured-post .tag { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: 2px 8px; border-radius: 2px; display: inline-block; margin-bottom: 0.5rem; width: fit-content; }
+  .featured-post h2 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.3; margin-bottom: 0.5rem; }
+  .featured-post p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .featured-post .meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-family: 'DM Mono', monospace; }
+
+  .newsletter {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .newsletter h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .newsletter p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
+  .newsletter .nl-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+  .newsletter input { flex: 1; padding: 0.6rem 0.8rem; border: 1.5px solid var(--border); border-radius: 4px; background: var(--white); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; }
+  .newsletter input:focus { border-color: var(--gold); }
+  .newsletter button { padding: 0.6rem 1.2rem; border: none; border-radius: 4px; background: var(--gold); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; cursor: pointer; font-weight: 600; transition: .2s; }
+  .newsletter button:hover { background: var(--gold-light); }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    background: var(--white);
+    transition: .3s;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @media (max-width: 480px) {
+    .container { padding: 0 1rem; }
+    .hero { padding: 2rem 0.5rem 1.5rem; }
+    .apps-grid { grid-template-columns: 1fr; }
+    .newsletter .nl-form { flex-direction: column; }
+    .app-preview { height: 130px; }
+    .article-card .thumb { height: 130px; font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-mark">Nexus</span>
+    <span class="logo-tag">Tech · AI · Ecom</span>
+  </div>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero">
+    <p class="hero-eyebrow">Where innovation meets business</p>
+    <h1>Exploring the future of <em>technology</em>, AI &amp; digital commerce</h1>
+    <p>Insights, tools, and hand-crafted SaaS apps to help you build, automate, and scale in the age of artificial intelligence.</p>
+  </section>
+
+  <!-- Featured Post -->
+  <div class="featured-post">
+    <div class="fp-visual" style="background:linear-gradient(135deg,#0d0a08,#2d251e);color:#c9a84c">
+      🤖
+      <div class="overlay"></div>
+    </div>
+    <div class="fp-body">
+      <span class="tag">Featured</span>
+      <h2>How AI Is Reshaping E-Commerce in 2026</h2>
+      <p>From AI-powered product recommendations to automated customer service and dynamic pricing — the tools we use today are just the beginning. Discover how freelancers and small businesses in Morocco and beyond are leveraging AI to compete globally.</p>
+      <div class="meta">Reading time · 8 min</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Latest Articles</h2>
+  <p class="section-sub">Thoughts on tech, AI, and the future of online business.</p>
+
+  <div class="articles">
+    <div class="article-card">
+      <div class="thumb" style="background:linear-gradient(135deg,#1a2332,#2a3a4a);color:#6b9fff">
+        🧠
+        <div class="overlay"></div>
+      </div>
+      <div class="body">
+        <span class="tag">AI</span>
+        <h3><a href="#">The Rise of AI Agents: From Chatbots to Autonomous Workers</a></h3>
+        <p>AI agents are no longer just chatbots. They book appointments, write code, manage invoices, and even negotiate contracts. Here's what every entrepreneur needs to know.</p>
+        <div class="meta">Jun 5, 2026 · 6 min</div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="thumb" style="background:linear-gradient(135deg,#1a2a1a,#2a4a2a);color:#6bdf6b">
+        🌍
+        <div class="overlay"></div>
+      </div>
+      <div class="body">
+        <span class="tag">E-Commerce</span>
+        <h3><a href="#">Building a Cross-Border E-Commerce Brand from Morocco</a></h3>
+        <p>Moroccan entrepreneurs now have access to payment gateways, logistics partners, and AI tools that make selling globally easier than ever. A practical guide to getting started.</p>
+        <div class="meta">Jun 3, 2026 · 10 min</div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="thumb" style="background:linear-gradient(135deg,#2a1a1a,#4a2a2a);color:#ff9b6b">
+        ⚡
+        <div class="overlay"></div>
+      </div>
+      <div class="body">
+        <span class="tag">Productivity</span>
+        <h3><a href="#">Automating Your Freelance Business: Tools That Actually Work</a></h3>
+        <p>From invoice generation to contract drafting and CV creation — the right stack of free AI tools can save you 10+ hours per week. No coding required.</p>
+        <div class="meta">Jun 1, 2026 · 7 min</div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="thumb" style="background:linear-gradient(135deg,#1a1a2a,#2a2a4a);color:#9b6bff">
+        🔒
+        <div class="overlay"></div>
+      </div>
+      <div class="body">
+        <span class="tag">Legal Tech</span>
+        <h3><a href="#">Digital Contracts &amp; NDAs: Why Every Freelancer Needs Them</a></h3>
+        <p>In the age of remote work, a solid contract is your safety net. Learn how to generate professional NDAs, service agreements, and freelance contracts in seconds.</p>
+        <div class="meta">May 28, 2026 · 5 min</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Our Tools</h2>
+  <p class="section-sub">Free, open-source SaaS apps built for freelancers, entrepreneurs, and creators.</p>
+
+  <div class="apps-grid">
+
+    <!-- MicroInvoice -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#0d0a08,#1c1814)">
+        <div class="mockup" style="background:#161210;border:1px solid #2d251e">
+          <div class="mockup-bar" style="background:#2d251e"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">MicroInvoice</span></div>
+          <div class="mockup-body">
+            <div class="mockup-title" style="background:#d4a373"></div>
+            <div class="mockup-row" style="background:#d4a373;width:90%"></div>
+            <div class="mockup-row" style="background:#8a7a6a;width:60%"></div>
+            <div style="display:flex;gap:3px;margin-top:4px">
+              <div style="flex:1;height:40px;border-radius:3px;background:#2d251e;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#d4a373">🧾</div>
+              <div style="flex:1;height:40px;border-radius:3px;background:#2d251e;display:flex;align-items:center;justify-content:center;font-size:0.45rem;color:#8a7a6a;font-family:monospace">PDF</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">🧾</div>
+        <h4>MicroInvoice</h4>
+        <p>Generate professional PDF invoices in seconds. Multi-language (FR/EN/ES/AR), TVA support, logo upload, and local storage — built for Moroccan freelancers.</p>
+        <a class="app-link" href="/microinvoice/">Open →</a>
+      </div>
+    </div>
+
+    <!-- ContractForge -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a1814,#2a2218)">
+        <div class="mockup" style="background:#1c1a17;border:1px solid #2d2820">
+          <div class="mockup-bar" style="background:#2d2820"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">ContractForge</span></div>
+          <div class="mockup-body">
+            <div class="mockup-title" style="background:#c9a84c;width:70%"></div>
+            <div class="mockup-row" style="background:#7a7060;width:90%"></div>
+            <div class="mockup-row" style="background:#7a7060;width:80%"></div>
+            <div class="mockup-row" style="background:#7a7060;width:60%"></div>
+            <div style="display:flex;gap:3px;margin-top:4px;justify-content:center">
+              <div style="padding:4px 8px;border-radius:3px;background:#c9a84c;color:#1a1814;font-size:0.5rem;font-family:monospace">NDA</div>
+              <div style="padding:4px 8px;border-radius:3px;border:1px solid #2d2820;color:#8a7a6a;font-size:0.5rem;font-family:monospace">Freelance</div>
+              <div style="padding:4px 8px;border-radius:3px;border:1px solid #2d2820;color:#8a7a6a;font-size:0.5rem;font-family:monospace">Lease</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">⚖️</div>
+        <h4>ContractForge</h4>
+        <p>Generate NDAs, freelance contracts, lease agreements, and more. Instant templates with a clean editor — no AI API required. Dark mode included.</p>
+        <a class="app-link" href="/contractforge/">Open →</a>
+      </div>
+    </div>
+
+    <!-- CVForge -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#f5f0e8,#ede8dc)">
+        <div class="mockup" style="background:#ffffff;border:1px solid #d4cfc3">
+          <div class="mockup-bar" style="background:#d4cfc3;color:#7a7060"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">CVForge</span></div>
+          <div class="mockup-body">
+            <div class="mockup-title" style="background:#0e0e0e;width:50%"></div>
+            <div class="mockup-row" style="background:#7a7060;width:40%"></div>
+            <div style="border-bottom:2px solid #c9a84c;margin:3px 0"></div>
+            <div class="mockup-row" style="background:#c9a84c;width:30%"></div>
+            <div class="mockup-row" style="background:#0e0e0e;width:90%;opacity:0.12;height:4px"></div>
+            <div class="mockup-row" style="background:#0e0e0e;width:70%;opacity:0.12;height:4px"></div>
+            <div style="display:flex;gap:3px;margin-top:4px">
+              <div style="height:16px;width:30px;border-radius:3px;background:#e0dbd0"></div>
+              <div style="height:16px;width:40px;border-radius:3px;background:#e0dbd0"></div>
+              <div style="height:16px;width:25px;border-radius:3px;background:#e0dbd0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">📄</div>
+        <h4>CVForge</h4>
+        <p>Create professional résumés instantly. Clean layout, live preview, skills management, experience timeline, and print-ready PDF export.</p>
+        <a class="app-link" href="/cvforge/">Open →</a>
+      </div>
+    </div>
+
+    <!-- NanoLink -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e)">
+        <div class="mockup" style="background:#111122;border:1px solid #2a2a44">
+          <div class="mockup-bar" style="background:#2a2a44"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">NanoLink</span></div>
+          <div class="mockup-body" style="align-items:center;justify-content:center">
+            <div style="width:90%;padding:6px;border-radius:4px;border:1px solid #2a2a44;display:flex;gap:4px">
+              <div style="flex:1;height:8px;border-radius:2px;background:#2a2a44"></div>
+              <div style="padding:2px 8px;border-radius:2px;background:#6b6bff;color:white;font-size:0.45rem;font-family:monospace">SHRT</div>
+            </div>
+            <div style="width:70%;margin-top:4px;display:flex;gap:4px">
+              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
+              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
+              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">🔗</div>
+        <h4>NanoLink</h4>
+        <p>URL shortener with QR codes and click analytics. Fast, clean, and privacy-friendly — no tracking, no accounts, no nonsense.</p>
+        <a class="app-link" href="/nanolink/">Open →</a>
+      </div>
+    </div>
+
+    <!-- Pristine -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a2a2a,#2a4a3a)">
+        <div class="mockup" style="background:#1a2a22;border:1px solid #2a4a3a">
+          <div class="mockup-bar" style="background:#2a4a3a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Pristine</span></div>
+          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
+            <div style="flex:1;height:50px;border-radius:4px;background:#2a4a3a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🖼️</div>
+            <div style="flex:1;height:50px;border-radius:4px;background:#3a6a4a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">✨</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">✨</div>
+        <h4>Pristine</h4>
+        <p>AI-powered photo editor for object removal, background erasing, and image enhancement. Clean interface, runs entirely in the browser.</p>
+        <a class="app-link" href="/pristine/">Open →</a>
+      </div>
+    </div>
+
+    <!-- Magic Eraser -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#2a1a1a,#4a2a2a)">
+        <div class="mockup" style="background:#2a1a1a;border:1px solid #4a2a2a">
+          <div class="mockup-bar" style="background:#4a2a2a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Magic Eraser</span></div>
+          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
+            <div style="flex:1;height:50px;border-radius:4px;background:#4a2a2a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🧹</div>
+            <div style="font-size:0.8rem;color:#e67e5a">→</div>
+            <div style="flex:1;height:50px;border-radius:4px;background:#3a2a2a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">✅</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">🧹</div>
+        <h4>Magic Eraser</h4>
+        <p>Remove unwanted objects from photos using inpainting. Upload, brush, erase — simple three-step workflow for clean results.</p>
+        <a class="app-link" href="/magic-eraser/">Open →</a>
+      </div>
+    </div>
+
+    <!-- Rafeeq -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a2332,#2a3a4a)">
+        <div class="mockup" style="background:#1a2332;border:1px solid #2a3a4a">
+          <div class="mockup-bar" style="background:#2a3a4a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Rafeeq</span></div>
+          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:4px">
+            <div style="flex:2;display:flex;flex-direction:column;gap:2px">
+              <div class="mockup-title" style="background:#6b9fff;width:70%"></div>
+              <div class="mockup-row" style="background:#4a6a8a;width:90%"></div>
+              <div class="mockup-row" style="background:#4a6a8a;width:50%"></div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px;align-items:center">
+              <div style="width:24px;height:24px;border-radius:50%;background:#6b9fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem">💊</div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#2a3a4a;display:flex;align-items:center;justify-content:center;font-size:0.7rem">📋</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">💊</div>
+        <h4>Rafeeq (رفيق)</h4>
+        <p>Medicine tracker and health companion. Log medications, set reminders, track doses — clean mobile-first design for daily health management.</p>
+        <a class="app-link" href="/rafeeq/">Open →</a>
+      </div>
+    </div>
+
+    <!-- TmpDrop -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a)">
+        <div class="mockup" style="background:#1a1a1a;border:1px solid #333">
+          <div class="mockup-bar" style="background:#333"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">TmpDrop</span></div>
+          <div class="mockup-body" style="align-items:center;justify-content:center">
+            <div style="width:80%;height:40px;border:2px dashed #555;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#888">Drop files here</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">📦</div>
+        <h4>TmpDrop</h4>
+        <p>Temporary file sharing with auto-expiring links. No signup, no storage limits — just drag, drop, and share securely with end-to-end encryption.</p>
+        <a class="app-link" href="/tmpdrop/">Open →</a>
+      </div>
+    </div>
+
+    <!-- TmpDropIt -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a1a2a,#2a2a4a)">
+        <div class="mockup" style="background:#1a1a2a;border:1px solid #333">
+          <div class="mockup-bar" style="background:#333"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">TmpDropIt</span></div>
+          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
+            <div style="width:30px;height:30px;border-radius:50%;border:2px solid #6b6bff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#6b6bff">↑</div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px">
+              <div class="mockup-row" style="background:#6b6bff;width:60%"></div>
+              <div class="mockup-row" style="background:#4a4a6a;width:40%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">📤</div>
+        <h4>TmpDropIt</h4>
+        <p>Alternative file sharing tool with multi-file upload, progress tracking, and password-protected downloads. Temporary storage with auto-cleanup.</p>
+        <a class="app-link" href="/tmpdropit/">Open →</a>
+      </div>
+    </div>
+
+    <!-- PromptGenius -->
+    <div class="app-card">
+      <div class="app-preview" style="background:linear-gradient(135deg,#1a1020,#2a1a3a)">
+        <div class="mockup" style="background:#1a1020;border:1px solid #3a2a4a">
+          <div class="mockup-bar" style="background:#3a2a4a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">PromptGenius</span></div>
+          <div class="mockup-body" style="align-items:center;justify-content:center;gap:3px">
+            <div style="width:90%;height:8px;border-radius:4px;background:#3a2a4a"></div>
+            <div style="width:90%;height:24px;border-radius:4px;background:#2a1a3a;border:1px solid #4a3a5a;display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#9b6bff">✨ Generate</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="app-icon">🤖</div>
+        <h4>PromptGenius</h4>
+        <p>AI prompt generator powered by Gemini and Groq. Craft perfect prompts for any use case — content writing, coding, design, marketing, and more.</p>
+        <a class="app-link" href="/promptgenius/">Open →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="newsletter">
+    <h3>Stay in the loop</h3>
+    <p>Get notified about new tools, articles, and updates. No spam — just tech.</p>
+    <div class="nl-form">
+      <input type="email" placeholder="your@email.com" id="nl_email">
+      <button onclick="nlSubmit()">Subscribe</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Nexus Blog · <a href="#">RSS</a> · <a href="https://ucfzem.azer-tyu199p.workers.dev/">All Projects</a> · Built with passion
+</footer>
+
+<script>
+  const STORAGE_KEY = 'nexus-theme';
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+  function toggleTheme() {
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+  (function initTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { applyTheme(saved); return; }
+    applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  })();
+
+  function nlSubmit() {
+    const email = document.getElementById('nl_email').value.trim();
+    if (!email) { alert('Please enter your email.'); return; }
+    alert('📫 Thanks! You\'re subscribed. (Demo — no emails actually sent.)');
+    document.getElementById('nl_email').value = '';
+  }
+</script>
+</body>
+</html>
