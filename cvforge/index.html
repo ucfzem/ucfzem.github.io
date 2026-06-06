@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CVForge — Professional Résumés, Instant</title>
+<title data-i18n="page-title">CVForge — Professional Résumés, Instant</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -493,7 +493,7 @@
   <div class="header-left">
     <div class="logo">
       <span class="logo-mark">CVForge</span>
-      <span class="logo-tag">Free</span>
+      <span class="logo-tag" data-i18n="badge-free">Free</span>
     </div>
     <span class="header-note" data-i18n="header-note">Professional résumés · Print-ready PDF</span>
   </div>
@@ -521,38 +521,38 @@
     <div class="form-grid">
       <div class="field full">
         <label data-i18n="label-name">Full Name</label>
-        <input type="text" id="cv_name" data-i18n="placeholder-name" placeholder="Youssef El Amrani">
+        <input type="text" id="cv_name" data-i18n="placeholder-name" placeholder="Youssef El Amrani" oninput="autoCV()">
       </div>
       <div class="field full">
         <label data-i18n="label-title">Professional Title</label>
-        <input type="text" id="cv_title" data-i18n="placeholder-title" placeholder="Full-Stack Developer & Designer">
+        <input type="text" id="cv_title" data-i18n="placeholder-title" placeholder="Full-Stack Developer & Designer" oninput="autoCV()">
       </div>
       <div class="field full">
         <label data-i18n="label-summary">Summary</label>
-        <textarea id="cv_summary" rows="2" data-i18n="placeholder-summary" placeholder="Brief professional summary..."></textarea>
+        <textarea id="cv_summary" rows="2" data-i18n="placeholder-summary" placeholder="Brief professional summary..." oninput="autoCV()"></textarea>
       </div>
 
       <div class="field">
         <label data-i18n="label-email">Email</label>
-        <input type="text" id="cv_email" data-i18n="placeholder-email" placeholder="youssef@email.com">
+        <input type="text" id="cv_email" data-i18n="placeholder-email" placeholder="youssef@email.com" oninput="autoCV()">
       </div>
       <div class="field">
         <label data-i18n="label-phone">Phone</label>
-        <input type="text" id="cv_phone" data-i18n="placeholder-phone" placeholder="+212 6 XX XX XX XX">
+        <input type="text" id="cv_phone" data-i18n="placeholder-phone" placeholder="+212 6 XX XX XX XX" oninput="autoCV()">
       </div>
       <div class="field">
         <label data-i18n="label-location">Location</label>
-        <input type="text" id="cv_location" data-i18n="placeholder-location" placeholder="Tangier, Morocco">
+        <input type="text" id="cv_location" data-i18n="placeholder-location" placeholder="Tangier, Morocco" oninput="autoCV()">
       </div>
       <div class="field">
         <label data-i18n="label-website">LinkedIn / Portfolio</label>
-        <input type="text" id="cv_website" data-i18n="placeholder-website" placeholder="linkedin.com/in/you">
+        <input type="text" id="cv_website" data-i18n="placeholder-website" placeholder="linkedin.com/in/you" oninput="autoCV()">
       </div>
 
       <div class="section-divider full"><span data-i18n="section-skills">Skills</span></div>
       <div class="field full">
         <label data-i18n="label-skills">Skills (comma-separated)</label>
-        <input type="text" id="cv_skills" data-i18n="placeholder-skills" placeholder="React, Node.js, Python, UI/UX, Figma, Docker">
+        <input type="text" id="cv_skills" data-i18n="placeholder-skills" placeholder="React, Node.js, Python, UI/UX, Figma, Docker" oninput="autoCV()">
       </div>
 
       <div class="section-divider full"><span data-i18n="section-experience">Experience</span></div>
@@ -568,13 +568,13 @@
       <div class="section-divider full"><span data-i18n="section-languages">Languages</span></div>
       <div class="field full">
         <label data-i18n="label-languages">Languages</label>
-        <input type="text" id="cv_langs" data-i18n="placeholder-languages" placeholder="Arabic (Native), French (Fluent), English (Advanced)">
+        <input type="text" id="cv_langs" data-i18n="placeholder-languages" placeholder="Arabic (Native), French (Fluent), English (Advanced)" oninput="autoCV()">
       </div>
 
       <div class="section-divider full"><span data-i18n="section-certifications">Certifications</span></div>
       <div class="field full">
         <label data-i18n="label-certifications">Certifications</label>
-        <textarea rows="2" id="cv_certs" data-i18n="placeholder-certifications" placeholder="AWS Solutions Architect, Google UX Certificate, Scrum Master..."></textarea>
+        <textarea rows="2" id="cv_certs" data-i18n="placeholder-certifications" placeholder="AWS Solutions Architect, Google UX Certificate, Scrum Master..." oninput="autoCV()"></textarea>
       </div>
     </div>
 
@@ -607,6 +607,8 @@
 <script>
   const i18n = {
     fr: {
+      'page-title': 'CVForge — CV professionnels, instantanés',
+      'badge-free': 'Gratuit',
       'header-note': 'CV professionnels · Prêt à imprimer en PDF',
       'hero-title': 'Votre carrière, <em>sur papier.</em>',
       'hero-sub': 'Remplissez vos informations et obtenez un CV professionnel prêt à imprimer ou à sauvegarder en PDF.',
@@ -671,6 +673,8 @@
       'pdf-footer': 'Généré par CVForge'
     },
     en: {
+      'page-title': 'CVForge — Professional Résumés, Instant',
+      'badge-free': 'Free',
       'header-note': 'Professional résumés · Print-ready PDF',
       'hero-title': 'Your career, <em>on paper.</em>',
       'hero-sub': 'Fill in your details and get a clean, professional CV ready to print or save as PDF.',
@@ -735,6 +739,8 @@
       'pdf-footer': 'Generated by CVForge'
     },
     es: {
+      'page-title': 'CVForge — Currículums profesionales, instantáneos',
+      'badge-free': 'Gratis',
       'header-note': 'Currículums profesionales · Listo para imprimir PDF',
       'hero-title': 'Tu carrera, <em>en papel.</em>',
       'hero-sub': 'Completa tus datos y obtén un CV profesional listo para imprimir o guardar como PDF.',
@@ -799,6 +805,8 @@
       'pdf-footer': 'Generado por CVForge'
     },
     ar: {
+      'page-title': 'CVForge — سيرة ذاتية احترافية فورية',
+      'badge-free': 'مجاني',
       'header-note': 'السيرة الذاتية المهنية · جاهزة للطباعة PDF',
       'hero-title': 'مسيرتك المهنية، <em>على الورق.</em>',
       'hero-sub': 'املأ بياناتك واحصل على سيرة ذاتية مهنية نظيفة جاهزة للطباعة أو الحفظ كملف PDF.',
@@ -1022,10 +1030,10 @@
       html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-certifications'] || 'Certifications')}</div><div style="font-size:0.75rem">${certItems.map(c => '• ' + esc(c)).join('<br>')}</div></div>`;
     }
 
-    const noDataKeys = ['load-no-data'];
+    const hasRealData = g('cv_name') || title || summary || email || phone || location || website || skills || langs || certs || validExp.length || validEdu.length;
     return {
       html: html,
-      isPlaceholder: !html,
+      isPlaceholder: !hasRealData,
       placeholderText: `<div style="color:var(--preview-muted);text-align:center;padding:3rem">${esc(i18n[currentLang]['load-no-data'] || 'Fill in your details')}</div>`
     };
   }
