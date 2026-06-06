@@ -1237,12 +1237,31 @@ var LANG = {
 
 var currentLang = localStorage.getItem('rafeeq_lang') || 'ar';
 
-function translateText(text, source, target) {
-  if (!text || !text.trim()) return Promise.resolve(text);
-  var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target;
-  return fetch(url).then(function(r) { return r.json(); }).then(function(data) {
-    return data.responseData && data.responseData.translatedText ? data.responseData.translatedText : text;
-  }).catch(function() { return text; });
+function transliterate(text, toScript) {
+  if (!text) return text;
+  var map = {
+    'ar': { 'ا':'a','أ':'a','إ':'a','آ':'a','ب':'b','ت':'t','ث':'th','ج':'j','ح':'h','خ':'kh','د':'d','ذ':'dh','ر':'r','ز':'z','س':'s','ش':'sh','ص':'s','ض':'d','ط':'t','ظ':'z','ع':'a','غ':'gh','ف':'f','ق':'q','ك':'k','ل':'l','م':'m','ن':'n','ه':'h','ة':'a','و':'w','ي':'y','ى':'a','ئ':'y','ء':'' },
+    'lat': { 'a':'ا','b':'ب','c':'ك','d':'د','e':'ي','f':'ف','g':'ج','h':'ه','i':'ي','j':'ج','k':'ك','l':'ل','m':'م','n':'ن','o':'و','p':'ب','q':'ق','r':'ر','s':'س','t':'ت','u':'و','v':'ف','w':'و','x':'كس','y':'ي','z':'ز', 'sh':'ش','th':'ث','gh':'غ','kh':'خ','dh':'ذ' }
+  };
+  var hasArabic = /[\u0600-\u06FF]/.test(text);
+  if (toScript === 'lat' || (hasArabic && toScript !== 'ar')) {
+    var result = '';
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      result += map['ar'][ch] || ch;
+    }
+    return result;
+  } else if (toScript === 'ar' || (!hasArabic && toScript === 'ar')) {
+    var result = '';
+    var i = 0;
+    while (i < text.length) {
+      var digraph = text.substring(i, i+2).toLowerCase();
+      if (map['lat'][digraph]) { result += map['lat'][digraph]; i += 2; }
+      else { result += map['lat'][text[i].toLowerCase()] || text[i]; i++; }
+    }
+    return result;
+  }
+  return text;
 }
 
 function translateFamily(sourceLang, targetLang) {
@@ -1250,18 +1269,15 @@ function translateFamily(sourceLang, targetLang) {
   var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
   if (fam.length === 0) return;
   showToast('🔄 ' + (LANG[targetLang].translating || 'Translation...'));
-  var promises = [];
+  var sourceScript = (sourceLang === 'ar') ? 'ar' : 'lat';
+  var targetScript = (targetLang === 'ar') ? 'ar' : 'lat';
   fam.forEach(function(member) {
     if (member.name && member.name.trim()) {
-      promises.push(translateText(member.name, sourceLang, targetLang).then(function(t) {
-        member.name = t;
-      }));
+      member.name = transliterate(member.name, targetScript);
     }
   });
-  Promise.all(promises).then(function() {
-    localStorage.setItem('rafeeq_family', JSON.stringify(fam));
-    openDetail('family');
-  });
+  localStorage.setItem('rafeeq_family', JSON.stringify(fam));
+  setTimeout(function() { openDetail('family'); }, 100);
 }
 
 function applyLang(langCode) {
