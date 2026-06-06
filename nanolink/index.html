@@ -3,26 +3,1227 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NanoLink</title>
-<meta http-equiv="refresh" content="0;url=https://nanolink-6nx.pages.dev">
+<title>NanoLink — Shorter. Smarter. Faster.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#080b0f;color:#e8f0f7;font-family:system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.card{background:#131920;border:1px solid #1e2a35;border-radius:16px;padding:40px;max-width:400px;width:90%;text-align:center}
-h1{font-size:28px;margin-bottom:8px}
-h1 span{color:#00e5ff}
-p{color:#5a7a8a;font-size:13px;margin-bottom:20px}
-a{color:#00e5ff;text-decoration:none}
-.spinner{width:24px;height:24px;border:3px solid rgba(0,229,255,0.2);border-top-color:#00e5ff;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
+  :root {
+    --bg: #080b0f;
+    --surface: #0e1318;
+    --card: #131920;
+    --border: #1e2a35;
+    --accent: #00e5ff;
+    --accent2: #ff4d6d;
+    --text: #e8f0f7;
+    --muted: #5a7a8a;
+    --success: #00ffaa;
+    --warning: #ffbe0b;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob-1 {
+    width: 400px; height: 400px;
+    background: rgba(0,229,255,0.06);
+    top: -100px; left: -100px;
+  }
+  .blob-2 {
+    width: 300px; height: 300px;
+    background: rgba(255,77,109,0.05);
+    bottom: -80px; right: -80px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .logo-text span { color: var(--accent); }
+
+  h1 {
+    font-size: clamp(28px, 7vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 12px;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+  }
+  h1 em::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 100%; height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    animation: underline 0.8s 0.5s ease forwards;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 16px;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    background: var(--card);
+    color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.2s; }
+
+  .card-label {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .url-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .url-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+  }
+  .url-input::placeholder { color: var(--muted); }
+
+  .btn {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,229,255,0.3); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-sm {
+    padding: 10px 16px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .alias-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .alias-prefix {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .alias-input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .alias-input:focus { border-color: var(--accent); }
+  .alias-input::placeholder { color: var(--muted); }
+
+  .result-card {
+    display: none;
+    background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(0,255,170,0.04));
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 16px;
+    padding: 24px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .result-card.show { display: block; }
+
+  .result-label {
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--success);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .result-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: blink 1.5s ease infinite;
+  }
+
+  .short-url-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .short-url {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    word-break: break-all;
+    min-width: 160px;
+  }
+
+  .btn-copy {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-copy:hover { background: var(--accent); color: var(--bg); }
+  .btn-copy.copied { background: var(--success); border-color: var(--success); color: var(--bg); }
+
+  .btn-danger {
+    background: transparent;
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    opacity: 0.6;
+  }
+  .btn-danger:hover { background: var(--accent2); color: var(--bg); opacity: 1; }
+
+  .result-meta {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  #qrcode {
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
+    flex-shrink: 0;
+  }
+  #qrcode img, #qrcode canvas { display: block; border-radius: 4px; }
+
+  .link-info {
+    flex: 1;
+    min-width: 140px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--muted); font-family: var(--font-mono); }
+  .info-val { color: var(--text); font-weight: 600; }
+  .info-val.accent { color: var(--accent); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+  .stat-box:hover { border-color: rgba(0,229,255,0.3); }
+  .stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-num.warn { color: var(--warning); }
+  .stat-num.success { color: var(--success); }
+  .stat-label {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .links-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .link-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+  .link-item:hover { border-color: rgba(0,229,255,0.2); transform: translateX(3px); }
+
+  .link-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0,229,255,0.5);
+  }
+  .link-details { flex: 1; min-width: 0; }
+  .link-short {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .link-original {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    margin-top: 2px;
+  }
+  .link-clicks {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .chart-wrap {
+    position: relative;
+    height: 200px;
+    margin-top: 8px;
+  }
+  .chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .top-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .top-table th {
+    font-family: var(--font-mono);
+    color: var(--muted);
+    font-weight: 400;
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+  }
+  .top-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .top-table tr:hover td { background: rgba(0,229,255,0.03); }
+  .top-table .rank {
+    color: var(--muted);
+    width: 24px;
+  }
+  .top-table .top-slug {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .top-table .top-clicks {
+    text-align: right;
+    color: var(--text);
+    font-weight: 700;
+  }
+  .top-table .top-url {
+    color: var(--muted);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .error-msg {
+    display: none;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .error-msg.show { display: block; }
+
+  .demo-badge {
+    display: inline-block;
+    background: rgba(255,77,109,0.15);
+    border: 1px solid rgba(255,77,109,0.3);
+    color: var(--accent2);
+    font-size: 9px;
+    font-family: var(--font-mono);
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  footer span { color: var(--accent2); }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(0,229,255,0); }
+  }
+  @keyframes underline {
+    to { transform: scaleX(1); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(8,11,15,0.3);
+    border-top-color: var(--bg);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  @media (max-width: 520px) {
+    .container { padding: 24px 14px 60px; }
+    .card { padding: 20px 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .result-meta { flex-direction: column; align-items: center; }
+    .link-original { max-width: 180px; }
+    .top-table .top-url { max-width: 100px; }
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="spinner"></div>
-  <h1>Nano<span>Link</span></h1>
-  <p>Redirection vers l'application...</p>
-  <a href="https://nanolink-6nx.pages.dev">nanolink-6nx.pages.dev</a>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⬡</div>
+      <div class="logo-text">Nano<span>Link</span></div>
+    </div>
+    <h1>Shorter.<br><em>Smarter</em>. Faster.</h1>
+    <p class="subtitle">// url shortener · qr generator · click analytics</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-panel="shortener" onclick="switchPanel('shortener')">✂ Raccourcir</button>
+    <button class="tab" data-panel="analytics" onclick="switchPanel('analytics')">📊 Analytics</button>
+  </div>
+
+  <div class="panel active" id="panel-shortener">
+
+    <div class="card">
+      <div class="card-label">// Raccourcir un lien</div>
+      <div class="input-group">
+        <input type="url" class="url-input" id="urlInput" placeholder="https://votre-long-lien.com/article/..." autocomplete="off">
+        <button class="btn" id="shortenBtn" onclick="shortenUrl()">Raccourcir →</button>
+      </div>
+      <div class="alias-row">
+        <span class="alias-prefix">nanolink.to/</span>
+        <input type="text" class="alias-input" id="aliasInput" placeholder="alias-personnalisé (optionnel)" maxlength="20">
+      </div>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-label">Lien créé avec succès</div>
+      <div class="short-url-row">
+        <div class="short-url" id="shortUrlDisplay"></div>
+        <button class="btn-copy" id="copyBtn" onclick="copyUrl()">Copier</button>
+      </div>
+      <div class="result-meta">
+        <div id="qrcode"></div>
+        <div class="link-info">
+          <div class="info-row">
+            <span class="info-key">slug</span>
+            <span class="info-val accent" id="infoSlug">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">clics</span>
+            <span class="info-val" id="infoClicks">0</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">créé</span>
+            <span class="info-val" id="infoDate">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-key">statut</span>
+            <span class="info-val" style="color:var(--success)">actif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">// Liens récents</div>
+      <div class="links-list" id="linksList">
+        <div class="empty-state">[ aucun lien créé pour l'instant ]</div>
+      </div>
+      <div style="margin-top:12px;text-align:right;display:none" id="clearWrap">
+        <button class="btn-danger" onclick="clearHistory()">✕ Effacer l'historique</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel" id="panel-analytics">
+
+    <div class="card">
+      <div class="card-label">
+        // Vue d'ensemble
+        <span class="demo-badge" id="analyticsBadge">DEMO</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-label">Liens créés</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="statClicks">0</div>
+          <div class="stat-label">Clics total</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num warn" id="statToday">0</div>
+          <div class="stat-label">Aujourd'hui</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num success" id="statAvg">0</div>
+          <div class="stat-label">Moy. / jour</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">// Clics par jour (7 derniers jours)</div>
+      <div class="chart-wrap">
+        <canvas id="clicksChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">// Top liens</div>
+      <div id="topLinksContainer">
+        <div class="empty-state">[ aucun clic pour l'instant ]</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    built with ♥ · <span>NanoLink</span> · powered by Cloudflare Pages + D1
+  </footer>
+
 </div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════
+const BASE_URL = window.location.origin;
+const API_BASE = '';
+
+// Mode LIVE — D1 + Cloudflare Functions sont déployés
+const isDemoMode = false;
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let localLinks = JSON.parse(localStorage.getItem('nanolinks') || '[]');
+let chartInstance = null;
+let cachedStats = null;
+
+// ══════════════════════════════════════════════
+//  API HELPER
+// ══════════════════════════════════════════════
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API_BASE}/api${path}`, {
+    headers: { 'Content-Type': 'application/json', ...options.headers },
+    ...options,
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || `API error (${res.status})`);
+  }
+  return res.json();
+}
+
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
+function randomSlug(len = 6) {
+  const chars = 'abcdefghijkmnpqrstuvwxyz23456789';
+  return Array.from({ length: len }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join('');
+}
+
+function isValidUrl(s) {
+  try { new URL(s); return true; } catch { return false; }
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function fmtShortDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+}
+
+// ══════════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════════
+function switchPanel(name) {
+  document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+  document.querySelector(`.tab[data-panel="${name}"]`).classList.add('active');
+  if (name === 'analytics') renderAnalytics();
+}
+
+// ══════════════════════════════════════════════
+//  SHORTEN
+// ══════════════════════════════════════════════
+async function shortenUrl() {
+  const url = document.getElementById('urlInput').value.trim();
+  const alias = document
+    .getElementById('aliasInput')
+    .value.trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '');
+  const btn = document.getElementById('shortenBtn');
+
+  if (!url) return showError('⚠ Colle un lien d\'abord');
+  if (!isValidUrl(url)) return showError('⚠ URL invalide — commence par https://');
+
+  const slug = alias || randomSlug();
+  const shortUrl = `${BASE_URL}/${slug}`;
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Création...';
+
+  try {
+    let linkData;
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 600));
+      linkData = {
+        slug,
+        url,
+        clicks: 0,
+        created_at: new Date().toISOString(),
+      };
+      if (localLinks.find((l) => l.slug === slug))
+        throw new Error('Ce slug est déjà utilisé, essaie un autre alias');
+      linkData._clickDays = generateMockClickDays(linkData.created_at);
+      localLinks.unshift(linkData);
+      localStorage.setItem('nanolinks', JSON.stringify(localLinks.slice(0, 50)));
+    } else {
+      linkData = await apiFetch('/shorten', {
+        method: 'POST',
+        body: JSON.stringify({ url, slug: alias || undefined }),
+      });
+      const links = await apiFetch('/links');
+      localLinks = links;
+    }
+
+    showResult(shortUrl, linkData);
+    renderLinks();
+    updateStats();
+    document.getElementById('urlInput').value = '';
+    document.getElementById('aliasInput').value = '';
+  } catch (e) {
+    showError('❌ ' + (e.message || 'Erreur — slug déjà pris ou connexion impossible'));
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Raccourcir →';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  SHOW RESULT
+// ══════════════════════════════════════════════
+function showResult(shortUrl, data) {
+  const card = document.getElementById('resultCard');
+  document.getElementById('shortUrlDisplay').textContent = shortUrl;
+  document.getElementById('infoSlug').textContent = data.slug;
+  document.getElementById('infoClicks').textContent = data.clicks || 0;
+  document.getElementById('infoDate').textContent = fmtDate(data.created_at);
+
+  const qrEl = document.getElementById('qrcode');
+  qrEl.innerHTML = '';
+  new QRCode(qrEl, {
+    text: shortUrl,
+    width: 100,
+    height: 100,
+    colorDark: '#080b0f',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M,
+  });
+
+  card.classList.add('show');
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('copyBtn').textContent = 'Copier';
+  document.getElementById('copyBtn').classList.remove('copied');
+}
+
+// ══════════════════════════════════════════════
+//  COPY
+// ══════════════════════════════════════════════
+function copyUrl() {
+  const url = document.getElementById('shortUrlDisplay').textContent;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copié !';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copier';
+      btn.classList.remove('copied');
+    }, 2500);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  RENDER LINKS
+// ══════════════════════════════════════════════
+function renderLinks() {
+  const list = document.getElementById('linksList');
+  const links = localLinks.slice(0, 8);
+  const wrap = document.getElementById('clearWrap');
+
+  if (!links.length) {
+    list.innerHTML =
+      "<div class=\"empty-state\">[ aucun lien créé pour l'instant ]</div>";
+    wrap.style.display = 'none';
+    return;
+  }
+
+  wrap.style.display = 'block';
+  list.innerHTML = links
+    .map(
+      (l) => `
+    <div class="link-item" onclick="navigator.clipboard.writeText('${BASE_URL}/${l.slug}')">
+      <div class="link-dot"></div>
+      <div class="link-details">
+        <div class="link-short">${BASE_URL}/${l.slug}</div>
+        <div class="link-original">${l.url}</div>
+      </div>
+      <div class="link-clicks">${l.clicks || 0} clics</div>
+    </div>
+  `
+    )
+    .join('');
+}
+
+// ══════════════════════════════════════════════
+//  CLEAR HISTORY
+// ══════════════════════════════════════════════
+async function clearHistory() {
+  if (!confirm('Supprimer tous les liens ?')) return;
+  if (isDemoMode) {
+    localLinks = [];
+    localStorage.removeItem('nanolinks');
+    document.getElementById('resultCard').classList.remove('show');
+  } else {
+    document.getElementById('clearWrap').querySelector('button').disabled = true;
+    try {
+      await apiFetch('/links', { method: 'DELETE' });
+      localLinks = [];
+    } catch (e) {
+      showError('Erreur lors du nettoyage');
+    }
+    document.getElementById('clearWrap').querySelector('button').disabled = false;
+  }
+  renderLinks();
+  updateStats();
+}
+
+// ══════════════════════════════════════════════
+//  STATS (overview numbers)
+// ══════════════════════════════════════════════
+function updateStats() {
+  let total = localLinks.length;
+  let totalClicks = localLinks.reduce((s, l) => s + (l.clicks || 0), 0);
+  let todayClicks = localLinks.filter(
+    (l) => new Date(l.created_at).toDateString() === new Date().toDateString()
+  ).length;
+  let avg = 0;
+
+  const firstDate = localLinks.length
+    ? localLinks[localLinks.length - 1].created_at
+    : Date.now();
+  const daysActive = Math.max(
+    1,
+    Math.ceil((Date.now() - new Date(firstDate)) / 86400000)
+  );
+  avg = Math.round(totalClicks / daysActive);
+
+  if (!isDemoMode && cachedStats) {
+    total = cachedStats.total_links;
+    totalClicks = cachedStats.total_clicks;
+    todayClicks = cachedStats.today_clicks;
+    avg = cachedStats.avg_clicks;
+  }
+
+  animateNum('statTotal', total);
+  animateNum('statClicks', totalClicks);
+  animateNum('statToday', todayClicks);
+  animateNum('statAvg', avg);
+}
+
+function animateNum(id, target) {
+  const el = document.getElementById(id);
+  const current = parseInt(el.textContent) || 0;
+  if (current === target) return;
+  const step = Math.max(1, Math.ceil((target - current) / 15));
+  let val = current;
+  const iv = setInterval(() => {
+    val = Math.min(val + step, target);
+    el.textContent = val;
+    if (val >= target) clearInterval(iv);
+  }, 40);
+}
+
+// ══════════════════════════════════════════════
+//  ANALYTICS — CHART + TOP LINKS
+// ══════════════════════════════════════════════
+function getClickDataForLink(link) {
+  if (isDemoMode) return link._clickDays || generateMockClickDays(link.created_at);
+  return link._clickDays || [];
+}
+
+function generateMockClickDays(createdAt) {
+  const start = new Date(createdAt);
+  const now = new Date();
+  let days = Math.max(1, Math.ceil((now - start) / 86400000));
+  days = Math.min(7, days);
+  const data = [];
+  for (let i = 0; i < days; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    data.push({
+      date: d.toISOString().split('T')[0],
+      count: Math.floor(Math.random() * 5) + 1,
+    });
+  }
+  if (data.length === 1) {
+    for (let i = data.length; i < 3; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - (3 - i));
+      data.unshift({
+        date: d.toISOString().split('T')[0],
+        count: Math.floor(Math.random() * 4),
+      });
+    }
+  }
+  return data;
+}
+
+function aggregateDailyClicks() {
+  if (!isDemoMode && cachedStats && cachedStats.clicks_by_day) {
+    const dayMap = {};
+    for (const { day, count } of cachedStats.clicks_by_day) {
+      dayMap[day] = count;
+    }
+    const result = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().split('T')[0];
+      result.push({
+        date: key,
+        label: fmtShortDate(key),
+        count: dayMap[key] || 0,
+      });
+    }
+    return result;
+  }
+
+  const dayMap = {};
+  localLinks.forEach((link) => {
+    const clickData = getClickDataForLink(link);
+    clickData.forEach(({ date, count }) => {
+      dayMap[date] = (dayMap[date] || 0) + count;
+    });
+  });
+  const result = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().split('T')[0];
+    result.push({
+      date: key,
+      label: fmtShortDate(key),
+      count: dayMap[key] || 0,
+    });
+  }
+  return result;
+}
+
+function renderChart() {
+  const canvas = document.getElementById('clicksChart');
+  if (!canvas) return;
+
+  const data = aggregateDailyClicks();
+
+  if (chartInstance) chartInstance.destroy();
+
+  chartInstance = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: data.map((d) => d.label),
+      datasets: [
+        {
+          label: 'Clics',
+          data: data.map((d) => d.count),
+          borderColor: '#00e5ff',
+          backgroundColor: 'rgba(0,229,255,0.08)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#00e5ff',
+          pointBorderColor: '#00e5ff',
+          fill: true,
+          tension: 0.35,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { color: 'rgba(30,42,53,0.5)', drawBorder: false },
+          ticks: { color: '#5a7a8a', font: { size: 10, family: 'DM Mono' } },
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(30,42,53,0.5)', drawBorder: false },
+          ticks: {
+            color: '#5a7a8a',
+            font: { size: 10, family: 'DM Mono' },
+            stepSize: 1,
+          },
+        },
+      },
+      interaction: { intersect: false, mode: 'index' },
+    },
+  });
+}
+
+function renderTopLinks() {
+  const container = document.getElementById('topLinksContainer');
+  const sorted = [...localLinks]
+    .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+    .slice(0, 5);
+
+  if (!sorted.length) {
+    container.innerHTML =
+      '<div class="empty-state">[ aucun clic pour l\'instant ]</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table class="top-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Slug</th>
+          <th>URL</th>
+          <th style="text-align:right">Clics</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sorted
+          .map(
+            (l, i) => `
+          <tr>
+            <td class="rank">#${i + 1}</td>
+            <td class="top-slug">${l.slug}</td>
+            <td class="top-url" title="${l.url}">${l.url}</td>
+            <td class="top-clicks">${l.clicks || 0}</td>
+          </tr>
+        `
+          )
+          .join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function renderAnalytics() {
+  document.getElementById('analyticsBadge').textContent = isDemoMode
+    ? 'DEMO'
+    : 'LIVE';
+
+  if (!isDemoMode) {
+    try {
+      cachedStats = await apiFetch('/stats');
+    } catch (e) {
+      console.warn('Stats fetch failed', e);
+    }
+  }
+
+  updateStats();
+  renderChart();
+  renderTopLinks();
+}
+
+// ══════════════════════════════════════════════
+//  ENTER KEY
+// ══════════════════════════════════════════════
+document.getElementById('urlInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') shortenUrl();
+});
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+(async () => {
+  try {
+    localLinks = await apiFetch('/links');
+  } catch (e) {
+    console.warn('API fetch failed', e);
+  }
+  renderLinks();
+  updateStats();
+})();
+</script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-name = "nanolink"
-compatibility_date = "2025-04-01"
+name = "nanolink-v2"
+compatibility_date = "2026-06-05"
 compatibility_flags = ["nodejs_compat"]
 
 pages_build_output_dir = "."
@@ -7,14 +7,4 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "nanolink"
-database_id = "f99664c1-1625-4f9d-8268-8fce3cb4f91b"
-
-# ── Étape 1 ──
-# wrangler d1 create nanolink
-#   → copier database_id ci-dessus
-
-# ── Étape 2 ──
-# wrangler d1 execute nanolink --file=d1-schema.sql
-
-# ── Étape 3 ──
-# wrangler pages deploy . --project-name=nanolink
+database_id = "26026c32-50fc-4be4-bf4e-230b4ca88787"
