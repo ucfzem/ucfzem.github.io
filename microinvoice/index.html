@@ -266,11 +266,13 @@ document.getElementById('invDue').value=due.toISOString().split('T')[0];
 items=[{desc:'Développement site vitrine responsive',qty:1,price:3500},{desc:'Hébergement + domaine (12 mois)',qty:1,price:1200},{desc:'Logo + charte graphique',qty:1,price:1500}];
 autoNumber();renderItems();refreshPreview()}
 // ══════ AUTO NUMBER ══════
-function autoNumber(){const count=savedInvoices.length+1;const y=new Date().getFullYear();
-document.getElementById('invNum').value='FAC-'+y+'-'+String(count).padStart(3,'0')}
+function autoNumber(){const y=new Date().getFullYear();
+const maxNum=savedInvoices.reduce((m,d)=>{const match=d.invNum?.match(/FAC-\d+-(\d+)/);return match?Math.max(m,+match[1]):m},0);
+document.getElementById('invNum').value='FAC-'+y+'-'+String(maxNum+1).padStart(3,'0')}
 // ══════ PDF ══════
 function exportPDF(){try{
 if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){toast('Chargement du PDF…');setTimeout(exportPDF,800);return}
+if(!document.getElementById('client').value&&!items.some(it=>it.desc)){toast('Ajoutez un client et au moins un article');return}
 const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];const pageW=190;const margin=14;const clr=[212,163,115];const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
 function w(text,x,y,color,size,opt){doc.setFontSize(size||10);if(opt)doc.setFont('Helvetica',opt);if(color)doc.setTextColor(color[0],color[1],color[2]);doc.text(text,x,y)}
 w('MicroInvoice',margin,20,clr,18,'bold');
@@ -280,8 +282,8 @@ const emit=document.getElementById('emitName').value||'MicroInvoice';
 w(t.from+':',margin,38,clr,9,'bold');
 w(emit,margin,44,[240,236,228],10);
 const emitDetail=[document.getElementById('emitAddr').value,document.getElementById('emitICE').value?t.iceLbl+' '+document.getElementById('emitICE').value:'',document.getElementById('emitEmail').value,document.getElementById('emitPhone').value].filter(Boolean);
-emitDetail.forEach((l,i)=>w(l,margin,52+i*5,[140,130,120],8));
-const cy=emitDetail.length*5+56;
+const detailY=48;emitDetail.forEach((l,i)=>w(l,margin,detailY+i*5,[140,130,120],8));
+const cy=detailY+emitDetail.length*5+5;
 w(t.to+':',margin,cy,clr,9,'bold');
 w(document.getElementById('client').value||'-',margin,cy+6,[240,236,228],10);
 const cliAddr=document.getElementById('cliAddr').value;if(cliAddr)w(cliAddr,margin,cy+12,[140,130,120],8);
@@ -291,7 +293,8 @@ w(t.subtotal+': '+fmtPDF(sub),pageW-margin,fy,[240,236,228],10,'bold');
 w(t.tax+' ('+rate+'%): '+fmtPDF(tax),pageW-margin,fy+7,[240,236,228],10,'bold');
 w(t.grandTotal+': '+fmtPDF(sub+tax),pageW-margin,fy+16,clr,14,'bold');
 const notes=document.getElementById('notes').value;
-if(notes){w(t.notesPlaceholder,fy>120?fy+8:120,[100,100,100],8,'italic');w(notes,fy>120?fy+14:126,[140,130,120],7)}
+if(notes){const ny=fy+26;w(t.notesPlaceholder,margin,ny,[100,100,100],8,'italic');w(notes,margin,ny+5,[140,130,120],7)}
+if(logoData){try{doc.addImage(logoData,'PNG',pageW-margin-12,margin-6,12,12)}catch(e){}}
 w('MicroInvoice — '+t.invTitle.toLowerCase()+' #'+document.getElementById('invNum').value,pageW/2,280,[100,100,100],7);
 doc.save('facture-'+document.getElementById('invNum').value+'.pdf')
 toast('✓ PDF téléchargé')
