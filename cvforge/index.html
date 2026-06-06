@@ -1022,7 +1022,12 @@
       html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-certifications'] || 'Certifications')}</div><div style="font-size:0.75rem">${certItems.map(c => '• ' + esc(c)).join('<br>')}</div></div>`;
     }
 
-    return html || `<div style="color:var(--preview-muted);text-align:center;padding:3rem">${esc(i18n[currentLang]['load-no-data'] || 'Fill in your details')}</div>`;
+    const noDataKeys = ['load-no-data'];
+    return {
+      html: html,
+      isPlaceholder: !html,
+      placeholderText: `<div style="color:var(--preview-muted);text-align:center;padding:3rem">${esc(i18n[currentLang]['load-no-data'] || 'Fill in your details')}</div>`
+    };
   }
 
   let cvHTML = '';
@@ -1030,12 +1035,15 @@
   function generateCV() {
     const status = document.getElementById('status');
     const output = document.getElementById('cv-output');
-    cvHTML = buildCV();
-    if (cvHTML.includes('Fill in your details') || cvHTML.includes('املأ بياناتك')) {
+    const result = buildCV();
+    if (result.isPlaceholder) {
+      cvHTML = '';
+      output.innerHTML = result.placeholderText;
       status.textContent = i18n[currentLang]['status-error'] || '⚠ Fill in at least your name and some details.';
       status.className = 'status-bar error';
       return;
     }
+    cvHTML = result.html;
     output.innerHTML = cvHTML;
     status.textContent = i18n[currentLang]['status-success'] || '✓ CV generated';
     status.className = 'status-bar success';
