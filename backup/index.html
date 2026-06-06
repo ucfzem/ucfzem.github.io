@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MicroInvoice — Factures PDF en ligne</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<style>
+:root{--bg:#0d0a08;--surface:#161210;--card:#1c1814;--border:#2d251e;--accent:#d4a373;--text:#f0ece4;--muted:#8a7a6a;--success:#7ecba1;--font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,sans-serif;--mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:20px 12px}
+header{text-align:center;margin-bottom:16px}
+.logo{font-size:20px;font-weight:800;color:var(--accent);letter-spacing:-.5px}
+.logo span{color:var(--text)}
+.lang-row{display:flex;gap:4px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.lang-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:11px;font-family:var(--mono);transition:.2s}
+.lang-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:700}
+.lang-btn:hover{border-color:var(--accent);color:var(--text)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px}
+.card-label{font-size:9px;font-family:var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.field{flex:1;min-width:140px}
+.field label{display:block;font-size:10px;color:var(--muted);margin-bottom:3px;font-family:var(--mono)}
+.field input,.field select,.field textarea{padding:8px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-family:var(--mono);outline:none;transition:.2s;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:50px}
+.items-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.items-table th{padding:6px 8px;text-align:left;font-size:9px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border)}
+.items-table td{padding:4px;border-bottom:1px solid var(--border)}
+.items-table input{background:transparent;border:none;color:var(--text);font-size:11px;font-family:var(--mono);padding:3px;width:100%;outline:none}
+.items-table input:focus{background:var(--surface);border-radius:4px}
+.btn{padding:8px 16px;border-radius:6px;border:none;font-family:var(--font);font-weight:700;font-size:12px;cursor:pointer;transition:.2s}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{box-shadow:0 4px 16px rgba(212,163,115,.3)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-danger{background:transparent;border:1px solid #e67e5a;color:#e67e5a}
+.btn-danger:hover{background:#e67e5a;color:var(--bg)}
+.row-actions{display:flex;gap:4px;justify-content:center}
+.row-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px 4px}
+.row-actions button:hover{color:#e67e5a}
+.total-row{display:flex;justify-content:flex-end;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.total-row .label{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.total-row .value{font-size:16px;font-weight:800;color:var(--accent)}
+.preview-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-top:8px;font-family:var(--mono);font-size:11px;line-height:1.5}
+.preview-box .p-header{display:flex;justify-content:space-between;margin-bottom:16px;align-items:flex-start}
+.preview-box .p-brand{display:flex;align-items:center;gap:12px}
+.preview-box .p-logo{width:50px;height:50px;object-fit:contain;border-radius:4px;background:white;padding:2px}
+.preview-box .p-title{font-size:18px;font-weight:700;color:var(--accent)}
+.preview-box .p-emitter{color:var(--text);font-size:11px}
+.preview-box .p-emitter-detail{color:var(--muted);font-size:10px}
+.preview-box .p-client{margin:12px 0;padding:10px;background:rgba(212,163,115,0.05);border-radius:6px}
+.preview-box .p-client strong{color:var(--accent)}
+.preview-box .p-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:10px}
+.preview-box .p-table th{padding:5px;text-align:left;border-bottom:1px solid var(--border);color:var(--muted);text-transform:uppercase;font-size:8px}
+.preview-box .p-table td{padding:5px;border-bottom:1px solid var(--border)}
+.preview-box .p-total{text-align:right;font-size:15px;font-weight:700;margin-top:10px;color:var(--accent)}
+.preview-box .p-notes{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);color:var(--muted);font-size:10px;font-style:italic}
+.action-bar{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-family:var(--mono)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:10px 20px;border-radius:8px;font-size:12px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+.logo-upload{position:relative;display:inline-block}
+.logo-upload input{opacity:0;position:absolute;inset:0;cursor:pointer}
+.logo-upload .preview-logo{width:48px;height:48px;border-radius:6px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);overflow:hidden}
+.logo-upload .preview-logo img{width:100%;height:100%;object-fit:contain}
+.logo-upload:hover .preview-logo{border-color:var(--accent)}
+.invoice-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.invoice-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surface);border-radius:6px;font-size:11px;font-family:var(--mono);border:1px solid var(--border)}
+.invoice-item span{color:var(--muted)}
+.invoice-item strong{color:var(--text)}
+@media(max-width:520px){.row{flex-direction:column}.field{min-width:100%}.preview-box .p-header{flex-direction:column;gap:8px}}
+[dir=rtl]{text-align:right}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+<div class="logo"><span>Micro</span>Invoice</div>
+<div class="lang-row">
+<button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+<button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+<button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+<button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
+</div>
+</header>
+
+<div class="card">
+<div class="card-label" id="lblEmitter">// Émetteur</div>
+<div class="row">
+<div class="field"><label id="lblEmitName">Nom / Société</label><input id="emitName" placeholder="Votre nom ou société"></div>
+<div class="field"><label id="lblEmitICE">ICE</label><input id="emitICE" placeholder="1234567890000"></div>
+</div>
+<div class="row">
+<div class="field"><label id="lblEmitAddr">Adresse</label><input id="emitAddr" placeholder="Ville, rue, code postal"></div>
+<div class="field"><label id="lblEmitEmail">Email</label><input id="emitEmail" type="email" placeholder="email@exemple.com"></div>
+<div class="field"><label id="lblEmitPhone">Tél</label><input id="emitPhone" placeholder="+212 6 XX XX XX XX"></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-label" id="lblClient">// Client</div>
+<div class="row">
+<div class="field"><label id="lblCliName">Client</label><input id="client" placeholder="Nom / Société"></div>
+<div class="field"><label id="lblCliAddr">Adresse</label><input id="cliAddr" placeholder="Ville, rue, code postal"></div>
+</div>
+<div class="row">
+<div class="field"><label id="lblCliEmail">Email</label><input id="cliEmail" type="email" placeholder="client@exemple.com"></div>
+<div class="field"><label id="lblCliPhone">Tél</label><input id="cliPhone" placeholder="+212 6 XX XX XX XX"></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-label" id="lblInvoice">// Facture</div>
+<div class="row">
+<div class="field"><label id="lblNum">N° Facture</label><input id="invNum" readonly style="background:var(--card);color:var(--accent);font-weight:700"></div>
+<div class="field"><label id="lblDate">Date</label><input id="invDate" type="date"></div>
+<div class="field"><label id="lblDue">Échéance</label><input id="invDue" type="date"></div>
+<div class="field"><label id="lblCurrency">Devise</label><select id="currency"><option value="MAD">MAD (درهم)</option><option value="EUR">EUR (€)</option></select></div>
+<div class="field"><label id="lblTVA">TVA</label><select id="tvaRate"><option value="20">20%</option><option value="14">14%</option><option value="10">10%</option><option value="7">7%</option><option value="0">0% (Exonéré)</option></select></div>
+</div>
+<div class="row" style="margin-top:8px">
+<div class="field" style="flex:0 0 auto"><label id="lblLogo">Logo</label><div class="logo-upload"><div class="preview-logo" id="logoPreview">+</div><input type="file" accept="image/*" id="logoInput" onchange="loadLogo(event)"></div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-label" id="lblItems">// Articles</div>
+<table class="items-table">
+<thead><tr>
+<th id="thDesc" style="width:45%">Description</th>
+<th id="thQty" style="width:50px">Qté</th>
+<th id="thPrice" style="width:90px">Prix unit.</th>
+<th id="thTotal" style="width:90px;text-align:right">Total</th>
+<th style="width:24px"></th>
+</tr></thead>
+<tbody id="itemsBody"></tbody>
+</table>
+<button class="btn btn-outline" onclick="addItem()" style="margin-top:6px" id="btnAdd">+ Ajouter</button>
+<div class="total-row">
+<div><span class="label" id="lblSubtotal">Sous-total</span><br><span class="value" id="subtotalVal">0,00</span></div>
+<div><span class="label" id="lblTax">TVA</span><br><span class="value" id="taxVal">0,00</span></div>
+<div><span class="label" id="lblGrandTotal">Total</span><br><span class="value" id="grandTotalVal">0,00</span></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-label" id="lblNotes">// Notes</div>
+<div class="field"><textarea id="notes" rows="2" placeholder="Conditions de paiement, délais, remerciements…"></textarea></div>
+</div>
+
+<div class="card">
+<div class="card-label" id="lblPreview">// Aperçu</div>
+<div class="preview-box" id="preview">
+<div class="p-header">
+<div class="p-brand"><div class="p-logo" id="pLogo"></div><div><div class="p-title">MicroInvoice</div><div class="p-emitter" id="pEmit"></div><div class="p-emitter-detail" id="pEmitDetail"></div></div></div>
+<div style="text-align:right"><div style="font-size:16px;font-weight:700;color:var(--accent)" id="pNum">FAC-2026-001</div><div class="p-emitter-detail" id="pDate"></div><div class="p-emitter-detail" id="pDue"></div></div>
+</div>
+<div class="p-client" id="pClient"></div>
+<table class="p-table"><thead><tr><th id="pThDesc">Description</th><th id="pThQty">Qté</th><th id="pThPrice">P.U.</th><th id="pThTotal" style="text-align:right">Total</th></tr></thead>
+<tbody id="pItems"></tbody></table>
+<div class="p-total" id="pTotal">0,00</div>
+<div class="p-notes" id="pNotes"></div>
+</div>
+</div>
+
+<div class="action-bar">
+<button class="btn btn-outline" onclick="loadDemo()">🎲 Démo</button>
+<button class="btn btn-outline" onclick="saveInvoice()">💾 Enregistrer</button>
+<button class="btn btn-primary" onclick="exportPDF()">📄 Télécharger PDF</button>
+</div>
+
+<div class="card" id="historyCard" style="display:none">
+<div class="card-label" id="lblHistory">// Historique</div>
+<div class="invoice-list" id="invoiceList"></div>
+<button class="btn btn-danger" onclick="clearHistory()" style="margin-top:8px;font-size:10px;padding:4px 10px">✕ Tout effacer</button>
+</div>
+
+<footer>MicroInvoice — AR · FR · EN · ES</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script>
+// ══════ LANG ══════
+const L={fr:{emitter:"// Émetteur",emitName:"Nom / Société",emitICE:"ICE",emitAddr:"Adresse",emitEmail:"Email",emitPhone:"Tél",client:"// Client",cliName:"Client",cliAddr:"Adresse du client",cliEmail:"Email client",cliPhone:"Tél client",invoice:"// Facture",num:"N° Facture",date:"Date",due:"Échéance",currency:"Devise",tva:"TVA",logo:"Logo",items:"// Articles",desc:"Description",qty:"Qté",price:"Prix unit.",total:"Total",add:"+ Ajouter",subtotal:"Sous-total",tax:"TVA",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Conditions de paiement, délais, remerciements…",preview:"// Aperçu",pdf:"📄 Télécharger PDF",save:"💾 Enregistrer",demo:"🎲 Démo",history:"// Historique",delete:"✕",clearAll:"✕ Tout effacer",saved:"✓ Facture enregistrée",noHistory:"Aucune facture enregistrée",invTitle:"FACTURE",clientLbl:"CLIENT",dateLbl:"Date :",dueLbl:"Échéance :",numLbl:"N° :",tvaLbl:"TVA :",iceLbl:"ICE :",emailLbl:"Email :",telLbl:"Tél :",from:"DE",to:"À",paymentTerms:"Paiement :"},
+en:{emitter:"// Issuer",emitName:"Name / Company",emitICE:"Tax ID",emitAddr:"Address",emitEmail:"Email",emitPhone:"Phone",client:"// Client",cliName:"Client",cliAddr:"Client address",cliEmail:"Client email",cliPhone:"Client phone",invoice:"// Invoice",num:"Invoice #",date:"Date",due:"Due date",currency:"Currency",tva:"VAT",logo:"Logo",items:"// Items",desc:"Description",qty:"Qty",price:"Unit price",total:"Total",add:"+ Add",subtotal:"Subtotal",tax:"VAT",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Payment terms, notes…",preview:"// Preview",pdf:"📄 Download PDF",save:"💾 Save",demo:"🎲 Demo",history:"// History",delete:"✕",clearAll:"✕ Clear all",saved:"✓ Invoice saved",noHistory:"No saved invoices",invTitle:"INVOICE",clientLbl:"CLIENT",dateLbl:"Date:",dueLbl:"Due:",numLbl:"No.:",tvaLbl:"VAT:",iceLbl:"Tax ID:",emailLbl:"Email:",telLbl:"Phone:",from:"FROM",to:"TO",paymentTerms:"Payment:"},
+es:{emitter:"// Emisor",emitName:"Nombre / Empresa",emitICE:"NIF/CIF",emitAddr:"Dirección",emitEmail:"Email",emitPhone:"Teléfono",client:"// Cliente",cliName:"Cliente",cliAddr:"Dirección del cliente",cliEmail:"Email del cliente",cliPhone:"Teléfono del cliente",invoice:"// Factura",num:"Factura N°",date:"Fecha",due:"Vencimiento",currency:"Moneda",tva:"IVA",logo:"Logo",items:"// Artículos",desc:"Descripción",qty:"Cant.",price:"Precio unit.",total:"Total",add:"+ Añadir",subtotal:"Subtotal",tax:"IVA",grandTotal:"Total",notes:"// Notas",notesPlaceholder:"Condiciones de pago, notas…",preview:"// Vista previa",pdf:"📄 Descargar PDF",save:"💾 Guardar",demo:"🎲 Demo",history:"// Historial",delete:"✕",clearAll:"✕ Vaciar todo",saved:"✓ Factura guardada",noHistory:"Ninguna factura guardada",invTitle:"FACTURA",clientLbl:"CLIENTE",dateLbl:"Fecha:",dueLbl:"Venc.:",numLbl:"N°:",tvaLbl:"IVA:",iceLbl:"NIF:",emailLbl:"Email:",telLbl:"Tel.:",from:"DE",to:"A",paymentTerms:"Pago:"},
+ar:{emitter:"// الجهة المصدرة",emitName:"الاسم / الشركة",emitICE:"الرقم الضريبي",emitAddr:"العنوان",emitEmail:"البريد الإلكتروني",emitPhone:"الهاتف",client:"// العميل",cliName:"العميل",cliAddr:"عنوان العميل",cliEmail:"البريد الإلكتروني للعميل",cliPhone:"هاتف العميل",invoice:"// الفاتورة",num:"رقم الفاتورة",date:"التاريخ",due:"تاريخ الاستحقاق",currency:"العملة",tva:"الضريبة",logo:"الشعار",items:"// العناصر",desc:"الوصف",qty:"الكمية",price:"السعر",total:"المجموع",add:"+ إضافة",subtotal:"المجموع الفرعي",tax:"الضريبة",grandTotal:"المجموع الكلي",notes:"// ملاحظات",notesPlaceholder:"شروط الدفع، ملاحظات…",preview:"// المعاينة",pdf:"📄 تحميل PDF",save:"💾 حفظ",demo:"🎲 تجربة",history:"// السجل",delete:"✕",clearAll:"✕ مسح الكل",saved:"✓ تم حفظ الفاتورة",noHistory:"لا توجد فواتير محفوظة",invTitle:"فاتورة",clientLbl:"العميل",dateLbl:"التاريخ :",dueLbl:"الاستحقاق :",numLbl:"رقم :",tvaLbl:"الضريبة :",iceLbl:"الرقم الضريبي :",emailLbl:"البريد :",telLbl:"الهاتف :",from:"من",to:"إلى",paymentTerms:"الدفع :"}};
+let lang='fr';let curSym={MAD:'DH',EUR:'€'};let logoData=null;let savedInvoices=JSON.parse(localStorage.getItem('microinvoices')||'[]');
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
+document.dir=l==='ar'?'rtl':'ltr';const t=L[l];const m=(id,k)=>{const e=document.getElementById(id);if(e)e.textContent=k};
+m('lblEmitter',t.emitter);m('lblEmitName',t.emitName);m('lblEmitICE',t.emitICE);m('lblEmitAddr',t.emitAddr);m('lblEmitEmail',t.emitEmail);m('lblEmitPhone',t.emitPhone);
+m('lblClient',t.client);m('lblCliName',t.cliName);m('lblCliAddr',t.cliAddr);m('lblCliEmail',t.cliEmail);m('lblCliPhone',t.cliPhone);
+m('lblInvoice',t.invoice);m('lblNum',t.num);m('lblDate',t.date);m('lblDue',t.due);m('lblCurrency',t.currency);m('lblTVA',t.tva);m('lblLogo',t.logo);
+m('lblItems',t.items);m('thDesc',t.desc);m('thQty',t.qty);m('thPrice',t.price);m('thTotal',t.total);m('btnAdd',t.add);
+m('lblSubtotal',t.subtotal);m('lblTax',t.tax);m('lblGrandTotal',t.grandTotal);
+m('lblNotes',t.notes);document.getElementById('notes').placeholder=t.notesPlaceholder;
+m('lblPreview',t.preview);m('pThDesc',t.desc);m('pThQty',t.qty);m('pThPrice',t.price);m('pThTotal',t.total);
+m('lblHistory',t.history);document.querySelector('#historyCard .btn-danger').textContent=t.clearAll;
+refreshPreview()}
+// ══════ LOGO ══════
+function loadLogo(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=function(ev){logoData=ev.target.result;document.getElementById('logoPreview').innerHTML='<img src="'+logoData+'">';refreshPreview()};r.readAsDataURL(file)}
+// ══════ ITEMS ══════
+let items=[{desc:'',qty:1,price:0}];
+function addItem(data){items.push(data||{desc:'',qty:1,price:0});renderItems()}
+function removeItem(i){items.splice(i,1);if(!items.length)items.push({desc:'',qty:1,price:0});renderItems()}
+function renderItems(){const b=document.getElementById('itemsBody');b.innerHTML=items.map((it,i)=>`
+<tr>
+<td><input value="${it.desc}" oninput="items[${i}].desc=this.value;calcTotals();refreshPreview()" placeholder="${L[lang].desc}"></td>
+<td><input value="${it.qty}" type="number" min="1" oninput="items[${i}].qty=Math.max(1,+this.value||1);calcTotals();refreshPreview()" style="text-align:center"></td>
+<td><input value="${it.price}" type="number" min="0" step="0.01" oninput="items[${i}].price=Math.max(0,+this.value||0);calcTotals();refreshPreview()"></td>
+<td style="font-family:var(--mono);font-weight:700;text-align:right">${fmt(it.qty*it.price)}</td>
+<td class="row-actions"><button onclick="removeItem(${i})" title="${L[lang].delete}">✕</button></td>
+</tr>`).join('');calcTotals();refreshPreview()}
+function calcTotals(){const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;const total=sub+tax;
+document.getElementById('subtotalVal').textContent=fmt(sub);document.getElementById('taxVal').textContent=fmt(tax);document.getElementById('grandTotalVal').textContent=fmt(total)}
+function fmt(n){const curr=document.getElementById('currency').value;const sym=curSym[curr];return n.toFixed(2).replace('.',',')+' '+sym}
+function fmtPDF(n){const curr=document.getElementById('currency').value;return n.toFixed(2)+' '+curSym[curr]}
+// ══════ PREVIEW ══════
+function refreshPreview(){const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];
+document.getElementById('pEmit').textContent=document.getElementById('emitName').value||'MicroInvoice';
+document.getElementById('pEmitDetail').textContent=[document.getElementById('emitAddr').value,document.getElementById('emitEmail').value,document.getElementById('emitPhone').value].filter(Boolean).join(' · ');
+document.getElementById('pNum').textContent=t.invTitle+' • '+document.getElementById('invNum').value;
+document.getElementById('pDate').textContent=t.dateLbl+' '+document.getElementById('invDate').value;
+document.getElementById('pDue').textContent=document.getElementById('invDue').value?t.dueLbl+' '+document.getElementById('invDue').value:'';
+const cli=[document.getElementById('client').value,document.getElementById('cliAddr').value].filter(Boolean);
+const cliInfo=[document.getElementById('cliEmail').value,document.getElementById('cliPhone').value].filter(Boolean);
+document.getElementById('pClient').innerHTML='<strong>'+t.clientLbl+'</strong><br>'+cli.join('<br>')+(cliInfo.length?'<br><span style="color:var(--muted);font-size:10px">'+cliInfo.join(' · ')+'</span>':'');
+const pLogo=document.getElementById('pLogo');pLogo.innerHTML=logoData?'<img src="'+logoData+'" style="width:50px;height:50px;object-fit:contain;border-radius:4px">':'';
+const pItems=document.getElementById('pItems');const filtered=items.filter(it=>it.desc);
+pItems.innerHTML=filtered.map(it=>'<tr><td>'+it.desc+'</td><td>'+it.qty+'</td><td>'+it.price.toFixed(2).replace('.',',')+'</td><td style="text-align:right">'+fmt(it.qty*it.price)+'</td></tr>').join('');
+const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
+document.getElementById('pTotal').textContent=t.grandTotal+': '+fmt(sub+tax);
+document.getElementById('pNotes').textContent=document.getElementById('notes').value||''}
+// ══════ SAVE / LOAD ══════
+function saveInvoice(){const d={id:Date.now(),date:document.getElementById('invDate').value,invNum:document.getElementById('invNum').value,client:document.getElementById('client').value,total:items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0)*(1+document.getElementById('tvaRate').value/100),emitName:document.getElementById('emitName').value,currency:document.getElementById('currency').value};
+savedInvoices.unshift(d);if(savedInvoices.length>50)savedInvoices.pop();
+localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory();toast(L[lang].saved)}
+function renderHistory(){const list=document.getElementById('invoiceList');const wrap=document.getElementById('historyCard');if(!savedInvoices.length){wrap.style.display='none';return}
+wrap.style.display='block';const t=L[lang];
+list.innerHTML=savedInvoices.map((d,i)=>'<div class="invoice-item"><div><strong>'+d.invNum+'</strong><span> — '+d.date+' — '+d.client+' — '+d.total.toFixed(2).replace('.',',')+' '+(d.currency||'MAD')+'</span></div><button class="btn btn-danger" onclick="deleteInvoice('+i+')" style="font-size:9px;padding:2px 6px">✕</button></div>').join('')}
+function deleteInvoice(i){savedInvoices.splice(i,1);localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory()}
+function clearHistory(){savedInvoices=[];localStorage.removeItem('microinvoices');renderHistory()}
+// ══════ DEMO ══════
+function loadDemo(){setLang('fr');
+document.getElementById('emitName').value='Ahmed El Amrani';
+document.getElementById('emitICE').value='1234567890000';
+document.getElementById('emitAddr').value='125 Rue Mohammed V, Tanger';
+document.getElementById('emitEmail').value='ahmed@exemple.com';
+document.getElementById('emitPhone').value='+212 6 12 34 56 78';
+document.getElementById('client').value='Acme SARL';
+document.getElementById('cliAddr').value='45 Av. Hassan II, Casablanca';
+document.getElementById('cliEmail').value='contact@acme.ma';
+document.getElementById('cliPhone').value='+212 5 22 33 44 55';
+document.getElementById('currency').value='MAD';
+document.getElementById('tvaRate').value='20';
+document.getElementById('notes').value='Paiement sous 30 jours. IBAN: MA6401151900000012345678901234';
+const today=new Date();const due=new Date(today);due.setDate(due.getDate()+30);
+document.getElementById('invDate').value=today.toISOString().split('T')[0];
+document.getElementById('invDue').value=due.toISOString().split('T')[0];
+items=[{desc:'Développement site vitrine responsive',qty:1,price:3500},{desc:'Hébergement + domaine (12 mois)',qty:1,price:1200},{desc:'Logo + charte graphique',qty:1,price:1500}];
+autoNumber();renderItems();refreshPreview()}
+// ══════ AUTO NUMBER ══════
+function autoNumber(){const count=savedInvoices.length+1;const y=new Date().getFullYear();
+document.getElementById('invNum').value='FAC-'+y+'-'+String(count).padStart(3,'0')}
+// ══════ PDF ══════
+function exportPDF(){try{
+if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){toast('Chargement du PDF…');setTimeout(exportPDF,800);return}
+const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];const pageW=190;const margin=14;const clr=[212,163,115];const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
+function w(text,x,y,color,size,opt){doc.setFontSize(size||10);if(opt)doc.setFont('Helvetica',opt);if(color)doc.setTextColor(color[0],color[1],color[2]);doc.text(text,x,y)}
+w('MicroInvoice',margin,20,clr,18,'bold');
+w(t.invTitle+' • '+document.getElementById('invNum').value,margin,27,clr,10,'bold');
+w(document.getElementById('invDate').value,pageW-margin,27,[100,100,100],9);
+const emit=document.getElementById('emitName').value||'MicroInvoice';
+w(t.from+':',margin,38,clr,9,'bold');
+w(emit,margin,44,[240,236,228],10);
+const emitDetail=[document.getElementById('emitAddr').value,document.getElementById('emitICE').value?t.iceLbl+' '+document.getElementById('emitICE').value:'',document.getElementById('emitEmail').value,document.getElementById('emitPhone').value].filter(Boolean);
+emitDetail.forEach((l,i)=>w(l,margin,52+i*5,[140,130,120],8));
+const cy=emitDetail.length*5+56;
+w(t.to+':',margin,cy,clr,9,'bold');
+w(document.getElementById('client').value||'-',margin,cy+6,[240,236,228],10);
+const cliAddr=document.getElementById('cliAddr').value;if(cliAddr)w(cliAddr,margin,cy+12,[140,130,120],8);
+doc.autoTable({startY:cy+20,head:[[t.desc,t.qty,t.price,t.total]],body:items.filter(it=>it.desc).map(it=>[it.desc,String(it.qty),it.price.toFixed(2),(it.qty*it.price).toFixed(2)+' '+sym]),theme:'grid',headStyles:{fillColor:[212,163,115],textColor:[13,10,8],fontSize:8,fontStyle:'bold'},bodyStyles:{textColor:[240,236,228],fontSize:8},columnStyles:{0:{cellWidth:80},1:{cellWidth:20,halign:'center'},2:{cellWidth:35,halign:'right'},3:{cellWidth:35,halign:'right'}},styles:{cellPadding:3}});
+const fy=doc.lastAutoTable.finalY+8;
+w(t.subtotal+': '+fmtPDF(sub),pageW-margin,fy,[240,236,228],10,'bold');
+w(t.tax+' ('+rate+'%): '+fmtPDF(tax),pageW-margin,fy+7,[240,236,228],10,'bold');
+w(t.grandTotal+': '+fmtPDF(sub+tax),pageW-margin,fy+16,clr,14,'bold');
+const notes=document.getElementById('notes').value;
+if(notes){w(t.notesPlaceholder,fy>120?fy+8:120,[100,100,100],8,'italic');w(notes,fy>120?fy+14:126,[140,130,120],7)}
+w('MicroInvoice — '+t.invTitle.toLowerCase()+' #'+document.getElementById('invNum').value,pageW/2,280,[100,100,100],7);
+doc.save('facture-'+document.getElementById('invNum').value+'.pdf')
+toast('✓ PDF téléchargé')
+}catch(e){toast('Erreur PDF: '+e.message);console.error(e)}}
+// ══════ INIT ══════
+const today=new Date();const due=new Date(today);due.setDate(due.getDate()+30);
+document.getElementById('invDate').value=today.toISOString().split('T')[0];
+document.getElementById('invDue').value=due.toISOString().split('T')[0];
+['emitName','emitICE','emitAddr','emitEmail','emitPhone','client','cliAddr','cliEmail','cliPhone','invDate','invDue','notes'].forEach(id=>document.getElementById(id).addEventListener('input',refreshPreview));
+document.getElementById('currency').addEventListener('change',()=>{calcTotals();refreshPreview()});
+document.getElementById('tvaRate').addEventListener('change',()=>{calcTotals();refreshPreview()});
+setLang('fr');autoNumber();renderItems();refreshPreview();renderHistory()
+</script>
+</body>
+</html>
