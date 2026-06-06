@@ -1145,9 +1145,9 @@
     <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back2">← Tous les articles</button>
     <div class="share-bar">
       <span data-i18n="reader-share">Partager :</span>
-      <a class="share-btn" id="shareTwitter" href="#" target="_blank" onclick="shareOnTwitter()">𝕏</a>
-      <a class="share-btn" id="shareLinkedin" href="#" target="_blank" onclick="shareOnLinkedin()">in</a>
-      <button class="share-btn" onclick="copyArticleLink()" data-i18n="reader-copy">🔗</button>
+      <a class="share-btn" id="shareTwitter" href="#" target="_blank" onclick="return shareOnTwitter()">𝕏</a>
+      <a class="share-btn" id="shareLinkedin" href="#" target="_blank" onclick="return shareOnLinkedin()">in</a>
+      <button class="share-btn" onclick="return copyArticleLink()" data-i18n="reader-copy">🔗</button>
     </div>
   </div>
   <div class="related-section" id="relatedSection">
@@ -1366,8 +1366,14 @@
     if (lang === 'fr') url.searchParams.delete('lang');
     else url.searchParams.set('lang', lang);
     window.history.replaceState(null, '', url);
-    // Re-render articles in new language
-    renderArticles();
+    // Re-fetch articles in new language
+    articlesCache = null;
+    if (currentArticleSlug) {
+      closeArticle();
+      renderArticles().then(() => openArticle(currentArticleSlug));
+    } else {
+      renderArticles();
+    }
   }
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
@@ -1386,39 +1392,48 @@
 
   let allArticles = [];
   let currentArticleSlug = null;
+  let articlesCache = null;
 
   function getLangDir(lang) {
     const map = { fr: 'fr', en: 'en', es: 'es', ar: 'ar' };
     return map[lang] || 'fr';
   }
 
+  function categoryTag(cat) {
+    const c = (cat || '').toLowerCase().trim();
+    if (c === 'ai' || c === 'ia' || c.includes('intelligence') || c.includes('artificial') || c.includes('الذكاء')) return 'ai';
+    if (c === 'e-commerce' || c.includes('commerce') || c.includes('ecom') || c.includes('التجارة')) return 'ecom';
+    if (c === 'saas' || c.includes('تطبيقات')) return 'saas';
+    return 'tech';
+  }
+
   async function fetchArticles() {
+    if (articlesCache) return articlesCache;
     const langDir = getLangDir(currentLang);
     const results = [];
     const slugs = Object.keys(knownArticles);
     for (const slug of slugs) {
-      const file = knownArticles[slug][currentLang] || knownArticles[slug]['fr'];
+      const entry = knownArticles[slug];
+      const file = entry[currentLang] || entry['fr'];
       if (!file) continue;
       const url = `${ARTICLES_DIR}${langDir}/${file}`;
+      let md = null;
       try {
         const resp = await fetch(url);
-        if (!resp.ok) throw new Error('Not found');
-        const md = await resp.text();
-        const meta = parseFrontmatter(md);
-        results.push({ slug, ...meta, lang: currentLang });
-      } catch {
-        // Try FR as fallback
-        const fallbackUrl = `${ARTICLES_DIR}fr/${knownArticles[slug]['fr']}`;
+        if (resp.ok) md = await resp.text();
+      } catch {}
+      if (!md) {
         try {
-          const resp = await fetch(fallbackUrl);
-          if (resp.ok) {
-            const md = await resp.text();
-            const meta = parseFrontmatter(md);
-            results.push({ slug, ...meta, lang: 'fr' });
-          }
+          const resp = await fetch(`${ARTICLES_DIR}fr/${entry['fr']}`);
+          if (resp.ok) md = await resp.text();
         } catch {}
       }
+      if (md) {
+        const meta = parseFrontmatter(md);
+        results.push({ slug, ...meta, lang: currentLang });
+      }
     }
+    articlesCache = results;
     return results;
   }
 
@@ -1448,24 +1463,20 @@
   }
 
   async function loadArticleContent(slug) {
+    const entry = knownArticles[slug];
+    if (!entry) return null;
     const langDir = getLangDir(currentLang);
-    const file = knownArticles[slug] ? (knownArticles[slug][currentLang] || knownArticles[slug]['fr']) : null;
-    if (!file) return null;
+    const file = entry[currentLang] || entry['fr'];
     const url = `${ARTICLES_DIR}${langDir}/${file}`;
     try {
       const resp = await fetch(url);
-      if (!resp.ok) throw new Error('Not found');
+      if (!resp.ok) throw new Error();
       const md = await resp.text();
-      const body = md.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
-      return body;
+      return md.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
     } catch {
-      // Fallback to FR
-      const fallbackUrl = `${ARTICLES_DIR}fr/${knownArticles[slug]['fr']}`;
       try {
-        const resp = await fetch(fallbackUrl);
-        if (resp.ok) {
-          return (await resp.text()).replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
-        }
+        const resp = await fetch(`${ARTICLES_DIR}fr/${entry['fr']}`);
+        if (resp.ok) return (await resp.text()).replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
       } catch {}
       return null;
     }
@@ -1492,21 +1503,19 @@
     ) : allArticles;
 
     if (filtered.length === 0) {
-      container.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem 0;" data-i18n="search-none">Aucun article trouvé.</p>`;
+      container.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem 0;">${i18n[currentLang]?.['search-none'] || 'Aucun article trouvé.'}</p>`;
       return;
     }
 
-    // Featured = first article (largest card)
     const featured = filtered[0];
     const rest = filtered.slice(1);
 
     let html = '';
-    // Featured card
     html += `<a class="article-card featured" href="#article/${featured.slug}" onclick="openArticle('${featured.slug}');return false;">
       <div class="article-thumb-placeholder g-gold" style="aspect-ratio:16/9;font-size:5rem;">${featured.icon || '📝'}</div>
       <div class="article-body">
         <div class="article-meta">
-          <span class="tag tag-ai">${featured.category || ''}</span>
+          <span class="tag tag-${categoryTag(featured.category)}">${featured.category || ''}</span>
           <span class="article-date">${formatDate(featured.date, currentLang)}</span>
         </div>
         <h3>${featured.title || ''}</h3>
@@ -1514,14 +1523,13 @@
       </div>
     </a>`;
 
-    // Side articles
     if (rest.length > 0) {
       html += `<div class="side-articles">`;
       rest.slice(0, 2).forEach(a => {
         html += `<a class="side-article" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
           <div class="side-thumb g-warm" style="font-size:2rem;">${a.icon || '📝'}</div>
           <div class="side-body">
-            <div class="article-meta"><span class="tag tag-${(a.category || 'tech').toLowerCase()}">${a.category || ''}</span></div>
+            <div class="article-meta"><span class="tag tag-${categoryTag(a.category)}">${a.category || ''}</span></div>
             <h4>${a.title || ''}</h4>
             <p>${a.description ? a.description.slice(0, 80) + '...' : ''}</p>
           </div>
@@ -1530,10 +1538,8 @@
       html += `</div>`;
     }
 
-    // Remaining articles as list
     if (rest.length > 2) {
-      html += `<div style="grid-column:1/-1;margin-top:1rem;">
-        <div class="posts-list">`;
+      html += `<div style="grid-column:1/-1;margin-top:1rem;"><div class="posts-list">`;
       rest.slice(2).forEach((a, idx) => {
         html += `<a class="post-row" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
           <span class="post-num">${String(idx + 3).padStart(2, '0')}</span>
@@ -1542,7 +1548,7 @@
             <h4>${a.title || ''}</h4>
             <span>${a.category || ''} · ${a.readingTime || '5 min'} · ${formatDate(a.date, currentLang)}</span>
           </div>
-          <span class="tag tag-${(a.category || 'tech').toLowerCase()}">${(a.category || '').slice(0, 4).toUpperCase()}</span>
+          <span class="tag tag-${categoryTag(a.category)}">${(a.category || '').slice(0, 4).toUpperCase()}</span>
           <span class="post-arrow">→</span>
         </a>`;
       });
@@ -1551,28 +1557,13 @@
 
     container.innerHTML = html;
     container.style.gridTemplateColumns = rest.length > 0 ? '2fr 1fr' : '1fr';
-
-    // Update categories count
     updateTopicCounts(filtered);
   }
 
   function updateTopicCounts(articles) {
-    const topics = document.querySelectorAll('.topic-count');
-    const counts = {};
-    articles.forEach(a => {
-      const cat = (a.category || 'Tech').trim();
-      counts[cat] = (counts[cat] || 0) + 1;
-    });
-    // Map topic cards by category name
     document.querySelectorAll('.topic-card h4').forEach(h4 => {
       const countEl = h4.parentElement.querySelector('.topic-count');
-      if (countEl) {
-        const catName = h4.textContent.trim();
-        // We match roughly; just show total count
-        let total = 0;
-        Object.keys(counts).forEach(k => { total += counts[k]; });
-        countEl.textContent = `// ${articles.length} articles`;
-      }
+      if (countEl) countEl.textContent = `// ${articles.length} articles`;
     });
   }
 
@@ -1582,33 +1573,62 @@
 
   async function openArticle(slug) {
     currentArticleSlug = slug;
-    window.location.hash = `article/${slug}`;
 
     const reader = document.getElementById('articleReader');
     const sections = document.querySelectorAll('section, #searchWrap, #articles, #saas, #topics, #about, #contact, .newsletter, .ticker-wrap, .hero');
     sections.forEach(s => s.style.display = 'none');
     reader.classList.add('active');
 
-    const content = await loadArticleContent(slug);
-    const article = allArticles.find(a => a.slug === slug) || {};
+    // Fetch metadata from file directly (not dependent on allArticles)
+    const entry = knownArticles[slug];
+    let title = '', icon = '📝', category = '', date = '', author = 'Uzem', readingTime = '';
+    if (entry) {
+      const langDir = getLangDir(currentLang);
+      const file = entry[currentLang] || entry['fr'];
+      try {
+        const resp = await fetch(`${ARTICLES_DIR}${langDir}/${file}`);
+        if (resp.ok) {
+          const md = await resp.text();
+          const meta = parseFrontmatter(md);
+          title = meta.title; icon = meta.icon; category = meta.category;
+          date = meta.date; author = meta.author; readingTime = meta.readingTime;
+        }
+      } catch {}
+    }
 
-    document.getElementById('artIcon').textContent = article.icon || '📝';
-    document.getElementById('artTitle').textContent = article.title || '';
-    document.getElementById('artCategory').textContent = article.category || '';
-    document.getElementById('artDate').textContent = formatDate(article.date, currentLang);
-    document.getElementById('artAuthor').textContent = article.author || 'Uzem';
-    document.getElementById('artReadingTime').textContent = article.readingTime || '';
-    document.getElementById('breadcrumbCurrent').textContent = article.title || '';
+    // Also get full article from allArticles cache if available
+    const cached = allArticles.find(a => a.slug === slug);
+    if (cached) {
+      title = title || cached.title;
+      icon = icon || cached.icon;
+      category = category || cached.category;
+      date = date || cached.date;
+      author = author || cached.author;
+      readingTime = readingTime || cached.readingTime;
+    }
+
+    // Get full body content
+    const content = await loadArticleContent(slug);
+
+    window.location.hash = `article/${slug}`;
+
+    document.getElementById('artIcon').textContent = icon;
+    document.getElementById('artTitle').textContent = title;
+    document.getElementById('artCategory').textContent = category;
+    document.getElementById('artDate').textContent = formatDate(date, currentLang);
+    document.getElementById('artAuthor').textContent = author;
+    document.getElementById('artReadingTime').textContent = readingTime;
+    document.getElementById('breadcrumbCurrent').textContent = title;
     document.getElementById('artBody').innerHTML = content ? marked.parse(content) : '<p>Article non trouvé.</p>';
 
     // Share URLs
     const shareUrl = encodeURIComponent(window.location.href);
-    const shareText = encodeURIComponent(article.title || '');
+    const shareText = encodeURIComponent(title);
     document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
     document.getElementById('shareLinkedin').href = `https://linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
 
-    // Related articles (same category)
-    const related = allArticles.filter(a => a.slug !== slug && a.category === article.category).slice(0, 3);
+    // Related articles (from cache if available)
+    const related = allArticles.filter(a => a.slug !== slug && a.category === category).slice(0, 3);
     const relatedGrid = document.getElementById('relatedGrid');
     if (related.length > 0) {
       relatedGrid.innerHTML = related.map(a => `
@@ -1628,10 +1648,10 @@
 
   function closeArticle() {
     currentArticleSlug = null;
-    window.location.hash = '';
     document.getElementById('articleReader').classList.remove('active');
     document.querySelectorAll('section, #searchWrap, #articles, #saas, #topics, #about, #contact, .newsletter, .ticker-wrap, .hero').forEach(s => s.style.display = '');
     document.querySelector('header').style.display = 'flex';
+    window.history.replaceState(null, '', window.location.pathname + window.location.search);
     renderArticles();
   }
 
@@ -1639,11 +1659,13 @@
     const url = encodeURIComponent(window.location.href);
     const text = encodeURIComponent(document.getElementById('artTitle').textContent);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    return false;
   }
 
   function shareOnLinkedin() {
     const url = encodeURIComponent(window.location.href);
     window.open(`https://linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    return false;
   }
 
   function copyArticleLink() {
@@ -1652,6 +1674,7 @@
       btn.textContent = '✅';
       setTimeout(() => btn.textContent = '🔗', 2000);
     });
+    return false;
   }
 
   function generateRSS() {
@@ -1710,19 +1733,20 @@
       const slug = hash.replace('article/', '');
       if (slug !== currentArticleSlug) openArticle(slug);
     } else if (!hash) {
-      if (currentArticleSlug) closeArticle();
+      if (currentArticleSlug) {
+        closeArticle();
+        window.location.hash = '';
+      }
     }
   });
 
   // ─── INIT ───
-  renderArticles();
-
-  // Open article if hash on load
-  const initHash = window.location.hash.replace('#', '');
-  if (initHash.startsWith('article/')) {
-    const slug = initHash.replace('article/', '');
-    setTimeout(() => openArticle(slug), 300);
-  }
+  renderArticles().then(() => {
+    const initHash = window.location.hash.replace('#', '');
+    if (initHash.startsWith('article/')) {
+      openArticle(initHash.replace('article/', ''));
+    }
+  });
 </script>
 
 
