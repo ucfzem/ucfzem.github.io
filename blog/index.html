@@ -2,6 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="WF34yBc_q67rq4JfrEp-ZOT0pvqQWLf7uY6WbHu7Uig" />
 <title>UcfZemTech — Tech · IA · E-Commerce</title>
 <meta name="description" content="Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — analyses, tutoriels et décryptages par Uzem, créateur digital basé aux Pays-Bas.">
 <meta name="robots" content="index, follow">
@@ -23,6 +24,8 @@
 <link rel="alternate" hreflang="ar" href="https://ucfzem.github.io/blog/?lang=ar">
 <link rel="alternate" hreflang="x-default" href="https://ucfzem.github.io/blog/">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="UcfZemTech Blog RSS" href="/blog/rss.xml">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   :root {
     --bg: #0d0a08;
@@ -594,6 +597,188 @@
 
 
 </style>
+
+/* ───── SEARCH BAR ───── */
+.search-bar {
+  display: flex; gap: .5rem; max-width: 480px; margin: 2rem auto 0;
+}
+.search-bar input {
+  flex: 1; background: var(--input-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: .65rem 1rem; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; outline: none;
+  transition: border-color .2s;
+}
+.search-bar input:focus { border-color: var(--accent); }
+.search-bar button {
+  background: var(--accent); color: #000; border: none;
+  padding: .65rem 1.25rem; border-radius: 6px; font-weight: 600;
+  font-size: .85rem; cursor: pointer; transition: opacity .2s;
+  white-space: nowrap;
+}
+.search-bar button:hover { opacity: .85; }
+
+/* ───── BREADCRUMBS ───── */
+.breadcrumbs {
+  display: flex; align-items: center; gap: .4rem;
+  font-size: .78rem; color: var(--muted); margin-bottom: 1.5rem;
+  font-family: 'JetBrains Mono', monospace; flex-wrap: wrap;
+}
+.breadcrumbs a { color: var(--accent); text-decoration: none; }
+.breadcrumbs a:hover { text-decoration: underline; }
+.breadcrumbs .sep { color: var(--muted); opacity: .4; }
+
+/* ───── ARTICLE READER ───── */
+.article-reader {
+  display: none; max-width: 760px; margin: 6rem auto 3rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.article-reader.active { display: block; }
+.article-reader .art-header { margin-bottom: 2rem; }
+.article-reader .art-title {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: .75rem;
+}
+.article-reader .art-meta {
+  display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+  font-size: .82rem; color: var(--muted); font-family: 'JetBrains Mono', monospace;
+}
+.article-reader .art-category {
+  background: rgba(201,168,76,0.1); color: var(--accent);
+  padding: .2rem .6rem; border-radius: 4px; font-size: .7rem;
+  font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+}
+.article-reader .art-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.article-reader .art-body {
+  font-size: 1.05rem; line-height: 1.85; color: var(--text);
+}
+.article-reader .art-body h1,
+.article-reader .art-body h2,
+.article-reader .art-body h3,
+.article-reader .art-body h4 {
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  margin: 2rem 0 .75rem; letter-spacing: -.5px;
+}
+.article-reader .art-body h1 { font-size: 1.8rem; }
+.article-reader .art-body h2 { font-size: 1.4rem; color: var(--accent); }
+.article-reader .art-body h3 { font-size: 1.2rem; }
+.article-reader .art-body p { margin-bottom: 1.25rem; }
+.article-reader .art-body ul, .article-reader .art-body ol {
+  margin: 1rem 0; padding-left: 1.5rem; line-height: 1.8;
+}
+.article-reader .art-body li { margin-bottom: .4rem; }
+.article-reader .art-body code {
+  background: var(--surface); padding: .15rem .4rem; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+}
+.article-reader .art-body pre {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.25rem; overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.article-reader .art-body pre code {
+  background: none; padding: 0; font-size: .82rem;
+}
+.article-reader .art-body blockquote {
+  border-left: 3px solid var(--accent); padding: .75rem 1.25rem;
+  margin: 1.5rem 0; color: var(--muted); font-style: italic;
+  background: rgba(201,168,76,0.03);
+}
+.article-reader .art-body a { color: var(--accent); }
+.article-reader .art-body img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; }
+.article-reader .art-footer {
+  margin-top: 3rem; padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.back-btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); padding: .5rem 1rem; border-radius: 6px;
+  font-size: .85rem; cursor: pointer; text-decoration: none;
+  transition: all .2s; font-family: 'DM Sans', sans-serif;
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ───── SOCIAL SHARING ───── */
+.share-bar { display: flex; gap: .5rem; align-items: center; }
+.share-bar span { font-size: .78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.share-btn {
+  display: inline-flex; align-items: center; gap: .3rem;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); padding: .4rem .7rem; border-radius: 6px;
+  font-size: .8rem; cursor: pointer; text-decoration: none;
+  transition: all .2s;
+}
+.share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ───── RELATED ARTICLES ───── */
+.related-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.related-section h3 {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem;
+  margin-bottom: 1.25rem;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.related-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.25rem; cursor: pointer;
+  text-decoration: none; color: inherit; transition: all .3s;
+}
+.related-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+.related-card .rc-icon { font-size: 1.5rem; margin-bottom: .5rem; }
+.related-card h4 { font-family: 'Syne', sans-serif; font-weight: 600; font-size: .9rem; line-height: 1.3; margin-bottom: .3rem; }
+.related-card p { font-size: .78rem; color: var(--muted); }
+
+/* ───── ABOUT SECTION ───── */
+.about-content {
+  max-width: 680px; margin: 0 auto; text-align: center;
+}
+.about-content .avatar {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: var(--surface); border: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; margin: 0 auto 1.5rem;
+}
+.about-content h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.5rem; margin-bottom: .5rem; }
+.about-content p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+.about-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+.about-links a {
+  font-size: .85rem; color: var(--accent); text-decoration: none;
+  display: flex; align-items: center; gap: .3rem;
+}
+.about-links a:hover { text-decoration: underline; }
+
+/* ───── CONTACT FORM ───── */
+.contact-form { max-width: 520px; margin: 2rem auto 0; }
+.contact-form .form-group { margin-bottom: 1rem; }
+.contact-form label {
+  display: block; font-size: .82rem; font-weight: 500;
+  margin-bottom: .35rem; color: var(--muted);
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%; background: var(--input-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: .7rem 1rem; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: .88rem; outline: none;
+  transition: border-color .2s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus { border-color: var(--accent); }
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form button {
+  background: var(--accent); color: #000; border: none;
+  padding: .75rem 1.75rem; border-radius: 6px; font-weight: 600;
+  font-size: .9rem; cursor: pointer; transition: opacity .2s;
+}
+.contact-form button:hover { opacity: .85; }
+.contact-status { font-size: .85rem; margin-top: .5rem; color: var(--accent); }
+
+</style>
 </head>
 <body>
 
@@ -608,6 +793,8 @@
     <a href="#articles" data-i18n="nav-blog">Blog</a>
     <a href="#saas" data-i18n="nav-saas">SaaS</a>
     <a href="#topics" data-i18n="nav-topics">Topics</a>
+    <a href="#about" data-i18n="nav-about">About</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
     <div class="lang-selector">
       <button class="lang-btn active" data-lang="fr"><span class="flag">🇫🇷</span></button>
       <button class="lang-btn" data-lang="en"><span class="flag">🇬🇧</span></button>
@@ -663,43 +850,23 @@
 </div>
 
 
-<!-- ── FEATURED ARTICLES ── -->
+<!-- ── SEARCH BAR ── -->
+<div id="searchWrap" style="margin-top: 6rem; padding: 0 clamp(1.5rem, 8vw, 5rem); text-align:center;">
+  <div class="section-label" data-i18n="search-label">// Rechercher</div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" data-i18n="search-placeholder" placeholder="Rechercher un article..." oninput="filterArticles(this.value)">
+    <button onclick="filterArticles(document.getElementById('searchInput').value)" data-i18n="search-btn">Chercher</button>
+  </div>
+</div>
+
+<!-- ── ARTICLE LIST ── -->
 <section id="articles">
   <div class="section-label" data-i18n="section-articles-label">// Articles à la une</div>
   <h2 class="section-title" data-i18n="section-articles-title">Ce qui façonne<br>la tech aujourd'hui</h2>
   <p class="section-desc" data-i18n="section-articles-desc">Analyses, tutoriels et décryptages pour rester en avance sur les tendances.</p>
 
-  <div class="articles-grid">
-    <a class="article-card featured" href="#">
-      <div class="article-thumb-placeholder g-gold" style="aspect-ratio:16/9;font-size:5rem;">🤖</div>
-      <div class="article-body">
-        <div class="article-meta">
-          <span class="tag tag-ai" data-i18n="art1-tag">IA</span>
-          <span class="article-date" data-i18n="art1-date">06 Juin 2025</span>
-        </div>
-        <h3 data-i18n="art1-title">Les agents IA autonomes vont-ils remplacer les équipes entières ?</h3>
-        <p data-i18n="art1-desc">De GPT-4o à Claude 3.5, les LLMs ne se contentent plus de répondre — ils planifient, exécutent et itèrent. Voici ce que ça change concrètement pour ton business.</p>
-      </div>
-    </a>
-
-    <div class="side-articles">
-      <a class="side-article" href="#">
-        <div class="side-thumb g-warm" style="font-size:2rem;">🛒</div>
-        <div class="side-body">
-          <div class="article-meta"><span class="tag tag-ecom" data-i18n="art2-tag">E-Commerce</span></div>
-          <h4 data-i18n="art2-title">Dropshipping IA en 2025 : les niches qui explosent</h4>
-          <p data-i18n="art2-desc">Analyse des marchés porteurs avec automatisation complète.</p>
-        </div>
-      </a>
-      <a class="side-article" href="#">
-        <div class="side-thumb g-brown" style="font-size:2rem;">🚀</div>
-        <div class="side-body">
-          <div class="article-meta"><span class="tag tag-saas" data-i18n="art3-tag">SaaS</span></div>
-          <h4 data-i18n="art3-title">Lancer un SaaS solo en 30 jours avec GitHub Pages</h4>
-          <p data-i18n="art3-desc">Mon workflow complet : de l'idée au premier utilisateur.</p>
-        </div>
-      </a>
-    </div>
+  <div id="articleContainer" class="articles-grid" style="grid-template-columns:1fr;">
+    <!-- Articles are loaded dynamically from JS -->
   </div>
 </section>
 
@@ -955,63 +1122,76 @@
 </section>
 
 
-<!-- ── LATEST POSTS ── -->
-<section style="padding-top:0;">
-  <div class="section-label">// Derniers articles</div>
-  <h2 class="section-title">À lire en ce moment</h2>
+<!-- ── ARTICLE READER ── -->
+<div id="articleReader" class="article-reader">
+  <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back">← Retour au blog</button>
+  <div class="breadcrumbs" id="breadcrumbs">
+    <a href="#articles" data-i18n="nav-blog">Blog</a>
+    <span class="sep">/</span>
+    <span id="breadcrumbCurrent"></span>
+  </div>
+  <div class="art-header">
+    <span class="art-icon" id="artIcon">🤖</span>
+    <h1 class="art-title" id="artTitle"></h1>
+    <div class="art-meta">
+      <span class="art-category" id="artCategory">IA</span>
+      <span id="artDate"></span>
+      <span id="artAuthor"></span>
+      <span id="artReadingTime"></span>
+    </div>
+  </div>
+  <div class="art-body" id="artBody"></div>
+  <div class="art-footer">
+    <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back2">← Tous les articles</button>
+    <div class="share-bar">
+      <span data-i18n="reader-share">Partager :</span>
+      <a class="share-btn" id="shareTwitter" href="#" target="_blank" onclick="shareOnTwitter()">𝕏</a>
+      <a class="share-btn" id="shareLinkedin" href="#" target="_blank" onclick="shareOnLinkedin()">in</a>
+      <button class="share-btn" onclick="copyArticleLink()" data-i18n="reader-copy">🔗</button>
+    </div>
+  </div>
+  <div class="related-section" id="relatedSection">
+    <h3 data-i18n="reader-related">Articles similaires</h3>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</div>
 
+<!-- ── ABOUT ── -->
+<section id="about" class="saas-section">
+  <div class="section-label" style="text-align:center;" data-i18n="about-label">// À propos</div>
+  <div class="about-content">
+    <div class="avatar">👨‍💻</div>
+    <h3 data-i18n="about-title">Uzem</h3>
+    <p data-i18n="about-desc1">Développeur full-stack, créateur digital et entrepreneur multilingue basé aux Pays-Bas. Je construis des outils SaaS, explore l'IA et partage mes découvertes sur ce blog.</p>
+    <p data-i18n="about-desc2">De langue maternelle arabe et française, je crée du contenu en FR/EN/ES/AR. Chaque projet est codé depuis un Samsung S23 Ultra, pour prouver qu'on n'a pas besoin d'un setup de bureau pour innover.</p>
+    <div class="about-links">
+      <a href="https://github.com/ucfzem" target="_blank">GitHub</a>
+      <a href="https://tiktok.com/@ucfzem" target="_blank">TikTok</a>
+      <a href="https://ucfzem.github.io" target="_blank" data-i18n="about-portfolio">Portfolio</a>
+    </div>
+  </div>
+</section>
 
-  <div class="posts-list">
-    <a class="post-row" href="#">
-      <span class="post-num">01</span>
-      <div class="post-icon g-gold">🤖</div>
-      <div class="post-info">
-        <h4>GPT-5 vs Claude 4 vs Gemini 2 : lequel choisir pour ton business ?</h4>
-        <span>IA · 5 min · 02 Juin 2025</span>
-      </div>
-      <span class="tag tag-ai">IA</span>
-      <span class="post-arrow">→</span>
-    </a>
-    <a class="post-row" href="#">
-      <span class="post-num">02</span>
-      <div class="post-icon g-warm">🛒</div>
-      <div class="post-info">
-        <h4>Comment j'ai automatisé 90% de mon store Shopify avec l'IA</h4>
-        <span>E-Commerce · 7 min · 28 Mai 2025</span>
-      </div>
-      <span class="tag tag-ecom">E-COM</span>
-      <span class="post-arrow">→</span>
-    </a>
-    <a class="post-row" href="#">
-      <span class="post-num">03</span>
-      <div class="post-icon g-brown">✨</div>
-      <div class="post-info">
-        <h4>Cloudflare Workers : héberger un SaaS gratuitement en 2025</h4>
-        <span>SaaS · 4 min · 22 Mai 2025</span>
-      </div>
-      <span class="tag tag-saas">SaaS</span>
-      <span class="post-arrow">→</span>
-    </a>
-    <a class="post-row" href="#">
-      <span class="post-num">04</span>
-      <div class="post-icon g-dark">📱</div>
-      <div class="post-info">
-        <h4>Coder depuis un Samsung S23 Ultra : setup complet 2025</h4>
-        <span>Dev Mobile · 6 min · 15 Mai 2025</span>
-      </div>
-      <span class="tag tag-tech">TECH</span>
-      <span class="post-arrow">→</span>
-    </a>
-    <a class="post-row" href="#">
-      <span class="post-num">05</span>
-      <div class="post-icon g-deep">🌐</div>
-      <div class="post-info">
-        <h4>TikTok + Contenu éducatif : comment atteindre 50K sans pub</h4>
-        <span>Marketing · 5 min · 08 Mai 2025</span>
-      </div>
-      <span class="tag tag-ecom">MARKETING</span>
-      <span class="post-arrow">→</span>
-    </a>
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-label" style="text-align:center;" data-i18n="contact-label">// Contact</div>
+  <h2 class="section-title" style="text-align:center;" data-i18n="contact-title">Une question ? Un projet ?</h2>
+  <p class="section-desc" style="text-align:center;margin:0 auto;" data-i18n="contact-desc">Envoie-moi un message directement depuis cette page. Je réponds sous 24h.</p>
+  <div class="contact-form">
+    <div class="form-group">
+      <label data-i18n="contact-name">Nom</label>
+      <input type="text" id="contactName" data-i18n="contact-name-place" placeholder="Ton nom">
+    </div>
+    <div class="form-group">
+      <label data-i18n="contact-email">Email</label>
+      <input type="email" id="contactEmail" data-i18n="contact-email-place" placeholder="ton@email.com">
+    </div>
+    <div class="form-group">
+      <label data-i18n="contact-msg">Message</label>
+      <textarea id="contactMsg" data-i18n="contact-msg-place" placeholder="Écris ton message ici..."></textarea>
+    </div>
+    <button onclick="sendContact()" data-i18n="contact-btn">Envoyer →</button>
+    <div class="contact-status" id="contactStatus"></div>
   </div>
 </section>
 
@@ -1039,6 +1219,9 @@
     <a href="https://tiktok.com/@ucfzem" target="_blank">TikTok</a>
     <a href="#articles" data-i18n="nav-blog">Blog</a>
     <a href="#saas" data-i18n="nav-saas">SaaS</a>
+    <a href="#about" data-i18n="nav-about">About</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
+    <a href="#" onclick="event.preventDefault();generateRSS();" data-i18n="footer-rss">RSS</a>
   </div>
   <div class="footer-copy" data-i18n="footer-copy">// Construit depuis un S23 Ultra · NL</div>
 </footer>
@@ -1058,72 +1241,92 @@
   // ─── TRANSLATIONS ───
   const i18n = {
     fr: {
-      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter',
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter', 'nav-about': 'À propos', 'nav-contact': 'Contact',
       'hero-tag': 'Live — IA · Tech · E-Commerce · SaaS',
       'hero-line1': 'Le futur se construit', 'hero-line2': 'maintenant.', 'hero-line3': 'Pas demain.',
       'hero-sub': 'Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — par Uzem, créateur digital multilingue basé aux Pays-Bas.',
       'hero-cta1': 'Lire le blog →', 'hero-cta2': 'Mes SaaS',
       'ticker1': 'Intelligence Artificielle', 'ticker2': 'E-Commerce 2025', 'ticker3': 'Outils SaaS', 'ticker4': 'Web3 & Blockchain',
       'ticker5': 'Marketing Digital', 'ticker6': 'Open Source', 'ticker7': 'Automatisation', 'ticker8': 'LLM & Agents IA',
-      'section-articles-label': '// Articles à la une', 'section-articles-title': 'Ce qui façonne<br>la tech aujourd\'hui',
+      'section-articles-label': '// Articles', 'section-articles-title': 'Tous les articles',
       'section-articles-desc': 'Analyses, tutoriels et décryptages pour rester en avance sur les tendances.',
       'section-saas-label': '// Mes créations SaaS', 'section-saas-title': 'Des outils construits<br>depuis un smartphone',
       'section-saas-desc': 'Chaque projet est un outil réel, déployé, utilisable. Construit 100% depuis mobile.',
+      'search-label': '// Rechercher', 'search-placeholder': 'Rechercher un article...', 'search-btn': 'Chercher',
+      'reader-back': '← Retour au blog', 'reader-back2': '← Tous les articles', 'reader-share': 'Partager :', 'reader-copy': '🔗', 'reader-related': 'Articles similaires',
+      'about-label': '// À propos', 'about-title': 'Salut, moi c\'est Uzem 👋', 'about-desc1': 'Développeur full-stack, créateur digital et entrepreneur multilingue basé aux Pays-Bas. Je construis des outils SaaS, explore l\'IA et partage mes découvertes sur ce blog.', 'about-desc2': 'De langue maternelle arabe et française, je crée du contenu en FR/EN/ES/AR. Chaque projet est codé depuis un Samsung S23 Ultra, pour prouver qu\'on n\'a pas besoin d\'un setup de bureau pour innover.', 'about-portfolio': 'Portfolio →',
+      'contact-label': '// Contact', 'contact-title': 'Une question ? Un projet ?', 'contact-desc': 'Envoie-moi un message directement depuis cette page. Je réponds sous 24h.', 'contact-name': 'Nom', 'contact-name-place': 'Ton nom', 'contact-email': 'Email', 'contact-email-place': 'ton@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Écris ton message ici...', 'contact-btn': 'Envoyer →', 'contact-sent': '✅ Message envoyé ! Merci ✨', 'contact-error': '❌ Erreur : remplis tous les champs.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Reste en avance.<br>Abonne-toi.',
       'newsletter-desc': 'Chaque semaine : les actus IA, les nouveaux outils, les stratégies e-commerce qui marchent vraiment. Pas de spam.',
       'newsletter-placeholder': 'ton@email.com', 'newsletter-btn': 'S\'abonner →',
-      'footer-copy': '// Construit depuis un S23 Ultra · NL'
+      'footer-copy': '// Construit depuis un S23 Ultra · NL', 'footer-rss': 'RSS',
+      'art-read': 'lire',
     },
     en: {
-      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter',
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter', 'nav-about': 'About', 'nav-contact': 'Contact',
       'hero-tag': 'Live — AI · Tech · E-Commerce · SaaS',
       'hero-line1': 'The future is built', 'hero-line2': 'now.', 'hero-line3': 'Not tomorrow.',
       'hero-sub': 'AI news, e-commerce strategies, SaaS tools and tech trends — by Uzem, a multilingual digital creator based in the Netherlands.',
       'hero-cta1': 'Read the blog →', 'hero-cta2': 'My SaaS',
       'ticker1': 'Artificial Intelligence', 'ticker2': 'E-Commerce 2025', 'ticker3': 'SaaS Tools', 'ticker4': 'Web3 & Blockchain',
       'ticker5': 'Digital Marketing', 'ticker6': 'Open Source', 'ticker7': 'Automation', 'ticker8': 'LLM & AI Agents',
-      'section-articles-label': '// Featured Articles', 'section-articles-title': 'What shapes<br>tech today',
+      'section-articles-label': '// Articles', 'section-articles-title': 'All articles',
       'section-articles-desc': 'Analysis, tutorials and insights to stay ahead of the trends.',
       'section-saas-label': '// My SaaS Creations', 'section-saas-title': 'Tools built<br>from a smartphone',
       'section-saas-desc': 'Every project is a real, deployed, usable tool. Built 100% from mobile.',
+      'search-label': '// Search', 'search-placeholder': 'Search articles...', 'search-btn': 'Search',
+      'reader-back': '← Back to blog', 'reader-back2': '← All articles', 'reader-share': 'Share:', 'reader-copy': '🔗', 'reader-related': 'Related articles',
+      'about-label': '// About', 'about-title': 'Hi, I\'m Uzem 👋', 'about-desc1': 'Full-stack developer, digital creator and multilingual entrepreneur based in the Netherlands. I build SaaS tools, explore AI and share my discoveries on this blog.', 'about-desc2': 'Native Arabic and French speaker, I create content in FR/EN/ES/AR. Every project is coded from a Samsung S23 Ultra, to prove you don\'t need a desktop setup to innovate.', 'about-portfolio': 'Portfolio →',
+      'contact-label': '// Contact', 'contact-title': 'A question? A project?', 'contact-desc': 'Send me a message directly from this page. I reply within 24h.', 'contact-name': 'Name', 'contact-name-place': 'Your name', 'contact-email': 'Email', 'contact-email-place': 'your@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Write your message here...', 'contact-btn': 'Send →', 'contact-sent': '✅ Message sent! Thank you ✨', 'contact-error': '❌ Error: please fill all fields.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Stay ahead.<br>Subscribe.',
       'newsletter-desc': 'Every week: AI news, new tools, e-commerce strategies that actually work. No spam.',
       'newsletter-placeholder': 'your@email.com', 'newsletter-btn': 'Subscribe →',
-      'footer-copy': '// Built from an S23 Ultra · NL'
+      'footer-copy': '// Built from an S23 Ultra · NL', 'footer-rss': 'RSS',
+      'art-read': 'read',
     },
     es: {
-      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Temas', 'nav-newsletter': 'Newsletter',
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Temas', 'nav-newsletter': 'Newsletter', 'nav-about': 'Acerca de', 'nav-contact': 'Contacto',
       'hero-tag': 'Live — IA · Tecnología · E-Commerce · SaaS',
       'hero-line1': 'El futuro se construye', 'hero-line2': 'ahora.', 'hero-line3': 'No mañana.',
       'hero-sub': 'Noticias de IA, estrategias de e-commerce, herramientas SaaS y tendencias tech — por Uzem, creador digital multilingüe con sede en Países Bajos.',
       'hero-cta1': 'Leer el blog →', 'hero-cta2': 'Mis SaaS',
       'ticker1': 'Inteligencia Artificial', 'ticker2': 'E-Commerce 2025', 'ticker3': 'Herramientas SaaS', 'ticker4': 'Web3 & Blockchain',
       'ticker5': 'Marketing Digital', 'ticker6': 'Open Source', 'ticker7': 'Automatización', 'ticker8': 'LLM & Agentes IA',
-      'section-articles-label': '// Artículos Destacados', 'section-articles-title': 'Lo que moldea<brla tecnología hoy',
+      'section-articles-label': '// Artículos', 'section-articles-title': 'Todos los artículos',
       'section-articles-desc': 'Análisis, tutoriales y perspectivas para estar adelante de las tendencias.',
       'section-saas-label': '// Mis Creaciones SaaS', 'section-saas-title': 'Herramientas construidas<br>desde un smartphone',
       'section-saas-desc': 'Cada proyecto es una herramienta real, desplegada y utilizable. Construida 100% desde móvil.',
+      'search-label': '// Buscar', 'search-placeholder': 'Buscar artículos...', 'search-btn': 'Buscar',
+      'reader-back': '← Volver al blog', 'reader-back2': '← Todos los artículos', 'reader-share': 'Compartir:', 'reader-copy': '🔗', 'reader-related': 'Artículos similares',
+      'about-label': '// Acerca de', 'about-title': 'Hola, soy Uzem 👋', 'about-desc1': 'Desarrollador full-stack, creador digital y emprendedor multilingüe con sede en Países Bajos. Construyo herramientas SaaS, exploro la IA y comparto mis descubrimientos en este blog.', 'about-desc2': 'Hablante nativo de árabe y francés, creo contenido en FR/EN/ES/AR. Cada proyecto está codificado desde un Samsung S23 Ultra, para demostrar que no necesitas una configuración de escritorio para innovar.', 'about-portfolio': 'Portafolio →',
+      'contact-label': '// Contacto', 'contact-title': '¿Una pregunta? ¿Un proyecto?', 'contact-desc': 'Envíame un mensaje directamente desde esta página. Respondo en 24h.', 'contact-name': 'Nombre', 'contact-name-place': 'Tu nombre', 'contact-email': 'Email', 'contact-email-place': 'tu@email.com', 'contact-msg': 'Mensaje', 'contact-msg-place': 'Escribe tu mensaje aquí...', 'contact-btn': 'Enviar →', 'contact-sent': '✅ Mensaje enviado! Gracias ✨', 'contact-error': '❌ Error: completa todos los campos.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Mantente al día.<br>Suscríbete.',
       'newsletter-desc': 'Cada semana: noticias IA, nuevas herramientas, estrategias de e-commerce que funcionan. Sin spam.',
       'newsletter-placeholder': 'tu@email.com', 'newsletter-btn': 'Suscribirse →',
-      'footer-copy': '// Construido desde un S23 Ultra · NL'
+      'footer-copy': '// Construido desde un S23 Ultra · NL', 'footer-rss': 'RSS',
+      'art-read': 'leer',
     },
     ar: {
-      'nav-blog': 'المدونة', 'nav-saas': 'تطبيقات', 'nav-topics': 'مواضيع', 'nav-newsletter': 'النشرة',
+      'nav-blog': 'المدونة', 'nav-saas': 'تطبيقات', 'nav-topics': 'مواضيع', 'nav-newsletter': 'النشرة', 'nav-about': 'عن', 'nav-contact': 'اتصل',
       'hero-tag': 'مباشر — ذكاء اصطناعي · تقنية · تجارة إلكترونية · تطبيقات',
       'hero-line1': 'المستقبل يُبنى', 'hero-line2': 'الآن.', 'hero-line3': 'ليس غداً.',
       'hero-sub': 'أخبار الذكاء الاصطناعي، استراتيجيات التجارة الإلكترونية، أدوات SaaS واتجاهات التقنية — بواسطة أوزم، مبدع رقمي متعدد اللغات مقيم في هولندا.',
       'hero-cta1': 'اقرأ المدونة ←', 'hero-cta2': 'تطبيقاتي',
       'ticker1': 'الذكاء الاصطناعي', 'ticker2': 'التجارة الإلكترونية 2025', 'ticker3': 'أدوات SaaS', 'ticker4': 'ويب 3 و بلوكتشين',
       'ticker5': 'التسويق الرقمي', 'ticker6': 'المصدر المفتوح', 'ticker7': 'الأتمتة', 'ticker8': 'نماذج اللغة و وكلاء الذكاء',
-      'section-articles-label': '// مقالات مميزة', 'section-articles-title': 'ما يشكل<br>التقنية اليوم',
+      'section-articles-label': '// المقالات', 'section-articles-title': 'جميع المقالات',
       'section-articles-desc': 'تحليلات، دروس ورؤى للبقاء في صدارة الاتجاهات.',
       'section-saas-label': '// إبداعاتي SaaS', 'section-saas-title': 'أدوات بُنيت<br>من هاتف ذكي',
       'section-saas-desc': 'كل مشروع هو أداة حقيقية، منشورة وقابلة للاستخدام. بُنيت 100% من الجوال.',
+      'search-label': '// بحث', 'search-placeholder': 'ابحث في المقالات...', 'search-btn': 'بحث',
+      'reader-back': '← العودة للمدونة', 'reader-back2': '← جميع المقالات', 'reader-share': 'شارك:', 'reader-copy': '🔗', 'reader-related': 'مقالات مشابهة',
+      'about-label': '// عن', 'about-title': 'مرحباً، أنا أوزم 👋', 'about-desc1': 'مطور متكامل، مبدع رقمي ورائد أعمال متعدد اللغات مقيم في هولندا. أبني أدوات SaaS، أستكشف الذكاء الاصطناعي وأشارك اكتشافاتي في هذه المدونة.', 'about-desc2': 'أتحدث العربية والفرنسية كلغات أم، وأنشئ محتوى بـ FR/EN/ES/AR. كل مشروع يُبرمج من Samsung S23 Ultra، لأثبت أنك لا تحتاج إلى إعدادات مكتبية للابتكار.', 'about-portfolio': 'المحفظة ←',
+      'contact-label': '// اتصل', 'contact-title': 'سؤال؟ مشروع؟', 'contact-desc': 'أرسل لي رسالة مباشرة من هذه الصفحة. أرد خلال 24 ساعة.', 'contact-name': 'الاسم', 'contact-name-place': 'اسمك', 'contact-email': 'البريد', 'contact-email-place': 'بريدك@email.com', 'contact-msg': 'الرسالة', 'contact-msg-place': 'اكتب رسالتك هنا...', 'contact-btn': 'أرسل ←', 'contact-sent': '✅ تم إرسال الرسالة! شكراً ✨', 'contact-error': '❌ خطأ: الرجاء ملء جميع الحقول.',
       'newsletter-label': '// النشرة البريدية', 'newsletter-title': 'ابقَ في المقدمة.<br>اشترك.',
       'newsletter-desc': 'كل أسبوع: أخبار الذكاء الاصطناعي، أدوات جديدة، استراتيجيات التجارة الإلكترونية التي تعمل حقاً. لا بريد مزعج.',
       'newsletter-placeholder': 'بريدك@ email.com', 'newsletter-btn': 'اشترك ←',
-      'footer-copy': '// بُني من S23 Ultra · هولندا'
+      'footer-copy': '// بُني من S23 Ultra · هولندا', 'footer-rss': 'آر إس إس',
+      'art-read': 'اقرأ',
     }
   };
 
@@ -1150,7 +1353,7 @@
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (i18n[lang] && i18n[lang][key]) {
-        if (el.tagName === 'INPUT') el.setAttribute('placeholder', i18n[lang][key]);
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.setAttribute('placeholder', i18n[lang][key]);
         else el.innerHTML = i18n[lang][key];
       }
     });
@@ -1163,11 +1366,363 @@
     if (lang === 'fr') url.searchParams.delete('lang');
     else url.searchParams.set('lang', lang);
     window.history.replaceState(null, '', url);
+    // Re-render articles in new language
+    renderArticles();
   }
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
   });
   applyLanguage(currentLang);
+
+  // ─── ARTICLE SYSTEM ───
+  const ARTICLES_DIR = '/blog/posts/';
+
+  // Known articles manifest (slug -> metadata) — fetched from markdown files
+  const knownArticles = {
+    'agents-ia-autonomes': { fr: 'agents-ia-autonomes.md', en: 'autonomous-ai-agents.md', es: 'agentes-ia-autonomos.md', ar: 'وكلاء-الذكاء-الاصطناعي.md' },
+    'dropshipping-ia-2025': { fr: 'dropshipping-ia-2025.md', en: 'ai-dropshipping-2025.md', es: 'dropshipping-ia-2025.md', ar: 'دروبشيبينغ-الذكاء-الاصطناعي-2025.md' },
+    'lancer-saaS-30-jours': { fr: 'lancer-saas-30-jours.md', en: 'launch-saas-30-days.md', es: 'lanzar-saas-30-dias.md', ar: 'إطلاق-سااس-30-يوما.md' },
+  };
+
+  let allArticles = [];
+  let currentArticleSlug = null;
+
+  function getLangDir(lang) {
+    const map = { fr: 'fr', en: 'en', es: 'es', ar: 'ar' };
+    return map[lang] || 'fr';
+  }
+
+  async function fetchArticles() {
+    const langDir = getLangDir(currentLang);
+    const results = [];
+    const slugs = Object.keys(knownArticles);
+    for (const slug of slugs) {
+      const file = knownArticles[slug][currentLang] || knownArticles[slug]['fr'];
+      if (!file) continue;
+      const url = `${ARTICLES_DIR}${langDir}/${file}`;
+      try {
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error('Not found');
+        const md = await resp.text();
+        const meta = parseFrontmatter(md);
+        results.push({ slug, ...meta, lang: currentLang });
+      } catch {
+        // Try FR as fallback
+        const fallbackUrl = `${ARTICLES_DIR}fr/${knownArticles[slug]['fr']}`;
+        try {
+          const resp = await fetch(fallbackUrl);
+          if (resp.ok) {
+            const md = await resp.text();
+            const meta = parseFrontmatter(md);
+            results.push({ slug, ...meta, lang: 'fr' });
+          }
+        } catch {}
+      }
+    }
+    return results;
+  }
+
+  function parseFrontmatter(md) {
+    const meta = { title: '', date: '', author: 'Uzem', category: 'Tech', icon: '📝', description: '', readingTime: '5 min' };
+    const match = md.match(/^---\s*\n([\s\S]*?)\n---\s*\n/);
+    if (match) {
+      const fm = match[1];
+      const lines = fm.split('\n');
+      lines.forEach(line => {
+        const sep = line.indexOf(':');
+        if (sep > 0) {
+          const key = line.slice(0, sep).trim();
+          let val = line.slice(sep + 1).trim();
+          val = val.replace(/^['"]|['"]$/g, '');
+          if (key === 'title') meta.title = val;
+          else if (key === 'date') meta.date = val;
+          else if (key === 'author') meta.author = val;
+          else if (key === 'category') meta.category = val;
+          else if (key === 'icon') meta.icon = val;
+          else if (key === 'description') meta.description = val;
+          else if (key === 'readingTime') meta.readingTime = val;
+        }
+      });
+    }
+    return meta;
+  }
+
+  async function loadArticleContent(slug) {
+    const langDir = getLangDir(currentLang);
+    const file = knownArticles[slug] ? (knownArticles[slug][currentLang] || knownArticles[slug]['fr']) : null;
+    if (!file) return null;
+    const url = `${ARTICLES_DIR}${langDir}/${file}`;
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('Not found');
+      const md = await resp.text();
+      const body = md.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
+      return body;
+    } catch {
+      // Fallback to FR
+      const fallbackUrl = `${ARTICLES_DIR}fr/${knownArticles[slug]['fr']}`;
+      try {
+        const resp = await fetch(fallbackUrl);
+        if (resp.ok) {
+          return (await resp.text()).replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
+        }
+      } catch {}
+      return null;
+    }
+  }
+
+  function formatDate(dateStr, lang) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr);
+      const opts = { year: 'numeric', month: 'short', day: 'numeric' };
+      return d.toLocaleDateString(lang === 'ar' ? 'ar-MA' : lang || 'fr', opts);
+    } catch { return dateStr; }
+  }
+
+  async function renderArticles(filter = '') {
+    allArticles = await fetchArticles();
+    const container = document.getElementById('articleContainer');
+    if (!container) return;
+    const q = filter.toLowerCase().trim();
+    const filtered = q ? allArticles.filter(a =>
+      (a.title || '').toLowerCase().includes(q) ||
+      (a.description || '').toLowerCase().includes(q) ||
+      (a.category || '').toLowerCase().includes(q)
+    ) : allArticles;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<p style="text-align:center;color:var(--muted);padding:3rem 0;" data-i18n="search-none">Aucun article trouvé.</p>`;
+      return;
+    }
+
+    // Featured = first article (largest card)
+    const featured = filtered[0];
+    const rest = filtered.slice(1);
+
+    let html = '';
+    // Featured card
+    html += `<a class="article-card featured" href="#article/${featured.slug}" onclick="openArticle('${featured.slug}');return false;">
+      <div class="article-thumb-placeholder g-gold" style="aspect-ratio:16/9;font-size:5rem;">${featured.icon || '📝'}</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="tag tag-ai">${featured.category || ''}</span>
+          <span class="article-date">${formatDate(featured.date, currentLang)}</span>
+        </div>
+        <h3>${featured.title || ''}</h3>
+        <p>${featured.description || ''}</p>
+      </div>
+    </a>`;
+
+    // Side articles
+    if (rest.length > 0) {
+      html += `<div class="side-articles">`;
+      rest.slice(0, 2).forEach(a => {
+        html += `<a class="side-article" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
+          <div class="side-thumb g-warm" style="font-size:2rem;">${a.icon || '📝'}</div>
+          <div class="side-body">
+            <div class="article-meta"><span class="tag tag-${(a.category || 'tech').toLowerCase()}">${a.category || ''}</span></div>
+            <h4>${a.title || ''}</h4>
+            <p>${a.description ? a.description.slice(0, 80) + '...' : ''}</p>
+          </div>
+        </a>`;
+      });
+      html += `</div>`;
+    }
+
+    // Remaining articles as list
+    if (rest.length > 2) {
+      html += `<div style="grid-column:1/-1;margin-top:1rem;">
+        <div class="posts-list">`;
+      rest.slice(2).forEach((a, idx) => {
+        html += `<a class="post-row" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
+          <span class="post-num">${String(idx + 3).padStart(2, '0')}</span>
+          <div class="post-icon g-gold">${a.icon || '📝'}</div>
+          <div class="post-info">
+            <h4>${a.title || ''}</h4>
+            <span>${a.category || ''} · ${a.readingTime || '5 min'} · ${formatDate(a.date, currentLang)}</span>
+          </div>
+          <span class="tag tag-${(a.category || 'tech').toLowerCase()}">${(a.category || '').slice(0, 4).toUpperCase()}</span>
+          <span class="post-arrow">→</span>
+        </a>`;
+      });
+      html += `</div></div>`;
+    }
+
+    container.innerHTML = html;
+    container.style.gridTemplateColumns = rest.length > 0 ? '2fr 1fr' : '1fr';
+
+    // Update categories count
+    updateTopicCounts(filtered);
+  }
+
+  function updateTopicCounts(articles) {
+    const topics = document.querySelectorAll('.topic-count');
+    const counts = {};
+    articles.forEach(a => {
+      const cat = (a.category || 'Tech').trim();
+      counts[cat] = (counts[cat] || 0) + 1;
+    });
+    // Map topic cards by category name
+    document.querySelectorAll('.topic-card h4').forEach(h4 => {
+      const countEl = h4.parentElement.querySelector('.topic-count');
+      if (countEl) {
+        const catName = h4.textContent.trim();
+        // We match roughly; just show total count
+        let total = 0;
+        Object.keys(counts).forEach(k => { total += counts[k]; });
+        countEl.textContent = `// ${articles.length} articles`;
+      }
+    });
+  }
+
+  function filterArticles(val) {
+    renderArticles(val);
+  }
+
+  async function openArticle(slug) {
+    currentArticleSlug = slug;
+    window.location.hash = `article/${slug}`;
+
+    const reader = document.getElementById('articleReader');
+    const sections = document.querySelectorAll('section, #searchWrap, #articles, #saas, #topics, #about, #contact, .newsletter, .ticker-wrap, .hero');
+    sections.forEach(s => s.style.display = 'none');
+    reader.classList.add('active');
+
+    const content = await loadArticleContent(slug);
+    const article = allArticles.find(a => a.slug === slug) || {};
+
+    document.getElementById('artIcon').textContent = article.icon || '📝';
+    document.getElementById('artTitle').textContent = article.title || '';
+    document.getElementById('artCategory').textContent = article.category || '';
+    document.getElementById('artDate').textContent = formatDate(article.date, currentLang);
+    document.getElementById('artAuthor').textContent = article.author || 'Uzem';
+    document.getElementById('artReadingTime').textContent = article.readingTime || '';
+    document.getElementById('breadcrumbCurrent').textContent = article.title || '';
+    document.getElementById('artBody').innerHTML = content ? marked.parse(content) : '<p>Article non trouvé.</p>';
+
+    // Share URLs
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareText = encodeURIComponent(article.title || '');
+    document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+    document.getElementById('shareLinkedin').href = `https://linkedin.com/sharing/share-offsite/?url=${shareUrl}`;
+
+    // Related articles (same category)
+    const related = allArticles.filter(a => a.slug !== slug && a.category === article.category).slice(0, 3);
+    const relatedGrid = document.getElementById('relatedGrid');
+    if (related.length > 0) {
+      relatedGrid.innerHTML = related.map(a => `
+        <a class="related-card" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
+          <div class="rc-icon">${a.icon || '📝'}</div>
+          <h4>${a.title || ''}</h4>
+          <p>${a.description ? a.description.slice(0, 60) + '...' : ''}</p>
+        </a>
+      `).join('');
+    } else {
+      relatedGrid.innerHTML = '';
+    }
+
+    document.querySelector('header').style.display = 'flex';
+    window.scrollTo(0, 0);
+  }
+
+  function closeArticle() {
+    currentArticleSlug = null;
+    window.location.hash = '';
+    document.getElementById('articleReader').classList.remove('active');
+    document.querySelectorAll('section, #searchWrap, #articles, #saas, #topics, #about, #contact, .newsletter, .ticker-wrap, .hero').forEach(s => s.style.display = '');
+    document.querySelector('header').style.display = 'flex';
+    renderArticles();
+  }
+
+  function shareOnTwitter() {
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(document.getElementById('artTitle').textContent);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  }
+
+  function shareOnLinkedin() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+  }
+
+  function copyArticleLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('.share-btn:last-child');
+      btn.textContent = '✅';
+      setTimeout(() => btn.textContent = '🔗', 2000);
+    });
+  }
+
+  function generateRSS() {
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>UcfZemTech Blog</title>
+  <link>https://ucfzem.github.io/blog/</link>
+  <description>Tech blog covering AI, E-commerce, SaaS — by Uzem</description>
+  <language>${currentLang}</language>
+  <atom:link href="https://ucfzem.github.io/blog/rss.xml" rel="self" type="application/rss+xml"/>`;
+    allArticles.forEach(a => {
+      const url = `https://ucfzem.github.io/blog/#article/${a.slug}`;
+      xml += `
+  <item>
+    <title>${(a.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</title>
+    <link>${url}</link>
+    <guid>${url}</guid>
+    <description>${(a.description || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</description>
+    <category>${a.category || 'Tech'}</category>
+    <pubDate>${a.date ? new Date(a.date).toUTCString() : ''}</pubDate>
+  </item>`;
+    });
+    xml += `\n</channel>\n</rss>`;
+
+    const blob = new Blob([xml], { type: 'application/rss+xml' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'rss.xml';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function sendContact() {
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const msg = document.getElementById('contactMsg').value.trim();
+    const status = document.getElementById('contactStatus');
+    if (!name || !email || !msg) {
+      status.textContent = i18n[currentLang]?.['contact-error'] || '❌ Error: please fill all fields.';
+      return;
+    }
+    const mailto = `mailto:ucfzem@gmail.com?subject=Blog Contact - ${encodeURIComponent(name)}&body=${encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${msg}`)}`;
+    status.textContent = i18n[currentLang]?.['contact-sent'] || '✅ Message sent! Thank you ✨';
+    document.getElementById('contactName').value = '';
+    document.getElementById('contactEmail').value = '';
+    document.getElementById('contactMsg').value = '';
+    window.open(mailto, '_blank');
+  }
+
+  // ─── HASH ROUTING ───
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash.startsWith('article/')) {
+      const slug = hash.replace('article/', '');
+      if (slug !== currentArticleSlug) openArticle(slug);
+    } else if (!hash) {
+      if (currentArticleSlug) closeArticle();
+    }
+  });
+
+  // ─── INIT ───
+  renderArticles();
+
+  // Open article if hash on load
+  const initHash = window.location.hash.replace('#', '');
+  if (initHash.startsWith('article/')) {
+    const slug = initHash.replace('article/', '');
+    setTimeout(() => openArticle(slug), 300);
+  }
 </script>
 
 
