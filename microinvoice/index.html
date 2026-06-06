@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>MicroInvoice — Factures PDF en ligne</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <style>
-:root{--bg:#0d0a08;--surface:#161210;--card:#1c1814;--border:#2d251e;--accent:#d4a373;--text:#f0ece4;--muted:#8a7a6a;--success:#7ecba1;--font:'Syne',sans-serif;--mono:'DM Mono',monospace;--radius:12px}
+:root{--bg:#0d0a08;--surface:#161210;--card:#1c1814;--border:#2d251e;--accent:#d4a373;--text:#f0ece4;--muted:#8a7a6a;--success:#7ecba1;--font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,sans-serif;--mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;--radius:12px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
 .container{max-width:900px;margin:0 auto;padding:20px 12px}
@@ -74,7 +73,6 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 @media(max-width:520px){.row{flex-direction:column}.field{min-width:100%}.preview-box .p-header{flex-direction:column;gap:8px}}
 [dir=rtl]{text-align:right}
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -184,6 +182,8 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 // ══════ LANG ══════
 const L={fr:{emitter:"// Émetteur",emitName:"Nom / Société",emitICE:"ICE",emitAddr:"Adresse",emitEmail:"Email",emitPhone:"Tél",client:"// Client",cliName:"Client",cliAddr:"Adresse du client",cliEmail:"Email client",cliPhone:"Tél client",invoice:"// Facture",num:"N° Facture",date:"Date",due:"Échéance",currency:"Devise",tva:"TVA",logo:"Logo",items:"// Articles",desc:"Description",qty:"Qté",price:"Prix unit.",total:"Total",add:"+ Ajouter",subtotal:"Sous-total",tax:"TVA",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Conditions de paiement, délais, remerciements…",preview:"// Aperçu",pdf:"📄 Télécharger PDF",save:"💾 Enregistrer",demo:"🎲 Démo",history:"// Historique",delete:"✕",clearAll:"✕ Tout effacer",saved:"✓ Facture enregistrée",noHistory:"Aucune facture enregistrée",invTitle:"FACTURE",clientLbl:"CLIENT",dateLbl:"Date :",dueLbl:"Échéance :",numLbl:"N° :",tvaLbl:"TVA :",iceLbl:"ICE :",emailLbl:"Email :",telLbl:"Tél :",from:"DE",to:"À",paymentTerms:"Paiement :"},
@@ -269,40 +269,33 @@ autoNumber();renderItems();refreshPreview()}
 function autoNumber(){const count=savedInvoices.length+1;const y=new Date().getFullYear();
 document.getElementById('invNum').value='FAC-'+y+'-'+String(count).padStart(3,'0')}
 // ══════ PDF ══════
-function exportPDF(){const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];const pageW=190;const margin=14;const clr=[212,163,115];
-function r(text,x,y,color,size,font){doc.setFontSize(size||10);if(font)doc.setFont('Helvetica',font);else doc.setFont('Helvetica','normal');if(color)doc.setTextColor(color[0],color[1],color[2]);doc.text(text,x,y)}
-// Header
-r('MicroInvoice',margin,20,clr,18,'bold');
-r(t.invTitle+' • '+document.getElementById('invNum').value,margin,27,clr,10,'bold');
-r(document.getElementById('invDate').value,pageW-margin,27,[100,100,100],9);
-// Emitter
+function exportPDF(){try{
+if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){toast('Chargement du PDF…');setTimeout(exportPDF,800);return}
+const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];const pageW=190;const margin=14;const clr=[212,163,115];const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
+function w(text,x,y,color,size,opt){doc.setFontSize(size||10);if(opt)doc.setFont('Helvetica',opt);if(color)doc.setTextColor(color[0],color[1],color[2]);doc.text(text,x,y)}
+w('MicroInvoice',margin,20,clr,18,'bold');
+w(t.invTitle+' • '+document.getElementById('invNum').value,margin,27,clr,10,'bold');
+w(document.getElementById('invDate').value,pageW-margin,27,[100,100,100],9);
 const emit=document.getElementById('emitName').value||'MicroInvoice';
-r(t.from+':',margin,38,clr,9,'bold');
-r(emit,margin,44,[240,236,228],10);
+w(t.from+':',margin,38,clr,9,'bold');
+w(emit,margin,44,[240,236,228],10);
 const emitDetail=[document.getElementById('emitAddr').value,document.getElementById('emitICE').value?t.iceLbl+' '+document.getElementById('emitICE').value:'',document.getElementById('emitEmail').value,document.getElementById('emitPhone').value].filter(Boolean);
-emitDetail.forEach((l,i)=>r(l,margin,52+i*5,[140,130,120],8));
-// Client
+emitDetail.forEach((l,i)=>w(l,margin,52+i*5,[140,130,120],8));
 const cy=emitDetail.length*5+56;
-r(t.to+':',margin,cy,clr,9,'bold');
-const cliName=document.getElementById('client').value||'—';
-r(cliName,margin,cy+6,[240,236,228],10);
-const cliAddr=document.getElementById('cliAddr').value;
-if(cliAddr)r(cliAddr,margin,cy+12,[140,130,120],8);
-// Items table
-const rows=items.filter(it=>it.desc).map(it=>[it.desc,String(it.qty),it.price.toFixed(2),(it.qty*it.price).toFixed(2)+' '+sym]);
-const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
-doc.autoTable({startY:cy+20,head:[[t.desc,t.qty,t.price,t.total]],body:rows,theme:'grid',headStyles:{fillColor:clr,textColor:[13,10,8],fontSize:8,fontStyle:'bold'},bodyStyles:{textColor:[240,236,228],fontSize:8},columnStyles:{0:{cellWidth:80},1:{cellWidth:20,halign:'center'},2:{cellWidth:35,halign:'right'},3:{cellWidth:35,halign:'right'}},styles:{cellPadding:3}});
-// Totals
+w(t.to+':',margin,cy,clr,9,'bold');
+w(document.getElementById('client').value||'-',margin,cy+6,[240,236,228],10);
+const cliAddr=document.getElementById('cliAddr').value;if(cliAddr)w(cliAddr,margin,cy+12,[140,130,120],8);
+doc.autoTable({startY:cy+20,head:[[t.desc,t.qty,t.price,t.total]],body:items.filter(it=>it.desc).map(it=>[it.desc,String(it.qty),it.price.toFixed(2),(it.qty*it.price).toFixed(2)+' '+sym]),theme:'grid',headStyles:{fillColor:[212,163,115],textColor:[13,10,8],fontSize:8,fontStyle:'bold'},bodyStyles:{textColor:[240,236,228],fontSize:8},columnStyles:{0:{cellWidth:80},1:{cellWidth:20,halign:'center'},2:{cellWidth:35,halign:'right'},3:{cellWidth:35,halign:'right'}},styles:{cellPadding:3}});
 const fy=doc.lastAutoTable.finalY+8;
-r(t.subtotal+': '+fmtPDF(sub),pageW-margin,fy,[240,236,228],10,'bold');
-r(t.tax+' ('+rate+'%): '+fmtPDF(tax),pageW-margin,fy+7,[240,236,228],10,'bold');
-r(t.grandTotal+': '+fmtPDF(sub+tax),pageW-margin,fy+16,clr,14,'bold');
-// Notes
+w(t.subtotal+': '+fmtPDF(sub),pageW-margin,fy,[240,236,228],10,'bold');
+w(t.tax+' ('+rate+'%): '+fmtPDF(tax),pageW-margin,fy+7,[240,236,228],10,'bold');
+w(t.grandTotal+': '+fmtPDF(sub+tax),pageW-margin,fy+16,clr,14,'bold');
 const notes=document.getElementById('notes').value;
-if(notes){r(t.notesPlaceholder,fy>120?fy+8:120,[100,100,100],8,'italic');r(notes,fy>120?fy+14:126,[140,130,120],7)}
-// Footer
-r('MicroInvoice — '+t.invTitle.toLowerCase()+' #'+document.getElementById('invNum').value,pageW/2,280,[100,100,100],7,'normal')
-doc.save('facture-'+document.getElementById('invNum').value+'.pdf')}
+if(notes){w(t.notesPlaceholder,fy>120?fy+8:120,[100,100,100],8,'italic');w(notes,fy>120?fy+14:126,[140,130,120],7)}
+w('MicroInvoice — '+t.invTitle.toLowerCase()+' #'+document.getElementById('invNum').value,pageW/2,280,[100,100,100],7);
+doc.save('facture-'+document.getElementById('invNum').value+'.pdf')
+toast('✓ PDF téléchargé')
+}catch(e){toast('Erreur PDF: '+e.message);console.error(e)}}
 // ══════ INIT ══════
 const today=new Date();const due=new Date(today);due.setDate(due.getDate()+30);
 document.getElementById('invDate').value=today.toISOString().split('T')[0];
