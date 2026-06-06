@@ -671,6 +671,7 @@
       'status-placeholder': 'Remplissez vos informations et cliquez sur Générer',
       'status-error': '⚠ Remplissez au moins votre nom et quelques détails.',
       'status-success': '✓ CV généré',
+      'status-translating': '🔄 Traduction en cours…',
       'status-copied': '✓ Copié',
       'status-pdf-error': '⚠ Générez votre CV d\'abord.',
       'footer': 'CVForge · Templates uniquement · ',
@@ -737,6 +738,7 @@
       'status-placeholder': 'Fill in your details and click Generate',
       'status-error': '⚠ Fill in at least your name and some details.',
       'status-success': '✓ CV generated',
+      'status-translating': '🔄 Translating…',
       'status-copied': '✓ Copied',
       'status-pdf-error': '⚠ Generate your CV first.',
       'footer': 'CVForge · Templates only · ',
@@ -803,6 +805,7 @@
       'status-placeholder': 'Completa tus datos y haz clic en Generar',
       'status-error': '⚠ Completa al menos tu nombre y algunos detalles.',
       'status-success': '✓ CV generado',
+      'status-translating': '🔄 Traduciendo…',
       'status-copied': '✓ Copiado',
       'status-pdf-error': '⚠ Genera tu CV primero.',
       'footer': 'CVForge · Solo plantillas · ',
@@ -869,6 +872,7 @@
       'status-placeholder': 'املأ بياناتك وانقر على إنشاء',
       'status-error': '⚠ املأ على الأقل اسمك وبعض التفاصيل.',
       'status-success': '✓ تم إنشاء السيرة الذاتية',
+      'status-translating': '🔄 جاري الترجمة…',
       'status-copied': '✓ تم النسخ',
       'status-pdf-error': '⚠ قم بإنشاء سيرتك الذاتية أولاً.',
       'footer': 'CVForge · قوالب فقط · ',
@@ -890,6 +894,7 @@
   let currentLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('cvforge_lang') || 'fr';
 
   function applyLanguage(lang) {
+    const oldLang = currentLang;
     currentLang = lang;
     localStorage.setItem('cvforge_lang', lang);
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -907,13 +912,61 @@
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
-    renderExp();
-    renderEdu();
-    try { generateCV(); } catch(e) {}
-    const url = new URL(window.location);
-    if (lang === 'fr') url.searchParams.delete('lang');
-    else url.searchParams.set('lang', lang);
-    window.history.replaceState(null, '', url);
+    if (oldLang !== lang) {
+      translateAllContent(oldLang, lang).then(() => {
+        renderExp();
+        renderEdu();
+        try { generateCV(); } catch(e) {}
+        const url = new URL(window.location);
+        if (lang === 'fr') url.searchParams.delete('lang');
+        else url.searchParams.set('lang', lang);
+        window.history.replaceState(null, '', url);
+      });
+    } else {
+      renderExp();
+      renderEdu();
+      try { generateCV(); } catch(e) {}
+      const url = new URL(window.location);
+      if (lang === 'fr') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', lang);
+      window.history.replaceState(null, '', url);
+    }
+  }
+
+  function translateText(text, source, target) {
+    if (!text || !text.trim()) return Promise.resolve(text);
+    const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target;
+    return fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+      return data.responseData && data.responseData.translatedText ? data.responseData.translatedText : text;
+    }).catch(function() { return text; });
+  }
+
+  function translateAllContent(sourceLang, targetLang) {
+    var status = document.getElementById('status');
+    status.textContent = i18n[currentLang] && i18n[currentLang]['status-translating'] ? i18n[currentLang]['status-translating'] : '🔄 Translating...';
+    status.className = 'status-bar';
+    var promises = [];
+
+    var summaryEl = document.getElementById('cv_summary');
+    if (summaryEl && summaryEl.value.trim()) {
+      promises.push(translateText(summaryEl.value, sourceLang, targetLang).then(function(t) {
+        summaryEl.value = t;
+      }));
+    }
+
+    experiences.forEach(function(exp) {
+      if (exp.title) promises.push(translateText(exp.title, sourceLang, targetLang).then(function(t) { exp.title = t; }));
+      if (exp.company) promises.push(translateText(exp.company, sourceLang, targetLang).then(function(t) { exp.company = t; }));
+      if (exp.desc) promises.push(translateText(exp.desc, sourceLang, targetLang).then(function(t) { exp.desc = t; }));
+    });
+
+    educations.forEach(function(edu) {
+      if (edu.degree) promises.push(translateText(edu.degree, sourceLang, targetLang).then(function(t) { edu.degree = t; }));
+      if (edu.school) promises.push(translateText(edu.school, sourceLang, targetLang).then(function(t) { edu.school = t; }));
+      if (edu.desc) promises.push(translateText(edu.desc, sourceLang, targetLang).then(function(t) { edu.desc = t; }));
+    });
+
+    return Promise.all(promises);
   }
   let experiences = [{ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }];
   let educations = [{ id: Date.now(), degree: '', school: '', year: '', desc: '' }];
