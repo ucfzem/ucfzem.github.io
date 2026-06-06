@@ -1,0 +1,105 @@
+# MicroInvoice — Conversation complète
+# Date: 2026-06-06
+# URL: https://ucfzem.azer-tyu199p.workers.dev/microinvoice/
+
+============================================================
+## 1. Reprise de session
+============================================================
+
+Utilisateur demande de retrouver le travail précédent sur 
+MicroInvoice déployé sur Cloudflare Workers.
+
+Lien: https://ucfzem.azer-tyu199p.workers.dev/microinvoice/
+
+Fichiers trouvés dans /tmp/opencode/ucfzem.github.io/microinvoice/
+- index.html (305 lignes, version déployée avec hotfixes)
+- index-v2.html (316 lignes, version alternative plus simple)
+
+============================================================
+## 2. Bug PDF
+============================================================
+
+Utilisateur teste "Télécharger PDF" → échec.
+Erreur: "Invalid arguments passed to jsPDF.text"
+
+Cause identifiée dans le code déployé (index.html) :
+- `hotfixes:['px_scaling']` dans `new jsPDF({...})` 
+- Méthodes chaînées `.setFont().setTextColor().text()`
+- Problème de compatibilité jsPDF 2.5.1
+
+Code buggé (exportPDF dans index.html) :
+```js
+function exportPDF(){try{
+if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){...}
+const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4',hotfixes:['px_scaling']});
+doc.setFontSize(18).setFont('Helvetica','bold').setTextColor(...).text(...)
+...
+}catch(e){toast('Erreur PDF: '+e.message)}}
+```
+
+============================================================
+## 3. Correctif appliqué (commit 1164fdd)
+============================================================
+
+Fichier modifié: microinvoice/index.html
+Commit: 1164fddc9d7a0a18eb6d77507458283c0102fb61
+Message: "Fix PDF export: remove unsupported hotfixes option, cleaner helper function"
+
+Modifications :
+1. Retiré `hotfixes:['px_scaling']` du constructeur jsPDF
+2. Remplacé les appels chaînés par une fonction helper `w()` :
+   ```js
+   function w(text,x,y,color,size,opt){
+     doc.setFontSize(size||10);
+     if(opt)doc.setFont('Helvetica',opt);
+     if(color)doc.setTextColor(color[0],color[1],color[2]);
+     doc.text(text,x,y)
+   }
+   ```
+3. Corrigé le tiret cadratin '—' → '-' (non supporté par WinAnsiEncoding)
+4. Nettoyé les calculs de position Y pour l'émetteur
+
+============================================================
+## 4. Déploiement
+============================================================
+
+Infrastructure:
+- Cloudflare Worker "ucfzem" (account: 551159a93...)
+- _worker.js sert les fichiers statiques via ASSETS binding
+- wrangler.toml configure le déploiement
+- Pas de CI/CD GitHub Actions trouvé
+
+Dernier déploiement réussi: 2026-06-06 04:15 UTC
+- Commit f382391 (MicroInvoice v2)
+- Version ID: fda804be-0e7f-4694-a21f-aa03d77dc88c
+
+Push GitHub effectué (commit 1164fdd puis f86c909 pour backup)
+En attente du déploiement automatique Cloudflare (prévu vers midi)
+
+Impossible de déployer via wrangler CLI :
+- Session non-interactive
+- Pas de CLOUDFLARE_API_TOKEN disponible
+- wrangler login impossible sans navigateur
+
+============================================================
+## 5. Sauvegarde
+============================================================
+
+Dossier de backup: /tmp/opencode/backup-microinvoice/
+- index.html (version déployée avec correctif)
+- index-v2.html (version alternative)
+- _worker.js (worker Cloudflare)
+- wrangler.toml (config)
+
+Backup sur GitHub: https://github.com/ucfzem/ucfzem.github.io/tree/main/backup
+
+============================================================
+## 6. Annexe: Code complet index.html (309 lignes)
+============================================================
+
+Le fichier complet est disponible dans le repo GitHub :
+https://github.com/ucfzem/ucfzem.github.io/blob/main/microinvoice/index.html
+
+Et dans la sauvegarde :
+https://github.com/ucfzem/ucfzem.github.io/blob/main/backup/index.html
+
