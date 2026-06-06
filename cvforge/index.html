@@ -1,0 +1,800 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVForge — Professional Résumés, Instant</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --rust: #c4562a;
+    --muted: #7a7060;
+    --border: #d4cfc3;
+    --white: #faf8f4;
+    --surface: #faf8f4;
+    --success: #3a7d44;
+    --preview-bg: #ffffff;
+    --preview-text: #1a1a1a;
+    --preview-muted: #6b7280;
+    --preview-accent: #c9a84c;
+    --preview-line: #e5e7eb;
+    --disclaimer-bg: #fff8ec;
+    --disclaimer-text: #6b5a2e;
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    --noise-opacity: 0.5;
+  }
+
+  [data-theme="dark"] {
+    --ink: #e8e4dc;
+    --paper: #141210;
+    --cream: #1c1a17;
+    --gold: #d4a84c;
+    --gold-light: #e8c96a;
+    --rust: #e67e5a;
+    --muted: #8a7a6a;
+    --border: #2d2820;
+    --white: #1c1a17;
+    --surface: #1c1a17;
+    --success: #7ecba1;
+    --preview-bg: #1a1815;
+    --preview-text: #e8e4dc;
+    --preview-muted: #8a7a6a;
+    --preview-accent: #d4a84c;
+    --preview-line: #2d2820;
+    --disclaimer-bg: #1f1a0e;
+    --disclaimer-text: #c9a84c;
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7a6a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    --noise-opacity: 0.15;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Instrument Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background .3s, color .3s;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--noise-opacity);
+    transition: opacity .3s;
+  }
+
+  header {
+    position: relative;
+    padding: 1.8rem 2rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    transition: background .3s, border-color .3s;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+  .logo { display: flex; align-items: baseline; gap: 0.4rem; }
+
+  .logo-mark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    transition: color .3s;
+  }
+
+  .logo-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--gold);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .header-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 0.35rem 0.55rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: border-color .2s, background .2s;
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .theme-toggle:hover { border-color: var(--gold); }
+
+  .hero {
+    text-align: center;
+    padding: 2.5rem 2rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 600px;
+    margin: 0 auto 0.6rem;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--gold); }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 450px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    max-width: 1200px;
+    margin: 1.5rem auto 3rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 860px) {
+    .main { grid-template-columns: 1fr; }
+  }
+
+  .form-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-right: none;
+    padding: 1.5rem;
+    transition: background .3s, border-color .3s;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 860px) {
+    .form-panel { border-right: 1px solid var(--border); max-height: none; }
+  }
+
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    transition: background .3s;
+  }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+
+  .field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .field.full { grid-column: 1 / -1; }
+  .field.half { grid-column: span 1; }
+
+  label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    padding: 0.5rem 0.7rem;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, background .3s, color .3s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    background: var(--white);
+  }
+
+  textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+
+  .section-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--border);
+    margin: 0.3rem 0;
+    position: relative;
+    transition: background .3s;
+  }
+
+  .section-divider span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--white);
+    padding-right: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: background .3s;
+  }
+
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+  .btn-primary:hover { background: var(--gold-light); border-color: var(--gold-light); }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-primary:hover { color: var(--ink); }
+
+  .actions { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+  .item-list { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; }
+  .item-entry {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.6rem;
+    position: relative;
+  }
+  .item-entry .remove-btn {
+    position: absolute;
+    top: 0.3rem; right: 0.3rem;
+    background: none;
+    border: none;
+    color: var(--rust);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 2px 4px;
+  }
+  .item-entry .remove-btn:hover { opacity: 0.7; }
+  .item-entry .item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  .item-entry .item-grid .full { grid-column: 1 / -1; }
+  .item-entry input, .item-entry textarea { font-size: 0.78rem; padding: 0.35rem 0.5rem; }
+  .item-entry textarea { min-height: 40px; }
+
+  /* ── PREVIEW PANEL ── */
+  .preview-panel {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: background .3s, border-color .3s;
+  }
+
+  #cv-output {
+    flex: 1;
+    background: var(--preview-bg);
+    border: 1px solid var(--border);
+    padding: 2rem 2.2rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--preview-text);
+    overflow-y: auto;
+    min-height: 500px;
+    transition: background .3s, border-color .3s, color .3s;
+    line-height: 1.5;
+  }
+
+  /* ── CV PRINT STYLES ── */
+  .cv-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--preview-text);
+    margin-bottom: 0.15rem;
+  }
+  .cv-title {
+    font-size: 0.85rem;
+    color: var(--preview-muted);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .cv-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1rem;
+    font-size: 0.72rem;
+    color: var(--preview-muted);
+    padding-bottom: 0.7rem;
+    border-bottom: 2px solid var(--preview-accent);
+    margin-bottom: 0.8rem;
+  }
+  .cv-contact span { display: inline-flex; align-items: center; gap: 0.25rem; }
+
+  .cv-section { margin-bottom: 0.8rem; }
+  .cv-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--preview-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid var(--preview-line);
+    padding-bottom: 0.2rem;
+  }
+  .cv-summary { font-size: 0.78rem; line-height: 1.6; color: var(--preview-text); }
+
+  .cv-entry { margin-bottom: 0.6rem; }
+  .cv-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  .cv-entry-title { font-weight: 600; font-size: 0.82rem; color: var(--preview-text); }
+  .cv-entry-subtitle { font-weight: 500; font-size: 0.75rem; color: var(--preview-muted); }
+  .cv-entry-date { font-size: 0.68rem; color: var(--preview-muted); white-space: nowrap; }
+  .cv-entry-desc { font-size: 0.75rem; line-height: 1.5; color: var(--preview-text); margin-top: 0.2rem; padding-left: 0.5rem; }
+
+  .cv-skills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .cv-skill {
+    background: var(--preview-line);
+    color: var(--preview-text);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  [data-theme="dark"] .cv-skill { background: #2a2825; }
+
+  .cv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 500px) { .cv-two-col { grid-template-columns: 1fr; } }
+
+  .placeholder-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    gap: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  .placeholder-icon { font-size: 2.5rem; opacity: 0.3; }
+  .placeholder-text { font-family: 'DM Serif Display', serif; font-size: 1rem; font-style: italic; }
+  .placeholder-sub { font-size: 0.75rem; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    background: var(--white);
+    transition: background .3s, border-color .3s;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .status-bar {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 0.3rem 0;
+    text-align: right;
+  }
+  .status-bar.error { color: var(--rust); }
+  .status-bar.success { color: var(--success); }
+
+  .demo-btn {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    color: var(--gold);
+    background: none;
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    transition: .2s;
+    margin-left: 0.5rem;
+  }
+  .demo-btn:hover { background: var(--gold); color: var(--white); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">
+      <span class="logo-mark">CVForge</span>
+      <span class="logo-tag">Free</span>
+    </div>
+    <span class="header-note">Professional résumés · Print-ready PDF</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:0.4rem">
+    <button class="demo-btn" onclick="loadDemo()">🎲 Demo</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+  </div>
+</header>
+
+<div class="hero" style="animation:fadeUp 0.5s">
+  <h1>Your career, <em>on paper.</em></h1>
+  <p class="hero-sub">Fill in your details and get a clean, professional CV ready to print or save as PDF.</p>
+</div>
+
+<div class="main">
+  <div class="form-panel">
+    <div class="panel-label">Your Info</div>
+
+    <div class="form-grid">
+      <div class="field full">
+        <label>Full Name</label>
+        <input type="text" id="cv_name" placeholder="Youssef El Amrani">
+      </div>
+      <div class="field full">
+        <label>Professional Title</label>
+        <input type="text" id="cv_title" placeholder="Full-Stack Developer & Designer">
+      </div>
+      <div class="field full">
+        <label>Summary</label>
+        <textarea id="cv_summary" rows="2" placeholder="Brief professional summary..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="text" id="cv_email" placeholder="youssef@email.com">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" id="cv_phone" placeholder="+212 6 XX XX XX XX">
+      </div>
+      <div class="field">
+        <label>Location</label>
+        <input type="text" id="cv_location" placeholder="Tangier, Morocco">
+      </div>
+      <div class="field">
+        <label>LinkedIn / Portfolio</label>
+        <input type="text" id="cv_website" placeholder="linkedin.com/in/you">
+      </div>
+
+      <div class="section-divider full"><span>Skills</span></div>
+      <div class="field full">
+        <label>Skills (comma-separated)</label>
+        <input type="text" id="cv_skills" placeholder="React, Node.js, Python, UI/UX, Figma, Docker">
+      </div>
+
+      <div class="section-divider full"><span>Experience</span></div>
+      <div class="field full"><div class="item-list" id="exp-list"></div>
+        <button class="btn" onclick="addExp()" style="font-size:0.65rem;padding:0.3rem 0.7rem">+ Add Experience</button>
+      </div>
+
+      <div class="section-divider full"><span>Education</span></div>
+      <div class="field full"><div class="item-list" id="edu-list"></div>
+        <button class="btn" onclick="addEdu()" style="font-size:0.65rem;padding:0.3rem 0.7rem">+ Add Education</button>
+      </div>
+
+      <div class="section-divider full"><span>Languages</span></div>
+      <div class="field full">
+        <label>Languages</label>
+        <input type="text" id="cv_langs" placeholder="Arabic (Native), French (Fluent), English (Advanced)">
+      </div>
+
+      <div class="section-divider full"><span>Certifications</span></div>
+      <div class="field full">
+        <label>Certifications</label>
+        <textarea rows="2" id="cv_certs" placeholder="AWS Solutions Architect, Google UX Certificate, Scrum Master..."></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="generateCV()">⚡ Generate CV</button>
+    </div>
+    <div class="status-bar" id="status"></div>
+  </div>
+
+  <div class="preview-panel">
+    <div class="panel-label" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Preview & Export</span>
+      <div style="display:flex;gap:0.4rem">
+        <button class="btn" onclick="copyCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem">📋 Copy</button>
+        <button class="btn btn-primary" onclick="printCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem">🖨️ PDF</button>
+      </div>
+    </div>
+    <div id="cv-output">
+      <div class="placeholder-state">
+        <div class="placeholder-icon">📄</div>
+        <div class="placeholder-text">Your CV will appear here</div>
+        <div class="placeholder-sub">Fill the form → Generate → Print as PDF</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>CVForge · Templates only · <a href="#">Privacy</a></footer>
+
+<script>
+  const STORAGE_KEY = 'cvforge-theme';
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  (function initTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { applyTheme(saved); return; }
+    applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  })();
+
+  let experiences = [{ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }];
+  let educations = [{ id: Date.now(), degree: '', school: '', year: '', desc: '' }];
+
+  function renderExp() {
+    const list = document.getElementById('exp-list');
+    list.innerHTML = experiences.map(e => `<div class="item-entry">
+      <button class="remove-btn" onclick="removeExp(${e.id})">✕</button>
+      <div class="item-grid">
+        <input value="${e.title}" oninput="e.title=this.value;autoCV()" placeholder="Job Title" class="full">
+        <input value="${e.company}" oninput="e.company=this.value;autoCV()" placeholder="Company">
+        <input value="${e.start}" oninput="e.start=this.value;autoCV()" placeholder="Start">
+        <input value="${e.end}" oninput="e.end=this.value;autoCV()" placeholder="End">
+        <textarea oninput="e.desc=this.value;autoCV()" placeholder="Description (optional)" class="full">${e.desc}</textarea>
+      </div>
+    </div>`).join('');
+  }
+
+  function renderEdu() {
+    const list = document.getElementById('edu-list');
+    list.innerHTML = educations.map(e => `<div class="item-entry">
+      <button class="remove-btn" onclick="removeEdu(${e.id})">✕</button>
+      <div class="item-grid">
+        <input value="${e.degree}" oninput="e.degree=this.value;autoCV()" placeholder="Degree / Diploma" class="full">
+        <input value="${e.school}" oninput="e.school=this.value;autoCV()" placeholder="School / University">
+        <input value="${e.year}" oninput="e.year=this.value;autoCV()" placeholder="Year">
+        <textarea oninput="e.desc=this.value;autoCV()" placeholder="Details (optional)" class="full">${e.desc}</textarea>
+      </div>
+    </div>`).join('');
+  }
+
+  function addExp() { experiences.push({ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }); renderExp(); }
+  function removeExp(id) { experiences = experiences.filter(e => e.id !== id); if(!experiences.length) addExp(); renderExp(); }
+  function addEdu() { educations.push({ id: Date.now(), degree: '', school: '', year: '', desc: '' }); renderEdu(); }
+  function removeEdu(id) { educations = educations.filter(e => e.id !== id); if(!educations.length) addEdu(); renderEdu(); }
+
+  function esc(s) { return (s || '').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function buildCV() {
+    const g = id => document.getElementById(id)?.value?.trim() || '';
+    const name = g('cv_name') || 'Your Name';
+    const title = g('cv_title');
+    const summary = g('cv_summary');
+    const email = g('cv_email');
+    const phone = g('cv_phone');
+    const location = g('cv_location');
+    const website = g('cv_website');
+    const skills = g('cv_skills');
+    const langs = g('cv_langs');
+    const certs = g('cv_certs');
+
+    let html = `<div class="cv-name">${esc(name)}</div>`;
+    if (title) html += `<div class="cv-title">${esc(title)}</div>`;
+
+    let contact = [];
+    if (email) contact.push(`<span>✉ ${esc(email)}</span>`);
+    if (phone) contact.push(`<span>📞 ${esc(phone)}</span>`);
+    if (location) contact.push(`<span>📍 ${esc(location)}</span>`);
+    if (website) contact.push(`<span>🔗 ${esc(website)}</span>`);
+    if (contact.length) html += `<div class="cv-contact">${contact.join('')}</div>`;
+
+    if (summary) html += `<div class="cv-section"><div class="cv-section-title">Professional Summary</div><div class="cv-summary">${esc(summary)}</div></div>`;
+
+    const validExp = experiences.filter(e => e.title || e.company);
+    if (validExp.length) {
+      html += `<div class="cv-section"><div class="cv-section-title">Experience</div>`;
+      validExp.forEach(e => {
+        html += `<div class="cv-entry">
+          <div class="cv-entry-header">
+            <div><div class="cv-entry-title">${esc(e.title)}</div>${e.company ? `<div class="cv-entry-subtitle">${esc(e.company)}</div>` : ''}</div>
+            ${(e.start || e.end) ? `<div class="cv-entry-date">${esc(e.start)}${e.start && e.end ? ' – ' : ''}${esc(e.end)}</div>` : ''}
+          </div>
+          ${e.desc ? `<div class="cv-entry-desc">${esc(e.desc)}</div>` : ''}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    const validEdu = educations.filter(e => e.degree || e.school);
+    if (validEdu.length) {
+      html += `<div class="cv-section"><div class="cv-section-title">Education</div>`;
+      validEdu.forEach(e => {
+        html += `<div class="cv-entry">
+          <div class="cv-entry-header">
+            <div><div class="cv-entry-title">${esc(e.degree)}</div>${e.school ? `<div class="cv-entry-subtitle">${esc(e.school)}</div>` : ''}</div>
+            ${e.year ? `<div class="cv-entry-date">${esc(e.year)}</div>` : ''}
+          </div>
+          ${e.desc ? `<div class="cv-entry-desc">${esc(e.desc)}</div>` : ''}
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (skills) {
+      const skillItems = skills.split(',').map(s => s.trim()).filter(Boolean);
+      html += `<div class="cv-section"><div class="cv-section-title">Skills</div><div class="cv-skills">${skillItems.map(s => `<span class="cv-skill">${esc(s)}</span>`).join('')}</div></div>`;
+    }
+
+    if (langs) {
+      html += `<div class="cv-section"><div class="cv-section-title">Languages</div><div style="font-size:0.75rem">${esc(langs)}</div></div>`;
+    }
+
+    if (certs) {
+      const certItems = certs.split('\n').map(s => s.trim()).filter(Boolean);
+      html += `<div class="cv-section"><div class="cv-section-title">Certifications</div><div style="font-size:0.75rem">${certItems.map(c => '• ' + esc(c)).join('<br>')}</div></div>`;
+    }
+
+    return html || '<div style="color:var(--preview-muted);text-align:center;padding:3rem">Fill in your details and click Generate</div>';
+  }
+
+  let cvHTML = '';
+
+  function generateCV() {
+    const status = document.getElementById('status');
+    const output = document.getElementById('cv-output');
+    cvHTML = buildCV();
+    if (cvHTML.includes('Fill in your details')) {
+      status.textContent = '⚠ Fill in at least your name and some details.';
+      status.className = 'status-bar error';
+      return;
+    }
+    output.innerHTML = cvHTML;
+    status.textContent = '✓ CV generated';
+    status.className = 'status-bar success';
+  }
+
+  function autoCV() { generateCV(); }
+
+  function copyCV() {
+    if (!cvHTML) return;
+    const text = document.getElementById('cv-output').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('status').textContent = '✓ Copied';
+      document.getElementById('status').className = 'status-bar success';
+    });
+  }
+
+  function printCV() {
+    if (!cvHTML) {
+      document.getElementById('status').textContent = '⚠ Generate your CV first.';
+      document.getElementById('status').className = 'status-bar error';
+      return;
+    }
+    const g = id => document.getElementById(id)?.value?.trim() || '';
+    const name = g('cv_name') || 'CV';
+    const w = window.open('', '_blank');
+    const theme = document.documentElement.getAttribute('data-theme');
+    const bg = theme === 'dark' ? '#1a1815' : '#ffffff';
+    const text = theme === 'dark' ? '#e8e4dc' : '#1a1a1a';
+    const muted = theme === 'dark' ? '#8a7a6a' : '#6b7280';
+    const accent = '#c9a84c';
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${esc(name)} — CV</title><style>
+      @page { margin: 1.5cm; }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: 'Inter', 'Segoe UI', sans-serif; background: ${bg}; color: ${text}; font-size: 10pt; line-height: 1.5; max-width: 210mm; margin: 0 auto; padding: 1.5cm; }
+      .cv-name { font-family: 'Georgia', serif; font-size: 20pt; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2pt; }
+      .cv-title { font-size: 10pt; color: ${muted}; margin-bottom: 8pt; font-weight: 500; }
+      .cv-contact { display: flex; flex-wrap: wrap; gap: 3pt 12pt; font-size: 8.5pt; color: ${muted}; padding-bottom: 8pt; border-bottom: 2px solid ${accent}; margin-bottom: 10pt; }
+      .cv-contact span { display: inline-flex; align-items: center; gap: 3pt; }
+      .cv-section { margin-bottom: 10pt; }
+      .cv-section-title { font-family: 'Georgia', serif; font-size: 10pt; font-weight: 700; color: ${accent}; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5pt; border-bottom: 1px solid #e5e7eb; padding-bottom: 2pt; }
+      .cv-summary { font-size: 9pt; line-height: 1.6; }
+      .cv-entry { margin-bottom: 7pt; }
+      .cv-entry-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 3pt; }
+      .cv-entry-title { font-weight: 600; font-size: 9.5pt; }
+      .cv-entry-subtitle { font-weight: 500; font-size: 8.5pt; color: ${muted}; }
+      .cv-entry-date { font-size: 8pt; color: ${muted}; white-space: nowrap; }
+      .cv-entry-desc { font-size: 8.5pt; line-height: 1.5; margin-top: 2pt; padding-left: 6pt; }
+      .cv-skills { display: flex; flex-wrap: wrap; gap: 4pt; }
+      .cv-skill { background: #e5e7eb; padding: 2pt 6pt; border-radius: 3px; font-size: 8pt; font-weight: 500; }
+      .cv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
+      .footer { margin-top: 1cm; border-top: 1px solid #e5e7eb; padding-top: 0.3cm; font-size: 7pt; color: ${muted}; text-align: center; }
+      @media print { body { padding: 0; } }
+    </style></head><body>${cvHTML}<div class="footer">Generated by CVForge</div><script>window.onload=()=>{window.print()}<\/script></body></html>`);
+    w.document.close();
+  }
+
+  function loadDemo() {
+    document.getElementById('cv_name').value = 'Youssef El Amrani';
+    document.getElementById('cv_title').value = 'Full-Stack Developer & UI/UX Designer';
+    document.getElementById('cv_summary').value = 'Passionate full-stack developer with 5+ years of experience building web applications. Specialized in React, Node.js, and cloud-native architectures. Strong eye for design and user experience.';
+    document.getElementById('cv_email').value = 'youssef@example.com';
+    document.getElementById('cv_phone').value = '+212 6 12 34 56 78';
+    document.getElementById('cv_location').value = 'Tangier, Morocco';
+    document.getElementById('cv_website').value = 'github.com/youssef';
+    document.getElementById('cv_skills').value = 'React, Next.js, Node.js, TypeScript, Python, PostgreSQL, Docker, Figma, Tailwind CSS, GraphQL';
+    document.getElementById('cv_langs').value = 'Arabic (Native), French (Fluent), English (Advanced), Spanish (Intermediate)';
+    document.getElementById('cv_certs').value = 'AWS Certified Solutions Architect\nGoogle UX Design Certificate\nScrum Master (PSM I)';
+    experiences = [
+      { id: 1, title: 'Senior Full-Stack Developer', company: 'TechCorp Ltd', start: '2022', end: 'Present', desc: 'Led development of a SaaS platform serving 10K+ users. Architected microservices backend and built responsive React frontend. Mentored 3 junior developers.' },
+      { id: 2, title: 'Frontend Developer', company: 'Webify Agency', start: '2020', end: '2022', desc: 'Built 20+ client websites and web apps using React, Next.js, and Tailwind CSS. Improved Core Web Vitals scores by 40%.' },
+      { id: 3, title: 'Junior Developer', company: 'StartupHub', start: '2019', end: '2020', desc: 'Developed REST APIs with Node.js and Express. Built internal tools and automated deployment pipelines.' }
+    ];
+    educations = [
+      { id: 1, degree: 'M.S. Computer Science', school: 'University of Mohammed V, Rabat', year: '2019', desc: 'Specialization in Software Engineering. GPA: 3.8/4.0' },
+      { id: 2, degree: 'B.S. Mathematics & CS', school: 'Lycée Descartes, Tangier', year: '2017', desc: 'Honors program, Dean\'s list' }
+    ];
+    renderExp();
+    renderEdu();
+    generateCV();
+  }
+
+  renderExp();
+  renderEdu();
+  document.querySelectorAll('#cv_name,#cv_title,#cv_summary,#cv_email,#cv_phone,#cv_location,#cv_website,#cv_skills,#cv_langs,#cv_certs').forEach(el => el.addEventListener('input', autoCV));
+</script>
+</body>
+</html>
