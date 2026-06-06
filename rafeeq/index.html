@@ -813,6 +813,7 @@ var LANG = {
     onboard3: 'أرقام الطوارئ المغرب بنقرة واحدة',
     onboardBtn: 'ابدأ الآن',
     months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
+    familyName: 'اسم العضو:', familyAdded: '✅ تمت الإضافة', familyRemove: 'حذف هذا العضو؟', familyRemoved: '✅ تم الحذف', familyEdit: 'تعديل الاسم:', familyEdited: '✅ تم التعديل',
     detail: {
       sante_title: 'الصحة', sante_heading: 'نصائح صحية',
       sante_l1: '💧 اشرب 8 أكواب ماء يومياً',
@@ -877,6 +878,7 @@ var LANG = {
     onboard3: 'Numéros d\'urgence Maroc en 1 clic',
     onboardBtn: 'C\'est parti',
     months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+    familyName: 'Nom du membre:', familyAdded: '✅ Ajouté', familyRemove: 'Supprimer ce membre ?', familyRemoved: '✅ Supprimé', familyEdit: 'Modifier le nom:', familyEdited: '✅ Modifié',
     detail: {
       sante_title: 'Santé', sante_heading: 'Conseils santé',
       sante_l1: '💧 Buvez 8 verres d\'eau par jour',
@@ -941,6 +943,7 @@ var LANG = {
     onboard3: 'Morocco emergency numbers in 1 tap',
     onboardBtn: 'Get started',
     months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    familyName: 'Member name:', familyAdded: '✅ Added', familyRemove: 'Remove this member?', familyRemoved: '✅ Removed', familyEdit: 'Edit name:', familyEdited: '✅ Edited',
     detail: {
       sante_title: 'Health', sante_heading: 'Health tips',
       sante_l1: '💧 Drink 8 glasses of water daily',
@@ -1005,6 +1008,7 @@ var LANG = {
     onboard3: 'Emergencias Marruecos en 1 toque',
     onboardBtn: 'Empezar',
     months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    familyName: 'Nombre del miembro:', familyAdded: '✅ Añadido', familyRemove: '¿Eliminar este miembro?', familyRemoved: '✅ Eliminado', familyEdit: 'Editar nombre:', familyEdited: '✅ Editado',
     detail: {
       sante_title: 'Salud', sante_heading: 'Consejos de salud',
       sante_l1: '💧 Bebe 8 vasos de agua al día',
@@ -1337,7 +1341,7 @@ var detailData = {
     } else {
       html += '<div style="display:flex;flex-direction:column;gap:8px;text-align:right;margin-bottom:12px;">';
       fam.forEach(function(f) {
-        html += '<div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border-radius:8px;padding:10px 12px;"><span style="font-size:1.2rem;">👤</span><span>' + f.name + '</span></div>';
+        html += '<div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border-radius:8px;padding:10px 12px;"><span style="font-size:1.2rem;">👤</span><span style="flex:1">' + f.name + '</span><span style="cursor:pointer;font-size:0.85rem;color:#64748b;" onclick="editFamily(' + f.id + ')">✏️</span><span style="cursor:pointer;font-size:0.85rem;color:#ef4444;" onclick="removeFamily(' + f.id + ')">❌</span></div>';
       });
       html += '</div>';
     }
@@ -1483,6 +1487,29 @@ function addFamily() {
   localStorage.setItem('rafeeq_family', JSON.stringify(fam));
   openDetail('family');
   showToast(l.familyAdded || '✅ Ajouté');
+}
+
+function removeFamily(id) {
+  var l = LANG[currentLang];
+  if (!confirm(l.familyRemove || 'Supprimer ce membre ?')) return;
+  var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+  fam = fam.filter(function(f) { return f.id !== id; });
+  localStorage.setItem('rafeeq_family', JSON.stringify(fam));
+  openDetail('family');
+  showToast(l.familyRemoved || '✅ Supprimé');
+}
+
+function editFamily(id) {
+  var l = LANG[currentLang];
+  var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+  var member = fam.find(function(f) { return f.id === id; });
+  if (!member) return;
+  var name = prompt(l.familyEdit || 'Modifier le nom:', member.name);
+  if (!name) return;
+  member.name = name;
+  localStorage.setItem('rafeeq_family', JSON.stringify(fam));
+  openDetail('family');
+  showToast(l.familyEdited || '✅ Modifié');
 }
 
 function showToast(msg) {
