@@ -480,6 +480,11 @@
     margin-left: 0.5rem;
   }
   .demo-btn:hover { background: var(--gold); color: var(--white); }
+  .lang-selector { display: flex; gap: 2px; }
+  .lang-btn { background: none; border: 1px solid transparent; color: var(--muted); cursor: pointer; font-size: .72rem; line-height: 1; padding: .2rem .35rem; border-radius: 3px; transition: all .2s; font-family: 'Inter', sans-serif; font-weight: 500; display: flex; align-items: center; gap: 2px; }
+  .lang-btn:hover { color: var(--gold); }
+  .lang-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); }
+  .lang-btn .flag { font-size: .85rem; line-height: 1; }
 </style>
 </head>
 <body>
@@ -490,28 +495,92 @@
       <span class="logo-mark">CVForge</span>
       <span class="logo-tag">Free</span>
     </div>
-    <span class="header-note">Professional résumés · Print-ready PDF</span>
+    <span class="header-note" data-i18n="header-note">Professional résumés · Print-ready PDF</span>
   </div>
   <div style="display:flex;align-items:center;gap:0.4rem">
-    <button class="demo-btn" onclick="loadDemo()">🎲 Demo</button>
+    <div class="lang-selector">
+      <button class="lang-btn active" data-lang="fr"><span class="flag">🇫🇷</span></button>
+      <button class="lang-btn" data-lang="en"><span class="flag">🇬🇧</span></button>
+      <button class="lang-btn" data-lang="es"><span class="flag">🇪🇸</span></button>
+      <button class="lang-btn" data-lang="ar"><span class="flag">🇲🇦</span></button>
+    </div>
+    <button class="demo-btn" onclick="loadDemo()" data-i18n="demo-btn">🎲 Demo</button>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
   </div>
 </header>
 
 <div class="hero" style="animation:fadeUp 0.5s">
-  <h1>Your career, <em>on paper.</em></h1>
-  <p class="hero-sub">Fill in your details and get a clean, professional CV ready to print or save as PDF.</p>
+  <h1 data-i18n="hero-title">Your career, <em>on paper.</em></h1>
+  <p class="hero-sub" data-i18n="hero-sub">Fill in your details and get a clean, professional CV ready to print or save as PDF.</p>
 </div>
 
 <div class="main">
   <div class="form-panel">
-    <div class="panel-label">Your Info</div>
+    <div class="panel-label" data-i18n="panel-info">Your Info</div>
 
     <div class="form-grid">
       <div class="field full">
-        <label>Full Name</label>
-        <input type="text" id="cv_name" placeholder="Youssef El Amrani">
+        <label data-i18n="label-name">Full Name</label>
+        <input type="text" id="cv_name" data-i18n="placeholder-name" placeholder="Youssef El Amrani">
       </div>
+      <div class="field full">
+        <label data-i18n="label-title">Professional Title</label>
+        <input type="text" id="cv_title" data-i18n="placeholder-title" placeholder="Full-Stack Developer & Designer">
+      </div>
+      <div class="field full">
+        <label data-i18n="label-summary">Summary</label>
+        <textarea id="cv_summary" rows="2" data-i18n="placeholder-summary" placeholder="Brief professional summary..."></textarea>
+      </div>
+
+      <div class="field">
+        <label data-i18n="label-email">Email</label>
+        <input type="text" id="cv_email" data-i18n="placeholder-email" placeholder="youssef@email.com">
+      </div>
+      <div class="field">
+        <label data-i18n="label-phone">Phone</label>
+        <input type="text" id="cv_phone" data-i18n="placeholder-phone" placeholder="+212 6 XX XX XX XX">
+      </div>
+      <div class="field">
+        <label data-i18n="label-location">Location</label>
+        <input type="text" id="cv_location" data-i18n="placeholder-location" placeholder="Tangier, Morocco">
+      </div>
+      <div class="field">
+        <label data-i18n="label-website">LinkedIn / Portfolio</label>
+        <input type="text" id="cv_website" data-i18n="placeholder-website" placeholder="linkedin.com/in/you">
+      </div>
+
+      <div class="section-divider full"><span data-i18n="section-skills">Skills</span></div>
+      <div class="field full">
+        <label data-i18n="label-skills">Skills (comma-separated)</label>
+        <input type="text" id="cv_skills" data-i18n="placeholder-skills" placeholder="React, Node.js, Python, UI/UX, Figma, Docker">
+      </div>
+
+      <div class="section-divider full"><span data-i18n="section-experience">Experience</span></div>
+      <div class="field full"><div class="item-list" id="exp-list"></div>
+        <button class="btn" onclick="addExp()" style="font-size:0.65rem;padding:0.3rem 0.7rem" data-i18n="add-exp">+ Add Experience</button>
+      </div>
+
+      <div class="section-divider full"><span data-i18n="section-education">Education</span></div>
+      <div class="field full"><div class="item-list" id="edu-list"></div>
+        <button class="btn" onclick="addEdu()" style="font-size:0.65rem;padding:0.3rem 0.7rem" data-i18n="add-edu">+ Add Education</button>
+      </div>
+
+      <div class="section-divider full"><span data-i18n="section-languages">Languages</span></div>
+      <div class="field full">
+        <label data-i18n="label-languages">Languages</label>
+        <input type="text" id="cv_langs" data-i18n="placeholder-languages" placeholder="Arabic (Native), French (Fluent), English (Advanced)">
+      </div>
+
+      <div class="section-divider full"><span data-i18n="section-certifications">Certifications</span></div>
+      <div class="field full">
+        <label data-i18n="label-certifications">Certifications</label>
+        <textarea rows="2" id="cv_certs" data-i18n="placeholder-certifications" placeholder="AWS Solutions Architect, Google UX Certificate, Scrum Master..."></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="generateCV()" data-i18n="generate-btn">⚡ Generate CV</button>
+    </div>
       <div class="field full">
         <label>Professional Title</label>
         <input type="text" id="cv_title" placeholder="Full-Stack Developer & Designer">
@@ -575,25 +644,314 @@
 
   <div class="preview-panel">
     <div class="panel-label" style="display:flex;justify-content:space-between;align-items:center">
-      <span>Preview & Export</span>
+      <span data-i18n="panel-preview">Preview & Export</span>
       <div style="display:flex;gap:0.4rem">
-        <button class="btn" onclick="copyCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem">📋 Copy</button>
-        <button class="btn btn-primary" onclick="printCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem">🖨️ PDF</button>
+        <button class="btn" onclick="copyCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem" data-i18n="copy-btn">📋 Copy</button>
+        <button class="btn btn-primary" onclick="printCV()" style="font-size:0.6rem;padding:0.25rem 0.6rem" data-i18n="pdf-btn">🖨️ PDF</button>
       </div>
     </div>
     <div id="cv-output">
       <div class="placeholder-state">
         <div class="placeholder-icon">📄</div>
-        <div class="placeholder-text">Your CV will appear here</div>
-        <div class="placeholder-sub">Fill the form → Generate → Print as PDF</div>
+        <div class="placeholder-text" data-i18n="placeholder-cv">Your CV will appear here</div>
+        <div class="placeholder-sub" data-i18n="placeholder-sub">Fill the form → Generate → Print as PDF</div>
       </div>
     </div>
   </div>
 </div>
 
-<footer>CVForge · Templates only · <a href="#">Privacy</a></footer>
+<footer><span data-i18n="footer">CVForge · Templates only · </span><a href="#" data-i18n="privacy">Privacy</a></footer>
 
 <script>
+  const i18n = {
+    fr: {
+      'header-note': 'CV professionnels · Prêt à imprimer en PDF',
+      'hero-title': 'Votre carrière, <em>sur papier.</em>',
+      'hero-sub': 'Remplissez vos informations et obtenez un CV professionnel prêt à imprimer ou à sauvegarder en PDF.',
+      'demo-btn': '🎲 Démo',
+      'panel-info': 'Vos Infos',
+      'label-name': 'Nom complet',
+      'placeholder-name': 'Youssef El Amrani',
+      'label-title': 'Titre professionnel',
+      'placeholder-title': 'Développeur Full-Stack & Designer',
+      'label-summary': 'Résumé',
+      'placeholder-summary': 'Bref résumé professionnel...',
+      'label-email': 'Email',
+      'placeholder-email': 'youssef@email.com',
+      'label-phone': 'Téléphone',
+      'placeholder-phone': '+212 6 XX XX XX XX',
+      'label-location': 'Localisation',
+      'placeholder-location': 'Tanger, Maroc',
+      'label-website': 'LinkedIn / Portfolio',
+      'placeholder-website': 'linkedin.com/in/vous',
+      'section-skills': 'Compétences',
+      'label-skills': 'Compétences (séparées par des virgules)',
+      'placeholder-skills': 'React, Node.js, Python, UI/UX, Figma, Docker',
+      'section-experience': 'Expérience',
+      'add-exp': '+ Ajouter une expérience',
+      'section-education': 'Formation',
+      'add-edu': '+ Ajouter une formation',
+      'section-languages': 'Langues',
+      'label-languages': 'Langues',
+      'placeholder-languages': 'Arabe (Maternelle), Français (Courant), Anglais (Avancé)',
+      'section-certifications': 'Certifications',
+      'label-certifications': 'Certifications',
+      'placeholder-certifications': 'AWS Solutions Architect, Google UX Certificate...',
+      'generate-btn': '⚡ Générer le CV',
+      'panel-preview': 'Aperçu & Export',
+      'copy-btn': '📋 Copier',
+      'pdf-btn': '🖨️ PDF',
+      'placeholder-cv': 'Votre CV apparaîtra ici',
+      'placeholder-sub': 'Remplissez le formulaire → Générer → Imprimer en PDF',
+      'section-title-summary': 'Résumé professionnel',
+      'section-title-experience': 'Expérience',
+      'section-title-education': 'Formation',
+      'section-title-skills': 'Compétences',
+      'section-title-languages': 'Langues',
+      'section-title-certifications': 'Certifications',
+      'status-placeholder': 'Remplissez vos informations et cliquez sur Générer',
+      'status-error': '⚠ Remplissez au moins votre nom et quelques détails.',
+      'status-success': '✓ CV généré',
+      'status-copied': '✓ Copié',
+      'status-pdf-error': '⚠ Générez votre CV d\'abord.',
+      'footer': 'CVForge · Templates uniquement · ',
+      'privacy': 'Confidentialité',
+      'placeholder-job': 'Intitulé du poste',
+      'placeholder-company': 'Entreprise',
+      'placeholder-start': 'Début',
+      'placeholder-end': 'Fin',
+      'placeholder-desc': 'Description (optionnelle)',
+      'placeholder-degree': 'Diplôme / Titre',
+      'placeholder-school': 'École / Université',
+      'placeholder-year': 'Année',
+      'placeholder-edu-desc': 'Détails (optionnel)',
+      'load-no-data': 'Remplissez vos informations',
+      'pdf-footer': 'Généré par CVForge'
+    },
+    en: {
+      'header-note': 'Professional résumés · Print-ready PDF',
+      'hero-title': 'Your career, <em>on paper.</em>',
+      'hero-sub': 'Fill in your details and get a clean, professional CV ready to print or save as PDF.',
+      'demo-btn': '🎲 Demo',
+      'panel-info': 'Your Info',
+      'label-name': 'Full Name',
+      'placeholder-name': 'Youssef El Amrani',
+      'label-title': 'Professional Title',
+      'placeholder-title': 'Full-Stack Developer & Designer',
+      'label-summary': 'Summary',
+      'placeholder-summary': 'Brief professional summary...',
+      'label-email': 'Email',
+      'placeholder-email': 'youssef@email.com',
+      'label-phone': 'Phone',
+      'placeholder-phone': '+212 6 XX XX XX XX',
+      'label-location': 'Location',
+      'placeholder-location': 'Tangier, Morocco',
+      'label-website': 'LinkedIn / Portfolio',
+      'placeholder-website': 'linkedin.com/in/you',
+      'section-skills': 'Skills',
+      'label-skills': 'Skills (comma-separated)',
+      'placeholder-skills': 'React, Node.js, Python, UI/UX, Figma, Docker',
+      'section-experience': 'Experience',
+      'add-exp': '+ Add Experience',
+      'section-education': 'Education',
+      'add-edu': '+ Add Education',
+      'section-languages': 'Languages',
+      'label-languages': 'Languages',
+      'placeholder-languages': 'Arabic (Native), French (Fluent), English (Advanced)',
+      'section-certifications': 'Certifications',
+      'label-certifications': 'Certifications',
+      'placeholder-certifications': 'AWS Solutions Architect, Google UX Certificate, Scrum Master...',
+      'generate-btn': '⚡ Generate CV',
+      'panel-preview': 'Preview & Export',
+      'copy-btn': '📋 Copy',
+      'pdf-btn': '🖨️ PDF',
+      'placeholder-cv': 'Your CV will appear here',
+      'placeholder-sub': 'Fill the form → Generate → Print as PDF',
+      'section-title-summary': 'Professional Summary',
+      'section-title-experience': 'Experience',
+      'section-title-education': 'Education',
+      'section-title-skills': 'Skills',
+      'section-title-languages': 'Languages',
+      'section-title-certifications': 'Certifications',
+      'status-placeholder': 'Fill in your details and click Generate',
+      'status-error': '⚠ Fill in at least your name and some details.',
+      'status-success': '✓ CV generated',
+      'status-copied': '✓ Copied',
+      'status-pdf-error': '⚠ Generate your CV first.',
+      'footer': 'CVForge · Templates only · ',
+      'privacy': 'Privacy',
+      'placeholder-job': 'Job Title',
+      'placeholder-company': 'Company',
+      'placeholder-start': 'Start',
+      'placeholder-end': 'End',
+      'placeholder-desc': 'Description (optional)',
+      'placeholder-degree': 'Degree / Diploma',
+      'placeholder-school': 'School / University',
+      'placeholder-year': 'Year',
+      'placeholder-edu-desc': 'Details (optional)',
+      'load-no-data': 'Fill in your details',
+      'pdf-footer': 'Generated by CVForge'
+    },
+    es: {
+      'header-note': 'Currículums profesionales · Listo para imprimir PDF',
+      'hero-title': 'Tu carrera, <em>en papel.</em>',
+      'hero-sub': 'Completa tus datos y obtén un CV profesional listo para imprimir o guardar como PDF.',
+      'demo-btn': '🎲 Demo',
+      'panel-info': 'Tu Información',
+      'label-name': 'Nombre completo',
+      'placeholder-name': 'Youssef El Amrani',
+      'label-title': 'Título profesional',
+      'placeholder-title': 'Desarrollador Full-Stack & Diseñador',
+      'label-summary': 'Resumen',
+      'placeholder-summary': 'Breve resumen profesional...',
+      'label-email': 'Email',
+      'placeholder-email': 'youssef@email.com',
+      'label-phone': 'Teléfono',
+      'placeholder-phone': '+212 6 XX XX XX XX',
+      'label-location': 'Ubicación',
+      'placeholder-location': 'Tánger, Marruecos',
+      'label-website': 'LinkedIn / Portafolio',
+      'placeholder-website': 'linkedin.com/in/tu',
+      'section-skills': 'Habilidades',
+      'label-skills': 'Habilidades (separadas por comas)',
+      'placeholder-skills': 'React, Node.js, Python, UI/UX, Figma, Docker',
+      'section-experience': 'Experiencia',
+      'add-exp': '+ Añadir Experiencia',
+      'section-education': 'Educación',
+      'add-edu': '+ Añadir Educación',
+      'section-languages': 'Idiomas',
+      'label-languages': 'Idiomas',
+      'placeholder-languages': 'Árabe (Nativo), Francés (Fluido), Inglés (Avanzado)',
+      'section-certifications': 'Certificaciones',
+      'label-certifications': 'Certificaciones',
+      'placeholder-certifications': 'AWS Solutions Architect, Google UX Certificate...',
+      'generate-btn': '⚡ Generar CV',
+      'panel-preview': 'Vista Previa & Exportar',
+      'copy-btn': '📋 Copiar',
+      'pdf-btn': '🖨️ PDF',
+      'placeholder-cv': 'Tu CV aparecerá aquí',
+      'placeholder-sub': 'Completa el formulario → Generar → Imprimir PDF',
+      'section-title-summary': 'Resumen Profesional',
+      'section-title-experience': 'Experiencia',
+      'section-title-education': 'Formación',
+      'section-title-skills': 'Habilidades',
+      'section-title-languages': 'Idiomas',
+      'section-title-certifications': 'Certificaciones',
+      'status-placeholder': 'Completa tus datos y haz clic en Generar',
+      'status-error': '⚠ Completa al menos tu nombre y algunos detalles.',
+      'status-success': '✓ CV generado',
+      'status-copied': '✓ Copiado',
+      'status-pdf-error': '⚠ Genera tu CV primero.',
+      'footer': 'CVForge · Solo plantillas · ',
+      'privacy': 'Privacidad',
+      'placeholder-job': 'Puesto',
+      'placeholder-company': 'Empresa',
+      'placeholder-start': 'Inicio',
+      'placeholder-end': 'Fin',
+      'placeholder-desc': 'Descripción (opcional)',
+      'placeholder-degree': 'Título / Diploma',
+      'placeholder-school': 'Escuela / Universidad',
+      'placeholder-year': 'Año',
+      'placeholder-edu-desc': 'Detalles (opcional)',
+      'load-no-data': 'Completa tus datos',
+      'pdf-footer': 'Generado por CVForge'
+    },
+    ar: {
+      'header-note': 'السيرة الذاتية المهنية · جاهزة للطباعة PDF',
+      'hero-title': 'مسيرتك المهنية، <em>على الورق.</em>',
+      'hero-sub': 'املأ بياناتك واحصل على سيرة ذاتية مهنية نظيفة جاهزة للطباعة أو الحفظ كملف PDF.',
+      'demo-btn': '🎲 تجربة',
+      'panel-info': 'معلوماتك',
+      'label-name': 'الاسم الكامل',
+      'placeholder-name': 'يوسف العمراني',
+      'label-title': 'المسمى الوظيفي',
+      'placeholder-title': 'مطور شامل ومصمم',
+      'label-summary': 'ملخص',
+      'placeholder-summary': 'ملخص مهني مختصر...',
+      'label-email': 'البريد الإلكتروني',
+      'placeholder-email': 'youssef@email.com',
+      'label-phone': 'الهاتف',
+      'placeholder-phone': '+212 6 XX XX XX XX',
+      'label-location': 'الموقع',
+      'placeholder-location': 'طنجة، المغرب',
+      'label-website': 'LinkedIN / الأعمال',
+      'placeholder-website': 'linkedin.com/in/your',
+      'section-skills': 'المهارات',
+      'label-skills': 'المهارات (مفصولة بفواصل)',
+      'placeholder-skills': 'React, Node.js, Python, UI/UX, Figma, Docker',
+      'section-experience': 'الخبرة',
+      'add-exp': '+ إضافة خبرة',
+      'section-education': 'التعليم',
+      'add-edu': '+ إضافة تعليم',
+      'section-languages': 'اللغات',
+      'label-languages': 'اللغات',
+      'placeholder-languages': 'العربية (أم)، الفرنسية (بطلاقة)، الإنجليزية (متقدم)',
+      'section-certifications': 'الشهادات',
+      'label-certifications': 'الشهادات',
+      'placeholder-certifications': 'AWS Solutions Architect, Google UX Certificate...',
+      'generate-btn': '⚡ إنشاء السيرة الذاتية',
+      'panel-preview': 'معاينة وتصدير',
+      'copy-btn': '📋 نسخ',
+      'pdf-btn': '🖨️ PDF',
+      'placeholder-cv': 'ستظهر سيرتك الذاتية هنا',
+      'placeholder-sub': 'املأ النموذج ← إنشاء ← طباعة PDF',
+      'section-title-summary': 'الملخص المهني',
+      'section-title-experience': 'الخبرة',
+      'section-title-education': 'التعليم',
+      'section-title-skills': 'المهارات',
+      'section-title-languages': 'اللغات',
+      'section-title-certifications': 'الشهادات',
+      'status-placeholder': 'املأ بياناتك وانقر على إنشاء',
+      'status-error': '⚠ املأ على الأقل اسمك وبعض التفاصيل.',
+      'status-success': '✓ تم إنشاء السيرة الذاتية',
+      'status-copied': '✓ تم النسخ',
+      'status-pdf-error': '⚠ قم بإنشاء سيرتك الذاتية أولاً.',
+      'footer': 'CVForge · قوالب فقط · ',
+      'privacy': 'الخصوصية',
+      'placeholder-job': 'المسمى الوظيفي',
+      'placeholder-company': 'الشركة',
+      'placeholder-start': 'البداية',
+      'placeholder-end': 'النهاية',
+      'placeholder-desc': 'الوصف (اختياري)',
+      'placeholder-degree': 'الشهادة / الدرجة',
+      'placeholder-school': 'المدرسة / الجامعة',
+      'placeholder-year': 'السنة',
+      'placeholder-edu-desc': 'التفاصيل (اختياري)',
+      'load-no-data': 'املأ بياناتك',
+      'pdf-footer': 'تم الإنشاء بواسطة CVForge'
+    }
+  };
+
+  let currentLang = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('cvforge_lang') || 'fr';
+
+  function applyLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('cvforge_lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (i18n[lang] && i18n[lang][key]) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          if (el.hasAttribute('placeholder')) el.setAttribute('placeholder', i18n[lang][key]);
+        } else {
+          el.innerHTML = i18n[lang][key];
+        }
+      }
+    });
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    const url = new URL(window.location);
+    if (lang === 'fr') url.searchParams.delete('lang');
+    else url.searchParams.set('lang', lang);
+    window.history.replaceState(null, '', url);
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+  });
+  applyLanguage(currentLang);
+
   const STORAGE_KEY = 'cvforge-theme';
 
   function applyTheme(theme) {
@@ -614,16 +972,18 @@
   let experiences = [{ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }];
   let educations = [{ id: Date.now(), degree: '', school: '', year: '', desc: '' }];
 
+  function t(key) { return i18n[currentLang] && i18n[currentLang][key] ? i18n[currentLang][key] : key; }
+
   function renderExp() {
     const list = document.getElementById('exp-list');
     list.innerHTML = experiences.map(e => `<div class="item-entry">
       <button class="remove-btn" onclick="removeExp(${e.id})">✕</button>
       <div class="item-grid">
-        <input value="${e.title}" oninput="e.title=this.value;autoCV()" placeholder="Job Title" class="full">
-        <input value="${e.company}" oninput="e.company=this.value;autoCV()" placeholder="Company">
-        <input value="${e.start}" oninput="e.start=this.value;autoCV()" placeholder="Start">
-        <input value="${e.end}" oninput="e.end=this.value;autoCV()" placeholder="End">
-        <textarea oninput="e.desc=this.value;autoCV()" placeholder="Description (optional)" class="full">${e.desc}</textarea>
+        <input value="${e.title}" oninput="e.title=this.value;autoCV()" placeholder="${t('placeholder-job')}" class="full">
+        <input value="${e.company}" oninput="e.company=this.value;autoCV()" placeholder="${t('placeholder-company')}">
+        <input value="${e.start}" oninput="e.start=this.value;autoCV()" placeholder="${t('placeholder-start')}">
+        <input value="${e.end}" oninput="e.end=this.value;autoCV()" placeholder="${t('placeholder-end')}">
+        <textarea oninput="e.desc=this.value;autoCV()" placeholder="${t('placeholder-desc')}" class="full">${e.desc}</textarea>
       </div>
     </div>`).join('');
   }
@@ -633,10 +993,10 @@
     list.innerHTML = educations.map(e => `<div class="item-entry">
       <button class="remove-btn" onclick="removeEdu(${e.id})">✕</button>
       <div class="item-grid">
-        <input value="${e.degree}" oninput="e.degree=this.value;autoCV()" placeholder="Degree / Diploma" class="full">
-        <input value="${e.school}" oninput="e.school=this.value;autoCV()" placeholder="School / University">
-        <input value="${e.year}" oninput="e.year=this.value;autoCV()" placeholder="Year">
-        <textarea oninput="e.desc=this.value;autoCV()" placeholder="Details (optional)" class="full">${e.desc}</textarea>
+        <input value="${e.degree}" oninput="e.degree=this.value;autoCV()" placeholder="${t('placeholder-degree')}" class="full">
+        <input value="${e.school}" oninput="e.school=this.value;autoCV()" placeholder="${t('placeholder-school')}">
+        <input value="${e.year}" oninput="e.year=this.value;autoCV()" placeholder="${t('placeholder-year')}">
+        <textarea oninput="e.desc=this.value;autoCV()" placeholder="${t('placeholder-edu-desc')}" class="full">${e.desc}</textarea>
       </div>
     </div>`).join('');
   }
@@ -671,11 +1031,11 @@
     if (website) contact.push(`<span>🔗 ${esc(website)}</span>`);
     if (contact.length) html += `<div class="cv-contact">${contact.join('')}</div>`;
 
-    if (summary) html += `<div class="cv-section"><div class="cv-section-title">Professional Summary</div><div class="cv-summary">${esc(summary)}</div></div>`;
+    if (summary) html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-summary'] || 'Professional Summary')}</div><div class="cv-summary">${esc(summary)}</div></div>`;
 
     const validExp = experiences.filter(e => e.title || e.company);
     if (validExp.length) {
-      html += `<div class="cv-section"><div class="cv-section-title">Experience</div>`;
+      html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-experience'] || 'Experience')}</div>`;
       validExp.forEach(e => {
         html += `<div class="cv-entry">
           <div class="cv-entry-header">
@@ -690,7 +1050,7 @@
 
     const validEdu = educations.filter(e => e.degree || e.school);
     if (validEdu.length) {
-      html += `<div class="cv-section"><div class="cv-section-title">Education</div>`;
+      html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-education'] || 'Education')}</div>`;
       validEdu.forEach(e => {
         html += `<div class="cv-entry">
           <div class="cv-entry-header">
@@ -705,19 +1065,19 @@
 
     if (skills) {
       const skillItems = skills.split(',').map(s => s.trim()).filter(Boolean);
-      html += `<div class="cv-section"><div class="cv-section-title">Skills</div><div class="cv-skills">${skillItems.map(s => `<span class="cv-skill">${esc(s)}</span>`).join('')}</div></div>`;
+      html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-skills'] || 'Skills')}</div><div class="cv-skills">${skillItems.map(s => `<span class="cv-skill">${esc(s)}</span>`).join('')}</div></div>`;
     }
 
     if (langs) {
-      html += `<div class="cv-section"><div class="cv-section-title">Languages</div><div style="font-size:0.75rem">${esc(langs)}</div></div>`;
+      html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-languages'] || 'Languages')}</div><div style="font-size:0.75rem">${esc(langs)}</div></div>`;
     }
 
     if (certs) {
       const certItems = certs.split('\n').map(s => s.trim()).filter(Boolean);
-      html += `<div class="cv-section"><div class="cv-section-title">Certifications</div><div style="font-size:0.75rem">${certItems.map(c => '• ' + esc(c)).join('<br>')}</div></div>`;
+      html += `<div class="cv-section"><div class="cv-section-title">${esc(i18n[currentLang]['section-title-certifications'] || 'Certifications')}</div><div style="font-size:0.75rem">${certItems.map(c => '• ' + esc(c)).join('<br>')}</div></div>`;
     }
 
-    return html || '<div style="color:var(--preview-muted);text-align:center;padding:3rem">Fill in your details and click Generate</div>';
+    return html || `<div style="color:var(--preview-muted);text-align:center;padding:3rem">${esc(i18n[currentLang]['load-no-data'] || 'Fill in your details')}</div>`;
   }
 
   let cvHTML = '';
@@ -726,13 +1086,13 @@
     const status = document.getElementById('status');
     const output = document.getElementById('cv-output');
     cvHTML = buildCV();
-    if (cvHTML.includes('Fill in your details')) {
-      status.textContent = '⚠ Fill in at least your name and some details.';
+    if (cvHTML.includes('Fill in your details') || cvHTML.includes('املأ بياناتك')) {
+      status.textContent = i18n[currentLang]['status-error'] || '⚠ Fill in at least your name and some details.';
       status.className = 'status-bar error';
       return;
     }
     output.innerHTML = cvHTML;
-    status.textContent = '✓ CV generated';
+    status.textContent = i18n[currentLang]['status-success'] || '✓ CV generated';
     status.className = 'status-bar success';
   }
 
@@ -742,14 +1102,14 @@
     if (!cvHTML) return;
     const text = document.getElementById('cv-output').textContent;
     navigator.clipboard.writeText(text).then(() => {
-      document.getElementById('status').textContent = '✓ Copied';
+      document.getElementById('status').textContent = i18n[currentLang]['status-copied'] || '✓ Copied';
       document.getElementById('status').className = 'status-bar success';
     });
   }
 
   function printCV() {
     if (!cvHTML) {
-      document.getElementById('status').textContent = '⚠ Generate your CV first.';
+      document.getElementById('status').textContent = i18n[currentLang]['status-pdf-error'] || '⚠ Generate your CV first.';
       document.getElementById('status').className = 'status-bar error';
       return;
     }
@@ -783,7 +1143,7 @@
       .cv-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; }
       .footer { margin-top: 1cm; border-top: 1px solid #e5e7eb; padding-top: 0.3cm; font-size: 7pt; color: ${muted}; text-align: center; }
       @media print { body { padding: 0; } }
-    </style></head><body>${cvHTML}<div class="footer">Generated by CVForge</div><script>window.onload=()=>{window.print()}<\/script></body></html>`);
+    </style></head><body>${cvHTML}<div class="footer">${esc(i18n[currentLang]['pdf-footer'] || 'Generated by CVForge')}</div><script>window.onload=()=>{window.print()}<\/script></body></html>`);
     w.document.close();
   }
 
