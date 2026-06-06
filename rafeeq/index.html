@@ -813,6 +813,7 @@ var LANG = {
     onboard3: 'أرقام الطوارئ المغرب بنقرة واحدة',
     onboardBtn: 'ابدأ الآن',
     months: ['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
+    translating: 'جاري الترجمة...',
     familyName: 'اسم العضو:', familyAdded: '✅ تمت الإضافة', familyRemove: 'حذف هذا العضو؟', familyRemoved: '✅ تم الحذف', familyEdit: 'تعديل الاسم:', familyEdited: '✅ تم التعديل',
     detail: {
       sante_title: 'الصحة', sante_heading: 'نصائح صحية',
@@ -878,6 +879,7 @@ var LANG = {
     onboard3: 'Numéros d\'urgence Maroc en 1 clic',
     onboardBtn: 'C\'est parti',
     months: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+    translating: '🔄 Traduction...',
     familyName: 'Nom du membre:', familyAdded: '✅ Ajouté', familyRemove: 'Supprimer ce membre ?', familyRemoved: '✅ Supprimé', familyEdit: 'Modifier le nom:', familyEdited: '✅ Modifié',
     detail: {
       sante_title: 'Santé', sante_heading: 'Conseils santé',
@@ -943,6 +945,7 @@ var LANG = {
     onboard3: 'Morocco emergency numbers in 1 tap',
     onboardBtn: 'Get started',
     months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    translating: '🔄 Translating...',
     familyName: 'Member name:', familyAdded: '✅ Added', familyRemove: 'Remove this member?', familyRemoved: '✅ Removed', familyEdit: 'Edit name:', familyEdited: '✅ Edited',
     detail: {
       sante_title: 'Health', sante_heading: 'Health tips',
@@ -1008,6 +1011,7 @@ var LANG = {
     onboard3: 'Emergencias Marruecos en 1 toque',
     onboardBtn: 'Empezar',
     months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    translating: '🔄 Traduciendo...',
     familyName: 'Nombre del miembro:', familyAdded: '✅ Añadido', familyRemove: '¿Eliminar este miembro?', familyRemoved: '✅ Eliminado', familyEdit: 'Editar nombre:', familyEdited: '✅ Editado',
     detail: {
       sante_title: 'Salud', sante_heading: 'Consejos de salud',
@@ -1073,6 +1077,8 @@ var LANG = {
     onboard3: 'Notrufnummern Marokko mit 1 Klick',
     onboardBtn: 'Los geht\'s',
     months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    translating: '🔄 Übersetzung...',
+    familyName: 'Mitgliedsname:', familyAdded: '✅ Hinzugefügt', familyRemove: 'Dieses Mitglied entfernen?', familyRemoved: '✅ Entfernt', familyEdit: 'Namen bearbeiten:', familyEdited: '✅ Bearbeitet',
     detail: {
       sante_title: 'Gesundheit', sante_heading: 'Gesundheitstipps',
       sante_l1: '💧 Trinken Sie 8 Gläser Wasser täglich',
@@ -1137,6 +1143,8 @@ var LANG = {
     onboard3: 'Noodnummers Marokko in 1 tik',
     onboardBtn: 'Beginnen',
     months: ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December'],
+    translating: '🔄 Vertaling...',
+    familyName: 'Naam lid:', familyAdded: '✅ Toegevoegd', familyRemove: 'Dit lid verwijderen?', familyRemoved: '✅ Verwijderd', familyEdit: 'Naam bewerken:', familyEdited: '✅ Bewerkt',
     detail: {
       sante_title: 'Gezondheid', sante_heading: 'Gezondheidstips',
       sante_l1: '💧 Drink 8 glazen water per dag',
@@ -1201,6 +1209,8 @@ var LANG = {
     onboard3: 'Numeri emergenza Marocco in 1 tap',
     onboardBtn: 'Inizia',
     months: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+    translating: '🔄 Traduzione...',
+    familyName: 'Nome membro:', familyAdded: '✅ Aggiunto', familyRemove: 'Rimuovere questo membro?', familyRemoved: '✅ Rimosso', familyEdit: 'Modifica nome:', familyEdited: '✅ Modificato',
     detail: {
       sante_title: 'Salute', sante_heading: 'Consigli salute',
       sante_l1: '💧 Bevi 8 bicchieri d\'acqua al giorno',
@@ -1227,7 +1237,35 @@ var LANG = {
 
 var currentLang = localStorage.getItem('rafeeq_lang') || 'ar';
 
+function translateText(text, source, target) {
+  if (!text || !text.trim()) return Promise.resolve(text);
+  var url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target;
+  return fetch(url).then(function(r) { return r.json(); }).then(function(data) {
+    return data.responseData && data.responseData.translatedText ? data.responseData.translatedText : text;
+  }).catch(function() { return text; });
+}
+
+function translateFamily(sourceLang, targetLang) {
+  if (sourceLang === targetLang) return;
+  var fam = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+  if (fam.length === 0) return;
+  showToast('🔄 ' + (LANG[targetLang].translating || 'Translation...'));
+  var promises = [];
+  fam.forEach(function(member) {
+    if (member.name && member.name.trim()) {
+      promises.push(translateText(member.name, sourceLang, targetLang).then(function(t) {
+        member.name = t;
+      }));
+    }
+  });
+  Promise.all(promises).then(function() {
+    localStorage.setItem('rafeeq_family', JSON.stringify(fam));
+    openDetail('family');
+  });
+}
+
 function applyLang(langCode) {
+  var oldLang = currentLang;
   currentLang = langCode;
   localStorage.setItem('rafeeq_lang', langCode);
   var l = LANG[langCode];
@@ -1273,6 +1311,9 @@ document.getElementById('sosPolice').textContent = l.sosPol;
   // Medicine page
   renderMed();
   updateStats();
+
+  // Auto-translate family names
+  translateFamily(oldLang, langCode);
 }
 
 function scrollCarousel(dir) {
