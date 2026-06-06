@@ -915,6 +915,9 @@
     else url.searchParams.set('lang', lang);
     window.history.replaceState(null, '', url);
   }
+  let experiences = [{ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }];
+  let educations = [{ id: Date.now(), degree: '', school: '', year: '', desc: '' }];
+
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
   });
@@ -936,9 +939,6 @@
     if (saved) { applyTheme(saved); return; }
     applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   })();
-
-  let experiences = [{ id: Date.now(), title: '', company: '', start: '', end: '', desc: '' }];
-  let educations = [{ id: Date.now(), degree: '', school: '', year: '', desc: '' }];
 
   function t(key) { return i18n[currentLang] && i18n[currentLang][key] ? i18n[currentLang][key] : key; }
 
