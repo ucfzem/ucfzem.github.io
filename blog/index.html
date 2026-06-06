@@ -1,646 +1,1175 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexus — Tech, AI & E-commerce Blog</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>UcfZemTech — Tech · IA · E-Commerce</title>
+<meta name="description" content="Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — analyses, tutoriels et décryptages par Uzem, créateur digital basé aux Pays-Bas.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="UcfZemTech — Tech · IA · E-Commerce">
+<meta property="og:description" content="Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — analyses, tutoriels et décryptages par Uzem, créateur digital basé aux Pays-Bas.">
+<meta property="og:url" content="https://ucfzem.github.io/blog/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ucfzem.github.io/images/avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UcfZemTech — Tech · IA · E-Commerce">
+<meta name="twitter:description" content="Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — analyses, tutoriels et décryptages par Uzem.">
+<link rel="canonical" href="https://ucfzem.github.io/blog/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"UcfZemTech","description":"Blog tech couvrant l'IA, l'e-commerce et le SaaS — tutoriels, analyses et stratégies par Uzem.","url":"https://ucfzem.github.io/blog/","inLanguage":["fr","en","es","ar"],"author":{"@type":"Person","name":"Uzem","url":"https://ucfzem.github.io/"},"image":"https://ucfzem.github.io/images/avatar.png"}
+</script>
+<link rel="alternate" hreflang="fr" href="https://ucfzem.github.io/blog/">
+<link rel="alternate" hreflang="en" href="https://ucfzem.github.io/blog/?lang=en">
+<link rel="alternate" hreflang="es" href="https://ucfzem.github.io/blog/?lang=es">
+<link rel="alternate" hreflang="ar" href="https://ucfzem.github.io/blog/?lang=ar">
+<link rel="alternate" hreflang="x-default" href="https://ucfzem.github.io/blog/">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0e0e0e;
-    --paper: #f8f6f1;
-    --cream: #f0ece4;
-    --gold: #c9a84c;
-    --gold-light: #e8c96a;
-    --rust: #c4562a;
-    --muted: #7a7060;
-    --border: #e0dbd0;
-    --white: #fefcf9;
-    --surface: #fefcf9;
-    --success: #3a7d44;
-    --noise-opacity: 0.4;
-    --card-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  }
-  [data-theme="dark"] {
-    --ink: #e8e4dc;
-    --paper: #141210;
-    --cream: #1c1a17;
-    --gold: #d4a84c;
-    --gold-light: #e8c96a;
-    --rust: #e67e5a;
+    --bg: #0d0a08;
+    --surface: #14100e;
+    --surface2: #1c1814;
+    --border: rgba(255,255,255,0.06);
+    --accent: #c9a84c;
+    --accent2: #8b6f3a;
+    --accent3: #d4a373;
+    --text: #f0ece4;
     --muted: #8a7a6a;
-    --border: #2d2820;
-    --white: #1c1a17;
-    --surface: #1c1a17;
-    --success: #7ecba1;
-    --noise-opacity: 0.12;
-    --card-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    --glow: 0 0 40px rgba(201,168,76,0.12);
+    --header-bg: rgba(13,10,8,0.85);
+    --input-bg: rgba(255,255,255,0.05);
   }
-
+  [data-theme="light"] {
+    --bg: #f5f0e8;
+    --surface: #ede8e0;
+    --surface2: #e5e0d8;
+    --border: rgba(0,0,0,0.1);
+    --accent: #c9a84c;
+    --accent2: #8b6f3a;
+    --accent3: #d4a373;
+    --text: #1a1612;
+    --muted: #8a7a6a;
+    --glow: 0 0 40px rgba(201,168,76,0.2);
+    --header-bg: rgba(245,240,232,0.9);
+    --input-bg: rgba(0,0,0,0.05);
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
 
   body {
-    font-family: 'Inter', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
     overflow-x: hidden;
-    transition: background .3s, color .3s;
   }
 
+
+  /* NOISE OVERLAY */
   body::before {
     content: '';
     position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: var(--noise-opacity);
-    transition: opacity .3s;
+    pointer-events: none; z-index: 9999; opacity: .4;
   }
 
+
+  /* ───── HEADER / NAV ───── */
   header {
-    padding: 1.5rem 2rem 1rem;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(1rem, 5vw, 3rem);
+    height: 72px;
+    background: var(--header-bg);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--white);
-    transition: .3s;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    position: relative;
-    z-index: 1;
   }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+    text-decoration: none; text-align: center;
+  }
+  .logo-line1 { display: block; font-size: 1.05rem; letter-spacing: -0.3px; }
+  .logo-line2 { display: block; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; margin-top: 1px; }
+  .logo-line1 span { color: var(--accent); }
+  nav { display: flex; gap: 2rem; align-items: center; }
+  nav a {
+    font-size: .85rem; font-weight: 500; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  nav a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #000 !important;
+    padding: .4rem 1rem; border-radius: 4px;
+    font-weight: 600 !important;
+    transition: opacity .2s !important;
+  }
+  .nav-cta:hover { opacity: .85; }
 
-  .logo { display: flex; align-items: baseline; gap: 0.4rem; }
-  .logo-mark { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.02em; transition: color .3s; }
-  .logo-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--gold); padding: 1px 5px; border-radius: 2px; }
 
-  .header-actions { display: flex; align-items: center; gap: 0.75rem; }
-  .theme-toggle { background: none; border: 1.5px solid var(--border); border-radius: 4px; padding: 0.35rem 0.55rem; cursor: pointer; font-size: 1rem; line-height: 1; transition: .2s; background: var(--surface); color: var(--ink); }
-  .theme-toggle:hover { border-color: var(--gold); }
+  /* ───── HERO ───── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem clamp(1.5rem, 8vw, 5rem) 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    top: -200px; right: -100px; pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(139,111,58,0.06) 0%, transparent 70%);
+    bottom: -100px; left: -100px; pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.2);
+    padding: .3rem .8rem; border-radius: 99px;
+    font-family: 'JetBrains Mono', monospace; font-size: .75rem;
+    color: var(--accent); margin-bottom: 1.5rem; width: fit-content;
+  }
+  .hero-tag::before { content: '●'; font-size: .5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 7vw, 6rem);
+    font-weight: 800; line-height: 1.05;
+    letter-spacing: -1px;
+    max-width: 900px;
+    position: relative; z-index: 1;
+  }
+  .hero h1 .line-accent { color: var(--accent); }
+  .hero h1 .line-dim { color: var(--muted); }
+  .hero-sub {
+    max-width: 560px; color: var(--muted); font-size: 1.05rem;
+    margin-top: 1.5rem; line-height: 1.8; position: relative; z-index: 1;
+  }
+  .hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary {
+    background: var(--accent); color: #000;
+    padding: .75rem 1.75rem; border-radius: 6px;
+    font-weight: 600; font-size: .9rem;
+    text-decoration: none; transition: all .2s;
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+  .btn-primary:hover { box-shadow: 0 0 35px rgba(201,168,76,0.5); transform: translateY(-1px); }
+  .btn-ghost {
+    border: 1px solid var(--border); color: var(--text);
+    padding: .75rem 1.75rem; border-radius: 6px;
+    font-size: .9rem; text-decoration: none; transition: all .2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
 
-  .hero { text-align: center; padding: 3.5rem 1.5rem 2.5rem; }
-  .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; letter-spacing: -0.02em; max-width: 700px; margin: 0 auto 0.8rem; }
-  .hero h1 em { font-style: italic; color: var(--gold); }
-  .hero p { font-size: 0.95rem; color: var(--muted); max-width: 550px; margin: 0 auto; line-height: 1.7; }
+  /* SCROLL TICKER */
+  .ticker-wrap {
+    overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: var(--surface); padding: .7rem 0;
+  }
+  .ticker {
+    display: flex; gap: 3rem; white-space: nowrap;
+    animation: ticker 25s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'JetBrains Mono', monospace; font-size: .75rem;
+    color: var(--muted); display: flex; align-items: center; gap: .5rem;
+  }
+  .ticker-item .dot { color: var(--accent); }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  .section-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; letter-spacing: -0.02em; margin: 2.5rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--gold); display: inline-block; }
-  .section-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
 
-  .articles { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 3rem; }
-  @media (max-width: 700px) { .articles { grid-template-columns: 1fr; } }
+  /* ───── SECTION BASE ───── */
+  section { padding: 5rem clamp(1.5rem, 8vw, 5rem); }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: .75rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -1px;
+    line-height: 1.1; margin-bottom: 1rem;
+  }
+  .section-desc { color: var(--muted); max-width: 560px; font-size: 1rem; }
 
+
+  /* ───── FEATURED ARTICLES ───── */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem; margin-top: 3rem;
+  }
   .article-card {
-    background: var(--white);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: .25s;
-    box-shadow: var(--card-shadow);
+    border-radius: 12px; overflow: hidden;
+    transition: all .3s; cursor: pointer;
+    text-decoration: none; color: inherit;
+    display: block;
   }
-  .article-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
-  .article-card .thumb {
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    position: relative;
-    overflow: hidden;
+  .article-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); box-shadow: var(--glow); }
+  .article-thumb {
+    width: 100%; aspect-ratio: 16/9;
+    object-fit: cover; display: block;
   }
-  .article-card .thumb .overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 50%, var(--white) 100%);
+  .article-thumb-placeholder {
+    width: 100%; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; position: relative; overflow: hidden;
   }
-  .article-card .body { padding: 1.2rem 1.3rem 1.3rem; }
-  .article-card .tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid var(--gold);
-    padding: 2px 8px;
-    border-radius: 2px;
-    display: inline-block;
-    margin-bottom: 0.5rem;
+  .article-body { padding: 1.5rem; }
+  .article-meta { display: flex; gap: .75rem; align-items: center; margin-bottom: .75rem; }
+  .tag {
+    font-size: .7rem; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; padding: .2rem .6rem; border-radius: 4px;
   }
-  .article-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; line-height: 1.3; margin-bottom: 0.4rem; }
-  .article-card h3 a { color: var(--ink); text-decoration: none; }
-  .article-card h3 a:hover { color: var(--gold); }
-  .article-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-  .article-card .meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-family: 'DM Mono', monospace; }
+  .tag-ai { background: rgba(201,168,76,0.1); color: var(--accent); }
+  .tag-ecom { background: rgba(212,163,115,0.1); color: var(--accent3); }
+  .tag-saas { background: rgba(139,111,58,0.15); color: var(--accent2); }
+  .tag-tech { background: rgba(201,168,76,0.1); color: var(--accent); }
+  .article-date { font-size: .78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .article-card h3 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 1.15rem; line-height: 1.3; margin-bottom: .5rem;
+  }
+  .article-card.featured h3 { font-size: 1.6rem; }
+  .article-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; }
 
-  /* App preview miniatures */
-  .apps-grid {
+
+  .side-articles { display: flex; flex-direction: column; gap: 1.5rem; }
+  .side-article {
+    background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: all .3s; cursor: pointer;
+    text-decoration: none; color: inherit; display: flex;
+    height: calc(50% - .75rem);
+  }
+  .side-article:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+  .side-thumb {
+    width: 120px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .side-body { padding: 1rem; display: flex; flex-direction: column; justify-content: center; }
+  .side-body h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; line-height: 1.3; margin-bottom: .3rem; }
+  .side-body p { font-size: .8rem; color: var(--muted); }
+
+
+  /* ───── SAAS SHOWCASE ───── */
+  .saas-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .saas-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
   }
-
-  .app-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: .25s;
-    box-shadow: var(--card-shadow);
+  .saas-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    transition: all .35s; position: relative;
   }
-  .app-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
-
-  .app-preview {
-    height: 160px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+  .saas-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .saas-card:hover .saas-preview { transform: scale(1.03); }
+  .saas-preview {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; transition: transform .4s; position: relative; overflow: hidden;
   }
-
-  /* Mini mockups for each app */
-  .mockup {
-    width: 100%;
-    height: 100%;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  .mockup-bar {
-    padding: 4px 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.5rem;
-    font-family: 'DM Mono', monospace;
-    color: rgba(255,255,255,0.7);
-  }
-  .mockup-bar .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
-  .mockup-body { flex: 1; padding: 6px 8px; display: flex; flex-direction: column; gap: 3px; }
-  .mockup-row { height: 6px; border-radius: 3px; opacity: 0.2; }
-  .mockup-row.w50 { width: 50%; }
-  .mockup-row.w70 { width: 70%; }
-  .mockup-row.w80 { width: 80%; }
-  .mockup-title { height: 10px; width: 60%; border-radius: 3px; margin-bottom: 2px; opacity: 0.35; }
-
-  .app-card .body { padding: 1rem 1.2rem 1.2rem; }
-  .app-card .app-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
-  .app-card h4 { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: 0.3rem; }
-  .app-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
-  .app-card .app-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    margin-top: 0.5rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    text-decoration: none;
-    border: 1px solid var(--gold);
-    padding: 3px 10px;
-    border-radius: 3px;
-    transition: .2s;
-  }
-  .app-card .app-link:hover { background: var(--gold); color: var(--white); }
-
-  .featured-post {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: var(--card-shadow);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 650px) { .featured-post { grid-template-columns: 1fr; } }
-  .featured-post .fp-visual {
-    min-height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    position: relative;
-  }
-  .featured-post .fp-visual .overlay {
+  .saas-preview::after {
+    content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 40%, var(--white) 100%);
+    background: linear-gradient(to bottom, transparent 50%, var(--bg) 100%);
   }
-  .featured-post .fp-body { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
-  .featured-post .tag { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: 2px 8px; border-radius: 2px; display: inline-block; margin-bottom: 0.5rem; width: fit-content; }
-  .featured-post h2 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.3; margin-bottom: 0.5rem; }
-  .featured-post p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
-  .featured-post .meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; font-family: 'DM Mono', monospace; }
+  .saas-badge {
+    position: absolute; top: .75rem; right: .75rem;
+    background: rgba(13,10,8,0.8); border: 1px solid var(--border);
+    border-radius: 4px; padding: .2rem .5rem;
+    font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+    color: var(--accent); z-index: 2;
+  }
+  .saas-body { padding: 1.5rem; }
+  .saas-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.2rem; margin-bottom: .3rem;
+  }
+  .saas-desc { font-size: .875rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+  .saas-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .saas-tag {
+    font-size: .68rem; font-weight: 600; letter-spacing: .05em;
+    text-transform: uppercase; padding: .2rem .55rem;
+    border-radius: 3px; border: 1px solid;
+  }
+  .saas-link {
+    display: flex; align-items: center; gap: .4rem;
+    font-size: .82rem; font-weight: 600; color: var(--accent);
+    text-decoration: none; font-family: 'JetBrains Mono', monospace;
+    transition: gap .2s;
+  }
+  .saas-link:hover { gap: .7rem; }
+  .saas-stats { display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .saas-stat { text-align: center; }
+  .saas-stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
+  .saas-stat-lbl { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
 
+
+  /* ───── BLOG TOPICS ───── */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem; margin-top: 3rem;
+  }
+  .topic-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem;
+    transition: all .3s; cursor: pointer;
+  }
+  .topic-card:hover { border-color: var(--accent-color, var(--accent)); transform: translateY(-3px); }
+  .topic-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .topic-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
+  .topic-card p { font-size: .82rem; color: var(--muted); }
+  .topic-count { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); margin-top: .75rem; }
+
+
+  /* ───── LATEST POSTS ───── */
+  .posts-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; }
+  .post-row {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1.25rem; border: 1px solid transparent;
+    border-radius: 10px; transition: all .25s;
+    text-decoration: none; color: inherit;
+  }
+  .post-row:hover { background: var(--surface); border-color: var(--border); }
+  .post-num {
+    font-family: 'JetBrains Mono', monospace; font-size: .75rem;
+    color: var(--muted); min-width: 28px;
+  }
+  .post-icon { font-size: 1.5rem; width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .post-info { flex: 1; }
+  .post-info h4 { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: .2rem; }
+  .post-info span { font-size: .8rem; color: var(--muted); }
+  .post-arrow { color: var(--muted); font-size: 1.1rem; transition: transform .2s; }
+  .post-row:hover .post-arrow { transform: translateX(4px); color: var(--accent); }
+
+
+  /* ───── NEWSLETTER ───── */
   .newsletter {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 2rem;
-    text-align: center;
-    margin-bottom: 3rem;
+    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, rgba(139,111,58,0.05) 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px; padding: 3rem;
+    text-align: center; margin: 0 clamp(1.5rem, 8vw, 5rem) 5rem;
   }
-  .newsletter h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .newsletter p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; }
-  .newsletter .nl-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
-  .newsletter input { flex: 1; padding: 0.6rem 0.8rem; border: 1.5px solid var(--border); border-radius: 4px; background: var(--white); color: var(--ink); font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; }
-  .newsletter input:focus { border-color: var(--gold); }
-  .newsletter button { padding: 0.6rem 1.2rem; border: none; border-radius: 4px; background: var(--gold); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; cursor: pointer; font-weight: 600; transition: .2s; }
-  .newsletter button:hover { background: var(--gold-light); }
+  .newsletter h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -1px; margin-bottom: .75rem; }
+  .newsletter p { color: var(--muted); margin-bottom: 2rem; }
+  .newsletter-form { display: flex; gap: .75rem; max-width: 480px; margin: 0 auto; }
+  .newsletter-input {
+    flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    border-radius: 6px; padding: .75rem 1rem; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: .9rem; outline: none;
+    transition: border-color .2s;
+  }
+  .newsletter-input:focus { border-color: var(--accent); }
+  .newsletter-input::placeholder { color: var(--muted); }
 
+
+  /* ───── FOOTER ───── */
   footer {
-    text-align: center;
-    padding: 1.5rem;
-    border-top: 1px solid var(--border);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    background: var(--white);
-    transition: .3s;
+    border-top: 1px solid var(--border); padding: 3rem clamp(1.5rem, 8vw, 5rem);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    gap: 1.5rem;
   }
-  footer a { color: var(--gold); text-decoration: none; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1.1; text-align: center; }
+  .footer-logo .fl1 { display: block; font-size: .95rem; }
+  .footer-logo .fl2 { display: block; font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .footer-logo .fl1 span { color: var(--accent); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy { font-size: .78rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
 
-  @media (max-width: 480px) {
-    .container { padding: 0 1rem; }
-    .hero { padding: 2rem 0.5rem 1.5rem; }
-    .apps-grid { grid-template-columns: 1fr; }
-    .newsletter .nl-form { flex-direction: column; }
-    .app-preview { height: 130px; }
-    .article-card .thumb { height: 130px; font-size: 2rem; }
+
+  /* ───── THEME TOGGLE / LANG SELECTOR ───── */
+  .theme-toggle {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    cursor: pointer; font-size: 1rem; line-height: 1; padding: .3rem .5rem;
+    border-radius: 4px; transition: all .2s; display: flex; align-items: center;
   }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-selector {
+    display: flex; gap: 2px;
+  }
+  .lang-btn {
+    background: none; border: 1px solid transparent; color: var(--muted);
+    cursor: pointer; font-size: .72rem; line-height: 1; padding: .2rem .35rem;
+    border-radius: 3px; transition: all .2s; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; display: flex; align-items: center; gap: 2px;
+  }
+  .lang-btn:hover { color: var(--accent); }
+  .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(201,168,76,0.1); }
+  .lang-btn .flag { font-size: .85rem; line-height: 1; }
+
+  /* Light theme overrides */
+  [data-theme="light"] .saas-badge { background: rgba(245,240,232,0.9); }
+  [data-theme="light"] .newsletter-input { background: rgba(0,0,0,0.05); }
+  [data-theme="light"] .btn-primary { color: #fff; }
+  [data-theme="light"] .nav-cta { color: #fff !important; }
+  [data-theme="light"] .article-thumb-placeholder { background: var(--surface) !important; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+
+  /* ───── RESPONSIVE BREAKPOINTS ───── */
+
+  /* < 360px — very small phones */
+  @media (max-width: 359px) {
+    header { height: 64px; padding: 0 .75rem; }
+    .logo-line1 { font-size: .9rem; }
+    .logo-line2 { font-size: .55rem; }
+    nav { gap: .75rem; }
+    nav a { font-size: .7rem; }
+    .nav-cta { padding: .3rem .6rem; font-size: .7rem !important; }
+    .hero { padding: 4.5rem .75rem 2rem; min-height: 90vh; }
+    .hero h1 { font-size: 1.6rem; letter-spacing: 0; }
+    .hero-tag { font-size: .55rem; white-space: nowrap; padding: .2rem .5rem; }
+    .hero-sub { font-size: .82rem; margin-top: 1rem; }
+    .hero-actions { gap: .6rem; margin-top: 1.5rem; }
+    .btn-primary, .btn-ghost { padding: .5rem 1rem; font-size: .78rem; }
+    section { padding: 2rem .75rem; }
+    .section-title { font-size: 1.4rem; }
+    .section-desc { font-size: .85rem; }
+    .articles-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+    .side-articles { flex-direction: column; }
+    .side-article { min-width: unset; flex-direction: row; height: auto; }
+    .side-thumb { width: 80px; height: 60px; font-size: 1.5rem; }
+    .article-card.featured h3 { font-size: 1.2rem; }
+    .article-body { padding: 1rem; }
+    .saas-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+    .saas-preview { height: 140px; font-size: 3rem; }
+    .saas-body { padding: 1rem; }
+    .saas-stats { gap: .75rem; }
+    .saas-stat-val { font-size: .9rem; }
+    .topics-grid { grid-template-columns: 1fr; gap: .75rem; margin-top: 2rem; }
+    .topic-card { padding: 1rem; }
+    .posts-list { margin-top: 2rem; }
+    .post-row { gap: .6rem; padding: .75rem; flex-wrap: wrap; }
+    .post-num { display: none; }
+    .post-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+    .post-info h4 { font-size: .85rem; }
+    .post-info span { font-size: .7rem; }
+    .post-arrow { display: none; }
+    .newsletter { margin: 0 .75rem 2rem; padding: 1.5rem; }
+    .newsletter h2 { font-size: 1.3rem; }
+    .newsletter-form { flex-direction: column; gap: .5rem; }
+    .newsletter-input { padding: .6rem .8rem; font-size: .8rem; }
+    footer { padding: 2rem .75rem; gap: 1rem; }
+    .footer-links { gap: .75rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { font-size: .72rem; }
+  }
+
+  /* 360px – 480px — small phones */
+  @media (min-width: 360px) and (max-width: 480px) {
+    header { height: 68px; padding: 0 .85rem; }
+    .logo-line1 { font-size: 1rem; }
+    nav { gap: 1rem; }
+    nav a { font-size: .72rem; }
+    .nav-cta { padding: .3rem .7rem; font-size: .72rem !important; }
+    .hero { padding: 5rem 1rem 2.5rem; }
+    .hero h1 { font-size: clamp(1.8rem, 9vw, 2.8rem); letter-spacing: 0; }
+    .hero-tag { font-size: .6rem; white-space: nowrap; }
+    .hero-sub { font-size: .85rem; }
+    .btn-primary, .btn-ghost { padding: .6rem 1.2rem; font-size: .82rem; }
+    section { padding: 3rem 1rem; }
+    .articles-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .side-articles { flex-direction: column; }
+    .side-article { min-width: unset; flex-direction: row; }
+    .side-thumb { width: 90px; height: 70px; }
+    .saas-grid { grid-template-columns: 1fr; }
+    .saas-preview { height: 160px; }
+    .topics-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .topic-card { padding: 1rem; }
+    .post-row { gap: .75rem; padding: .85rem .75rem; }
+    .post-num { display: none; }
+    .newsletter { margin: 0 1rem 3rem; padding: 2rem 1.5rem; }
+    .newsletter-form { flex-direction: column; }
+    footer { padding: 2rem 1rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+
+  /* 481px – 768px — phablets / small tablets */
+  @media (min-width: 481px) and (max-width: 768px) {
+    nav a:not(.nav-cta) { display: none; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .side-articles { flex-direction: row; overflow-x: auto; }
+    .side-article { min-width: 260px; flex-direction: column; height: auto; }
+    .side-thumb { width: 100%; height: 80px; }
+    .newsletter-form { flex-direction: column; }
+    footer { flex-direction: column; text-align: center; }
+    .saas-grid { grid-template-columns: repeat(2, 1fr); }
+    .topics-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* 769px – 1024px — tablets / small laptops */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero { padding: 6rem 3rem 4rem; }
+    .hero h1 { font-size: clamp(2.8rem, 5vw, 4rem); }
+    .articles-grid { grid-template-columns: 1.5fr 1fr; gap: 1.25rem; }
+    .saas-grid { grid-template-columns: repeat(2, 1fr); }
+    .topics-grid { grid-template-columns: repeat(3, 1fr); }
+    .newsletter { margin: 0 2rem 4rem; }
+    section { padding: 4rem 2.5rem; }
+  }
+
+  /* 1025px – 1440px — desktops */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    .hero h1 { font-size: clamp(3rem, 5.5vw, 5rem); }
+    .saas-grid { grid-template-columns: repeat(3, 1fr); }
+    section { padding: 5rem clamp(2rem, 6vw, 4rem); }
+    .newsletter { margin: 0 clamp(2rem, 6vw, 4rem) 5rem; }
+  }
+
+  /* 1441px – 1920px — large desktops */
+  @media (min-width: 1441px) and (max-width: 1920px) {
+    .hero { padding: 8rem clamp(3rem, 12vw, 8rem) 5rem; }
+    .hero h1 { font-size: clamp(4rem, 5vw, 6rem); max-width: 1100px; }
+    .hero-sub { max-width: 680px; font-size: 1.15rem; }
+    section { padding: 6rem clamp(3rem, 12vw, 8rem); }
+    .section-title { font-size: clamp(2.2rem, 3vw, 3.2rem); }
+    .articles-grid { gap: 2rem; }
+    .article-card.featured h3 { font-size: 2rem; }
+    .saas-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .saas-preview { height: 220px; }
+    .topics-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .post-row { padding: 1.5rem; }
+    .newsletter { padding: 4rem; margin: 0 clamp(3rem, 12vw, 8rem) 6rem; }
+    footer { padding: 4rem clamp(3rem, 12vw, 8rem); }
+  }
+
+  /* > 1920px — ultrawide / TV */
+  @media (min-width: 1921px) {
+    body { max-width: 1920px; margin: 0 auto; }
+    .hero { padding: 8rem 6rem 5rem; }
+    .hero h1 { font-size: 6rem; max-width: 1200px; }
+    .hero-sub { max-width: 720px; font-size: 1.2rem; }
+    .hero-glow { width: 900px; height: 900px; top: -300px; right: -150px; }
+    .hero-glow2 { width: 700px; height: 700px; bottom: -200px; left: -200px; }
+    section { padding: 6rem 6rem; }
+    .section-title { font-size: 3.2rem; }
+    .articles-grid { gap: 2.5rem; }
+    .article-card.featured h3 { font-size: 2.2rem; }
+    .saas-grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
+    .saas-preview { height: 260px; font-size: 5rem; }
+    .topics-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .post-row { padding: 1.75rem; }
+    .newsletter { padding: 5rem; margin: 0 6rem 6rem; }
+    .newsletter-form { max-width: 600px; }
+    footer { padding: 4rem 6rem; }
+  }
+
+
+  /* ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+
+  /* GRADIENT HELPERS */
+  .g-gold { background: linear-gradient(135deg, #2a1e0a 0%, #0d0a08 100%); }
+  .g-brown { background: linear-gradient(135deg, #1a1410 0%, #0d0a08 100%); }
+  .g-warm { background: linear-gradient(135deg, #2a1a0e 0%, #0d0a08 100%); }
+  .g-dark { background: linear-gradient(135deg, #1a1410 0%, #0d0a08 100%); }
+  .g-deep { background: linear-gradient(135deg, #1a0e08 0%, #0d0a08 100%); }
+
+
 </style>
 </head>
 <body>
 
+
+<!-- HEADER -->
 <header>
-  <div class="logo">
-    <span class="logo-mark">Nexus</span>
-    <span class="logo-tag">Tech · AI · Ecom</span>
-  </div>
-  <div class="header-actions">
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
-  </div>
+  <a class="logo" href="#">
+    <span class="logo-line1"><span>Ucf</span>Zem</span>
+    <span class="logo-line2">Tech</span>
+  </a>
+  <nav>
+    <a href="#articles" data-i18n="nav-blog">Blog</a>
+    <a href="#saas" data-i18n="nav-saas">SaaS</a>
+    <a href="#topics" data-i18n="nav-topics">Topics</a>
+    <div class="lang-selector">
+      <button class="lang-btn active" data-lang="fr"><span class="flag">🇫🇷</span></button>
+      <button class="lang-btn" data-lang="en"><span class="flag">🇬🇧</span></button>
+      <button class="lang-btn" data-lang="es"><span class="flag">🇪🇸</span></button>
+      <button class="lang-btn" data-lang="ar"><span class="flag">🇲🇦</span></button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <a href="#newsletter" class="nav-cta" data-i18n="nav-newsletter">Newsletter</a>
+  </nav>
 </header>
 
-<div class="container">
 
-  <section class="hero">
-    <p class="hero-eyebrow">Where innovation meets business</p>
-    <h1>Exploring the future of <em>technology</em>, AI &amp; digital commerce</h1>
-    <p>Insights, tools, and hand-crafted SaaS apps to help you build, automate, and scale in the age of artificial intelligence.</p>
-  </section>
-
-  <!-- Featured Post -->
-  <div class="featured-post">
-    <div class="fp-visual" style="background:linear-gradient(135deg,#0d0a08,#2d251e);color:#c9a84c">
-      🤖
-      <div class="overlay"></div>
-    </div>
-    <div class="fp-body">
-      <span class="tag">Featured</span>
-      <h2>How AI Is Reshaping E-Commerce in 2026</h2>
-      <p>From AI-powered product recommendations to automated customer service and dynamic pricing — the tools we use today are just the beginning. Discover how freelancers and small businesses in Morocco and beyond are leveraging AI to compete globally.</p>
-      <div class="meta">Reading time · 8 min</div>
-    </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-tag" data-i18n="hero-tag">Live — IA · Tech · E-Commerce · SaaS</div>
+  <h1>
+    <span data-i18n="hero-line1">Le futur se construit</span><br>
+    <span class="line-accent" data-i18n="hero-line2">maintenant.</span><br>
+    <span class="line-dim" data-i18n="hero-line3">Pas demain.</span>
+  </h1>
+  <p class="hero-sub" data-i18n="hero-sub">Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — par Uzem, créateur digital multilingue basé aux Pays-Bas.</p>
+  <div class="hero-actions">
+    <a href="#articles" class="btn-primary" data-i18n="hero-cta1">Lire le blog →</a>
+    <a href="#saas" class="btn-ghost" data-i18n="hero-cta2">Mes SaaS</a>
   </div>
+</section>
 
-  <h2 class="section-title">Latest Articles</h2>
-  <p class="section-sub">Thoughts on tech, AI, and the future of online business.</p>
 
-  <div class="articles">
-    <div class="article-card">
-      <div class="thumb" style="background:linear-gradient(135deg,#1a2332,#2a3a4a);color:#6b9fff">
-        🧠
-        <div class="overlay"></div>
-      </div>
-      <div class="body">
-        <span class="tag">AI</span>
-        <h3><a href="#">The Rise of AI Agents: From Chatbots to Autonomous Workers</a></h3>
-        <p>AI agents are no longer just chatbots. They book appointments, write code, manage invoices, and even negotiate contracts. Here's what every entrepreneur needs to know.</p>
-        <div class="meta">Jun 5, 2026 · 6 min</div>
-      </div>
-    </div>
-
-    <div class="article-card">
-      <div class="thumb" style="background:linear-gradient(135deg,#1a2a1a,#2a4a2a);color:#6bdf6b">
-        🌍
-        <div class="overlay"></div>
-      </div>
-      <div class="body">
-        <span class="tag">E-Commerce</span>
-        <h3><a href="#">Building a Cross-Border E-Commerce Brand from Morocco</a></h3>
-        <p>Moroccan entrepreneurs now have access to payment gateways, logistics partners, and AI tools that make selling globally easier than ever. A practical guide to getting started.</p>
-        <div class="meta">Jun 3, 2026 · 10 min</div>
-      </div>
-    </div>
-
-    <div class="article-card">
-      <div class="thumb" style="background:linear-gradient(135deg,#2a1a1a,#4a2a2a);color:#ff9b6b">
-        ⚡
-        <div class="overlay"></div>
-      </div>
-      <div class="body">
-        <span class="tag">Productivity</span>
-        <h3><a href="#">Automating Your Freelance Business: Tools That Actually Work</a></h3>
-        <p>From invoice generation to contract drafting and CV creation — the right stack of free AI tools can save you 10+ hours per week. No coding required.</p>
-        <div class="meta">Jun 1, 2026 · 7 min</div>
-      </div>
-    </div>
-
-    <div class="article-card">
-      <div class="thumb" style="background:linear-gradient(135deg,#1a1a2a,#2a2a4a);color:#9b6bff">
-        🔒
-        <div class="overlay"></div>
-      </div>
-      <div class="body">
-        <span class="tag">Legal Tech</span>
-        <h3><a href="#">Digital Contracts &amp; NDAs: Why Every Freelancer Needs Them</a></h3>
-        <p>In the age of remote work, a solid contract is your safety net. Learn how to generate professional NDAs, service agreements, and freelance contracts in seconds.</p>
-        <div class="meta">May 28, 2026 · 5 min</div>
-      </div>
-    </div>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker1">Intelligence Artificielle</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker2">E-Commerce 2025</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker3">Outils SaaS</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker4">Web3 & Blockchain</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker5">Marketing Digital</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker6">Open Source</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker7">Automatisation</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker8">LLM & Agents IA</span></span>
+    <!-- dupe pour boucle -->
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker1">Intelligence Artificielle</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker2">E-Commerce 2025</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker3">Outils SaaS</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker4">Web3 & Blockchain</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker5">Marketing Digital</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker6">Open Source</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker7">Automatisation</span></span>
+    <span class="ticker-item"><span class="dot">●</span> <span data-i18n="ticker8">LLM & Agents IA</span></span>
   </div>
-
-  <h2 class="section-title">Our Tools</h2>
-  <p class="section-sub">Free, open-source SaaS apps built for freelancers, entrepreneurs, and creators.</p>
-
-  <div class="apps-grid">
-
-    <!-- MicroInvoice -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#0d0a08,#1c1814)">
-        <div class="mockup" style="background:#161210;border:1px solid #2d251e">
-          <div class="mockup-bar" style="background:#2d251e"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">MicroInvoice</span></div>
-          <div class="mockup-body">
-            <div class="mockup-title" style="background:#d4a373"></div>
-            <div class="mockup-row" style="background:#d4a373;width:90%"></div>
-            <div class="mockup-row" style="background:#8a7a6a;width:60%"></div>
-            <div style="display:flex;gap:3px;margin-top:4px">
-              <div style="flex:1;height:40px;border-radius:3px;background:#2d251e;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#d4a373">🧾</div>
-              <div style="flex:1;height:40px;border-radius:3px;background:#2d251e;display:flex;align-items:center;justify-content:center;font-size:0.45rem;color:#8a7a6a;font-family:monospace">PDF</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">🧾</div>
-        <h4>MicroInvoice</h4>
-        <p>Generate professional PDF invoices in seconds. Multi-language (FR/EN/ES/AR), TVA support, logo upload, and local storage — built for Moroccan freelancers.</p>
-        <a class="app-link" href="/microinvoice/">Open →</a>
-      </div>
-    </div>
-
-    <!-- ContractForge -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a1814,#2a2218)">
-        <div class="mockup" style="background:#1c1a17;border:1px solid #2d2820">
-          <div class="mockup-bar" style="background:#2d2820"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">ContractForge</span></div>
-          <div class="mockup-body">
-            <div class="mockup-title" style="background:#c9a84c;width:70%"></div>
-            <div class="mockup-row" style="background:#7a7060;width:90%"></div>
-            <div class="mockup-row" style="background:#7a7060;width:80%"></div>
-            <div class="mockup-row" style="background:#7a7060;width:60%"></div>
-            <div style="display:flex;gap:3px;margin-top:4px;justify-content:center">
-              <div style="padding:4px 8px;border-radius:3px;background:#c9a84c;color:#1a1814;font-size:0.5rem;font-family:monospace">NDA</div>
-              <div style="padding:4px 8px;border-radius:3px;border:1px solid #2d2820;color:#8a7a6a;font-size:0.5rem;font-family:monospace">Freelance</div>
-              <div style="padding:4px 8px;border-radius:3px;border:1px solid #2d2820;color:#8a7a6a;font-size:0.5rem;font-family:monospace">Lease</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">⚖️</div>
-        <h4>ContractForge</h4>
-        <p>Generate NDAs, freelance contracts, lease agreements, and more. Instant templates with a clean editor — no AI API required. Dark mode included.</p>
-        <a class="app-link" href="/contractforge/">Open →</a>
-      </div>
-    </div>
-
-    <!-- CVForge -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#f5f0e8,#ede8dc)">
-        <div class="mockup" style="background:#ffffff;border:1px solid #d4cfc3">
-          <div class="mockup-bar" style="background:#d4cfc3;color:#7a7060"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">CVForge</span></div>
-          <div class="mockup-body">
-            <div class="mockup-title" style="background:#0e0e0e;width:50%"></div>
-            <div class="mockup-row" style="background:#7a7060;width:40%"></div>
-            <div style="border-bottom:2px solid #c9a84c;margin:3px 0"></div>
-            <div class="mockup-row" style="background:#c9a84c;width:30%"></div>
-            <div class="mockup-row" style="background:#0e0e0e;width:90%;opacity:0.12;height:4px"></div>
-            <div class="mockup-row" style="background:#0e0e0e;width:70%;opacity:0.12;height:4px"></div>
-            <div style="display:flex;gap:3px;margin-top:4px">
-              <div style="height:16px;width:30px;border-radius:3px;background:#e0dbd0"></div>
-              <div style="height:16px;width:40px;border-radius:3px;background:#e0dbd0"></div>
-              <div style="height:16px;width:25px;border-radius:3px;background:#e0dbd0"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">📄</div>
-        <h4>CVForge</h4>
-        <p>Create professional résumés instantly. Clean layout, live preview, skills management, experience timeline, and print-ready PDF export.</p>
-        <a class="app-link" href="/cvforge/">Open →</a>
-      </div>
-    </div>
-
-    <!-- NanoLink -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#0a0a1a,#1a1a2e)">
-        <div class="mockup" style="background:#111122;border:1px solid #2a2a44">
-          <div class="mockup-bar" style="background:#2a2a44"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">NanoLink</span></div>
-          <div class="mockup-body" style="align-items:center;justify-content:center">
-            <div style="width:90%;padding:6px;border-radius:4px;border:1px solid #2a2a44;display:flex;gap:4px">
-              <div style="flex:1;height:8px;border-radius:2px;background:#2a2a44"></div>
-              <div style="padding:2px 8px;border-radius:2px;background:#6b6bff;color:white;font-size:0.45rem;font-family:monospace">SHRT</div>
-            </div>
-            <div style="width:70%;margin-top:4px;display:flex;gap:4px">
-              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
-              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
-              <div style="flex:1;height:6px;border-radius:2px;background:#2a2a44;opacity:0.5"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">🔗</div>
-        <h4>NanoLink</h4>
-        <p>URL shortener with QR codes and click analytics. Fast, clean, and privacy-friendly — no tracking, no accounts, no nonsense.</p>
-        <a class="app-link" href="/nanolink/">Open →</a>
-      </div>
-    </div>
-
-    <!-- Pristine -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a2a2a,#2a4a3a)">
-        <div class="mockup" style="background:#1a2a22;border:1px solid #2a4a3a">
-          <div class="mockup-bar" style="background:#2a4a3a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Pristine</span></div>
-          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
-            <div style="flex:1;height:50px;border-radius:4px;background:#2a4a3a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🖼️</div>
-            <div style="flex:1;height:50px;border-radius:4px;background:#3a6a4a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">✨</div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">✨</div>
-        <h4>Pristine</h4>
-        <p>AI-powered photo editor for object removal, background erasing, and image enhancement. Clean interface, runs entirely in the browser.</p>
-        <a class="app-link" href="/pristine/">Open →</a>
-      </div>
-    </div>
-
-    <!-- Magic Eraser -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#2a1a1a,#4a2a2a)">
-        <div class="mockup" style="background:#2a1a1a;border:1px solid #4a2a2a">
-          <div class="mockup-bar" style="background:#4a2a2a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Magic Eraser</span></div>
-          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
-            <div style="flex:1;height:50px;border-radius:4px;background:#4a2a2a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🧹</div>
-            <div style="font-size:0.8rem;color:#e67e5a">→</div>
-            <div style="flex:1;height:50px;border-radius:4px;background:#3a2a2a;display:flex;align-items:center;justify-content:center;font-size:1.5rem">✅</div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">🧹</div>
-        <h4>Magic Eraser</h4>
-        <p>Remove unwanted objects from photos using inpainting. Upload, brush, erase — simple three-step workflow for clean results.</p>
-        <a class="app-link" href="/magic-eraser/">Open →</a>
-      </div>
-    </div>
-
-    <!-- Rafeeq -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a2332,#2a3a4a)">
-        <div class="mockup" style="background:#1a2332;border:1px solid #2a3a4a">
-          <div class="mockup-bar" style="background:#2a3a4a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">Rafeeq</span></div>
-          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:4px">
-            <div style="flex:2;display:flex;flex-direction:column;gap:2px">
-              <div class="mockup-title" style="background:#6b9fff;width:70%"></div>
-              <div class="mockup-row" style="background:#4a6a8a;width:90%"></div>
-              <div class="mockup-row" style="background:#4a6a8a;width:50%"></div>
-            </div>
-            <div style="flex:1;display:flex;flex-direction:column;gap:3px;align-items:center">
-              <div style="width:24px;height:24px;border-radius:50%;background:#6b9fff;display:flex;align-items:center;justify-content:center;font-size:0.7rem">💊</div>
-              <div style="width:24px;height:24px;border-radius:50%;background:#2a3a4a;display:flex;align-items:center;justify-content:center;font-size:0.7rem">📋</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">💊</div>
-        <h4>Rafeeq (رفيق)</h4>
-        <p>Medicine tracker and health companion. Log medications, set reminders, track doses — clean mobile-first design for daily health management.</p>
-        <a class="app-link" href="/rafeeq/">Open →</a>
-      </div>
-    </div>
-
-    <!-- TmpDrop -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a1a1a,#2a2a2a)">
-        <div class="mockup" style="background:#1a1a1a;border:1px solid #333">
-          <div class="mockup-bar" style="background:#333"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">TmpDrop</span></div>
-          <div class="mockup-body" style="align-items:center;justify-content:center">
-            <div style="width:80%;height:40px;border:2px dashed #555;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:#888">Drop files here</div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">📦</div>
-        <h4>TmpDrop</h4>
-        <p>Temporary file sharing with auto-expiring links. No signup, no storage limits — just drag, drop, and share securely with end-to-end encryption.</p>
-        <a class="app-link" href="/tmpdrop/">Open →</a>
-      </div>
-    </div>
-
-    <!-- TmpDropIt -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a1a2a,#2a2a4a)">
-        <div class="mockup" style="background:#1a1a2a;border:1px solid #333">
-          <div class="mockup-bar" style="background:#333"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">TmpDropIt</span></div>
-          <div class="mockup-body" style="flex-direction:row;align-items:center;gap:6px">
-            <div style="width:30px;height:30px;border-radius:50%;border:2px solid #6b6bff;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:#6b6bff">↑</div>
-            <div style="flex:1;display:flex;flex-direction:column;gap:2px">
-              <div class="mockup-row" style="background:#6b6bff;width:60%"></div>
-              <div class="mockup-row" style="background:#4a4a6a;width:40%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">📤</div>
-        <h4>TmpDropIt</h4>
-        <p>Alternative file sharing tool with multi-file upload, progress tracking, and password-protected downloads. Temporary storage with auto-cleanup.</p>
-        <a class="app-link" href="/tmpdropit/">Open →</a>
-      </div>
-    </div>
-
-    <!-- PromptGenius -->
-    <div class="app-card">
-      <div class="app-preview" style="background:linear-gradient(135deg,#1a1020,#2a1a3a)">
-        <div class="mockup" style="background:#1a1020;border:1px solid #3a2a4a">
-          <div class="mockup-bar" style="background:#3a2a4a"><span class="dot" style="background:#e67e5a"></span><span class="dot" style="background:#c9a84c"></span><span class="dot" style="background:#7ecba1"></span><span style="margin-left:auto">PromptGenius</span></div>
-          <div class="mockup-body" style="align-items:center;justify-content:center;gap:3px">
-            <div style="width:90%;height:8px;border-radius:4px;background:#3a2a4a"></div>
-            <div style="width:90%;height:24px;border-radius:4px;background:#2a1a3a;border:1px solid #4a3a5a;display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#9b6bff">✨ Generate</div>
-          </div>
-        </div>
-      </div>
-      <div class="body">
-        <div class="app-icon">🤖</div>
-        <h4>PromptGenius</h4>
-        <p>AI prompt generator powered by Gemini and Groq. Craft perfect prompts for any use case — content writing, coding, design, marketing, and more.</p>
-        <a class="app-link" href="/promptgenius/">Open →</a>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="newsletter">
-    <h3>Stay in the loop</h3>
-    <p>Get notified about new tools, articles, and updates. No spam — just tech.</p>
-    <div class="nl-form">
-      <input type="email" placeholder="your@email.com" id="nl_email">
-      <button onclick="nlSubmit()">Subscribe</button>
-    </div>
-  </div>
-
 </div>
 
+
+<!-- ── FEATURED ARTICLES ── -->
+<section id="articles">
+  <div class="section-label" data-i18n="section-articles-label">// Articles à la une</div>
+  <h2 class="section-title" data-i18n="section-articles-title">Ce qui façonne<br>la tech aujourd'hui</h2>
+  <p class="section-desc" data-i18n="section-articles-desc">Analyses, tutoriels et décryptages pour rester en avance sur les tendances.</p>
+
+  <div class="articles-grid">
+    <a class="article-card featured" href="#">
+      <div class="article-thumb-placeholder g-gold" style="aspect-ratio:16/9;font-size:5rem;">🤖</div>
+      <div class="article-body">
+        <div class="article-meta">
+          <span class="tag tag-ai" data-i18n="art1-tag">IA</span>
+          <span class="article-date" data-i18n="art1-date">06 Juin 2025</span>
+        </div>
+        <h3 data-i18n="art1-title">Les agents IA autonomes vont-ils remplacer les équipes entières ?</h3>
+        <p data-i18n="art1-desc">De GPT-4o à Claude 3.5, les LLMs ne se contentent plus de répondre — ils planifient, exécutent et itèrent. Voici ce que ça change concrètement pour ton business.</p>
+      </div>
+    </a>
+
+    <div class="side-articles">
+      <a class="side-article" href="#">
+        <div class="side-thumb g-warm" style="font-size:2rem;">🛒</div>
+        <div class="side-body">
+          <div class="article-meta"><span class="tag tag-ecom" data-i18n="art2-tag">E-Commerce</span></div>
+          <h4 data-i18n="art2-title">Dropshipping IA en 2025 : les niches qui explosent</h4>
+          <p data-i18n="art2-desc">Analyse des marchés porteurs avec automatisation complète.</p>
+        </div>
+      </a>
+      <a class="side-article" href="#">
+        <div class="side-thumb g-brown" style="font-size:2rem;">🚀</div>
+        <div class="side-body">
+          <div class="article-meta"><span class="tag tag-saas" data-i18n="art3-tag">SaaS</span></div>
+          <h4 data-i18n="art3-title">Lancer un SaaS solo en 30 jours avec GitHub Pages</h4>
+          <p data-i18n="art3-desc">Mon workflow complet : de l'idée au premier utilisateur.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── SAAS SHOWCASE ── -->
+<section id="saas" class="saas-section">
+  <div class="section-label" data-i18n="section-saas-label">// Mes créations SaaS</div>
+  <h2 class="section-title" data-i18n="section-saas-title">Des outils construits<br>depuis un smartphone</h2>
+  <p class="section-desc" data-i18n="section-saas-desc">Chaque projet est un outil réel, déployé, utilisable. Construit 100% depuis mobile.</p>
+
+  <div class="saas-grid">
+
+    <!-- TMPDROP -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview g-gold">
+        <span style="font-size:4rem;position:relative;z-index:1;">📤</span>
+        <div class="saas-badge" data-i18n="saas1-badge">LIVE</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name" data-i18n="saas1-name">TmpDrop</div>
+        <div class="saas-desc" data-i18n="saas1-desc">Partage de fichiers temporaires sans compte. Upload instantané, lien partageable, expiration automatique.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas1-tag1">Supabase</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas1-tag2">Partage fichiers</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas1-tag3">Single-file</span>
+        </div>
+        <a class="saas-link" href="https://ucfzem.github.io/tmpdrop" target="_blank">ucfzem.github.io/tmpdrop →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">∞</div><div class="saas-stat-lbl" data-i18n="saas1-stat1">Uploads</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">0€</div><div class="saas-stat-lbl" data-i18n="saas1-stat2">Hébergement</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">1</div><div class="saas-stat-lbl" data-i18n="saas1-stat3">Fichier HTML</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TMPDROPIT -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview g-dark">
+        <span style="font-size:4rem;position:relative;z-index:1;">⚡</span>
+        <div class="saas-badge" data-i18n="saas2-badge">WIP</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name" data-i18n="saas2-name">TmpDropit</div>
+        <div class="saas-desc" data-i18n="saas2-desc">Successeur de TmpDrop. UI premium dark, 4 backends API. Zéro dépendance serveur.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas2-tag1">Multi-backend</span>
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);" data-i18n="saas2-tag2">Cloudinary</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas2-tag3">Uploadcare</span>
+        </div>
+        <a class="saas-link" href="https://ucfzem.github.io" target="_blank" data-i18n="saas2-link">En développement →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">4</div><div class="saas-stat-lbl" data-i18n="saas2-stat1">Backends</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">Auto</div><div class="saas-stat-lbl" data-i18n="saas2-stat2">Fallback</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">Dark</div><div class="saas-stat-lbl" data-i18n="saas2-stat3">UI Premium</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- QURAN MAJEED -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview" style="background:linear-gradient(135deg,#1a2a1a,#0d0a08);">
+        <span style="font-size:4rem;position:relative;z-index:1;">📖</span>
+        <div class="saas-badge">PWA</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">Quran Majeed v3</div>
+        <div class="saas-desc">Application Coran complète : 114 sourates, 45+ traductions, recherche arabe avancée. Progressive Web App installable sur mobile. Double hébergement Netlify + GitHub Pages.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">PWA</span>
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Arabe RTL</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">45+ langues</span>
+        </div>
+        <a class="saas-link" href="https://mos7af.netlify.app" target="_blank">mos7af.netlify.app →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">114</div><div class="saas-stat-lbl">Sourates</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">45+</div><div class="saas-stat-lbl">Traductions</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">PWA</div><div class="saas-stat-lbl">Hors-ligne</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PROMPTGENIUS -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview g-brown">
+        <span style="font-size:4rem;position:relative;z-index:1;">✨</span>
+        <div class="saas-badge">CF Workers</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">PromptGenius</div>
+        <div class="saas-desc">Générateur de prompts IA multi-modal. Supporte texte, images et dessins canvas. Compatible avec tous les grands modèles IA (ChatGPT, Midjourney, DALL·E, Claude). Hébergé sur Cloudflare Workers.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Multi-modal</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Cloudflare</span>
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Prompts IA</span>
+        </div>
+        <a class="saas-link" href="https://promptgenius.azer-tyu199p.workers.dev" target="_blank">promptgenius.workers.dev →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">3</div><div class="saas-stat-lbl">Modes input</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">∞</div><div class="saas-stat-lbl">Prompts</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">Edge</div><div class="saas-stat-lbl">Deploy</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- TANGER D'ANTAN -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview" style="background:linear-gradient(135deg,#2a1a08,#0d0a08);">
+        <span style="font-size:4rem;position:relative;z-index:1;">🏛️</span>
+        <div class="saas-badge">Heritage</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">Tanger d'Antan</div>
+        <div class="saas-desc">Site patrimonial multilingue (FR/EN/ES/AR) dédié au Tanger historique. Sliders avant/après de photos restaurées et colorisées. Musique andalouse, UI dark gold, SEO optimisé.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Patrimoine</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">4 langues</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Photo restore</span>
+        </div>
+        <a class="saas-link" href="https://ucfzem.github.io/tanger" target="_blank">ucfzem.github.io/tanger →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">20+</div><div class="saas-stat-lbl">Photos</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">4</div><div class="saas-stat-lbl">Langues</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">Gold</div><div class="saas-stat-lbl">UI Dark</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- RAFEEQ -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview" style="background:linear-gradient(135deg,#1a1410,#0d0a08);">
+        <span style="font-size:4rem;position:relative;z-index:1;">♿</span>
+        <div class="saas-badge">A11Y</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">Rafeeq (رفيق)</div>
+        <div class="saas-desc">Companion numérique pour seniors arabophones. Gestion médicaments, suivi santé, commandes vocales. Interface RTL accessible avec zoom natif corrigé. Zéro barrière d'entrée.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Accessibilité</span>
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Arabe RTL</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Voix</span>
+        </div>
+        <a class="saas-link" href="https://ucfzem.github.io/rafeeq" target="_blank">ucfzem.github.io/rafeeq →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">100%</div><div class="saas-stat-lbl">Mobile</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">RTL</div><div class="saas-stat-lbl">Arabe</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">A11Y</div><div class="saas-stat-lbl">Accessible</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ULTRALENGUA PRO -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview" style="background:linear-gradient(135deg,#1a1410,#0d0a08);">
+        <span style="font-size:4rem;position:relative;z-index:1;">🌐</span>
+        <div class="saas-badge">EdTech</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">Ultralengua Pro</div>
+        <div class="saas-desc">App d'apprentissage des langues IA. 6 langues (FR/EN/ES/AR/DE/NL), 150 questions par langue, 5 quiz thématiques. Landing page, système i18n complet avec support RTL arabe.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">EdTech</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">6 langues</span>
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">IA-powered</span>
+        </div>
+        <a class="saas-link" href="https://index.anyclaw.store" target="_blank">index.anyclaw.store →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">6</div><div class="saas-stat-lbl">Langues</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">150</div><div class="saas-stat-lbl">Questions</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">5</div><div class="saas-stat-lbl">Quiz/langue</div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- DRAWINGSAND -->
+    <div class="saas-card fade-in">
+      <div class="saas-preview" style="background:linear-gradient(135deg,#1a0e08,#0d0a08);">
+        <span style="font-size:4rem;position:relative;z-index:1;">🏖️</span>
+        <div class="saas-badge">Creative</div>
+      </div>
+      <div class="saas-body">
+        <div class="saas-name">DrawingSand</div>
+        <div class="saas-desc">Jeu de dessin sur sable interactif. 8 types de sable différents, système de stickers, physique particules en temps réel. Expérience relaxante et créative directement dans le navigateur.</div>
+        <div class="saas-tags">
+          <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Canvas HTML5</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Particules</span>
+          <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Créatif</span>
+        </div>
+        <a class="saas-link" href="https://ucfzem.github.io" target="_blank">GitHub Pages →</a>
+        <div class="saas-stats">
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">8</div><div class="saas-stat-lbl">Types sable</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">60fps</div><div class="saas-stat-lbl">Physique</div></div>
+          <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">0kb</div><div class="saas-stat-lbl">Deps</div></div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+
+<!-- ── TOPICS ── -->
+<section id="topics">
+  <div class="section-label">// Catégories</div>
+  <h2 class="section-title">Explorer par thème</h2>
+  <p class="section-desc">Du code à la stratégie, tout ce qui compte dans l'écosystème tech.</p>
+
+
+  <div class="topics-grid">
+    <div class="topic-card" style="--accent-color:#c9a84c;">
+      <div class="topic-icon">🤖</div>
+      <h4>Intelligence Artificielle</h4>
+      <p>LLMs, agents, fine-tuning, prompt engineering — le cœur de la révolution actuelle.</p>
+      <div class="topic-count">// 12 articles</div>
+    </div>
+    <div class="topic-card" style="--accent-color:#d4a373;">
+      <div class="topic-icon">🛒</div>
+      <h4>E-Commerce & Vente</h4>
+      <p>Dropshipping IA, conversion, automatisation des ventes et stratégies growth.</p>
+      <div class="topic-count">// 8 articles</div>
+    </div>
+    <div class="topic-card" style="--accent-color:#8b6f3a;">
+      <div class="topic-icon">🚀</div>
+      <h4>SaaS & Indie Dev</h4>
+      <p>Construire des produits solo, sans budget, depuis un mobile. L'essentiel.</p>
+      <div class="topic-count">// 10 articles</div>
+    </div>
+    <div class="topic-card" style="--accent-color:#c9a84c;">
+      <div class="topic-icon">📱</div>
+      <h4>Mobile-First Dev</h4>
+      <p>Développer des apps complètes depuis Android. Termux, GitHub Pages et workflows.</p>
+      <div class="topic-count">// 6 articles</div>
+    </div>
+    <div class="topic-card" style="--accent-color:#d4a373;">
+      <div class="topic-icon">📣</div>
+      <h4>Marketing Digital</h4>
+      <p>TikTok, contenu viral, SEO, croissance organique — sans budget publicitaire.</p>
+      <div class="topic-count">// 9 articles</div>
+    </div>
+    <div class="topic-card" style="--accent-color:#8b6f3a;">
+      <div class="topic-icon">🌍</div>
+      <h4>Tech & Culture</h4>
+      <p>Patrimoine numérique, multilinguisme, tech au service de l'identité culturelle.</p>
+      <div class="topic-count">// 5 articles</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── LATEST POSTS ── -->
+<section style="padding-top:0;">
+  <div class="section-label">// Derniers articles</div>
+  <h2 class="section-title">À lire en ce moment</h2>
+
+
+  <div class="posts-list">
+    <a class="post-row" href="#">
+      <span class="post-num">01</span>
+      <div class="post-icon g-gold">🤖</div>
+      <div class="post-info">
+        <h4>GPT-5 vs Claude 4 vs Gemini 2 : lequel choisir pour ton business ?</h4>
+        <span>IA · 5 min · 02 Juin 2025</span>
+      </div>
+      <span class="tag tag-ai">IA</span>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post-row" href="#">
+      <span class="post-num">02</span>
+      <div class="post-icon g-warm">🛒</div>
+      <div class="post-info">
+        <h4>Comment j'ai automatisé 90% de mon store Shopify avec l'IA</h4>
+        <span>E-Commerce · 7 min · 28 Mai 2025</span>
+      </div>
+      <span class="tag tag-ecom">E-COM</span>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post-row" href="#">
+      <span class="post-num">03</span>
+      <div class="post-icon g-brown">✨</div>
+      <div class="post-info">
+        <h4>Cloudflare Workers : héberger un SaaS gratuitement en 2025</h4>
+        <span>SaaS · 4 min · 22 Mai 2025</span>
+      </div>
+      <span class="tag tag-saas">SaaS</span>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post-row" href="#">
+      <span class="post-num">04</span>
+      <div class="post-icon g-dark">📱</div>
+      <div class="post-info">
+        <h4>Coder depuis un Samsung S23 Ultra : setup complet 2025</h4>
+        <span>Dev Mobile · 6 min · 15 Mai 2025</span>
+      </div>
+      <span class="tag tag-tech">TECH</span>
+      <span class="post-arrow">→</span>
+    </a>
+    <a class="post-row" href="#">
+      <span class="post-num">05</span>
+      <div class="post-icon g-deep">🌐</div>
+      <div class="post-info">
+        <h4>TikTok + Contenu éducatif : comment atteindre 50K sans pub</h4>
+        <span>Marketing · 5 min · 08 Mai 2025</span>
+      </div>
+      <span class="tag tag-ecom">MARKETING</span>
+      <span class="post-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ── NEWSLETTER ── -->
+<div id="newsletter" class="newsletter">
+  <div class="section-label" style="text-align:center;" data-i18n="newsletter-label">// Newsletter</div>
+  <h2 data-i18n="newsletter-title">Reste en avance.<br>Abonne-toi.</h2>
+  <p data-i18n="newsletter-desc">Chaque semaine : les actus IA, les nouveaux outils, les stratégies e-commerce qui marchent vraiment. Pas de spam.</p>
+  <div class="newsletter-form">
+    <input class="newsletter-input" type="email" data-i18n="newsletter-placeholder" placeholder="ton@email.com">
+    <a href="#" class="btn-primary" style="white-space:nowrap;" data-i18n="newsletter-btn">S'abonner →</a>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
 <footer>
-  Nexus Blog · <a href="#">RSS</a> · <a href="https://ucfzem.azer-tyu199p.workers.dev/">All Projects</a> · Built with passion
+  <div class="footer-logo">
+    <span class="fl1"><span>Ucf</span>Zem</span>
+    <span class="fl2">Tech</span>
+  </div>
+  <div class="footer-links">
+    <a href="https://github.com/ucfzem" target="_blank">GitHub</a>
+    <a href="https://tiktok.com/@ucfzem" target="_blank">TikTok</a>
+    <a href="#articles" data-i18n="nav-blog">Blog</a>
+    <a href="#saas" data-i18n="nav-saas">SaaS</a>
+  </div>
+  <div class="footer-copy" data-i18n="footer-copy">// Construit depuis un S23 Ultra · NL</div>
 </footer>
 
-<script>
-  const STORAGE_KEY = 'nexus-theme';
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
-    localStorage.setItem(STORAGE_KEY, theme);
-  }
-  function toggleTheme() {
-    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  }
-  (function initTheme() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) { applyTheme(saved); return; }
-    applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  })();
 
-  function nlSubmit() {
-    const email = document.getElementById('nl_email').value.trim();
-    if (!email) { alert('Please enter your email.'); return; }
-    alert('📫 Thanks! You\'re subscribed. (Demo — no emails actually sent.)');
-    document.getElementById('nl_email').value = '';
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // ─── TRANSLATIONS ───
+  const i18n = {
+    fr: {
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter',
+      'hero-tag': 'Live — IA · Tech · E-Commerce · SaaS',
+      'hero-line1': 'Le futur se construit', 'hero-line2': 'maintenant.', 'hero-line3': 'Pas demain.',
+      'hero-sub': 'Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — par Uzem, créateur digital multilingue basé aux Pays-Bas.',
+      'hero-cta1': 'Lire le blog →', 'hero-cta2': 'Mes SaaS',
+      'ticker1': 'Intelligence Artificielle', 'ticker2': 'E-Commerce 2025', 'ticker3': 'Outils SaaS', 'ticker4': 'Web3 & Blockchain',
+      'ticker5': 'Marketing Digital', 'ticker6': 'Open Source', 'ticker7': 'Automatisation', 'ticker8': 'LLM & Agents IA',
+      'section-articles-label': '// Articles à la une', 'section-articles-title': 'Ce qui façonne<br>la tech aujourd\'hui',
+      'section-articles-desc': 'Analyses, tutoriels et décryptages pour rester en avance sur les tendances.',
+      'section-saas-label': '// Mes créations SaaS', 'section-saas-title': 'Des outils construits<br>depuis un smartphone',
+      'section-saas-desc': 'Chaque projet est un outil réel, déployé, utilisable. Construit 100% depuis mobile.',
+      'newsletter-label': '// Newsletter', 'newsletter-title': 'Reste en avance.<br>Abonne-toi.',
+      'newsletter-desc': 'Chaque semaine : les actus IA, les nouveaux outils, les stratégies e-commerce qui marchent vraiment. Pas de spam.',
+      'newsletter-placeholder': 'ton@email.com', 'newsletter-btn': 'S\'abonner →',
+      'footer-copy': '// Construit depuis un S23 Ultra · NL'
+    },
+    en: {
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Topics', 'nav-newsletter': 'Newsletter',
+      'hero-tag': 'Live — AI · Tech · E-Commerce · SaaS',
+      'hero-line1': 'The future is built', 'hero-line2': 'now.', 'hero-line3': 'Not tomorrow.',
+      'hero-sub': 'AI news, e-commerce strategies, SaaS tools and tech trends — by Uzem, a multilingual digital creator based in the Netherlands.',
+      'hero-cta1': 'Read the blog →', 'hero-cta2': 'My SaaS',
+      'ticker1': 'Artificial Intelligence', 'ticker2': 'E-Commerce 2025', 'ticker3': 'SaaS Tools', 'ticker4': 'Web3 & Blockchain',
+      'ticker5': 'Digital Marketing', 'ticker6': 'Open Source', 'ticker7': 'Automation', 'ticker8': 'LLM & AI Agents',
+      'section-articles-label': '// Featured Articles', 'section-articles-title': 'What shapes<br>tech today',
+      'section-articles-desc': 'Analysis, tutorials and insights to stay ahead of the trends.',
+      'section-saas-label': '// My SaaS Creations', 'section-saas-title': 'Tools built<br>from a smartphone',
+      'section-saas-desc': 'Every project is a real, deployed, usable tool. Built 100% from mobile.',
+      'newsletter-label': '// Newsletter', 'newsletter-title': 'Stay ahead.<br>Subscribe.',
+      'newsletter-desc': 'Every week: AI news, new tools, e-commerce strategies that actually work. No spam.',
+      'newsletter-placeholder': 'your@email.com', 'newsletter-btn': 'Subscribe →',
+      'footer-copy': '// Built from an S23 Ultra · NL'
+    },
+    es: {
+      'nav-blog': 'Blog', 'nav-saas': 'SaaS', 'nav-topics': 'Temas', 'nav-newsletter': 'Newsletter',
+      'hero-tag': 'Live — IA · Tecnología · E-Commerce · SaaS',
+      'hero-line1': 'El futuro se construye', 'hero-line2': 'ahora.', 'hero-line3': 'No mañana.',
+      'hero-sub': 'Noticias de IA, estrategias de e-commerce, herramientas SaaS y tendencias tech — por Uzem, creador digital multilingüe con sede en Países Bajos.',
+      'hero-cta1': 'Leer el blog →', 'hero-cta2': 'Mis SaaS',
+      'ticker1': 'Inteligencia Artificial', 'ticker2': 'E-Commerce 2025', 'ticker3': 'Herramientas SaaS', 'ticker4': 'Web3 & Blockchain',
+      'ticker5': 'Marketing Digital', 'ticker6': 'Open Source', 'ticker7': 'Automatización', 'ticker8': 'LLM & Agentes IA',
+      'section-articles-label': '// Artículos Destacados', 'section-articles-title': 'Lo que moldea<brla tecnología hoy',
+      'section-articles-desc': 'Análisis, tutoriales y perspectivas para estar adelante de las tendencias.',
+      'section-saas-label': '// Mis Creaciones SaaS', 'section-saas-title': 'Herramientas construidas<br>desde un smartphone',
+      'section-saas-desc': 'Cada proyecto es una herramienta real, desplegada y utilizable. Construida 100% desde móvil.',
+      'newsletter-label': '// Newsletter', 'newsletter-title': 'Mantente al día.<br>Suscríbete.',
+      'newsletter-desc': 'Cada semana: noticias IA, nuevas herramientas, estrategias de e-commerce que funcionan. Sin spam.',
+      'newsletter-placeholder': 'tu@email.com', 'newsletter-btn': 'Suscribirse →',
+      'footer-copy': '// Construido desde un S23 Ultra · NL'
+    },
+    ar: {
+      'nav-blog': 'المدونة', 'nav-saas': 'تطبيقات', 'nav-topics': 'مواضيع', 'nav-newsletter': 'النشرة',
+      'hero-tag': 'مباشر — ذكاء اصطناعي · تقنية · تجارة إلكترونية · تطبيقات',
+      'hero-line1': 'المستقبل يُبنى', 'hero-line2': 'الآن.', 'hero-line3': 'ليس غداً.',
+      'hero-sub': 'أخبار الذكاء الاصطناعي، استراتيجيات التجارة الإلكترونية، أدوات SaaS واتجاهات التقنية — بواسطة أوزم، مبدع رقمي متعدد اللغات مقيم في هولندا.',
+      'hero-cta1': 'اقرأ المدونة ←', 'hero-cta2': 'تطبيقاتي',
+      'ticker1': 'الذكاء الاصطناعي', 'ticker2': 'التجارة الإلكترونية 2025', 'ticker3': 'أدوات SaaS', 'ticker4': 'ويب 3 و بلوكتشين',
+      'ticker5': 'التسويق الرقمي', 'ticker6': 'المصدر المفتوح', 'ticker7': 'الأتمتة', 'ticker8': 'نماذج اللغة و وكلاء الذكاء',
+      'section-articles-label': '// مقالات مميزة', 'section-articles-title': 'ما يشكل<br>التقنية اليوم',
+      'section-articles-desc': 'تحليلات، دروس ورؤى للبقاء في صدارة الاتجاهات.',
+      'section-saas-label': '// إبداعاتي SaaS', 'section-saas-title': 'أدوات بُنيت<br>من هاتف ذكي',
+      'section-saas-desc': 'كل مشروع هو أداة حقيقية، منشورة وقابلة للاستخدام. بُنيت 100% من الجوال.',
+      'newsletter-label': '// النشرة البريدية', 'newsletter-title': 'ابقَ في المقدمة.<br>اشترك.',
+      'newsletter-desc': 'كل أسبوع: أخبار الذكاء الاصطناعي، أدوات جديدة، استراتيجيات التجارة الإلكترونية التي تعمل حقاً. لا بريد مزعج.',
+      'newsletter-placeholder': 'بريدك@ email.com', 'newsletter-btn': 'اشترك ←',
+      'footer-copy': '// بُني من S23 Ultra · هولندا'
+    }
+  };
+
+  // ─── THEME ───
+  const themeToggle = document.getElementById('themeToggle');
+  let currentTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+  themeToggle.addEventListener('click', () => {
+    const next = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    currentTheme = next;
+    themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
+  });
+
+  // ─── LANGUAGE ───
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLang = urlParams.get('lang');
+  let currentLang = urlLang || localStorage.getItem('lang') || 'fr';
+  function applyLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (i18n[lang] && i18n[lang][key]) {
+        if (el.tagName === 'INPUT') el.setAttribute('placeholder', i18n[lang][key]);
+        else el.innerHTML = i18n[lang][key];
+      }
+    });
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    const url = new URL(window.location);
+    if (lang === 'fr') url.searchParams.delete('lang');
+    else url.searchParams.set('lang', lang);
+    window.history.replaceState(null, '', url);
   }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
+  });
+  applyLanguage(currentLang);
 </script>
+
+
 </body>
 </html>
