@@ -168,6 +168,26 @@
     .main { grid-template-columns: 1fr; }
   }
 
+  @media (max-width: 860px) {
+    .form-panel { border-right: 1px solid var(--border); max-height: none; }
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .hero { padding: 1.5rem 1rem 1rem; }
+    .form-panel { padding: 1rem; }
+    .preview-panel { padding: 1rem; }
+    #cv-output { padding: 1rem; min-height: 300px; }
+    .placeholder-state { height: 300px; }
+  }
+  @media (max-width: 400px) {
+    .header-note { display: none; }
+    .logo-mark { font-size: 1.1rem; }
+    #cv-output { padding: 0.75rem; min-height: 250px; font-size: 0.75rem; }
+    .placeholder-state { height: 250px; }
+    .item-entry .item-grid { grid-template-columns: 1fr; }
+  }
+
   .form-panel {
     background: var(--white);
     border: 1px solid var(--border);

@@ -417,7 +417,7 @@
     color: var(--text); padding: 10px 20px;
     border-radius: 30px; font-size: 0.82rem;
     z-index: 999; opacity: 0; pointer-events: none;
-    transition: all 0.3s; white-space: nowrap;
+    transition: all 0.3s; white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 

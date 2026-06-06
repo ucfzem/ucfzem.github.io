@@ -525,6 +525,14 @@ body {
   animation: fadeUp 0.3s ease;
 }
 @keyframes fadeUp { from { transform: translateX(-50%) translateY(20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+@media (max-width: 380px) {
+  .grid-menu { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .grid-menu .menu-item { padding: 12px 4px; }
+  .grid-menu .menu-icon { font-size: 1.2rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .profile-stats { grid-template-columns: repeat(2, 1fr); }
+  .med-name { font-size: 0.82rem; }
+}
 </style>
 </head>
 <body>

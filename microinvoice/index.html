@@ -25,7 +25,8 @@ header{text-align:center;margin-bottom:16px}
 .field input,.field select,.field textarea{padding:8px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:12px;font-family:var(--mono);outline:none;transition:.2s;width:100%}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
 .field textarea{resize:vertical;min-height:50px}
-.items-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:6px}
+.items-table{width:100%;border-collapse:collapse;font-size:12px;min-width:440px}
 .items-table th{padding:6px 8px;text-align:left;font-size:9px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border)}
 .items-table td{padding:4px;border-bottom:1px solid var(--border)}
 .items-table input{background:transparent;border:none;color:var(--text);font-size:11px;font-family:var(--mono);padding:3px;width:100%;outline:none}
@@ -40,7 +41,7 @@ header{text-align:center;margin-bottom:16px}
 .row-actions{display:flex;gap:4px;justify-content:center}
 .row-actions button{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px 4px}
 .row-actions button:hover{color:#e67e5a}
-.total-row{display:flex;justify-content:flex-end;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.total-row{display:flex;justify-content:flex-end;gap:16px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap}
 .total-row .label{font-size:10px;color:var(--muted);font-family:var(--mono)}
 .total-row .value{font-size:16px;font-weight:800;color:var(--accent)}
 .preview-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-top:8px;font-family:var(--mono);font-size:11px;line-height:1.5}
@@ -67,10 +68,12 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 .logo-upload .preview-logo img{width:100%;height:100%;object-fit:contain}
 .logo-upload:hover .preview-logo{border-color:var(--accent)}
 .invoice-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
-.invoice-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surface);border-radius:6px;font-size:11px;font-family:var(--mono);border:1px solid var(--border)}
+.invoice-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surface);border-radius:6px;font-size:11px;font-family:var(--mono);border:1px solid var(--border);gap:8px}
+.invoice-item .ii-info{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .invoice-item span{color:var(--muted)}
-.invoice-item strong{color:var(--text)}
+.invoice-item strong{color:var(--text);white-space:nowrap}
 @media(max-width:520px){.row{flex-direction:column}.field{min-width:100%}.preview-box .p-header{flex-direction:column;gap:8px}}
+@media(max-width:400px){.container{padding:12px 8px}.card{padding:12px}.preview-box{padding:14px}.action-bar .btn{font-size:11px;padding:6px 12px}.total-row{gap:8px}.total-row .value{font-size:14px}}
 [dir=rtl]{text-align:right}
 </style>
 </head>
@@ -128,7 +131,7 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 
 <div class="card">
 <div class="card-label" id="lblItems">// Articles</div>
-<table class="items-table">
+  <div class="table-wrap"><table class="items-table">
 <thead><tr>
 <th id="thDesc" style="width:45%">Description</th>
 <th id="thQty" style="width:50px">Qté</th>
@@ -137,7 +140,7 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 <th style="width:24px"></th>
 </tr></thead>
 <tbody id="itemsBody"></tbody>
-</table>
+</table></div>
 <button class="btn btn-outline" onclick="addItem()" style="margin-top:6px" id="btnAdd">+ Ajouter</button>
 <div class="total-row">
 <div><span class="label" id="lblSubtotal">Sous-total</span><br><span class="value" id="subtotalVal">0,00</span></div>
@@ -243,7 +246,7 @@ savedInvoices.unshift(d);if(savedInvoices.length>50)savedInvoices.pop();
 localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory();toast(L[lang].saved)}
 function renderHistory(){const list=document.getElementById('invoiceList');const wrap=document.getElementById('historyCard');if(!savedInvoices.length){wrap.style.display='none';return}
 wrap.style.display='block';const t=L[lang];
-list.innerHTML=savedInvoices.map((d,i)=>'<div class="invoice-item"><div><strong>'+d.invNum+'</strong><span> — '+d.date+' — '+d.client+' — '+d.total.toFixed(2).replace('.',',')+' '+(d.currency||'MAD')+'</span></div><button class="btn btn-danger" onclick="deleteInvoice('+i+')" style="font-size:9px;padding:2px 6px">✕</button></div>').join('')}
+list.innerHTML=savedInvoices.map((d,i)=>'<div class="invoice-item"><div class="ii-info"><strong>'+d.invNum+'</strong><span> — '+d.date+' — '+d.client+' — '+d.total.toFixed(2).replace('.',',')+' '+(d.currency||'MAD')+'</span></div><button class="btn btn-danger" onclick="deleteInvoice('+i+')" style="font-size:9px;padding:2px 6px">✕</button></div>').join('')}
 function deleteInvoice(i){savedInvoices.splice(i,1);localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory()}
 function clearHistory(){savedInvoices=[];localStorage.removeItem('microinvoices');renderHistory()}
 // ══════ DEMO ══════

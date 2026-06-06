@@ -1,0 +1,1323 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractForge — Legal Documents, Instant</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --rust: #c4562a;
+    --muted: #7a7060;
+    --border: #d4cfc3;
+    --white: #faf8f4;
+    --surface: #faf8f4;
+    --card: #faf8f4;
+    --disclaimer-bg: #fff8ec;
+    --disclaimer-text: #6b5a2e;
+    --success: #3a7d44;
+    --spinner-bg: rgba(255,255,255,0.3);
+    --spinner-fg: #fff;
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    --noise-opacity: 0.5;
+  }
+
+  [data-theme="dark"] {
+    --ink: #e8e4dc;
+    --paper: #141210;
+    --cream: #1c1a17;
+    --gold: #d4a84c;
+    --gold-light: #e8c96a;
+    --rust: #e67e5a;
+    --muted: #8a7a6a;
+    --border: #2d2820;
+    --white: #1c1a17;
+    --surface: #1c1a17;
+    --card: #161410;
+    --disclaimer-bg: #1f1a0e;
+    --disclaimer-text: #c9a84c;
+    --success: #7ecba1;
+    --spinner-bg: rgba(255,255,255,0.15);
+    --spinner-fg: #c9a84c;
+    --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7a6a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    --noise-opacity: 0.15;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background .3s, color .3s;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--noise-opacity);
+    transition: opacity .3s;
+  }
+
+  header {
+    position: relative;
+    padding: 2.5rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    transition: background .3s, border-color .3s;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 1rem; }
+
+  .logo {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .logo-mark {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    transition: color .3s;
+  }
+
+  .logo-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--gold);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  .header-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: border-color .2s, background .2s;
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .theme-toggle:hover { border-color: var(--gold); }
+
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 720px;
+    margin: 0 auto 1.2rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+    transition: color .3s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .type-selector {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem 1.5rem 0;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .type-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.3rem;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: all 0.2s ease, background .3s, border-color .3s, color .3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+    z-index: 0;
+  }
+
+  .type-btn:hover::before, .type-btn.active::before {
+    transform: scaleX(1);
+  }
+
+  .type-btn span, .type-btn .btn-icon {
+    position: relative; z-index: 1;
+    transition: color 0.2s ease;
+  }
+
+  .type-btn:hover span, .type-btn.active span,
+  .type-btn:hover .btn-icon, .type-btn.active .btn-icon {
+    color: var(--white);
+  }
+
+  .btn-icon { font-size: 1rem; }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 1400px;
+    margin: 2.5rem auto 4rem;
+    padding: 0 1.5rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; }
+    .form-panel { border-right: 1px solid var(--border); }
+  }
+  @media (max-width: 700px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .preview-panel { min-height: auto; }
+    #contract-output { min-height: 300px; }
+    .placeholder-state { height: 300px; }
+  }
+  @media (max-width: 480px) {
+    .header-note { display: none; }
+    .type-btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+    .type-selector { gap: 0.5rem; padding: 1rem 0.75rem 0; }
+    .preview-actions { flex-wrap: wrap; justify-content: center; }
+    .action-btn { padding: 0.4rem 0.7rem; font-size: 0.6rem; }
+    .form-panel { padding: 1rem; }
+    .preview-panel { padding: 1rem; }
+    #contract-output { padding: 1rem; min-height: 200px; }
+    .placeholder-state { height: 200px; }
+  }
+
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    transition: background .3s;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, select, textarea {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.6rem 0.85rem;
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, background .3s, color .3s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    background: var(--white);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    background-image: var(--select-arrow);
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    padding-right: 2.5rem;
+  }
+
+  .section-divider {
+    grid-column: 1 / -1;
+    height: 1px;
+    background: var(--border);
+    margin: 0.5rem 0;
+    position: relative;
+    transition: background .3s;
+  }
+
+  .section-divider span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--white);
+    padding-right: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: background .3s;
+  }
+
+  .gen-btn {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.2s ease, background .3s, color .3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gen-btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .gen-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--spinner-bg);
+    border-top-color: var(--spinner-fg);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  .gen-btn.loading .spinner { display: block; }
+  .gen-btn.loading .btn-text { opacity: 0.7; }
+
+  .preview-panel {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+    transition: background .3s, border-color .3s;
+  }
+
+  .preview-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    padding: 0.5rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .action-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .action-btn.primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+
+  .action-btn.primary:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+
+  #contract-output {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: var(--ink);
+    overflow-y: auto;
+    white-space: pre-wrap;
+    min-height: 400px;
+    transition: background .3s, border-color .3s, color .3s;
+  }
+
+  .placeholder-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    gap: 1rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .placeholder-icon {
+    font-size: 3rem;
+    opacity: 0.3;
+  }
+
+  .placeholder-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+
+  .placeholder-sub {
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    background: var(--white);
+    transition: background .3s, border-color .3s;
+  }
+
+  footer a { color: var(--gold); text-decoration: none; }
+
+  .disclaimer {
+    background: var(--disclaimer-bg);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1.2rem;
+    font-size: 0.78rem;
+    color: var(--disclaimer-text);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    line-height: 1.5;
+    transition: background .3s, color .3s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media print {
+    body > *:not(#print-area) { display: none !important; }
+    #print-area {
+      display: block !important;
+      font-family: 'Times New Roman', serif;
+      font-size: 11pt;
+      line-height: 1.8;
+      color: #000;
+      padding: 2cm;
+    }
+  }
+
+  .dynamic-fields { display: none; }
+  .dynamic-fields.visible { display: contents; }
+
+  .status-bar {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 0.4rem 0;
+    text-align: right;
+  }
+
+  .status-bar.error { color: var(--rust); }
+  .status-bar.success { color: var(--success); }
+
+  .char-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">
+      <span class="logo-mark">ContractForge</span>
+      <span class="logo-tag">AI · Free</span>
+    </div>
+    <span class="header-note">No signup · No data stored · Print-ready PDF</span>
+  </div>
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+</header>
+
+<div class="disclaimer" style="margin-top:0; padding-top:0.6rem; padding-bottom:0.6rem;">
+  ⚖️ <strong>For reference only.</strong> ContractForge generates templates as a starting point. Always review with a qualified legal professional before signing.
+</div>
+
+<section class="hero">
+  <p class="hero-eyebrow">Contracts · NDAs · Leases · Freelance</p>
+  <h1>Legal documents,<br><em>done in seconds.</em></h1>
+  <p class="hero-sub">Fill in your details, pick a contract type — our AI drafts a clean, professional document you can print or save as PDF.</p>
+</section>
+
+<div class="type-selector">
+  <button class="type-btn active" data-type="nda" onclick="setType(this,'nda')">
+    <span class="btn-icon">🔒</span><span>NDA</span>
+  </button>
+  <button class="type-btn" data-type="freelance" onclick="setType(this,'freelance')">
+    <span class="btn-icon">💼</span><span>Freelance</span>
+  </button>
+  <button class="type-btn" data-type="lease" onclick="setType(this,'lease')">
+    <span class="btn-icon">🏠</span><span>Lease / Bail</span>
+  </button>
+  <button class="type-btn" data-type="service" onclick="setType(this,'service')">
+    <span class="btn-icon">🤝</span><span>Service Agreement</span>
+  </button>
+  <button class="type-btn" data-type="partnership" onclick="setType(this,'partnership')">
+    <span class="btn-icon">🏢</span><span>Partnership</span>
+  </button>
+</div>
+
+<div class="main">
+
+  <div class="form-panel">
+    <div class="panel-label">Contract Details</div>
+
+    <div class="form-grid">
+
+      <div class="field full">
+        <label>Document Language</label>
+        <select id="lang">
+          <option value="English">English</option>
+          <option value="French">Français</option>
+          <option value="Arabic">العربية</option>
+          <option value="Spanish">Español</option>
+        </select>
+      </div>
+
+      <div class="section-divider full"><span>Party A (First Party)</span></div>
+
+      <div class="field">
+        <label>Full Name / Company</label>
+        <input type="text" id="party_a_name" placeholder="Youssef El Amrani">
+      </div>
+      <div class="field">
+        <label>Role / Title</label>
+        <input type="text" id="party_a_role" placeholder="Freelancer / CEO">
+      </div>
+      <div class="field full">
+        <label>Address / Location</label>
+        <input type="text" id="party_a_address" placeholder="Tangier, Morocco">
+      </div>
+
+      <div class="section-divider full"><span>Party B (Second Party)</span></div>
+
+      <div class="field">
+        <label>Full Name / Company</label>
+        <input type="text" id="party_b_name" placeholder="Acme Corp SAS">
+      </div>
+      <div class="field">
+        <label>Role / Title</label>
+        <input type="text" id="party_b_role" placeholder="Client / Employer">
+      </div>
+      <div class="field full">
+        <label>Address / Location</label>
+        <input type="text" id="party_b_address" placeholder="Paris, France">
+      </div>
+
+      <div class="section-divider full"><span>Contract Specifics</span></div>
+
+      <div class="field">
+        <label>Effective Date</label>
+        <input type="date" id="start_date">
+      </div>
+      <div class="field">
+        <label>End / Expiry Date</label>
+        <input type="date" id="end_date">
+      </div>
+
+      <div id="nda-fields" class="dynamic-fields visible">
+        <div class="field full">
+          <label>Confidential Information Scope</label>
+          <textarea id="nda_scope" placeholder="Business strategies, client lists, technical data, pricing, source code..."></textarea>
+        </div>
+        <div class="field">
+          <label>Duration of Confidentiality</label>
+          <select id="nda_duration">
+            <option>1 year</option>
+            <option>2 years</option>
+            <option>3 years</option>
+            <option>5 years</option>
+            <option>Indefinitely</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Governing Law (Country)</label>
+          <input type="text" id="nda_law" placeholder="France / Morocco / UAE">
+        </div>
+      </div>
+
+      <div id="freelance-fields" class="dynamic-fields">
+        <div class="field full">
+          <label>Project / Service Description</label>
+          <textarea id="fl_scope" placeholder="Design and develop a responsive e-commerce website with React..."></textarea>
+        </div>
+        <div class="field">
+          <label>Total Fee / Payment</label>
+          <input type="text" id="fl_fee" placeholder="€2,500 — 50% upfront">
+        </div>
+        <div class="field">
+          <label>Deliverables Deadline</label>
+          <input type="date" id="fl_deadline">
+        </div>
+        <div class="field full">
+          <label>Revision Policy</label>
+          <input type="text" id="fl_revisions" placeholder="Up to 3 rounds of revisions included">
+        </div>
+      </div>
+
+      <div id="lease-fields" class="dynamic-fields">
+        <div class="field full">
+          <label>Property Address</label>
+          <input type="text" id="ls_property" placeholder="Apt 4B, 12 Rue Hassan II, Casablanca">
+        </div>
+        <div class="field">
+          <label>Monthly Rent</label>
+          <input type="text" id="ls_rent" placeholder="MAD 4,500 / month">
+        </div>
+        <div class="field">
+          <label>Security Deposit</label>
+          <input type="text" id="ls_deposit" placeholder="MAD 9,000 (2 months)">
+        </div>
+        <div class="field full">
+          <label>Included Utilities / Special Terms</label>
+          <textarea id="ls_utilities" placeholder="Water and electricity excluded. No pets. Tenant responsible for minor repairs..."></textarea>
+        </div>
+      </div>
+
+      <div id="service-fields" class="dynamic-fields">
+        <div class="field full">
+          <label>Services to be Provided</label>
+          <textarea id="sv_services" placeholder="Social media management, content creation, monthly reporting..."></textarea>
+        </div>
+        <div class="field">
+          <label>Monthly / Total Fee</label>
+          <input type="text" id="sv_fee" placeholder="€800/month">
+        </div>
+        <div class="field">
+          <label>Notice Period to Terminate</label>
+          <input type="text" id="sv_notice" placeholder="30 days written notice">
+        </div>
+      </div>
+
+      <div id="partnership-fields" class="dynamic-fields">
+        <div class="field full">
+          <label>Business Purpose / Activities</label>
+          <textarea id="pt_purpose" placeholder="Joint development and commercialization of a SaaS product..."></textarea>
+        </div>
+        <div class="field">
+          <label>Profit/Loss Split</label>
+          <input type="text" id="pt_split" placeholder="50/50 or 60% Party A / 40% Party B">
+        </div>
+        <div class="field">
+          <label>Each Party's Contribution</label>
+          <input type="text" id="pt_contrib" placeholder="Party A: development; Party B: funding €20,000">
+        </div>
+      </div>
+
+      <div class="section-divider full"><span>Optional</span></div>
+      <div class="field full">
+        <label>Additional Clauses / Special Instructions</label>
+        <textarea id="extra_clauses" placeholder="Any specific terms, jurisdiction preferences, penalties, or clauses you want included..."></textarea>
+      </div>
+
+    </div>
+
+    <button class="gen-btn" id="gen-btn" onclick="generateContract()">
+      <div class="spinner" id="spinner"></div>
+      <span class="btn-text" id="btn-text">⚡ Generate Contract</span>
+    </button>
+
+    <div class="status-bar" id="status"></div>
+  </div>
+
+  <div class="preview-panel">
+    <div class="panel-label">Preview & Export</div>
+
+    <div class="preview-actions">
+      <button class="action-btn" onclick="loadDemo()">🎲 Demo</button>
+      <button class="action-btn" onclick="copyContract()">📋 Copy</button>
+      <button class="action-btn primary" onclick="printContract()">🖨️ Print / Save PDF</button>
+    </div>
+
+    <div id="contract-output">
+      <div class="placeholder-state">
+        <div class="placeholder-icon">📄</div>
+        <div class="placeholder-text">Your contract will appear here</div>
+        <div class="placeholder-sub">Fill the form → Generate → Print as PDF</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  ContractForge · Templates only, not legal advice ·
+  <a href="#">Privacy</a> · Built with Claude AI
+</footer>
+
+<div id="print-area" style="display:none;"></div>
+
+<script>
+  let currentType = 'nda';
+  let generatedText = '';
+
+  document.getElementById('start_date').valueAsDate = new Date();
+
+  // ── THEME ──
+  const STORAGE_KEY = 'contractforge-theme';
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  // Restore saved theme or use system preference
+  (function initTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { applyTheme(saved); return; }
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark ? 'dark' : 'light');
+  })();
+
+  function setType(btn, type) {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentType = type;
+    ['nda','freelance','lease','service','partnership'].forEach(t => {
+      const el = document.getElementById(t+'-fields');
+      if(el) el.classList.remove('visible');
+    });
+    const target = document.getElementById(type+'-fields');
+    if(target) target.classList.add('visible');
+  }
+
+  function getFormData() {
+    const v = id => (document.getElementById(id)?.value || '').trim();
+    const base = {
+      type: currentType,
+      language: v('lang'),
+      party_a: { name: v('party_a_name'), role: v('party_a_role'), address: v('party_a_address') },
+      party_b: { name: v('party_b_name'), role: v('party_b_role'), address: v('party_b_address') },
+      start_date: v('start_date'),
+      end_date: v('end_date'),
+      extra_clauses: v('extra_clauses'),
+    };
+    if(currentType === 'nda') {
+      base.scope = v('nda_scope');
+      base.duration = v('nda_duration');
+      base.governing_law = v('nda_law');
+    } else if(currentType === 'freelance') {
+      base.project_scope = v('fl_scope');
+      base.fee = v('fl_fee');
+      base.deadline = v('fl_deadline');
+      base.revisions = v('fl_revisions');
+    } else if(currentType === 'lease') {
+      base.property = v('ls_property');
+      base.rent = v('ls_rent');
+      base.deposit = v('ls_deposit');
+      base.utilities = v('ls_utilities');
+    } else if(currentType === 'service') {
+      base.services = v('sv_services');
+      base.fee = v('sv_fee');
+      base.notice = v('sv_notice');
+    } else if(currentType === 'partnership') {
+      base.purpose = v('pt_purpose');
+      base.split = v('pt_split');
+      base.contributions = v('pt_contrib');
+    }
+    return base;
+  }
+
+  function buildPrompt(data) {
+    const typeLabels = {
+      nda: 'Non-Disclosure Agreement (NDA)',
+      freelance: 'Freelance Contract',
+      lease: 'Lease Agreement (Bail)',
+      service: 'Service Agreement',
+      partnership: 'Partnership Agreement'
+    };
+    const label = typeLabels[data.type] || data.type;
+    const lang = data.language;
+    let specific = '';
+    if(data.type === 'nda') {
+      specific = `\n- Confidential information scope: ${data.scope || 'all business-related information'}\n- Duration of confidentiality: ${data.duration || '2 years'}\n- Governing law: ${data.governing_law || 'not specified'}`;
+    } else if(data.type === 'freelance') {
+      specific = `\n- Project description: ${data.project_scope || 'to be defined'}\n- Payment: ${data.fee || 'agreed separately'}\n- Deadline: ${data.deadline || 'to be agreed'}\n- Revision policy: ${data.revisions || 'standard'}`;
+    } else if(data.type === 'lease') {
+      specific = `\n- Property: ${data.property || 'address TBD'}\n- Monthly rent: ${data.rent || 'to be agreed'}\n- Security deposit: ${data.deposit || 'standard'}\n- Utilities/special terms: ${data.utilities || 'standard'}`;
+    } else if(data.type === 'service') {
+      specific = `\n- Services: ${data.services || 'to be defined'}\n- Fee: ${data.fee || 'to be agreed'}\n- Notice period: ${data.notice || '30 days'}`;
+    } else if(data.type === 'partnership') {
+      specific = `\n- Business purpose: ${data.purpose || 'to be defined'}\n- Profit/loss split: ${data.split || '50/50'}\n- Contributions: ${data.contributions || 'to be defined'}`;
+    }
+    return `You are a professional legal document drafter. Generate a complete, well-structured ${label} in ${lang}.
+
+Contract parties:
+- Party A: ${data.party_a.name || '[Party A]'}, ${data.party_a.role || ''}, ${data.party_a.address || ''}
+- Party B: ${data.party_b.name || '[Party B]'}, ${data.party_b.role || ''}, ${data.party_b.address || ''}
+
+Dates:
+- Effective date: ${data.start_date || 'TBD'}
+- End/expiry date: ${data.end_date || 'TBD'}
+${specific}
+${data.extra_clauses ? '\n- Additional clauses/instructions: ' + data.extra_clauses : ''}
+
+Instructions:
+1. Write the full contract in ${lang} — every word including headers and clauses.
+2. Use a professional, legally sound tone appropriate for the document type.
+3. Structure with numbered articles/sections (e.g. ARTICLE 1: DEFINITIONS, etc.)
+4. Include standard clauses for this contract type: definitions, obligations, termination, dispute resolution, signatures block.
+5. If information is missing, use clear [PLACEHOLDER] brackets.
+6. End with a signature block for both parties (Name, Signature, Date, Place).
+7. Do NOT include any commentary, preamble, or notes outside the contract itself — output the contract text only.`;
+  }
+
+  function loadDemo() {
+    const demos = {
+      nda: {
+        party_a_name: 'Youssef El Amrani', party_a_role: 'Founder', party_a_address: 'Tangier, Morocco',
+        party_b_name: 'TechCorp Ltd', party_b_role: 'Investor', party_b_address: 'Dubai, UAE',
+        nda_scope: 'Business plans, financial data, source code, customer lists, trade secrets',
+        nda_duration: '2 years', nda_law: 'Morocco',
+        start_date: '', end_date: ''
+      },
+      freelance: {
+        party_a_name: 'Sofia Benali', party_a_role: 'Freelance Designer', party_a_address: 'Casablanca, Morocco',
+        party_b_name: 'Webify SAS', party_b_role: 'Client', party_b_address: 'Paris, France',
+        fl_scope: 'Design and develop a responsive e-commerce website with React, Next.js, and Stripe payment integration. Includes SEO optimization and CMS dashboard.', fl_fee: '€4,500 — 40% upfront, 30% on milestone, 30% on delivery',
+        fl_deadline: '', fl_revisions: '2 rounds of revisions included. Additional revisions billed at €50/hour.',
+        start_date: '', end_date: ''
+      },
+      lease: {
+        party_a_name: 'Hassan Ouazzani', party_a_role: 'Landlord', party_a_address: 'Marrakech, Morocco',
+        party_b_name: 'Fatima Zahra', party_b_role: 'Tenant', party_b_address: 'Marrakech, Morocco',
+        ls_property: 'Apt 7, Résidence Samira, Av. Mohammed VI, Marrakech',
+        ls_rent: 'MAD 3,500 / month', ls_deposit: 'MAD 7,000 (2 months)',
+        ls_utilities: 'Water and electricity billed separately. No subletting. No pets. Tenant responsible for minor repairs under MAD 500.',
+        start_date: '', end_date: ''
+      },
+      service: {
+        party_a_name: 'Nova Agency', party_a_role: 'Service Provider', party_a_address: 'Rabat, Morocco',
+        party_b_name: 'EcoStart SARL', party_b_role: 'Client', party_b_address: 'Agadir, Morocco',
+        sv_services: 'Social media management (Instagram, LinkedIn), weekly content creation (4 posts/week), monthly analytics reporting, ad campaign management (budget up to €500/month)',
+        sv_fee: '€1,200/month', sv_notice: '45 days written notice',
+        start_date: '', end_date: ''
+      },
+      partnership: {
+        party_a_name: 'Ahmed Benkirane', party_a_role: 'Technical Co-Founder', party_a_address: 'Fes, Morocco',
+        party_b_name: 'Leila Mokhtar', party_b_role: 'Managing Partner', party_b_address: 'Casablanca, Morocco',
+        pt_purpose: 'Development and commercialization of a SaaS platform for automated invoice management targeting Moroccan freelancers and SMEs',
+        pt_split: '60% Party A (technical lead) / 40% Party B (operations & funding)',
+        pt_contrib: 'Party A: full-stack development, DevOps, maintenance. Party B: initial funding €25,000, legal, accounting, sales.',
+        start_date: '', end_date: ''
+      }
+    };
+    // Set type
+    const type = currentType;
+    const demo = demos[type] || demos.nda;
+    // Fill common fields
+    document.getElementById('party_a_name').value = demo.party_a_name || '';
+    document.getElementById('party_a_role').value = demo.party_a_role || '';
+    document.getElementById('party_a_address').value = demo.party_a_address || '';
+    document.getElementById('party_b_name').value = demo.party_b_name || '';
+    document.getElementById('party_b_role').value = demo.party_b_role || '';
+    document.getElementById('party_b_address').value = demo.party_b_address || '';
+    // Fill type-specific fields
+    if(type === 'nda') {
+      document.getElementById('nda_scope').value = demo.nda_scope || '';
+      document.getElementById('nda_duration').value = demo.nda_duration || '2 years';
+      document.getElementById('nda_law').value = demo.nda_law || '';
+    } else if(type === 'freelance') {
+      document.getElementById('fl_scope').value = demo.fl_scope || '';
+      document.getElementById('fl_fee').value = demo.fl_fee || '';
+      document.getElementById('fl_deadline').value = demo.fl_deadline || '';
+      document.getElementById('fl_revisions').value = demo.fl_revisions || '';
+    } else if(type === 'lease') {
+      document.getElementById('ls_property').value = demo.ls_property || '';
+      document.getElementById('ls_rent').value = demo.ls_rent || '';
+      document.getElementById('ls_deposit').value = demo.ls_deposit || '';
+      document.getElementById('ls_utilities').value = demo.ls_utilities || '';
+    } else if(type === 'service') {
+      document.getElementById('sv_services').value = demo.sv_services || '';
+      document.getElementById('sv_fee').value = demo.sv_fee || '';
+      document.getElementById('sv_notice').value = demo.sv_notice || '';
+    } else if(type === 'partnership') {
+      document.getElementById('pt_purpose').value = demo.pt_purpose || '';
+      document.getElementById('pt_split').value = demo.pt_split || '';
+      document.getElementById('pt_contrib').value = demo.pt_contrib || '';
+    }
+    document.getElementById('extra_clauses').value = demo.extra_clauses || '';
+    // Set dates
+    const today = new Date();
+    const end = new Date(today); end.setFullYear(end.getFullYear() + 1);
+    document.getElementById('start_date').value = today.toISOString().split('T')[0];
+    document.getElementById('end_date').value = end.toISOString().split('T')[0];
+    // Auto-generate
+    setTimeout(() => generateContract(), 300);
+  }
+
+  function buildContract(d) {
+    const esc = s => s || '[________________________]';
+    const aName = esc(d.party_a.name);
+    const aRole = esc(d.party_a.role);
+    const aAddr = esc(d.party_a.address);
+    const bName = esc(d.party_b.name);
+    const bRole = esc(d.party_b.role);
+    const bAddr = esc(d.party_b.address);
+    const start = d.start_date || '[Effective Date]';
+    const end = d.end_date || '[Expiry Date]';
+    const extra = d.extra_clauses ? '\n\nADDITIONAL CLAUSES:\n' + d.extra_clauses : '';
+    const nl = '\n\n';
+
+    const templates = {
+      nda: `NON-DISCLOSURE AGREEMENT
+
+Date: ${start}
+
+THIS NON-DISCLOSURE AGREEMENT (the "Agreement") is entered into by and between:
+
+${aName}, ${aRole}, ${aAddr} ("Disclosing Party")
+
+AND
+
+${bName}, ${bRole}, ${bAddr} ("Receiving Party")
+
+WHEREAS, the Parties wish to explore a potential business relationship and may disclose certain proprietary information;
+
+NOW, THEREFORE, the Parties agree as follows:
+
+ARTICLE 1: DEFINITION OF CONFIDENTIAL INFORMATION
+"Confidential Information" shall mean all information disclosed by the Disclosing Party to the Receiving Party, whether orally or in writing, including but not limited to: business strategies, financial data, customer lists, technical data, product roadmaps, trade secrets, pricing, source code, and any documents marked as "Confidential" or that a reasonable person would understand to be confidential. Scope: ${d.scope || 'All business-related information disclosed during the relationship'}.
+
+ARTICLE 2: OBLIGATIONS OF RECEIVING PARTY
+The Receiving Party agrees to:
+(a) Hold all Confidential Information in strict confidence;
+(b) Not disclose Confidential Information to any third party without prior written consent;
+(c) Use Confidential Information solely for the purpose of evaluating the business relationship;
+(d) Limit access to Confidential Information to employees with a need-to-know who are bound by similar obligations;
+(e) Return or destroy all Confidential Information upon request.
+
+ARTICLE 3: DURATION OF CONFIDENTIALITY
+The obligations under this Agreement shall survive for a period of ${d.duration || '2 years'} from the date of disclosure.
+
+ARTICLE 4: EXCLUSIONS
+Confidential Information does not include information that:
+(a) Is or becomes publicly available without breach of this Agreement;
+(b) Was known to the Receiving Party prior to disclosure;
+(c) Is independently developed by the Receiving Party without use of Confidential Information;
+(d) Is required to be disclosed by law or court order.
+
+ARTICLE 5: GOVERNING LAW
+This Agreement shall be governed by the laws of ${d.governing_law || '[Country/Jurisdiction]'}.
+
+ARTICLE 6: REMEDIES
+The Parties acknowledge that monetary damages may be inadequate for breach of this Agreement and that injunctive relief may be sought.
+
+ARTICLE 7: ENTIRE AGREEMENT
+This Agreement constitutes the entire understanding between the Parties and supersedes all prior agreements.
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first above written.
+
+__________________________                __________________________
+${aName}                                   ${bName}
+Date: ______________                       Date: ______________
+Place: ______________                      Place: ______________`,
+
+      freelance: `FREELANCE SERVICES AGREEMENT
+
+Date: ${start}
+
+THIS FREELANCE SERVICES AGREEMENT (the "Agreement") is made by and between:
+
+${aName}, ${aRole}, ${aAddr} ("Freelancer")
+
+AND
+
+${bName}, ${bRole}, ${bAddr} ("Client")
+
+1. SERVICES
+The Freelancer agrees to provide the following services: ${d.project_scope || 'Services as described in attached Scope of Work'}.
+
+2. PAYMENT
+The Client agrees to pay a total fee of ${d.fee || '[Agreed Amount]'}. Payment shall be made as follows: as per invoice, within 30 days of receipt unless otherwise agreed.
+
+3. DEADLINE
+The Services shall be delivered by ${d.deadline || '[Agreed Deadline]'}, unless extended by mutual written agreement.
+
+4. REVISIONS
+${d.revisions || 'Up to two (2) rounds of revisions are included. Additional revisions shall be billed at an agreed hourly rate.'}
+
+5. INDEPENDENT CONTRACTOR
+The Freelancer is an independent contractor and not an employee of the Client. The Freelancer is responsible for their own taxes, insurance, and benefits.
+
+6. INTELLECTUAL PROPERTY
+Upon full payment, all rights, title, and interest in the deliverables shall transfer to the Client. The Freelancer retains the right to display the work in their portfolio.
+
+7. CONFIDENTIALITY
+The Freelancer agrees to keep confidential any proprietary information of the Client.
+
+8. TERMINATION
+Either party may terminate this Agreement with [7] days written notice. The Client shall pay for all services rendered up to the date of termination.
+
+9. LIMITATION OF LIABILITY
+The Freelancer's total liability shall not exceed the total fees paid under this Agreement.
+
+10. GOVERNING LAW
+This Agreement shall be governed by the laws of [Country/Jurisdiction].
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement.
+
+__________________________                __________________________
+${aName}                                   ${bName}
+Date: ______________                       Date: ______________`,
+
+      lease: `LEASE AGREEMENT
+
+Date: ${start}
+
+THIS LEASE AGREEMENT (the "Lease") is entered into by and between:
+
+${aName}, ${aRole}, ${aAddr} ("Landlord")
+
+AND
+
+${bName}, ${bRole}, ${bAddr} ("Tenant")
+
+1. PROPERTY
+The Landlord leases to the Tenant the property located at: ${d.property || '[Property Address]'} (the "Premises").
+
+2. TERM
+The initial term of this Lease shall begin on ${start} and end on ${end}, unless terminated earlier in accordance with this Agreement.
+
+3. RENT
+The Tenant agrees to pay monthly rent of ${d.rent || '[Rent Amount]'}, payable on the first day of each month.
+
+4. SECURITY DEPOSIT
+Upon execution of this Lease, the Tenant shall pay a security deposit of ${d.deposit || '[Deposit Amount]'}, to be returned within 30 days after the termination of this Lease, less any deductions for damages beyond normal wear and tear.
+
+5. UTILITIES AND MAINTENANCE
+${d.utilities || 'The Tenant shall be responsible for all utilities unless otherwise agreed. The Tenant shall maintain the Premises in good condition and promptly notify the Landlord of any repairs needed.'}
+
+6. USE
+The Premises shall be used exclusively as a private residence. No commercial activity, subletting, or assignment is permitted without the Landlord's prior written consent.
+
+7. DEFAULT
+If the Tenant fails to pay rent within [10] days of the due date, the Landlord may terminate this Lease and pursue all legal remedies.
+
+8. GOVERNING LAW
+This Lease shall be governed by the laws of [Country/Jurisdiction].
+
+IN WITNESS WHEREOF, the Parties have executed this Lease as of the date first above written.
+
+__________________________                __________________________
+${aName}                                   ${bName}
+Date: ______________                       Date: ______________
+Place: ______________                      Place: ______________`,
+
+      service: `SERVICE AGREEMENT
+
+Date: ${start}
+
+THIS SERVICE AGREEMENT (the "Agreement") is entered into by and between:
+
+${aName}, ${aRole}, ${aAddr} ("Service Provider")
+
+AND
+
+${bName}, ${bRole}, ${bAddr} ("Client")
+
+1. SERVICES
+The Service Provider agrees to perform the following services: ${d.services || 'Services as detailed in the attached Schedule A'}.
+
+2. COMPENSATION
+The Client agrees to pay ${d.fee || '[Agreed Fee]'} for the Services. Payment is due within 30 days of invoice date.
+
+3. TERM AND TERMINATION
+This Agreement shall commence on ${start} and continue until terminated. Either party may terminate this Agreement by providing ${d.notice || '30 days'} written notice to the other party.
+
+4. PERFORMANCE STANDARDS
+The Service Provider shall perform the Services in a professional and workmanlike manner, in accordance with industry standards.
+
+5. INDEPENDENT CONTRACTOR
+The Service Provider is an independent contractor. Nothing in this Agreement shall create an employment, partnership, or joint venture relationship.
+
+6. CONFIDENTIALITY
+Each party agrees to maintain the confidentiality of any proprietary information disclosed during the term of this Agreement.
+
+7. INTELLECTUAL PROPERTY
+Any intellectual property created specifically for the Client under this Agreement shall be owned by the Client upon full payment.
+
+8. LIMITATION OF LIABILITY
+Neither party shall be liable for indirect, incidental, or consequential damages. Total liability shall not exceed the total fees paid under this Agreement.
+
+9. GOVERNING LAW
+This Agreement shall be governed by the laws of [Country/Jurisdiction].
+
+IN WITNESS WHEREOF, the Parties have executed this Agreement.
+
+__________________________                __________________________
+${aName}                                   ${bName}
+Date: ______________                       Date: ______________`,
+
+      partnership: `PARTNERSHIP AGREEMENT
+
+Date: ${start}
+
+THIS PARTNERSHIP AGREEMENT (the "Agreement") is entered into by and between:
+
+${aName}, ${aRole}, ${aAddr} ("Partner A")
+
+AND
+
+${bName}, ${bRole}, ${bAddr} ("Partner B")
+
+WHEREAS, the Parties wish to form a partnership for the purpose of pursuing a共同 business venture;
+
+NOW, THEREFORE, the Parties agree as follows:
+
+ARTICLE 1: BUSINESS PURPOSE
+The partnership shall be formed for the purpose of: ${d.purpose || 'As described in the attached Business Plan'}. The business name shall be [Partnership Name].
+
+ARTICLE 2: CONTRIBUTIONS
+${d.contributions || 'Each Partner shall contribute capital, assets, or services as agreed in writing.'}
+
+ARTICLE 3: PROFIT AND LOSS SHARING
+Net profits and losses shall be shared as follows: ${d.split || '50% to Partner A and 50% to Partner B'}.
+
+ARTICLE 4: MANAGEMENT
+All Partners shall have equal rights in the management and conduct of the partnership business. Major decisions shall require unanimous consent of all Partners.
+
+ARTICLE 5: WITHDRAWAL AND ADDITION OF PARTNERS
+No new Partner may be admitted without the written consent of all existing Partners. A Partner may withdraw from the partnership upon [90] days written notice.
+
+ARTICLE 6: DISSOLUTION
+The partnership may be dissolved by mutual agreement of all Partners or by operation of law. Upon dissolution, the partnership's assets shall be liquidated and distributed according to each Partner's capital account.
+
+ARTICLE 7: DISPUTE RESOLUTION
+Any dispute arising under this Agreement shall first be resolved through mediation, and if not resolved, through binding arbitration in accordance with the rules of [Arbitration Institution].
+
+ARTICLE 8: GOVERNING LAW
+This Agreement shall be governed by the laws of [Country/Jurisdiction].
+
+IN WITNESS WHEREOF, the Partners have executed this Agreement as of the date first above written.
+
+__________________________                __________________________
+${aName}                                   ${bName}
+Date: ______________                       Date: ______________
+Place: ______________                      Place: ______________`
+    };
+
+    return (templates[d.type] || templates.nda) + extra;
+  }
+
+  async function generateContract() {
+    const data = getFormData();
+    const btn = document.getElementById('gen-btn');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btn-text');
+    const status = document.getElementById('status');
+    const output = document.getElementById('contract-output');
+
+    if(!data.party_a.name && !data.party_b.name) {
+      status.textContent = '⚠ Please fill in at least the party names.';
+      status.className = 'status-bar error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btnText.textContent = 'Generating contract...';
+    status.textContent = '';
+    output.innerHTML = '<div class="placeholder-state"><div class="placeholder-icon" style="animation:spin 1s linear infinite">⚙️</div><div class="placeholder-text">Drafting your document...</div><div class="placeholder-sub">Using professional templates</div></div>';
+
+    try {
+      await new Promise(r => setTimeout(r, 400));
+      generatedText = buildContract(data);
+      if(!generatedText) throw new Error('Failed to generate contract');
+
+      output.style.whiteSpace = 'pre-wrap';
+      output.textContent = generatedText;
+
+      status.textContent = '✓ Contract generated — ' + generatedText.length.toLocaleString() + ' characters';
+      status.className = 'status-bar success';
+      btnText.textContent = '⚡ Regenerate';
+
+    } catch(err) {
+      output.innerHTML = '<div class="placeholder-state"><div class="placeholder-icon">⚠️</div><div class="placeholder-text">Generation failed</div><div class="placeholder-sub">' + err.message + '</div></div>';
+      status.textContent = '✗ Error: ' + err.message;
+      status.className = 'status-bar error';
+      btnText.textContent = '⚡ Try Again';
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
+  }
+
+  function copyContract() {
+    if(!generatedText) return;
+    navigator.clipboard.writeText(generatedText).then(() => {
+      const s = document.getElementById('status');
+      s.textContent = '✓ Copied to clipboard';
+      s.className = 'status-bar success';
+    });
+  }
+
+  function printContract() {
+    if(!generatedText) {
+      document.getElementById('status').textContent = '⚠ Generate a contract first.';
+      document.getElementById('status').className = 'status-bar error';
+      return;
+    }
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contract — ContractForge</title><style>body{font-family:\'Times New Roman\',Georgia,serif;font-size:11pt;line-height:1.85;color:#111;max-width:750px;margin:2cm auto;padding:0 1cm}pre{white-space:pre-wrap;font-family:inherit;font-size:inherit}.footer{margin-top:3cm;border-top:1px solid #ccc;padding-top:0.5cm;font-size:8pt;color:#888;text-align:center}</style></head><body><pre>' + generatedText.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre><div class="footer">Generated by ContractForge · Template only · Not legal advice</div><script>window.onload=()=>{window.print();}<\/script></body></html>');
+    printWindow.document.close();
+  }
+</script>
+</body>
+</html>

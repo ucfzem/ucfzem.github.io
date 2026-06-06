@@ -99,6 +99,14 @@ h1 {
 .share-tile:hover { background: #f0ebe0; border-color: #bbb; }
 .share-tile svg { display: block; }
 footer { margin-top: 32px; font-size: 0.75rem; color: #aaa; }
+@media (max-width: 420px) {
+  body { padding: 32px 12px 24px; }
+  .links { gap: 8px; }
+  .link { padding: 12px 14px; }
+  .link .icon { font-size: 1.4rem; }
+  .link .text .title { font-size: 0.85rem; }
+  .share-grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 </head>
 <body>
