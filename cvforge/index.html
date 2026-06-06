@@ -581,64 +581,6 @@
     <div class="actions">
       <button class="btn btn-primary" onclick="generateCV()" data-i18n="generate-btn">⚡ Generate CV</button>
     </div>
-      <div class="field full">
-        <label>Professional Title</label>
-        <input type="text" id="cv_title" placeholder="Full-Stack Developer & Designer">
-      </div>
-      <div class="field full">
-        <label>Summary</label>
-        <textarea id="cv_summary" rows="2" placeholder="Brief professional summary..."></textarea>
-      </div>
-
-      <div class="field">
-        <label>Email</label>
-        <input type="text" id="cv_email" placeholder="youssef@email.com">
-      </div>
-      <div class="field">
-        <label>Phone</label>
-        <input type="text" id="cv_phone" placeholder="+212 6 XX XX XX XX">
-      </div>
-      <div class="field">
-        <label>Location</label>
-        <input type="text" id="cv_location" placeholder="Tangier, Morocco">
-      </div>
-      <div class="field">
-        <label>LinkedIn / Portfolio</label>
-        <input type="text" id="cv_website" placeholder="linkedin.com/in/you">
-      </div>
-
-      <div class="section-divider full"><span>Skills</span></div>
-      <div class="field full">
-        <label>Skills (comma-separated)</label>
-        <input type="text" id="cv_skills" placeholder="React, Node.js, Python, UI/UX, Figma, Docker">
-      </div>
-
-      <div class="section-divider full"><span>Experience</span></div>
-      <div class="field full"><div class="item-list" id="exp-list"></div>
-        <button class="btn" onclick="addExp()" style="font-size:0.65rem;padding:0.3rem 0.7rem">+ Add Experience</button>
-      </div>
-
-      <div class="section-divider full"><span>Education</span></div>
-      <div class="field full"><div class="item-list" id="edu-list"></div>
-        <button class="btn" onclick="addEdu()" style="font-size:0.65rem;padding:0.3rem 0.7rem">+ Add Education</button>
-      </div>
-
-      <div class="section-divider full"><span>Languages</span></div>
-      <div class="field full">
-        <label>Languages</label>
-        <input type="text" id="cv_langs" placeholder="Arabic (Native), French (Fluent), English (Advanced)">
-      </div>
-
-      <div class="section-divider full"><span>Certifications</span></div>
-      <div class="field full">
-        <label>Certifications</label>
-        <textarea rows="2" id="cv_certs" placeholder="AWS Solutions Architect, Google UX Certificate, Scrum Master..."></textarea>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="btn btn-primary" onclick="generateCV()">⚡ Generate CV</button>
-    </div>
     <div class="status-bar" id="status"></div>
   </div>
 
@@ -942,6 +884,9 @@
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
+    renderExp();
+    renderEdu();
+    try { generateCV(); } catch(e) {}
     const url = new URL(window.location);
     if (lang === 'fr') url.searchParams.delete('lang');
     else url.searchParams.set('lang', lang);
