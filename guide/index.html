@@ -4,328 +4,391 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Guide Ultime du Freelance — UCF ZEM</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter','Cairo',sans-serif;background:#0f172a;color:#f8fafc;overflow-x:hidden;line-height:1.6}
+  :root{--bg:#1a120b;--bg2:#2a1f14;--surface:#3e2c1a;--border:#5a3d24;--text:#f5efe0;--text2:#c4b59a;--text3:#8a7a64;--gold:#d4a017;--gold2:#f0c040;--gold3:#c5950b;--brown:#6b3410;--accent:#d4a017;--glow:rgba(212,160,23,.12);--glow2:rgba(212,160,23,.08);--card-bg:linear-gradient(135deg,#2a1f14,#1a120b);--input-bg:#1a120b;--shadow:rgba(0,0,0,.4);--hero-gradient:linear-gradient(135deg,#d4a017,#f0c040);--badge-bg:linear-gradient(135deg,#6b3410,#d4a017);--tag-bg:rgba(212,160,23,.12);--tag-color:#f0c040}
+  .light{--bg:#fdf6ed;--bg2:#f5ead8;--surface:#efe0cc;--border:#d4bfa0;--text:#2a1f14;--text2:#5a4428;--text3:#8a7560;--gold:#8B6914;--gold2:#d4a017;--gold3:#6b4f10;--brown:#a0522d;--accent:#8B6914;--glow:rgba(139,105,20,.1);--glow2:rgba(139,105,20,.06);--card-bg:linear-gradient(135deg,#fff8f0,#f5ead8);--input-bg:#fff8f0;--shadow:rgba(0,0,0,.08);--hero-gradient:linear-gradient(135deg,#8B6914,#d4a017);--badge-bg:linear-gradient(135deg,#8B6914,#d4a017);--tag-bg:rgba(139,105,20,.1);--tag-color:#8B6914}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;transition:background .3s,color .3s}
   .bg-glow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-  .bg-glow div{position:absolute;border-radius:50%;filter:blur(100px)}
-  .bg-glow .g1{width:400px;height:400px;background:rgba(59,130,246,.15);top:-100px;left:-100px}
-  .bg-glow .g2{width:400px;height:400px;background:rgba(139,92,246,.15);bottom:-100px;right:-100px}
-  .bg-glow .g3{width:300px;height:300px;background:rgba(236,72,153,.08);top:50%;left:50%;transform:translate(-50%,-50%)}
+  .bg-glow div{position:absolute;border-radius:50%;filter:blur(120px)}
+  .bg-glow .g1{width:400px;height:400px;background:var(--glow);top:-100px;left:-100px}
+  .bg-glow .g2{width:400px;height:400px;background:var(--glow);bottom:-100px;right:-100px}
+  .bg-glow .g3{width:300px;height:300px;background:var(--glow2);top:50%;left:50%;transform:translate(-50%,-50%)}
   .content{position:relative;z-index:1}
 
-  .lang-toggle{position:fixed;top:1rem;right:1rem;z-index:50;display:flex;gap:.5rem}
-  .lang-toggle button{padding:.5rem 1rem;border-radius:.5rem;font-weight:700;font-size:.8rem;border:none;cursor:pointer;transition:all .2s;background:#1e293b;color:#64748b}
-  .lang-toggle button.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;max-width:1100px;margin:0 auto;flex-wrap:wrap;gap:.5rem}
+  .lang-toggle{display:flex;gap:.35rem}
+  .lang-toggle button{width:36px;height:36px;border-radius:50%;font-size:1rem;border:1px solid var(--border);cursor:pointer;transition:all .2s;background:var(--surface);line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+  .lang-toggle button.active{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold3)}
+  .theme-toggle button{width:36px;height:36px;border-radius:50%;font-size:1rem;border:1px solid var(--border);cursor:pointer;background:var(--surface);line-height:1;display:flex;align-items:center;justify-content:center;padding:0;transition:all .2s}
+  .top-right{display:flex;gap:.5rem;align-items:center}
 
   .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 1rem 2rem;position:relative}
-  .hero .logo-wrap{width:80px;height:80px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1.5rem;box-shadow:0 8px 32px rgba(59,130,246,.25)}
-  .hero h1{font-size:clamp(2.5rem,7vw,4.5rem);font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;line-height:1.1}
-  .hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#94a3b8;margin-bottom:2rem;max-width:600px}
-  .hero .badge{display:inline-block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);padding:.75rem 2rem;border-radius:1rem;font-weight:700;font-size:1rem;margin-bottom:3rem;box-shadow:0 4px 20px rgba(59,130,246,.3)}
-  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;max-width:500px;width:100%}
-  .hero-grid .item{background:rgba(30,41,59,.5);border:1px solid #334155;border-radius:.75rem;padding:1rem;backdrop-filter:blur(8px);transition:all .2s}
-  .hero-grid .item:hover{border-color:rgba(59,130,246,.5)}
-  .hero-grid .item .ico{font-size:1.5rem;margin-bottom:.25rem}
-  .hero-grid .item .lb{font-size:.75rem;color:#94a3b8;font-weight:600}
+  .hero .logo-wrap{width:80px;height:80px;background:var(--hero-gradient);border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1.5rem;box-shadow:0 8px 32px var(--shadow)}
+  .hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;background:var(--hero-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;line-height:1.1}
+  .hero .sub{font-size:clamp(.9rem,2.5vw,1.2rem);color:var(--text2);margin-bottom:2rem;max-width:600px}
+  .hero .badge{display:inline-block;background:var(--badge-bg);padding:.6rem 1.5rem;border-radius:2rem;font-weight:700;font-size:.85rem;margin-bottom:2rem;box-shadow:0 4px 20px var(--shadow);color:#fff}
+  .hero-lead{display:flex;gap:.5rem;max-width:440px;width:100%;margin-bottom:2.5rem}
+  .hero-lead input{flex:1;padding:.7rem 1rem;border-radius:2rem;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:.85rem;outline:none;transition:all .2s}
+  .hero-lead input:focus{border-color:var(--gold)}
+  .hero-lead button{padding:.7rem 1.5rem;border-radius:2rem;border:none;font-weight:700;font-size:.85rem;cursor:pointer;background:var(--badge-bg);color:#fff;transition:all .2s;white-space:nowrap}
+  .hero-lead button:hover{transform:translateY(-1px);box-shadow:0 8px 25px var(--shadow)}
+  .hero-lead button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .hero-msg{font-size:.75rem;margin-bottom:1.5rem;min-height:1.2rem}
+  .hero-msg.success{color:#34d399}
+  .hero-msg.error{color:#f87171}
+  .hero-msg a{color:var(--gold);text-decoration:underline}
+  .hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;max-width:480px;width:100%}
+  .hero-grid .item{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:.75rem .5rem;transition:all .2s}
+  .hero-grid .item .ico{font-size:1.2rem;margin-bottom:.15rem}
+  .hero-grid .item .lb{font-size:.7rem;color:var(--text2);font-weight:600}
 
-  .sec{padding:4rem 1rem;max-width:1100px;margin:0 auto}
-  .sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
-  .sec-header .svg-wrap{flex-shrink:0;width:80px;height:80px}
+  .sec{padding:3rem 1rem;max-width:1100px;margin:0 auto}
+  .sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+  .sec-header .svg-wrap{flex-shrink:0;width:60px;height:60px}
   .sec-header .svg-wrap svg{width:100%;height:100%}
-  .sec-header h2{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .sec-header p{color:#64748b;font-size:.9rem;margin-top:.25rem}
+  .sec-header h2{font-size:clamp(1.3rem,3.5vw,2rem);font-weight:800;color:var(--gold)}
+  .sec-header p{color:var(--text3);font-size:.85rem;margin-top:.15rem}
 
-  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-  .card{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #334155;border-radius:1rem;padding:1.5rem;transition:all .2s}
-  .card:hover{border-color:rgba(59,130,246,.4)}
-  .card h3{font-size:1.1rem;font-weight:700;color:#60a5fa;margin-bottom:.25rem}
-  .card .exp{font-size:.8rem;color:#475569;margin-bottom:.75rem}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+  .card{background:var(--card-bg);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;transition:all .2s}
+  .card:hover{border-color:var(--gold3)}
+  .card h3{font-size:1rem;font-weight:700;color:var(--gold2);margin-bottom:.2rem}
+  .card .exp{font-size:.75rem;color:var(--text3);margin-bottom:.6rem}
   .card ul{list-style:none}
-  .card ul li{font-size:.82rem;color:#94a3b8;padding:.35rem 0;display:flex;align-items:flex-start;gap:.5rem}
-  .card ul li::before{content:'→';color:#3b82f6}
+  .card ul li{font-size:.8rem;color:var(--text2);padding:.3rem 0;display:flex;align-items:flex-start;gap:.4rem}
+  .card ul li::before{content:'→';color:var(--gold)}
 
-  .email-stack{display:flex;flex-direction:column;gap:1rem}
-  .email-full{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(59,130,246,.05));border:1px solid rgba(139,92,246,.2);border-radius:1rem;padding:1.5rem;transition:all .2s}
-  .email-full:hover{border-color:rgba(139,92,246,.4)}
-  .email-full .hdr{display:flex;gap:.5rem;align-items:center;margin-bottom:.75rem;flex-wrap:wrap}
-  .email-full .num{background:linear-gradient(135deg,#8b5cf6,#3b82f6);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex-shrink:0}
-  .email-full .type{font-weight:700;color:#a78bfa}
-  .email-full .target{font-size:.75rem;color:#475569;background:#1e293b;padding:.2rem .6rem;border-radius:1rem}
-  .email-full .subject{font-size:.8rem;color:#94a3b8;margin-bottom:.75rem;padding:.5rem .75rem;background:rgba(0,0,0,.2);border-radius:.5rem;border-left:2px solid #8b5cf6}
-  .email-full .body{font-size:.82rem;color:#cbd5e1;line-height:1.7;white-space:pre-wrap}
-  .email-full .body .sig{color:#475569;margin-top:.5rem;display:block}
+  .email-stack{display:flex;flex-direction:column;gap:.75rem}
+  .email-full{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;transition:all .2s}
+  .email-full:hover{border-color:var(--gold3)}
+  .email-full .hdr{display:flex;gap:.4rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
+  .email-full .num{background:var(--badge-bg);color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}
+  .email-full .type{font-weight:700;color:var(--gold2);font-size:.85rem}
+  .email-full .target{font-size:.7rem;color:var(--text3);background:var(--bg);padding:.15rem .5rem;border-radius:1rem;border:1px solid var(--border)}
+  .email-full .subject{font-size:.78rem;color:var(--text2);margin-bottom:.5rem;padding:.4rem .6rem;background:var(--bg);border-radius:.5rem;border-left:2px solid var(--gold)}
+  .email-full .body{font-size:.8rem;color:var(--text);line-height:1.65;white-space:pre-wrap;opacity:.9}
+  .email-full .tag{font-size:.7rem;color:var(--gold2);margin-top:.5rem;display:block}
 
-  .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
-  .obj-card{background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(239,68,68,.05));border:1px solid rgba(249,115,22,.2);border-radius:1rem;padding:1.5rem;transition:all .2s}
-  .obj-card:hover{border-color:rgba(249,115,22,.4)}
-  .obj-card .obj{font-size:.9rem;font-weight:700;color:#fb923c;margin-bottom:.5rem}
-  .obj-card .rep{font-size:.82rem;color:#94a3b8}
-  .obj-card .rep::before{content:'→ ';color:#f97316}
+  .obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.75rem}
+  .obj-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;transition:all .2s}
+  .obj-card:hover{border-color:var(--gold3)}
+  .obj-card .obj{font-size:.85rem;font-weight:700;color:var(--gold2);margin-bottom:.35rem}
+  .obj-card .rep{font-size:.8rem;color:var(--text2)}
+  .obj-card .rep::before{content:'→ ';color:var(--gold)}
 
-  .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem}
-  .resource-card{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(5,150,105,.05));border:1px solid rgba(16,185,129,.2);border-radius:.75rem;padding:1.25rem;transition:all .2s;text-align:center}
-  .resource-card:hover{border-color:rgba(16,185,129,.4)}
-  .resource-card .ico{font-size:1.5rem;margin-bottom:.5rem}
-  .resource-card h4{font-size:.9rem;font-weight:700;color:#6ee7b7;margin-bottom:.25rem}
-  .resource-card p{font-size:.75rem;color:#64748b}
-
-  .legal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-  .legal-card{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(59,130,246,.05));border:1px solid rgba(6,182,212,.2);border-radius:1rem;padding:1.5rem;transition:all .2s}
-  .legal-card:hover{border-color:rgba(6,182,212,.4)}
-  .legal-card h3{font-size:1rem;font-weight:700;color:#67e8f9;margin-bottom:.75rem}
+  .legal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
+  .legal-card{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;transition:all .2s}
+  .legal-card:hover{border-color:var(--gold3)}
+  .legal-card h3{font-size:.9rem;font-weight:700;color:var(--gold2);margin-bottom:.5rem}
   .legal-card ul{list-style:none}
-  .legal-card ul li{font-size:.82rem;color:#94a3b8;padding:.35rem 0;display:flex;gap:.5rem}
-  .legal-card ul li::before{content:'•';color:#22d3ee}
+  .legal-card ul li{font-size:.78rem;color:var(--text2);padding:.25rem 0;display:flex;gap:.35rem}
+  .legal-card ul li::before{content:'•';color:var(--gold)}
 
-  .timeline{display:flex;flex-direction:column;gap:1rem}
-  .tl-item{display:flex;gap:1rem;align-items:flex-start}
-  .tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:.2rem}
-  .tl-dot.s1{background:rgba(16,185,129,.2);color:#34d399}
-  .tl-dot.s2{background:rgba(59,130,246,.2);color:#60a5fa}
-  .tl-dot.s3{background:rgba(139,92,246,.2);color:#a78bfa}
-  .tl-dot.s4{background:rgba(249,115,22,.2);color:#fb923c}
-  .tl-content{flex:1;background:#1e293b;border-radius:.75rem;padding:1rem;border:1px solid #334155}
-  .tl-content h4{font-size:.9rem;font-weight:700;color:#f8fafc;margin-bottom:.25rem}
-  .tl-content p{font-size:.8rem;color:#94a3b8}
+  .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem}
+  .resource-card{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:1rem;text-align:center;transition:all .2s}
+  .resource-card:hover{border-color:var(--gold3)}
+  .resource-card .ico{font-size:1.3rem;margin-bottom:.35rem}
+  .resource-card h4{font-size:.85rem;font-weight:700;color:var(--gold2);margin-bottom:.15rem}
+  .resource-card p{font-size:.7rem;color:var(--text3)}
 
-  .routine-list{display:flex;flex-direction:column;gap:.75rem}
-  .routine-item{background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(239,68,68,.05));border:1px solid rgba(236,72,153,.2);border-radius:.75rem;padding:1.25rem;transition:all .2s}
-  .routine-item:hover{border-color:rgba(236,72,153,.4)}
-  .routine-item .time{font-size:1.1rem;font-weight:700;color:#f472b6;margin-bottom:.25rem}
-  .routine-item .lb{font-size:.85rem;color:#64748b;margin-bottom:.5rem}
-  .routine-item .tags{display:flex;flex-wrap:wrap;gap:.35rem}
-  .routine-item .tags span{font-size:.7rem;background:rgba(236,72,153,.15);color:#f9a8d4;padding:.25rem .6rem;border-radius:1rem}
+  .timeline{display:flex;flex-direction:column;gap:.75rem}
+  .tl-item{display:flex;gap:.75rem;align-items:flex-start}
+  .tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;margin-top:.15rem;background:var(--tag-bg);color:var(--gold2)}
+  .tl-content{flex:1;background:var(--card-bg);border-radius:.75rem;padding:.85rem 1rem;border:1px solid var(--border)}
+  .tl-content h4{font-size:.85rem;font-weight:700;color:var(--gold2);margin-bottom:.15rem}
+  .tl-content p{font-size:.78rem;color:var(--text2)}
 
-  .email-gate{max-width:500px;margin:0 auto;text-align:center;padding:3rem 1rem}
-  .email-gate h2{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
-  .email-gate p{color:#94a3b8;font-size:.85rem;margin-bottom:1.5rem}
-  .email-form{display:flex;gap:.5rem;max-width:420px;margin:0 auto}
-  .email-form input{flex:1;padding:.75rem 1rem;border-radius:.75rem;border:1px solid #334155;background:#1e293b;color:#f8fafc;font-size:.875rem;outline:none;transition:all .2s}
-  .email-form input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.2)}
-  .email-form button{padding:.75rem 1.5rem;border-radius:.75rem;border:none;font-weight:700;font-size:.875rem;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;transition:all .2s;white-space:nowrap}
-  .email-form button:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(59,130,246,.3)}
-  .email-form button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-  .email-msg{font-size:.8rem;margin-top:.75rem;min-height:1.5rem}
+  .routine-list{display:flex;flex-direction:column;gap:.6rem}
+  .routine-item{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:1rem;transition:all .2s}
+  .routine-item:hover{border-color:var(--gold3)}
+  .routine-item .time{font-size:1rem;font-weight:700;color:var(--gold2);margin-bottom:.15rem}
+  .routine-item .lb{font-size:.8rem;color:var(--text3);margin-bottom:.35rem}
+  .routine-item .tags{display:flex;flex-wrap:wrap;gap:.3rem}
+  .routine-item .tags span{font-size:.65rem;background:var(--tag-bg);color:var(--tag-color);padding:.2rem .5rem;border-radius:1rem}
+
+  .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem}
+  .check-card{border-radius:.75rem;padding:1rem;border:1px solid var(--border);background:var(--surface);transition:all .2s}
+  .check-card:hover{border-color:var(--gold3)}
+  .check-card h4{font-weight:700;color:var(--gold2);margin-bottom:.15rem;font-size:.9rem}
+  .check-card .sub{font-size:.75rem;color:var(--text3);margin-bottom:.5rem}
+  .check-card ul{list-style:none}
+  .check-card ul li{font-size:.75rem;color:var(--text2);padding:.25rem 0;display:flex;align-items:flex-start;gap:.35rem}
+  .check-card ul li::before{content:'✓';color:var(--gold);font-weight:700}
+
+  .email-gate{max-width:500px;margin:0 auto;text-align:center;padding:2rem 1rem 1rem}
+  .email-gate h2{font-size:1.3rem;font-weight:800;color:var(--gold);margin-bottom:.35rem}
+  .email-gate p{color:var(--text3);font-size:.8rem;margin-bottom:1rem}
+  .email-form{display:flex;gap:.5rem;max-width:400px;margin:0 auto}
+  .email-form input{flex:1;padding:.65rem 1rem;border-radius:2rem;border:1px solid var(--border);background:var(--input-bg);color:var(--text);font-size:.8rem;outline:none;transition:all .2s}
+  .email-form input:focus{border-color:var(--gold)}
+  .email-form button{padding:.65rem 1.25rem;border-radius:2rem;border:none;font-weight:700;font-size:.8rem;cursor:pointer;background:var(--badge-bg);color:#fff;transition:all .2s;white-space:nowrap}
+  .email-form button:hover{transform:translateY(-1px);box-shadow:0 8px 25px var(--shadow)}
+  .email-form button:disabled{opacity:.5;cursor:not-allowed}
+  .email-msg{font-size:.75rem;margin-top:.5rem;min-height:1.2rem}
   .email-msg.success{color:#34d399}
   .email-msg.error{color:#f87171}
-  .email-msg .dl-link{color:#818cf8;text-decoration:underline;font-weight:600}
-  .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem}
-  .check-card{border-radius:.75rem;padding:1.25rem;border:1px solid;transition:all .2s}
-  .check-card:hover{border-color:currentColor}
-  .check-card.w1{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(5,150,105,.05));border-color:rgba(16,185,129,.25);color:#34d399}
-  .check-card.w2{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(6,182,212,.05));border-color:rgba(59,130,246,.25);color:#60a5fa}
-  .check-card.w3{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(236,72,153,.05));border-color:rgba(139,92,246,.25);color:#a78bfa}
-  .check-card.w4{background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(239,68,68,.05));border-color:rgba(249,115,22,.25);color:#fb923c}
-  .check-card h4{font-weight:700;color:#f8fafc;margin-bottom:.25rem}
-  .check-card .sub{font-size:.8rem;color:currentColor;margin-bottom:.75rem;opacity:.7}
-  .check-card ul{list-style:none}
-  .check-card ul li{font-size:.8rem;color:#94a3b8;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
-  .check-card ul li::before{content:'✓';color:currentColor;font-weight:700}
+  .email-msg a{color:var(--gold);text-decoration:underline;font-weight:600}
 
-  .cta-section{text-align:center;padding:4rem 2rem;max-width:600px;margin:0 auto}
-  .cta-section h2{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
-  .cta-section p{color:#94a3b8;margin-bottom:2rem;font-size:.9rem}
-  .cta-btn{display:inline-block;padding:1rem 2.5rem;border-radius:1rem;font-weight:700;font-size:1rem;text-decoration:none;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;transition:all .2s;box-shadow:0 8px 32px rgba(59,130,246,.3)}
-  .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(59,130,246,.4)}
+  .cta-section{text-align:center;padding:3rem 1rem;max-width:550px;margin:0 auto}
+  .cta-section h2{font-size:1.8rem;font-weight:900;color:var(--gold);margin-bottom:.35rem}
+  .cta-section p{color:var(--text3);margin-bottom:1.5rem;font-size:.85rem}
+  .cta-btn{display:inline-block;padding:.85rem 2rem;border-radius:2rem;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--badge-bg);color:#fff;transition:all .2s;box-shadow:0 8px 32px var(--shadow)}
+  .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px var(--shadow)}
 
-  footer{text-align:center;padding:3rem 1rem;border-top:1px solid #1e293b;color:#475569;font-size:.85rem}
-  footer a{color:#818cf8;text-decoration:underline;text-underline-offset:2px}
+  footer{text-align:center;padding:2.5rem 1rem;border-top:1px solid var(--border);color:var(--text3);font-size:.8rem}
+  footer a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
 
-  .ar{font-family:'Cairo',sans-serif;direction:rtl;text-align:right}
-  .ar .card ul li::before{content:'→'}
-  .ar .check-card ul li::before{content:'✓'}
-  .ar .obj-card .rep::before{content:'→ '}
-  .ar .legal-card ul li::before{content:'•'}
+  .ar{font-family:'Times New Roman','Segoe UI',serif;direction:rtl;text-align:right}
 
-  @media print{body{background:#fff!important}.lang-toggle{display:none!important}.hero{min-height:auto!important;padding:2rem 1rem!important}.sec{padding:2rem 1rem!important;page-break-inside:avoid}.card:hover,.routine-item:hover,.email-full:hover{border-color:inherit!important}.hero-grid{page-break-after:always}}
-  @media(max-width:640px){.hero-grid{grid-template-columns:1fr 1fr}.tl-item{flex-direction:column;gap:.5rem}.tl-dot{margin:0}}
+  @media print{body{background:#fff!important}.top-bar{display:none!important}.hero{min-height:auto!important;padding:2rem 1rem!important}.sec{padding:2rem 1rem!important;page-break-inside:avoid}.card:hover,.email-full:hover,.obj-card:hover{border-color:inherit!important}.hero-grid{page-break-after:always}}
+  @media(max-width:640px){.hero-grid{grid-template-columns:1fr 1fr}.hero-lead{flex-direction:column;gap:.5rem}.hero-lead button{width:100%}.email-form{flex-direction:column}.email-form button{width:100%}.tl-item{flex-direction:column;gap:.4rem}.tl-dot{margin:0}}
 </style>
 </head>
 <body>
 <div class="bg-glow"><div class="g1"></div><div class="g2"></div><div class="g3"></div></div>
-<div class="lang-toggle" id="langToggle">
-  <button class="active" data-lang="fr" onclick="setLang('fr')">FR</button>
-  <button data-lang="ar" onclick="setLang('ar')">AR</button>
+
+<div class="top-bar">
+  <div class="lang-toggle">
+    <button class="active" data-lang="fr" onclick="setLang('fr')">🇫🇷</button>
+    <button data-lang="en" onclick="setLang('en')">🇬🇧</button>
+    <button data-lang="es" onclick="setLang('es')">🇪🇸</button>
+    <button data-lang="ar" onclick="setLang('ar')">🇲🇦</button>
+  </div>
+  <div class="top-right">
+    <div class="theme-toggle"><button onclick="toggleTheme()" id="themeBtn">🌙</button></div>
+  </div>
 </div>
+
 <div class="content" id="app"></div>
 
 <script>
+const WORKER = 'https://email-collector.azer-tyu199p.workers.dev'
+const PDF = '../email-collector/guide-freelance.pdf'
+
 const DATA = {
   fr: {
-    hero: { title: 'Le Guide Ultime du Freelance', sub: 'Passer de 0€ à 5.000€/mois en 30 jours — stratégies, templates et routines des freelances qui réussissent.', badge: '🎁 OFFERT', grid: ['💰 Tarifs', '📧 Prospection', '⏰ Routine', '🛡️ Objections', '⚖️ Légal', '📈 Croissance'] },
-    s1: { title: '💰 Grille Tarifaire', desc: 'Fixer ses prix avec confiance selon son niveau', cards: [
-      { level:'🏗 Débutant', exp:'< 6 mois — vous apprenez encore', items:[
-        'Landing page one-page: 300-500€',
-        'Site vitrine 3-5 pages: 600-1.200€',
-        'Intégration HTML/CSS: 200-400€',
-        'Audit technique: 100-200€',
-        'Correction bugs: 30-50€/h',
-        'Maintenance base: 100-200€/mois'
-      ]},
-      { level:'📈 Intermédiaire', exp:'6-18 mois — vous maîtrisez', items:[
-        'React/Next.js: 350-450€/jour',
-        'API REST/Node.js: 300-400€/jour',
-        'Refonte complète: 2.500-5.000€',
-        'CMS custom: 400-600€/jour',
-        'Maintenance pro: 200-400€/mois',
-        'Formation dev: 300-500€/jour'
-      ]},
-      { level:'⭐ Confirmé', exp:'18+ mois — vous conseillez', items:[
-        'Architecture technique: 500-700€/jour',
-        'Lead tech / CTO freelance: 600-900€/jour',
-        'SaaS clé en main: 10.000-30.000€',
-        'Audit sécurité: 400-600€/jour',
-        'Formation entreprise: 600-1.000€/jour',
-        'Consulting stratégique: 800-1.200€/jour'
-      ]}
+    hero: { title:'Le Guide Ultime du Freelance', sub:'Passer de 0€ à 5.000€/mois en 30 jours', badge:'🎁 OFFERT', ph:'ton@email.com', btn:'Recevoir le PDF →', grid:['💰 Tarifs','📧 Prospection','⏰ Routine','🛡️ Objections','⚖️ Légal','📈 Croissance'] },
+    s1:{title:'💰 Grille Tarifaire',desc:'Fixer ses prix avec confiance selon son niveau',cards:[
+      {lvl:'🏗 Débutant',exp:'< 6 mois',items:['Landing page: 300-500€','Site vitrine: 600-1.200€','Intégration HTML: 200-400€','Audit: 100-200€','Bugs: 30-50€/h','Maintenance: 100-200€/m']},
+      {lvl:'📈 Intermédiaire',exp:'6-18 mois',items:['React/Next.js: 350-450€/j','API: 300-400€/j','Refonte: 2.500-5.000€','CMS: 400-600€/j','Maintenance: 200-400€/m','Formation: 300-500€/j']},
+      {lvl:'⭐ Confirmé',exp:'18+ mois',items:['Architecture: 500-700€/j','Lead tech: 600-900€/j','SaaS: 10.000-30.000€','Sécurité: 400-600€/j','Formation: 600-1.000€/j','Consulting: 800-1.200€/j']}
     ]},
-    s2: { title: '📧 5 Emails de Prospection', desc: 'Des templates qui convertissent, validés par des freelances à 5k€/mois', emails: [
-      { num:'1', type:'Email Froid', target:'Directeur technique / fondateur', subject:'Une idée simple pour [Site]',
-        body:'Bonjour [Prénom],\n\nJe suis développeur freelance spécialisé en [React/Next.js/PHP].\n\nJe suis tombé sur [Site] et j\'ai repéré [point faible précis: lenteur, UI datée, page produit].\n\nJ\'ai une idée concrète pour améliorer ça : [proposition en 1 phrase].\n\nÇa vous dit qu\'on en parle 10 min cette semaine ?\n\nBien cordialement,\n[Prénom] — [Nom]\n[Lien portfolio]',
-        tag:'🎯 Contact initial — 30-40% taux d\'ouverture'},
-      { num:'2', type:'Email Agence', target:'Directeur d\'agence', subject:'Prestation dev — disponibilité [Mois]',
-        body:'Bonjour [Prénom],\n\nJe suis développeur freelance disponible à partir de [date].\n\nJe travaille sur [stack] et j\'ai déjà collaboré avec des agences sur [type de projets]. Je peux intervenir en renfort sur vos projets quand vous débordez.\n\nTarif : [prix]€/jour. Je m\'adapte à vos méthodes (Slack, Notion, Jira).\n\nUne piste à explorer pour soulager votre équipe ?\n\nCordialement,\n[Prénom]',
-        tag:'🏢 Agences — relation long terme'},
-      { num:'3', type:'Relance J+7', target:'Prospect non-répondant', subject:'RE: Une idée simple pour [Site]',
-        body:'Bonjour [Prénom],\n\nJe me permets de relancer mon précédent message.\n\nSi le timing n\'est pas bon, pas de souci — je repasse dans 2-3 mois.\n\nMais si le sujet vous intéresse, 10 min suffisent pour que je vous montre concrètement ce que je propose.\n\nBonne semaine !\n\n[Prénom]',
-        tag:'🔄 70% des deals se font après relance'},
-      { num:'4', type:'Recommandation', target:'Ancien collègue / client', subject:'Suivi — content de [Projet] ?',
-        body:'Salut [Prénom],\n\nJ\'espère que tout va bien depuis [projet].\n\nJe voulais prendre des nouvelles : est-ce que [Projet] tient la route ?\n\nSi tu connais quelqu\'un qui cherche un freelance en [stack], je suis preneur — je préfère bosser avec des gens de confiance.\n\nEt si je peux t\'aider sur autre chose, n\'hésite pas.\n\nÀ bientôt,\n[Prénom]',
-        tag:'🤝 80% des freelances à 5k+ viennent du réseau'},
-      { num:'5', type:'Audit + Proposition', target:'Prospect qualifié', subject:'Audit rapide de [Site] — 3 pistes d\'amélioration',
-        body:'Bonjour [Prénom],\n\nJ\'ai pris 30 min pour analyser [Site]. Voici ce que j\'ai trouvé :\n\n1️⃣ [Problème 1 + impact]\n2️⃣ [Problème 2 + impact]\n3️⃣ [Opportunité]\n\nJe peux corriger les points 1 et 2 en [X jours]. Pour le point 3, je propose [solution].\n\nInvestissement : [prix]€.\n\nJe suis disponible cette semaine pour en discuter. Vous préférez appel ou email ?\n\nCordialement,\n[Prénom]',
-        tag:'📊 Audit offert — taux de conversion > 50%'}
+    s2:{title:'📧 5 Emails Prospection',desc:'Templates validés par des freelances à 5k€/mois',emails:[
+      {n:'1',type:'Email Froid',tgt:'Directeur tech / fondateur',subj:'Une idée simple pour [Site]',body:'Bonjour [Prénom],\n\nJe suis développeur freelance spécialisé en [React/Next.js/PHP].\n\nJe suis tombé sur [Site] et j\'ai repéré [point faible].\n\nJ\'ai une idée concrète pour améliorer ça : [proposition].\n\nÇa vous dit qu\'on en parle 10 min cette semaine ?\n\nBien cordialement,\n[Prénom] — [Nom]\n[Lien portfolio]',tag:'🎯 Contact initial — 30-40% taux ouverture'},
+      {n:'2',type:'Email Agence',tgt:'Directeur d\'agence',subj:'Prestation dev — dispo [Mois]',body:'Bonjour [Prénom],\n\nJe suis développeur freelance dispo dès [date].\n\nJe travaille sur [stack], j\'ai collaboré avec des agences. Je peux intervenir en renfort quand vous débordez.\n\nTarif: [prix]€/jour. Je m\'adapte à vos outils (Slack, Notion, Jira).\n\nUne piste à explorer ?\n\nCordialement,\n[Prénom]',tag:'🏢 Agences — relation long terme'},
+      {n:'3',type:'Relance J+7',tgt:'Prospect non-répondant',subj:'RE: Idée pour [Site]',body:'Bonjour [Prénom],\n\nJe me permets de relancer mon message.\n\nSi le timing est mauvais, pas de souci — je repasse dans 2-3 mois.\n\nMais si ça vous intéresse, 10 min suffisent pour vous montrer mon idée.\n\nBonne semaine !\n\n[Prénom]',tag:'🔄 70% des deals après relance'},
+      {n:'4',type:'Recommandation',tgt:'Ancien collègue/client',subj:'Suivi — content de [Projet] ?',body:'Salut [Prénom],\n\nJ\'espère que ça va depuis [projet].\n\nDes nouvelles ? [Projet] tient la route ?\n\nSi tu connais quelqu\'un qui cherche un freelance, je suis preneur.\n\nEt si je peux t\'aider, n\'hésite pas.\n\nÀ bientôt,\n[Prénom]',tag:'🤝 80% viennent du réseau'},
+      {n:'5',type:'Audit + Proposition',tgt:'Prospect qualifié',subj:'Audit [Site] — 3 pistes',body:'Bonjour [Prénom],\n\nJ\'ai analysé [Site] (30 min). Résultats :\n\n1️⃣ [Problème 1]\n2️⃣ [Problème 2]\n3️⃣ [Opportunité]\n\nJe corrige 1 et 2 en [X jours]. Pour 3, je propose [solution].\n\nInvestissement: [prix]€.\n\nDispo cette semaine. Appel ou email ?\n\nCordialement,\n[Prénom]',tag:'📊 Audit gratuit — conversion > 50%'}
     ]},
-    s3: { title: '🛡️ Gérer les Objections', desc: 'Les réponses qui retournent un « non » en « oui »', objections: [
-      { obj:'"C\'est trop cher"', rep:'Proposez 3 formules (basique/standard/premium). Le client choisit souvent la standard. Vous montrez que vous vous adaptez à son budget tout en restant professionnel.' },
-      { obj:'"Je dois en parler à mon associé"', rep:'Proposez un call à 3. Vous contrôlez la conversation au lieu d\'attendre. Préparation : anticipez leurs questions.' },
-      { obj:'"Je n\'ai pas le budget maintenant"', rep:'Proposez un paiement en 2-3 fois ou un scope réduit. Un petit projet maintenant = un gros projet plus tard.' },
-      { obj:'"On a déjà un freelance"', rep:'Félicitez-les. Puis : "Si jamais vous avez besoin d\'un second avis ou d\'un renfort sur un projet précis, je suis là."' },
-      { obj:'"Je peux le faire moi-même"', rep:'"Vous pouvez, mais est-ce que c\'est le meilleur usage de votre temps ? Un pro le fait en X jours, vous prendrez X semaines. Le calcul est vite fait."' },
-      { obj:'"Envoyez-moi un devis"', rep:'Ne jamais envoyer un devis sans appel. Le devis seul = comparaison par le prix. L\'appel = comparaison par la valeur. Obtenez d\'abord un "oui" qualitatif.' }
+    s3:{title:'🛡️ Objections Client',desc:'Transformer les "non" en "oui"',objs:[
+      {q:'"C\'est trop cher"',a:'Proposez 3 formules (basique/standard/premium). Le client choisit la standard.'},
+      {q:'"Je dois parler à mon associé"',a:'Proposez un call à 3. Vous contrôlez la conversation.'},
+      {q:'"Pas de budget maintenant"',a:'Paiement en 2-3 fois ou scope réduit. Petit projet = gros projet.'},
+      {q:'"On a déjà un freelance"',a:'Félicitez. "Si besoin d\'un second avis, je suis là."'},
+      {q:'"Je le fais moi-même"',a:'"Un pro le fait en X jours, vous prendrez X semaines."'},
+      {q:'"Envoyez un devis"',a:'Jamais sans appel. Devis = comparaison par prix. Appel = valeur.'}
     ]},
-    s4: { title: '⚖️ Légal & Administration', desc: 'Les bases pour être en règle sans se ruiner', legal: [
-      { title:'📝 Statuts', items:['France: auto-entrepreneur (micro-entreprise) jusqu\'à 77.700€/an', 'Maroc: auto-entrepreneur via le site auto-entrepreneur.ma', 'Tunisie: personne physiquement assujettie ( PPA )', 'SASU/EURL: quand vous dépassez les plafonds', 'Comparatif: AE = 22% CA, SASU = ~45% (mais déductions)'] },
-      { title:'📄 Devis & Factures', items:['Toujours faire signer un devis avant de commencer', 'Facture obligatoire dans les 30 jours', 'Mentionner: numéro SIRET/SIREN, TVA si applicable', 'Pénalités de retard obligatoires sur les factures', 'Conserver les devis signés = preuve juridique'] },
-      { title:'💰 Fiscalité', items:['Option versement libératoire: payez l\'impôt en même temps que les cotisations', 'TVA: franchise en base jusqu\'à 36.800€ (prestations)', 'Déclaration mensuelle/trimestrielle selon option', 'CFE (Cotisation Foncière) : ~200-500€/an selon commune', 'Urssaf: déclaration à faire même si 0€ de CA'] },
-      { title:'🔒 Protection', items:['Assurance RC Pro: 100-300€/an (obligatoire pour missions en agence)', 'Contrat de prestation: protège vos livrables', 'CGV: conditions générales de vente obligatoires', 'Clause de confidentialité: pour vos process techniques', 'Droit d\'auteur: protégez vos créations (code, designs)'] }
+    s4:{title:'⚖️ Légal & Admin',desc:'Être en règle sans se ruiner',legal:[
+      {t:'📝 Statuts',items:['France: auto-entrepreneur ≤77.700€/an','Maroc: auto-entrepreneur.ma','Tunisie: PPA','SASU/EURL: au-dessus des plafonds','AE = 22% CA vs SASU ~45%']},
+      {t:'📄 Devis & Factures',items:['Devis signé avant de commencer','Facture sous 30 jours','SIRET, TVA si applicable','Pénalités de retard obligatoires','Garder les devis signés']},
+      {t:'💰 Fiscalité',items:['Versement libératoire dispo','TVA: franchise ≤36.800€','Déclaration mensuelle/trimestrielle','CFE: ~200-500€/an','Urssaf: déclaration même à 0€']},
+      {t:'🔒 Protection',items:['RC Pro: 100-300€/an','Contrat de prestation','CGV obligatoires','Clause confidentialité','Droit d\'auteur (code, design)']}
     ]},
-    s5: { title: '🧰 Outils & Ressources', desc: 'La stack des freelances qui tiennent la distance', resources: [
-      { ico:'💼', title:'Portfolio', desc:'Vercel + domaine en .com (10€/an)' },
-      { ico:'📊', title:'Compta', desc:'QuickBooks ou Indy — 15€/mois, tout inclus' },
-      { ico:'🤝', title:'CRM', desc:'Less Annoying CRM — simple, 10$/' },
-      { ico:'📝', title:'Contrats', desc:'Legalstart.de — devis et contrats en ligne' },
-      { ico:'⏱️', title:'Temps', desc:'Toggl Track — gratuit, tracking par projet' },
-      { ico:'💳', title:'Paiements', desc:'Stripe ou PayPal — encaissements pros' },
-      { ico:'📧', title:'Emails', desc:'Resend + votre domaine — emails transactionnels' },
-      { ico:'🔗', title:'Veille', desc:'TLDR Newsletter — résumé quotidien tech' },
-      { ico:'🎯', title:'Freelances', desc:'Malt, Comet, Codeur — plateformes selon niveau' },
-      { ico:'📚', title:'Prospection', desc:'LinkedIn Sales Navigator — 80€/mois' }
+    s5:{title:'🧰 Outils',desc:'La stack des freelances pros',res:[
+      {ico:'💼',t:'Portfolio',d:'Vercel + .com (10€/an)'},{ico:'📊',t:'Compta',d:'QuickBooks ou Indy'},{ico:'🤝',t:'CRM',d:'Less Annoying CRM'},{ico:'📝',t:'Contrats',d:'Legalstart.de'},{ico:'⏱️',t:'Temps',d:'Toggl Track'},{ico:'💳',t:'Paiements',d:'Stripe / PayPal'},{ico:'📧',t:'Email',d:'Resend + domaine'},{ico:'🔗',t:'Veille',d:'TLDR Newsletter'},{ico:'🎯',t:'Marché',d:'Malt, Comet, Codeur'},{ico:'📚',t:'Prospection',d:'LinkedIn Sales Nav'}
     ]},
-    s6: { title: '📈 Plan Croissance Post-5k', desc: 'Quand vous atteignez 5.000€/mois, visez plus haut', timeline: [
-      { stage:'1', cls:'s1', title:'Stabiliser', desc:'Automatisez la compta, déléquez le design (Fiverr/Upwork), mettez en place des templates de prospection. Votre objectif : libérer 5h/semaine.' },
-      { stage:'2', cls:'s2', title:'Augmenter les prix', desc:'+15-20% sur chaque nouveau client. Si vous perdez un prospect à cause du prix, vous étiez en dessous du marché.' },
-      { stage:'3', cls:'s3', title:'Produitiser', desc:'Créez un audit standardisé (500€) ou un template SaaS. Un produit se vend 24h/24, votre temps non.' },
-      { stage:'4', cls:'s4', title:'Sous-traiter', desc:'Prenez un junior à 200€/jour, facturez 500€/jour. Vous passez de maker à manager. C\'est le vrai passage à l\'échelle.' },
-      { stage:'5', cls:'s1', title:'Recurring Revenue', desc:'Maintenance + hébergement = 200-400€/mois/client. 10 clients = 3.000€/mois sans travailler. Le Graal du freelance.' },
-      { stage:'6', cls:'s2', title:'Scale & Diversifier', desc:'Créez plusieurs sources de revenus: produits digitaux, affiliation, coaching. Un freelance diversifié ne dépend d\'aucun client.' }
+    s6:{title:'📈 Croissance Post-5k',desc:'Quand vous atteignez 5k, visez plus haut',tl:[
+      {s:'1',t:'Stabiliser',d:'Automatisez compta, déléguez design, créez templates. Objectif: -5h/semaine.'},
+      {s:'2',t:'Augmenter les prix',d:'+15-20% par nouveau client. Si perte = sous-évalué.'},
+      {s:'3',t:'Produitiser',d:'Audit standardisé (500€) ou template SaaS. Vendez 24h/24.'},
+      {s:'4',t:'Sous-traiter',d:'Junior 200€/j → facturez 500€/j. Maker → manager.'},
+      {s:'5',t:'Revenu récurrent',d:'Maintenance: 200-400€/m/client. 10 clients = 3.000€/m passif.'},
+      {s:'6',t:'Scale & Diversifier',d:'Produits digitaux, affiliation, coaching. Aucune dépendance client.'}
     ]},
-    s7: { title: '⏰ Routine Quotidienne', desc: 'Le planning des freelances qui tiennent sur la durée', blocks: [
-      { time:'7h - 9h30', lb:'Matin — Production intense', tags:['Réveil sans téléphone','Planifier 3 priorités','Deep work #1 — tâche la plus dure'] },
-      { time:'9h30 - 12h30', lb:'Mi-journée — Exécution', tags:['Deep work #2 — dev client','Pause 15 min dehors','Administration (30 min max)'] },
-      { time:'12h30 - 14h', lb:'Pause — Déconnexion', tags:['Vrai déjeuner, pas devant l\'écran','Sieste power de 20 min','Lecture tech ou veille'] },
-      { time:'14h - 17h', lb:'Après-midi — Croissance', tags:['Prospection LinkedIn/email','Deep work #3','Bilan de la journée'] },
-      { time:'17h - 18h', lb:'Fin de journée', tags:['Noter les 3 priorités du lendemain','Éteindre les notifications pro','Checklist accomplissements'] },
-      { time:'18h+', lb:'Soir — Zéro travail', tags:['Sport 3-4x/semaine','Temps famille/amis','Lecture 20 min (hors tech)'] }
+    s7:{title:'⏰ Routine Quotidienne',desc:'Le planning qui tient sur la durée',blocks:[
+      {t:'7h-9h30',l:'Matin — Production',tg:['Sans téléphone','3 priorités','Deep work #1']},
+      {t:'9h30-12h30',l:'Exécution',tg:['Deep work #2','Pause 15 min','Admin 30 min']},
+      {t:'12h30-14h',l:'Pause',tg:['Déjeuner','Sieste 20 min','Lecture']},
+      {t:'14h-17h',l:'Croissance',tg:['Prospection','Deep work #3','Bilan']},
+      {t:'17h-18h',l:'Fin journée',tg:['3 priorités demain','Notifs off','Accomplissements']},
+      {t:'18h+',l:'Soir — zéro travail',tg:['Sport 3x/sem','Famille','Lecture 20 min']}
     ]},
-    s8: { title: '✅ Checklist 30 Jours', desc: 'Coche chaque jour, construis ta machine freelance', weeks: [
-      { w:'Semaine 1', t:'Fondations', cls:'w1', items:['Définir son offre en 1 phrase percutante','Créer/optimiser profil LinkedIn','Préparer portfolio avec 3 réalisations','Fixer ses tarifs (3 niveaux)','Préparer templates devis et facture','Ouvrir compte pro (Stripe/PayPal)','S\'inscrire sur Malt et Codeur'] },
-      { w:'Semaine 2', t:'Prospection intensive', cls:'w2', items:['5 emails froids ciblés par jour','Contacter 3 agences de dev','Publier 3 posts LinkedIn utiles','Contacter 5 anciens collègues/clients','Proposer 2 audits gratuits','Rejoindre 2 groupes Facebook dev','Mettre à jour GitHub avec projets'] },
-      { w:'Semaine 3', t:'Conversion', cls:'w3', items:['Transformer 5 échanges en calls','Préparer 2 propositions détaillées','Relancer tous les intéressés J+7','Préparer réponses aux objections','Demander 3 recommandations','Signer premier client payant','Livrer premier résultat visible'] },
-      { w:'Semaine 4', t:'Accélération & Structure', cls:'w4', items:['Demander témoignage au premier client','Automatiser relances prospects chauds','Publier cas client sur LinkedIn','Configurer CRM freelance','Bilan mensuel: CA, temps, prospects','Ajuster tarifs si nécessaire','Planifier mois suivant avec objectifs'] }
+    s8:{title:'✅ Checklist 30 Jours',desc:'Construis ta machine freelance',weeks:[
+      {w:'Semaine 1',t:'Fondations',items:['Offre en 1 phrase','Profil LinkedIn','Portfolio 3 réalisations','Tarifs 3 niveaux','Templates devis/facture','Compte Stripe/PayPal','Inscription Malt, Codeur']},
+      {w:'Semaine 2',t:'Prospection',items:['5 emails/jour','3 agences contactées','3 posts LinkedIn','5 anciens collègues','2 audits gratuits','2 groupes Facebook','GitHub à jour']},
+      {w:'Semaine 3',t:'Conversion',items:['5 échanges → calls','2 propositions','Relance J+7','Réponses objections','3 recommandations','1er client signé','1er livrable']},
+      {w:'Semaine 4',t:'Accélération',items:['Témoignage client','Automatisation relances','Cas client LinkedIn','CRM configuré','Bilan mensuel','Ajustement tarifs','Plan M+1']}
     ]},
-    email: { title: '📥 Télécharge le PDF', desc: 'Laisse ton email pour recevoir le guide complet en PDF — 28 pages, bilingue AR/FR.', placeholder: 'ton@email.com', btn: 'Recevoir le PDF →' },
-    cta: { title: 'Prêt à enclencher ?', desc: 'Ce guide vous a été offert par UCF ZEM. Mettez-le en pratique dès aujourd\'hui — le meilleur moment pour commencer était hier. Le deuxième meilleur moment, c\'est maintenant.', btn: '📖 Voir tous mes projets', url: 'https://ucfzem.github.io' },
-    footer: '© 2026 — Offert par UCF ZEM — Guide complet mis à jour régulièrement'
+    email:{t:'📥 Télécharge le PDF',d:'Reçois le guide complet — 28 pages, bilingue AR/FR.',ph:'ton@email.com',b:'Obtenir le PDF →'},
+    cta:{t:'Prêt à démarrer ?',d:'Ce guide est offert par UCF ZEM. Mets-le en pratique dès aujourd\'hui.',b:'📖 Voir mes projets',u:'https://ucfzem.github.io'},
+    footer:'© 2026 — Offert par UCF ZEM'
   },
-
+  en: {
+    hero:{title:'The Ultimate Freelance Guide',sub:'From 0€ to 5,000€/month in 30 days',badge:'🎁 FREE',ph:'your@email.com',btn:'Get the PDF →',grid:['💰 Pricing','📧 Outreach','⏰ Routine','🛡️ Objections','⚖️ Legal','📈 Growth']},
+    s1:{title:'💰 Pricing Guide',desc:'Set confident prices based on your level',cards:[
+      {lvl:'🏗 Beginner',exp:'< 6 months',items:['Landing page: 300-500€','Website: 600-1,200€','HTML integration: 200-400€','Audit: 100-200€','Bug fixes: 30-50€/h','Maintenance: 100-200€/m']},
+      {lvl:'📈 Intermediate',exp:'6-18 months',items:['React/Next.js: 350-450€/d','API: 300-400€/d','Redesign: 2,500-5,000€','CMS: 400-600€/d','Maintenance: 200-400€/m','Training: 300-500€/d']},
+      {lvl:'⭐ Expert',exp:'18+ months',items:['Architecture: 500-700€/d','Lead tech: 600-900€/d','SaaS: 10,000-30,000€','Security: 400-600€/d','Training: 600-1,000€/d','Consulting: 800-1,200€/d']}
+    ]},
+    s2:{title:'📧 5 Outreach Emails',desc:'Proven templates from 5k€/month freelancers',emails:[
+      {n:'1',type:'Cold Email',tgt:'CTO / Founder',subj:'A simple idea for [Site]',body:'Hi [Name],\n\nI\'m a freelance developer specialized in [React/Next.js/PHP].\n\nI checked out [Site] and noticed [weakness: speed, design, product page].\n\nI have a concrete idea to improve it: [pitch].\n\nFree for a 10-min call this week?\n\nBest,\n[Name]\n[Portfolio]',tag:'🎯 First contact — 30-40% open rate'},
+      {n:'2',type:'Agency Pitch',tgt:'Agency director',subj:'Dev services — available [Month]',body:'Hi [Name],\n\nI\'m a freelance dev available from [date].\n\nI work with [stack] and have collaborated with agencies on [project type]. I can step in when you\'re overloaded.\n\nRate: [price]€/day. I adapt to your tools.\n\nInterested?\n\nBest,\n[Name]',tag:'🏢 Agencies — long-term'},
+      {n:'3',type:'Follow-up D+7',tgt:'Non-responder',subj:'RE: Idea for [Site]',body:'Hi [Name],\n\nJust following up on my previous message.\n\nBad timing? No worries — I\'ll check back in 2-3 months.\n\nBut if you\'re interested, 10 min is enough to show my idea.\n\nHave a great week!\n\n[Name]',tag:'🔄 70% of deals happen after follow-up'},
+      {n:'4',type:'Referral',tgt:'Ex-colleague / client',subj:'How is [Project] going?',body:'Hey [Name],\n\nHope you\'re doing well since [project].\n\nHow\'s [Project] holding up?\n\nIf you know anyone looking for a freelance dev, I\'d love an intro.\n\nAnd if I can help with anything, just ask.\n\nTalk soon,\n[Name]',tag:'🤝 80% come from network'},
+      {n:'5',type:'Audit + Proposal',tgt:'Qualified prospect',subj:'[Site] audit — 3 improvements',body:'Hi [Name],\n\nI spent 30 min analyzing [Site]. Here\'s what I found:\n\n1️⃣ [Problem 1]\n2️⃣ [Problem 2]\n3️⃣ [Opportunity]\n\nI can fix 1 & 2 in [X days]. For 3, I suggest [solution].\n\nInvestment: [price]€.\n\nAvailable this week. Call or email?\n\nBest,\n[Name]',tag:'📊 Free audit — >50% conversion'}
+    ]},
+    s3:{title:'🛡️ Handling Objections',desc:'Turn "no" into "yes"',objs:[
+      {q:'"Too expensive"',a:'Offer 3 tiers (basic/standard/premium). Most pick standard.'},
+      {q:'"I need to ask my partner"',a:'Suggest a 3-way call. You control the convo.'},
+      {q:'"No budget right now"',a:'Offer 2-3 installments or reduced scope.'},
+      {q:'"We already have a freelancer"',a:'Congratulate. "If you ever need a second opinion, I\'m here."'},
+      {q:'"I can do it myself"',a:'"A pro does it in X days, you\'d take X weeks."'},
+      {q:'"Send a quote"',a:'Never without a call. Quote = price comparison. Call = value.'}
+    ]},
+    s4:{title:'⚖️ Legal & Admin',desc:'Stay compliant without breaking the bank',legal:[
+      {t:'📝 Status',items:['France: micro-enterprise ≤77,700€/y','Morocco: auto-entrepreneur.ma','Tunisia: PPA','SASU/EURL: above thresholds','AE = 22% revenue vs SASU ~45%']},
+      {t:'📄 Quotes & Invoices',items:['Signed quote before starting','Invoice within 30 days','SIRET, VAT if applicable','Late fees mandatory','Keep signed quotes']},
+      {t:'💰 Taxes',items:['Withholding tax available','VAT: exempt ≤36,800€','Monthly/quarterly filing','Business tax: ~200-500€/y','File even at 0€ revenue']},
+      {t:'🔒 Protection',items:['Professional insurance: 100-300€/y','Service contract','T&Cs mandatory','NDA for processes','Copyright (code, design)']}
+    ]},
+    s5:{title:'🧰 Tools',desc:'The pro freelancer stack',res:[
+      {ico:'💼',t:'Portfolio',d:'Vercel + .com ($10/y)'},{ico:'📊',t:'Accounting',d:'QuickBooks / Indy'},{ico:'🤝',t:'CRM',d:'Less Annoying CRM'},{ico:'📝',t:'Contracts',d:'Legalstart.de'},{ico:'⏱️',t:'Time',d:'Toggl Track'},{ico:'💳',t:'Payments',d:'Stripe / PayPal'},{ico:'📧',t:'Email',d:'Resend + domain'},{ico:'🔗',t:'News',d:'TLDR Newsletter'},{ico:'🎯',t:'Market',d:'Malt, Comet, Codeur'},{ico:'📚',t:'Outreach',d:'LinkedIn Sales Nav'}
+    ]},
+    s6:{title:'📈 Post-5k Growth',desc:'Reached 5k? Aim higher',tl:[
+      {s:'1',t:'Stabilize',d:'Automate accounting, delegate design. Goal: save 5h/week.'},
+      {s:'2',t:'Raise prices',d:'+15-20% per new client. Lost a client = underpriced.'},
+      {s:'3',t:'Productize',d:'Standardized audit (500€) or SaaS template. Sell 24/7.'},
+      {s:'4',t:'Subcontract',d:'Junior 200€/d → bill 500€/d. Maker → manager.'},
+      {s:'5',t:'Recurring revenue',d:'Maintenance: 200-400€/m/client. 10 clients = 3,000€/m passive.'},
+      {s:'6',t:'Scale & Diversify',d:'Digital products, affiliate, coaching. Zero client dependency.'}
+    ]},
+    s7:{title:'⏰ Daily Routine',desc:'The sustainable freelance schedule',blocks:[
+      {t:'7am-9:30am',l:'Morning — Production',tg:['No phone','3 priorities','Deep work #1']},
+      {t:'9:30am-12:30pm',l:'Execution',tg:['Deep work #2','15 min break','Admin 30 min']},
+      {t:'12:30pm-2pm',l:'Break',tg:['Lunch','20 min nap','Reading']},
+      {t:'2pm-5pm',l:'Growth',tg:['Outreach','Deep work #3','Review']},
+      {t:'5pm-6pm',l:'Wind down',tg:['Tomorrow\'s priorities','Notifications off','Achievements']},
+      {t:'6pm+',l:'Evening — no work',tg:['Sports 3x/wk','Family','20 min reading']}
+    ]},
+    s8:{title:'✅ 30-Day Checklist',desc:'Build your freelance machine',weeks:[
+      {w:'Week 1',t:'Foundations',items:['One-line offer','LinkedIn profile','Portfolio 3 projects','3-tier pricing','Quote templates','Stripe/PayPal account','Join Malt, Codeur']},
+      {w:'Week 2',t:'Outreach',items:['5 emails/day','3 agencies','3 LinkedIn posts','5 ex-colleagues','2 free audits','2 Facebook groups','Update GitHub']},
+      {w:'Week 3',t:'Conversion',items:['5 chats → calls','2 proposals','Follow-up D+7','Objection scripts','3 referrals','First paying client','First deliverable']},
+      {w:'Week 4',t:'Acceleration',items:['Client testimonial','Automate follow-ups','Case study on LinkedIn','CRM setup','Monthly review','Price adjustment','Plan M+1']}
+    ]},
+    email:{t:'📥 Download the PDF',d:'Get the full guide — 28 pages, bilingual AR/FR.',ph:'your@email.com',b:'Get the PDF →'},
+    cta:{t:'Ready to start?',d:'This guide is brought to you by UCF ZEM. Put it into practice today.',b:'📖 View my projects',u:'https://ucfzem.github.io'},
+    footer:'© 2026 — Brought to you by UCF ZEM'
+  },
+  es: {
+    hero:{title:'La Guía Definitiva del Freelance',sub:'De 0€ a 5.000€/mes en 30 días',badge:'🎁 GRATIS',ph:'tu@email.com',btn:'Recibir PDF →',grid:['💰 Precios','📧 Contacto','⏰ Rutina','🛡️ Objeciones','⚖️ Legal','📈 Crecimiento']},
+    s1:{title:'💰 Tabla de Precios',desc:'Fija precios con confianza según tu nivel',cards:[
+      {lvl:'🏗 Principiante',exp:'< 6 meses',items:['Landing page: 300-500€','Sitio web: 600-1.200€','Integración HTML: 200-400€','Auditoría: 100-200€','Errores: 30-50€/h','Mantenimiento: 100-200€/m']},
+      {lvl:'📈 Intermedio',exp:'6-18 meses',items:['React/Next.js: 350-450€/d','API: 300-400€/d','Rediseño: 2.500-5.000€','CMS: 400-600€/d','Mantenimiento: 200-400€/m','Formación: 300-500€/d']},
+      {lvl:'⭐ Experto',exp:'18+ meses',items:['Arquitectura: 500-700€/d','Lead tech: 600-900€/d','SaaS: 10.000-30.000€','Seguridad: 400-600€/d','Formación: 600-1.000€/d','Consultoría: 800-1.200€/d']}
+    ]},
+    s2:{title:'📧 5 Emails de Contacto',desc:'Plantillas probadas por freelances de 5k€/mes',emails:[
+      {n:'1',type:'Email Frío',tgt:'CTO / Fundador',subj:'Una idea simple para [Site]',body:'Hola [Nombre],\n\nSoy desarrollador freelance especializado en [React/Next.js/PHP].\n\nVi [Site] y noté [debilidad].\n\nTengo una idea concreta para mejorarlo: [propuesta].\n\n¿Disponible para una llamada de 10 min esta semana?\n\nSaludos,\n[Nombre]\n[Portafolio]',tag:'🎯 Primer contacto — 30-40% apertura'},
+      {n:'2',type:'Email Agencia',tgt:'Director de agencia',subj:'Servicios dev — disponible [Mes]',body:'Hola [Nombre],\n\nSoy freelance disponible desde [fecha].\n\nTrabajo con [stack] y he colaborado con agencias. Puedo ayudar cuando estén saturados.\n\nTarifa: [precio]€/día. Me adapto a sus herramientas.\n\n¿Interesados?\n\nSaludos,\n[Nombre]',tag:'🏢 Agencias — largo plazo'},
+      {n:'3',type:'Seguimiento D+7',tgt:'Prospecto sin respuesta',subj:'RE: Idea para [Site]',body:'Hola [Nombre],\n\nSolo un seguimiento de mi mensaje anterior.\n\n¿Mal momento? Vuelvo en 2-3 meses.\n\nPero si le interesa, 10 min bastan para mostrarle mi idea.\n\n¡Buena semana!\n\n[Nombre]',tag:'🔄 70% de tratos tras seguimiento'},
+      {n:'4',type:'Recomendación',tgt:'Excompañero/cliente',subj:'¿Contento con [Proyecto]?',body:'Hola [Nombre],\n\nEspero que estés bien desde [proyecto].\n\n¿Cómo va [Proyecto]?\n\nSi conoces a alguien que busque freelance, avísame.\n\nY si necesitas algo, cuenta conmigo.\n\nUn abrazo,\n[Nombre]',tag:'🤝 80% vienen de contactos'},
+      {n:'5',type:'Auditoría + Propuesta',tgt:'Prospecto calificado',subj:'Auditoría [Site] — 3 mejoras',body:'Hola [Nombre],\n\nAnalicé [Site] (30 min). Resultados:\n\n1️⃣ [Problema 1]\n2️⃣ [Problema 2]\n3️⃣ [Oportunidad]\n\nSoluciono 1 y 2 en [X días]. Para 3, sugiero [solución].\n\nInversión: [precio]€.\n\nDisponible esta semana. ¿Llamada o email?\n\nSaludos,\n[Nombre]',tag:'📊 Auditoría gratis — conversión >50%'}
+    ]},
+    s3:{title:'🛡️ Objeciones de Clientes',desc:'Convierte "no" en "sí"',objs:[
+      {q:'"Es muy caro"',a:'Ofrece 3 niveles (básico/estándar/premium). Eligen estándar.'},
+      {q:'"Debo consultar con mi socio"',a:'Propón una llamada a 3. Tú controlas.'},
+      {q:'"No tengo presupuesto"',a:'Pago en 2-3 cuotas o alcance reducido.'},
+      {q:'"Ya tenemos un freelance"',a:'Felicita. "Si necesitan otra opinión, estoy aquí."'},
+      {q:'"Puedo hacerlo yo"',a:'"Un profesional lo hace en X días, tú en X semanas."'},
+      {q:'"Envíame un presupuesto"',a:'Nunca sin llamada. Presupuesto = precio. Llamada = valor.'}
+    ]},
+    s4:{title:'⚖️ Legal & Admin',desc:'Cumple sin arruinarte',legal:[
+      {t:'📝 Estatus',items:['Francia: autoemprendedor ≤77.700€/a','Marruecos: auto-entrepreneur.ma','Túnez: PPA','SASU/EURL: sobre límites','AE = 22% vs SASU ~45%']},
+      {t:'📄 Presupuestos',items:['Presupuesto firmado antes','Factura en 30 días','SIRET, IVA aplicable','Penalizaciones obligatorias','Guardar presupuestos']},
+      {t:'💰 Impuestos',items:['Pago anticipado disponible','IVA: exento ≤36.800€','Declaración mensual/trimestral','Impuesto negocio: ~200-500€/a','Declarar aunque sea 0€']},
+      {t:'🔒 Protección',items:['Seguro RC: 100-300€/a','Contrato servicios','TyC obligatorios','Cláusula confidencialidad','Derechos de autor']}
+    ]},
+    s5:{title:'🧰 Herramientas',desc:'El stack del freelance profesional',res:[
+      {ico:'💼',t:'Portfolio',d:'Vercel + .com'},{ico:'📊',t:'Contabilidad',d:'QuickBooks / Indy'},{ico:'🤝',t:'CRM',d:'Less Annoying CRM'},{ico:'📝',t:'Contratos',d:'Legalstart.de'},{ico:'⏱️',t:'Tiempo',d:'Toggl Track'},{ico:'💳',t:'Pagos',d:'Stripe / PayPal'},{ico:'📧',t:'Email',d:'Resend + dominio'},{ico:'🔗',t:'Noticias',d:'TLDR Newsletter'},{ico:'🎯',t:'Mercado',d:'Malt, Comet, Codeur'},{ico:'📚',t:'Contacto',d:'LinkedIn Sales Nav'}
+    ]},
+    s6:{title:'📈 Crecimiento Post-5k',desc:'¿Llegaste a 5k? Apunta más alto',tl:[
+      {s:'1',t:'Estabilizar',d:'Automatiza, delega diseño. Objetivo: ahorrar 5h/sem.'},
+      {s:'2',t:'Subir precios',d:'+15-20% por nuevo cliente. ¿Perdiste uno? Infravalorado.'},
+      {s:'3',t:'Productizar',d:'Auditoría estandarizada (500€). Vende 24/7.'},
+      {s:'4',t:'Subcontratar',d:'Junior 200€/d → factura 500€/d. Maker → manager.'},
+      {s:'5',t:'Ingreso recurrente',d:'Mantenimiento: 200-400€/m/cliente. 10 = 3.000€/m.'},
+      {s:'6',t:'Escalar & Diversificar',d:'Productos digitales, afiliación, coaching. Sin dependencia.'}
+    ]},
+    s7:{title:'⏰ Rutina Diaria',desc:'El horario sostenible del freelance',blocks:[
+      {t:'7h-9:30h',l:'Mañana — Producción',tg:['Sin móvil','3 prioridades','Deep work #1']},
+      {t:'9:30h-12:30h',l:'Ejecución',tg:['Deep work #2','Pausa 15 min','Admin 30 min']},
+      {t:'12:30h-14h',l:'Pausa',tg:['Comer','Siesta 20 min','Leer']},
+      {t:'14h-17h',l:'Crecimiento',tg:['Contactos','Deep work #3','Revisión']},
+      {t:'17h-18h',l:'Cierre',tg:['Prioridades mañana','Notifs off','Logros']},
+      {t:'18h+',l:'Tarde — sin trabajo',tg:['Deporte 3x/sem','Familia','20 min lectura']}
+    ]},
+    s8:{title:'✅ Checklist 30 Días',desc:'Construye tu máquina freelance',weeks:[
+      {w:'Semana 1',t:'Fundamentos',items:['Oferta en 1 frase','LinkedIn óptimo','Portfolio 3 proyectos','Precios 3 niveles','Plantillas presupuesto','Stripe/PayPal','Registro Malt, Codeur']},
+      {w:'Semana 2',t:'Contacto',items:['5 emails/día','3 agencias','3 posts LinkedIn','5 excompañeros','2 auditorías gratis','2 grupos Facebook','GitHub actualizado']},
+      {w:'Semana 3',t:'Conversión',items:['5 chats → llamadas','2 propuestas','Seguimiento D+7','Guión objeciones','3 referencias','1er cliente','1er entregable']},
+      {w:'Semana 4',t:'Aceleración',items:['Testimonio cliente','Automatizar','Caso LinkedIn','CRM listo','Balance mensual','Ajustar precios','Plan M+1']}
+    ]},
+    email:{t:'📥 Descargar PDF',d:'Recibe la guía completa — 28 páginas, bilingüe AR/FR.',ph:'tu@email.com',b:'Obtener PDF →'},
+    cta:{t:'¿Listo para empezar?',d:'Esta guía es un regalo de UCF ZEM. Ponla en práctica hoy.',b:'📖 Ver mis proyectos',u:'https://ucfzem.github.io'},
+    footer:'© 2026 — Cortesía de UCF ZEM'
+  },
   ar: {
-    hero: { title: 'الدليل الشامل للعمل الحر', sub: 'من 0€ إلى 5.000€/شهر في 30 يوم — استراتيجيات، قوالب وروتين المستقلين الناجحين', badge: '🎁 مجاني', grid: ['💰 الأسعار', '📧 البريد', '⏰ الروتين', '🛡️ الاعتراضات', '⚖️ القانوني', '📈 النمو'] },
-    s1: { title: '💰 جدول الأسعار', desc: 'حدد أسعارك بثقة حسب مستواك', cards: [
-      { level:'🏗 مبتدئ', exp:'أقل من 6 أشهر — ما زلت تتعلم', items:['صفحة هبوط: 300-500€','موقع عرض 3-5 صفحات: 600-1.200€','تكامل HTML/CSS: 200-400€','تدقيق تقني: 100-200€','إصلاح أخطاء: 30-50€/س','صيانة أساسية: 100-200€/ش'] },
-      { level:'📈 متوسط', exp:'6-18 شهر — تتقن عملك', items:['React/Next.js: 350-450€/ي','واجهة API: 300-400€/ي','إعادة تصميم كاملة: 2.500-5.000€','CMS مخصص: 400-600€/ي','صيانة احترافية: 200-400€/ش','تدريب تطوير: 300-500€/ي'] },
-      { level:'⭐ محترف', exp:'18+ شهر — تستشار', items:['عمارة تقنية: 500-700€/ي','رئيس تقني مستقل: 600-900€/ي','تطبيق كامل: 10.000-30.000€','تدقيق أمني: 400-600€/ي','تدريب شركات: 600-1.000€/ي','استشارات استراتيجية: 800-1.200€/ي'] }
+    hero:{title:'الدليل الشامل للعمل الحر',sub:'من 0€ إلى 5.000€/شهر في 30 يوم',badge:'🎁 مجاني',ph:'بريدك@example.com',btn:'استلام PDF →',grid:['💰 الأسعار','📧 التواصل','⏰ الروتين','🛡️ الاعتراضات','⚖️ القانوني','📈 النمو']},
+    s1:{title:'💰 جدول الأسعار',desc:'حدد أسعارك بثقة حسب مستواك',cards:[
+      {lvl:'🏗 مبتدئ',exp:'أقل من 6 أشهر',items:['صفحة هبوط: 300-500€','موقع عرض: 600-1.200€','تكامل HTML: 200-400€','تدقيق: 100-200€','إصلاح أخطاء: 30-50€/س','صيانة: 100-200€/ش']},
+      {lvl:'📈 متوسط',exp:'6-18 شهر',items:['React/Next.js: 350-450€/ي','API: 300-400€/ي','إعادة تصميم: 2.500-5.000€','CMS: 400-600€/ي','صيانة: 200-400€/ش','تدريب: 300-500€/ي']},
+      {lvl:'⭐ محترف',exp:'18+ شهر',items:['عمارة: 500-700€/ي','رئيس تقني: 600-900€/ي','تطبيق: 10.000-30.000€','أمن: 400-600€/ي','تدريب: 600-1.000€/ي','استشارات: 800-1.200€/ي']}
     ]},
-    s2: { title: '📧 5 رسائل تواصل', desc: 'قوالب مجرّبة من مستقلين يحققون 5.000€/شهر', emails: [
-      { num:'١', type:'رسالة باردة', target:'مدير تقني / مؤسس', subject:'فكرة بسيطة لموقعكم',
-        body:'مرحباً [الاسم]،\n\nأنا مطور مستقل متخصص في [React/Next.js/PHP].\n\nاطلعت على موقعكم [Site] ولاحظت [نقطة ضعف: بطء، تصميم قديم].\n\nعندي فكرة محددة لتحسين ذلك: [اقتراح في جملة].\n\nهل تود مناقشتها في مكالمة 10 دقائق هذا الأسبوع؟\n\nتحياتي،\n[الاسم]\n[رابط الأعمال]',
-        tag:'🎯 تواصل أولي — نسبة فتح 30-40%'},
-      { num:'٢', type:'وكالة', target:'مدير وكالة', subject:'خدمات تطوير — متاح [شهر]',
-        body:'مرحباً [الاسم]،\n\nأنا مطور مستقل مت اعتباراً من [تاريخ].\n\nأعمل على [stack] وقد تعاونت سابقاً مع وكالات في [نوع المشاريع]. يمكنني دعم فريقكم عند ازدحام العمل.\n\nسعري: [السعر]€/يوم. أتكيف مع أدواتكم (Slack, Notion, Jira).\n\nهل لديكم مشروع يمكنني المساعدة فيه؟\n\nتحياتي،\n[الاسم]',
-        tag:'🏢 وكالات — علاقة طويلة المدى'},
-      { num:'٣', type:'متابعة', target:'عميل محتمل', subject:'متابعة — فكرة لموقعكم',
-        body:'مرحباً [الاسم]،\n\nأعتذر عن الإزعاج، أردت متابعة رسالتي السابقة.\n\nإن كان الوقت غير مناسب، لا مشكلة — سأعود بعد 2-3 أشهر.\n\nلكن إن كان الموضوع يهمك، 10 دقائق تكفي لأريك اقتراحي.\n\nأسبوع موفق!\n\n[الاسم]',
-        tag:'🔄 70% من الصفقات تتم بعد المتابعة'},
-      { num:'٤', type:'توصية', target:'زميل سابق / عميل', subject:'متابعة — راضٍ عن [المشروع]؟',
-        body:'مرحباً [الاسم]،\n\nأتمنى أن تكون بخير منذ [المشروع].\n\nكيف تسير الأمور؟ هل [المشروع] يعمل بشكل جيد؟\n\nإن تعرفت على أحد يبحث عن مطور مستقل في [stack]، أنا مهتم — أفضل العمل مع أشخاص موثوقين.\n\nوإن احتجت مساعدة في شيء آخر، لا تتردد.\n\nتحياتي،\n[الاسم]',
-        tag:'🤝 80% من الناجحين يعتمدون على شبكتهم'},
-      { num:'٥', type:'تدقيق مقترح', target:'عميل مؤهل', subject:'تدقيق سريع لموقعكم — 3 فرص تطوير',
-        body:'مرحباً [الاسم]،\n\nأخذت 30 دقيقة لتحليل موقعكم [Site]. هذا ما وجدته:\n\n1️⃣ [مشكلة 1 + تأثيرها]\n2️⃣ [مشكلة 2 + تأثيرها]\n3️⃣ [فرصة تحسين]\n\nيمكنني حل المشكلتين 1 و2 في [X يوم]. للفرصة الثالثة، أقترح [حل].\n\nالاستثمار: [السعر]€.\n\nمتاح هذا الأسبوع للمناقشة. هل تفضل مكالمة أم بريد؟\n\nتحياتي،\n[الاسم]',
-        tag:'📊 تدقيق مجاني — نسبة تحويل > 50%'}
+    s2:{title:'📧 5 رسائل تواصل',desc:'قوالب مجرّبة من مستقلين في 5k€/شهر',emails:[
+      {n:'١',type:'رسالة باردة',tgt:'مدير تقني / مؤسس',subj:'فكرة بسيطة لموقعكم',body:'مرحباً [الاسم]،\n\nأنا مطور مستقل في [React/Next.js/PHP].\n\nاطلعت على موقعكم ولاحظت [نقطة ضعف].\n\nعندي فكرة لتحسين ذلك.\n\nهل تود مناقشتها في مكالمة 10 دقائق؟\n\nتحياتي،\n[الاسم]\n[أعمالي]',tag:'🎯 تواصل أولي — نسبة فتح 30-40%'},
+      {n:'٢',type:'وكالة',tgt:'مدير وكالة',subj:'خدمات تطوير — متاح [شهر]',body:'مرحباً [الاسم]،\n\nمطور مستقل متاح من [تاريخ].\n\nأعمل على [stack] وتعاونت مع وكالات. يمكنني دعم فريقكم.\n\nسعري: [السعر]€/يوم.\n\nهل لديكم مشروع؟\n\nتحياتي،\n[الاسم]',tag:'🏢 وكالات — علاقة طويلة المدى'},
+      {n:'٣',type:'متابعة',tgt:'عميل محتمل',subj:'متابعة — فكرة لموقعكم',body:'مرحباً [الاسم]،\n\nأتابع رسالتي السابقة.\n\nإن كان الوقت غير مناسب، سأعود بعد شهرين.\n\nلكن إن كنت مهتماً، 10 دقائق تكفي.\n\nأسبوع موفق!\n\n[الاسم]',tag:'🔄 70% من الصفقات بعد المتابعة'},
+      {n:'٤',type:'توصية',tgt:'زميل سابق',subj:'متابعة — راضٍ عن [المشروع]؟',body:'مرحباً [الاسم]،\n\nأتمنى أن تكون بخير.\n\nكيف يسير [المشروع]؟\n\nإن عرفت أحداً يبحث عن مطور، أنا موجود.\n\nتحياتي،\n[الاسم]',tag:'🤝 80% من الشبكة'},
+      {n:'٥',type:'تدقيق + عرض',tgt:'عميل مؤهل',subj:'تدقيق موقعكم — 3 فرص',body:'مرحباً [الاسم]،\n\nحللت موقعكم (30 دقيقة).\n\n1️⃣ [مشكلة 1]\n2️⃣ [مشكلة 2]\n3️⃣ [فرصة]\n\nأصلح 1 و2 في [X يوم]. للفرصة 3 أقترح [حل].\n\nالاستثمار: [السعر]€.\n\nمتاح هذا الأسبوع.\n\nتحياتي،\n[الاسم]',tag:'📊 تدقيق مجاني — تحويل >50%'}
     ]},
-    s3: { title: '🛡️ التعامل مع الاعتراضات', desc: 'ردود تحوّل "لا" إلى "نعم"', objections: [
-      { obj:'"هذا غالٍ جداً"', rep:'اقترح 3 خيارات (أساسي/قياسي/ممتاز). غالباً يختار العميل القياسي. بهذا تُظهر مرونتك وتحافظ على احترافيتك.' },
-      { obj:'"يجب أن أتشاور مع شريكي"', rep:'اقترح مكالمة ثلاثية. أنت تتحكم في النقاش بدلاً من الانتظار. استعد لأسئلتهم مسبقاً.' },
-      { obj:'"ليس لدي الميزانية الآن"', rep:'اقترح تقسيط الدفعة على 2-3 مرات أو تقليل نطاق المشروع. مشروع صغير اليوم = مشروع كبير غداً.' },
-      { obj:'"لدينا مستقل بالفعل"', rep:'هنئهم. ثم: "إن احتجتم رأياً ثانياً أو دعماً في مشروع محدد، أنا موجود."' },
-      { obj:'"يمكنني فعله بنفسي"', rep:'"يمكنك، لكن هل هذا أفضل استخدام لوقتك؟ المحترف ينجزه في X أيام، ستستغرق X أسابيع. الحساب واضح."' },
-      { obj:'"أرسل لي عرض سعر"', rep:'لا ترسل عرض سعر أبداً دون مكالمة. العرض وحده = مقارنة بالسعر. المكالمة = مقارنة بالقيمة. احصل أولاً على "نعم" نوعية.' }
+    s3:{title:'🛡️ الاعتراضات',desc:'حوّل "لا" إلى "نعم"',objs:[
+      {q:'"هذا غالٍ جداً"',a:'قدّم 3 خيارات (أساسي/قياسي/ممتاز). يختارون القياسي.'},
+      {q:'"يجب أن أتشاور مع شريكي"',a:'اقترح مكالمة ثلاثية. أنت تتحكم.'},
+      {q:'"ليس لدي ميزانية الآن"',a:'قسّط الدفعة أو قلّص النطاق.'},
+      {q:'"لدينا مستقل بالفعل"',a:'هنئهم. "إن احتجتم رأياً ثانياً، أنا موجود."'},
+      {q:'"يمكنني فعله بنفسي"',a:'"المحترف ينجزه في X أيام، ستستغرق X أسابيع."'},
+      {q:'"أرسل لي عرض سعر"',a:'أبداً دون مكالمة. العرض = مقارنة بالسعر.'}
     ]},
-    s4: { title: '⚖️ الجانب القانوني والإداري', desc: 'الأساسيات لتكون نظامياً دون تكاليف باهظة', legal: [
-      { title:'📝 الوضع القانوني', items:['فرنسا: مقاول ذاتي (micro-entreprise) حتى 77.700€/سنة', 'المغرب: مقاول ذاتي عبر auto-entrepreneur.ma', 'تونس: شخص معنوي خاضع للضريبة', 'SASU/EURL: عندما تتجاوز الحدود', 'مقارنة: AE = 22% دخل، SASU = ~45% (لكن خصومات)'] },
-      { title:'📄 فواتير وعروض', items:['وقّع عرض السعر قبل بدء العمل', 'إصدار الفاتورة إلزامي خلال 30 يوماً', 'ذكر: رقم التسجيل، الضريبة إن وجدت', 'غرامات التأخير إلزامية على الفواتير', 'احتفظ بالعروض الموقعة = إثبات قانوني'] },
-      { title:'💰 الضرائب', items:['خيار الدفع المسبق: ادفع الضريبة مع الاشتراكات', 'TVA: إعفاء حتى 36.800€ (خدمات)', 'تصريح شهري/ربع سنوي حسب الخيار', 'الضريبة المهنية: ~200-500€/سنة حسب البلدية', 'تصريح إلزامي حتى لو 0€ دخل'] },
-      { title:'🔒 الحماية', items:['تأمين المسؤولية المهنية: 100-300€/سنة', 'عقد الخدمات: يحمي مخرجاتك', 'الشروط العامة: إلزامية قانونياً', 'بند السرية: لعملياتك التقنية', 'حقوق النشر: حماية أعمالك (كود، تصاميم)'] }
+    s4:{title:'⚖️ الجانب القانوني',desc:'كن نظامياً دون تكاليف',legal:[
+      {t:'📝 الوضع القانوني',items:['فرنسا: مقاول ذاتي ≤77.700€/س','المغرب: auto-entrepreneur.ma','تونس: PPA','SASU/EURL: فوق الحدود','AE = 22% دخل vs SASU ~45%']},
+      {t:'📄 الفواتير',items:['وقّع العرض قبل البدء','الفاتورة خلال 30 يوماً','الرقم الضريبي إن وجد','غرامات التأخير إلزامية','احتفظ بالعروض الموقعة']},
+      {t:'💰 الضرائب',items:['الدفع المسبق متاح','TVA: إعفاء ≤36.800€','تصريح شهري/ربع سنوي','الضريبة المهنية: ~200-500€/س','التصريح إلزامي حتى لو 0€']},
+      {t:'🔒 الحماية',items:['التأمين المهني: 100-300€/س','عقد الخدمات','الشروط العامة إلزامية','بند السرية','حقوق النشر (كود، تصميم)']}
     ]},
-    s5: { title: '🧰 الأدوات والموارد', desc: 'أدوات المستقلين المحترفين', resources: [
-      { ico:'💼', title:'معرض الأعمال', desc:'Vercel + نطاق .com (10€/سنة)' },
-      { ico:'📊', title:'محاسبة', desc:'QuickBooks أو Indy — 15€/شهر' },
-      { ico:'🤝', title:'CRM', desc:'Less Annoying CRM — بسيط' },
-      { ico:'📝', title:'عقود', desc:'Legalstart.de — عقود وفواتير' },
-      { ico:'⏱️', title:'وقت', desc:'Toggl Track — مجاني' },
-      { ico:'💳', title:'دفع', desc:'Stripe أو PayPal — قبول مهني' },
-      { ico:'📧', title:'بريد', desc:'Resend + نطاقك الشخصي' },
-      { ico:'🔗', title:'متابعة', desc:'نشرة TLDR التقنية' },
-      { ico:'🎯', title:'منصات', desc:'Malt, Comet, Codeur — حسب مستواك' },
-      { ico:'📚', title:'تواصل', desc:'LinkedIn Sales Navigator' }
+    s5:{title:'🧰 الأدوات',desc:'أدوات المستقلين المحترفين',res:[
+      {ico:'💼',t:'الأعمال',d:'Vercel + .com'},{ico:'📊',t:'محاسبة',d:'QuickBooks / Indy'},{ico:'🤝',t:'CRM',d:'Less Annoying CRM'},{ico:'📝',t:'عقود',d:'Legalstart.de'},{ico:'⏱️',t:'وقت',d:'Toggl Track'},{ico:'💳',t:'دفع',d:'Stripe / PayPal'},{ico:'📧',t:'بريد',d:'Resend + نطاق'},{ico:'🔗',t:'أخبار',d:'TLDR Newsletter'},{ico:'🎯',t:'سوق',d:'Malt, Comet, Codeur'},{ico:'📚',t:'تواصل',d:'LinkedIn Sales Nav'}
     ]},
-    s6: { title: '📈 خطة النمو بعد 5,000€', desc: 'عندما تصل إلى 5.000€/شهر، اطمح لأكثر', timeline: [
-      { stage:'١', cls:'s1', title:'التثبيت', desc:'أتمتة المحاسبة، تفويض التصميم، إنشاء قوالب تواصل. هدفك: توفير 5 ساعات/أسبوع.' },
-      { stage:'٢', cls:'s2', title:'رفع الأسعار', desc:'+15-20% لكل عميل جديد. إذا خسرت عميلاً بسبب السعر، فأنت تحت سعر السوق.' },
-      { stage:'٣', cls:'s3', title:'تسويق المنتج', desc:'أنشئ تدقيقاً موحداً (500€) أو قالب SaaS. المنتج يباع 24/7، وقتك لا.' },
-      { stage:'٤', cls:'s4', title:'التفويض', desc:'استأجر مبتدئاً بـ200€/يوم، فوترة 500€/يوم. تنتقل من صانع إلى مدير.' },
-      { stage:'٥', cls:'s1', title:'الدخل المتكرر', desc:'صيانة + استضافة = 200-400€/شهر/عميل. 10 عملاء = 3.000€/شهر بدون عمل.' },
-      { stage:'٦', cls:'s2', title:'التوسع والتنويع', desc:'أنشئ مصادر دخل متعددة: منتجات رقمية، تسويق بالعمولة، تدريب. المستقل المتنوع لا يعتمد على أي عميل.' }
+    s6:{title:'📈 النمو بعد 5,000€',desc:'وصلت لـ5k؟ اطمح لأكثر',tl:[
+      {s:'١',t:'التثبيت',d:'أتمتة المحاسبة، تفويض التصميم. الهدف: توفير 5س/أسبوع.'},
+      {s:'٢',t:'رفع الأسعار',d:'+15-20% لكل عميل جديد. خسارة = سعر منخفض.'},
+      {s:'٣',t:'تسويق المنتج',d:'تدقيق موحد (500€) أو قالب SaaS. يباع 24/7.'},
+      {s:'٤',t:'التفويض',d:'مبتدئ 200€/ي → فوترة 500€/ي.'},
+      {s:'٥',t:'الدخل المتكرر',d:'صيانة: 200-400€/ش/عميل. 10 عملاء = 3.000€/ش.'},
+      {s:'٦',t:'التوسع والتنويع',d:'منتجات رقمية، تسويق بالعمولة، تدريب.'}
     ]},
-    s7: { title: '⏰ الروتين اليومي', desc: 'جدول المستقلين الناجحين على المدى الطويل', blocks: [
-      { time:'٧ - ٩:٣٠', lb:'الصباح — إنتاج مكثف', tags:['استيقاظ بدون هاتف','تحديد 3 أولويات','عمل عميق #1 — أصعب مهمة'] },
-      { time:'٩:٣٠ - ١٢:٣٠', lb:'منتصف اليوم — تنفيذ', tags:['عمل عميق #2','استراحة 15 دقيقة','إدارة (30 د كحد أقصى)'] },
-      { time:'١٢:٣٠ - ١٤', lb:'استراحة — فصل', tags:['غداء حقيقي','قيلولة 20 دقيقة','قراءة تقنية'] },
-      { time:'١٤ - ١٧', lb:'بعد الظهر — نمو', tags:['تواصل عبر لينكدإن','عمل عميق #3','تقييم اليوم'] },
-      { time:'١٧ - ١٨', lb:'نهاية اليوم', tags:['تحديد أولويات الغد','إيقاف إشعارات العمل','قائمة الإنجازات'] },
-      { time:'١٨+', lb:'المساء — بدون عمل', tags:['رياضة 3-4 مرات/أسبوع','وقت عائلي','قراءة 20 دقيقة'] }
+    s7:{title:'⏰ الروتين اليومي',desc:'جدول المستقلين الناجحين',blocks:[
+      {t:'٧-٩:٣٠',l:'الصباح — إنتاج',tg:['بدون هاتف','3 أولويات','عمل عميق #1']},{t:'٩:٣٠-١٢:٣٠',l:'تنفيذ',tg:['عمل عميق #2','استراحة','إدارة 30 د']},{t:'١٢:٣٠-١٤',l:'استراحة',tg:['غداء','قيلولة 20 د','قراءة']},{t:'١٤-١٧',l:'نمو',tg:['تواصل','عمل عميق #3','تقييم']},{t:'١٧-١٨',l:'نهاية اليوم',tg:['أولويات الغد','إيقاف الإشعارات','إنجازات']},{t:'١٨+',l:'المساء',tg:['رياضة 3x/أسب','عائلة','قراءة 20 د']}
     ]},
-    s8: { title: '✅ قائمة 30 يوم', desc: 'ضع علامة كل يوم، ابنِ مشروعك', weeks: [
-      { w:'الأسبوع ١', t:'الأساسيات', cls:'w1', items:['تحديد عرضك بجملة مؤثرة','تحسين ملف لينكدإن','تحضير معرض أعمال','تحديد الأسعار (3 مستويات)','تحضير قوالب العروض والفواتير','فتح حساب مهني (Stripe/PayPal)','التسجيل في Malt وCodeur'] },
-      { w:'الأسبوع ٢', t:'التسويق المكثف', cls:'w2', items:['5 رسائل باردة يومياً','التواصل مع 3 وكالات تطوير','نشر 3 منشورات مفيدة على لينكدإن','التواصل مع 5 زملاء سابقين','تقديم تدقيقين مجانيين','الانضمام لمجموعتين تقنيتين','تحديث GitHub بمشاريع'] },
-      { w:'الأسبوع ٣', t:'التحويل', cls:'w3', items:['تحويل 5 محادثات إلى مكالمات','إعداد عرضين مفصلين','متابعة جميع المهتمين','تحضير ردود الاعتراضات','طلب 3 توصيات','توقيع أول عميل','تسليم أول نتيجة مرئية'] },
-      { w:'الأسبوع ٤', t:'التسريع والهيكلة', cls:'w4', items:['طلب شهادة من العميل الأول','أتمتة متابعة العملاء المحتملين','نشر دراسة حالة على لينكدإن','إعداد CRM freelance','تقييم شهري: دخل، وقت، عملاء','تعديل الأسعار عند الحاجة','تخطيط الشهر القادم بأهداف'] }
+    s8:{title:'✅ قائمة 30 يوم',desc:'ابنِ مشروعك',weeks:[
+      {w:'الأسبوع ١',t:'الأساسيات',items:['تحديد العرض','لينكدإن','معرض الأعمال','3 مستويات أسعار','قوالب الفواتير','Stripe/PayPal','التسجيل في المواقع']},
+      {w:'الأسبوع ٢',t:'التسويق',items:['5 رسائل/يوم','3 وكالات','3 منشورات','5 زملاء','تدقيقان مجانيان','مجموعتين فيسبوك','تحديث GitHub']},
+      {w:'الأسبوع ٣',t:'التحويل',items:['5 محادثات','عرضان','متابعة','ردود الاعتراضات','3 توصيات','أول عميل','أول تسليم']},
+      {w:'الأسبوع ٤',t:'التسريع',items:['شهادة عميل','أتمتة','حالة عملية','إعداد CRM','تقييم شهري','تعديل الأسعار','خطة الشهر القادم']}
     ]},
-    email: { title: '📥 تحميل PDF', desc: 'اترك بريدك الإلكتروني لاستلام الدليل الكامل PDF — 28 صفحة، ثنائي اللغة AR/FR.', placeholder: 'بريدك@example.com', btn: 'استلام PDF ←' },
-    cta: { title: 'مستعد للانطلاق؟', desc: 'هذا الدليل مقدم من UCF ZEM. طبقه اليوم — أفضل وقت للبدء كان أمس. ثاني أفضل وقت هو الآن.', btn: '📖 شاهد جميع مشاريعي', url: 'https://ucfzem.github.io' },
-    footer: '© ٢٠٢٦ — مقدمة من UCF ZEM — دليل كامل يُحدّث بانتظام'
+    email:{t:'📥 تحميل PDF',d:'احصل على الدليل الكامل — 28 صفحة، ثنائي اللغة.',ph:'بريدك@example.com',b:'الحصول على PDF ←'},
+    cta:{t:'مستعد للانطلاق؟',d:'هذا الدليل مقدم من UCF ZEM. طبقه اليوم.',b:'📖 شاهد مشاريعي',u:'https://ucfzem.github.io'},
+    footer:'© ٢٠٢٦ — مقدمة من UCF ZEM'
   }
 }
 
@@ -339,119 +402,98 @@ function render(lang) {
   let html = ''
 
   // Hero
-  html += `<section class="hero"><div class="logo-wrap">✦</div><h1>${d.hero.title}</h1><p class="sub">${d.hero.sub}</p><div class="badge">${d.hero.badge}</div><div class="hero-grid">`
+  html += `<section class="hero"><div class="logo-wrap">✦</div><h1>${d.hero.title}</h1><p class="sub">${d.hero.sub}</p><div class="badge">${d.hero.badge}</div><form class="hero-lead" onsubmit="submitTop(event)"><input type="email" id="topEmail" placeholder="${d.hero.ph}" required><button type="submit" id="topBtn">${d.hero.btn}</button></form><div id="topMsg" class="hero-msg"></div><div class="hero-grid">`
   d.hero.grid.forEach(g => { html += `<div class="item"><div class="ico">${g.split(' ')[0]}</div><div class="lb">${g}</div></div>` })
   html += `</div></section>`
 
-  // Section 1 — Pricing
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".3"/><rect x="20" y="20" width="40" height="40" rx="3" fill="#3b82f6" opacity=".15"/><text x="40" y="44" font-size="20" font-weight="bold" text-anchor="middle" fill="#3b82f6">€</text></svg></div><div><h2>${d.s1.title}</h2><p>${d.s1.desc}</p></div></div><div class="card-grid">`
-  d.s1.cards.forEach(c => {
-    html += `<div class="card"><h3>${c.level}</h3><p class="exp">${c.exp}</p><ul>`
-    c.items.forEach(i => { html += `<li>${i}</li>` })
-    html += `</ul></div>`
-  })
+  // S1 Pricing
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".3"/><rect x="20" y="20" width="40" height="40" rx="3" fill="var(--gold)" opacity=".12"/><text x="40" y="44" font-size="20" font-weight="bold" text-anchor="middle" fill="var(--gold)">€</text></svg></div><div><h2>${d.s1.title}</h2><p>${d.s1.desc}</p></div></div><div class="card-grid">`
+  d.s1.cards.forEach(c => { html += `<div class="card"><h3>${c.lvl}</h3><p class="exp">${c.exp}</p><ul>${c.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
-  // Section 2 — Emails
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="12" y="20" width="56" height="40" rx="4" fill="none" stroke="#8b5cf6" stroke-width="1.5"/><path d="M12 20 L40 40 L68 20" fill="none" stroke="#8b5cf6" stroke-width="1.5"/></svg></div><div><h2>${d.s2.title}</h2><p>${d.s2.desc}</p></div></div><div class="email-stack">`
-  d.s2.emails.forEach(e => {
-    html += `<div class="email-full"><div class="hdr"><span class="num">${e.num}</span><span class="type">${e.type}</span><span class="target">${e.target}</span></div><div class="subject">📌 ${e.subject}</div><div class="body">${e.body}</div><div style="margin-top:.75rem;font-size:.75rem;color:#475569">${e.tag}</div></div>`
-  })
+  // S2 Emails
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="12" y="20" width="56" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M12 20 L40 40 L68 20" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s2.title}</h2><p>${d.s2.desc}</p></div></div><div class="email-stack">`
+  d.s2.emails.forEach(e => { html += `<div class="email-full"><div class="hdr"><span class="num">${e.n}</span><span class="type">${e.type}</span><span class="target">${e.tgt}</span></div><div class="subject">📌 ${e.subj}</div><div class="body">${e.body}</div><span class="tag">${e.tag}</span></div>` })
   html += `</div></section>`
 
-  // Section 3 — Objections
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="24" fill="none" stroke="#f97316" stroke-width="1.5"/><line x1="28" y1="28" x2="52" y2="52" stroke="#f97316" stroke-width="2"/><line x1="52" y1="28" x2="28" y2="52" stroke="#f97316" stroke-width="2"/></svg></div><div><h2>${d.s3.title}</h2><p>${d.s3.desc}</p></div></div><div class="obj-grid">`
-  d.s3.objections.forEach(o => {
-    html += `<div class="obj-card"><div class="obj">${o.obj}</div><div class="rep">${o.rep}</div></div>`
-  })
+  // S3 Objections
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="24" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="28" y1="28" x2="52" y2="52" stroke="var(--gold)" stroke-width="2"/><line x1="52" y1="28" x2="28" y2="52" stroke="var(--gold)" stroke-width="2"/></svg></div><div><h2>${d.s3.title}</h2><p>${d.s3.desc}</p></div></div><div class="obj-grid">`
+  d.s3.objs.forEach(o => { html += `<div class="obj-card"><div class="obj">${o.q}</div><div class="rep">${o.a}</div></div>` })
   html += `</div></section>`
 
-  // Section 4 — Legal
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="28" y="12" width="24" height="56" rx="2" fill="none" stroke="#22d3ee" stroke-width="1.5"/><line x1="16" y1="24" x2="64" y2="24" stroke="#22d3ee" stroke-width="1.5"/></svg></div><div><h2>${d.s4.title}</h2><p>${d.s4.desc}</p></div></div><div class="legal-grid">`
-  d.s4.legal.forEach(l => {
-    html += `<div class="legal-card"><h3>${l.title}</h3><ul>`
-    l.items.forEach(i => { html += `<li>${i}</li>` })
-    html += `</ul></div>`
-  })
+  // S4 Legal
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="28" y="12" width="24" height="56" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="16" y1="24" x2="64" y2="24" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s4.title}</h2><p>${d.s4.desc}</p></div></div><div class="legal-grid">`
+  d.s4.legal.forEach(l => { html += `<div class="legal-card"><h3>${l.t}</h3><ul>${l.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
-  // Section 5 — Tools
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="#10b981" stroke-width="1.5"/><circle cx="40" cy="40" r="6" fill="none" stroke="#10b981" stroke-width="1.5"/><line x1="40" y1="26" x2="40" y2="34" stroke="#10b981" stroke-width="1.5"/></svg></div><div><h2>${d.s5.title}</h2><p>${d.s5.desc}</p></div></div><div class="resource-grid">`
-  d.s5.resources.forEach(r => {
-    html += `<div class="resource-card"><div class="ico">${r.ico}</div><h4>${r.title}</h4><p>${r.desc}</p></div>`
-  })
+  // S5 Tools
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="40" cy="40" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s5.title}</h2><p>${d.s5.desc}</p></div></div><div class="resource-grid">`
+  d.s5.res.forEach(r => { html += `<div class="resource-card"><div class="ico">${r.ico}</div><h4>${r.t}</h4><p>${r.d}</p></div>` })
   html += `</div></section>`
 
-  // Section 6 — Growth
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><polyline points="16,56 32,40 48,44 64,24" fill="none" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="56" r="4" fill="#a78bfa"/><circle cx="32" cy="40" r="4" fill="#a78bfa"/><circle cx="48" cy="44" r="4" fill="#a78bfa"/><circle cx="64" cy="24" r="4" fill="#a78bfa"/></svg></div><div><h2>${d.s6.title}</h2><p>${d.s6.desc}</p></div></div><div class="timeline">`
-  d.s6.timeline.forEach(t => {
-    html += `<div class="tl-item"><div class="tl-dot ${t.cls}">${t.stage}</div><div class="tl-content"><h4>${t.title}</h4><p>${t.desc}</p></div></div>`
-  })
+  // S6 Growth
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><polyline points="16,56 32,40 48,44 64,24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="56" r="4" fill="var(--gold)"/><circle cx="32" cy="40" r="4" fill="var(--gold)"/><circle cx="48" cy="44" r="4" fill="var(--gold)"/><circle cx="64" cy="24" r="4" fill="var(--gold)"/></svg></div><div><h2>${d.s6.title}</h2><p>${d.s6.desc}</p></div></div><div class="timeline">`
+  d.s6.tl.forEach(t => { html += `<div class="tl-item"><div class="tl-dot">${t.s}</div><div class="tl-content"><h4>${t.t}</h4><p>${t.d}</p></div></div>` })
   html += `</div></section>`
 
-  // Section 7 — Routine
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="#ec4899" stroke-width="1.5"/><line x1="40" y1="20" x2="40" y2="32" stroke="#ec4899" stroke-width="2"/><line x1="40" y1="40" x2="56" y2="40" stroke="#ec4899" stroke-width="2"/><circle cx="40" cy="40" r="3" fill="#ec4899"/></svg></div><div><h2>${d.s7.title}</h2><p>${d.s7.desc}</p></div></div><div class="routine-list">`
-  d.s7.blocks.forEach(b => {
-    html += `<div class="routine-item"><div class="time">${b.time}</div><div class="lb">${b.lb}</div><div class="tags">`
-    b.tags.forEach(t => { html += `<span>${t}</span>` })
-    html += `</div></div>`
-  })
+  // S7 Routine
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="40" y1="20" x2="40" y2="32" stroke="var(--gold)" stroke-width="2"/><line x1="40" y1="40" x2="56" y2="40" stroke="var(--gold)" stroke-width="2"/><circle cx="40" cy="40" r="3" fill="var(--gold)"/></svg></div><div><h2>${d.s7.title}</h2><p>${d.s7.desc}</p></div></div><div class="routine-list">`
+  d.s7.blocks.forEach(b => { html += `<div class="routine-item"><div class="time">${b.t}</div><div class="lb">${b.l}</div><div class="tags">${b.tg.map(t => `<span>${t}</span>`).join('')}</div></div>` })
   html += `</div></section>`
 
-  // Section 8 — Checklist
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="#34d399" stroke-width="1.5"/><path d="M24 24 L32 32 L40 20" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h2>${d.s8.title}</h2><p>${d.s8.desc}</p></div></div><div class="check-grid">`
-  d.s8.weeks.forEach(w => {
-    html += `<div class="check-card ${w.cls}"><h4>${w.w}</h4><p class="sub">${w.t}</p><ul>`
-    w.items.forEach(i => { html += `<li>${i}</li>` })
-    html += `</ul></div>`
-  })
+  // S8 Checklist
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M24 24 L32 32 L40 20" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h2>${d.s8.title}</h2><p>${d.s8.desc}</p></div></div><div class="check-grid">`
+  d.s8.weeks.forEach(w => { html += `<div class="check-card"><h4>${w.w}</h4><p class="sub">${w.t}</p><ul>${w.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
-  // Email gate
-  html += `<section class="sec" style="padding-bottom:0"><div class="email-gate"><h2>${d.email.title}</h2><p>${d.email.desc}</p><form class="email-form" onsubmit="submitEmail(event)"><input type="email" id="leadEmail" placeholder="${d.email.placeholder}" required><button type="submit" id="leadBtn">${d.email.btn}</button></form><div id="leadMsg" class="email-msg"></div></div></section>`
+  // Bottom email gate
+  html += `<section class="email-gate"><h2>${d.email.t}</h2><p>${d.email.d}</p><form class="email-form" onsubmit="submitBottom(event)"><input type="email" id="btmEmail" placeholder="${d.email.ph}" required><button type="submit" id="btmBtn">${d.email.b}</button></form><div id="btmMsg" class="email-msg"></div></section>`
 
   // CTA
-  html += `<div class="cta-section"><h2>${d.cta.title}</h2><p>${d.cta.desc}</p><a class="cta-btn" href="${d.cta.url}" target="_blank" rel="noopener">${d.cta.btn}</a></div>`
+  html += `<div class="cta-section"><h2>${d.cta.t}</h2><p>${d.cta.d}</p><a class="cta-btn" href="${d.cta.u}" target="_blank" rel="noopener">${d.cta.b}</a></div>`
 
   // Footer
-  html += `<footer><p>${d.footer}</p><p style="margin-top:.5rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p></footer>`
+  html += `<footer><p>${d.footer}</p><p style="margin-top:.35rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p></footer>`
 
   document.getElementById('app').innerHTML = html
 }
 
-function submitEmail(e) {
-  e.preventDefault()
-  const email = document.getElementById('leadEmail').value
-  const btn = document.getElementById('leadBtn')
-  const msg = document.getElementById('leadMsg')
+function sendEmail(email, btnId, msgId, btnText) {
+  const btn = document.getElementById(btnId)
+  const msg = document.getElementById(msgId)
   btn.disabled = true
-  btn.textContent = 'Envoi...'
-  msg.className = 'email-msg'
+  btn.textContent = '⏳'
+  msg.className = ''
   msg.textContent = ''
-  fetch('https://email-collector.azer-tyu199p.workers.dev', {
+  fetch(WORKER, {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({email, source:'guide'})
   }).then(r => {
     if (r.ok) {
-      msg.className = 'email-msg success'
-      msg.innerHTML = '✅ Merci ! <a class="dl-link" href="../email-collector/guide-freelance.pdf" download>Télécharge ton PDF ici →</a>'
-      btn.textContent = '✅ Envoyé'
-    } else {
-      throw new Error()
-    }
+      msg.className = 'success'
+      msg.innerHTML = `✅ <a href="${PDF}" download>Télécharge ton PDF ici →</a>`
+      btn.textContent = '✅'
+    } else { throw new Error() }
   }).catch(() => {
-    msg.className = 'email-msg error'
-    msg.innerHTML = '⚠️ Erreur. <a class="dl-link" href="../email-collector/guide-freelance.pdf" download>Télécharge directement le PDF</a>'
-    btn.textContent = 'Recevoir le PDF →'
+    msg.className = 'error'
+    msg.innerHTML = `⚠️ <a href="${PDF}" download>Télécharge directement le PDF</a>`
+    btn.textContent = btnText
     btn.disabled = false
   })
 }
 
+function submitTop(e) { e.preventDefault(); sendEmail(document.getElementById('topEmail').value, 'topBtn', 'topMsg', DATA[document.documentElement.lang]?.hero?.btn || 'Get the PDF →') }
+function submitBottom(e) { e.preventDefault(); sendEmail(document.getElementById('btmEmail').value, 'btmBtn', 'btmMsg', DATA[document.documentElement.lang]?.email?.b || 'Get the PDF →') }
+
 function setLang(l) { render(l) }
 
-// Print styles
+function toggleTheme() {
+  document.body.classList.toggle('light')
+  document.getElementById('themeBtn').textContent = document.body.classList.contains('light') ? '☀️' : '🌙'
+}
+
 const ps = document.createElement('style')
-ps.textContent = `@media print{.sec{page-break-inside:avoid}.hero{page-break-after:always}.email-full{break-inside:avoid}}`
+ps.textContent = `@media print{body{background:#fff!important;--text:#000!important}.top-bar{display:none!important}.hero{min-height:auto!important;padding:2rem 1rem!important}.sec{padding:2rem 1rem!important;page-break-inside:avoid}.email-full,.obj-card,.tl-item,.routine-item,.check-card{break-inside:avoid}}`
 document.head.appendChild(ps)
 
 render('fr')
