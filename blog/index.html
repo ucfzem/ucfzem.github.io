@@ -177,6 +177,185 @@
   }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* HERO BADGE */
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(139,111,58,0.08));
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: .45rem 1rem; border-radius: 99px;
+    font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+    color: var(--accent); margin-top: 1.5rem; width: fit-content;
+    position: relative; z-index: 1;
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+  .hero-badge .badge-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #4ade80; display: inline-block;
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+  @keyframes dotPulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)} 50%{opacity:.6;box-shadow:0 0 0 6px rgba(74,222,128,0)} }
+  @keyframes badgePulse { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+
+  /* HERO PHONE MOCKUP */
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .hero-text-col { min-width: 0; }
+  .hero-phone-col {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+
+  .phone-mock {
+    width: 280px; height: 570px;
+    background: linear-gradient(145deg, #1a1a1e, #2a2a2e);
+    border-radius: 36px;
+    padding: 12px;
+    position: relative;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.5),
+      0 0 0 2px rgba(255,255,255,.08);
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    width: 100%; height: 100%;
+    background: #0d0d11;
+    border-radius: 26px;
+    overflow: hidden;
+    position: relative;
+    display: flex; flex-direction: column;
+    padding: 28px 16px 16px;
+  }
+  .phone-notch {
+    position: absolute; top: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 20px;
+    background: #1a1a1e;
+    border-radius: 0 0 12px 12px;
+    z-index: 2;
+  }
+  .phone-notch::after {
+    content: ''; position: absolute; top: 5px; left: 50%;
+    transform: translateX(-50%);
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #1a1a2e;
+    border: 1.5px solid #2a2a3e;
+  }
+  .phone-side-btn {
+    position: absolute; right: -3px; top: 120px;
+    width: 3px; height: 40px;
+    background: linear-gradient(to bottom, #2a2a2e, #1a1a1e);
+    border-radius: 0 2px 2px 0;
+  }
+  .phone-side-btn2 {
+    position: absolute; left: -3px; top: 100px;
+    width: 3px; height: 28px;
+    background: linear-gradient(to bottom, #2a2a2e, #1a1a1e);
+    border-radius: 2px 0 0 2px;
+  }
+  .phone-home {
+    position: absolute; bottom: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 110px; height: 4px;
+    background: rgba(255,255,255,.15);
+    border-radius: 2px;
+  }
+
+  /* Code lines on screen */
+  .code-line {
+    height: 5px; border-radius: 3px; margin-bottom: 7px;
+    opacity: .6;
+  }
+  .code-line:nth-child(1) { width: 75%; background: #c9a84c; opacity: .8; }
+  .code-line:nth-child(2) { width: 55%; background: #d4a373; }
+  .code-line:nth-child(3) { width: 90%; background: #8b6f3a; }
+  .code-line:nth-child(4) { width: 40%; background: #c9a84c; opacity: .5; }
+  .code-line:nth-child(5) { width: 70%; background: #d4a373; }
+  .code-line:nth-child(6) { width: 85%; background: #8b6f3a; }
+  .code-line:nth-child(7) { width: 50%; background: #c9a84c; opacity: .5; }
+  .code-line:nth-child(8) { width: 65%; background: #d4a373; }
+  .code-line:nth-child(9) { width: 35%; background: #8b6f3a; }
+  .code-line:nth-child(10) { width: 80%; background: #c9a84c; }
+  .code-line:nth-child(11) { width: 45%; background: #d4a373; opacity: .6; }
+  .code-line:nth-child(12) { width: 60%; background: #8b6f3a; }
+
+  .code-line.indent { margin-left: 16px; }
+  .code-line.indent2 { margin-left: 28px; }
+
+  .code-cursor {
+    display: inline-block; width: 2px; height: 16px;
+    background: #4ade80; margin-left: 2px;
+    animation: cursorBlink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .code-status {
+    font-family: 'JetBrains Mono', monospace; font-size: 6px;
+    color: rgba(255,255,255,.2); letter-spacing: .15em;
+    margin-top: auto; padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,.06);
+    text-transform: uppercase;
+  }
+
+  /* Phone glow */
+  .phone-glow {
+    position: absolute; width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  /* Hero stats */
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 2rem;
+    position: relative; z-index: 1;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-val {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem;
+    font-weight: 800; color: var(--accent);
+  }
+  .hero-stat-lbl {
+    font-size: .65rem; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-top: 2px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-phone-col { order: -1; }
+    .phone-mock { width: 200px; height: 410px; padding: 8px; border-radius: 28px; }
+    .phone-screen { padding: 20px 12px 12px; border-radius: 22px; }
+    .phone-notch { width: 70px; height: 16px; top: 6px; }
+    .phone-notch::after { width: 6px; height: 6px; top: 4px; }
+    .phone-home { width: 80px; height: 3px; bottom: 4px; }
+    .phone-side-btn, .phone-side-btn2 { display: none; }
+    .code-line { height: 4px; margin-bottom: 5px; }
+    .code-cursor { height: 12px; }
+    .code-status { font-size: 5px; }
+    .phone-glow { width: 250px; height: 250px; }
+    .hero-stats { justify-content: center; }
+  }
+  @media (max-width: 480px) {
+    .phone-mock { width: 160px; height: 330px; padding: 6px; border-radius: 22px; }
+    .phone-screen { padding: 16px 10px 10px; border-radius: 18px; }
+    .code-line { height: 3px; margin-bottom: 4px; }
+    .phone-notch { width: 55px; height: 12px; }
+    .phone-notch::after { width: 5px; height: 5px; top: 3px; }
+    .hero-stats { gap: 1rem; }
+  }
+
+  @media (min-width: 861px) and (max-width: 1200px) {
+    .hero-layout { gap: 2rem; }
+    .phone-mock { width: 230px; height: 470px; }
+  }
+
 
   /* SCROLL TICKER */
   .ticker-wrap {
@@ -321,6 +500,15 @@
     transition: gap .2s;
   }
   .saas-link:hover { gap: .7rem; }
+  .saas-cta {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--accent); color: #000; font-size: .8rem;
+    font-weight: 700; padding: .4rem 1rem; border-radius: 5px;
+    text-decoration: none; transition: all .2s;
+    font-family: 'DM Sans', sans-serif; letter-spacing: .01em;
+  }
+  .saas-cta:hover { opacity: .85; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(201,168,76,0.3); }
+  .saas-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.25rem; }
   .saas-stats { display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .saas-stat { text-align: center; }
   .saas-stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
@@ -810,16 +998,69 @@
   <div class="hero-bg-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
-  <div class="hero-tag" data-i18n="hero-tag">Live — IA · Tech · E-Commerce · SaaS</div>
-  <h1>
-    <span data-i18n="hero-line1">Le futur se construit</span><br>
-    <span class="line-accent" data-i18n="hero-line2">maintenant.</span><br>
-    <span class="line-dim" data-i18n="hero-line3">Pas demain.</span>
-  </h1>
-  <p class="hero-sub" data-i18n="hero-sub">Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — par Uzem, créateur digital multilingue basé aux Pays-Bas.</p>
-  <div class="hero-actions">
-    <a href="#articles" class="btn-primary" data-i18n="hero-cta1">Lire le blog →</a>
-    <a href="#saas" class="btn-ghost" data-i18n="hero-cta2">Mes SaaS</a>
+  <div class="hero-layout">
+    <div class="hero-text-col">
+      <div class="hero-tag" data-i18n="hero-tag">Live — IA · Tech · E-Commerce · SaaS</div>
+      <h1>
+        <span data-i18n="hero-line1">Le futur se construit</span><br>
+        <span class="line-accent" data-i18n="hero-line2">maintenant.</span><br>
+        <span class="line-dim" data-i18n="hero-line3">Pas demain.</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero-sub">Actualités IA, stratégies e-commerce, outils SaaS et tendances tech — par Uzem, créateur digital multilingue basé aux Pays-Bas.</p>
+      <div class="hero-actions">
+        <a href="#articles" class="btn-primary" data-i18n="hero-cta1">Lire le blog →</a>
+        <a href="#saas" class="btn-ghost" data-i18n="hero-cta2">Mes SaaS</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-val">100%</div><div class="hero-stat-lbl">Mobile</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">0</div><div class="hero-stat-lbl">Server</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">0</div><div class="hero-stat-lbl">API Key</div></div>
+        <div class="hero-stat"><div class="hero-stat-val">∞</div><div class="hero-stat-lbl">Creative</div></div>
+      </div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        100% Built from 📱 S23 Ultra
+      </div>
+    </div>
+    <div class="hero-phone-col">
+      <div class="phone-glow"></div>
+      <div class="phone-mock">
+        <div class="phone-notch"></div>
+        <div class="phone-side-btn"></div>
+        <div class="phone-side-btn2"></div>
+        <div class="phone-screen">
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent2"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line indent2"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line indent2"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line indent2"></div>
+          <div class="code-line indent"></div>
+          <div class="code-line"></div>
+          <div class="code-line"></div>
+          <div class="code-line" style="width:60%;"></div>
+          <div class="code-cursor"></div>
+          <div class="code-status">/* index.html — UcfZemTech */</div>
+          <div class="phone-home"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -891,7 +1132,7 @@
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas1-tag2">Partage fichiers</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas1-tag3">Single-file</span>
         </div>
-        <a class="saas-link" href="https://ucfzem.github.io/tmpdrop" target="_blank">ucfzem.github.io/tmpdrop →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://ucfzem.github.io/tmpdrop" target="_blank">ucfzem.github.io/tmpdrop →</a><a class="saas-cta" href="https://ucfzem.github.io/tmpdrop" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">∞</div><div class="saas-stat-lbl" data-i18n="saas1-stat1">Uploads</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">0€</div><div class="saas-stat-lbl" data-i18n="saas1-stat2">Hébergement</div></div>
@@ -914,7 +1155,7 @@
           <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);" data-i18n="saas2-tag2">Cloudinary</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);" data-i18n="saas2-tag3">Uploadcare</span>
         </div>
-        <a class="saas-link" href="https://ucfzem.github.io" target="_blank" data-i18n="saas2-link">En développement →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://ucfzem.github.io" target="_blank" data-i18n="saas2-link">En développement →</a><a class="saas-cta" href="https://ucfzem.github.io" target="_blank">WIP →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">4</div><div class="saas-stat-lbl" data-i18n="saas2-stat1">Backends</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">Auto</div><div class="saas-stat-lbl" data-i18n="saas2-stat2">Fallback</div></div>
@@ -938,7 +1179,7 @@
           <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Arabe RTL</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">45+ langues</span>
         </div>
-        <a class="saas-link" href="https://mos7af.netlify.app" target="_blank">mos7af.netlify.app →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://mos7af.netlify.app" target="_blank">mos7af.netlify.app →</a><a class="saas-cta" href="https://mos7af.netlify.app" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">114</div><div class="saas-stat-lbl">Sourates</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">45+</div><div class="saas-stat-lbl">Traductions</div></div>
@@ -962,7 +1203,7 @@
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Cloudflare</span>
           <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Prompts IA</span>
         </div>
-        <a class="saas-link" href="https://promptgenius.azer-tyu199p.workers.dev" target="_blank">promptgenius.workers.dev →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://promptgenius.azer-tyu199p.workers.dev" target="_blank">promptgenius.workers.dev →</a><a class="saas-cta" href="https://promptgenius.azer-tyu199p.workers.dev" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">3</div><div class="saas-stat-lbl">Modes input</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">∞</div><div class="saas-stat-lbl">Prompts</div></div>
@@ -986,7 +1227,7 @@
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">4 langues</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Photo restore</span>
         </div>
-        <a class="saas-link" href="https://ucfzem.github.io/tanger" target="_blank">ucfzem.github.io/tanger →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://ucfzem.github.io/tanger" target="_blank">ucfzem.github.io/tanger →</a><a class="saas-cta" href="https://ucfzem.github.io/tanger" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">20+</div><div class="saas-stat-lbl">Photos</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">4</div><div class="saas-stat-lbl">Langues</div></div>
@@ -1010,7 +1251,7 @@
           <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">Arabe RTL</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Voix</span>
         </div>
-        <a class="saas-link" href="https://ucfzem.github.io/rafeeq" target="_blank">ucfzem.github.io/rafeeq →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://ucfzem.github.io/rafeeq" target="_blank">ucfzem.github.io/rafeeq →</a><a class="saas-cta" href="https://ucfzem.github.io/rafeeq" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">100%</div><div class="saas-stat-lbl">Mobile</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">RTL</div><div class="saas-stat-lbl">Arabe</div></div>
@@ -1034,7 +1275,7 @@
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">6 langues</span>
           <span class="saas-tag" style="color:#d4a373;border-color:rgba(212,163,115,0.3);">IA-powered</span>
         </div>
-        <a class="saas-link" href="https://index.anyclaw.store" target="_blank">index.anyclaw.store →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://index.anyclaw.store" target="_blank">index.anyclaw.store →</a><a class="saas-cta" href="https://index.anyclaw.store" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">6</div><div class="saas-stat-lbl">Langues</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#c9a84c;">150</div><div class="saas-stat-lbl">Questions</div></div>
@@ -1058,7 +1299,7 @@
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Particules</span>
           <span class="saas-tag" style="color:#c9a84c;border-color:rgba(201,168,76,0.3);">Créatif</span>
         </div>
-        <a class="saas-link" href="https://ucfzem.github.io" target="_blank">GitHub Pages →</a>
+        <div class="saas-footer"><a class="saas-link" href="https://ucfzem.github.io" target="_blank">GitHub Pages →</a><a class="saas-cta" href="https://ucfzem.github.io" target="_blank">Try it →</a></div>
         <div class="saas-stats">
           <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">8</div><div class="saas-stat-lbl">Types sable</div></div>
           <div class="saas-stat"><div class="saas-stat-val" style="color:#d4a373;">60fps</div><div class="saas-stat-lbl">Physique</div></div>
