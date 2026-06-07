@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Guide Ultime du Freelance — UCF ZEM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter','Cairo',sans-serif;background:#0f172a;color:#f8fafc;overflow-x:hidden;line-height:1.6}
+  .bg-glow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .bg-glow div{position:absolute;border-radius:50%;filter:blur(100px);mix-blend-mode:multiply}
+  .bg-glow .g1{width:400px;height:400px;background:rgba(59,130,246,.15);top:-100px;left:-100px}
+  .bg-glow .g2{width:400px;height:400px;background:rgba(139,92,246,.15);bottom:-100px;right:-100px}
+  .content{position:relative;z-index:1}
+
+  .lang-toggle{position:fixed;top:1rem;right:1rem;z-index:50;display:flex;gap:.5rem}
+  .lang-toggle button{padding:.5rem 1rem;border-radius:.5rem;font-weight:700;font-size:.8rem;border:none;cursor:pointer;transition:all .2s;background:#1e293b;color:#64748b}
+  .lang-toggle button.active{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff}
+
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 1rem 2rem;position:relative}
+  .hero .logo-wrap{width:80px;height:80px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:1.5rem;box-shadow:0 8px 32px rgba(59,130,246,.25)}
+  .hero h1{font-size:clamp(2.5rem,7vw,4.5rem);font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;line-height:1.1}
+  .hero .sub{font-size:clamp(1rem,3vw,1.5rem);color:#94a3b8;margin-bottom:2rem}
+  .hero .badge{display:inline-block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);padding:.75rem 2rem;border-radius:1rem;font-weight:700;font-size:1rem;margin-bottom:3rem;box-shadow:0 4px 20px rgba(59,130,246,.3)}
+  .hero-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;max-width:500px;width:100%}
+  .hero-grid .item{background:rgba(30,41,59,.5);border:1px solid #334155;border-radius:.75rem;padding:1rem;backdrop-filter:blur(8px);transition:all .2s}
+  .hero-grid .item:hover{border-color:rgba(59,130,246,.5)}
+  .hero-grid .item .ico{font-size:1.5rem;margin-bottom:.25rem}
+  .hero-grid .item .lb{font-size:.75rem;color:#94a3b8;font-weight:600}
+
+  .sec{padding:4rem 1rem;max-width:1100px;margin:0 auto}
+  .sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
+  .sec-header .svg-wrap{flex-shrink:0;width:80px;height:80px}
+  .sec-header .svg-wrap svg{width:100%;height:100%}
+  .sec-header h2{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:900;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sec-header p{color:#64748b;font-size:.9rem;margin-top:.25rem}
+
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+  .card{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #334155;border-radius:1rem;padding:1.5rem;transition:all .2s}
+  .card:hover{border-color:rgba(59,130,246,.4)}
+  .card h3{font-size:1.1rem;font-weight:700;color:#60a5fa;margin-bottom:.25rem}
+  .card .exp{font-size:.8rem;color:#475569;margin-bottom:.75rem}
+  .card ul{list-style:none}
+  .card ul li{font-size:.85rem;color:#94a3b8;padding:.35rem 0;display:flex;align-items:flex-start;gap:.5rem}
+  .card ul li::before{content:'→';color:#3b82f6}
+
+  .email-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem}
+  .email-card{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(59,130,246,.08));border:1px solid rgba(139,92,246,.25);border-radius:.75rem;padding:1.25rem;text-align:center;transition:all .2s}
+  .email-card:hover{border-color:rgba(139,92,246,.5)}
+  .email-card .num{font-size:1.5rem;font-weight:900;color:#a78bfa;margin-bottom:.25rem}
+  .email-card h4{font-weight:700;color:#f8fafc;margin-bottom:.25rem;font-size:.95rem}
+  .email-card .subj{font-size:.75rem;color:#64748b;margin-bottom:.25rem}
+  .email-card .tag{font-size:.7rem;color:#a78bfa;font-weight:600}
+
+  .routine-list{display:flex;flex-direction:column;gap:.75rem}
+  .routine-item{background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(239,68,68,.05));border:1px solid rgba(236,72,153,.2);border-radius:.75rem;padding:1.25rem;transition:all .2s}
+  .routine-item:hover{border-color:rgba(236,72,153,.4)}
+  .routine-item .time{font-size:1.1rem;font-weight:700;color:#f472b6;margin-bottom:.25rem}
+  .routine-item .lb{font-size:.85rem;color:#64748b;margin-bottom:.5rem}
+  .routine-item .tags{display:flex;flex-wrap:wrap;gap:.35rem}
+  .routine-item .tags span{font-size:.7rem;background:rgba(236,72,153,.15);color:#f9a8d4;padding:.25rem .6rem;border-radius:1rem}
+
+  .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem}
+  .check-card{border-radius:.75rem;padding:1.25rem;border:1px solid;transition:all .2s}
+  .check-card:hover{border-color:currentColor}
+  .check-card.w1{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(5,150,105,.05));border-color:rgba(16,185,129,.25);color:#34d399}
+  .check-card.w2{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(6,182,212,.05));border-color:rgba(59,130,246,.25);color:#60a5fa}
+  .check-card.w3{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(236,72,153,.05));border-color:rgba(139,92,246,.25);color:#a78bfa}
+  .check-card.w4{background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(239,68,68,.05));border-color:rgba(249,115,22,.25);color:#fb923c}
+  .check-card h4{font-weight:700;color:#f8fafc;margin-bottom:.25rem}
+  .check-card .sub{font-size:.8rem;color:currentColor;margin-bottom:.75rem;opacity:.7}
+  .check-card ul{list-style:none}
+  .check-card ul li{font-size:.8rem;color:#94a3b8;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
+  .check-card ul li::before{content:'✓';color:currentColor;font-weight:700}
+
+  footer{text-align:center;padding:3rem 1rem;border-top:1px solid #1e293b;color:#475569;font-size:.85rem}
+  footer a{color:#818cf8;text-decoration:underline;text-underline-offset:2px}
+
+  .ar{font-family:'Cairo',sans-serif;direction:rtl;text-align:right}
+  .ar .card ul li::before{content:'→'}
+  .ar .check-card ul li::before{content:'✓'}
+
+  @media print{body{background:#fff!important}.lang-toggle{display:none!important}.hero{min-height:auto!important;padding:2rem 1rem!important}.sec{padding:2rem 1rem!important;page-break-inside:avoid}.card:hover,.routine-item:hover,.email-card:hover,.check-card:hover{border-color:inherit!important}}
+  @media(max-width:640px){.hero-grid{grid-template-columns:1fr 1fr}.email-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="bg-glow"><div class="g1"></div><div class="g2"></div></div>
+<div class="lang-toggle" id="langToggle">
+  <button class="active" data-lang="fr" onclick="setLang('fr')">FR</button>
+  <button data-lang="ar" onclick="setLang('ar')">AR</button>
+</div>
+<div class="content" id="app"></div>
+
+<script>
+const DATA = {
+  fr: {
+    hero: { title: 'Le Guide Ultime du Freelance', sub: 'Passer de 0€ à 5.000€/mois en 30 jours', badge: '🎁 OFFERT', grid: ['💰 Tarifs', '📧 Emails', '⏰ Routine', '✅ Checklist'] },
+    s1: { title: '💰 Grille Tarifaire', desc: 'Trois niveaux selon votre expérience', cards: [
+      { level:'🏗 Débutants', exp:'< 6 mois', items:['Landing page: 300-500€','Site vitrine: 600-1.200€','Intégration HTML: 200-400€','Audit technique: 100-200€'] },
+      { level:'📈 Intermédiaires', exp:'6-18 mois', items:['React/Next.js: 350-450€/j','API backend: 300-400€/j','Refonte: 2.500-5.000€','Maintenance: 200-400€/m'] },
+      { level:'⭐ Confirmés', exp:'18+ mois', items:['Architecture: 500-700€/j','Lead tech: 600-800€/j','SaaS complet: 10.000-30.000€','Formation: 600-900€/j'] }
+    ]},
+    s2: { title: '📧 5 Templates Prospection', desc: 'Emails prêts à personnaliser', emails: [
+      { num:'1', type:'Froid', subj:'"Idée pour [site]"', tag:'Contact initial' },
+      { num:'2', type:'Agence', subj:'"Prestation dev"', tag:'Collaboration' },
+      { num:'3', type:'Relance', subj:'"Relance J+7"', tag:'Suivi' },
+      { num:'4', type:'Reco', subj:'"Suivi projet"', tag:'Témoignages' },
+      { num:'5', type:'Audit', subj:'"Rapport + proposition"', tag:'Conversion' }
+    ]},
+    s3: { title: '⏰ Routine Quotidienne', desc: 'Le planning des freelances à 5k€/mois', blocks: [
+      { time:'7h - 9h30', lb:'Matin — Production', tags:['Réveil sans téléphone','Planification 3 priorités','Deep work #1'] },
+      { time:'9h30 - 12h30', lb:'Mi-journée — Exécution', tags:['Deep work #2 dev client','Pause 15 min','Administration'] },
+      { time:'14h - 17h', lb:'Après-midi — Croissance', tags:['Prospection LinkedIn','Deep work #3','Bilan du jour'] },
+      { time:'17h+', lb:'Soir — Repos', tags:['Fin. Pas de travail','Sport 3x/semaine','Lecture 20 min'] }
+    ]},
+    s4: { title: '✅ Checklist 30 Jours', desc: 'Coche chaque jour, construis ta machine freelance', weeks: [
+      { w:'Semaine 1', t:'Fondations', cls:'w1', items:['Définir son offre','Créer profil LinkedIn','Préparer portfolio','Fixer ses tarifs','Préparer templates'] },
+      { w:'Semaine 2', t:'Prospection', cls:'w2', items:['5 emails froids','Contacter 3 agences','Poster LinkedIn','5 anciens collègues','Audit gratuit'] },
+      { w:'Semaine 3', t:'Conversion', cls:'w3', items:['Échange → devis','2 propositions','Relancer intéressé','Anti-objections','Demander reco'] },
+      { w:'Semaine 4', t:'Accélération', cls:'w4', items:['Livrer résultat','Témoignage client','Automatiser','CTA LinkedIn','Bilan mensuel'] }
+    ]},
+    footer: '© 2026 — Offert par UCF ZEM'
+  },
+  ar: {
+    hero: { title: 'الدليل الشامل للعمل الحر', sub: 'من 0€ إلى 5.000€/شهر في 30 يوم', badge: '🎁 مجاني', grid: ['💰 الأسعار', '📧 البريد', '⏰ الروتين', '✅ القائمة'] },
+    s1: { title: '💰 جدول الأسعار', desc: 'ثلاثة مستويات حسب خبرتك', cards: [
+      { level:'🏗 مبتدئون', exp:'أقل من 6 أشهر', items:['صفحة هبوط: 300-500€','موقع عرض: 600-1.200€','تكامل HTML: 200-400€','تدقيق: 100-200€'] },
+      { level:'📈 متوسطون', exp:'6-18 شهر', items:['React/Next.js: 350-450€/ي','API: 300-400€/ي','إعادة تصميم: 2.500-5.000€','صيانة: 200-400€/ش'] },
+      { level:'⭐ محترفون', exp:'18+ شهر', items:['عمارة: 500-700€/ي','رئيس تقني: 600-800€/ي','تطبيق كامل: 10.000-30.000€','تدريب: 600-900€/ي'] }
+    ]},
+    s2: { title: '📧 5 قوالب بريد', desc: 'رسائل جاهزة للتخصيص', emails: [
+      { num:'١', type:'بارد', subj:'"فكرة لموقعك"', tag:'تواصل أولي' },
+      { num:'٢', type:'وكالة', subj:'"خدمات تطوير"', tag:'تعاون' },
+      { num:'٣', type:'متابعة', subj:'"متابعة بعد ٧ أيام"', tag:'مراجعة' },
+      { num:'٤', type:'توصية', subj:'"متابعة مشروع"', tag:'توصيات' },
+      { num:'٥', type:'تدقيق', subj:'"تقرير + عرض"', tag:'تحويل' }
+    ]},
+    s3: { title: '⏰ الروتين اليومي', desc: 'جدول المستقلين الناجحين', blocks: [
+      { time:'٧ - ٩:٣٠', lb:'الصباح — إنتاج', tags:['استيقاظ وتركيز','تحديد ٣ أولويات','عمل عميق #١'] },
+      { time:'٩:٣٠ - ١٢:٣٠', lb:'منتصف اليوم', tags:['عمل عميق #٢','استراحة','إدارة'] },
+      { time:'١٤ - ١٧', lb:'بعد الظهر — نمو', tags:['تسويق لينكدإن','عمل عميق #٣','تقييم اليوم'] },
+      { time:'١٧+', lb:'المساء — راحة', tags:['انتهى العمل','رياضة ٣ مرات','قراءة ٢٠ د'] }
+    ]},
+    s4: { title: '✅ قائمة 30 يوم', desc: 'ضع علامة كل يوم، ابنِ مشروعك', weeks: [
+      { w:'الأسبوع ١', t:'الأساسيات', cls:'w1', items:['تحديد العرض','ملف لينكدإن','معرض الأعمال','تحديد الأسعار','قوالب البريد'] },
+      { w:'الأسبوع ٢', t:'التسويق', cls:'w2', items:['٥ رسائل باردة','٣ وكالات','محتوى لينكدإن','٥ زملاء','تدقيق مجاني'] },
+      { w:'الأسبوع ٣', t:'التحويل', cls:'w3', items:['محادثة → عرض','عرضان مخصصان','متابعة عميل','الرد على اعتراضات'] },
+      { w:'الأسبوع ٤', t:'التسريع', cls:'w4', items:['تسليم نتيجة','شهادة عميل','أتمتة','تقييم شهري'] }
+    ]},
+    footer: '© ٢٠٢٦ — مقدمة من UCF ZEM'
+  }
+}
+
+function render(lang) {
+  const d = DATA[lang]
+  const isAr = lang === 'ar'
+  document.documentElement.dir = isAr ? 'rtl' : 'ltr'
+  document.documentElement.lang = lang
+  document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang))
+
+  let html = ''
+
+  // Hero
+  html += `<section class="hero"><div class="logo-wrap">✦</div><h1>${d.hero.title}</h1><p class="sub">${d.hero.sub}</p><div class="badge">${d.hero.badge}</div><div class="hero-grid">`
+  d.hero.grid.forEach(g => { html += `<div class="item"><div class="ico">${g.split(' ')[0]}</div><div class="lb">${g}</div></div>` })
+  html += `</div></section>`
+
+  // Section 1
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".3"/><rect x="20" y="20" width="40" height="40" rx="3" fill="#3b82f6" opacity=".15"/><text x="40" y="44" font-size="20" font-weight="bold" text-anchor="middle" fill="#3b82f6">€</text></svg></div><div><h2>${d.s1.title}</h2><p>${d.s1.desc}</p></div></div><div class="card-grid">`
+  d.s1.cards.forEach(c => {
+    html += `<div class="card"><h3>${c.level}</h3><p class="exp">${c.exp}</p><ul>`
+    c.items.forEach(i => { html += `<li>${i}</li>` })
+    html += `</ul></div>`
+  })
+  html += `</div></section>`
+
+  // Section 2
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="12" y="20" width="56" height="40" rx="4" fill="none" stroke="#8b5cf6" stroke-width="1.5"/><path d="M12 20 L40 40 L68 20" fill="none" stroke="#8b5cf6" stroke-width="1.5"/></svg></div><div><h2>${d.s2.title}</h2><p>${d.s2.desc}</p></div></div><div class="email-grid">`
+  d.s2.emails.forEach(e => {
+    html += `<div class="email-card"><div class="num">${e.num}</div><h4>${e.type}</h4><p class="subj">${e.subj}</p><span class="tag">${e.tag}</span></div>`
+  })
+  html += `</div></section>`
+
+  // Section 3
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="#ec4899" stroke-width="1.5"/><line x1="40" y1="20" x2="40" y2="32" stroke="#ec4899" stroke-width="2"/><line x1="40" y1="40" x2="56" y2="40" stroke="#ec4899" stroke-width="2"/><circle cx="40" cy="40" r="3" fill="#ec4899"/></svg></div><div><h2>${d.s3.title}</h2><p>${d.s3.desc}</p></div></div><div class="routine-list">`
+  d.s3.blocks.forEach(b => {
+    html += `<div class="routine-item"><div class="time">${b.time}</div><div class="lb">${b.lb}</div><div class="tags">`
+    b.tags.forEach(t => { html += `<span>${t}</span>` })
+    html += `</div></div>`
+  })
+  html += `</div></section>`
+
+  // Section 4
+  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="#10b981" stroke-width="1.5"/><path d="M24 24 L32 32 L40 20" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h2>${d.s4.title}</h2><p>${d.s4.desc}</p></div></div><div class="check-grid">`
+  d.s4.weeks.forEach(w => {
+    html += `<div class="check-card ${w.cls}"><h4>${w.w}</h4><p class="sub">${w.t}</p><ul>`
+    w.items.forEach(i => { html += `<li>${i}</li>` })
+    html += `</ul></div>`
+  })
+  html += `</div></section>`
+
+  // Footer
+  html += `<footer><p>${d.footer}</p><p style="margin-top:.5rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p></footer>`
+
+  document.getElementById('app').innerHTML = html
+}
+
+function setLang(l) { render(l) }
+
+render('fr')
+
+// Print styles for the inline SVG
+const printStyle = document.createElement('style')
+printStyle.textContent = `@media print{.sec{page-break-inside:avoid}.hero{page-break-after:always}}`
+document.head.appendChild(printStyle)
+</script>
+</body>
+</html>
