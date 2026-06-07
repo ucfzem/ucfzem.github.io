@@ -330,24 +330,25 @@
   @media (max-width: 860px) {
     .hero-layout { grid-template-columns: 1fr; gap: 2rem; }
     .hero-phone-col { order: -1; }
-    .phone-mock { width: 200px; height: 410px; padding: 8px; border-radius: 28px; }
-    .phone-screen { padding: 20px 12px 12px; border-radius: 22px; }
-    .phone-notch { width: 70px; height: 16px; top: 6px; }
-    .phone-notch::after { width: 6px; height: 6px; top: 4px; }
-    .phone-home { width: 80px; height: 3px; bottom: 4px; }
-    .phone-side-btn, .phone-side-btn2 { display: none; }
-    .code-line { height: 4px; margin-bottom: 5px; }
-    .code-cursor { height: 12px; }
-    .code-status { font-size: 5px; }
-    .phone-glow { width: 250px; height: 250px; }
+    .hero-phone-col .phone-mock { width: 200px; height: 410px; padding: 8px; border-radius: 28px; }
+    .hero-phone-col .phone-screen { padding: 20px 12px 12px; border-radius: 22px; }
+    .hero-phone-col .phone-notch { width: 70px; height: 16px; top: 6px; }
+    .hero-phone-col .phone-notch::after { width: 6px; height: 6px; top: 4px; }
+    .hero-phone-col .phone-home { width: 80px; height: 3px; bottom: 4px; }
+    .hero-phone-col .phone-side-btn,
+    .hero-phone-col .phone-side-btn2 { display: none; }
+    .hero-phone-col .code-line { height: 4px; margin-bottom: 5px; }
+    .hero-phone-col .code-cursor { height: 12px; }
+    .hero-phone-col .code-status { font-size: 5px; }
+    .hero-phone-col .phone-glow { width: 250px; height: 250px; }
     .hero-stats { justify-content: center; }
   }
   @media (max-width: 480px) {
-    .phone-mock { width: 160px; height: 330px; padding: 6px; border-radius: 22px; }
-    .phone-screen { padding: 16px 10px 10px; border-radius: 18px; }
-    .code-line { height: 3px; margin-bottom: 4px; }
-    .phone-notch { width: 55px; height: 12px; }
-    .phone-notch::after { width: 5px; height: 5px; top: 3px; }
+    .hero-phone-col .phone-mock { width: 160px; height: 330px; padding: 6px; border-radius: 22px; }
+    .hero-phone-col .phone-screen { padding: 16px 10px 10px; border-radius: 18px; }
+    .hero-phone-col .code-line { height: 3px; margin-bottom: 4px; }
+    .hero-phone-col .phone-notch { width: 55px; height: 12px; }
+    .hero-phone-col .phone-notch::after { width: 5px; height: 5px; top: 3px; }
     .hero-stats { gap: 1rem; }
   }
 
@@ -501,14 +502,14 @@
   }
   .saas-link:hover { gap: .7rem; }
   .saas-cta {
-    display: inline-flex; align-items: center; gap: .4rem;
-    background: var(--accent); color: #000; font-size: .8rem;
-    font-weight: 700; padding: .4rem 1rem; border-radius: 5px;
+    display: inline-flex; align-items: center; gap: .35rem;
+    background: var(--accent); color: #000; font-size: .78rem;
+    font-weight: 600; padding: .35rem .85rem; border-radius: 6px;
     text-decoration: none; transition: all .2s;
-    font-family: 'DM Sans', sans-serif; letter-spacing: .01em;
+    font-family: 'DM Sans', sans-serif; white-space: nowrap;
   }
-  .saas-cta:hover { opacity: .85; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(201,168,76,0.3); }
-  .saas-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.25rem; }
+  .saas-cta:hover { opacity: .85; transform: translateY(-1px); }
+  .saas-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: 1.25rem; }
   .saas-stats { display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .saas-stat { text-align: center; }
   .saas-stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
@@ -653,6 +654,9 @@
     .saas-body { padding: 1rem; }
     .saas-stats { gap: .75rem; }
     .saas-stat-val { font-size: .9rem; }
+    .saas-footer { flex-direction: column; align-items: stretch; gap: .4rem; }
+    .saas-footer .saas-link { font-size: .75rem; }
+    .saas-footer .saas-cta { justify-content: center; padding: .3rem .7rem; font-size: .75rem; }
     .topics-grid { grid-template-columns: 1fr; gap: .75rem; margin-top: 2rem; }
     .topic-card { padding: 1rem; }
     .posts-list { margin-top: 2rem; }
