@@ -518,9 +518,12 @@
 
   /* ───── BLOG TOPICS ───── */
   .topics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    display: flex; flex-wrap: wrap;
     gap: 1rem; margin-top: 3rem;
+    justify-content: center;
+  }
+  .topics-grid .topic-card {
+    flex: 1 1 200px; max-width: 280px;
   }
   .topic-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -660,8 +663,9 @@
     .saas-footer { flex-direction: column; align-items: stretch; gap: .4rem; }
     .saas-footer .saas-link { font-size: .75rem; }
     .saas-footer .saas-cta { justify-content: center; padding: .3rem .7rem; font-size: .75rem; }
-    .topics-grid { grid-template-columns: 1fr; gap: .75rem; margin-top: 2rem; }
-    .topic-card { padding: 1rem; }
+    .topics-grid { gap: .75rem; margin-top: 2rem; }
+    .topics-grid { gap: .75rem; }
+    .topic-card { padding: 1rem; flex: 1 1 160px; max-width: none; }
     .topic-card .topic-icon { font-size: 1.8rem; margin-bottom: .5rem; }
     .topic-card h4 { font-size: .9rem; }
     .topic-card p { font-size: .78rem; }
@@ -701,8 +705,8 @@
     .side-thumb { width: 90px; height: 70px; }
     .saas-grid { grid-template-columns: 1fr; }
     .saas-preview { height: 160px; }
-    .topics-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
-    .topic-card { padding: 1rem; }
+    .topics-grid { gap: .6rem; }
+    .topic-card { padding: 1rem; flex: 1 1 160px; max-width: none; }
     .topic-card .topic-icon { font-size: 1.6rem; margin-bottom: .5rem; }
     .topic-card h4 { font-size: .85rem; }
     .topic-card p { font-size: .72rem; }
