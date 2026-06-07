@@ -643,10 +643,10 @@
 
   /* < 360px — very small phones */
   @media (max-width: 359px) {
-    header { height: 64px; padding: 0 .4rem; }
+    header { height: auto; min-height: 64px; padding: .5rem .4rem; flex-wrap: wrap; gap: .3rem; }
     .logo-line1 { font-size: .8rem; }
     .logo-line2 { font-size: .5rem; }
-    nav { gap: .4rem; }
+    nav { gap: .3rem; flex-wrap: wrap; justify-content: center; }
     nav a { font-size: .65rem; }
     .nav-cta { padding: .2rem .4rem; font-size: .62rem !important; }
     .lang-btn { font-size: .6rem; padding: .15rem .2rem; }
@@ -701,9 +701,9 @@
 
   /* 360px – 480px — small phones */
   @media (min-width: 360px) and (max-width: 480px) {
-    header { height: 68px; padding: 0 .6rem; }
+    header { height: auto; min-height: 68px; padding: .5rem .6rem; flex-wrap: wrap; gap: .4rem; }
     .logo-line1 { font-size: .9rem; }
-    nav { gap: .6rem; }
+    nav { gap: .4rem; flex-wrap: wrap; justify-content: center; }
     nav a { font-size: .68rem; }
     .nav-cta { padding: .25rem .5rem; font-size: .68rem !important; }
     .lang-btn { font-size: .65rem; padding: .15rem .25rem; }
@@ -739,6 +739,8 @@
 
   /* 481px – 768px — phablets / small tablets */
   @media (min-width: 481px) and (max-width: 768px) {
+    header { flex-wrap: wrap; height: auto; min-height: 72px; gap: .5rem; padding: .5rem 1.5rem; }
+    nav { flex-wrap: wrap; justify-content: center; gap: .75rem; }
     nav a:not(.nav-cta) { display: none; }
     .articles-grid { grid-template-columns: 1fr; }
     .article-card.featured, .side-articles { grid-column: 1; grid-row: auto; }
