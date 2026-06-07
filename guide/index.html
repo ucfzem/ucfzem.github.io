@@ -98,6 +98,19 @@
   .routine-item .tags{display:flex;flex-wrap:wrap;gap:.35rem}
   .routine-item .tags span{font-size:.7rem;background:rgba(236,72,153,.15);color:#f9a8d4;padding:.25rem .6rem;border-radius:1rem}
 
+  .email-gate{max-width:500px;margin:0 auto;text-align:center;padding:3rem 1rem}
+  .email-gate h2{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+  .email-gate p{color:#94a3b8;font-size:.85rem;margin-bottom:1.5rem}
+  .email-form{display:flex;gap:.5rem;max-width:420px;margin:0 auto}
+  .email-form input{flex:1;padding:.75rem 1rem;border-radius:.75rem;border:1px solid #334155;background:#1e293b;color:#f8fafc;font-size:.875rem;outline:none;transition:all .2s}
+  .email-form input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.2)}
+  .email-form button{padding:.75rem 1.5rem;border-radius:.75rem;border:none;font-weight:700;font-size:.875rem;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;transition:all .2s;white-space:nowrap}
+  .email-form button:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(59,130,246,.3)}
+  .email-form button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .email-msg{font-size:.8rem;margin-top:.75rem;min-height:1.5rem}
+  .email-msg.success{color:#34d399}
+  .email-msg.error{color:#f87171}
+  .email-msg .dl-link{color:#818cf8;text-decoration:underline;font-weight:600}
   .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem}
   .check-card{border-radius:.75rem;padding:1.25rem;border:1px solid;transition:all .2s}
   .check-card:hover{border-color:currentColor}
@@ -217,7 +230,7 @@ const DATA = {
       { stage:'3', cls:'s3', title:'Produitiser', desc:'Créez un audit standardisé (500€) ou un template SaaS. Un produit se vend 24h/24, votre temps non.' },
       { stage:'4', cls:'s4', title:'Sous-traiter', desc:'Prenez un junior à 200€/jour, facturez 500€/jour. Vous passez de maker à manager. C\'est le vrai passage à l\'échelle.' },
       { stage:'5', cls:'s1', title:'Recurring Revenue', desc:'Maintenance + hébergement = 200-400€/mois/client. 10 clients = 3.000€/mois sans travailler. Le Graal du freelance.' },
-      { stage:'6', cls:'s2', title:'Quitter le freelancing', desc:'Créez un produit SaaS, embauchez, devenez agence. Le freelancing est un tremplin, pas une destination.' }
+      { stage:'6', cls:'s2', title:'Scale & Diversifier', desc:'Créez plusieurs sources de revenus: produits digitaux, affiliation, coaching. Un freelance diversifié ne dépend d\'aucun client.' }
     ]},
     s7: { title: '⏰ Routine Quotidienne', desc: 'Le planning des freelances qui tiennent sur la durée', blocks: [
       { time:'7h - 9h30', lb:'Matin — Production intense', tags:['Réveil sans téléphone','Planifier 3 priorités','Deep work #1 — tâche la plus dure'] },
@@ -233,6 +246,7 @@ const DATA = {
       { w:'Semaine 3', t:'Conversion', cls:'w3', items:['Transformer 5 échanges en calls','Préparer 2 propositions détaillées','Relancer tous les intéressés J+7','Préparer réponses aux objections','Demander 3 recommandations','Signer premier client payant','Livrer premier résultat visible'] },
       { w:'Semaine 4', t:'Accélération & Structure', cls:'w4', items:['Demander témoignage au premier client','Automatiser relances prospects chauds','Publier cas client sur LinkedIn','Configurer CRM freelance','Bilan mensuel: CA, temps, prospects','Ajuster tarifs si nécessaire','Planifier mois suivant avec objectifs'] }
     ]},
+    email: { title: '📥 Télécharge le PDF', desc: 'Laisse ton email pour recevoir le guide complet en PDF — 28 pages, bilingue AR/FR.', placeholder: 'ton@email.com', btn: 'Recevoir le PDF →' },
     cta: { title: 'Prêt à enclencher ?', desc: 'Ce guide vous a été offert par UCF ZEM. Mettez-le en pratique dès aujourd\'hui — le meilleur moment pour commencer était hier. Le deuxième meilleur moment, c\'est maintenant.', btn: '📖 Voir tous mes projets', url: 'https://ucfzem.github.io' },
     footer: '© 2026 — Offert par UCF ZEM — Guide complet mis à jour régulièrement'
   },
@@ -293,7 +307,7 @@ const DATA = {
       { stage:'٣', cls:'s3', title:'تسويق المنتج', desc:'أنشئ تدقيقاً موحداً (500€) أو قالب SaaS. المنتج يباع 24/7، وقتك لا.' },
       { stage:'٤', cls:'s4', title:'التفويض', desc:'استأجر مبتدئاً بـ200€/يوم، فوترة 500€/يوم. تنتقل من صانع إلى مدير.' },
       { stage:'٥', cls:'s1', title:'الدخل المتكرر', desc:'صيانة + استضافة = 200-400€/شهر/عميل. 10 عملاء = 3.000€/شهر بدون عمل.' },
-      { stage:'٦', cls:'s2', title:'ترك العمل الحر', desc:'أنشئ منتج SaaS، وظّف، كن وكالة. العمل الحر جسر، ليس وجهة.' }
+      { stage:'٦', cls:'s2', title:'التوسع والتنويع', desc:'أنشئ مصادر دخل متعددة: منتجات رقمية، تسويق بالعمولة، تدريب. المستقل المتنوع لا يعتمد على أي عميل.' }
     ]},
     s7: { title: '⏰ الروتين اليومي', desc: 'جدول المستقلين الناجحين على المدى الطويل', blocks: [
       { time:'٧ - ٩:٣٠', lb:'الصباح — إنتاج مكثف', tags:['استيقاظ بدون هاتف','تحديد 3 أولويات','عمل عميق #1 — أصعب مهمة'] },
@@ -309,6 +323,7 @@ const DATA = {
       { w:'الأسبوع ٣', t:'التحويل', cls:'w3', items:['تحويل 5 محادثات إلى مكالمات','إعداد عرضين مفصلين','متابعة جميع المهتمين','تحضير ردود الاعتراضات','طلب 3 توصيات','توقيع أول عميل','تسليم أول نتيجة مرئية'] },
       { w:'الأسبوع ٤', t:'التسريع والهيكلة', cls:'w4', items:['طلب شهادة من العميل الأول','أتمتة متابعة العملاء المحتملين','نشر دراسة حالة على لينكدإن','إعداد CRM freelance','تقييم شهري: دخل، وقت، عملاء','تعديل الأسعار عند الحاجة','تخطيط الشهر القادم بأهداف'] }
     ]},
+    email: { title: '📥 تحميل PDF', desc: 'اترك بريدك الإلكتروني لاستلام الدليل الكامل PDF — 28 صفحة، ثنائي اللغة AR/FR.', placeholder: 'بريدك@example.com', btn: 'استلام PDF ←' },
     cta: { title: 'مستعد للانطلاق؟', desc: 'هذا الدليل مقدم من UCF ZEM. طبقه اليوم — أفضل وقت للبدء كان أمس. ثاني أفضل وقت هو الآن.', btn: '📖 شاهد جميع مشاريعي', url: 'https://ucfzem.github.io' },
     footer: '© ٢٠٢٦ — مقدمة من UCF ZEM — دليل كامل يُحدّث بانتظام'
   }
@@ -392,6 +407,9 @@ function render(lang) {
   })
   html += `</div></section>`
 
+  // Email gate
+  html += `<section class="sec" style="padding-bottom:0"><div class="email-gate"><h2>${d.email.title}</h2><p>${d.email.desc}</p><form class="email-form" onsubmit="submitEmail(event)"><input type="email" id="leadEmail" placeholder="${d.email.placeholder}" required><button type="submit" id="leadBtn">${d.email.btn}</button></form><div id="leadMsg" class="email-msg"></div></div></section>`
+
   // CTA
   html += `<div class="cta-section"><h2>${d.cta.title}</h2><p>${d.cta.desc}</p><a class="cta-btn" href="${d.cta.url}" target="_blank" rel="noopener">${d.cta.btn}</a></div>`
 
@@ -399,6 +417,34 @@ function render(lang) {
   html += `<footer><p>${d.footer}</p><p style="margin-top:.5rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p></footer>`
 
   document.getElementById('app').innerHTML = html
+}
+
+function submitEmail(e) {
+  e.preventDefault()
+  const email = document.getElementById('leadEmail').value
+  const btn = document.getElementById('leadBtn')
+  const msg = document.getElementById('leadMsg')
+  btn.disabled = true
+  btn.textContent = 'Envoi...'
+  msg.className = 'email-msg'
+  msg.textContent = ''
+  fetch('https://email-collector.azer-tyu199p.workers.dev', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({email, source:'guide'})
+  }).then(r => {
+    if (r.ok) {
+      msg.className = 'email-msg success'
+      msg.innerHTML = '✅ Merci ! <a class="dl-link" href="../email-collector/guide-freelance.pdf" download>Télécharge ton PDF ici →</a>'
+      btn.textContent = '✅ Envoyé'
+    } else {
+      throw new Error()
+    }
+  }).catch(() => {
+    msg.className = 'email-msg error'
+    msg.innerHTML = '⚠️ Erreur. <a class="dl-link" href="../email-collector/guide-freelance.pdf" download>Télécharge directement le PDF</a>'
+    btn.textContent = 'Recevoir le PDF →'
+    btn.disabled = false
+  })
 }
 
 function setLang(l) { render(l) }
