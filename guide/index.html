@@ -473,7 +473,7 @@ function sendEmail(email, btnId, msgId, btnText) {
   }).then(r => {
     if (r.ok) {
       msg.className = 'success'
-      msg.innerHTML = `<a href="${PDF}" download class="btn-download">📄 Télécharge ton PDF ici →</a>`
+      msg.innerHTML = `✅ Merci !<br><a href="${PDF}" download class="btn-download">📄 Télécharge ton PDF ici →</a>`
       btn.textContent = '✅'
     } else { throw new Error() }
   }).catch(() => {
