@@ -1376,7 +1376,7 @@
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
   });
-  applyLanguage(currentLang);
+  
 
   // ─── ARTICLE SYSTEM ───
 
@@ -1641,7 +1641,7 @@
   });
 
   // ─── INIT ───
-  renderArticles();
+  applyLanguage(currentLang);
   const initHash = window.location.hash.replace('#', '');
   if (initHash.startsWith('article/')) {
     openArticle(initHash.replace('article/', ''));
