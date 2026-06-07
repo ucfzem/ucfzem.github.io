@@ -1,4 +1,7 @@
 const ADMIN_PASSWORD = 'freelance2026'
+const FROM_EMAIL = 'onboarding@resend.dev'
+const PDF_URL = 'https://ucfzem.github.io/email-collector/guide-freelance.pdf'
+const SITE_URL = 'https://ucfzem.github.io/email-collector/'
 
 export default {
   async fetch(request, env) {
@@ -31,7 +34,7 @@ export default {
       return jsonResponse({ total: entries.length, entries })
     }
 
-    // Collect email
+    // Collect email + send via Resend
     if (request.method === 'POST') {
       let body
       try {
@@ -58,11 +61,54 @@ export default {
         ua: request.headers.get('User-Agent') || ''
       })
       await env.EMAILS.put(email.trim().toLowerCase(), entry)
+
+      // Send welcome email via Resend (fire-and-forget)
+      sendEmail(env, name.trim(), email.trim().toLowerCase()).catch(() => {})
+
       return jsonResponse({ ok: true, message: 'Inscription réussie' })
     }
 
     return jsonResponse({ error: 'Not found' }, 404)
   }
+}
+
+async function sendEmail(env, name, to) {
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc;padding:2rem 1rem;margin:0">
+<table align="center" style="max-width:520px;width:100%;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.05)">
+<tr><td style="padding:2rem;text-align:center">
+<img src="https://ucfzem.github.io/images/avatar.png" alt="" style="width:64px;height:64px;border-radius:50%;margin-bottom:1rem">
+<h1 style="font-size:1.25rem;color:#0f172a;margin:0 0 .25rem">Merci ${escapeHtml(name)} !</h1>
+<p style="color:#64748b;font-size:.875rem;margin:0 0 1.5rem">Ton guide est prêt à être téléchargé.</p>
+<a href="${PDF_URL}" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;text-decoration:none;padding:.75rem 1.5rem;border-radius:.75rem;font-size:.875rem;font-weight:600;margin-bottom:1.5rem">📄 Télécharger le guide (PDF)</a>
+<p style="color:#94a3b8;font-size:.75rem;margin:0">Si le bouton ne marche pas : <a href="${PDF_URL}" style="color:#818cf8">${PDF_URL}</a></p>
+</td></tr>
+<tr><td style="padding:1rem 2rem;text-align:center;background:#f8fafc;border-radius:0 0 12px 12px">
+<p style="color:#94a3b8;font-size:.75rem;margin:0">Reçu via <a href="${SITE_URL}" style="color:#818cf8;text-decoration:underline">${SITE_URL}</a></p>
+</td></tr>
+</table>
+</body>
+</html>`
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: FROM_EMAIL,
+      to,
+      subject: '🎉 Ton guide freelance est prêt !',
+      html,
+    })
+  })
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"]/g, function(m) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m] })
 }
 
 function jsonResponse(data, status = 200) {
