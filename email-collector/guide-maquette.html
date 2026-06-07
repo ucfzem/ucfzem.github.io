@@ -1,718 +1,204 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Guide Ultime du Freelance — الدليل الشامل للعمل الحر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Guide Freelance — UCF ZEM</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:#1e293b;background:#f8fafc;line-height:1.6;padding:0}
+  .page{max-width:800px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 
-        :root {
-            --primary: #2563EB;
-            --primary-dark: #1e40af;
-            --secondary: #7C3AED;
-            --accent: #F97316;
-            --success: #10B981;
-            --bg: #f8fafc;
-            --bg-dark: #1e293b;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --white: #ffffff;
-        }
+  .cover{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:60px 40px;text-align:center;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .cover h1{font-size:2.8rem;font-weight:800;margin-bottom:1rem;line-height:1.1;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .cover .sub{font-size:1.2rem;color:#94a3b8;margin-bottom:2rem}
+  .cover .badge{display:inline-block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);padding:.75rem 2rem;border-radius:1rem;font-weight:700;font-size:.9rem}
+  .cover .grid{display:flex;justify-content:center;gap:1rem;margin-top:3rem;flex-wrap:wrap}
+  .cover .grid span{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:.6rem 1.2rem;border-radius:.5rem;font-size:.85rem;color:#cbd5e1}
 
-        body {
-            font-family: 'Inter', 'Cairo', sans-serif;
-            line-height: 1.7;
-            color: var(--text);
-            background: var(--bg);
-        }
+  .sec{padding:40px;border-bottom:1px solid #f1f5f9}
+  .sec:last-child{border-bottom:none}
+  .sec h2{font-size:1.6rem;font-weight:800;margin-bottom:.5rem;color:#2563eb}
+  .sec .desc{color:#64748b;font-size:.9rem;margin-bottom:1.5rem}
+  .sec h2.ar{margin-top:.25rem;font-size:1.3rem;color:#7c3aed;display:block}
 
-        /* === COVER === */
-        .cover {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .cover::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        .cover-illustration { text-align: center; margin-bottom: 0.5rem; position: relative; z-index: 2; }
-        .cover-illustration svg { width: 140px; height: 100px; }
-        .section-illu { text-align: center; margin: 1rem 0; }
-        .section-illu svg { width: 80px; height: 60px; opacity: 0.5; }
-        .cover-content { position: relative; z-index: 2; max-width: 800px; }
-        .cover .logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: 1px; }
-        .cover h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 800; margin: 1rem 0; line-height: 1.2; }
-        .cover h1 span { display: block; font-size: clamp(1.4rem, 4vw, 2.2rem); opacity: 0.85; margin-top: 0.5rem; font-family: 'Cairo', sans-serif; }
-        .cover-subtitle { font-size: 1.1rem; opacity: 0.9; margin: 2rem 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-        .cover-subtitle span { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); }
-        .badge { display: inline-block; background: rgba(99,102,241,0.2); padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; margin-top: 20px; border: 1px solid rgba(99,102,241,0.3); }
-        .cover-url { font-size: 0.9rem; margin-top: 2.5rem; opacity: 0.6; }
-        .lang-badge { display: inline-flex; gap: 8px; margin-bottom: 1rem; }
-        .lang-badge span { background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .pc{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.25rem;border-left:4px solid #2563eb;break-inside:avoid}
+  .pc:nth-child(2){border-left-color:#7c3aed}
+  .pc:nth-child(3){border-left-color:#f97316}
+  .pc h3{font-size:1.1rem;margin-bottom:.25rem}
+  .pc .exp{font-size:.8rem;color:#64748b;margin-bottom:.75rem}
+  .pc ul{list-style:none}
+  .pc ul li{font-size:.85rem;color:#475569;padding:.25rem 0}
+  .pc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;font-size:.85rem;margin-bottom:.5rem}
 
-        /* === SECTIONS === */
-        .section { padding: 50px 20px; max-width: 1100px; margin: 0 auto; }
-        .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .section-icon { font-size: 1.8rem; }
-        .section h2 { font-size: clamp(1.5rem, 4vw, 2rem); color: var(--primary); font-weight: 700; }
-        .section h2 .ar { display: block; font-family: 'Cairo', sans-serif; font-size: clamp(1.1rem, 3vw, 1.5rem); color: var(--secondary); font-weight: 700; margin-top: 4px; }
+  .emails{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
+  .ec{border:1px solid rgba(139,92,246,.2);border-radius:.75rem;padding:1rem;text-align:center;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(59,130,246,.04));break-inside:avoid}
+  .ec .n{font-size:1.5rem;font-weight:800;color:#7c3aed}
+  .ec h4{font-size:.9rem;margin:.25rem 0}
+  .ec .s{font-size:.75rem;color:#64748b}
+  .ec .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:center;font-size:.85rem;color:#64748b;margin-top:.25rem}
 
-        .bilingual { margin: 1.5rem 0; }
-        .bilingual .fr { font-size: 1rem; line-height: 1.7; color: var(--text); }
-        .bilingual .ar { font-family: 'Cairo', sans-serif; font-size: 1rem; line-height: 1.8; color: var(--text-light); margin-top: 6px; padding: 10px 14px; background: #f1f5f9; border-radius: 8px; border-right: 3px solid var(--secondary); text-align: right; direction: rtl; }
+  .rt{display:flex;flex-direction:column;gap:.75rem}
+  .ri{border:1px solid rgba(236,72,153,.15);border-radius:.75rem;padding:1.25rem;background:linear-gradient(135deg,rgba(236,72,153,.04),rgba(239,68,68,.02));break-inside:avoid}
+  .ri .tm{font-size:1.1rem;font-weight:700;color:#ec4899;margin-bottom:.25rem}
+  .ri .lb{font-size:.85rem;color:#64748b;margin-bottom:.5rem}
+  .ri .tags{display:flex;gap:.35rem;flex-wrap:wrap}
+  .ri .tags span{font-size:.7rem;background:rgba(236,72,153,.1);color:#be185d;padding:.2rem .6rem;border-radius:1rem}
+  .ri .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.5rem;color:#64748b;font-size:.85rem}
 
-        .intro-box {
-            background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(124,58,237,0.08));
-            border-left: 4px solid var(--primary);
-            padding: 20px 24px;
-            border-radius: 8px;
-            margin: 24px 0;
-        }
-        .intro-box .ar {
-            font-family: 'Cairo', sans-serif;
-            direction: rtl;
-            text-align: right;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px dashed rgba(124,58,237,0.2);
-            color: var(--text-light);
-        }
+  .weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+  .wc{border-radius:.75rem;padding:1.25rem;border:1px solid;break-inside:avoid}
+  .wc h4{font-size:.95rem;margin-bottom:.25rem}
+  .wc .s{font-size:.8rem;margin-bottom:.75rem}
+  .wc ul{list-style:none}
+  .wc ul li{font-size:.8rem;padding:.25rem 0;display:flex;gap:.4rem}
+  .wc ul li::before{content:'✓';font-weight:700}
+  .wc1{background:linear-gradient(135deg,rgba(16,185,129,.06),rgba(5,150,105,.03));border-color:rgba(16,185,129,.2);color:#059669}
+  .wc1 h4,.wc1 .s{color:#065f46}
+  .wc2{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(6,182,212,.03));border-color:rgba(59,130,246,.2);color:#2563eb}
+  .wc2 h4,.wc2 .s{color:#1e40af}
+  .wc3{background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(236,72,153,.03));border-color:rgba(139,92,246,.2);color:#7c3aed}
+  .wc3 h4,.wc3 .s{color:#6d28d9}
+  .wc4{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(239,68,68,.03));border-color:rgba(249,115,22,.2);color:#ea580c}
+  .wc4 h4,.wc4 .s{color:#c2410c}
+  .wc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.25rem;font-size:.8rem}
 
-        /* === PRICING CARDS === */
-        .pricing-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 30px 0; }
-        .pricing-card { background: white; border-radius: 12px; padding: 30px 24px; border-left: 4px solid var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .pricing-card:nth-child(2) { border-left-color: var(--secondary); }
-        .pricing-card:nth-child(3) { border-left-color: var(--accent); }
-        .pricing-card h3 { font-size: 1.3rem; margin-bottom: 4px; }
-        .pricing-card .subtitle { color: var(--text-light); font-size: 0.85rem; margin-bottom: 20px; }
-        .pricing-card .ar-title { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; font-size: 0.9rem; color: var(--text-light); margin-bottom: 12px; }
-        .pricing-table { width: 100%; }
-        .pricing-table tr { border-bottom: 1px solid var(--border); }
-        .pricing-table td { padding: 10px 0; font-size: 0.9rem; }
-        .pricing-table td:first-child { color: var(--text-light); width: 60%; }
-        .pricing-table td:last-child { font-weight: 600; color: var(--primary); text-align: right; }
+  .footer{background:#0f172a;color:#64748b;text-align:center;padding:2rem;font-size:.85rem}
+  .footer a{color:#818cf8;text-decoration:underline}
 
-        /* === EMAIL TEMPLATES === */
-        .email-template { background: white; border-radius: 12px; padding: 24px; margin: 20px 0; border: 1px solid var(--border); border-left: 4px solid var(--accent); }
-        .email-template .label { display: inline-block; background: var(--accent); color: white; padding: 3px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: 600; margin-bottom: 12px; }
-        .email-template h3 { color: var(--accent); margin-bottom: 6px; font-size: 1rem; }
-        .email-template .ar-label { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
-        .template-content { background: #f8fafc; padding: 16px 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--text); white-space: pre-wrap; }
-        .template-content.ar { direction: rtl; text-align: right; font-family: 'Cairo', monospace; margin-top: 8px; border-right: 3px solid var(--secondary); background: #f1f5f9; }
+  .ar-block{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;margin-top:.5rem;padding-top:.5rem;border-top:1px dashed #e2e8f0;font-size:.9rem}
 
-        /* === TIMELINE === */
-        .timeline-block { display: grid; grid-template-columns: 100px 1fr; gap: 16px; margin-bottom: 20px; align-items: start; }
-        .timeline-time { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 12px; border-radius: 8px; font-weight: 700; text-align: center; font-size: 0.8rem; }
-        .timeline-content { background: white; padding: 16px 20px; border-radius: 8px; border-left: 4px solid var(--primary); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-        .timeline-content h4 { color: var(--primary); margin-bottom: 8px; font-size: 1rem; }
-        .timeline-content p { color: var(--text-light); font-size: 0.9rem; }
-        .timeline-content .ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); font-size: 0.9rem; color: var(--text-light); }
-
-        /* === RULES === */
-        .rules-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 30px 0; }
-        .rule-card { background: white; padding: 20px; border-radius: 12px; border-top: 4px solid var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-        .rule-number { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--accent); color: white; border-radius: 50%; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; }
-        .rule-card p { color: var(--text); font-size: 0.9rem; }
-        .rule-card .ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; margin-top: 6px; color: var(--text-light); font-size: 0.85rem; }
-
-        /* === CHECKLIST === */
-        .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
-        .week-block { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
-        .week-header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 16px 20px; font-weight: 700; font-size: 1rem; }
-        .week-header .ar { font-family: 'Cairo', sans-serif; font-size: 0.85rem; opacity: 0.9; display: block; margin-top: 2px; }
-        .checklist-items { padding: 16px 20px; }
-        .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-        .checklist-item:last-child { border-bottom: none; }
-        .checkbox { width: 20px; height: 20px; border: 2px solid var(--primary); border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
-        .checklist-text { font-size: 0.9rem; color: var(--text); }
-        .checklist-text .ar { font-family: 'Cairo', sans-serif; display: block; color: var(--text-light); font-size: 0.85rem; direction: rtl; text-align: right; margin-top: 2px; }
-
-        /* === BONUS === */
-        .bonus-box { background: white; padding: 24px; border-radius: 12px; margin-top: 24px; border-left: 4px solid var(--success); }
-        .bonus-box h3 { color: var(--success); margin-bottom: 16px; }
-        .bonus-box h3 .ar { font-family: 'Cairo', sans-serif; display: block; color: var(--text-light); font-size: 0.9rem; margin-top: 2px; }
-
-        /* === FOOTER === */
-        .footer { background: var(--bg-dark); color: white; padding: 40px 20px; text-align: center; }
-        .footer p { margin: 8px 0; opacity: 0.8; font-size: 0.9rem; }
-        .footer .ar { font-family: 'Cairo', sans-serif; direction: rtl; text-align: center; }
-        .footer a { color: #818cf8; text-decoration: underline; text-underline-offset: 2px; }
-
-        .divider { text-align: center; color: #cbd5e1; font-size: 1.2rem; letter-spacing: 0.5rem; margin: 20px 0; user-select: none; }
-
-        @media (max-width: 768px) {
-            .section { padding: 30px 15px; }
-            .timeline-block { grid-template-columns: 1fr; }
-            .cover { padding: 50px 15px; min-height: auto; }
-        }
-
-        @media print {
-            body { background: white; }
-            .section { page-break-inside: avoid; padding: 30px 20px; }
-            .cover { page-break-after: always; min-height: 100vh; }
-            .pricing-card:hover, .email-template:hover { transform: none; box-shadow: none; }
-        }
-    </style>
+  @media print{body{background:#fff}.page{box-shadow:none;max-width:100%}.cover{min-height:100vh;page-break-after:always}.sec{page-break-inside:avoid}.pricing{break-inside:avoid}.emails{break-inside:avoid}}
+  @media(max-width:768px){.pricing{grid-template-columns:1fr}.emails{grid-template-columns:repeat(2,1fr)}.weeks{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
+<div class="page">
 
-<!-- ===== COVER ===== -->
 <div class="cover">
-    <div class="cover-illustration">
-        <svg viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="55" r="28" stroke="#818cf8" stroke-width="2" fill="none" opacity="0.6"/>
-            <circle cx="100" cy="55" r="18" stroke="#a5b4fc" stroke-width="2" fill="none" opacity="0.4"/>
-            <circle cx="100" cy="55" r="8" fill="#818cf8" opacity="0.8"/>
-            <path d="M70 85 Q85 70 100 85 Q115 100 130 85" stroke="#6366f1" stroke-width="2" fill="none" opacity="0.5"/>
-            <rect x="60" y="92" width="80" height="48" rx="8" stroke="#818cf8" stroke-width="1.5" fill="none" opacity="0.3"/>
-            <line x1="72" y1="102" x2="128" y2="102" stroke="#818cf8" stroke-width="1" opacity="0.4"/>
-            <line x1="72" y1="110" x2="118" y2="110" stroke="#818cf8" stroke-width="1" opacity="0.3"/>
-            <line x1="72" y1="118" x2="108" y2="118" stroke="#818cf8" stroke-width="1" opacity="0.2"/>
-            <circle cx="35" cy="30" r="4" fill="#a78bfa" opacity="0.3"/>
-            <circle cx="165" cy="25" r="3" fill="#f472b6" opacity="0.3"/>
-            <circle cx="175" cy="50" r="2" fill="#34d399" opacity="0.3"/>
-            <circle cx="25" cy="60" r="2.5" fill="#fbbf24" opacity="0.3"/>
-        </svg>
-    </div>
-    <div class="cover-content">
-        <div class="lang-badge">
-            <span>🇫🇷 FR</span>
-            <span>🇸🇦 AR</span>
-        </div>
-        <div class="logo">✦ UCF ZEM ✦</div>
-        <h1>
-            Le Guide Ultime du Freelance
-            <span>الدليل الشامل للعمل الحر</span>
-        </h1>
-        <div class="cover-subtitle">
-            <span>💰 Grille Tarifaire</span>
-            <span>📧 Templates d'Emails</span>
-            <span>⏰ Routine Quotidienne</span>
-            <span>✅ Checklist 30 Jours</span>
-        </div>
-        <div class="cover-subtitle" style="font-family:'Cairo',sans-serif;font-size:0.95rem">
-            <span>💰 جدول الأسعار</span>
-            <span>📧 قوالب البريد الإلكتروني</span>
-            <span>⏰ الروتين اليومي</span>
-            <span>✅ قائمة 30 يومًا</span>
-        </div>
-        <div class="badge">🎁 OFFERT / مجاني</div>
-        <div class="cover-url">ucfzem.github.io</div>
-    </div>
+  <h1>Le Guide Ultime du Freelance</h1>
+  <div style="font-size:1.6rem;font-weight:700;color:#a78bfa;font-family:'Times New Roman',serif;margin-bottom:1rem">الدليل الشامل للعمل الحر</div>
+  <p class="sub">Passer de 0€ à 5.000€/mois en 30 jours</p>
+  <p class="sub" style="font-family:'Times New Roman',serif;font-size:1rem">من 0€ إلى 5.000€/شهر في 30 يوم</p>
+  <div class="badge">🎁 OFFERT</div>
+  <div class="grid">
+    <span>💰 Tarifs</span><span>📧 Emails</span><span>⏰ Routine</span><span>✅ Checklist</span>
+  </div>
 </div>
 
-<!-- ===== SECTION 1: PRICING ===== -->
-<section class="section">
-    <div class="section-header">
-        <span class="section-icon">💰</span>
-        <h2>
-            Grille Tarifaire Prête à l'Emploi
-            <span class="ar">جدول الأسعار الجاهز للاستخدام</span>
-        </h2>
+<div class="sec">
+  <h2>💰 Grille Tarifaire</h2>
+  <h2 class="ar">جدول الأسعار</h2>
+  <p class="desc">Trois niveaux selon votre expérience<br><span style="font-family:'Times New Roman',serif;direction:rtl;text-align:right;display:block;color:#64748b">ثلاثة مستويات حسب خبرتك</span></p>
+  <div class="pricing">
+    <div class="pc">
+      <h3>🏗 Débutants &lt; 6 mois</h3>
+      <div class="ar">المبتدئون — أقل من ٦ أشهر</div>
+      <ul>
+        <li>Landing page: 300-500€</li>
+        <li>Site vitrine: 600-1.200€</li>
+        <li>Intégration HTML: 200-400€</li>
+        <li>Audit technique: 100-200€</li>
+      </ul>
     </div>
-
-    <div class="intro-box">
-        <div class="fr">Trois niveaux de tarification selon votre expérience. Utilisez ces grilles comme base pour vos devis.</div>
-        <div class="ar">ثلاثة مستويات تسعيرية حسب خبرتك. استخدم هذه الجداول كأساس لعروض الأسعار الخاصة بك.</div>
+    <div class="pc">
+      <h3>📈 Intermédiaires 6-18 mois</h3>
+      <div class="ar">المتوسطون — ٦ إلى ١٨ شهرًا</div>
+      <ul>
+        <li>React/Next.js: 350-450€/j</li>
+        <li>API backend: 300-400€/j</li>
+        <li>Refonte: 2.500-5.000€</li>
+        <li>Maintenance: 200-400€/m</li>
+      </ul>
     </div>
-
-    <div class="pricing-container">
-        <div class="pricing-card">
-            <h3>🏗️ Débutants</h3>
-            <div class="ar-title">المبتدئون — أقل من 6 أشهر</div>
-            <p class="subtitle">&lt; 6 mois d'expérience</p>
-            <table class="pricing-table">
-                <tr><td>Landing page</td><td>300-500€</td></tr>
-                <tr><td>Site vitrine 3-5 pages</td><td>600-1.200€</td></tr>
-                <tr><td>Intégration HTML/CSS</td><td>200-400€</td></tr>
-                <tr><td>Audit technique</td><td>100-200€</td></tr>
-            </table>
-        </div>
-        <div class="pricing-card">
-            <h3>📈 Intermédiaires</h3>
-            <div class="ar-title">المتوسطون — 6 إلى 18 شهرًا</div>
-            <p class="subtitle">6-18 mois d'expérience</p>
-            <table class="pricing-table">
-                <tr><td>React / Next.js</td><td>350-450€/j</td></tr>
-                <tr><td>API backend</td><td>300-400€/j</td></tr>
-                <tr><td>Refonte complète</td><td>2.500-5.000€</td></tr>
-                <tr><td>Maintenance/mois</td><td>200-400€/m</td></tr>
-            </table>
-        </div>
-        <div class="pricing-card">
-            <h3>⭐ Confirmés</h3>
-            <div class="ar-title">المحترفون — أكثر من 18 شهرًا</div>
-            <p class="subtitle">18+ mois d'expérience</p>
-            <table class="pricing-table">
-                <tr><td>Architecture technique</td><td>500-700€/j</td></tr>
-                <tr><td>Lead tech / CTO</td><td>600-800€/j</td></tr>
-                <tr><td>Formation équipe</td><td>600-900€/j</td></tr>
-                <tr><td>SaaS complet</td><td>10.000-30.000€</td></tr>
-            </table>
-        </div>
+    <div class="pc">
+      <h3>⭐ Confirmés 18+ mois</h3>
+      <div class="ar">المحترفون — أكثر من ١٨ شهرًا</div>
+      <ul>
+        <li>Architecture: 500-700€/j</li>
+        <li>Lead tech: 600-800€/j</li>
+        <li>SaaS complet: 10.000-30.000€</li>
+        <li>Formation: 600-900€/j</li>
+      </ul>
     </div>
-</section>
-
-<div class="divider">
-    <svg viewBox="0 0 120 20" width="120" height="20" style="display:inline-block;vertical-align:middle">
-        <circle cx="10" cy="10" r="3" fill="#2563EB" opacity="0.3"/>
-        <circle cx="30" cy="10" r="2" fill="#7C3AED" opacity="0.3"/>
-        <circle cx="50" cy="10" r="3" fill="#2563EB" opacity="0.5"/>
-        <circle cx="70" cy="10" r="2" fill="#7C3AED" opacity="0.3"/>
-        <circle cx="90" cy="10" r="3" fill="#2563EB" opacity="0.3"/>
-        <circle cx="110" cy="10" r="2" fill="#7C3AED" opacity="0.3"/>
-    </svg>
+  </div>
 </div>
 
-<!-- ===== SECTION 2: EMAILS ===== -->
-<section class="section">
-    <div class="section-header">
-        <span class="section-icon">📧</span>
-        <h2>
-            5 Templates d'Emails Prospection
-            <span class="ar">5 قوالب بريد إلكتروني للتسويق</span>
-        </h2>
-    </div>
-
-    <div class="intro-box">
-        <div class="fr">Personnalisez ces 5 emails avec vos informations. Le timing et la personnalisation font 80% du succès.</div>
-        <div class="ar">خصّص هذه القوالب الخمسة بمعلوماتك. التوقيت والتخصيص يمثلان 80% من النجاح.</div>
-    </div>
-
-    <!-- Template 1 -->
-    <div class="email-template">
-        <span class="label">1. FROID / بارد</span>
-        <h3>Idée pour [site]</h3>
-        <div class="ar-label">فكرة لـ [موقع] — تواصل أولي</div>
-        <div class="template-content">
-Objet : Idée pour [site web / projet] de [Nom]
-
-Bonjour [Prénom],
-
-Je suis développeur freelance et je suis tombé sur [site / projet].
-
-J'ai remarqué que [point spécifique : design daté / temps de chargement].
-
-Je pourrais vous proposer une solution en [X] jours pour [résultat concret].
-
-Vous avez 10 minutes cette semaine pour qu'on en parle ?
-
-Cordialement,
-[Mon nom] · [Mon lien Calendly]
-        </div>
-        <div class="template-content ar">
-الموضوع: فكرة لـ [موقع/مشروع] من [الاسم]
-
-مرحبًا [الاسم]،
-
-أنا مطور مستقل وقد اطلعت على [موقعك/مشروعك].
-
-لاحظت أن [نقطة محددة: تصميم قديم / بطء في التحميل].
-
-يمكنني تقديم حل في [X] أيام لتحقيق [نتيجة ملموسة].
-
-هل لديك 10 دقائق هذا الأسبوع للحديث؟
-
-مع التحية،
-[اسمي] · [رابط التقويم]
-        </div>
-    </div>
-
-    <!-- Template 2 -->
-    <div class="email-template">
-        <span class="label">2. AGENCE / وكالة</span>
-        <h3>Prestation dev</h3>
-        <div class="ar-label">خدمات تطوير — للوكالات</div>
-        <div class="template-content">
-Objet : Prestation dev - [Nom de l'agence]
-
-Bonjour [Prénom],
-
-Je suis développeur freelance spécialisé en [frontend / backend].
-
-Si vous avez des projets ou des pics de charge, je peux vous dépanner en régie.
-
-Je m'adapte à votre stack et vos process.
-
-Quelques réalisations : [lien 1] · [lien 2]
-
-Bonne journée,
-[Mon nom]
-        </div>
-        <div class="template-content ar">
-الموضوع: خدمات تطوير - [اسم الوكالة]
-
-مرحبًا [الاسم]،
-
-أنا مطور مستقل متخصص في [واجهة أمامية / خلفية].
-
-إذا كان لديك مشاريع أو ضغط في العمل، يمكنني المساعدة.
-
-أتأقلم مع تقنياتك وعملياتك.
-
-بعض أعمالي: [رابط 1] · [رابط 2]
-
-طاب يومك،
-[اسمي]
-        </div>
-    </div>
-
-    <!-- Template 3 -->
-    <div class="email-template">
-        <span class="label">3. RELANCE / متابعة</span>
-        <h3>Relance - J+7</h3>
-        <div class="ar-label">متابعة بعد 7 أيام</div>
-        <div class="template-content">
-Objet : Relance - [Nom du projet]
-
-Salut [Prénom],
-
-Je me permets de revenir vers toi suite à mon précédent message.
-
-Si le timing n'est pas bon, pas de souci.
-
-Si tu préfères, je peux faire une proposition plus légère.
-
-Bonne semaine,
-[Mon nom]
-        </div>
-        <div class="template-content ar">
-الموضوع: متابعة - [اسم المشروع]
-
-مرحبًا [الاسم]،
-
-أعتذر على الإزعاج وأود متابعة رسالتي السابقة.
-
-إذا كان التوقيت غير مناسب، لا مشكلة.
-
-إذا تفضلت، يمكنني تقديم عرض أبسط.
-
-أسبوع موفق،
-[اسمي]
-        </div>
-    </div>
-
-    <!-- Template 4 -->
-    <div class="email-template">
-        <span class="label">4. RECOMMANDATION / توصية</span>
-        <h3>Suivi projet</h3>
-        <div class="ar-label">متابعة المشروع — طلب توصيات</div>
-        <div class="template-content">
-Objet : Suivi projet [Nom]
-
-Salut [Prénom],
-
-Ça fait [X mois] qu'on a bossé ensemble sur [projet].
-
-Est-ce que tout fonctionne bien ?
-
-Si tu as des collègues qui cherchent un développeur, je suis preneur.
-
-Merci d'avance,
-[Mon nom]
-        </div>
-        <div class="template-content ar">
-الموضوع: متابعة مشروع [الاسم]
-
-مرحبًا [الاسم]،
-
-لقد مرت [X أشهر] منذ أن عملنا معًا على [المشروع].
-
-هل كل شيء يعمل بشكل جيد؟
-
-إذا كان لديك زملاء يبحثون عن مطور، فأنا مستعد.
-
-شكرًا مقدمًا،
-[اسمي]
-        </div>
-    </div>
-
-    <!-- Template 5 -->
-    <div class="email-template">
-        <span class="label">5. POST-AUDIT / بعد التدقيق</span>
-        <h3>Compte-rendu + proposition</h3>
-        <div class="ar-label">تقرير التدقيق + عرض</div>
-        <div class="template-content">
-Objet : Compte-rendu audit + proposition
-
-Bonjour [Prénom],
-
-Suite à notre échange, voici ce que j'ai repéré :
-
-Points forts : [point 1], [point 2]
-Points d'amélioration : [point 1], [point 2]
-
-Je peux corriger tout ça en [X] jours pour [X]€.
-
-Tu veux qu'on en discute ?
-[Mon nom]
-        </div>
-        <div class="template-content ar">
-الموضوع: تقرير التدقيق + عرض
-
-مرحبًا [الاسم]،
-
-بناءً على محادثتنا، إليك ما لاحظته:
-
-نقاط القوة: [نقطة 1]، [نقطة 2]
-نقاط التحسين: [نقطة 1]، [نقطة 2]
-
-يمكنني إصلاح كل هذا في [X] أيام مقابل [X]€.
-
-هل تريد مناقشة الأمر؟
-[اسمي]
-        </div>
-    </div>
-</section>
-
-<div class="divider">
-    <svg viewBox="0 0 120 20" width="120" height="20" style="display:inline-block;vertical-align:middle">
-        <rect x="5" y="8" width="8" height="8" rx="2" fill="#F97316" opacity="0.3"/>
-        <rect x="25" y="6" width="8" height="10" rx="2" fill="#F97316" opacity="0.4"/>
-        <rect x="45" y="4" width="8" height="12" rx="2" fill="#F97316" opacity="0.5"/>
-        <rect x="65" y="6" width="8" height="10" rx="2" fill="#F97316" opacity="0.4"/>
-        <rect x="85" y="8" width="8" height="8" rx="2" fill="#F97316" opacity="0.3"/>
-        <rect x="105" y="8" width="8" height="8" rx="2" fill="#F97316" opacity="0.3"/>
-    </svg>
+<div class="sec">
+  <h2>📧 5 Templates de Prospection</h2>
+  <h2 class="ar">٥ قوالب للتواصل</h2>
+  <p class="desc">Emails prêts à personnaliser<br><span style="font-family:'Times New Roman',serif;color:#64748b">رسائل جاهزة للتخصيص</span></p>
+  <div class="emails">
+    <div class="ec"><div class="n">1</div><h4>Froid</h4><p class="s">"Idée pour [site]"</p><div class="ar">بارد — تواصل أولي</div></div>
+    <div class="ec"><div class="n">2</div><h4>Agence</h4><p class="s">"Prestation dev"</p><div class="ar">وكالة — تعاون</div></div>
+    <div class="ec"><div class="n">3</div><h4>Relance</h4><p class="s">"Relance J+7"</p><div class="ar">متابعة — مراجعة</div></div>
+    <div class="ec"><div class="n">4</div><h4>Reco</h4><p class="s">"Suivi projet"</p><div class="ar">توصية — شهادات</div></div>
+    <div class="ec"><div class="n">5</div><h4>Audit</h4><p class="s">"Rapport + proposition"</p><div class="ar">تدقيق — تحويل</div></div>
+  </div>
 </div>
 
-<!-- ===== SECTION 3: ROUTINE ===== -->
-<section class="section">
-    <div class="section-header">
-        <span class="section-icon">⏰</span>
-        <h2>
-            Routine Quotidienne (5.000€/mois)
-            <span class="ar">الروتين اليومي (5,000 يورو/شهر)</span>
-        </h2>
+<div class="sec">
+  <h2>⏰ Routine Quotidienne</h2>
+  <h2 class="ar">الروتين اليومي</h2>
+  <p class="desc">Le planning des freelances à 5k€/mois<br><span style="font-family:'Times New Roman',serif;color:#64748b">جدول المستقلين الناجحين</span></p>
+  <div class="rt">
+    <div class="ri">
+      <div class="tm">7h - 9h30</div><div class="lb">Matin — Production</div>
+      <div class="tags"><span>Réveil sans téléphone</span><span>Planification 3 priorités</span><span>Deep work #1</span></div>
+      <div class="ar"><strong>٧ - ٩:٣٠</strong> — الصباح: استيقاظ، تحديد أولويات، عمل عميق</div>
     </div>
-
-    <div class="intro-box">
-        <div class="fr">Des blocs de deep work, des pauses, et une vraie fin de journée. Voici la routine des freelances qui réussissent.</div>
-        <div class="ar">فترات عمل عميق، استراحات، ونهاية يوم حقيقية. هذا هو روتين المستقلين الناجحين.</div>
+    <div class="ri">
+      <div class="tm">9h30 - 12h30</div><div class="lb">Mi-journée — Exécution</div>
+      <div class="tags"><span>Deep work #2 client</span><span>Pause 15 min</span><span>Administration</span></div>
+      <div class="ar"><strong>٩:٣٠ - ١٢:٣٠</strong> — التنفيذ: عمل عميق، استراحة، إدارة</div>
     </div>
-
-    <div class="timeline-block">
-        <div class="timeline-time">7h - 9h30</div>
-        <div class="timeline-content">
-            <h4>🌅 Matin — Production</h4>
-            <p><strong>7h00-7h30:</strong> Réveil, douche froide, pas de téléphone<br>
-               <strong>7h30-8h00:</strong> Planification du jour - 3 priorités<br>
-               <strong>8h00-9h00:</strong> Deep work #1 : tâche la plus importante</p>
-            <div class="ar"><strong>٧-٧:٣٠:</strong> استيقاظ، دش بارد، لا هاتف<br>
-               <strong>٧:٣٠-٨:</strong> تخطيط اليوم - ٣ أولويات<br>
-               <strong>٨-٩:</strong> عمل عميق #١: أهم مهمة</div>
-        </div>
+    <div class="ri">
+      <div class="tm">14h - 17h</div><div class="lb">Après-midi — Croissance</div>
+      <div class="tags"><span>Prospection LinkedIn</span><span>Deep work #3</span><span>Bilan du jour</span></div>
+      <div class="ar"><strong>١٤ - ١٧</strong> — النمو: تسويق، عمل عميق، تقييم</div>
     </div>
-
-    <div class="timeline-block">
-        <div class="timeline-time">9h30 - 12h30</div>
-        <div class="timeline-content">
-            <h4>☀️ Mi-journée — Exécution</h4>
-            <p><strong>9h30-11h00:</strong> Deep work #2 : développement / livraison client<br>
-               <strong>11h00-11h15:</strong> Pause<br>
-               <strong>11h15-12h30:</strong> Administration : devis, factures</p>
-            <div class="ar"><strong>٩:٣٠-١١:</strong> عمل عميق #٢: تطوير / تسليم للعميل<br>
-               <strong>١١-١١:١٥:</strong> استراحة<br>
-               <strong>١١:١٥-١٢:٣٠:</strong> إدارة: عروض أسعار، فواتير</div>
-        </div>
+    <div class="ri">
+      <div class="tm">17h+</div><div class="lb">Soir — Repos</div>
+      <div class="tags"><span>Fini. Pas de travail</span><span>Sport 3x/semaine</span><span>Lecture 20 min</span></div>
+      <div class="ar"><strong>١٧+</strong> — الراحة: لا عمل، رياضة، قراءة</div>
     </div>
-
-    <div class="timeline-block">
-        <div class="timeline-time">14h - 17h</div>
-        <div class="timeline-content">
-            <h4>🌤️ Après-midi — Croissance</h4>
-            <p><strong>14h00-15h30:</strong> Prospection / networking / LinkedIn<br>
-               <strong>15h30-16h30:</strong> Deep work #3 : projet perso ou formation<br>
-               <strong>16h30-17h00:</strong> Bilan du jour</p>
-            <div class="ar"><strong>١٤-١٥:٣٠:</strong> تسويق / تواصل / لينكدإن<br>
-               <strong>١٥:٣٠-١٦:٣٠:</strong> عمل عميق #٣: مشروع شخصي أو تدريب<br>
-               <strong>١٦:٣٠-١٧:</strong> تقييم اليوم</div>
-        </div>
-    </div>
-
-    <div class="timeline-block">
-        <div class="timeline-time">17h+</div>
-        <div class="timeline-content">
-            <h4>🌙 Soir — Repos</h4>
-            <p><strong>17h00:</strong> FINI. Pas de travail après.<br>
-               <strong>3x/semaine:</strong> Sport<br>
-               <strong>Chaque jour:</strong> Lecture 20 min</p>
-            <div class="ar"><strong>١٧:٠٠:</strong> انتهى. لا عمل بعد الآن.<br>
-               <strong>٣ مرات/أسبوع:</strong> رياضة<br>
-               <strong>يوميًا:</strong> قراءة ٢٠ دقيقة</div>
-        </div>
-    </div>
-
-    <h3 style="margin-top:40px;margin-bottom:20px;color:var(--accent);">
-        Règles d'Or
-        <span style="display:block;font-family:'Cairo',sans-serif;font-size:0.9rem;color:var(--text-light);margin-top:4px">القواعد الذهبية</span>
-    </h3>
-
-    <div class="rules-container">
-        <div class="rule-card">
-            <div class="rule-number">1</div>
-            <p><strong>Pas de réseaux sociaux avant 12h</strong> — Le matin est pour produire.</p>
-            <p class="ar"><strong>لا تواصل اجتماعي قبل ١٢ ظهرًا</strong> — الصباح للإنتاج.</p>
-        </div>
-        <div class="rule-card">
-            <div class="rule-number">2</div>
-            <p><strong>Journaling 5 min chaque soir</strong> — « Qu'est-ce que j'ai appris ? »</p>
-            <p class="ar"><strong>تدوين ٥ دقائق كل مساء</strong> — « ماذا تعلمت اليوم؟ »</p>
-        </div>
-        <div class="rule-card">
-            <div class="rule-number">3</div>
-            <p><strong>Un seul client à la fois</strong> — Pas de multitâche en deep work.</p>
-            <p class="ar"><strong>عميل واحد في كل مرة</strong> — لا تعدد مهام أثناء العمل العميق.</p>
-        </div>
-        <div class="rule-card">
-            <div class="rule-number">4</div>
-            <p><strong>Relance clients jeudi matin</strong> — 30 min chrono.</p>
-            <p class="ar"><strong>متابعة العملاء صباح الخميس</strong> — ٣٠ دقيقة فقط.</p>
-        </div>
-        <div class="rule-card">
-            <div class="rule-number">5</div>
-            <p><strong>Un jour sans écran par mois</strong> — Créativité et repos.</p>
-            <p class="ar"><strong>يوم بدون شاشة كل شهر</strong> — إبداع وراحة.</p>
-        </div>
-    </div>
-</section>
-
-<div class="divider">
-    <svg viewBox="0 0 120 20" width="120" height="20" style="display:inline-block;vertical-align:middle">
-        <path d="M5 10 L15 10 L20 5 L25 15 L30 10 L40 10" stroke="#10B981" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
-        <path d="M45 10 L55 10 L60 5 L65 15 L70 10 L80 10" stroke="#10B981" stroke-width="2" fill="none" opacity="0.6" stroke-linecap="round"/>
-        <path d="M85 10 L95 10 L100 5 L105 15 L110 10 L115 10" stroke="#10B981" stroke-width="2" fill="none" opacity="0.4" stroke-linecap="round"/>
-    </svg>
+  </div>
 </div>
 
-<!-- ===== SECTION 4: CHECKLIST ===== -->
-<section class="section">
-    <div class="section-header">
-        <span class="section-icon">✅</span>
-        <h2>
-            Checklist 30 Jours
-            <span class="ar">قائمة 30 يومًا</span>
-        </h2>
+<div class="sec">
+  <h2>✅ Checklist 30 Jours</h2>
+  <h2 class="ar">قائمة 30 يومًا</h2>
+  <p class="desc">Coche chaque jour, construis ta machine freelance<br><span style="font-family:'Times New Roman',serif;color:#64748b">ضع علامة كل يوم، ابنِ مشروعك</span></p>
+  <div class="weeks">
+    <div class="wc wc1">
+      <h4>Semaine 1</h4><div class="s">Fondations</div>
+      <ul><li>Définir son offre</li><li>Créer profil LinkedIn</li><li>Préparer portfolio</li><li>Fixer ses tarifs</li><li>Préparer templates</li></ul>
+      <div class="ar">الأساسيات</div>
     </div>
-
-    <div class="intro-box">
-        <div class="fr">Coche chaque jour. À la fin du mois, tu auras une machine freelance qui tourne.</div>
-        <div class="ar">ضع علامة كل يوم. في نهاية الشهر، سيكون لديك آلة عمل حر تعمل بكفاءة.</div>
+    <div class="wc wc2">
+      <h4>Semaine 2</h4><div class="s">Prospection</div>
+      <ul><li>5 emails froids</li><li>Contacter 3 agences</li><li>Poster LinkedIn</li><li>5 anciens collègues</li><li>Audit gratuit</li></ul>
+      <div class="ar">التسويق</div>
     </div>
-
-    <div class="checklist-grid">
-        <div class="week-block">
-            <div class="week-header">
-                🏗️ Semaine 1 — Fondations
-                <span class="ar">الأسبوع ١ — الأساسيات</span>
-            </div>
-            <div class="checklist-items">
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Définir son offre <span class="ar">تحديد العرض الخاص بك</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Créer profil LinkedIn <span class="ar">إنشاء ملف لينكدإن</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Préparer portfolio <span class="ar">تحضير معرض الأعمال</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Fixer ses tarifs <span class="ar">تحديد الأسعار</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Calendrier prospection <span class="ar">جدول التسويق</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Préparer templates emails <span class="ar">تحضير قوالب البريد</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Bilan semaine <span class="ar">تقييم الأسبوع</span></span></label>
-            </div>
-        </div>
-
-        <div class="week-block">
-            <div class="week-header">
-                📬 Semaine 2 — Prospection
-                <span class="ar">الأسبوع ٢ — التسويق</span>
-            </div>
-            <div class="checklist-items">
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">5 emails froids <span class="ar">٥ رسائل باردة</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Contacter 3 agences <span class="ar">التواصل مع ٣ وكالات</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Relancer les non-réponses <span class="ar">متابعة عدم الرد</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Poster LinkedIn <span class="ar">نشر محتوى على لينكدإن</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Contacter 5 anciens collègues <span class="ar">التواصل مع ٥ زملاء سابقين</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Préparer audit gratuit <span class="ar">تحضير تدقيق مجاني</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Bilan : 3 appels <span class="ar">تقييم: ٣ مكالمات</span></span></label>
-            </div>
-        </div>
-
-        <div class="week-block">
-            <div class="week-header">
-                💰 Semaine 3 — Conversion
-                <span class="ar">الأسبوع ٣ — التحويل</span>
-            </div>
-            <div class="checklist-items">
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Échange → devis <span class="ar">تحويل محادثة إلى عرض سعر</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">2 propositions personnalisées <span class="ar">عرضان مخصصان</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Relance client intéressé <span class="ar">متابعة عميل مهتم</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Argumentaire anti-objections <span class="ar">تحضير ردود على الاعتراضات</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Soigner le follow-up <span class="ar">تحسين المتابعة</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Demander 1 recommandation <span class="ar">طلب توصية واحدة</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Bilan : 1 devis signé <span class="ar">تقييم: توقيع عرض سعر واحد</span></span></label>
-            </div>
-        </div>
-
-        <div class="week-block">
-            <div class="week-header">
-                🚀 Semaine 4 — Accélération
-                <span class="ar">الأسبوع ٤ — التسريع</span>
-            </div>
-            <div class="checklist-items">
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Livrer résultat client <span class="ar">تسليم نتيجة للعميل</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Demander témoignage <span class="ar">طلب شهادة</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Automatiser prospection <span class="ar">أتمتة التسويق</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">CTA sur LinkedIn <span class="ar">إنشاء دعوة إجراء على لينكدإن</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Se former 2h <span class="ar">التدريب لمدة ساعتين</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Préparer mois suivant <span class="ar">التحضير للشهر التالي</span></span></label>
-                <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Bilan mensuel <span class="ar">تقييم شهري</span></span></label>
-            </div>
-        </div>
+    <div class="wc wc3">
+      <h4>Semaine 3</h4><div class="s">Conversion</div>
+      <ul><li>Échange → devis</li><li>2 propositions</li><li>Relancer intéressé</li><li>Anti-objections</li><li>Demander reco</li></ul>
+      <div class="ar">التحويل</div>
     </div>
-
-    <div class="bonus-box">
-        <h3>
-            📚 Bonus — Configuration Pro
-            <span class="ar">مكافأة — الإعداد الاحترافي</span>
-        </h3>
-        <div class="checklist-items">
-            <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Configurer Stripe <span class="ar">إعداد سترايب</span></span></label>
-            <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Contrat-type freelance <span class="ar">عقد نموذجي للعمل الحر</span></span></label>
-            <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Compte pro (Qonto, N26) <span class="ar">حساب بنكي احترافي</span></span></label>
-            <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">2 communautés freelance <span class="ar">الانضمام لمجتمعين</span></span></label>
-            <label class="checklist-item"><input type="checkbox"><span class="checkbox"></span><span class="checklist-text">Tracker de temps <span class="ar">تطبيق تتبع الوقت</span></span></label>
-        </div>
+    <div class="wc wc4">
+      <h4>Semaine 4</h4><div class="s">Accélération</div>
+      <ul><li>Livrer résultat</li><li>Témoignage client</li><li>Automatiser</li><li>CTA LinkedIn</li><li>Bilan mensuel</li></ul>
+      <div class="ar">التسريع</div>
     </div>
-</section>
+  </div>
+</div>
 
-<!-- ===== FOOTER ===== -->
 <div class="footer">
-    <img src="../images/avatar.png" alt="Ucf Zem" style="width:56px;height:56px;border-radius:50%;margin-bottom:1rem;border:2px solid rgba(255,255,255,0.1);">
-    <h2 style="margin-bottom:20px;color:white;">
-        Commençons aujourd'hui 🚀
-        <span style="display:block;font-family:'Cairo',sans-serif;font-size:1rem;opacity:0.7;margin-top:6px">لنبدأ اليوم</span>
-    </h2>
-    <p>Tu as tous les outils. La seule question : quand tu commences ?</p>
-    <p class="ar">لديك كل الأدوات. السؤال الوحيد: متى تبدأ؟</p>
-    <p style="margin-top:24px;font-size:0.85rem;opacity:0.6;">
-        © 2026 — Offert par Ucf Zem / مقدمة من Ucf Zem<br>
-        <a href="https://ucfzem.github.io">ucfzem.github.io</a>
-    </p>
+  <p>© 2026 — Offert par UCF ZEM / مقدمة من UCF ZEM</p>
+  <p style="margin-top:.25rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p>
 </div>
 
+</div>
 </body>
 </html>
