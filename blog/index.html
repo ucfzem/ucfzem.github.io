@@ -524,27 +524,20 @@
   }
   .topics-grid .topic-card {
     flex: 1 1 200px; max-width: 280px;
-    position: relative;
-    height: 0;
-    padding-bottom: 100%;
-  }
-  .topic-card-inner {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    padding: 1.5rem;
   }
   .topic-card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 12px; padding: 1.5rem;
     transition: all .3s; cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
   }
   .topic-card:hover { border-color: var(--accent-color, var(--accent)); transform: translateY(-3px); }
   .topic-icon { font-size: 2rem; margin-bottom: .75rem; display: block; }
-  .topic-card-inner h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
-  .topic-card-inner p { font-size: .82rem; color: var(--muted); }
-  .topic-card-inner .topic-count { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); margin-top: auto; padding-bottom: .5rem; }
+  .topic-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
+  .topic-card p { font-size: .82rem; color: var(--muted); }
+  .topic-card .topic-count { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); margin-top: auto; padding-top: .5rem; }
 
 
   /* ───── LATEST POSTS ───── */
@@ -672,12 +665,11 @@
     .saas-footer .saas-cta { justify-content: center; padding: .3rem .7rem; font-size: .75rem; }
     .topics-grid { gap: .75rem; margin-top: 2rem; }
     .topics-grid { gap: .75rem; }
-    .topic-card { flex: 1 1 160px; max-width: none; }
-    .topic-card-inner { padding: 1rem; }
-    .topic-card-inner .topic-icon { font-size: 1.8rem; margin-bottom: .5rem; }
-    .topic-card-inner h4 { font-size: .9rem; }
-    .topic-card-inner p { font-size: .78rem; }
-    .topic-card-inner .topic-count { font-size: .65rem; }
+    .topic-card { flex: 1 1 160px; max-width: none; padding: 1rem; }
+    .topic-card .topic-icon { font-size: 1.8rem; margin-bottom: .5rem; }
+    .topic-card h4 { font-size: .9rem; }
+    .topic-card p { font-size: .78rem; }
+    .topic-card .topic-count { font-size: .65rem; }
     .posts-list { margin-top: 2rem; }
     .post-row { gap: .6rem; padding: .75rem; flex-wrap: wrap; }
     .post-num { display: none; }
@@ -714,12 +706,11 @@
     .saas-grid { grid-template-columns: 1fr; }
     .saas-preview { height: 160px; }
     .topics-grid { gap: .6rem; }
-    .topic-card { flex: 1 1 160px; max-width: none; }
-    .topic-card-inner { padding: 1rem; }
-    .topic-card-inner .topic-icon { font-size: 1.6rem; margin-bottom: .5rem; }
-    .topic-card-inner h4 { font-size: .85rem; }
-    .topic-card-inner p { font-size: .72rem; }
-    .topic-card-inner .topic-count { font-size: .65rem; }
+    .topic-card { flex: 1 1 160px; max-width: none; padding: 1rem; }
+    .topic-card .topic-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .topic-card h4 { font-size: .85rem; }
+    .topic-card p { font-size: .72rem; }
+    .topic-card .topic-count { font-size: .65rem; }
     .post-row { gap: .75rem; padding: .85rem .75rem; }
     .post-num { display: none; }
     .newsletter { margin: 0 1rem 3rem; padding: 2rem 1.5rem; }
@@ -1346,52 +1337,40 @@
 
   <div class="topics-grid">
     <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('Intelligence Artificielle')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">🤖</div>
-        <h4>Intelligence Artificielle</h4>
-        <p>LLMs, agents, fine-tuning, prompt engineering — le cœur de la révolution actuelle.</p>
-        <div class="topic-count">// 12 articles</div>
-      </div>
+      <div class="topic-icon">🤖</div>
+      <h4>Intelligence Artificielle</h4>
+      <p>LLMs, agents, fine-tuning, prompt engineering — le cœur de la révolution actuelle.</p>
+      <div class="topic-count">// 12 articles</div>
     </div>
     <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('E-Commerce')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">🛒</div>
-        <h4>E-Commerce & Vente</h4>
-        <p>Dropshipping IA, conversion, automatisation des ventes et stratégies growth.</p>
-        <div class="topic-count">// 8 articles</div>
-      </div>
+      <div class="topic-icon">🛒</div>
+      <h4>E-Commerce & Vente</h4>
+      <p>Dropshipping IA, conversion, automatisation des ventes et stratégies growth.</p>
+      <div class="topic-count">// 8 articles</div>
     </div>
     <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('SaaS')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">🚀</div>
-        <h4>SaaS & Indie Dev</h4>
-        <p>Construire des produits solo, sans budget, depuis un mobile. L'essentiel.</p>
-        <div class="topic-count">// 10 articles</div>
-      </div>
+      <div class="topic-icon">🚀</div>
+      <h4>SaaS & Indie Dev</h4>
+      <p>Construire des produits solo, sans budget, depuis un mobile. L'essentiel.</p>
+      <div class="topic-count">// 10 articles</div>
     </div>
     <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('Mobile')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">📱</div>
-        <h4>Mobile-First Dev</h4>
-        <p>Développer des apps complètes depuis Android. Termux, GitHub Pages et workflows.</p>
-        <div class="topic-count">// 6 articles</div>
-      </div>
+      <div class="topic-icon">📱</div>
+      <h4>Mobile-First Dev</h4>
+      <p>Développer des apps complètes depuis Android. Termux, GitHub Pages et workflows.</p>
+      <div class="topic-count">// 6 articles</div>
     </div>
     <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('Marketing')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">📣</div>
-        <h4>Marketing Digital</h4>
-        <p>TikTok, contenu viral, SEO, croissance organique — sans budget publicitaire.</p>
-        <div class="topic-count">// 9 articles</div>
-      </div>
+      <div class="topic-icon">📣</div>
+      <h4>Marketing Digital</h4>
+      <p>TikTok, contenu viral, SEO, croissance organique — sans budget publicitaire.</p>
+      <div class="topic-count">// 9 articles</div>
     </div>
     <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('Tech')">
-      <div class="topic-card-inner">
-        <div class="topic-icon">🌍</div>
-        <h4>Tech & Culture</h4>
-        <p>Patrimoine numérique, multilinguisme, tech au service de l'identité culturelle.</p>
-        <div class="topic-count">// 5 articles</div>
-      </div>
+      <div class="topic-icon">🌍</div>
+      <h4>Tech & Culture</h4>
+      <p>Patrimoine numérique, multilinguisme, tech au service de l'identité culturelle.</p>
+      <div class="topic-count">// 5 articles</div>
     </div>
   </div>
 </section>
