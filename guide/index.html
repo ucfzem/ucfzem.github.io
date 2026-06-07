@@ -42,6 +42,8 @@
   .hero-grid .item{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:.75rem .5rem;transition:all .2s}
   .hero-grid .item .ico{font-size:1.2rem;margin-bottom:.15rem}
   .hero-grid .item .lb{font-size:.7rem;color:var(--text2);font-weight:600}
+  .hero-grid .item{cursor:pointer}
+  .hero-grid .item:active{transform:scale(.96)}
 
   .sec{padding:3rem 1rem;max-width:1100px;margin:0 auto}
   .sec-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
@@ -405,46 +407,47 @@ function render(lang) {
 
   // Hero
   html += `<section class="hero"><div class="logo-wrap">✦</div><h1>${d.hero.title}</h1><p class="sub">${d.hero.sub}</p><div class="badge">${d.hero.badge}</div><form class="hero-lead" onsubmit="submitTop(event)"><input type="email" id="topEmail" placeholder="${d.hero.ph}" required><button type="submit" id="topBtn">${d.hero.btn}</button></form><div id="topMsg" class="hero-msg"></div><div class="hero-grid">`
-  d.hero.grid.forEach(g => { html += `<div class="item"><div class="ico">${g.split(' ')[0]}</div><div class="lb">${g}</div></div>` })
+  const SECT = ['s1','s2','s7','s3','s4','s6']
+  d.hero.grid.forEach((g,i) => { html += `<div class="item" onclick="document.getElementById('${SECT[i]}').scrollIntoView({behavior:'smooth'})"><div class="ico">${g.split(' ')[0]}</div><div class="lb">${g}</div></div>` })
   html += `</div></section>`
 
   // S1 Pricing
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".3"/><rect x="20" y="20" width="40" height="40" rx="3" fill="var(--gold)" opacity=".12"/><text x="40" y="44" font-size="20" font-weight="bold" text-anchor="middle" fill="var(--gold)">€</text></svg></div><div><h2>${d.s1.title}</h2><p>${d.s1.desc}</p></div></div><div class="card-grid">`
+  html += `<section class="sec" id="s1"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".3"/><rect x="20" y="20" width="40" height="40" rx="3" fill="var(--gold)" opacity=".12"/><text x="40" y="44" font-size="20" font-weight="bold" text-anchor="middle" fill="var(--gold)">€</text></svg></div><div><h2>${d.s1.title}</h2><p>${d.s1.desc}</p></div></div><div class="card-grid">`
   d.s1.cards.forEach(c => { html += `<div class="card"><h3>${c.lvl}</h3><p class="exp">${c.exp}</p><ul>${c.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
   // S2 Emails
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="12" y="20" width="56" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M12 20 L40 40 L68 20" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s2.title}</h2><p>${d.s2.desc}</p></div></div><div class="email-stack">`
+  html += `<section class="sec" id="s2"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="12" y="20" width="56" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M12 20 L40 40 L68 20" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s2.title}</h2><p>${d.s2.desc}</p></div></div><div class="email-stack">`
   d.s2.emails.forEach(e => { html += `<div class="email-full"><div class="hdr"><span class="num">${e.n}</span><span class="type">${e.type}</span><span class="target">${e.tgt}</span></div><div class="subject">📌 ${e.subj}</div><div class="body">${e.body}</div><span class="tag">${e.tag}</span></div>` })
   html += `</div></section>`
 
   // S3 Objections
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="24" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="28" y1="28" x2="52" y2="52" stroke="var(--gold)" stroke-width="2"/><line x1="52" y1="28" x2="28" y2="52" stroke="var(--gold)" stroke-width="2"/></svg></div><div><h2>${d.s3.title}</h2><p>${d.s3.desc}</p></div></div><div class="obj-grid">`
+  html += `<section class="sec" id="s3"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="24" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="28" y1="28" x2="52" y2="52" stroke="var(--gold)" stroke-width="2"/><line x1="52" y1="28" x2="28" y2="52" stroke="var(--gold)" stroke-width="2"/></svg></div><div><h2>${d.s3.title}</h2><p>${d.s3.desc}</p></div></div><div class="obj-grid">`
   d.s3.objs.forEach(o => { html += `<div class="obj-card"><div class="obj">${o.q}</div><div class="rep">${o.a}</div></div>` })
   html += `</div></section>`
 
   // S4 Legal
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="28" y="12" width="24" height="56" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="16" y1="24" x2="64" y2="24" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s4.title}</h2><p>${d.s4.desc}</p></div></div><div class="legal-grid">`
+  html += `<section class="sec" id="s4"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="28" y="12" width="24" height="56" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="16" y1="24" x2="64" y2="24" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s4.title}</h2><p>${d.s4.desc}</p></div></div><div class="legal-grid">`
   d.s4.legal.forEach(l => { html += `<div class="legal-card"><h3>${l.t}</h3><ul>${l.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
   // S5 Tools
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="40" cy="40" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s5.title}</h2><p>${d.s5.desc}</p></div></div><div class="resource-grid">`
+  html += `<section class="sec" id="s5"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="40" cy="40" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s5.title}</h2><p>${d.s5.desc}</p></div></div><div class="resource-grid">`
   d.s5.res.forEach(r => { html += `<div class="resource-card"><div class="ico">${r.ico}</div><h4>${r.t}</h4><p>${r.d}</p></div>` })
   html += `</div></section>`
 
   // S6 Growth
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><polyline points="16,56 32,40 48,44 64,24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="56" r="4" fill="var(--gold)"/><circle cx="32" cy="40" r="4" fill="var(--gold)"/><circle cx="48" cy="44" r="4" fill="var(--gold)"/><circle cx="64" cy="24" r="4" fill="var(--gold)"/></svg></div><div><h2>${d.s6.title}</h2><p>${d.s6.desc}</p></div></div><div class="timeline">`
+  html += `<section class="sec" id="s6"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><polyline points="16,56 32,40 48,44 64,24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="56" r="4" fill="var(--gold)"/><circle cx="32" cy="40" r="4" fill="var(--gold)"/><circle cx="48" cy="44" r="4" fill="var(--gold)"/><circle cx="64" cy="24" r="4" fill="var(--gold)"/></svg></div><div><h2>${d.s6.title}</h2><p>${d.s6.desc}</p></div></div><div class="timeline">`
   d.s6.tl.forEach(t => { html += `<div class="tl-item"><div class="tl-dot">${t.s}</div><div class="tl-content"><h4>${t.t}</h4><p>${t.d}</p></div></div>` })
   html += `</div></section>`
 
   // S7 Routine
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="40" y1="20" x2="40" y2="32" stroke="var(--gold)" stroke-width="2"/><line x1="40" y1="40" x2="56" y2="40" stroke="var(--gold)" stroke-width="2"/><circle cx="40" cy="40" r="3" fill="var(--gold)"/></svg></div><div><h2>${d.s7.title}</h2><p>${d.s7.desc}</p></div></div><div class="routine-list">`
+  html += `<section class="sec" id="s7"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--gold)" stroke-width="1.5"/><line x1="40" y1="20" x2="40" y2="32" stroke="var(--gold)" stroke-width="2"/><line x1="40" y1="40" x2="56" y2="40" stroke="var(--gold)" stroke-width="2"/><circle cx="40" cy="40" r="3" fill="var(--gold)"/></svg></div><div><h2>${d.s7.title}</h2><p>${d.s7.desc}</p></div></div><div class="routine-list">`
   d.s7.blocks.forEach(b => { html += `<div class="routine-item"><div class="time">${b.t}</div><div class="lb">${b.l}</div><div class="tags">${b.tg.map(t => `<span>${t}</span>`).join('')}</div></div>` })
   html += `</div></section>`
 
   // S8 Checklist
-  html += `<section class="sec"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M24 24 L32 32 L40 20" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h2>${d.s8.title}</h2><p>${d.s8.desc}</p></div></div><div class="check-grid">`
+  html += `<section class="sec" id="s8"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="12" width="48" height="56" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><path d="M24 24 L32 32 L40 20" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h2>${d.s8.title}</h2><p>${d.s8.desc}</p></div></div><div class="check-grid">`
   d.s8.weeks.forEach(w => { html += `<div class="check-card"><h4>${w.w}</h4><p class="sub">${w.t}</p><ul>${w.items.map(i => `<li>${i}</li>`).join('')}</ul></div>` })
   html += `</div></section>`
 
