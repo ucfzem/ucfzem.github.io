@@ -6,71 +6,109 @@
 <title>Guide Freelance — UCF ZEM</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,sans-serif;color:#1e293b;background:#f8fafc;line-height:1.6;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;color:#1e293b;background:#f8fafc;line-height:1.6;padding:0;font-size:11pt}
   .page{max-width:800px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 
   .cover{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:60px 40px;text-align:center;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
   .cover h1{font-size:2.8rem;font-weight:800;margin-bottom:1rem;line-height:1.1;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .cover .sub{font-size:1.2rem;color:#94a3b8;margin-bottom:2rem}
+  .cover .sub{font-size:1.2rem;color:#94a3b8;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
   .cover .badge{display:inline-block;background:linear-gradient(135deg,#3b82f6,#8b5cf6);padding:.75rem 2rem;border-radius:1rem;font-weight:700;font-size:.9rem}
-  .cover .grid{display:flex;justify-content:center;gap:1rem;margin-top:3rem;flex-wrap:wrap}
-  .cover .grid span{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:.6rem 1.2rem;border-radius:.5rem;font-size:.85rem;color:#cbd5e1}
+  .cover .grid{display:flex;justify-content:center;gap:.5rem;margin-top:3rem;flex-wrap:wrap}
+  .cover .grid span{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:.5rem 1rem;border-radius:.5rem;font-size:.8rem;color:#cbd5e1}
 
   .sec{padding:40px;border-bottom:1px solid #f1f5f9}
   .sec:last-child{border-bottom:none}
-  .sec h2{font-size:1.6rem;font-weight:800;margin-bottom:.5rem;color:#2563eb}
-  .sec .desc{color:#64748b;font-size:.9rem;margin-bottom:1.5rem}
-  .sec h2.ar{margin-top:.25rem;font-size:1.3rem;color:#7c3aed;display:block}
+  .sec h2{font-size:1.5rem;font-weight:800;margin-bottom:.5rem;color:#2563eb}
+  .sec h2.ar{margin-top:.25rem;font-size:1.2rem;color:#7c3aed;display:block}
+  .sec .meta{color:#64748b;font-size:.85rem;margin-bottom:1.25rem}
+  .sec .meta .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;display:block;margin-top:.15rem}
 
-  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}
   .pc{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.25rem;border-left:4px solid #2563eb;break-inside:avoid}
   .pc:nth-child(2){border-left-color:#7c3aed}
   .pc:nth-child(3){border-left-color:#f97316}
-  .pc h3{font-size:1.1rem;margin-bottom:.25rem}
-  .pc .exp{font-size:.8rem;color:#64748b;margin-bottom:.75rem}
+  .pc h3{font-size:1rem;margin-bottom:.25rem}
+  .pc .exp{font-size:.75rem;color:#64748b;margin-bottom:.75rem}
   .pc ul{list-style:none}
-  .pc ul li{font-size:.85rem;color:#475569;padding:.25rem 0}
-  .pc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;font-size:.85rem;margin-bottom:.5rem}
+  .pc ul li{font-size:.8rem;color:#475569;padding:.2rem 0}
+  .pc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;font-size:.8rem;margin-bottom:.5rem}
 
-  .emails{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
-  .ec{border:1px solid rgba(139,92,246,.2);border-radius:.75rem;padding:1rem;text-align:center;background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(59,130,246,.04));break-inside:avoid}
-  .ec .n{font-size:1.5rem;font-weight:800;color:#7c3aed}
-  .ec h4{font-size:.9rem;margin:.25rem 0}
-  .ec .s{font-size:.75rem;color:#64748b}
-  .ec .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:center;font-size:.85rem;color:#64748b;margin-top:.25rem}
+  .emails{display:flex;flex-direction:column;gap:.5rem}
+  .ef{border:1px solid rgba(139,92,246,.2);border-radius:.75rem;padding:1rem;background:#faf5ff;break-inside:avoid}
+  .ef .hdr{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:.35rem}
+  .ef .lab{font-weight:700;color:#6d28d9;font-size:.85rem}
+  .ef .tgt{font-size:.7rem;color:#64748b;background:#fff;padding:.1rem .5rem;border-radius:1rem;border:1px solid #e2e8f0}
+  .ef .subj{font-size:.75rem;color:#475569;margin-bottom:.35rem;padding:.3rem .5rem;background:#fff;border-radius:.35rem;border-left:2px solid #8b5cf6}
+  .ef .body{font-size:.78rem;color:#475569;line-height:1.6;font-family:'Segoe UI',monospace;white-space:pre-wrap}
+  .ef .tag{font-size:.7rem;color:#7c3aed;margin-top:.35rem;display:block}
+  .ef .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.25rem;font-size:.8rem;color:#64748b}
 
-  .rt{display:flex;flex-direction:column;gap:.75rem}
-  .ri{border:1px solid rgba(236,72,153,.15);border-radius:.75rem;padding:1.25rem;background:linear-gradient(135deg,rgba(236,72,153,.04),rgba(239,68,68,.02));break-inside:avoid}
-  .ri .tm{font-size:1.1rem;font-weight:700;color:#ec4899;margin-bottom:.25rem}
-  .ri .lb{font-size:.85rem;color:#64748b;margin-bottom:.5rem}
-  .ri .tags{display:flex;gap:.35rem;flex-wrap:wrap}
-  .ri .tags span{font-size:.7rem;background:rgba(236,72,153,.1);color:#be185d;padding:.2rem .6rem;border-radius:1rem}
-  .ri .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.5rem;color:#64748b;font-size:.85rem}
+  .objs{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .oc{border:1px solid rgba(249,115,22,.2);border-radius:.75rem;padding:1rem;background:#fff7ed;break-inside:avoid}
+  .oc .q{font-weight:700;color:#c2410c;font-size:.85rem;margin-bottom:.25rem}
+  .oc .a{font-size:.8rem;color:#64748b}
+  .oc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;font-size:.8rem;color:#64748b;margin-top:.25rem}
+
+  .legal{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+  .lc{border:1px solid rgba(6,182,212,.2);border-radius:.75rem;padding:1rem;background:#f0fdfe;break-inside:avoid}
+  .lc h3{font-size:.9rem;font-weight:700;color:#0e7490;margin-bottom:.5rem}
+  .lc ul{list-style:none}
+  .lc ul li{font-size:.78rem;color:#475569;padding:.2rem 0;display:flex;gap:.35rem}
+  .lc ul li::before{content:'•';color:#22d3ee}
+  .lc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;font-size:.8rem;margin-top:.25rem}
+
+  .tools{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+  .tc{border:1px solid rgba(16,185,129,.15);border-radius:.5rem;padding:.75rem;text-align:center;background:#f0fdf4;break-inside:avoid}
+  .tc .ico{font-size:1.2rem;margin-bottom:.25rem}
+  .tc h4{font-size:.8rem;font-weight:700;color:#065f46;margin-bottom:.15rem}
+  .tc p{font-size:.65rem;color:#64748b}
+  .tc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:center;font-size:.75rem;color:#64748b;margin-top:.15rem}
+
+  .timeline{display:flex;flex-direction:column;gap:.5rem}
+  .ti{display:flex;gap:.75rem;align-items:flex-start}
+  .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;flex-shrink:0;margin-top:.15rem}
+  .dot.s1{background:rgba(16,185,129,.15);color:#059669}
+  .dot.s2{background:rgba(59,130,246,.15);color:#2563eb}
+  .dot.s3{background:rgba(139,92,246,.15);color:#7c3aed}
+  .dot.s4{background:rgba(249,115,22,.15);color:#ea580c}
+  .tct{flex:1;padding:.65rem .75rem;background:#f8fafc;border-radius:.5rem;border:1px solid #e2e8f0}
+  .tct h4{font-size:.85rem;font-weight:700;color:#1e293b;margin-bottom:.15rem}
+  .tct p{font-size:.78rem;color:#64748b}
+  .tct .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;font-size:.78rem;color:#64748b;margin-top:.15rem}
+
+  .rt{display:flex;flex-direction:column;gap:.5rem}
+  .ri{border:1px solid rgba(236,72,153,.15);border-radius:.75rem;padding:1rem;background:#fdf2f8;break-inside:avoid}
+  .ri .tm{font-size:1rem;font-weight:700;color:#ec4899;margin-bottom:.15rem}
+  .ri .lb{font-size:.8rem;color:#64748b;margin-bottom:.35rem}
+  .ri .tags{display:flex;gap:.3rem;flex-wrap:wrap}
+  .ri .tags span{font-size:.65rem;background:rgba(236,72,153,.1);color:#be185d;padding:.15rem .5rem;border-radius:1rem}
+  .ri .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.35rem;color:#64748b;font-size:.8rem}
 
   .weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
-  .wc{border-radius:.75rem;padding:1.25rem;border:1px solid;break-inside:avoid}
-  .wc h4{font-size:.95rem;margin-bottom:.25rem}
-  .wc .s{font-size:.8rem;margin-bottom:.75rem}
+  .wc{border-radius:.75rem;padding:1rem;border:1px solid;break-inside:avoid}
+  .wc h4{font-size:.9rem;margin-bottom:.15rem}
+  .wc .s{font-size:.75rem;margin-bottom:.5rem}
   .wc ul{list-style:none}
-  .wc ul li{font-size:.8rem;padding:.25rem 0;display:flex;gap:.4rem}
+  .wc ul li{font-size:.75rem;padding:.2rem 0;display:flex;gap:.35rem}
   .wc ul li::before{content:'✓';font-weight:700}
-  .wc1{background:linear-gradient(135deg,rgba(16,185,129,.06),rgba(5,150,105,.03));border-color:rgba(16,185,129,.2);color:#059669}
+  .wc1{background:#f0fdf4;border-color:rgba(16,185,129,.3);color:#059669}
   .wc1 h4,.wc1 .s{color:#065f46}
-  .wc2{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(6,182,212,.03));border-color:rgba(59,130,246,.2);color:#2563eb}
+  .wc2{background:#eff6ff;border-color:rgba(59,130,246,.3);color:#2563eb}
   .wc2 h4,.wc2 .s{color:#1e40af}
-  .wc3{background:linear-gradient(135deg,rgba(139,92,246,.06),rgba(236,72,153,.03));border-color:rgba(139,92,246,.2);color:#7c3aed}
+  .wc3{background:#f5f3ff;border-color:rgba(139,92,246,.3);color:#7c3aed}
   .wc3 h4,.wc3 .s{color:#6d28d9}
-  .wc4{background:linear-gradient(135deg,rgba(249,115,22,.06),rgba(239,68,68,.03));border-color:rgba(249,115,22,.2);color:#ea580c}
+  .wc4{background:#fff7ed;border-color:rgba(249,115,22,.3);color:#ea580c}
   .wc4 h4,.wc4 .s{color:#c2410c}
-  .wc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.25rem;font-size:.8rem}
+  .wc .ar{font-family:'Times New Roman',serif;direction:rtl;text-align:right;margin-top:.15rem;font-size:.75rem;color:#64748b}
 
   .footer{background:#0f172a;color:#64748b;text-align:center;padding:2rem;font-size:.85rem}
   .footer a{color:#818cf8;text-decoration:underline}
 
-  .ar-block{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;margin-top:.5rem;padding-top:.5rem;border-top:1px dashed #e2e8f0;font-size:.9rem}
+  .ar-block{font-family:'Times New Roman',serif;direction:rtl;text-align:right;color:#64748b;margin-top:.35rem;padding-top:.35rem;border-top:1px dashed #e2e8f0;font-size:.85rem}
+  .cta{text-align:center;padding:2rem}
 
-  @media print{body{background:#fff}.page{box-shadow:none;max-width:100%}.cover{min-height:100vh;page-break-after:always}.sec{page-break-inside:avoid}.pricing{break-inside:avoid}.emails{break-inside:avoid}}
-  @media(max-width:768px){.pricing{grid-template-columns:1fr}.emails{grid-template-columns:repeat(2,1fr)}.weeks{grid-template-columns:1fr 1fr}}
+  @media print{body{background:#fff}.page{box-shadow:none;max-width:100%}.cover{min-height:100vh;page-break-after:always}.sec{page-break-inside:avoid}.emails,.objs,.legal,.tools,.timeline,.rt,.weeks{break-inside:avoid}}
+  @media(max-width:768px){.pricing{grid-template-columns:1fr}.objs{grid-template-columns:1fr}.legal{grid-template-columns:1fr}.tools{grid-template-columns:repeat(2,1fr)}.weeks{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -78,124 +116,304 @@
 
 <div class="cover">
   <h1>Le Guide Ultime du Freelance</h1>
-  <div style="font-size:1.6rem;font-weight:700;color:#a78bfa;font-family:'Times New Roman',serif;margin-bottom:1rem">الدليل الشامل للعمل الحر</div>
-  <p class="sub">Passer de 0€ à 5.000€/mois en 30 jours</p>
-  <p class="sub" style="font-family:'Times New Roman',serif;font-size:1rem">من 0€ إلى 5.000€/شهر في 30 يوم</p>
-  <div class="badge">🎁 OFFERT</div>
+  <div style="font-size:1.5rem;font-weight:700;color:#a78bfa;font-family:'Times New Roman',serif;margin-bottom:1rem">الدليل الشامل للعمل الحر</div>
+  <p class="sub">Passer de 0€ à 5.000€/mois en 30 jours — stratégies, templates et routines des freelances qui réussissent.</p>
+  <p style="font-family:'Times New Roman',serif;font-size:.9rem;color:#94a3b8;margin-bottom:2rem">من 0€ إلى 5.000€/شهر في 30 يوم — استراتيجيات، قوالب وروتين المستقلين الناجحين</p>
+  <div class="badge">🎁 OFFERT PAR UCF ZEM</div>
   <div class="grid">
-    <span>💰 Tarifs</span><span>📧 Emails</span><span>⏰ Routine</span><span>✅ Checklist</span>
+    <span>💰 Tarifs</span><span>📧 Prospection</span><span>⏰ Routine</span><span>🛡️ Objections</span><span>⚖️ Légal</span><span>📈 Croissance</span>
   </div>
 </div>
 
 <div class="sec">
   <h2>💰 Grille Tarifaire</h2>
-  <h2 class="ar">جدول الأسعار</h2>
-  <p class="desc">Trois niveaux selon votre expérience<br><span style="font-family:'Times New Roman',serif;direction:rtl;text-align:right;display:block;color:#64748b">ثلاثة مستويات حسب خبرتك</span></p>
+  <h2 class="ar">💰 جدول الأسعار</h2>
+  <p class="meta">Fixer ses prix avec confiance selon son niveau<span class="ar">حدد أسعارك بثقة حسب مستواك</span></p>
   <div class="pricing">
     <div class="pc">
-      <h3>🏗 Débutants &lt; 6 mois</h3>
-      <div class="ar">المبتدئون — أقل من ٦ أشهر</div>
+      <h3>🏗 Débutant</h3>
+      <div class="ar">مبتدئ — أقل من 6 أشهر</div>
+      <p class="exp">< 6 mois — vous apprenez encore</p>
       <ul>
-        <li>Landing page: 300-500€</li>
-        <li>Site vitrine: 600-1.200€</li>
-        <li>Intégration HTML: 200-400€</li>
+        <li>Landing page one-page: 300-500€</li>
+        <li>Site vitrine 3-5 pages: 600-1.200€</li>
+        <li>Intégration HTML/CSS: 200-400€</li>
         <li>Audit technique: 100-200€</li>
+        <li>Correction bugs: 30-50€/h</li>
+        <li>Maintenance base: 100-200€/mois</li>
       </ul>
     </div>
     <div class="pc">
-      <h3>📈 Intermédiaires 6-18 mois</h3>
-      <div class="ar">المتوسطون — ٦ إلى ١٨ شهرًا</div>
+      <h3>📈 Intermédiaire</h3>
+      <div class="ar">متوسط — 6 إلى 18 شهرًا</div>
+      <p class="exp">6-18 mois — vous maîtrisez</p>
       <ul>
-        <li>React/Next.js: 350-450€/j</li>
-        <li>API backend: 300-400€/j</li>
-        <li>Refonte: 2.500-5.000€</li>
-        <li>Maintenance: 200-400€/m</li>
+        <li>React/Next.js: 350-450€/jour</li>
+        <li>API REST/Node.js: 300-400€/jour</li>
+        <li>Refonte complète: 2.500-5.000€</li>
+        <li>CMS custom: 400-600€/jour</li>
+        <li>Maintenance pro: 200-400€/mois</li>
+        <li>Formation dev: 300-500€/jour</li>
       </ul>
     </div>
     <div class="pc">
-      <h3>⭐ Confirmés 18+ mois</h3>
-      <div class="ar">المحترفون — أكثر من ١٨ شهرًا</div>
+      <h3>⭐ Confirmé</h3>
+      <div class="ar">محترف — أكثر من 18 شهرًا</div>
+      <p class="exp">18+ mois — vous conseillez</p>
       <ul>
-        <li>Architecture: 500-700€/j</li>
-        <li>Lead tech: 600-800€/j</li>
-        <li>SaaS complet: 10.000-30.000€</li>
-        <li>Formation: 600-900€/j</li>
+        <li>Architecture technique: 500-700€/jour</li>
+        <li>Lead tech / CTO freelance: 600-900€/jour</li>
+        <li>SaaS clé en main: 10.000-30.000€</li>
+        <li>Audit sécurité: 400-600€/jour</li>
+        <li>Formation entreprise: 600-1.000€/jour</li>
+        <li>Consulting stratégique: 800-1.200€/jour</li>
       </ul>
     </div>
   </div>
 </div>
 
 <div class="sec">
-  <h2>📧 5 Templates de Prospection</h2>
-  <h2 class="ar">٥ قوالب للتواصل</h2>
-  <p class="desc">Emails prêts à personnaliser<br><span style="font-family:'Times New Roman',serif;color:#64748b">رسائل جاهزة للتخصيص</span></p>
+  <h2>📧 5 Emails de Prospection</h2>
+  <h2 class="ar">📧 5 رسائل تواصل</h2>
+  <p class="meta">Des templates qui convertissent, validés par des freelances à 5k€/mois<span class="ar">قوالب مجرّبة من مستقلين يحققون 5.000€/شهر</span></p>
   <div class="emails">
-    <div class="ec"><div class="n">1</div><h4>Froid</h4><p class="s">"Idée pour [site]"</p><div class="ar">بارد — تواصل أولي</div></div>
-    <div class="ec"><div class="n">2</div><h4>Agence</h4><p class="s">"Prestation dev"</p><div class="ar">وكالة — تعاون</div></div>
-    <div class="ec"><div class="n">3</div><h4>Relance</h4><p class="s">"Relance J+7"</p><div class="ar">متابعة — مراجعة</div></div>
-    <div class="ec"><div class="n">4</div><h4>Reco</h4><p class="s">"Suivi projet"</p><div class="ar">توصية — شهادات</div></div>
-    <div class="ec"><div class="n">5</div><h4>Audit</h4><p class="s">"Rapport + proposition"</p><div class="ar">تدقيق — تحويل</div></div>
+    <div class="ef">
+      <div class="hdr"><span class="lab">#1 — Email Froid</span><span class="tgt">Directeur technique / fondateur</span></div>
+      <div class="subj">📌 Une idée simple pour [Site]</div>
+      <div class="body">Bonjour [Prénom],
+
+Je suis développeur freelance spécialisé en [React/Next.js/PHP].
+
+Je suis tombé sur [Site] et j'ai repéré [point faible précis: lenteur, UI datée, page produit].
+
+J'ai une idée concrète pour améliorer ça : [proposition en 1 phrase].
+
+Ça vous dit qu'on en parle 10 min cette semaine ?
+
+Bien cordialement,
+[Prénom] — [Nom]
+[Lien portfolio]</div>
+      <span class="tag">🎯 Contact initial — 30-40% taux d'ouverture</span>
+      <div class="ar">تواصل أولي — نسبة فتح 30-40%</div>
+    </div>
+    <div class="ef">
+      <div class="hdr"><span class="lab">#2 — Email Agence</span><span class="tgt">Directeur d'agence</span></div>
+      <div class="subj">📌 Prestation dev — disponibilité [Mois]</div>
+      <div class="body">Bonjour [Prénom],
+
+Je suis développeur freelance disponible à partir de [date].
+
+Je travaille sur [stack] et j'ai déjà collaboré avec des agences sur [type de projets]. Je peux intervenir en renfort sur vos projets quand vous débordez.
+
+Tarif : [prix]€/jour. Je m'adapte à vos méthodes (Slack, Notion, Jira).
+
+Une piste à explorer pour soulager votre équipe ?
+
+Cordialement,
+[Prénom]</div>
+      <span class="tag">🏢 Agences — relation long terme</span>
+      <div class="ar">وكالات — علاقة طويلة المدى</div>
+    </div>
+    <div class="ef">
+      <div class="hdr"><span class="lab">#3 — Relance J+7</span><span class="tgt">Prospect non-répondant</span></div>
+      <div class="subj">📌 RE: Une idée simple pour [Site]</div>
+      <div class="body">Bonjour [Prénom],
+
+Je me permets de relancer mon précédent message.
+
+Si le timing n'est pas bon, pas de souci — je repasse dans 2-3 mois.
+
+Mais si le sujet vous intéresse, 10 min suffisent pour que je vous montre concrètement ce que je propose.
+
+Bonne semaine !
+
+[Prénom]</div>
+      <span class="tag">🔄 70% des deals se font après relance</span>
+      <div class="ar">متابعة — 70% من الصفقات تتم بعد المتابعة</div>
+    </div>
+    <div class="ef">
+      <div class="hdr"><span class="lab">#4 — Recommandation</span><span class="tgt">Ancien collègue / client</span></div>
+      <div class="subj">📌 Suivi — content de [Projet] ?</div>
+      <div class="body">Salut [Prénom],
+
+J'espère que tout va bien depuis [projet].
+
+Je voulais prendre des nouvelles : est-ce que [Projet] tient la route ?
+
+Si tu connais quelqu'un qui cherche un freelance en [stack], je suis preneur — je préfère bosser avec des gens de confiance.
+
+Et si je peux t'aider sur autre chose, n'hésite pas.
+
+À bientôt,
+[Prénom]</div>
+      <span class="tag">🤝 80% des freelances à 5k+ viennent du réseau</span>
+      <div class="ar">توصية — 80% من الناجحين يعتمدون على شبكتهم</div>
+    </div>
+    <div class="ef">
+      <div class="hdr"><span class="lab">#5 — Audit + Proposition</span><span class="tgt">Prospect qualifié</span></div>
+      <div class="subj">📌 Audit rapide de [Site] — 3 pistes d'amélioration</div>
+      <div class="body">Bonjour [Prénom],
+
+J'ai pris 30 min pour analyser [Site]. Voici ce que j'ai trouvé :
+
+1️⃣ [Problème 1 + impact]
+2️⃣ [Problème 2 + impact]
+3️⃣ [Opportunité]
+
+Je peux corriger les points 1 et 2 en [X jours]. Pour le point 3, je propose [solution].
+
+Investissement : [prix]€.
+
+Je suis disponible cette semaine pour en discuter. Vous préférez appel ou email ?
+
+Cordialement,
+[Prénom]</div>
+      <span class="tag">📊 Audit offert — taux de conversion > 50%</span>
+      <div class="ar">تدقيق مجاني — نسبة تحويل > 50%</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>🛡️ Gérer les Objections</h2>
+  <h2 class="ar">🛡️ التعامل مع الاعتراضات</h2>
+  <p class="meta">Les réponses qui retournent un « non » en « oui »<span class="ar">ردود تحوّل "لا" إلى "نعم"</span></p>
+  <div class="objs">
+    <div class="oc"><div class="q">"C'est trop cher"</div><div class="a">Proposez 3 formules (basique/standard/premium). Le client choisit souvent la standard. Vous montrez que vous vous adaptez à son budget tout en restant professionnel.</div><div class="ar">اقترح 3 خيارات (أساسي/قياسي/ممتاز). غالباً يختار العميل القياسي.</div></div>
+    <div class="oc"><div class="q">"Je dois en parler à mon associé"</div><div class="a">Proposez un call à 3. Vous contrôlez la conversation au lieu d'attendre. Anticipez leurs questions.</div><div class="ar">اقترح مكالمة ثلاثية. أنت تتحكم في النقاش بدلاً من الانتظار.</div></div>
+    <div class="oc"><div class="q">"Je n'ai pas le budget maintenant"</div><div class="a">Proposez un paiement en 2-3 fois ou un scope réduit. Un petit projet maintenant = un gros projet plus tard.</div><div class="ar">اقترح تقسيط الدفعة أو تقليل نطاق المشروع. مشروع صغير اليوم = مشروع كبير غداً.</div></div>
+    <div class="oc"><div class="q">"On a déjà un freelance"</div><div class="a">Félicitez-les. Puis : "Si jamais vous avez besoin d'un second avis ou d'un renfort, je suis là."</div><div class="ar">هنئهم. ثم: "إن احتجتم رأياً ثانياً أو دعماً، أنا موجود."</div></div>
+    <div class="oc"><div class="q">"Je peux le faire moi-même"</div><div class="a">"Vous pouvez, mais est-ce que c'est le meilleur usage de votre temps ? Un pro le fait en X jours, vous prendrez X semaines."</div><div class="ar">"يمكنك، لكن هل هذا أفضل استخدام لوقتك؟ المحترف ينجزه في X أيام، ستستغرق X أسابيع."</div></div>
+    <div class="oc"><div class="q">"Envoyez-moi un devis"</div><div class="a">Ne jamais envoyer un devis sans appel. Le devis seul = comparaison par le prix. L'appel = comparaison par la valeur.</div><div class="ar">لا ترسل عرض سعر أبداً دون مكالمة. العرض وحده = مقارنة بالسعر. المكالمة = مقارنة بالقيمة.</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>⚖️ Légal & Administration</h2>
+  <h2 class="ar">⚖️ الجانب القانوني والإداري</h2>
+  <p class="meta">Les bases pour être en règle sans se ruiner<span class="ar">الأساسيات لتكون نظامياً دون تكاليف باهظة</span></p>
+  <div class="legal">
+    <div class="lc"><h3>📝 Statuts</h3><ul><li>France: auto-entrepreneur jusqu'à 77.700€/an</li><li>Maroc: auto-entrepreneur via auto-entrepreneur.ma</li><li>Tunisie: personne physiquement assujettie (PPA)</li><li>SASU/EURL: quand vous dépassez les plafonds</li><li>AE = 22% CA vs SASU = ~45% (mais déductions)</li></ul><div class="ar">الوضع القانوني — مقارنة بين الأنظمة</div></div>
+    <div class="lc"><h3>📄 Devis & Factures</h3><ul><li>Toujours faire signer un devis avant de commencer</li><li>Facture obligatoire dans les 30 jours</li><li>Mentionner: numéro SIRET/SIREN, TVA si applicable</li><li>Pénalités de retard obligatoires sur les factures</li><li>Conserver les devis signés = preuve juridique</li></ul><div class="ar">فواتير وعروض — الإجراءات الأساسية</div></div>
+    <div class="lc"><h3>💰 Fiscalité</h3><ul><li>Option versement libératoire: impôt + cotisations ensemble</li><li>TVA: franchise en base jusqu'à 36.800€ (prestations)</li><li>Déclaration mensuelle/trimestrielle selon option</li><li>CFE: ~200-500€/an selon commune</li><li>Urssaf: déclaration même si 0€ de CA</li></ul><div class="ar">الضرائب — خيارات وتصريحات</div></div>
+    <div class="lc"><h3>🔒 Protection</h3><ul><li>Assurance RC Pro: 100-300€/an (obligatoire agences)</li><li>Contrat de prestation: protège vos livrables</li><li>CGV: conditions générales de vente obligatoires</li><li>Clause de confidentialité: pour vos process</li><li>Droit d'auteur: protégez code et designs</li></ul><div class="ar">الحماية — تأمين وعقود وخصوصية</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>🧰 Outils & Ressources</h2>
+  <h2 class="ar">🧰 الأدوات والموارد</h2>
+  <p class="meta">La stack des freelances qui tiennent la distance<span class="ar">أدوات المستقلين المحترفين</span></p>
+  <div class="tools">
+    <div class="tc"><div class="ico">💼</div><h4>Portfolio</h4><p>Vercel + domaine .com</p><div class="ar">معرض الأعمال</div></div>
+    <div class="tc"><div class="ico">📊</div><h4>Compta</h4><p>QuickBooks / Indy</p><div class="ar">محاسبة</div></div>
+    <div class="tc"><div class="ico">🤝</div><h4>CRM</h4><p>Less Annoying CRM</p><div class="ar">إدارة العملاء</div></div>
+    <div class="tc"><div class="ico">📝</div><h4>Contrats</h4><p>Legalstart.de</p><div class="ar">عقود وفواتير</div></div>
+    <div class="tc"><div class="ico">⏱️</div><h4>Temps</h4><p>Toggl Track</p><div class="ar">تتبع الوقت</div></div>
+    <div class="tc"><div class="ico">💳</div><h4>Paiements</h4><p>Stripe / PayPal</p><div class="ar">مدفوعات</div></div>
+    <div class="tc"><div class="ico">📧</div><h4>Emails</h4><p>Resend + domaine</p><div class="ar">بريد احترافي</div></div>
+    <div class="tc"><div class="ico">🔗</div><h4>Veille</h4><p>TLDR Newsletter</p><div class="ar">متابعة تقنية</div></div>
+    <div class="tc"><div class="ico">🎯</div><h4>Plateformes</h4><p>Malt, Comet, Codeur</p><div class="ar">منصات عمل</div></div>
+    <div class="tc"><div class="ico">📚</div><h4>Prospection</h4><p>LinkedIn Sales Nav</p><div class="ar">تواصل احترافي</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <h2>📈 Plan Croissance Post-5k</h2>
+  <h2 class="ar">📈 خطة النمو بعد 5,000€</h2>
+  <p class="meta">Quand vous atteignez 5.000€/mois, visez plus haut<span class="ar">عندما تصل إلى 5.000€/شهر، اطمح لأكثر</span></p>
+  <div class="timeline">
+    <div class="ti"><div class="dot s1">1</div><div class="tct"><h4>Stabiliser</h4><p>Automatisez la compta, déléquez le design, créez des templates. Objectif : libérer 5h/semaine.</p><div class="ar">التثبيت: أتمتة المحاسبة، تفويض التصميم، توفير 5 ساعات/أسبوع</div></div></div>
+    <div class="ti"><div class="dot s2">2</div><div class="tct"><h4>Augmenter les prix</h4><p>+15-20% sur chaque nouveau client. Si vous perdez un prospect à cause du prix, vous étiez en dessous du marché.</p><div class="ar">رفع الأسعار: +15-20% لكل عميل جديد</div></div></div>
+    <div class="ti"><div class="dot s3">3</div><div class="tct"><h4>Produitiser</h4><p>Créez un audit standardisé (500€) ou un template SaaS. Un produit se vend 24h/24, votre temps non.</p><div class="ar">تسويق المنتج: تدقيق موحد أو قالب SaaS يباع 24/7</div></div></div>
+    <div class="ti"><div class="dot s4">4</div><div class="tct"><h4>Sous-traiter</h4><p>Prenez un junior à 200€/jour, facturez 500€/jour. Passez de maker à manager.</p><div class="ar">التفويض: وظّف مبتدئاً بـ200€/يوم، فوترة 500€/يوم</div></div></div>
+    <div class="ti"><div class="dot s1">5</div><div class="tct"><h4>Recurring Revenue</h4><p>Maintenance + hébergement = 200-400€/mois/client. 10 clients = 3.000€/mois sans travailler.</p><div class="ar">الدخل المتكرر: صيانة + استضافة = دخل ثابت دون عمل</div></div></div>
+    <div class="ti"><div class="dot s2">6</div><div class="tct"><h4>Quitter le freelancing</h4><p>Créez un produit SaaS, embauchez, devenez agence. Le freelancing est un tremplin, pas une destination.</p><div class="ar">ترك العمل الحر: أنشئ منتج SaaS، وظّف، كن وكالة</div></div></div>
   </div>
 </div>
 
 <div class="sec">
   <h2>⏰ Routine Quotidienne</h2>
-  <h2 class="ar">الروتين اليومي</h2>
-  <p class="desc">Le planning des freelances à 5k€/mois<br><span style="font-family:'Times New Roman',serif;color:#64748b">جدول المستقلين الناجحين</span></p>
+  <h2 class="ar">⏰ الروتين اليومي</h2>
+  <p class="meta">Le planning des freelances qui tiennent sur la durée<span class="ar">جدول المستقلين الناجحين على المدى الطويل</span></p>
   <div class="rt">
-    <div class="ri">
-      <div class="tm">7h - 9h30</div><div class="lb">Matin — Production</div>
-      <div class="tags"><span>Réveil sans téléphone</span><span>Planification 3 priorités</span><span>Deep work #1</span></div>
-      <div class="ar"><strong>٧ - ٩:٣٠</strong> — الصباح: استيقاظ، تحديد أولويات، عمل عميق</div>
-    </div>
-    <div class="ri">
-      <div class="tm">9h30 - 12h30</div><div class="lb">Mi-journée — Exécution</div>
-      <div class="tags"><span>Deep work #2 client</span><span>Pause 15 min</span><span>Administration</span></div>
-      <div class="ar"><strong>٩:٣٠ - ١٢:٣٠</strong> — التنفيذ: عمل عميق، استراحة، إدارة</div>
-    </div>
-    <div class="ri">
-      <div class="tm">14h - 17h</div><div class="lb">Après-midi — Croissance</div>
-      <div class="tags"><span>Prospection LinkedIn</span><span>Deep work #3</span><span>Bilan du jour</span></div>
-      <div class="ar"><strong>١٤ - ١٧</strong> — النمو: تسويق، عمل عميق، تقييم</div>
-    </div>
-    <div class="ri">
-      <div class="tm">17h+</div><div class="lb">Soir — Repos</div>
-      <div class="tags"><span>Fini. Pas de travail</span><span>Sport 3x/semaine</span><span>Lecture 20 min</span></div>
-      <div class="ar"><strong>١٧+</strong> — الراحة: لا عمل، رياضة، قراءة</div>
-    </div>
+    <div class="ri"><div class="tm">7h - 9h30</div><div class="lb">Matin — Production intense</div><div class="tags"><span>Réveil sans téléphone</span><span>Planifier 3 priorités</span><span>Deep work #1</span></div><div class="ar"><strong>٧ - ٩:٣٠</strong> — الصباح: استيقاظ وتركيز، تحديد 3 أولويات، عمل عميق</div></div>
+    <div class="ri"><div class="tm">9h30 - 12h30</div><div class="lb">Mi-journée — Exécution</div><div class="tags"><span>Deep work #2</span><span>Pause 15 min</span><span>Admin 30 min max</span></div><div class="ar"><strong>٩:٣٠ - ١٢:٣٠</strong> — التنفيذ: عمل عميق، استراحة، إدارة</div></div>
+    <div class="ri"><div class="tm">12h30 - 14h</div><div class="lb">Pause — Déconnexion</div><div class="tags"><span>Vrai déjeuner</span><span>Sieste 20 min</span><span>Lecture tech</span></div><div class="ar"><strong>١٢:٣٠ - ١٤</strong> — استراحة: غداء، قيلولة، قراءة</div></div>
+    <div class="ri"><div class="tm">14h - 17h</div><div class="lb">Après-midi — Croissance</div><div class="tags"><span>Prospection LinkedIn</span><span>Deep work #3</span><span>Bilan du jour</span></div><div class="ar"><strong>١٤ - ١٧</strong> — النمو: تواصل، عمل عميق، تقييم</div></div>
+    <div class="ri"><div class="tm">17h - 18h</div><div class="lb">Fin de journée</div><div class="tags"><span>3 priorités demain</span><span>Notifs off</span><span>Checklist accomplissements</span></div><div class="ar"><strong>١٧ - ١٨</strong> — نهاية اليوم: تخطيط الغد، إيقاف الإشعارات</div></div>
+    <div class="ri"><div class="tm">18h+</div><div class="lb">Soir — Zéro travail</div><div class="tags"><span>Sport 3-4x/semaine</span><span>Temps famille</span><span>Lecture 20 min</span></div><div class="ar"><strong>١٨+</strong> — المساء: رياضة، عائلة، قراءة</div></div>
   </div>
 </div>
 
 <div class="sec">
   <h2>✅ Checklist 30 Jours</h2>
-  <h2 class="ar">قائمة 30 يومًا</h2>
-  <p class="desc">Coche chaque jour, construis ta machine freelance<br><span style="font-family:'Times New Roman',serif;color:#64748b">ضع علامة كل يوم، ابنِ مشروعك</span></p>
+  <h2 class="ar">✅ قائمة 30 يوم</h2>
+  <p class="meta">Coche chaque jour, construis ta machine freelance<span class="ar">ضع علامة كل يوم، ابنِ مشروعك</span></p>
   <div class="weeks">
     <div class="wc wc1">
-      <h4>Semaine 1</h4><div class="s">Fondations</div>
-      <ul><li>Définir son offre</li><li>Créer profil LinkedIn</li><li>Préparer portfolio</li><li>Fixer ses tarifs</li><li>Préparer templates</li></ul>
+      <h4>Semaine 1 — Fondations</h4>
       <div class="ar">الأساسيات</div>
+      <ul>
+        <li>Définir son offre en 1 phrase percutante</li>
+        <li>Créer/optimiser profil LinkedIn</li>
+        <li>Préparer portfolio avec 3 réalisations</li>
+        <li>Fixer ses tarifs (3 niveaux)</li>
+        <li>Préparer templates devis et facture</li>
+        <li>Ouvrir compte pro (Stripe/PayPal)</li>
+        <li>S'inscrire sur Malt et Codeur</li>
+      </ul>
     </div>
     <div class="wc wc2">
-      <h4>Semaine 2</h4><div class="s">Prospection</div>
-      <ul><li>5 emails froids</li><li>Contacter 3 agences</li><li>Poster LinkedIn</li><li>5 anciens collègues</li><li>Audit gratuit</li></ul>
-      <div class="ar">التسويق</div>
+      <h4>Semaine 2 — Prospection</h4>
+      <div class="ar">التسويق المكثف</div>
+      <ul>
+        <li>5 emails froids ciblés par jour</li>
+        <li>Contacter 3 agences de dev</li>
+        <li>Publier 3 posts LinkedIn utiles</li>
+        <li>Contacter 5 anciens collègues</li>
+        <li>Proposer 2 audits gratuits</li>
+        <li>Rejoindre 2 groupes Facebook dev</li>
+        <li>Mettre à jour GitHub</li>
+      </ul>
     </div>
     <div class="wc wc3">
-      <h4>Semaine 3</h4><div class="s">Conversion</div>
-      <ul><li>Échange → devis</li><li>2 propositions</li><li>Relancer intéressé</li><li>Anti-objections</li><li>Demander reco</li></ul>
+      <h4>Semaine 3 — Conversion</h4>
       <div class="ar">التحويل</div>
+      <ul>
+        <li>5 échanges → calls</li>
+        <li>2 propositions détaillées</li>
+        <li>Relancer tous les intéressés J+7</li>
+        <li>Préparer réponses aux objections</li>
+        <li>Demander 3 recommandations</li>
+        <li>Signer premier client payant</li>
+        <li>Livrer premier résultat visible</li>
+      </ul>
     </div>
     <div class="wc wc4">
-      <h4>Semaine 4</h4><div class="s">Accélération</div>
-      <ul><li>Livrer résultat</li><li>Témoignage client</li><li>Automatiser</li><li>CTA LinkedIn</li><li>Bilan mensuel</li></ul>
-      <div class="ar">التسريع</div>
+      <h4>Semaine 4 — Accélération</h4>
+      <div class="ar">التسريع والهيكلة</div>
+      <ul>
+        <li>Témoignage du premier client</li>
+        <li>Automatiser relances prospects</li>
+        <li>Publier cas client LinkedIn</li>
+        <li>Configurer CRM freelance</li>
+        <li>Bilan mensuel: CA, temps, prospects</li>
+        <li>Ajuster tarifs si nécessaire</li>
+        <li>Planifier mois suivant avec objectifs</li>
+      </ul>
     </div>
   </div>
 </div>
 
+<div class="cta">
+  <p style="font-size:1.3rem;font-weight:800;color:#2563eb;margin-bottom:.5rem">Prêt à enclencher ? مستعد للانطلاق؟</p>
+  <p style="font-size:.85rem;color:#64748b;margin-bottom:1rem">Ce guide vous a été offert par UCF ZEM. Mettez-le en pratique dès aujourd'hui.</p>
+  <a href="https://ucfzem.github.io" style="display:inline-block;padding:.75rem 2rem;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border-radius:1rem;font-weight:700;text-decoration:none;font-size:.9rem">📖 Voir tous mes projets</a>
+</div>
+
 <div class="footer">
-  <p>© 2026 — Offert par UCF ZEM / مقدمة من UCF ZEM</p>
+  <p>© 2026 — Offert par UCF ZEM — Guide complet mis à jour régulièrement</p>
   <p style="margin-top:.25rem"><a href="https://ucfzem.github.io">ucfzem.github.io</a></p>
 </div>
 
