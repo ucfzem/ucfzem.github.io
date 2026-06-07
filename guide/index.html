@@ -135,6 +135,8 @@
   .cta-section p{color:var(--text3);margin-bottom:1.5rem;font-size:.85rem}
   .cta-btn{display:inline-block;padding:.85rem 2rem;border-radius:2rem;font-weight:700;font-size:.9rem;text-decoration:none;background:var(--badge-bg);color:#fff;transition:all .2s;box-shadow:0 8px 32px var(--shadow)}
   .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px var(--shadow)}
+  .btn-download{display:inline-block;padding:.7rem 1.6rem;border-radius:.75rem;font-weight:600;font-size:.85rem;text-decoration:none;background:linear-gradient(135deg,#059669,#10b981);color:#fff;box-shadow:0 4px 20px rgba(5,150,105,.35);transition:all .2s;margin-top:.5rem}
+  .btn-download:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(5,150,105,.4)}
 
   footer{text-align:center;padding:2.5rem 1rem;border-top:1px solid var(--border);color:var(--text3);font-size:.8rem}
   footer a{color:var(--gold);text-decoration:underline;text-underline-offset:2px}
@@ -471,12 +473,12 @@ function sendEmail(email, btnId, msgId, btnText) {
   }).then(r => {
     if (r.ok) {
       msg.className = 'success'
-      msg.innerHTML = `✅ <a href="${PDF}" download>Télécharge ton PDF ici →</a>`
+      msg.innerHTML = `<a href="${PDF}" download class="btn-download">📄 Télécharge ton PDF ici →</a>`
       btn.textContent = '✅'
     } else { throw new Error() }
   }).catch(() => {
     msg.className = 'error'
-    msg.innerHTML = `⚠️ <a href="${PDF}" download>Télécharge directement le PDF</a>`
+      msg.innerHTML = `<a href="${PDF}" download class="btn-download">⚠️ Télécharge directement le PDF</a>`
     btn.textContent = btnText
     btn.disabled = false
   })
