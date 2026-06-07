@@ -1336,7 +1336,7 @@
 
 
   <div class="topics-grid">
-    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('Intelligence Artificielle')">
+    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('IA')">
       <div class="topic-icon">🤖</div>
       <h4>Intelligence Artificielle</h4>
       <p>LLMs, agents, fine-tuning, prompt engineering — le cœur de la révolution actuelle.</p>
@@ -1747,6 +1747,7 @@
 
   function filterArticles(val) {
     renderArticles(val);
+    document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
   }
 
   function openArticle(slug) {
