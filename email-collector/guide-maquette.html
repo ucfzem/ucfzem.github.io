@@ -5,280 +5,407 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guide Ultime du Freelance — Ucf Zem</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Inter',-apple-system,sans-serif;background:#f1f5f9;color:#0f172a;padding:2rem}
-  .book{max-width:800px;margin:0 auto;background:#fff;border-radius:1rem;box-shadow:0 20px 60px rgba(0,0,0,.1);overflow:hidden}
-  .cover{background:linear-gradient(135deg,#1e293b,#0f172a);padding:4rem 3rem;text-align:center;color:#fff}
-  .cover .badge{display:inline-block;background:rgba(99,102,241,.2);color:#a5b4fc;font-size:.75rem;font-weight:600;padding:.375rem 1rem;border-radius:2rem;margin-bottom:1.5rem;border:1px solid rgba(99,102,241,.3)}
-  .cover h1{font-size:2.5rem;font-weight:800;line-height:1.2;margin-bottom:.75rem}
-  .cover h1 span{background:linear-gradient(135deg,#818cf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .cover p{color:#94a3b8;font-size:1rem;max-width:400px;margin:0 auto 2rem}
-  .cover .meta{display:flex;justify-content:center;gap:2rem;font-size:.8125rem;color:#64748b}
-  .cover .meta span{display:flex;align-items:center;gap:.375rem}
-  .page{padding:3rem}
-  .page h2{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:3px solid #4f46e5;display:flex;align-items:center;gap:.75rem}
-  .page h2 .num{background:#4f46e5;color:#fff;font-size:.875rem;font-weight:700;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-  .page h3{font-size:1.125rem;font-weight:600;color:#1e293b;margin:1.5rem 0 .75rem}
-  .page h4{font-size:.9375rem;font-weight:600;color:#334155;margin:1rem 0 .5rem}
-  .page p{font-size:.9375rem;line-height:1.7;color:#334155;margin-bottom:1rem}
-  .page ul{margin-bottom:1rem;padding-left:1.25rem}
-  .page li{font-size:.9375rem;line-height:1.7;color:#334155;margin-bottom:.375rem;list-style:disc}
-  .page table{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.875rem}
-  .page table th{background:#f1f5f9;font-weight:600;text-align:left;padding:.625rem .75rem;border-bottom:2px solid #e2e8f0;color:#0f172a}
-  .page table td{padding:.625rem .75rem;border-bottom:1px solid #f1f5f9;color:#334155}
-  .page table tr:last-child td{border-bottom:none}
-  .page table .highlight{background:#faf5ff}
-  .page .box{border:1px solid #e2e8f0;border-radius:.75rem;padding:1.5rem;margin:1.5rem 0;background:#fafafa}
-  .page .box .label{font-size:.6875rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:600;margin-bottom:.75rem}
-  .page .box p{font-family:'Courier New',monospace;font-size:.8125rem;line-height:1.8;color:#1e293b;margin:0;white-space:pre-wrap}
-  .page .tag{display:inline-block;font-size:.6875rem;font-weight:600;padding:.25rem .625rem;border-radius:.375rem;margin-right:.375rem;margin-bottom:.375rem}
-  .page .tag-froid{background:#dbeafe;color:#1e40af}
-  .page .tag-agence{background:#dcfce7;color:#166534}
-  .page .tag-relance{background:#fef3c7;color:#92400e}
-  .page .tag-reco{background:#e0e7ff;color:#3730a3}
-  .page .tag-audit{background:#fce7f3;color:#9d174d}
-  .page .routine{display:grid;grid-template-columns:auto 1fr;gap:.5rem 1rem;font-size:.875rem;margin:1rem 0}
-  .page .routine .time{font-weight:600;color:#4f46e5;white-space:nowrap}
-  .page .routine .desc{color:#334155}
-  .page .rule{border-left:3px solid #4f46e5;padding:.75rem 0 .75rem 1rem;margin:.75rem 0;background:#f8fafc;border-radius:0 .5rem .5rem 0;font-size:.875rem;color:#1e293b;font-weight:500}
-  .page .checklist-week{margin:1.5rem 0}
-  .page .checklist-week h4{color:#4f46e5;font-size:.8125rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem}
-  .page .checklist-week label{display:flex;align-items:flex-start;gap:.625rem;padding:.375rem 0;cursor:pointer;font-size:.875rem;color:#334155}
-  .page .checklist-week input[type=checkbox]{margin-top:3px;accent-color:#4f46e5;width:16px;height:16px;flex-shrink:0}
-  .page .checklist-week label:hover{color:#0f172a}
-  .footer-page{background:#0f172a;color:#64748b;text-align:center;padding:2rem 3rem;font-size:.8125rem}
+  .book{max-width:800px;margin:0 auto;background:#fff;border-radius:1.5rem;box-shadow:0 25px 80px rgba(0,0,0,.12);overflow:hidden}
+
+  .cover{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);padding:5rem 3rem 4rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(99,102,241,.12) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(168,85,247,.08) 0%,transparent 50%);pointer-events:none}
+  .cover .lines{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .cover .lines span{position:absolute;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);height:1px;width:100%}
+  .cover .lines span:nth-child(1){top:15%;animation:none}
+  .cover .lines span:nth-child(2){top:35%}
+  .cover .lines span:nth-child(3){top:55%}
+  .cover .lines span:nth-child(4){top:75%}
+  .cover .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(99,102,241,.15);color:#a5b4fc;font-size:.75rem;font-weight:600;padding:.5rem 1.25rem;border-radius:2rem;margin-bottom:2rem;border:1px solid rgba(99,102,241,.25);backdrop-filter:blur(4px);position:relative}
+  .cover .badge .dot{width:6px;height:6px;background:#34d399;border-radius:50%;animation:pulse 2s infinite}
+  .cover h1{font-size:3rem;font-weight:900;line-height:1.1;margin-bottom:1rem;position:relative}
+  .cover h1 span{background:linear-gradient(135deg,#818cf8,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .cover .subtitle{font-size:1.05rem;color:#94a3b8;max-width:450px;margin:0 auto 2.5rem;line-height:1.6;position:relative}
+  .cover .meta{display:flex;justify-content:center;gap:2.5rem;font-size:.8125rem;color:#64748b;position:relative}
+  .cover .meta span{display:flex;align-items:center;gap:.5rem}
+  .cover .meta .ico{color:#4f46e5}
+  .cover .cta{display:inline-flex;align-items:center;gap:.5rem;margin-top:2.5rem;background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;border:none;padding:.75rem 2rem;border-radius:2rem;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;position:relative}
+  .cover .cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,70,229,.3)}
+
+  .page{padding:3rem 3rem 2.5rem;position:relative}
+  .page::after{content:'';position:absolute;bottom:0;left:3rem;right:3rem;height:1px;background:linear-gradient(90deg,transparent,#e2e8f0,transparent)}
+  .page:last-child::after{display:none}
+
+  .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #f1f5f9;position:relative}
+  .section-header::after{content:'';position:absolute;bottom:-2px;left:0;width:60px;height:2px;background:linear-gradient(90deg,#4f46e5,#818cf8);border-radius:2px}
+  .section-header .num{background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;font-size:.875rem;font-weight:700;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(79,70,229,.25)}
+  .section-header h2{font-size:1.35rem;font-weight:700;color:#0f172a}
+
+  h3{font-size:1.05rem;font-weight:600;color:#1e293b;margin:1.75rem 0 .75rem;display:flex;align-items:center;gap:.5rem}
+  h3 .accent{width:4px;height:18px;background:linear-gradient(180deg,#4f46e5,#818cf8);border-radius:2px;flex-shrink:0}
+  p{font-size:.925rem;line-height:1.7;color:#334155;margin-bottom:1rem}
+
+  table{width:100%;border-collapse:separate;border-spacing:0;margin:1rem 0 1.5rem;font-size:.85rem;border-radius:.75rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  table thead{background:linear-gradient(135deg,#f8fafc,#f1f5f9)}
+  table th{font-weight:600;text-align:left;padding:.75rem .875rem;color:#0f172a;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid #e2e8f0}
+  table td{padding:.6875rem .875rem;border-bottom:1px solid #f1f5f9;color:#334155}
+  table tbody tr:last-child td{border-bottom:none}
+  table tbody tr:hover td{background:#faf5ff}
+
+  .box{border:1px solid #e2e8f0;border-radius:1rem;padding:1.5rem;margin:1.5rem 0;background:linear-gradient(135deg,#fafafa,#f8fafc);position:relative}
+  .box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4f46e5,#818cf8,#a78bfa);border-radius:1rem 1rem 0 0}
+  .box .label{font-size:.675rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+  .box code{font-family:'Courier New',monospace;font-size:.8125rem;line-height:1.8;color:#1e293b;white-space:pre-wrap;display:block}
+
+  .email-block{margin:1.25rem 0;padding:1.25rem;border:1px solid #e2e8f0;border-radius:.75rem;background:#fafafa;position:relative}
+  .email-block .tag{display:inline-block;font-size:.625rem;font-weight:700;padding:.25rem .625rem;border-radius:.375rem;margin-bottom:.625rem;text-transform:uppercase;letter-spacing:.05em}
+  .tag-froid{background:#dbeafe;color:#1e40af}
+  .tag-agence{background:#dcfce7;color:#166534}
+  .tag-relance{background:#fef3c7;color:#92400e}
+  .tag-reco{background:#e0e7ff;color:#3730a3}
+  .tag-audit{background:#fce7f3;color:#9d174d}
+  .email-block h4{font-size:.9rem;font-weight:600;color:#0f172a;margin-bottom:.5rem}
+  .email-block .objet{font-size:.8rem;color:#4f46e5;font-weight:500;margin-bottom:.375rem}
+  .email-block .corps{font-size:.85rem;color:#475569;line-height:1.6;white-space:pre-line}
+
+  .routine-grid{display:grid;gap:.5rem;margin:1rem 0 1.5rem}
+  .routine-row{display:grid;grid-template-columns:100px 1fr;gap:1rem;padding:.5rem .75rem;border-radius:.5rem;background:#f8fafc;font-size:.85rem;align-items:start}
+  .routine-row:hover{background:#f1f5f9}
+  .routine-row .time{font-weight:600;color:#4f46e5}
+  .routine-row .desc{color:#334155}
+
+  .rule{display:flex;align-items:flex-start;gap:.75rem;padding:.875rem 1rem;margin:.625rem 0;background:linear-gradient(135deg,#f8fafc,#faf5ff);border-radius:.75rem;font-size:.875rem;color:#1e293b;font-weight:500;border:1px solid #ede9fe}
+  .rule .icon{flex-shrink:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:#ede9fe;border-radius:6px;color:#4f46e5;font-size:.75rem}
+
+  .week-block{margin:1.5rem 0;padding:1.25rem;border-radius:.75rem;background:#f8fafc;border:1px solid #e2e8f0}
+  .week-block h4{font-size:.8rem;font-weight:700;color:#4f46e5;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+  .week-block h4 .w-line{flex:1;height:1px;background:linear-gradient(90deg,#e2e8f0,transparent)}
+  .check-item{display:flex;align-items:flex-start;gap:.625rem;padding:.35rem 0;font-size:.85rem;color:#334155}
+  .check-item .box-check{width:18px;height:18px;border:2px solid #cbd5e1;border-radius:4px;flex-shrink:0;margin-top:2px;transition:all .2s}
+  .check-item:hover .box-check{border-color:#4f46e5;background:rgba(79,70,229,.05)}
+
+  .bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:1rem 0}
+  .bonus-item{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:linear-gradient(135deg,#f0fdf4,#f8fafc);border-radius:.5rem;font-size:.8125rem;color:#334155;border:1px solid #dcfce7}
+
+  .divider-wave{text-align:center;margin:2rem 0;color:#cbd5e1;font-size:1.25rem;letter-spacing:.5rem;user-select:none}
+
+  .footer-page{background:#0f172a;padding:3rem;text-align:center;position:relative;overflow:hidden}
+  .footer-page::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4f46e5,#818cf8,#a78bfa,#f472b6)}
+  .footer-page .brand{font-size:1.25rem;font-weight:800;background:linear-gradient(135deg,#818cf8,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}
+  .footer-page p{color:#475569;font-size:.8125rem;margin:0}
   .footer-page a{color:#818cf8;text-decoration:underline;text-underline-offset:2px}
   .footer-page a:hover{color:#a5b4fc}
-  hr{height:1px;border:none;background:#e2e8f0;margin:2rem 0}
-  @media print{body{background:#fff;padding:0}.book{box-shadow:none;border-radius:0;max-width:100%}.page{break-inside:avoid}.cover{break-after:page;min-height:100vh;display:flex;flex-direction:column;justify-content:center}.page h2{break-after:avoid}.page table{break-inside:avoid}}
+  .footer-page .social-links{display:flex;justify-content:center;gap:1rem;margin-top:1.25rem}
+  .footer-page .social-links a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;text-decoration:none;color:#64748b;font-size:1rem;transition:all .2s;border:1px solid rgba(255,255,255,.05)}
+  .footer-page .social-links a:hover{background:rgba(99,102,241,.15);color:#818cf8;border-color:rgba(99,102,241,.2);transform:translateY(-2px)}
+
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  @media print{body{background:#fff;padding:0}.book{box-shadow:none;border-radius:0;max-width:100%}.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center}.page{break-inside:avoid}.section-header{break-after:avoid}table{break-inside:avoid}.week-block{break-inside:avoid}.email-block{break-inside:avoid}}
+
+  @media(max-width:640px){body{padding:1rem}.cover{padding:3rem 1.5rem;min-height:auto}.cover h1{font-size:2rem}.page{padding:2rem 1.5rem}.bonus-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="book">
 
   <div class="cover">
-    <div class="badge">🎁 Offert par Ucf Zem</div>
-    <h1>Le <span>Guide Ultime</span> du Freelance</h1>
-    <p>Grille tarifaire · Templates d'emails · Routine quotidienne · Checklist 30 jours</p>
-    <div class="meta">
-      <span>📄 28 pages</span>
-      <span>✍️ Ucf Zem</span>
-      <span>📅 2026</span>
+    <div class="lines">
+      <span></span><span></span><span></span><span></span>
     </div>
+    <div class="badge">
+      <span class="dot"></span>
+      Offert par Ucf Zem
+    </div>
+    <h1>Le <span>Guide Ultime</span><br>du Freelance</h1>
+    <p class="subtitle">Grille tarifaire · Templates d'emails · Routine quotidienne · Checklist 30 jours — tout pour passer de 0 à 5 000 €/mois.</p>
+    <div class="meta">
+      <span><span class="ico">📄</span> 28 pages</span>
+      <span><span class="ico">✍️</span> Ucf Zem</span>
+      <span><span class="ico">📅</span> 2026</span>
+    </div>
+    <div class="cta">⬇️ Télécharger le guide complet</div>
   </div>
 
   <div class="page">
-    <h2><span class="num">1</span> Grille Tarifaire Prête à l'Emploi</h2>
+    <div class="section-header">
+      <span class="num">1</span>
+      <h2>Grille Tarifaire Prête à l'Emploi</h2>
+    </div>
 
-    <h3>Pour les débutants (&lt; 6 mois d'expérience)</h3>
+    <h3><span class="accent"></span>Débutants (&lt; 6 mois d'expérience)</h3>
     <table>
-      <tr><th>Service</th><th>Prix mini</th><th>Prix maxi</th><th>Note</th></tr>
-      <tr><td>Landing page one-pager</td><td>300€</td><td>500€</td><td>Forfait fixe</td></tr>
-      <tr><td>Site vitrine 3-5 pages</td><td>600€</td><td>1 200€</td><td>Forfait fixe</td></tr>
-      <tr><td>Intégration HTML/CSS d'une maquette</td><td>200€</td><td>400€</td><td>Forfait fixe</td></tr>
-      <tr><td>Correction / amélioration site existant</td><td>150€</td><td>300€</td><td>Forfait fixe</td></tr>
-      <tr><td>Audit technique rapide</td><td>100€</td><td>200€</td><td>Forfait fixe</td></tr>
+      <thead><tr><th>Service</th><th>Mini</th><th>Maxi</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>Landing page one-pager</td><td>300€</td><td>500€</td><td>Forfait fixe</td></tr>
+        <tr><td>Site vitrine 3-5 pages</td><td>600€</td><td>1 200€</td><td>Forfait fixe</td></tr>
+        <tr><td>Intégration HTML/CSS maquette</td><td>200€</td><td>400€</td><td>Forfait fixe</td></tr>
+        <tr><td>Correction / amélioration site</td><td>150€</td><td>300€</td><td>Forfait fixe</td></tr>
+        <tr><td>Audit technique rapide</td><td>100€</td><td>200€</td><td>Forfait fixe</td></tr>
+      </tbody>
     </table>
 
-    <h3>Pour les intermédiaires (6-18 mois)</h3>
+    <h3><span class="accent"></span>Intermédiaires (6-18 mois)</h3>
     <table>
-      <tr><th>Service</th><th>TJM</th><th>Durée estimée</th></tr>
-      <tr><td>Développement React / Next.js</td><td>350€ - 450€</td><td>À la tâche ou régie</td></tr>
-      <tr><td>API backend (Node.js)</td><td>300€ - 400€</td><td>Semaine</td></tr>
-      <tr><td>Refonte complète site</td><td>2 500€ - 5 000€</td><td>Forfait projet</td></tr>
-      <tr><td>Maintenance mensuelle</td><td>200€ - 400€/mois</td><td>Abonnement</td></tr>
-      <tr><td>Consulting technique</td><td>400€ - 500€/jour</td><td>Journée</td></tr>
+      <thead><tr><th>Service</th><th>TJM</th><th>Durée</th></tr></thead>
+      <tbody>
+        <tr><td>Développement React / Next.js</td><td>350€ - 450€</td><td>Régie</td></tr>
+        <tr><td>API backend (Node.js)</td><td>300€ - 400€</td><td>Semaine</td></tr>
+        <tr><td>Refonte complète site</td><td>2 500€ - 5 000€</td><td>Forfait projet</td></tr>
+        <tr><td>Maintenance mensuelle</td><td>200€ - 400€/mois</td><td>Abonnement</td></tr>
+        <tr><td>Consulting technique</td><td>400€ - 500€/jour</td><td>Journée</td></tr>
+      </tbody>
     </table>
 
-    <h3>Pour les confirmés (18+ mois)</h3>
+    <h3><span class="accent"></span>Confirmés (18+ mois)</h3>
     <table>
-      <tr><th>Service</th><th>TJM</th><th>Forfait</th></tr>
-      <tr><td>Architecture technique</td><td>500€ - 700€</td><td>3 000€ - 8 000€</td></tr>
-      <tr><td>Lead tech / CTO à temps partagé</td><td>600€ - 800€</td><td>3 000€ - 6 000€/mois</td></tr>
-      <tr><td>Formation équipe</td><td>600€ - 900€</td><td>Sur devis</td></tr>
-      <tr><td>Application complète (SaaS)</td><td>450€ - 600€</td><td>10 000€ - 30 000€</td></tr>
+      <thead><tr><th>Service</th><th>TJM</th><th>Forfait</th></tr></thead>
+      <tbody>
+        <tr><td>Architecture technique</td><td>500€ - 700€</td><td>3 000€ - 8 000€</td></tr>
+        <tr><td>Lead tech / CTO temps partagé</td><td>600€ - 800€</td><td>3 000€ - 6 000€/mois</td></tr>
+        <tr><td>Formation équipe</td><td>600€ - 900€</td><td>Sur devis</td></tr>
+        <tr><td>Application complète (SaaS)</td><td>450€ - 600€</td><td>10 000€ - 30 000€</td></tr>
+      </tbody>
     </table>
 
-    <h3>Template de devis</h3>
+    <h3><span class="accent"></span>Template de devis</h3>
     <div class="box">
-      <div class="label">Modèle à copier-coller</div>
-      <p>OBJET : Devis — [Nom du projet]
+      <div class="label">📋 Modèle à copier-coller</div>
+      <code>OBJET : Devis — [Nom du projet]
 CLIENT : [Nom du client]
 DATE : [Date]
 
 DESCRIPTION :
-  - [Tâche 1]
-  - [Tâche 2]
-  - [Tâche 3]
+  · [Tâche 1]
+  · [Tâche 2]
+  · [Tâche 3]
 
-MONTANT : [          ] € TTC
+MONTANT : [     ] € TTC
 DÉLAI : [X] semaines
-PAIEMENT : 50% à la signature, 50% à la livraison
+PAIEMENT : 50% à la signature · 50% à la livraison
 
-Validité : 15 jours</p>
+Validité : 15 jours</code>
     </div>
   </div>
 
+  <div class="divider-wave">· · · · · · · · · · · ·</div>
+
   <div class="page">
-    <h2><span class="num">2</span> 5 Templates d'Emails Prospection</h2>
+    <div class="section-header">
+      <span class="num">2</span>
+      <h2>5 Templates d'Emails Prospection</h2>
+    </div>
 
-    <h3><span class="tag tag-froid">✉️ Froid particulier</span></h3>
-    <p><strong>Objet :</strong> Idée pour [site web / projet] de [Nom]</p>
-    <p>Bonjour [Prénom],<br><br>
-    Je suis développeur freelance et je suis tombé sur [site / projet / LinkedIn de la personne].<br><br>
-    J'ai remarqué que [point spécifique : design daté / temps de chargement / fonctionnalité manquante].<br><br>
-    Je pourrais vous proposer une solution en [X] jours pour [résultat concret]. Sans engagement.<br><br>
-    Vous avez 10 minutes cette semaine pour qu'on en parle ?<br><br>
-    Cordialement,<br>
-    [Mon nom] · [Mon lien Calendly ou site]</p>
+    <div class="email-block">
+      <span class="tag tag-froid">✉️ Froid — Particulier</span>
+      <h4>1. Premier contact</h4>
+      <p class="objet">Objet : Idée pour [site web / projet] de [Nom]</p>
+      <div class="corps">Bonjour [Prénom],
 
-    <h3><span class="tag tag-agence">🏢 Agence</span></h3>
-    <p><strong>Objet :</strong> Prestation dev — [Nom de l'agence]</p>
-    <p>Bonjour [Prénom],<br><br>
-    Je suis développeur freelance spécialisé en [frontend / backend].<br><br>
-    Si vous avez des projets ou des pics de charge, je peux vous dépanner en régie (TJM à partir de [X]€).<br><br>
-    Je m'adapte à votre stack et vos process.<br><br>
-    Quelques réalisations : [lien 1] · [lien 2]<br><br>
-    Vous voulez qu'on échange sur vos besoins à venir ?<br><br>
-    Bonne journée,<br>
-    [Mon nom] · [Mon site]</p>
+Je suis développeur freelance et je suis tombé sur [site / LinkedIn].
 
-    <h3><span class="tag tag-relance">🔄 Relance (J+7)</span></h3>
-    <p><strong>Objet :</strong> Relance — [Nom du projet]</p>
-    <p>Salut [Prénom],<br><br>
-    Je me permets de revenir vers toi suite à mon précédent message.<br><br>
-    Si le timing n'est pas bon, pas de souci — je reste dispo quand tu veux.<br><br>
-    Si tu préfères, je peux aussi faire une proposition plus légère pour commencer.<br><br>
-    Bonne semaine,<br>
-    [Mon nom]</p>
+J'ai remarqué que [point spécifique : design daté / vitesse / fonctionnalité manquante].
 
-    <h3><span class="tag tag-reco">🤝 Recommandation</span></h3>
-    <p><strong>Objet :</strong> Suivi projet [Nom du projet]</p>
-    <p>Salut [Prénom du client passé],<br><br>
-    Ça fait [X mois] qu'on a bossé ensemble sur [projet].<br><br>
-    Est-ce que tout fonctionne bien de ton côté ?<br><br>
-    Si tu as des collègues ou connaissances qui cherchent un développeur, je suis preneur de recommandations. Et si toi-même tu as un nouveau projet, je reste disponible.<br><br>
-    Merci d'avance,<br>
-    [Mon nom]</p>
+Je pourrais vous proposer une solution en [X] jours pour [résultat concret]. Sans engagement.
 
-    <h3><span class="tag tag-audit">📊 Proposition après audit</span></h3>
-    <p><strong>Objet :</strong> Compte-rendu audit + proposition</p>
-    <p>Bonjour [Prénom],<br><br>
-    Suite à notre échange, voici ce que j'ai repéré :<br><br>
-    ✅ Points forts : [point 1], [point 2]<br>
-    ⚠️ Points d'amélioration :<br>
-    &nbsp;&nbsp;- [Point 1] — impact : fort/moyen/faible<br>
-    &nbsp;&nbsp;- [Point 2] — impact : fort/moyen/faible<br>
-    &nbsp;&nbsp;- [Point 3] — impact : fort/moyen/faible<br><br>
-    Je peux corriger tout ça en [X] jours pour [X]€.<br><br>
-    Tu veux qu'on en discute ?<br>
-    [Mon nom]</p>
+Vous avez 10 minutes cette semaine pour qu'on en parle ?
+
+Cordialement,
+[Mon nom] · [Lien Calendly ou site]</div>
+    </div>
+
+    <div class="email-block">
+      <span class="tag tag-agence">🏢 Agence</span>
+      <h4>2. Prestation pour agence</h4>
+      <p class="objet">Objet : Prestation dev — [Nom de l'agence]</p>
+      <div class="corps">Bonjour [Prénom],
+
+Je suis développeur freelance spécialisé en [frontend / backend].
+
+Si vous avez des projets ou des pics de charge, je peux vous dépanner en régie (TJM à partir de [X]€).
+
+Je m'adapte à votre stack et vos process.
+
+Quelques réalisations : [lien 1] · [lien 2]
+
+Vous voulez qu'on échange sur vos besoins ?
+
+Bonne journée,
+[Mon nom]</div>
+    </div>
+
+    <div class="email-block">
+      <span class="tag tag-relance">🔄 Relance (J+7)</span>
+      <h4>3. Follow-up</h4>
+      <p class="objet">Objet : Relance — [Nom du projet]</p>
+      <div class="corps">Salut [Prénom],
+
+Je me permets de revenir vers toi suite à mon précédent message.
+
+Si le timing n'est pas bon, pas de souci — je reste dispo.
+
+Si tu préfères, je peux aussi faire une proposition plus légère pour commencer.
+
+Bonne semaine,
+[Mon nom]</div>
+    </div>
+
+    <div class="email-block">
+      <span class="tag tag-reco">🤝 Recommandation</span>
+      <h4>4. Bouche-à-oreille</h4>
+      <p class="objet">Objet : Suivi projet [Nom]</p>
+      <div class="corps">Salut [Prénom du client passé],
+
+Ça fait [X mois] qu'on a bossé ensemble sur [projet].
+
+Est-ce que tout fonctionne bien de ton côté ?
+
+Si tu as des collègues qui cherchent un développeur, je suis preneur de recommandations.
+
+Merci d'avance,
+[Mon nom]</div>
+    </div>
+
+    <div class="email-block">
+      <span class="tag tag-audit">📊 Proposition</span>
+      <h4>5. Après audit</h4>
+      <p class="objet">Objet : Compte-rendu audit + proposition</p>
+      <div class="corps">Bonjour [Prénom],
+
+Suite à notre échange, voici ce que j'ai repéré :
+
+✅ Points forts : [point 1], [point 2]
+⚠️ Points d'amélioration :
+  · [Point 1] — impact : fort / moyen / faible
+  · [Point 2] — impact : fort / moyen / faible
+  · [Point 3] — impact : fort / moyen / faible
+
+Je peux corriger tout ça en [X] jours pour [X]€.
+
+Tu veux qu'on en discute ?
+[Mon nom]</div>
+    </div>
   </div>
 
+  <div class="divider-wave">· · · · · · · · · · · ·</div>
+
   <div class="page">
-    <h2><span class="num">3</span> Routine Quotidienne</h2>
-    <p>Voici la routine qui fait tourner les freelances à 5 000 €/mois. Pas de secret : des blocks de deep work, des pauses, et une vraie fin de journée.</p>
-
-    <h3>Matin (7h - 9h30)</h3>
-    <div class="routine">
-      <span class="time">7h00 - 7h30</span><span class="desc">Réveil, douche froide, pas de téléphone</span>
-      <span class="time">7h30 - 8h00</span><span class="desc">Planification du jour — 3 tâches prioritaires</span>
-      <span class="time">8h00 - 9h00</span><span class="desc"><strong>Deep work #1</strong> — tâche la plus importante (sans distraction)</span>
-      <span class="time">9h00 - 9h30</span><span class="desc">Pause, petit-déjeuner</span>
+    <div class="section-header">
+      <span class="num">3</span>
+      <h2>Routine Quotidienne</h2>
     </div>
 
-    <h3>Mi-journée (9h30 - 12h30)</h3>
-    <div class="routine">
-      <span class="time">9h30 - 11h00</span><span class="desc"><strong>Deep work #2</strong> — développement / livraison client</span>
-      <span class="time">11h00 - 11h15</span><span class="desc">Pause</span>
-      <span class="time">11h15 - 12h30</span><span class="desc">Administration : devis, factures, mails clients</span>
+    <p>La routine qui fait tourner les freelances à 5 000 €/mois. Pas de secret : des blocks de deep work, des vraies pauses, et une fin de journée respectée.</p>
+
+    <h3><span class="accent"></span>Matin (7h - 9h30)</h3>
+    <div class="routine-grid">
+      <div class="routine-row"><span class="time">🌅 7h00</span><span class="desc">Réveil, douche froide, pas de téléphone</span></div>
+      <div class="routine-row"><span class="time">📋 7h30</span><span class="desc">Planification du jour — 3 tâches prioritaires</span></div>
+      <div class="routine-row"><span class="time">⚡ 8h00</span><span class="desc"><strong>Deep work #1</strong> — tâche la plus importante, sans distraction</span></div>
+      <div class="routine-row"><span class="time">☕ 9h00</span><span class="desc">Pause, petit-déjeuner</span></div>
     </div>
 
-    <h3>Après-midi (14h - 17h)</h3>
-    <div class="routine">
-      <span class="time">12h30 - 14h00</span><span class="desc">Pause déjeuner — vrai break, pas devant l'écran</span>
-      <span class="time">14h00 - 15h30</span><span class="desc">Prospection / networking / LinkedIn</span>
-      <span class="time">15h30 - 16h30</span><span class="desc"><strong>Deep work #3</strong> — projet perso ou formation</span>
-      <span class="time">16h30 - 17h00</span><span class="desc">Bilan du jour + préparation du lendemain</span>
+    <h3><span class="accent"></span>Mi-journée (9h30 - 12h30)</h3>
+    <div class="routine-grid">
+      <div class="routine-row"><span class="time">💻 9h30</span><span class="desc"><strong>Deep work #2</strong> — développement / livraison client</span></div>
+      <div class="routine-row"><span class="time">☕ 11h00</span><span class="desc">Pause</span></div>
+      <div class="routine-row"><span class="time">📎 11h15</span><span class="desc">Administration : devis, factures, mails clients</span></div>
     </div>
 
-    <h3>Soir</h3>
-    <ul>
-      <li><strong>17h00 : FINI.</strong> Pas de travail après.</li>
-      <li>Sport 3× / semaine</li>
-      <li>Lecture 20 min / jour (technique ou business)</li>
-    </ul>
+    <h3><span class="accent"></span>Après-midi (14h - 17h)</h3>
+    <div class="routine-grid">
+      <div class="routine-row"><span class="time">🍽️ 12h30</span><span class="desc">Pause déjeuner — vrai break, pas devant l'écran</span></div>
+      <div class="routine-row"><span class="time">📡 14h00</span><span class="desc">Prospection / networking / LinkedIn</span></div>
+      <div class="routine-row"><span class="time">🔨 15h30</span><span class="desc"><strong>Deep work #3</strong> — projet perso ou formation</span></div>
+      <div class="routine-row"><span class="time">📝 16h30</span><span class="desc">Bilan du jour + préparation du lendemain</span></div>
+    </div>
 
-    <h3>Règles d'or</h3>
-    <div class="rule">📵 Pas de réseaux sociaux avant 12h — le matin est pour produire</div>
-    <div class="rule">📝 Journaling 5 min chaque soir : « Qu'est-ce que j'ai appris aujourd'hui ? »</div>
-    <div class="rule">🎯 Un seul client à la fois en deep work — pas de multitâche</div>
-    <div class="rule">📧 Relance clients tous les jeudi matin (30 min chrono)</div>
-    <div class="rule">🌿 Un jour par mois sans écran — créativité et repos</div>
+    <h3><span class="accent"></span>Soir</h3>
+    <div class="routine-grid">
+      <div class="routine-row"><span class="time">🔴 17h00</span><span class="desc"><strong>FINI.</strong> Pas de travail après.</span></div>
+      <div class="routine-row"><span class="time">🏋️</span><span class="desc">Sport 3× / semaine</span></div>
+      <div class="routine-row"><span class="time">📖</span><span class="desc">Lecture 20 min / jour (technique ou business)</span></div>
+    </div>
+
+    <h3><span class="accent"></span>Règles d'or</h3>
+    <div class="rule"><span class="icon">📵</span> Pas de réseaux sociaux avant 12h — le matin est pour produire</div>
+    <div class="rule"><span class="icon">📝</span> Journaling 5 min chaque soir : « Qu'est-ce que j'ai appris aujourd'hui ? »</div>
+    <div class="rule"><span class="icon">🎯</span> Un seul client à la fois en deep work — pas de multitâche</div>
+    <div class="rule"><span class="icon">📧</span> Relance clients tous les jeudi matin (30 min chrono)</div>
+    <div class="rule"><span class="icon">🌿</span> Un jour par mois sans écran — créativité et repos</div>
   </div>
 
+  <div class="divider-wave">· · · · · · · · · · · ·</div>
+
   <div class="page">
-    <h2><span class="num">4</span> Checklist 30 Jours</h2>
-    <p>Coche chaque jour. À la fin du mois, t'auras une machine freelance qui tourne.</p>
-
-    <div class="checklist-week">
-      <h4>Semaine 1 — Fondations</h4>
-      <label><input type="checkbox"> Définir son offre (quoi, pour qui, combien)</label>
-      <label><input type="checkbox"> Créer son profil LinkedIn optimisé</label>
-      <label><input type="checkbox"> Préparer son portfolio (3 projets minimum)</label>
-      <label><input type="checkbox"> Fixer ses tarifs (utilise la grille section 1)</label>
-      <label><input type="checkbox"> Créer un calendrier de prospection</label>
-      <label><input type="checkbox"> Préparer ses templates d'emails (section 2)</label>
-      <label><input type="checkbox"> Bilan semaine : peaufiner l'offre</label>
+    <div class="section-header">
+      <span class="num">4</span>
+      <h2>Checklist 30 Jours</h2>
     </div>
 
-    <div class="checklist-week">
-      <h4>Semaine 2 — Prospection</h4>
-      <label><input type="checkbox"> Envoyer 5 emails froids (template 1)</label>
-      <label><input type="checkbox"> Contacter 3 agences (template 2)</label>
-      <label><input type="checkbox"> Relancer les non-réponses (template 3)</label>
-      <label><input type="checkbox"> Poster 1 contenu LinkedIn (conseil dev)</label>
-      <label><input type="checkbox"> Contacter 5 anciens collègues / connaissances</label>
-      <label><input type="checkbox"> Préparer un audit gratuit pour une cible</label>
-      <label><input type="checkbox"> Bilan semaine : 3 échanges téléphoniques minimum</label>
+    <p>Coche chaque jour. À la fin du mois, tu auras une machine freelance qui tourne toute seule.</p>
+
+    <div class="week-block">
+      <h4>Semaine 1 <span class="w-line"></span> Fondations</h4>
+      <div class="check-item"><span class="box-check"></span> Définir son offre (quoi, pour qui, combien)</div>
+      <div class="check-item"><span class="box-check"></span> Créer son profil LinkedIn optimisé</div>
+      <div class="check-item"><span class="box-check"></span> Préparer son portfolio (3 projets minimum)</div>
+      <div class="check-item"><span class="box-check"></span> Fixer ses tarifs (utilise la grille section 1)</div>
+      <div class="check-item"><span class="box-check"></span> Créer un calendrier de prospection</div>
+      <div class="check-item"><span class="box-check"></span> Préparer ses templates d'emails (section 2)</div>
+      <div class="check-item"><span class="box-check"></span> Bilan semaine : peaufiner l'offre</div>
     </div>
 
-    <div class="checklist-week">
-      <h4>Semaine 3 — Conversion</h4>
-      <label><input type="checkbox"> Transformer un échange en devis</label>
-      <label><input type="checkbox"> Envoyer 2 propositions personnalisées</label>
-      <label><input type="checkbox"> Relance client intéressé (template 4)</label>
-      <label><input type="checkbox"> Préparer un argumentaire anti-objections</label>
-      <label><input type="checkbox"> Soigner son follow-up (merci + prochaines étapes)</label>
-      <label><input type="checkbox"> Demander 1 recommandation</label>
-      <label><input type="checkbox"> Bilan semaine : 1 devis signé minimum</label>
+    <div class="week-block">
+      <h4>Semaine 2 <span class="w-line"></span> Prospection</h4>
+      <div class="check-item"><span class="box-check"></span> Envoyer 5 emails froids (template 1)</div>
+      <div class="check-item"><span class="box-check"></span> Contacter 3 agences (template 2)</div>
+      <div class="check-item"><span class="box-check"></span> Relancer les non-réponses (template 3)</div>
+      <div class="check-item"><span class="box-check"></span> Poster 1 contenu LinkedIn (conseil dev)</div>
+      <div class="check-item"><span class="box-check"></span> Contacter 5 anciens collègues / connaissances</div>
+      <div class="check-item"><span class="box-check"></span> Préparer un audit gratuit pour une cible</div>
+      <div class="check-item"><span class="box-check"></span> Bilan semaine : 3 échanges téléphoniques minimum</div>
     </div>
 
-    <div class="checklist-week">
-      <h4>Semaine 4 — Accélération</h4>
-      <label><input type="checkbox"> Livrer un premier résultat client</label>
-      <label><input type="checkbox"> Demander un témoignage / avis</label>
-      <label><input type="checkbox"> Automatiser sa prospection (réseau, alertes)</label>
-      <label><input type="checkbox"> Créer un call-to-action sur LinkedIn</label>
-      <label><input type="checkbox"> Se former 2h (outil, stack, business)</label>
-      <label><input type="checkbox"> Préparer le mois suivant</label>
-      <label><input type="checkbox"> Bilan mensuel : CA, leçons, objectifs M2</label>
+    <div class="week-block">
+      <h4>Semaine 3 <span class="w-line"></span> Conversion</h4>
+      <div class="check-item"><span class="box-check"></span> Transformer un échange en devis</div>
+      <div class="check-item"><span class="box-check"></span> Envoyer 2 propositions personnalisées</div>
+      <div class="check-item"><span class="box-check"></span> Relance client intéressé (template 4)</div>
+      <div class="check-item"><span class="box-check"></span> Préparer un argumentaire anti-objections</div>
+      <div class="check-item"><span class="box-check"></span> Soigner son follow-up (merci + prochaines étapes)</div>
+      <div class="check-item"><span class="box-check"></span> Demander 1 recommandation</div>
+      <div class="check-item"><span class="box-check"></span> Bilan semaine : 1 devis signé minimum</div>
     </div>
 
-    <h3>Bonus</h3>
-    <div class="checklist-week">
-      <label><input type="checkbox"> Configurer Stripe pour paiement en ligne</label>
-      <label><input type="checkbox"> Créer un contrat-type freelance</label>
-      <label><input type="checkbox"> Ouvrir un compte pro (Qonto, Shine)</label>
-      <label><input type="checkbox"> Rejoindre 2 communautés freelance (Discord, Slack)</label>
-      <label><input type="checkbox"> Installer un tracker de temps (Toggl, Clockify)</label>
+    <div class="week-block">
+      <h4>Semaine 4 <span class="w-line"></span> Accélération</h4>
+      <div class="check-item"><span class="box-check"></span> Livrer un premier résultat client</div>
+      <div class="check-item"><span class="box-check"></span> Demander un témoignage / avis</div>
+      <div class="check-item"><span class="box-check"></span> Automatiser sa prospection (réseau, alertes)</div>
+      <div class="check-item"><span class="box-check"></span> Créer un call-to-action sur LinkedIn</div>
+      <div class="check-item"><span class="box-check"></span> Se former 2h (outil, stack, business)</div>
+      <div class="check-item"><span class="box-check"></span> Préparer le mois suivant</div>
+      <div class="check-item"><span class="box-check"></span> Bilan mensuel : CA, leçons, objectifs M2</div>
+    </div>
+
+    <h3><span class="accent"></span>Bonus</h3>
+    <div class="bonus-grid">
+      <div class="bonus-item">💳 Configurer Stripe</div>
+      <div class="bonus-item">📝 Créer un contrat-type</div>
+      <div class="bonus-item">🏦 Ouvrir un compte pro</div>
+      <div class="bonus-item">👥 Rejoindre 2 communautés</div>
+      <div class="bonus-item">⏱️ Installer un tracker de temps</div>
     </div>
   </div>
 
   <div class="footer-page">
+    <div class="brand">✦ Ucf Zem ✦</div>
     <p>Guide créé par <a href="https://ucfzem.github.io">Ucf Zem</a> — 2026</p>
-    <p style="margin-top:.5rem;font-size:.75rem">Tu peux partager ce guide, le modifier, l'imprimer. Gratuit, toujours.</p>
+    <p style="margin-top:.5rem;font-size:.75rem">Tu peux partager, modifier, imprimer. Gratuit, toujours.</p>
+    <div class="social-links">
+      <a href="#" title="Site">🌐</a>
+      <a href="#" title="GitHub">🐙</a>
+      <a href="#" title="LinkedIn">💼</a>
+      <a href="#" title="TikTok">🎵</a>
+    </div>
   </div>
 
 </div>
