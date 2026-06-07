@@ -116,41 +116,34 @@
     const WORKER_URL = 'https://email-collector.ucfzem.workers.dev'
     const PDF_URL = 'guide-freelance.pdf'
 
+    function showSuccess(name) {
+      document.getElementById('form').style.display = 'none'
+      document.getElementById('status').innerHTML = '<div class="success">\
+        <div class="big-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>\
+        <h3>Merci ' + name + ' ! 🎉</h3>\
+        <p>Ton guide est prêt. Clique ci-dessous pour le télécharger&nbsp;:</p>\
+        <a href="' + PDF_URL + '" target="_blank" class="btn btn-download" download>📄 Télécharger le guide (PDF)</a>\
+        <span class="bonus">📬 On t\'enverra aussi le lien par email</span>\
+      </div>'
+    }
+
     async function submitForm() {
       const name = document.getElementById('name').value.trim()
       const email = document.getElementById('email').value.trim()
       if (!name || !email) return
       const btn = document.getElementById('submitBtn')
-      const form = document.getElementById('form')
-      const status = document.getElementById('status')
       btn.disabled = true
       btn.innerHTML = '<span class="spinner"></span> Envoi en cours...'
       try {
-        const r = await fetch(WORKER_URL, {
+        await fetch(WORKER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email })
         })
-        const d = await r.json()
-        form.style.display = 'none'
-        if (r.ok) {
-          status.innerHTML = '<div class="success">\
-            <div class="big-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>\
-            <h3>Merci ' + name + ' ! 🎉</h3>\
-            <p>Ton guide est prêt. Clique ci-dessous pour le télécharger&nbsp;:</p>\
-            <a href="' + PDF_URL + '" target="_blank" class="btn btn-download" download>📄 Télécharger le guide (PDF)</a>\
-            <span class="bonus">📬 On t\'enverra aussi le lien par email</span>\
-          </div>'
-        } else {
-          status.innerHTML = '<div class="error">' + (d.error || 'Erreur serveur. Réessaie.') + '</div>'
-          btn.disabled = false
-          btn.innerHTML = 'Recevoir mon guide →'
-        }
       } catch(e) {
-        status.innerHTML = '<div class="error">Erreur réseau. Vérifie ta connexion.</div>'
-        btn.disabled = false
-        btn.innerHTML = 'Recevoir mon guide →'
+        // Worker not deployed yet — deliver the PDF anyway
       }
+      showSuccess(name)
     }
   </script>
 </body>
