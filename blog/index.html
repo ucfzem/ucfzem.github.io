@@ -395,6 +395,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 1.5rem; margin-top: 3rem;
+    align-items: start;
   }
   .article-card {
     background: var(--surface);
@@ -402,23 +403,27 @@
     border-radius: 12px; overflow: hidden;
     transition: all .3s; cursor: pointer;
     text-decoration: none; color: inherit;
-    display: block;
+    display: flex; flex-direction: column;
+    min-height: 280px; position: relative; z-index: 1;
   }
   .article-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); box-shadow: var(--glow); }
+  .article-card.featured { grid-column: 1; grid-row: 1 / span 2; }
   .article-thumb {
     width: 100%; aspect-ratio: 16/9;
-    object-fit: cover; display: block;
+    object-fit: cover; display: block; flex-shrink: 0;
   }
   .article-thumb-placeholder {
     width: 100%; aspect-ratio: 16/9;
     display: flex; align-items: center; justify-content: center;
     font-size: 3rem; position: relative; overflow: hidden;
+    flex-shrink: 0;
   }
-  .article-body { padding: 1.5rem; }
+  .article-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
   .article-meta { display: flex; gap: .75rem; align-items: center; margin-bottom: .75rem; }
   .tag {
     font-size: .7rem; font-weight: 600; letter-spacing: .06em;
     text-transform: uppercase; padding: .2rem .6rem; border-radius: 4px;
+    white-space: nowrap;
   }
   .tag-ai { background: rgba(201,168,76,0.1); color: var(--accent); }
   .tag-ecom { background: rgba(212,163,115,0.1); color: var(--accent3); }
@@ -430,16 +435,20 @@
     font-size: 1.15rem; line-height: 1.3; margin-bottom: .5rem;
   }
   .article-card.featured h3 { font-size: 1.6rem; }
-  .article-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+  .article-card p { font-size: .9rem; color: var(--muted); line-height: 1.6; flex: 1; }
 
 
-  .side-articles { display: flex; flex-direction: column; gap: 1.5rem; }
+  .side-articles {
+    display: flex; flex-direction: column; gap: 1.5rem;
+    grid-column: 2; grid-row: 1 / span 2;
+  }
   .side-article {
     background: var(--surface);
     border: 1px solid var(--border); border-radius: 12px;
     overflow: hidden; transition: all .3s; cursor: pointer;
     text-decoration: none; color: inherit; display: flex;
-    height: calc(50% - .75rem);
+    flex-direction: row; min-height: 140px;
+    position: relative; z-index: 1;
   }
   .side-article:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
   .side-thumb {
@@ -447,9 +456,9 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 2rem;
   }
-  .side-body { padding: 1rem; display: flex; flex-direction: column; justify-content: center; }
+  .side-body { padding: 1rem; display: flex; flex-direction: column; justify-content: center; flex: 1; min-width: 0; }
   .side-body h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; line-height: 1.3; margin-bottom: .3rem; }
-  .side-body p { font-size: .8rem; color: var(--muted); }
+  .side-body p { font-size: .8rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 
   /* ───── SAAS SHOWCASE ───── */
@@ -649,10 +658,12 @@
     section { padding: 2rem .75rem; }
     .section-title { font-size: 1.4rem; }
     .section-desc { font-size: .85rem; }
-    .articles-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+    .articles-grid { grid-template-columns: 1fr; margin-top: 2rem; }
+    .article-card.featured, .side-articles { grid-column: 1; grid-row: auto; }
     .side-articles { flex-direction: column; }
-    .side-article { min-width: unset; flex-direction: row; height: auto; }
-    .side-thumb { width: 80px; height: 60px; font-size: 1.5rem; }
+    .side-article { flex-direction: row; min-height: 100px; }
+    .side-thumb { width: 80px; }
+    .article-card { min-height: 240px; }
     .article-card.featured h3 { font-size: 1.2rem; }
     .article-body { padding: 1rem; }
     .saas-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
@@ -664,7 +675,6 @@
     .saas-footer .saas-link { font-size: .75rem; }
     .saas-footer .saas-cta { justify-content: center; padding: .3rem .7rem; font-size: .75rem; }
     .topics-grid { gap: .75rem; margin-top: 2rem; }
-    .topics-grid { gap: .75rem; }
     .topic-card { flex: 1 1 160px; max-width: none; padding: 1rem; }
     .topic-card .topic-icon { font-size: 1.8rem; margin-bottom: .5rem; }
     .topic-card h4 { font-size: .9rem; }
@@ -699,10 +709,12 @@
     .hero-sub { font-size: .85rem; }
     .btn-primary, .btn-ghost { padding: .6rem 1.2rem; font-size: .82rem; }
     section { padding: 3rem 1rem; }
-    .articles-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .articles-grid { grid-template-columns: 1fr; }
+    .article-card.featured, .side-articles { grid-column: 1; grid-row: auto; }
     .side-articles { flex-direction: column; }
-    .side-article { min-width: unset; flex-direction: row; }
-    .side-thumb { width: 90px; height: 70px; }
+    .side-article { flex-direction: row; min-height: 120px; }
+    .side-thumb { width: 100px; }
+    .article-card { min-height: 240px; }
     .saas-grid { grid-template-columns: 1fr; }
     .saas-preview { height: 160px; }
     .topics-grid { gap: .6rem; }
@@ -723,9 +735,10 @@
   @media (min-width: 481px) and (max-width: 768px) {
     nav a:not(.nav-cta) { display: none; }
     .articles-grid { grid-template-columns: 1fr; }
-    .side-articles { flex-direction: row; overflow-x: auto; }
-    .side-article { min-width: 260px; flex-direction: column; height: auto; }
-    .side-thumb { width: 100%; height: 80px; }
+    .article-card.featured, .side-articles { grid-column: 1; grid-row: auto; }
+    .side-articles { flex-direction: column; }
+    .side-article { flex-direction: row; min-height: 120px; }
+    .side-thumb { width: 100px; }
     .newsletter-form { flex-direction: column; }
     footer { flex-direction: column; text-align: center; }
     .saas-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1119,7 +1132,7 @@
   <h2 class="section-title" data-i18n="section-articles-title">Ce qui façonne<br>la tech aujourd'hui</h2>
   <p class="section-desc" data-i18n="section-articles-desc">Analyses, tutoriels et décryptages pour rester en avance sur les tendances.</p>
 
-  <div id="articleContainer" class="articles-grid" style="grid-template-columns:1fr;">
+  <div id="articleContainer" class="articles-grid">
     <!-- Articles are loaded dynamically from JS -->
   </div>
 </section>
@@ -1734,7 +1747,6 @@
     }
 
     container.innerHTML = html;
-    container.style.gridTemplateColumns = rest.length > 0 ? '2fr 1fr' : '1fr';
     updateTopicCounts(filtered);
   }
 
