@@ -6,67 +6,115 @@
   <title>Guide Freelance — Ucf Zem</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#f8fafc;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1rem}
-    .card{width:100%;max-width:480px;background:#1e293b;border-radius:1.25rem;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.3);opacity:0;animation:fadeIn .6s ease forwards}
-    .badge{display:inline-block;background:rgba(99,102,241,.15);color:#a5b4fc;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:1rem;margin-bottom:1rem;border:1px solid rgba(99,102,241,.2)}
-    h1{font-size:1.5rem;line-height:1.3;margin-bottom:.75rem}
-    h1 span{color:#818cf8}
-    p{color:#94a3b8;font-size:.875rem;line-height:1.6;margin-bottom:1.5rem}
-    .list{margin-bottom:1.5rem}
-    .list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:#cbd5e1;margin-bottom:.75rem;list-style:none}
-    .list li .check{color:#34d399;flex-shrink:0;margin-top:2px}
-    .list li .check svg{width:16px;height:16px}
-    #form{margin-top:1.5rem}
-    .field{margin-bottom:.75rem}
-    .field label{display:block;font-size:.75rem;font-weight:500;color:#64748b;margin-bottom:.375rem;text-transform:uppercase;letter-spacing:.05em}
-    .field input{width:100%;background:#0f172a;border:1px solid #334155;border-radius:.75rem;padding:.75rem 1rem;font-size:.875rem;color:#f8fafc;outline:none;transition:border-color .2s}
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#f8fafc;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1rem;background-image:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.08),transparent 70%)}
+    .card{width:100%;max-width:500px;margin:0 auto;opacity:0;animation:fadeIn .6s ease forwards}
+    .head{background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:1.25rem 1.25rem 0 0;padding:2.5rem 2rem 2rem;text-align:center;border:1px solid #1e293b;border-bottom:none}
+    .head .badge{display:inline-flex;align-items:center;gap:.375rem;background:rgba(99,102,241,.15);color:#a5b4fc;font-size:.6875rem;font-weight:600;padding:.375rem .875rem;border-radius:2rem;margin-bottom:1.25rem;border:1px solid rgba(99,102,241,.2)}
+    .head h1{font-size:1.75rem;font-weight:800;line-height:1.25;margin-bottom:.75rem}
+    .head h1 span{background:linear-gradient(135deg,#818cf8,#a5b4fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .head .sub{color:#94a3b8;font-size:.875rem;line-height:1.6;max-width:380px;margin:0 auto}
+    .body{background:#1e293b;border-radius:0 0 1.25rem 1.25rem;padding:2rem;border:1px solid #1e293b;border-top:none}
+    .value-props{display:grid;gap:.5rem;margin-bottom:1.75rem}
+    .value-props .item{display:flex;align-items:center;gap:.75rem;padding:.625rem .875rem;background:#0f172a;border-radius:.625rem;font-size:.8125rem;color:#cbd5e1;transition:all .2s}
+    .value-props .item:hover{background:rgba(79,70,229,.1);transform:translateX(4px)}
+    .value-props .item .icon{color:#34d399;flex-shrink:0;display:flex;align-items:center}
+    .value-props .item .icon svg{width:16px;height:16px}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,#334155,transparent);margin:1.5rem 0}
+    .form-title{font-size:.75rem;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;text-align:center}
+    .fields{display:flex;flex-direction:column;gap:.625rem;margin-bottom:.75rem}
+    .field{position:relative}
+    .field input{width:100%;background:#0f172a;border:1px solid #334155;border-radius:.75rem;padding:.8125rem 1rem .8125rem 2.75rem;font-size:.875rem;color:#f8fafc;outline:none;transition:border-color .2s,box-shadow .2s}
     .field input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
     .field input::placeholder{color:#475569}
-    .btn{width:100%;border:none;border-radius:.75rem;padding:.875rem;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
-    .btn-primary{background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(79,70,229,.35)}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(79,70,229,.4)}
+    .field .ico{position:absolute;left:.875rem;top:50%;transform:translateY(-50%);color:#64748b;pointer-events:none;display:flex}
+    .field .ico svg{width:16px;height:16px}
+    .btn{width:100%;border:none;border-radius:.75rem;padding:.875rem;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .btn-primary{background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;box-shadow:0 4px 20px rgba(79,70,229,.35)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,70,229,.4)}
     .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    .footnote{font-size:.75rem;color:#475569;text-align:center;margin-top:1rem}
-    .footnote a{color:#818cf8;text-decoration:underline;text-underline-offset:2px}
-    #status{margin-top:1rem}
-    .success{text-align:center;padding:1.5rem;background:rgba(5,150,105,.1);border-radius:.75rem;border:1px solid rgba(5,150,105,.2)}
-    .success .check{color:#34d399;margin-bottom:.5rem}
-    .success .check svg{width:40px;height:40px}
-    .success h3{color:#6ee7b7;font-size:1rem;font-weight:600;margin-bottom:.25rem}
-    .success p{color:#94a3b8;font-size:.8125rem;margin:0}
-    .error{text-align:center;padding:1rem;background:rgba(239,68,68,.1);border-radius:.75rem;border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:.8125rem}
-    .spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:.5rem}
+    .btn-download{background:linear-gradient(135deg,#059669,#10b981);color:#fff;box-shadow:0 4px 20px rgba(5,150,105,.35);text-decoration:none}
+    .btn-download:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(5,150,105,.4)}
+    .footnote{text-align:center;margin-top:1rem;font-size:.75rem;color:#475569}
+    .footnote a{color:#818cf8;text-decoration:underline;text-underline-offset:2px;transition:color .2s}
+    .footnote a:hover{color:#a5b4fc}
+    #status{margin-top:1.25rem}
+    .success{text-align:center;padding:2rem 1.5rem;background:rgba(5,150,105,.08);border-radius:1rem;border:1px solid rgba(5,150,105,.2);animation:fadeIn .4s ease forwards}
+    .success .big-check{width:48px;height:48px;border-radius:50%;background:rgba(5,150,105,.15);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+    .success .big-check svg{width:24px;height:24px;color:#34d399}
+    .success h3{color:#6ee7b7;font-size:1.125rem;font-weight:700;margin-bottom:.375rem}
+    .success p{color:#94a3b8;font-size:.8125rem;margin-bottom:1.25rem;line-height:1.5}
+    .success .bonus{font-size:.75rem;color:#475569;margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:.375rem}
+    .error{text-align:center;padding:1rem;background:rgba(239,68,68,.1);border-radius:.75rem;border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:.8125rem;animation:fadeIn .3s ease forwards}
+    .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+    .social-proof{display:flex;justify-content:center;gap:1.5rem;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid #0f172a}
+    .social-proof .stat{text-align:center}
+    .social-proof .stat .num{font-size:1rem;font-weight:700;color:#f8fafc}
+    .social-proof .stat .label{font-size:.6875rem;color:#475569;margin-top:2px}
+    footer{text-align:center;font-size:.6875rem;color:#334155;margin-top:1.5rem}
+    footer a{color:#64748b;text-decoration:none;transition:color .2s}
+    footer a:hover{color:#94a3b8}
     @keyframes fadeIn{to{opacity:1}}
     @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="badge">🎁 Offert</div>
-    <h1>Le <span>Guide Ultime</span> du Freelance</h1>
-    <p>Booste tes revenus avec ce PDF gratuit : méthodes concrètes, templates d'emails, grilles tarifaires et routines validées par des freelances à 5k€/mois.</p>
-    <ul class="list">
-      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Grille tarifaire prête à l'emploi</li>
-      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 5 templates d'emails prospection qui convertissent</li>
-      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Routine quotidienne des freelances à 5k€/mois</li>
-      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Checklist 30 jours pour décoller</li>
-    </ul>
-    <div id="form">
-      <div class="field">
-        <label for="name">Prénom</label>
-        <input type="text" id="name" placeholder="ex: Sofiane" required>
-      </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="sofiane@email.com" required>
-      </div>
-      <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Recevoir mon guide →</button>
-      <p class="footnote">Pas de spam. 1 email puis plus rien. <a href="#" onclick="document.querySelector('.card').scrollIntoView({behavior:'smooth'});return false">Politique de confidentialité</a>.</p>
+    <div class="head">
+      <div class="badge">🎁 Offert par Ucf Zem</div>
+      <h1>Le <span>Guide Ultime</span> du Freelance</h1>
+      <p class="sub">Tout ce qu'il faut pour passer de 0 à 5 000 €/mois en freelance — grilles, templates, routines et plan d'action.</p>
     </div>
-    <div id="status"></div>
+    <div class="body">
+      <div class="value-props">
+        <div class="item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Grille tarifaire prête à l'emploi (3 niveaux)</div>
+        <div class="item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 5 templates d'emails prospection qui convertissent</div>
+        <div class="item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Routine quotidienne des freelances à 5k€/mois</div>
+        <div class="item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Checklist 30 jours pour décoller</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="form-title">📥 Télécharge gratuitement</p>
+
+      <div id="form">
+        <div class="fields">
+          <div class="field">
+            <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <input type="text" id="name" placeholder="Ton prénom" required>
+          </div>
+          <div class="field">
+            <span class="ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+            <input type="email" id="email" placeholder="ton@email.com" required>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Recevoir mon guide →</button>
+        <p class="footnote">Pas de spam. 1 email puis c'est tout.</p>
+      </div>
+
+      <div id="status"></div>
+
+      <div class="social-proof">
+        <div class="stat">
+          <div class="num">28</div>
+          <div class="label">Pages</div>
+        </div>
+        <div class="stat">
+          <div class="num">4</div>
+          <div class="label">Sections</div>
+        </div>
+        <div class="stat">
+          <div class="num">30</div>
+          <div class="label">Jours</div>
+        </div>
+      </div>
+    </div>
+    <footer>Par <a href="https://ucfzem.github.io">Ucf Zem</a></footer>
   </div>
+
   <script>
     const WORKER_URL = 'https://email-collector.ucfzem.workers.dev'
+    const PDF_URL = 'guide-freelance.pdf'
 
     async function submitForm() {
       const name = document.getElementById('name').value.trim()
@@ -76,7 +124,7 @@
       const form = document.getElementById('form')
       const status = document.getElementById('status')
       btn.disabled = true
-      btn.innerHTML = '<span class="spinner"></span> Envoi...'
+      btn.innerHTML = '<span class="spinner"></span> Envoi en cours...'
       try {
         const r = await fetch(WORKER_URL, {
           method: 'POST',
@@ -84,9 +132,15 @@
           body: JSON.stringify({ name, email })
         })
         const d = await r.json()
+        form.style.display = 'none'
         if (r.ok) {
-          form.style.display = 'none'
-          status.innerHTML = '<div class="success"><div class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Merci ' + name + ' !</h3><p>Le guide arrive dans ta boîte sous 1 minute. Vérifie tes spams si besoin.</p></div>'
+          status.innerHTML = '<div class="success">\
+            <div class="big-check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>\
+            <h3>Merci ' + name + ' ! 🎉</h3>\
+            <p>Ton guide est prêt. Clique ci-dessous pour le télécharger&nbsp;:</p>\
+            <a href="' + PDF_URL + '" target="_blank" class="btn btn-download" download>📄 Télécharger le guide (PDF)</a>\
+            <span class="bonus">📬 On t\'enverra aussi le lien par email</span>\
+          </div>'
         } else {
           status.innerHTML = '<div class="error">' + (d.error || 'Erreur serveur. Réessaie.') + '</div>'
           btn.disabled = false
