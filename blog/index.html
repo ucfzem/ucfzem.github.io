@@ -526,11 +526,12 @@
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 12px; padding: 1.5rem;
     transition: all .3s; cursor: pointer;
+    aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden;
   }
   .topic-card:hover { border-color: var(--accent-color, var(--accent)); transform: translateY(-3px); }
-  .topic-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .topic-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
   .topic-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: .4rem; }
-  .topic-card p { font-size: .82rem; color: var(--muted); }
+  .topic-card p { font-size: .82rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .topic-count { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); margin-top: .75rem; }
 
 
@@ -659,6 +660,10 @@
     .saas-footer .saas-cta { justify-content: center; padding: .3rem .7rem; font-size: .75rem; }
     .topics-grid { grid-template-columns: 1fr; gap: .75rem; margin-top: 2rem; }
     .topic-card { padding: 1rem; }
+    .topic-card .topic-icon { font-size: 1.6rem; margin-bottom: .5rem; }
+    .topic-card h4 { font-size: .85rem; }
+    .topic-card p { font-size: .72rem; -webkit-line-clamp: 2; }
+    .topic-card .topic-count { font-size: .6rem; margin-top: .4rem; }
     .posts-list { margin-top: 2rem; }
     .post-row { gap: .6rem; padding: .75rem; flex-wrap: wrap; }
     .post-num { display: none; }
@@ -696,6 +701,10 @@
     .saas-preview { height: 160px; }
     .topics-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
     .topic-card { padding: 1rem; }
+    .topic-card .topic-icon { font-size: 1.4rem; margin-bottom: .4rem; }
+    .topic-card h4 { font-size: .8rem; }
+    .topic-card p { font-size: .68rem; -webkit-line-clamp: 2; }
+    .topic-card .topic-count { font-size: .6rem; margin-top: .3rem; }
     .post-row { gap: .75rem; padding: .85rem .75rem; }
     .post-num { display: none; }
     .newsletter { margin: 0 1rem 3rem; padding: 2rem 1.5rem; }
