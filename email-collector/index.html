@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Freelance — Ucf Zem</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#f8fafc;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:1rem}
+    .card{width:100%;max-width:480px;background:#1e293b;border-radius:1.25rem;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.3);opacity:0;animation:fadeIn .6s ease forwards}
+    .badge{display:inline-block;background:rgba(99,102,241,.15);color:#a5b4fc;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:1rem;margin-bottom:1rem;border:1px solid rgba(99,102,241,.2)}
+    h1{font-size:1.5rem;line-height:1.3;margin-bottom:.75rem}
+    h1 span{color:#818cf8}
+    p{color:#94a3b8;font-size:.875rem;line-height:1.6;margin-bottom:1.5rem}
+    .list{margin-bottom:1.5rem}
+    .list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:#cbd5e1;margin-bottom:.75rem;list-style:none}
+    .list li .check{color:#34d399;flex-shrink:0;margin-top:2px}
+    .list li .check svg{width:16px;height:16px}
+    #form{margin-top:1.5rem}
+    .field{margin-bottom:.75rem}
+    .field label{display:block;font-size:.75rem;font-weight:500;color:#64748b;margin-bottom:.375rem;text-transform:uppercase;letter-spacing:.05em}
+    .field input{width:100%;background:#0f172a;border:1px solid #334155;border-radius:.75rem;padding:.75rem 1rem;font-size:.875rem;color:#f8fafc;outline:none;transition:border-color .2s}
+    .field input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+    .field input::placeholder{color:#475569}
+    .btn{width:100%;border:none;border-radius:.75rem;padding:.875rem;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:center}
+    .btn-primary{background:linear-gradient(135deg,#4f46e5,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(79,70,229,.35)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(79,70,229,.4)}
+    .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .footnote{font-size:.75rem;color:#475569;text-align:center;margin-top:1rem}
+    .footnote a{color:#818cf8;text-decoration:underline;text-underline-offset:2px}
+    #status{margin-top:1rem}
+    .success{text-align:center;padding:1.5rem;background:rgba(5,150,105,.1);border-radius:.75rem;border:1px solid rgba(5,150,105,.2)}
+    .success .check{color:#34d399;margin-bottom:.5rem}
+    .success .check svg{width:40px;height:40px}
+    .success h3{color:#6ee7b7;font-size:1rem;font-weight:600;margin-bottom:.25rem}
+    .success p{color:#94a3b8;font-size:.8125rem;margin:0}
+    .error{text-align:center;padding:1rem;background:rgba(239,68,68,.1);border-radius:.75rem;border:1px solid rgba(239,68,68,.2);color:#fca5a5;font-size:.8125rem}
+    .spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block;vertical-align:middle;margin-right:.5rem}
+    @keyframes fadeIn{to{opacity:1}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">🎁 Offert</div>
+    <h1>Le <span>Guide Ultime</span> du Freelance</h1>
+    <p>Booste tes revenus avec ce PDF gratuit : méthodes concrètes, templates d'emails, grilles tarifaires et routines validées par des freelances à 5k€/mois.</p>
+    <ul class="list">
+      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Grille tarifaire prête à l'emploi</li>
+      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 5 templates d'emails prospection qui convertissent</li>
+      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Routine quotidienne des freelances à 5k€/mois</li>
+      <li><span class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Checklist 30 jours pour décoller</li>
+    </ul>
+    <div id="form">
+      <div class="field">
+        <label for="name">Prénom</label>
+        <input type="text" id="name" placeholder="ex: Sofiane" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="sofiane@email.com" required>
+      </div>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Recevoir mon guide →</button>
+      <p class="footnote">Pas de spam. 1 email puis plus rien. <a href="#" onclick="document.querySelector('.card').scrollIntoView({behavior:'smooth'});return false">Politique de confidentialité</a>.</p>
+    </div>
+    <div id="status"></div>
+  </div>
+  <script>
+    const WORKER_URL = 'https://email-collector.ucfzem.workers.dev'
+
+    async function submitForm() {
+      const name = document.getElementById('name').value.trim()
+      const email = document.getElementById('email').value.trim()
+      if (!name || !email) return
+      const btn = document.getElementById('submitBtn')
+      const form = document.getElementById('form')
+      const status = document.getElementById('status')
+      btn.disabled = true
+      btn.innerHTML = '<span class="spinner"></span> Envoi...'
+      try {
+        const r = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email })
+        })
+        const d = await r.json()
+        if (r.ok) {
+          form.style.display = 'none'
+          status.innerHTML = '<div class="success"><div class="check"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Merci ' + name + ' !</h3><p>Le guide arrive dans ta boîte sous 1 minute. Vérifie tes spams si besoin.</p></div>'
+        } else {
+          status.innerHTML = '<div class="error">' + (d.error || 'Erreur serveur. Réessaie.') + '</div>'
+          btn.disabled = false
+          btn.innerHTML = 'Recevoir mon guide →'
+        }
+      } catch(e) {
+        status.innerHTML = '<div class="error">Erreur réseau. Vérifie ta connexion.</div>'
+        btn.disabled = false
+        btn.innerHTML = 'Recevoir mon guide →'
+      }
+    }
+  </script>
+</body>
+</html>
