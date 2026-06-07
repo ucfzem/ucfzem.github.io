@@ -1892,6 +1892,16 @@
     }
   });
 
+  // ─── SQUARE TOPIC CARDS (fallback for Samsung/browsers without aspect-ratio support) ───
+  function makeTopicCardsSquare() {
+    document.querySelectorAll('.topic-card').forEach(card => {
+      const w = card.offsetWidth;
+      if (w > 0) card.style.height = w + 'px';
+    });
+  }
+  makeTopicCardsSquare();
+  window.addEventListener('resize', makeTopicCardsSquare);
+
   // ─── INIT ───
   applyLanguage(currentLang);
   const initHash = window.location.hash.replace('#', '');
