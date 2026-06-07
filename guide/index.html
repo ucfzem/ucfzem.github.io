@@ -89,6 +89,7 @@
 
   .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem}
   .resource-card{background:var(--surface);border:1px solid var(--border);border-radius:.75rem;padding:1rem;text-align:center;transition:all .2s}
+  .resource-card{text-decoration:none;color:inherit;display:block}
   .resource-card:hover{border-color:var(--gold3)}
   .resource-card .ico{font-size:1.3rem;margin-bottom:.35rem}
   .resource-card h4{font-size:.85rem;font-weight:700;color:var(--gold2);margin-bottom:.15rem}
@@ -432,8 +433,9 @@ function render(lang) {
   html += `</div></section>`
 
   // S5 Tools
+  const TOOL_URL = {'Portfolio':'https://vercel.com','Compta':'https://quickbooks.intuit.com','CRM':'https://lessannoyingcrm.com','Contrats':'https://legalstart.fr','Temps':'https://toggl.com/track','Paiements':'https://stripe.com','Email':'https://resend.com','Veille':'https://tldr.tech','Marché':'https://malt.fr','Prospection':'https://linkedin.com/sales','Accounting':'https://quickbooks.intuit.com','Contracts':'https://legalstart.fr','Time':'https://toggl.com/track','Payments':'https://stripe.com','News':'https://tldr.tech','Market':'https://malt.fr','Outreach':'https://linkedin.com/sales','Contabilidad':'https://quickbooks.intuit.com','Contratos':'https://legalstart.fr','Tiempo':'https://toggl.com/track','Pagos':'https://stripe.com','Noticias':'https://tldr.tech','Mercado':'https://malt.fr','Contacto':'https://linkedin.com/sales','الأعمال':'https://vercel.com','محاسبة':'https://quickbooks.intuit.com','عقود':'https://legalstart.fr','وقت':'https://toggl.com/track','دفع':'https://stripe.com','بريد':'https://resend.com','أخبار':'https://tldr.tech','سوق':'https://malt.fr','تواصل':'https://linkedin.com/sales'}
   html += `<section class="sec" id="s5"><div class="sec-header"><div class="svg-wrap"><svg viewBox="0 0 80 80"><rect x="16" y="20" width="48" height="40" rx="4" fill="none" stroke="var(--gold)" stroke-width="1.5"/><circle cx="40" cy="40" r="6" fill="none" stroke="var(--gold)" stroke-width="1.5"/></svg></div><div><h2>${d.s5.title}</h2><p>${d.s5.desc}</p></div></div><div class="resource-grid">`
-  d.s5.res.forEach(r => { html += `<div class="resource-card"><div class="ico">${r.ico}</div><h4>${r.t}</h4><p>${r.d}</p></div>` })
+  d.s5.res.forEach(r => { const u = TOOL_URL[r.t] || '#'; html += `<a href="${u}" target="_blank" rel="noopener" class="resource-card"><div class="ico">${r.ico}</div><h4>${r.t}</h4><p>${r.d}</p></a>` })
   html += `</div></section>`
 
   // S6 Growth
