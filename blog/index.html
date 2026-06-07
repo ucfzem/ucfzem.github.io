@@ -526,7 +526,7 @@
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 12px; padding: 1.5rem;
     transition: all .3s; cursor: pointer;
-    aspect-ratio: 1; display: flex; flex-direction: column;
+    display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     text-align: center; overflow: hidden;
   }
@@ -1892,15 +1892,17 @@
     }
   });
 
-  // ─── SQUARE TOPIC CARDS (fallback for Samsung/browsers without aspect-ratio support) ───
+  // ─── SQUARE TOPIC CARDS ───
   function makeTopicCardsSquare() {
-    document.querySelectorAll('.topic-card').forEach(card => {
-      const w = card.offsetWidth;
-      if (w > 0) card.style.height = w + 'px';
-    });
+    try {
+      document.querySelectorAll('.topic-card').forEach(card => {
+        const w = card.offsetWidth;
+        if (w > 0) card.style.height = w + 'px';
+      });
+    } catch(e) {}
   }
-  makeTopicCardsSquare();
-  window.addEventListener('resize', makeTopicCardsSquare);
+  setTimeout(makeTopicCardsSquare, 100);
+  window.addEventListener('resize', function(){setTimeout(makeTopicCardsSquare,50)});
 
   // ─── INIT ───
   applyLanguage(currentLang);
