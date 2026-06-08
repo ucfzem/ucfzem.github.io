@@ -3,7 +3,7 @@ const FROM_EMAIL = 'onboarding@resend.dev'
 const PDF_URL = 'https://ucfzem.github.io/email-collector/guide-freelance.pdf'
 const SITE_URL = 'https://ucfzem.github.io/email-collector/'
 const OWNER_EMAIL = 'azer.tyu199p@gmail.com' // email où tu reçois les notifs d'achat
-const YOUR_RIB = '<!-- TON RIB ICI -->' // remplace par ton vrai RIB (Banque Populaire, Attijari, etc.)
+const YOUR_RIB = '164 640 2111115567830011 27' // Banque Populaire - RIB virement Maroc
 
 export default {
   async fetch(request, env) {
