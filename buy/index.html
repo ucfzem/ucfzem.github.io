@@ -18,22 +18,11 @@
     .features{display:grid;gap:.5rem;margin-bottom:1.5rem}
     .features .item{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:#c4b59a}
     .features .item .c{color:#d4a017;font-weight:700}
-    .fields{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.8rem}
-    .fields input{width:100%;background:#0d0b08;border:1px solid rgba(201,168,76,.15);border-radius:.75rem;padding:.8rem 1rem;font-size:.875rem;color:#e8e0d0;outline:none;transition:border-color .2s}
-    .fields input:focus{border-color:#c9a84c;box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-    .fields input::placeholder{color:#6b5d4a}
-    .btn{width:100%;border:none;border-radius:.75rem;padding:.85rem;font-size:.875rem;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+    .btn{width:100%;border:none;border-radius:.75rem;padding:.85rem;font-size:.875rem;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;text-decoration:none;display:block}
     .btn-primary{background:linear-gradient(135deg,#6b3410,#c9a84c);color:#0d0b08;box-shadow:0 4px 20px rgba(201,168,76,.2)}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.3)}
-    .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    .rib{background:#0d0b08;border:1px solid rgba(201,168,76,.12);border-radius:.75rem;padding:1rem;margin-top:1rem;display:none}
-    .rib.show{display:block}
-    .rib h4{color:#f0c040;font-size:.8rem;margin-bottom:.4rem}
-    .rib p{color:#c4b59a;font-size:.75rem;line-height:1.5;word-break:break-all}
-    .rib .copy{display:inline-block;margin-top:.5rem;font-size:.7rem;color:#c9a84c;cursor:pointer;text-decoration:underline}
-    #msg{margin-top:.8rem;font-size:.8rem;text-align:center}
-    #msg.success{color:#d4a017}
-    #msg.error{color:#c97a5a}
+    .note{text-align:center;font-size:.75rem;color:#6b5d4a;margin-top:1rem}
+    .note a{color:#c9a84c}
     footer{text-align:center;padding:1rem 2rem;font-size:.7rem;color:#4a3d2e;border-top:1px solid rgba(201,168,76,.08)}
     footer a{color:#8a7a64;text-decoration:none}
   </style>
@@ -52,81 +41,16 @@
         <div class="item"><span class="c">✓</span> 5 emails prospection pré-remplis (sans crochets)</div>
         <div class="item"><span class="c">✓</span> Contrat-type freelance (modèle Word/PDF)</div>
         <div class="item"><span class="c">✓</span> Devis vierge à télécharger</div>
-        <div class="item"><span class="c">✓</span> Livré par email sous 24h</div>
+        <div class="item"><span class="c">✓</span> Paiement sécurisé par carte (Gumroad)</div>
       </div>
 
-      <div class="fields">
-        <input type="text" id="name" placeholder="Ton prénom" autocomplete="name">
-        <input type="email" id="email" placeholder="Ton email" autocomplete="email">
-      </div>
+      <a href="https://gumroad.com/ucefzem" target="_blank" rel="noopener" class="btn btn-primary">
+        💳 Acheter sur Gumroad — 9€
+      </a>
 
-      <button class="btn btn-primary" id="buyBtn" onclick="buy()">Je veux acheter →</button>
-      <div id="msg"></div>
-
-      <div class="rib" id="rib">
-        <h4>💳 Virement bancaire</h4>
-        <p id="ribText">Chargement...</p>
-        <span class="copy" id="copyBtn" onclick="copyRib()">📋 Copier le RIB</span>
-      </div>
+      <p class="note">Paiement par carte bancaire. Après achat, tu reçois le PDF par email. <a href="https://gumroad.com/ucefzem">Voir sur Gumroad →</a></p>
     </div>
     <footer>© 2026 — <a href="https://ucfzem.github.io">UCF ZEM</a></footer>
   </div>
-
-  <script>
-    const WORKER = 'https://email-collector.azer-tyu199p.workers.dev'
-    let rib = ''
-
-    async function buy() {
-      const name = document.getElementById('name').value.trim()
-      const email = document.getElementById('email').value.trim()
-      const btn = document.getElementById('buyBtn')
-      const msg = document.getElementById('msg')
-
-      if (!name || !email) {
-        msg.className = 'error'
-        msg.textContent = 'Remplis ton prénom et ton email.'
-        return
-      }
-
-      btn.disabled = true
-      btn.textContent = '⏳ Envoi...'
-      msg.className = ''
-      msg.textContent = ''
-
-      try {
-        const res = await fetch(WORKER + '/buy', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, product: 'Guide Premium 9€' })
-        })
-
-        const data = await res.json()
-
-        if (res.ok) {
-          msg.className = 'success'
-          msg.textContent = '✅ Merci ' + name + ' ! Vire 9€ sur le RIB ci-dessous et je te livre le guide sous 24h.'
-          rib = data.rib || 'RIB non disponible. Contacte-moi directement.'
-          document.getElementById('ribText').textContent = rib
-          document.getElementById('rib').classList.add('show')
-          btn.textContent = '✅ Envoyé'
-        } else {
-          throw new Error(data.error || 'Erreur')
-        }
-      } catch (e) {
-        msg.className = 'error'
-        msg.textContent = '⚠️ Erreur. Contacte-moi sur ucfzem.github.io/liens/'
-        btn.disabled = false
-        btn.textContent = 'Je veux acheter →'
-      }
-    }
-
-    function copyRib() {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(rib)
-        document.getElementById('copyBtn').textContent = '✅ Copié !'
-        setTimeout(() => document.getElementById('copyBtn').textContent = '📋 Copier le RIB', 2000)
-      }
-    }
-  </script>
 </body>
 </html>
