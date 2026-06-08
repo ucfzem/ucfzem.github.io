@@ -2,6 +2,8 @@ const ADMIN_PASSWORD = 'freelance2026'
 const FROM_EMAIL = 'onboarding@resend.dev'
 const PDF_URL = 'https://ucfzem.github.io/email-collector/guide-freelance.pdf'
 const SITE_URL = 'https://ucfzem.github.io/email-collector/'
+const OWNER_EMAIL = 'azer.tyu199p@gmail.com' // email où tu reçois les notifs d'achat
+const YOUR_RIB = '<!-- TON RIB ICI -->' // remplace par ton vrai RIB (Banque Populaire, Attijari, etc.)
 
 export default {
   async fetch(request, env) {
@@ -32,6 +34,38 @@ export default {
       }
       entries.sort((a, b) => b.ts - a.ts)
       return jsonResponse({ total: entries.length, entries })
+    }
+
+    // Buy route: notify owner of a purchase request
+    if (url.pathname === '/buy' && request.method === 'POST') {
+      let body
+      try { body = await request.json() } catch { return jsonResponse({ error: 'Invalid JSON' }, 400) }
+      const { name, email, product } = body
+      if (!name || !email || !product) return jsonResponse({ error: 'Name, email and product required' }, 400)
+
+      // Notify owner via Resend
+      const notifyHtml = `<!DOCTYPE html><html><body style="font-family:sans-serif;padding:2rem">
+<h2>🛒 Nouvelle demande d'achat</h2>
+<p><strong>Produit:</strong> ${escapeHtml(product)}</p>
+<p><strong>Nom:</strong> ${escapeHtml(name)}</p>
+<p><strong>Email:</strong> ${escapeHtml(email)}</p>
+<p><strong>Date:</strong> ${new Date().toLocaleString('fr-FR')}</p>
+<hr>
+<p style="color:#666">Envoie le PDF à ${escapeHtml(email)} dès réception du virement.</p>
+</body></html>`
+
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: OWNER_EMAIL,
+          subject: `🛒 Achat: ${escapeHtml(product)} - ${escapeHtml(name)}`,
+          html: notifyHtml,
+        })
+      }).catch(() => {})
+
+      return jsonResponse({ ok: true, rib: YOUR_RIB })
     }
 
     // Collect email + send via Resend
