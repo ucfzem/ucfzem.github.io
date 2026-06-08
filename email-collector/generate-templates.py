@@ -505,9 +505,9 @@ def gen_grille():
     pdf.set_auto_page_break(auto=True, margin=18)
 
     pdf.add_page()
-    pdf.cover('Grille Tarifaire',
+    pdf.cover('Grille Tarifaire Freelance',
               'Tarifs recommandés par niveau d\'expérience',
-              'GRILLE DE PRIX')
+              'DOCUMENT COMMERCIAL')
 
     pdf.add_page()
     pdf.ln(2)
@@ -517,9 +517,12 @@ def gen_grille():
     pdf.set_font('Sans', 'I', 8)
     pdf.set_text_color(*TEXT_DIM)
     pdf.cell(0, 5, 'Tarifs recommandés par niveau d\'expérience', new_x='LMARGIN', new_y='NEXT')
+    pdf.set_font('Sans', 'I', 7)
+    pdf.set_text_color(*TEXT_DIM)
+    pdf.cell(0, 5, 'Version 2025', new_x='LMARGIN', new_y='NEXT')
     pdf.ln(4)
 
-    pdf.section_title('Débutant (< 6 mois)')
+    pdf.section_title('1. Débutant (< 6 mois)')
     pdf.body('Prix recommandés pour les freelances en démarrage :')
     pdf.table(
         ['Service', 'Mini', 'Maxi', 'Note'],
@@ -537,7 +540,7 @@ def gen_grille():
         pdf.field_line(f'Service {i+1}')
 
     pdf.add_page()
-    pdf.section_title('Intermédiaire (6-18 mois)')
+    pdf.section_title('2. Intermédiaire (6-18 mois)')
     pdf.body('Prix recommandés pour les freelances confirmés :')
     pdf.table(
         ['Service', 'TJM', 'Durée', 'Note'],
@@ -555,7 +558,7 @@ def gen_grille():
         pdf.field_line(f'Service {i+1}')
 
     pdf.add_page()
-    pdf.section_title('Confirmé (18+ mois)')
+    pdf.section_title('3. Confirmé (18+ mois)')
     pdf.body('Prix recommandés pour les freelances experts :')
     pdf.table(
         ['Service', 'TJM', 'Forfait'],
@@ -573,8 +576,8 @@ def gen_grille():
         pdf.field_line(f'Service {i+1}')
 
     pdf.ln(4)
-    pdf.section_title('Grille Vierge')
-    pdf.body('Reproduis ce modèle pour définir tes propres tarifs :')
+    pdf.section_title('4. Template de Devis')
+    pdf.body('Modèle de devis vierge à copier-coller :')
     pdf.table(
         ['Service', 'Prix min', 'Prix max', 'Type'],
         [
@@ -596,9 +599,9 @@ def gen_emails():
     pdf.set_auto_page_break(auto=True, margin=18)
 
     pdf.add_page()
-    pdf.cover('5 Templates d\'Emails Prospection',
-              'Pré-remplis — prêts à copier-coller',
-              'PROSPECTION')
+    pdf.cover('Pack Emails de Prospection',
+              '5 Templates pré-remplis — Prêts à copier-coller',
+              'DOCUMENT PROSPECTION')
 
     pdf.add_page()
     pdf.ln(2)
@@ -607,10 +610,13 @@ def gen_emails():
     pdf.cell(0, 8, '5 Templates d\'Emails Prospection', new_x='LMARGIN', new_y='NEXT')
     pdf.set_font('Sans', 'I', 8)
     pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Pré-remplis — prêts à copier-coller', new_x='LMARGIN', new_y='NEXT')
+    pdf.cell(0, 5, '5 Templates pré-remplis — prêts à copier-coller', new_x='LMARGIN', new_y='NEXT')
+    pdf.set_font('Sans', 'I', 7)
+    pdf.set_text_color(*TEXT_DIM)
+    pdf.cell(0, 5, 'Version 2025', new_x='LMARGIN', new_y='NEXT')
     pdf.ln(4)
 
-    pdf.section_title('Email Froid — Particulier')
+    pdf.section_title('1. Email Froid — Particulier')
     pdf.email_block(1,
         'Idée pour [site] de [Nom]',
         'Bonjour [Prénom],\n\n'
@@ -623,7 +629,7 @@ def gen_emails():
         'Cordialement,\n[Mon nom] — [Mon site / Calendly]')
 
     pdf.add_page()
-    pdf.section_title('Email Froid — Agence')
+    pdf.section_title('2. Email Froid — Agence')
     pdf.email_block(2,
         'Prestation dev — [Agence]',
         'Bonjour [Prénom],\n\n'
@@ -636,7 +642,7 @@ def gen_emails():
         'Bonne journée,\n[Mon nom] — [Mon site]')
 
     pdf.add_page()
-    pdf.section_title('Relance J+7')
+    pdf.section_title('3. Relance J+7')
     pdf.email_block(3,
         'Relance — [Nom du projet]',
         'Salut [Prénom],\n\n'
@@ -646,7 +652,7 @@ def gen_emails():
         'Bonne semaine,\n[Mon nom]')
 
     pdf.ln(2)
-    pdf.section_title('Recommandation')
+    pdf.section_title('4. Recommandation')
     pdf.email_block(4,
         'Suivi projet [Nom]',
         'Salut [Prénom],\n\n'
@@ -658,7 +664,7 @@ def gen_emails():
         'Merci d\'avance,\n[Mon nom]')
 
     pdf.add_page()
-    pdf.section_title('Proposition Après Audit')
+    pdf.section_title('5. Proposition Après Audit')
     pdf.email_block(5,
         'Compte-rendu audit + proposition',
         'Bonjour [Prénom],\n\n'
@@ -673,7 +679,7 @@ def gen_emails():
         '[Mon nom]')
 
     pdf.ln(4)
-    pdf.section_title('Conseils d\'envoi')
+    pdf.section_title('6. Conseils d\'envoi')
     pdf.bullet('Personnalise chaque email en fonction du destinataire')
     pdf.bullet('Relance J+7 si pas de réponse (template 3)')
     pdf.bullet('Maximum 2 relances, puis passe à autre chose')
