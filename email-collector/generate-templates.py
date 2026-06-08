@@ -1,700 +1,679 @@
 #!/tmp/pdf-venv/bin/python3
-from fpdf import FPDF
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+from reportlab.lib.colors import HexColor
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import simpleSplit
 import os
 
 OUT_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 os.makedirs(OUT_DIR, exist_ok=True)
 
-FONT_DIR = '/usr/share/fonts/truetype/liberation'
+PW, PH = A4  # 595.2756 x 841.8898
 
-# Brown/Gold palette
-DARK = (13, 11, 8)
-SURFACE = (26, 21, 14)
-GOLD = (201, 168, 76)
-GOLD_LIGHT = (240, 192, 64)
-BROWN = (107, 52, 16)
-DARK_BROWN = (42, 31, 20)
-TEXT_DIM = (138, 122, 100)
-CREAM = (253, 246, 237)
-ROW_ALT = (253, 249, 240)
-WHITE = (255, 255, 255)
-BORDER = (180, 160, 140)
-SECTION_BG = BROWN
-HEADER_BG = GOLD
-FIELD_LINE = (200, 190, 175)
+# Colors (lighter brown/gold palette)
+GOLD = HexColor('#d4a017')
+GOLD_LIGHT = HexColor('#f5e1a0')
+BROWN = HexColor('#8B6914')
+DARK = HexColor('#1a150e')
+DARK_BROWN = HexColor('#3d3224')
+TEXT_DIM = HexColor('#9e9080')
+SILVER = HexColor('#8a8270')
+CREAM = HexColor('#fdf8f0')
+ROW_ALT = HexColor('#faf5eb')
+WHITE = HexColor('#ffffff')
+SECTION_NUM = HexColor('#d4a017')
+SECTION_TITLE = HexColor('#3d3224')
+FIELD_COLOR = HexColor('#d4cdc0')
+BORDER_COLOR = HexColor('#e0d5c5')
+TABLE_HEADER = HexColor('#f5e1a0')
+TABLE_BORDER = HexColor('#d4cdc0')
+SIGNATURE_GRAY = HexColor('#8a8270')
+COVER_GOLD = HexColor('#d4a017')
+COVER_SUBTITLE = HexColor('#c4b59a')
+HEADER_LABEL = HexColor('#b8a88c')
 
-MM = 0.352778
+X0 = 51.02362
+COL_GAP = 104.2234
 
-class TemplatePDF(FPDF):
-    def __init__(self):
-        super().__init__('P', 'mm', 'A4')
-        self.add_font('Sans', '', os.path.join(FONT_DIR, 'LiberationSans-Regular.ttf'))
-        self.add_font('Sans', 'B', os.path.join(FONT_DIR, 'LiberationSans-Bold.ttf'))
-        self.add_font('Sans', 'I', os.path.join(FONT_DIR, 'LiberationSans-Italic.ttf'))
+class RLTemplate:
+    def __init__(self, filename, title, subtitle, label):
+        self.filename = os.path.join(OUT_DIR, filename)
+        self.canvas = canvas.Canvas(self.filename, pagesize=A4)
+        self.y = 0
+        self.page_num = 0
+        self._init_cover(title, subtitle, label)
 
-    def header(self):
-        if self.page_no() > 1:
-            self.set_font('Sans', 'I', 6.5)
-            self.set_text_color(*TEXT_DIM)
-            txt = 'UCF ZEM — Templates Freelance Professionnels — ucfzem.gumroad.com'
-            self.cell(0, 7, txt, align='C', new_x='LMARGIN', new_y='NEXT')
-            self.set_draw_color(*GOLD)
-            self.set_line_width(0.3)
-            self.line(10, 12, 200, 12)
-            self.ln(5)
+    def _init_cover(self, title, subtitle, label):
+        c = self.canvas
+        c.setFillColor(HexColor('#1a150e'))
+        c.rect(0, 0, PW, PH, fill=1)
+        c.setFillColor(TEXT_DIM)
+        c.setFont('Helvetica', 7)
+        c.drawString(X0, PH - 31, 'UCF ZEM')
+        c.drawString(X0, PH - 41, 'ucfzem.gumroad.com')
 
-    def footer(self):
-        self.set_y(-14)
-        self.set_font('Sans', 'I', 6.5)
-        self.set_text_color(*TEXT_DIM)
-        self.cell(0, 8, f'Page {self.page_no()}', align='C')
+        c.setFillColor(BROWN)
+        c.setFont('Helvetica-Bold', 8)
+        lw = c.stringWidth(label, 'Helvetica-Bold', 8) + 16
+        c.roundRect((PW - lw) / 2, PH - 65, lw, 12, 3, fill=1, stroke=0)
+        c.setFillColor(GOLD_LIGHT)
+        c.drawString((PW - c.stringWidth(label, 'Helvetica-Bold', 8)) / 2, PH - 61, label)
 
-    def cover(self, title, subtitle, label):
-        self.set_fill_color(*DARK)
-        self.rect(0, 0, 210, 297, 'F')
-        self.ln(55)
+        c.setFillColor(GOLD_LIGHT)
+        c.setFont('Helvetica-Bold', 24)
+        c.drawCentredString(PW / 2, PH - 110, title)
 
-        self.set_font('Sans', 'I', 7)
-        self.set_text_color(*TEXT_DIM)
-        self.cell(0, 6, 'UCF ZEM', align='C', new_x='LMARGIN', new_y='NEXT')
-        self.ln(2)
+        c.setFillColor(COVER_SUBTITLE)
+        c.setFont('Helvetica', 11)
+        c.drawCentredString(PW / 2, PH - 125, subtitle)
 
-        self.set_font('Sans', 'B', 8)
-        w = self.get_string_width(label) + 16
-        self.set_x((210 - w) / 2)
-        self.set_fill_color(*BROWN)
-        self.set_text_color(*GOLD_LIGHT)
-        self.cell(w, 7, label, fill=True, align='C', new_x='LMARGIN', new_y='NEXT')
-        self.ln(14)
+        c.setStrokeColor(GOLD)
+        c.setLineWidth(0.3)
+        c.line(70, PH - 148, 140, PH - 148)
 
-        self.set_font('Sans', 'B', 24)
-        self.set_text_color(*GOLD_LIGHT)
-        self.cell(0, 11, title, align='C', new_x='LMARGIN', new_y='NEXT')
-        self.ln(4)
+        c.setFillColor(TEXT_DIM)
+        c.setFont('Helvetica', 8)
+        c.drawCentredString(PW / 2, PH - 162, 'ucfzem.gumroad.com')
+        c.showPage()
+        self.page_num = 1
 
-        self.set_font('Sans', '', 11)
-        self.set_text_color(196, 181, 154)
-        self.cell(0, 7, subtitle, align='C', new_x='LMARGIN', new_y='NEXT')
-        self.ln(20)
+    def new_page(self):
+        self.canvas.showPage()
+        self.page_num += 1
 
-        self.set_draw_color(*GOLD)
-        self.set_line_width(0.3)
-        y = self.get_y()
-        self.line(70, y, 140, y)
-        self.ln(8)
+    def header_footer(self):
+        c = self.canvas
+        c.setFillColor(TEXT_DIM)
+        c.setFont('Helvetica', 6.5)
+        header = f'UCF ZEM'
+        c.drawString(X0, PH - 31, header)
+        c.drawString(X0, PH - 41, 'ucfzem.gumroad.com')
 
-        self.set_font('Sans', 'I', 8)
-        self.set_text_color(*TEXT_DIM)
-        self.cell(0, 5, 'ucfzem.gumroad.com', align='C', new_x='LMARGIN', new_y='NEXT')
+        c.setFillColor(HEADER_LABEL)
+        c.setFont('Helvetica', 8)
+        c.drawRightString(PW - 51, PH - 31, 'DOCUMENT')
 
-    def section_title(self, title):
-        self.ln(3)
-        # Gold line above
-        self.set_draw_color(*GOLD)
-        self.set_line_width(0.2)
-        y = self.get_y()
-        self.line(10, y, 200, y)
-        self.ln(1.5)
-        # Section title in brown
-        self.set_font('Sans', 'B', 13)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(0, 7, title, new_x='LMARGIN', new_y='NEXT')
-        self.ln(1)
+        c.setFillColor(TEXT_DIM)
+        c.drawString(X0, 12.75591,
+                     f'Page {self.page_num}  |  UCF ZEM — Templates Freelance Professionnels  |  ucfzem.gumroad.com')
+        c.setStrokeColor(GOLD)
+        c.setLineWidth(0.3)
+        c.line(X0, 18, PW - 51, 18)
+        c.setFillColor(DARK_BROWN)
 
-    def body(self, txt):
-        self.set_font('Sans', '', 8.5)
-        self.set_text_color(*DARK_BROWN)
-        self.multi_cell(0, 4.8, txt)
-        self.ln(1.5)
+    def title_block(self, main_title, version='Version 2025'):
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 22)
+        c.drawString(X0, self.y, main_title)
+        self.y -= 28
 
-    def field_line(self, label, x2=50):
-        self.set_font('Sans', 'B', 7.5)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(x2, 5, label)
-        self.set_draw_color(*FIELD_LINE)
-        self.set_font('Sans', '', 7.5)
-        self.set_text_color(160, 140, 120)
-        self.cell(0, 5, '___________________________', new_x='LMARGIN', new_y='NEXT')
-        self.ln(0.5)
+        c.setFont('Helvetica', 9)
+        c.setFillColor(TEXT_DIM)
+        c.drawString(X0, self.y, 'Modèle prêt à l\'emploi — Personnalisable')
+        self.y -= 12
 
-    def two_col_fields(self, left_label, right_label, lw=48, rw=48):
-        self.set_font('Sans', 'B', 7.5)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(lw, 5, left_label)
-        self.set_draw_color(*FIELD_LINE)
-        self.set_font('Sans', '', 7.5)
-        self.set_text_color(160, 140, 120)
-        self.cell(45, 5, '___________________')
+        c.setFont('Helvetica-Bold', 9)
+        c.drawString(X0, self.y, version)
+        self.y -= 16
+        c.setFillColor(DARK_BROWN)
 
-        self.set_font('Sans', 'B', 7.5)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(rw, 5, right_label)
-        self.set_draw_color(*FIELD_LINE)
-        self.set_font('Sans', '', 7.5)
-        self.set_text_color(160, 140, 120)
-        self.cell(0, 5, '___________________', new_x='LMARGIN', new_y='NEXT')
-        self.ln(0.5)
+    def section(self, num, title):
+        self.y -= 6
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 13)
+        c.setFillColor(SECTION_NUM)
+        c.drawString(X0, self.y, f'{num}.')
+        c.setFillColor(SECTION_TITLE)
+        c.drawString(X0 + c.stringWidth(f'{num}.', 'Helvetica-Bold', 13) + 3, self.y, title)
+        self.y -= 18
+        c.setFillColor(DARK_BROWN)
 
-    def columns_side(self, items):
-        """items = [(label1, width1), (label2, width2), ...] all on one line"""
-        self.set_font('Sans', 'B', 7.5)
-        self.set_text_color(*DARK_BROWN)
-        x_start = self.get_x()
-        for label, w in items:
-            self.set_font('Sans', 'B', 7.5)
-            self.set_text_color(*DARK_BROWN)
-            self.cell(w, 5, label)
-        self.set_draw_color(*FIELD_LINE)
-        self.set_font('Sans', '', 7.5)
-        self.set_text_color(160, 140, 120)
-        self.cell(0, 5, '', new_x='LMARGIN', new_y='NEXT')
-        self.set_x(x_start)
-        total_w = sum(w for _, w in items)
-        remaining = 190 - total_w
-        gap = remaining / (len(items) - 1) if len(items) > 1 else 0
-        self.set_x(x_start)
-        for i, (label, w) in enumerate(items):
-            self.set_draw_color(*FIELD_LINE)
-            self.set_font('Sans', '', 7.5)
-            self.set_text_color(160, 140, 120)
-            self.cell(w + (gap if i < len(items)-1 else 0), 5, '____________________')
-        self.ln(0.5)
+    def body(self, text, size=9):
+        c = self.canvas
+        c.setFont('Helvetica', size)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, text)
+        self.y -= 14
+        c.setFillColor(DARK_BROWN)
 
-    def table(self, headers, rows, col_widths=None):
-        if not col_widths:
-            col_widths = [190 / len(headers)] * len(headers)
+    def body_multi(self, text, size=9, max_width=500):
+        c = self.canvas
+        c.setFont('Helvetica', size)
+        c.setFillColor(DARK_BROWN)
+        lines = simpleSplit(text, 'Helvetica', size, max_width)
+        for line in lines:
+            if self.y < 40:
+                self.header_footer()
+                self.new_page()
+                self.header_footer()
+            c.drawString(X0, self.y, line)
+            self.y -= 14
+        c.setFillColor(DARK_BROWN)
 
-        # Header row
-        self.set_fill_color(*HEADER_BG)
-        self.set_text_color(*DARK)
-        self.set_font('Sans', 'B', 7.5)
-        self.set_draw_color(*GOLD)
-        self.set_line_width(0.3)
+    def field(self, label, value='___________________'):
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 8)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, label)
+        c.setFont('Helvetica', 9)
+        c.setFillColor(FIELD_COLOR)
+        c.drawString(X0 + c.stringWidth(label, 'Helvetica-Bold', 8) + 5, self.y, value)
+        self.y -= 13
+        c.setFillColor(DARK_BROWN)
+
+    def two_col_fields(self, left_label, right_label, value='___________________'):
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 8)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, left_label)
+        c.drawString(X0 + COL_GAP, self.y, right_label)
+
+        c.setFont('Helvetica', 9)
+        c.setFillColor(FIELD_COLOR)
+        vw = c.stringWidth(value, 'Helvetica', 9)
+        c.drawString(X0 + c.stringWidth(left_label, 'Helvetica-Bold', 8) + 5, self.y, value)
+        c.drawString(X0 + COL_GAP + c.stringWidth(right_label, 'Helvetica-Bold', 8) + 5, self.y, value)
+        self.y -= 13
+        c.setFillColor(DARK_BROWN)
+
+    def two_col_header(self, left, right):
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 9)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, left)
+        c.drawString(X0 + COL_GAP, self.y, right)
+        self.y -= 15
+
+    def table(self, headers, rows, col_widths):
+        c = self.canvas
+        # Calculate total width
+        total_w = sum(col_widths)
+        x_start = X0
+
+        # Draw header
+        c.setFont('Helvetica-Bold', 8.5)
+        c.setFillColor(DARK)
+        c.setStrokeColor(TABLE_BORDER)
+        c.setLineWidth(0.3)
+        c.setFillColor(TABLE_HEADER)
+        c.rect(x_start, self.y - 7, total_w, 7, fill=1, stroke=1)
+        c.setFillColor(DARK)
+        x = x_start + 3
         for i, h in enumerate(headers):
-            self.cell(col_widths[i], 7, f' {h}', border=1, fill=True, align='C' if i > 0 else 'L')
-        self.ln()
+            c.drawString(x, self.y - 6, h)
+            x += col_widths[i]
+        self.y -= 7
 
-        # Data rows
-        self.set_line_width(0.15)
-        self.set_draw_color(*BORDER)
+        # Draw rows
+        c.setFont('Helvetica', 8.5)
         for ri, row in enumerate(rows):
             if ri % 2 == 0:
-                self.set_fill_color(*ROW_ALT)
+                c.setFillColor(ROW_ALT)
             else:
-                self.set_fill_color(*WHITE)
-            self.set_font('Sans', '', 7.5)
-            self.set_text_color(*DARK_BROWN)
+                c.setFillColor(WHITE)
+            c.setStrokeColor(TABLE_BORDER)
+            c.setLineWidth(0.15)
+            c.rect(x_start, self.y - 6, total_w, 6, fill=1, stroke=1)
+            c.setFillColor(DARK_BROWN)
+            x = x_start + 3
             for i, cell in enumerate(row):
-                align = 'L' if i == 0 else 'C'
-                self.cell(col_widths[i], 6, f' {cell}' if i == 0 else cell, border=1, align=align, fill=True)
-            self.ln()
-        self.ln(3)
+                c.drawString(x, self.y - 5, str(cell))
+                x += col_widths[i]
+            self.y -= 6
 
-    def bullet(self, txt):
-        self.set_font('Sans', '', 8)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(3, 5, '')
-        self.cell(3, 5, '—')
-        self.multi_cell(0, 4.8, txt)
-        self.ln(0.3)
+        self.y -= 6
+
+    def bullet(self, text, indent=12, size=9):
+        c = self.canvas
+        c.setFont('Helvetica', size)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0 + indent, self.y, f'\u2014 {text}')
+        self.y -= 14
+
+    def bullet_multi(self, text, indent=12, size=9, max_width=480):
+        c = self.canvas
+        c.setFont('Helvetica', size)
+        c.setFillColor(DARK_BROWN)
+        full = f'\u2014 {text}'
+        lines = simpleSplit(full, 'Helvetica', size, max_width)
+        for line in lines:
+            if self.y < 40:
+                self.header_footer()
+                self.new_page()
+                self.header_footer()
+            c.drawString(X0 + indent, self.y, line)
+            self.y -= 13
+        c.setFillColor(DARK_BROWN)
+
+    def sig_line(self, label):
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 8)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, label)
+        c.setFont('Helvetica', 8)
+        c.setStrokeColor(FIELD_COLOR)
+        c.line(X0 + 120, self.y + 2, X0 + 280, self.y + 2)
+        self.y -= 22
 
     def sig_block(self, label):
-        self.ln(4)
-        self.set_font('Sans', 'B', 8)
-        self.set_text_color(*DARK_BROWN)
-        self.cell(0, 5, label, new_x='LMARGIN', new_y='NEXT')
-        self.ln(6)
-        self.set_draw_color(*FIELD_LINE)
-        self.set_font('Sans', 'I', 7.5)
-        self.set_text_color(*TEXT_DIM)
-        self.cell(90, 5, 'Signature + mention « Bon pour accord »')
-        self.cell(0, 5, '_________________________', new_x='LMARGIN', new_y='NEXT')
+        c = self.canvas
+        c.setFont('Helvetica-Bold', 8)
+        c.setFillColor(DARK_BROWN)
+        c.drawString(X0, self.y, label)
+        self.y -= 16
+        c.setFont('Helvetica', 7.5)
+        c.setFillColor(SILVER)
+        c.drawString(X0, self.y, 'Signature + mention \xab Bon pour accord \xbb')
+        c.setStrokeColor(FIELD_COLOR)
+        c.line(X0 + 160, self.y + 2, X0 + 380, self.y + 2)
+        self.y -= 10
 
-    def email_block(self, num, subject, body):
-        self.ln(1)
-        self.set_font('Sans', 'B', 8.5)
-        self.set_text_color(*BROWN)
-        self.cell(0, 5.5, f'Email {num}', new_x='LMARGIN', new_y='NEXT')
+    def email_block(self, num, subject, body, max_width=480):
+        c = self.canvas
+        self.y -= 4
 
-        self.set_font('Sans', 'I', 7)
-        self.set_text_color(*TEXT_DIM)
-        self.cell(0, 4.5, f'Objet : {subject}', new_x='LMARGIN', new_y='NEXT')
-        self.ln(1)
+        c.setFont('Helvetica-Bold', 8.5)
+        c.setFillColor(BROWN)
+        c.drawString(X0, self.y, f'Email {num}')
+        self.y -= 12
 
-        self.set_font('Sans', '', 7.5)
-        self.set_text_color(*DARK_BROWN)
-        self.multi_cell(0, 4.5, body)
-        self.ln(3)
+        c.setFont('Helvetica', 7)
+        c.setFillColor(TEXT_DIM)
+        c.drawString(X0, self.y, f'Objet : {subject}')
+        self.y -= 12
 
+        c.setFont('Helvetica', 7.5)
+        c.setFillColor(DARK_BROWN)
+        lines = simpleSplit(body, 'Helvetica', 7.5, max_width)
+        for line in lines:
+            if self.y < 40:
+                self.header_footer()
+                self.new_page()
+                self.header_footer()
+            c.drawString(X0, self.y, line)
+            self.y -= 11
+        c.setFillColor(DARK_BROWN)
+        self.y -= 4
+
+    def save(self):
+        self.canvas.showPage()
+        self.canvas.save()
+        print(f'OK: {self.filename}')
+
+
+# ────────────────────────── CONTRAT TYPE ──────────────────────────
 
 def gen_contrat():
-    pdf = TemplatePDF()
-    pdf.set_auto_page_break(auto=True, margin=18)
+    doc = RLTemplate('contrat-type-freelance.pdf',
+                     'Contrat-Type Freelance',
+                     'Mod\u00e8le pr\u00eat \u00e0 l\'emploi \u2014 Personnalisable',
+                     'DOCUMENT JURIDIQUE')
+    c = doc.canvas
+    doc.y = PH - 200
+    doc.header_footer()
+    doc.title_block('Contrat-Type Freelance')
 
-    pdf.add_page()
-    pdf.cover('Contrat-Type Freelance',
-              'Modèle prêt à l\'emploi — Personnalisable',
-              'DOCUMENT JURIDIQUE')
+    doc.section(1, 'Parties')
+    doc.body('Le pr\u00e9sent contrat est conclu entre les parties suivantes :')
+    doc.two_col_header('Prestataire', 'Client')
 
-    pdf.add_page()
-    pdf.ln(2)
-    pdf.set_font('Sans', 'B', 18)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(0, 8, 'Contrat-Type Freelance', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 8)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Modèle prêt à l\'emploi — Personnalisable', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 7)
-    pdf.cell(0, 5, 'Version 2025', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(4)
-
-    pdf.section_title('Parties')
-    pdf.body('Le présent contrat est conclu entre les parties suivantes :')
-    pdf.ln(2)
-
-    pdf.set_font('Sans', 'B', 8.5)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(95, 5, 'Prestataire')
-    pdf.cell(0, 5, 'Client', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(1)
-
-    left_fields = ['Nom / Prénom', 'Adresse', 'Email / Tél.', 'SIRET / RC']
-    right_fields = ['Nom / Société', 'Adresse', 'Email / Tél.', 'Réf. interne']
-
+    left = ['Nom / Pr\u00e9nom', 'Adresse', 'Email / T\u00e9l.', 'SIRET / RC']
+    right = ['Nom / Soci\u00e9t\u00e9', 'Adresse', 'Email / T\u00e9l.', 'R\u00e9f. interne']
     for i in range(4):
-        pdf.set_font('Sans', 'B', 7.5)
-        pdf.set_text_color(*DARK_BROWN)
-        pdf.cell(45, 5, left_fields[i])
-        pdf.set_draw_color(*FIELD_LINE)
-        pdf.set_font('Sans', '', 7.5)
-        pdf.set_text_color(160, 140, 120)
-        pdf.cell(48, 5, '____________________')
+        doc.two_col_fields(left[i], right[i])
 
-        pdf.set_font('Sans', 'B', 7.5)
-        pdf.set_text_color(*DARK_BROWN)
-        pdf.cell(45, 5, right_fields[i])
-        pdf.set_draw_color(*FIELD_LINE)
-        pdf.set_font('Sans', '', 7.5)
-        pdf.set_text_color(160, 140, 120)
-        pdf.cell(0, 5, '____________________', new_x='LMARGIN', new_y='NEXT')
-        pdf.ln(0.5)
-
-    pdf.ln(4)
-    pdf.section_title('Objet du Contrat')
-    pdf.body('Le Prestataire s\'engage à réaliser les prestations suivantes :')
-
-    pdf.table(
-        ['N°', 'Description de la prestation'],
-        [
-            ['1', ''],
-            ['2', ''],
-            ['3', ''],
-            ['4', ''],
-        ],
-        [12, 178]
+    doc.section(2, 'Objet du Contrat')
+    doc.body('Le Prestataire s\'engage \u00e0 r\u00e9aliser les prestations suivantes :')
+    doc.table(
+        ['N\u00b0', 'Description de la prestation'],
+        [['1', ''], ['2', ''], ['3', ''], ['4', '']],
+        [12, 488]
     )
 
-    pdf.body('Livrables attendus :')
-    pdf.field_line('Livrable 1')
-    pdf.field_line('Livrable 2')
-    pdf.field_line('Livrable 3')
+    doc.body('Livrables attendus :')
+    for _ in range(3):
+        doc.field('')
 
-    pdf.ln(2)
-    pdf.section_title('Durée')
-    pdf.field_line('Date de début')
-    pdf.field_line('Date de fin estimée')
-    pdf.field_line('Durée estimée')
-    pdf.body('______ semaines / mois')
-    pdf.body('Le contrat peut être reconduit par accord écrit des deux parties.')
+    doc.section(3, 'Dur\u00e9e')
+    doc.field('Date de d\u00e9but')
+    doc.field('Date de fin estim\u00e9e')
+    doc.field('Dur\u00e9e estim\u00e9e', '______ semaines / mois')
+    doc.body('Le contrat peut \u00eatre reconduit par accord \u00e9crit des deux parties.')
 
-    pdf.add_page()
-    pdf.section_title('Montant et Conditions de Paiement')
-    pdf.body('Les prestations sont facturées comme suit :')
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(4, 'Montant et Conditions de Paiement')
+    doc.body('Les prestations sont factur\u00e9es comme suit :')
 
-    pdf.table(
-        ['Désignation', 'Qté', 'Prix unitaire HT', 'Total HT'],
-        [
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-        ],
-        [70, 20, 50, 50]
+    doc.table(
+        ['D\u00e9signation', 'Qt\u00e9', 'Prix unitaire HT', 'Total HT'],
+        [['', '', '', ''], ['', '', '', ''], ['', '', '', '']],
+        [180, 40, 140, 140]
     )
 
-    pdf.field_line('Sous-total HT')
-    pdf.field_line('TVA (%)')
-    pdf.field_line('Total TTC')
-    pdf.field_line('Acompte à la signature')
-    pdf.ln(1)
+    doc.field('Sous-total HT')
+    doc.field('TVA (%)')
+    doc.field('Total TTC')
+    doc.field('Acompte \u00e0 la signature')
 
-    pdf.body('Modalités de paiement :')
-    pdf.bullet('Acompte de _____ % à la signature du contrat')
-    pdf.bullet('Solde à la livraison / en plusieurs versements : _____')
-    pdf.bullet('Paiement sous 30 jours fin de mois sauf mention contraire')
-    pdf.bullet('Pénalités de retard : 3× le taux d\'intérêt légal')
-    pdf.bullet('Indemnité forfaitaire pour frais de recouvrement : 40 EUR')
+    doc.body('Modalit\u00e9s de paiement :')
+    doc.bullet('Acompte de _____ % \u00e0 la signature du contrat')
+    doc.bullet('Solde \u00e0 la livraison / en plusieurs versements : _____')
+    doc.bullet('Paiement sous 30 jours fin de mois sauf mention contraire')
+    doc.bullet('P\u00e9nalit\u00e9s de retard : 3\u00d7 le taux d\'int\u00e9r\u00eat l\u00e9gal')
+    doc.bullet('Indemnit\u00e9 forfaitaire pour frais de recouvrement : 40 EUR')
 
-    pdf.ln(2)
-    pdf.section_title('Obligations du Prestataire')
-    pdf.bullet('Réaliser les prestations avec diligence et professionnalisme')
-    pdf.bullet('Respecter les délais convenus')
-    pdf.bullet('Garantir la confidentialité des informations du Client')
-    pdf.bullet('Fournir un travail conforme au cahier des charges')
+    doc.section(5, 'Obligations du Prestataire')
+    doc.bullet('R\u00e9aliser les prestations avec diligence et professionnalisme')
+    doc.bullet('Respecter les d\u00e9lais convenus')
+    doc.bullet('Garantir la confidentialit\u00e9 des informations du Client')
+    doc.bullet('Fournir un travail conforme au cahier des charges')
 
-    pdf.ln(2)
-    pdf.section_title('Obligations du Client')
-    pdf.bullet('Fournir toutes les informations nécessaires à la réalisation de la prestation')
-    pdf.bullet('Régler les factures dans les délais convenus')
-    pdf.bullet('Donner son approbation dans un délai raisonnable (max 5 jours ouvrés)')
-    pdf.bullet('Ne pas exploiter les livrables au-delà des droits accordés avant paiement intégral')
+    doc.section(6, 'Obligations du Client')
+    doc.bullet('Fournir toutes les informations n\u00e9cessaires \u00e0 la r\u00e9alisation de la prestation')
+    doc.bullet('R\u00e9gler les factures dans les d\u00e9lais convenus')
+    doc.bullet('Donner son approbation dans un d\u00e9lai raisonnable (max 5 jours ouvr\u00e9s)')
+    doc.bullet('Ne pas exploiter les livrables au-del\u00e0 des droits accord\u00e9s avant paiement int\u00e9gral')
 
-    pdf.add_page()
-    pdf.section_title('Confidentialité')
-    pdf.body('Les parties s\'engagent à garder strictement confidentielles toutes les informations '
-             'échangées dans le cadre de ce contrat, y compris mais sans s\'y limiter : données '
-             'commerciales, techniques, financières, et stratégiques.')
-    pdf.body('Cette obligation de confidentialité reste en vigueur pendant toute la durée du contrat '
-             'et pendant 2 ans après son expiration.')
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(7, 'Confidentialit\u00e9')
+    doc.body_multi('Les parties s\'engagent \u00e0 garder strictement confidentielles toutes les informations \u00e9chang\u00e9es dans le cadre de ce contrat, y compris mais sans s\'y limiter : donn\u00e9es commerciales, techniques, financi\u00e8res, et strat\u00e9giques.')
+    doc.body_multi('Cette obligation de confidentialit\u00e9 reste en vigueur pendant toute la dur\u00e9e du contrat et pendant 2 ans apr\u00e8s son expiration.')
 
-    pdf.ln(2)
-    pdf.section_title('Propriété Intellectuelle')
-    pdf.body('Les livrables créés par le Prestataire deviennent la propriété du Client '
-             'après paiement intégral des sommes dues.')
-    pdf.body('Le Prestataire conserve le droit de mentionner la collaboration dans son portfolio '
-             'et de reproduire des extraits anonymisés.')
+    doc.section(8, 'Propri\u00e9t\u00e9 Intellectuelle')
+    doc.body_multi('Les livrables cr\u00e9\u00e9s par le Prestataire deviennent la propri\u00e9t\u00e9 du Client apr\u00e8s paiement int\u00e9gral des sommes dues.')
+    doc.body_multi('Le Prestataire conserve le droit de mentionner la collaboration dans son portfolio et de reproduire des extraits anonymis\u00e9s.')
 
-    pdf.ln(2)
-    pdf.section_title('Résiliation')
-    pdf.body('À l\'amiable : Par accord écrit des deux parties à tout moment.')
-    pdf.body('Pour faute : Après mise en demeure restée sans effet pendant 15 jours.')
-    pdf.body('Sans motif : Le Client règle les prestations réalisées au prorata du temps passé.')
+    doc.section(9, 'R\u00e9siliation')
+    doc.body('\u00c0 l\'amiable : Par accord \u00e9crit des deux parties \u00e0 tout moment.')
+    doc.body('Pour faute : Apr\u00e8s mise en demeure rest\u00e9e sans effet pendant 15 jours.')
+    doc.body('Sans motif : Le Client r\u00e8gle les prestations r\u00e9alis\u00e9es au prorata du temps pass\u00e9.')
 
-    pdf.ln(2)
-    pdf.section_title('Droit Applicable et Litiges')
-    pdf.body('Le présent contrat est régi par le droit marocain. Tout litige sera soumis '
-             'à la juridiction compétente de la ville du Prestataire.')
+    doc.section(10, 'Droit Applicable et Litiges')
+    doc.body_multi('Le pr\u00e9sent contrat est r\u00e9gi par le droit marocain. Tout litige sera soumis \u00e0 la juridiction comp\u00e9tente de la ville du Prestataire.')
 
-    pdf.ln(4)
-    pdf.section_title('Signatures')
-    pdf.body('Fait en deux exemplaires originaux, à _________________, le _________________')
-    pdf.ln(6)
-    pdf.sig_block('Le Prestataire')
-    pdf.ln(4)
-    pdf.sig_block('Le Client')
+    doc.section(11, 'Signatures')
+    doc.body('Fait en deux exemplaires originaux, \u00e0 _________________, le _________________')
+    doc.y -= 12
+    doc.sig_block('Le Prestataire')
+    doc.sig_block('Le Client')
 
-    path = os.path.join(OUT_DIR, 'contrat-type-freelance.pdf')
-    pdf.output(path)
-    print(f'OK: {path}')
+    doc.save()
 
+
+# ────────────────────────── DEVIS ──────────────────────────
 
 def gen_devis():
-    pdf = TemplatePDF()
-    pdf.set_auto_page_break(auto=True, margin=18)
+    doc = RLTemplate('devis-vierge-freelance.pdf',
+                     'Devis Professionnel',
+                     'Mod\u00e8le vierge \u2014 Personnalisable',
+                     'DOCUMENT COMMERCIAL')
+    doc.y = PH - 200
+    doc.header_footer()
+    doc.title_block('Devis Professionnel')
 
-    pdf.add_page()
-    pdf.cover('Devis Professionnel',
-              'Modèle vierge — Personnalisable',
-              'DOCUMENT COMMERCIAL')
+    # N° Devis and Date on same line
+    c = doc.canvas
+    c.setFont('Helvetica-Bold', 7.5)
+    c.setFillColor(DARK_BROWN)
+    c.drawString(X0, doc.y, 'N\u00b0 Devis')
+    c.setFont('Helvetica', 9)
+    c.setFillColor(FIELD_COLOR)
+    lw1 = c.stringWidth('N\u00b0 Devis', 'Helvetica-Bold', 7.5) + 5
+    c.drawString(X0 + lw1, doc.y, '_________________')
 
-    pdf.add_page()
-    pdf.ln(2)
-    pdf.set_font('Sans', 'B', 18)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(0, 8, 'Devis Professionnel', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 8)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Modèle vierge — Personnalisable', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 7)
-    pdf.cell(0, 5, 'Validité : 30 jours', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(2)
+    c.setFont('Helvetica-Bold', 7.5)
+    c.setFillColor(DARK_BROWN)
+    c.drawString(X0 + 120, doc.y, 'Date')
+    c.setFont('Helvetica', 9)
+    c.setFillColor(FIELD_COLOR)
+    c.drawString(X0 + 120 + c.stringWidth('Date', 'Helvetica-Bold', 7.5) + 5, doc.y, '_________________')
+    doc.y -= 15
+    c.setFillColor(DARK_BROWN)
 
-    pdf.set_font('Sans', 'B', 7.5)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(35, 5, 'N° Devis')
-    pdf.set_draw_color(*FIELD_LINE)
-    pdf.set_font('Sans', '', 7.5)
-    pdf.set_text_color(160, 140, 120)
-    pdf.cell(55, 5, '_________________')
+    doc.section(1, 'Informations')
+    doc.two_col_header('Prestataire', 'Client')
 
-    pdf.set_font('Sans', 'B', 7.5)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(25, 5, 'Date')
-    pdf.set_draw_color(*FIELD_LINE)
-    pdf.set_font('Sans', '', 7.5)
-    pdf.set_text_color(160, 140, 120)
-    pdf.cell(0, 5, '_________________', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(3)
-
-    pdf.section_title('Informations')
-
-    pdf.set_font('Sans', 'B', 8.5)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(95, 5, 'Prestataire')
-    pdf.cell(0, 5, 'Client', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(1)
-
-    left_fields = ['Nom / Société', 'Adresse', 'Email / Tél.', 'SIRET / RC / ICE']
-    right_fields = ['Nom / Société', 'Adresse', 'Email / Tél.', 'À l\'attention de']
-
+    left = ['Nom / Soci\u00e9t\u00e9', 'Adresse', 'Email / T\u00e9l.', 'SIRET / RC / ICE']
+    right = ['Nom / Soci\u00e9t\u00e9', 'Adresse', 'Email / T\u00e9l.', '\u00c0 l\'attention de']
     for i in range(4):
-        pdf.set_font('Sans', 'B', 7.5)
-        pdf.set_text_color(*DARK_BROWN)
-        pdf.cell(45, 5, left_fields[i])
-        pdf.set_draw_color(*FIELD_LINE)
-        pdf.set_font('Sans', '', 7.5)
-        pdf.set_text_color(160, 140, 120)
-        pdf.cell(48, 5, '____________________')
+        doc.two_col_fields(left[i], right[i])
 
-        pdf.set_font('Sans', 'B', 7.5)
-        pdf.set_text_color(*DARK_BROWN)
-        pdf.cell(45, 5, right_fields[i])
-        pdf.set_draw_color(*FIELD_LINE)
-        pdf.set_font('Sans', '', 7.5)
-        pdf.set_text_color(160, 140, 120)
-        pdf.cell(0, 5, '____________________', new_x='LMARGIN', new_y='NEXT')
-        pdf.ln(0.5)
-
-    pdf.ln(3)
-    pdf.section_title('Prestations')
-
-    pdf.table(
-        ['Description', 'Qté', 'PU HT', 'Total HT'],
-        [
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-        ],
-        [75, 20, 45, 50]
+    doc.section(2, 'Prestations')
+    doc.table(
+        ['Description', 'Qt\u00e9', 'PU HT', 'Total HT'],
+        [['', '', '', ''], ['', '', '', ''], ['', '', '', ''], ['', '', '', '']],
+        [180, 40, 140, 140]
     )
 
-    pdf.field_line('Total HT')
-    pdf.field_line('TVA (20% / 14% / 10% / 7% / Exonéré)')
-    pdf.field_line('Total TTC')
-    pdf.field_line('Acompte demandé')
+    doc.field('Total HT')
+    doc.field('TVA (20% / 14% / 10% / 7% / Exon\u00e9r\u00e9)')
+    doc.field('Total TTC')
+    doc.field('Acompte demand\u00e9')
 
-    pdf.add_page()
-    pdf.section_title('Conditions')
-    pdf.bullet('Délai de réalisation : ___________ jours / semaines')
-    pdf.bullet('Validité du devis : 30 jours')
-    pdf.bullet('Paiement : 50% à la commande, 50% à la livraison')
-    pdf.bullet('Modes de paiement : Virement bancaire / Carte / Chèque')
-    pdf.bullet('Livraison : Voie électronique (PDF / lien) / support physique')
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(3, 'Conditions')
+    doc.bullet('D\u00e9lai de r\u00e9alisation : ___________ jours / semaines')
+    doc.bullet('Validit\u00e9 du devis : 30 jours')
+    doc.bullet('Paiement : 50% \u00e0 la commande, 50% \u00e0 la livraison')
+    doc.bullet('Modes de paiement : Virement bancaire / Carte / Ch\u00e8que')
+    doc.bullet('Livraison : Voie \u00e9lectronique (PDF / lien) / support physique')
 
-    pdf.ln(3)
-    pdf.section_title('Acceptation')
-    pdf.body('Le Client reconnaît avoir pris connaissance et accepter les conditions générales '
-             'ci-dessus. Le présent devis vaut bon de commande une fois signé.')
+    doc.section(4, 'Acceptation')
+    doc.body_multi('Le Client reconna\u00eet avoir pris connaissance et accepter les conditions g\u00e9n\u00e9rales ci-dessus. Le pr\u00e9sent devis vaut bon de commande une fois sign\u00e9.')
 
-    pdf.ln(4)
-    pdf.section_title('Cachet et signature du Client')
-    pdf.ln(8)
-    pdf.sig_block('Date et mention « Bon pour accord »')
-    pdf.ln(8)
-    pdf.set_font('Sans', 'I', 7)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Cachet de l\'entreprise (obligatoire pour les professionnels)', new_x='LMARGIN', new_y='NEXT')
+    doc.section(5, 'Cachet et signature du Client')
+    doc.y -= 12
+    doc.sig_block('Date et mention \xab Bon pour accord \xbb')
+    doc.y -= 8
+    c.setFont('Helvetica', 7)
+    c.setFillColor(TEXT_DIM)
+    c.drawString(X0, doc.y, 'Cachet de l\'entreprise (obligatoire pour les professionnels)')
 
-    path = os.path.join(OUT_DIR, 'devis-vierge-freelance.pdf')
-    pdf.output(path)
-    print(f'OK: {path}')
+    doc.save()
 
+
+# ────────────────────────── GRILLE TARIFAIRE ──────────────────────────
 
 def gen_grille():
-    pdf = TemplatePDF()
-    pdf.set_auto_page_break(auto=True, margin=18)
+    doc = RLTemplate('grille-tarifaire-freelance.pdf',
+                     'Grille Tarifaire Freelance',
+                     'Tarifs recommand\u00e9s par niveau d\'exp\u00e9rience',
+                     'DOCUMENT COMMERCIAL')
+    doc.y = PH - 200
+    doc.header_footer()
+    doc.title_block('Grille Tarifaire Freelance')
 
-    pdf.add_page()
-    pdf.cover('Grille Tarifaire Freelance',
-              'Tarifs recommandés par niveau d\'expérience',
-              'DOCUMENT COMMERCIAL')
-
-    pdf.add_page()
-    pdf.ln(2)
-    pdf.set_font('Sans', 'B', 18)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(0, 8, 'Grille Tarifaire', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 8)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Tarifs recommandés par niveau d\'expérience', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 7)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Version 2025', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(4)
-
-    pdf.section_title('1. Débutant (< 6 mois)')
-    pdf.body('Prix recommandés pour les freelances en démarrage :')
-    pdf.table(
+    doc.section(1, 'D\u00e9butant (< 6 mois)')
+    doc.body('Prix recommand\u00e9s pour les freelances en d\u00e9marrage :')
+    doc.table(
         ['Service', 'Mini', 'Maxi', 'Note'],
         [
             ['Landing page one-pager', '300', '500', 'Forfait fixe'],
             ['Site vitrine 3-5 pages', '600', '1 200', 'Forfait fixe'],
-            ['Intégration HTML/CSS maquette', '200', '400', 'Forfait fixe'],
-            ['Correction / amélioration site', '150', '300', 'Forfait fixe'],
+            ['Int\u00e9gration HTML/CSS maquette', '200', '400', 'Forfait fixe'],
+            ['Correction / am\u00e9lioration site', '150', '300', 'Forfait fixe'],
             ['Audit technique rapide', '100', '200', 'Forfait fixe'],
         ],
-        [70, 25, 25, 70]
+        [180, 60, 60, 200]
     )
-    pdf.body('Mes tarifs personnalisés :')
+    doc.body('Mes tarifs personnalis\u00e9s :')
     for i in range(3):
-        pdf.field_line(f'Service {i+1}')
+        doc.field(f'Service {i+1}')
 
-    pdf.add_page()
-    pdf.section_title('2. Intermédiaire (6-18 mois)')
-    pdf.body('Prix recommandés pour les freelances confirmés :')
-    pdf.table(
-        ['Service', 'TJM', 'Durée', 'Note'],
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(2, 'Interm\u00e9diaire (6-18 mois)')
+    doc.body('Prix recommand\u00e9s pour les freelances confirm\u00e9s :')
+    doc.table(
+        ['Service', 'TJM', 'Dur\u00e9e', 'Note'],
         [
-            ['Développement React / Next.js', '350 - 450', 'Régie', ''],
+            ['D\u00e9veloppement React / Next.js', '350 - 450', 'R\u00e9gie', ''],
             ['API backend (Node.js)', '300 - 400', 'Semaine', ''],
-            ['Refonte complète site', '2 500 - 5 000', 'Projet', ''],
+            ['Refonte compl\u00e8te site', '2 500 - 5 000', 'Projet', ''],
             ['Maintenance mensuelle', '200 - 400/mois', 'Abonnement', ''],
-            ['Consulting technique', '400 - 500/jour', 'Journée', ''],
+            ['Consulting technique', '400 - 500/jour', 'Journ\u00e9e', ''],
         ],
-        [65, 30, 30, 65]
+        [180, 80, 120, 120]
     )
-    pdf.body('Mes tarifs :')
+    doc.body('Mes tarifs :')
     for i in range(3):
-        pdf.field_line(f'Service {i+1}')
+        doc.field(f'Service {i+1}')
 
-    pdf.add_page()
-    pdf.section_title('3. Confirmé (18+ mois)')
-    pdf.body('Prix recommandés pour les freelances experts :')
-    pdf.table(
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(3, 'Confirm\u00e9 (18+ mois)')
+    doc.body('Prix recommand\u00e9s pour les freelances experts :')
+    doc.table(
         ['Service', 'TJM', 'Forfait'],
         [
             ['Architecture technique', '500 - 700', '3 000 - 8 000'],
-            ['Lead tech / CTO temps partagé', '600 - 900', '3 000 - 6 000/mois'],
-            ['Formation équipe', '600 - 900', 'Sur devis'],
-            ['Application complète (SaaS)', '450 - 600', '10 000 - 30 000'],
-            ['Consulting stratégique', '700 - 1 000', 'Sur devis'],
+            ['Lead tech / CTO temps partag\u00e9', '600 - 900', '3 000 - 6 000/mois'],
+            ['Formation \u00e9quipe', '600 - 900', 'Sur devis'],
+            ['Application compl\u00e8te (SaaS)', '450 - 600', '10 000 - 30 000'],
+            ['Consulting strat\u00e9gique', '700 - 1 000', 'Sur devis'],
         ],
-        [70, 40, 80]
+        [180, 120, 200]
     )
-    pdf.body('Mes tarifs :')
+    doc.body('Mes tarifs :')
     for i in range(3):
-        pdf.field_line(f'Service {i+1}')
+        doc.field(f'Service {i+1}')
 
-    pdf.ln(4)
-    pdf.section_title('4. Template de Devis')
-    pdf.body('Modèle de devis vierge à copier-coller :')
-    pdf.table(
-        ['Service', 'Prix min', 'Prix max', 'Type'],
-        [
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-            ['', '', '', ''],
-        ],
-        [70, 30, 30, 60]
-    )
+    doc.section(4, 'Template de Devis')
+    doc.body('Mod\u00e8le de devis vierge \u00e0 copier-coller :')
+    doc.y -= 4
+    c = doc.canvas
+    c.setFont('Helvetica', 8)
+    c.setFillColor(DARK_BROWN)
+    lines = [
+        'OBJET : Devis \u2014 [Nom du projet]',
+        'CLIENT : [Nom du client]',
+        'DATE : [Date]',
+        '',
+        'DESCRIPTION :',
+        '  \u2014 [T\u00e2che 1]',
+        '  \u2014 [T\u00e2che 2]',
+        '  \u2014 [T\u00e2che 3]',
+        '',
+        'MONTANT : [    ] EUR TTC',
+        'D\u00c9LAI : [X] semaines',
+        'PAIEMENT : 50% signature, 50% livraison',
+        '',
+        'Validit\u00e9 : 15 jours',
+    ]
+    for line in lines:
+        if doc.y < 40:
+            doc.new_page()
+            doc.y = PH - 40
+            doc.header_footer()
+            c = doc.canvas
+            c.setFont('Helvetica', 8)
+            c.setFillColor(DARK_BROWN)
+        c.drawString(X0, doc.y, line)
+        doc.y -= 13
 
-    path = os.path.join(OUT_DIR, 'grille-tarifaire-freelance.pdf')
-    pdf.output(path)
-    print(f'OK: {path}')
+    doc.save()
 
+
+# ────────────────────────── PACK EMAILS ──────────────────────────
 
 def gen_emails():
-    pdf = TemplatePDF()
-    pdf.set_auto_page_break(auto=True, margin=18)
+    doc = RLTemplate('pack-emails-prospection.pdf',
+                     'Pack Emails de Prospection',
+                     '5 Templates pr\u00e9-remplis \u2014 Pr\u00eats \u00e0 copier-coller',
+                     'DOCUMENT PROSPECTION')
+    doc.y = PH - 200
+    doc.header_footer()
+    doc.title_block('Pack Emails de Prospection')
 
-    pdf.add_page()
-    pdf.cover('Pack Emails de Prospection',
-              '5 Templates pré-remplis — Prêts à copier-coller',
-              'DOCUMENT PROSPECTION')
-
-    pdf.add_page()
-    pdf.ln(2)
-    pdf.set_font('Sans', 'B', 18)
-    pdf.set_text_color(*DARK_BROWN)
-    pdf.cell(0, 8, '5 Templates d\'Emails Prospection', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 8)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, '5 Templates pré-remplis — prêts à copier-coller', new_x='LMARGIN', new_y='NEXT')
-    pdf.set_font('Sans', 'I', 7)
-    pdf.set_text_color(*TEXT_DIM)
-    pdf.cell(0, 5, 'Version 2025', new_x='LMARGIN', new_y='NEXT')
-    pdf.ln(4)
-
-    pdf.section_title('1. Email Froid — Particulier')
-    pdf.email_block(1,
-        'Idée pour [site] de [Nom]',
-        'Bonjour [Prénom],\n\n'
-        'Je suis développeur freelance spécialisé en [React/Next.js/PHP].\n\n'
-        'Je suis tombé sur [Site] et j\'ai remarqué que '
-        '[point spécifique : design daté / temps de chargement / fonctionnalité manquante].\n\n'
-        'Je pourrais vous proposer une solution en [X] jours pour [résultat concret]. '
+    doc.section(1, 'Email Froid \u2014 Particulier')
+    doc.email_block(1,
+        'Id\u00e9e pour [site] de [Nom]',
+        'Bonjour [Pr\u00e9nom],\n\n'
+        'Je suis d\u00e9veloppeur freelance sp\u00e9cialis\u00e9 en [React/Next.js/PHP].\n\n'
+        'Je suis tomb\u00e9 sur [Site] et j\'ai remarqu\u00e9 que '
+        '[point sp\u00e9cifique : design dat\u00e9 / temps de chargement / fonctionnalit\u00e9 manquante].\n\n'
+        'Je pourrais vous proposer une solution en [X] jours pour [r\u00e9sultat concret]. '
         'Sans engagement.\n\n'
         'Vous avez 10 minutes cette semaine pour qu\'on en parle ?\n\n'
-        'Cordialement,\n[Mon nom] — [Mon site / Calendly]')
+        'Cordialement,\n[Mon nom] \u2014 [Mon site / Calendly]')
 
-    pdf.add_page()
-    pdf.section_title('2. Email Froid — Agence')
-    pdf.email_block(2,
-        'Prestation dev — [Agence]',
-        'Bonjour [Prénom],\n\n'
-        'Je suis développeur freelance spécialisé en [frontend/backend].\n\n'
-        'Si vous avez des projets ou des pics de charge, je peux vous dépanner '
-        'en régie (TJM à partir de [X]€).\n\n'
-        'Je m\'adapte à votre stack et vos process.\n\n'
-        'Quelques réalisations : [lien 1] · [lien 2]\n\n'
-        'Vous voulez qu\'on échange sur vos besoins à venir ?\n\n'
-        'Bonne journée,\n[Mon nom] — [Mon site]')
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(2, 'Email Froid \u2014 Agence')
+    doc.email_block(2,
+        'Prestation dev \u2014 [Agence]',
+        'Bonjour [Pr\u00e9nom],\n\n'
+        'Je suis d\u00e9veloppeur freelance sp\u00e9cialis\u00e9 en [frontend/backend].\n\n'
+        'Si vous avez des projets ou des pics de charge, je peux vous d\u00e9panner '
+        'en r\u00e9gie (TJM \u00e0 partir de [X]\u20ac).\n\n'
+        'Je m\'adapte \u00e0 votre stack et vos process.\n\n'
+        'Quelques r\u00e9alisations : [lien 1] \u00b7 [lien 2]\n\n'
+        'Vous voulez qu\'on \u00e9change sur vos besoins \u00e0 venir ?\n\n'
+        'Bonne journ\u00e9e,\n[Mon nom] \u2014 [Mon site]')
 
-    pdf.add_page()
-    pdf.section_title('3. Relance J+7')
-    pdf.email_block(3,
-        'Relance — [Nom du projet]',
-        'Salut [Prénom],\n\n'
-        'Je me permets de revenir vers toi suite à mon précédent message.\n\n'
-        'Si le timing n\'est pas bon, pas de souci — je reste dispo quand tu veux.\n\n'
-        'Si tu préfères, je peux aussi faire une proposition plus légère pour commencer.\n\n'
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(3, 'Relance J+7')
+    doc.email_block(3,
+        'Relance \u2014 [Nom du projet]',
+        'Salut [Pr\u00e9nom],\n\n'
+        'Je me permets de revenir vers toi suite \u00e0 mon pr\u00e9c\u00e9dent message.\n\n'
+        'Si le timing n\'est pas bon, pas de souci \u2014 je reste dispo quand tu veux.\n\n'
+        'Si tu pr\u00e9f\u00e8res, je peux aussi faire une proposition plus l\u00e9g\u00e8re pour commencer.\n\n'
         'Bonne semaine,\n[Mon nom]')
 
-    pdf.ln(2)
-    pdf.section_title('4. Recommandation')
-    pdf.email_block(4,
+    doc.section(4, 'Recommandation')
+    doc.email_block(4,
         'Suivi projet [Nom]',
-        'Salut [Prénom],\n\n'
-        'Ça fait [X mois] qu\'on a bossé ensemble sur [projet].\n\n'
-        'Est-ce que tout fonctionne bien de ton côté ?\n\n'
-        'Si tu as des collègues ou connaissances qui cherchent un développeur, '
-        'je suis preneur de recommandations. Et si toi-même tu as un nouveau projet, '
+        'Salut [Pr\u00e9nom],\n\n'
+        '\u00c7a fait [X mois] qu\'on a boss\u00e9 ensemble sur [projet].\n\n'
+        'Est-ce que tout fonctionne bien de ton c\u00f4t\u00e9 ?\n\n'
+        'Si tu as des coll\u00e8gues ou connaissances qui cherchent un d\u00e9veloppeur, '
+        'je suis preneur de recommandations. Et si toi-m\u00eame tu as un nouveau projet, '
         'je reste disponible.\n\n'
         'Merci d\'avance,\n[Mon nom]')
 
-    pdf.add_page()
-    pdf.section_title('5. Proposition Après Audit')
-    pdf.email_block(5,
+    doc.new_page()
+    doc.y = PH - 40
+    doc.header_footer()
+    doc.section(5, 'Proposition Apr\u00e8s Audit')
+    doc.email_block(5,
         'Compte-rendu audit + proposition',
-        'Bonjour [Prénom],\n\n'
-        'Suite à notre échange, voici ce que j\'ai repéré :\n\n'
+        'Bonjour [Pr\u00e9nom],\n\n'
+        'Suite \u00e0 notre \u00e9change, voici ce que j\'ai rep\u00e9r\u00e9 :\n\n'
         'Points forts : [point 1], [point 2]\n'
-        'Points d\'amélioration :\n'
-        '  — [Point 1] — impact : fort / moyen / faible\n'
-        '  — [Point 2] — impact : fort / moyen / faible\n'
-        '  — [Point 3] — impact : fort / moyen / faible\n\n'
-        'Je peux corriger tout ça en [X] jours pour [X]€.\n\n'
+        'Points d\'am\u00e9lioration :\n'
+        '  \u2014 [Point 1] \u2014 impact : fort / moyen / faible\n'
+        '  \u2014 [Point 2] \u2014 impact : fort / moyen / faible\n'
+        '  \u2014 [Point 3] \u2014 impact : fort / moyen / faible\n\n'
+        'Je peux corriger tout \u00e7a en [X] jours pour [X]\u20ac.\n\n'
         'Tu veux qu\'on en discute ?\n\n'
         '[Mon nom]')
 
-    pdf.ln(4)
-    pdf.section_title('6. Conseils d\'envoi')
-    pdf.bullet('Personnalise chaque email en fonction du destinataire')
-    pdf.bullet('Relance J+7 si pas de réponse (template 3)')
-    pdf.bullet('Maximum 2 relances, puis passe à autre chose')
-    pdf.bullet('Utilise un CRM (Less Annoying CRM, Notion) pour suivre tes relances')
-    pdf.bullet('Envoie entre 9h et 10h pour un meilleur taux d\'ouverture')
-    pdf.bullet('Objectif : 5 emails froids par jour = 100/mois = 5-10 clients potentiels')
+    doc.section(6, 'Conseils d\'envoi')
+    doc.bullet('Personnalise chaque email en fonction du destinataire')
+    doc.bullet('Relance J+7 si pas de r\u00e9ponse (template 3)')
+    doc.bullet('Maximum 2 relances, puis passe \u00e0 autre chose')
+    doc.bullet('Utilise un CRM (Less Annoying CRM, Notion) pour suivre tes relances')
+    doc.bullet('Envoie entre 9h et 10h pour un meilleur taux d\'ouverture')
+    doc.bullet('Objectif : 5 emails froids par jour = 100/mois = 5-10 clients potentiels')
 
-    path = os.path.join(OUT_DIR, 'pack-emails-prospection.pdf')
-    pdf.output(path)
-    print(f'OK: {path}')
+    doc.save()
 
 
 gen_contrat()
 gen_devis()
 gen_grille()
 gen_emails()
-
-print(f'\nTous les PDFs générés dans {OUT_DIR}/')
+print(f'\nTous les PDFs g\u00e9n\u00e9r\u00e9s dans {OUT_DIR}/')
