@@ -16,8 +16,11 @@
     .head .sub{color:#8a7a64;font-size:.8rem}
     .body{padding:1.5rem 2rem 2rem}
     .features{display:grid;gap:.5rem;margin-bottom:1.5rem}
-    .features .item{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:#c4b59a}
-    .features .item .c{color:#d4a017;font-weight:700}
+    .features .item{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:#c4b59a;padding:.35rem .5rem;border-radius:.5rem;transition:all .2s;cursor:pointer;text-decoration:none}
+    .features .item:hover{background:rgba(201,168,76,.08);color:#e8e0d0}
+    .features .item .c{color:#d4a017;font-weight:700;flex-shrink:0}
+    .features .item .preview{font-size:.65rem;color:#8a7a64;margin-left:auto;opacity:0;transition:opacity .2s}
+    .features .item:hover .preview{opacity:1}
     .btn{width:100%;border:none;border-radius:.75rem;padding:.85rem;font-size:.875rem;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;text-decoration:none;display:block}
     .btn-primary{background:linear-gradient(135deg,#6b3410,#c9a84c);color:#0d0b08;box-shadow:0 4px 20px rgba(201,168,76,.2)}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,.3)}
@@ -37,10 +40,10 @@
     </div>
     <div class="body">
       <div class="features">
-        <div class="item"><span class="c">✓</span> Grille tarifaire personnalisable</div>
-        <div class="item"><span class="c">✓</span> 5 emails prospection pré-remplis (sans crochets)</div>
-        <div class="item"><span class="c">✓</span> Contrat-type freelance (modèle Word/PDF)</div>
-        <div class="item"><span class="c">✓</span> Devis vierge à télécharger</div>
+        <a href="https://ucfzem.github.io/email-collector/templates/grille-tarifaire-freelance.pdf" target="_blank" class="item"><span class="c">✓</span> Grille tarifaire personnalisable<span class="preview">👁️ Aperçu</span></a>
+        <a href="https://ucfzem.github.io/email-collector/templates/pack-emails-prospection.pdf" target="_blank" class="item"><span class="c">✓</span> 5 emails prospection pré-remplis<span class="preview">👁️ Aperçu</span></a>
+        <a href="https://ucfzem.github.io/email-collector/templates/contrat-type-freelance.pdf" target="_blank" class="item"><span class="c">✓</span> Contrat-type freelance (PDF)<span class="preview">👁️ Aperçu</span></a>
+        <a href="https://ucfzem.github.io/email-collector/templates/devis-vierge-freelance.pdf" target="_blank" class="item"><span class="c">✓</span> Devis vierge à télécharger<span class="preview">👁️ Aperçu</span></a>
         <div class="item"><span class="c">✓</span> Paiement sécurisé par carte (Gumroad)</div>
       </div>
 
