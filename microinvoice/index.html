@@ -313,6 +313,7 @@ const demoData = {
         items: [{desc:'تطوير موقع إلكتروني متجاوب',qty:1,price:3500},{desc:'استضافة + نطاق (12 شهر)',qty:1,price:1200},{desc:'شعار + هوية بصرية',qty:1,price:1500}]
     }
 };
+function loadDemo(){
 const data = demoData[lang] || demoData.fr;
 window._demoActive = true;
 document.getElementById('emitName').value = data.emitName;
