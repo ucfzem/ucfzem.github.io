@@ -62,7 +62,7 @@ function Generator({lang}){
     let u
     try{
       const r=await fetch(W+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:fp,width:w,height:h}),signal:AbortSignal.timeout(60000)})
-      if(r.ok){const t=r.headers.get('content-type')||'';if(t.includes('application/json')){const j=await r.json();if(j.type==='pollinations')u=j.url}else{const b=await r.blob();u=URL.createObjectURL(b)}}
+      if(r.ok){const t=r.headers.get('content-type')||'';if(t.includes('application/json')){const j=await r.json();if(j.type==='pollinations')u=j.url}else{const b=await r.blob();const v=new Uint8Array(await b.slice(0,4).arrayBuffer());const m=v[0]===255&&v[1]===216&&v[2]===255?'image/jpeg':v[0]===137&&v[1]===80&&v[2]===78&&v[3]===71?'image/png':v[0]===71&&v[1]===73&&v[2]===70?'image/gif':v[0]===82&&v[1]===73&&v[2]===70&&v[3]===70?'image/webp':'image/png';const f=new Blob([b],{type:m});u=URL.createObjectURL(f)}}
     }catch{}
     if(!u)u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux'
     sG({url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
@@ -70,7 +70,7 @@ function Generator({lang}){
   }
   const il=()=>{clearTimeout(tm.current);sLd(false)}
   const ie=()=>{clearTimeout(tm.current);sLd(false);sEr("L'image n'a pas pu être chargée")}
-  const dl=()=>{const u=g?.url;if(!u)return;fetch(u).then(r=>r.blob()).then(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='nanogen-'+Date.now()+'.png';a.click()}).catch(()=>window.open(u))}
+  const dl=async()=>{const u=g?.url;if(!u)return;try{const b=await(await fetch(u)).blob();const v=new Uint8Array(await b.slice(0,4).arrayBuffer());const ext=v[0]===255&&v[1]===216&&v[2]===255?'jpg':v[0]===137&&v[1]===80&&v[2]===78&&v[3]===71?'png':v[0]===71&&v[1]===73&&v[2]===70?'gif':'png';const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='nanogen-'+Date.now()+'.'+ext;a.click()}catch{window.open(u)}}
   return $('div',{className:'gen'},
     $('div',{className:'gf'},
       $('h2',{className:'gl'},_(lang,'g')),
