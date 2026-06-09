@@ -858,6 +858,7 @@
 }
 .article-reader.active { display: block; }
 .article-reader .art-header { margin-bottom: 2rem; }
+.art-progress { position: fixed; top: 0; left: 0; width: 0; height: 3px; background: var(--accent); z-index: 9999; transition: width .1s linear; }
 .article-reader .art-title {
   font-family: 'Syne', sans-serif; font-weight: 800;
   font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -1px;
@@ -951,6 +952,12 @@
   font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem;
   margin-bottom: 1.25rem;
 }
+.art-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+.art-nav a { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-decoration: none; color: inherit; transition: all .3s; }
+.art-nav a:hover { border-color: var(--accent); transform: translateY(-2px); }
+.art-nav .nav-label { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.art-nav .nav-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: .85rem; margin-top: .3rem; }
+.art-nav .nav-next { text-align: right; }
 .related-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -1057,7 +1064,7 @@
         <a href="#articles" class="btn-primary" data-i18n="hero-cta1">Lire le blog →</a>
         <a href="#saas" class="btn-ghost" data-i18n="hero-cta2">Mes SaaS</a>
       </div>
-      <div class="hero-stats">
+      <div class="hero-stats" id="heroStats">
         <div class="hero-stat"><div class="hero-stat-val">100%</div><div class="hero-stat-lbl">Mobile</div></div>
         <div class="hero-stat"><div class="hero-stat-val">0</div><div class="hero-stat-lbl">Server</div></div>
         <div class="hero-stat"><div class="hero-stat-val">0</div><div class="hero-stat-lbl">API Key</div></div>
@@ -1409,7 +1416,7 @@
 
 <!-- ── ARTICLE READER ── -->
 <div id="articleReader" class="article-reader">
-  <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back">← Retour au blog</button>
+  <div class="art-progress" id="artProgress"></div><button class="back-btn" onclick="closeArticle()" data-i18n="reader-back">← Retour au blog</button>
   <div class="breadcrumbs" id="breadcrumbs">
     <a href="#articles" data-i18n="nav-blog">Blog</a>
     <span class="sep">/</span>
@@ -1440,6 +1447,8 @@
     <h3 data-i18n="reader-related">Articles similaires</h3>
     <div class="related-grid" id="relatedGrid"></div>
   </div>
+  <div class="art-comments" id="artComments" style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)"></div>
+  <div class="art-nav" id="artNav"></div>
 </div>
 
 <!-- ── ABOUT ── -->
@@ -1540,7 +1549,7 @@
       'section-saas-label': '// Mes créations SaaS', 'section-saas-title': 'Des outils construits<br>depuis un smartphone',
       'section-saas-desc': 'Chaque projet est un outil réel, déployé, utilisable. Construit 100% depuis mobile.',
       'search-label': '// Rechercher', 'search-placeholder': 'Rechercher un article...', 'search-btn': 'Chercher',
-      'tools-label': '// Créés avec ❤️ — essaye-les :', 'reader-back': '← Retour au blog', 'reader-back2': '← Tous les articles', 'reader-share': 'Partager :', 'reader-copy': '🔗', 'reader-related': 'Articles similaires',
+      'tools-label': '// Créés avec ❤️ — essaye-les :', 'reader-back': '← Retour au blog', 'reader-back2': '← Tous les articles', 'reader-share': 'Partager :', 'reader-copy': '🔗', 'reader-related': 'Articles similaires', 'readerPrev':'Précédent','readerNext':'Suivant','readerDiscuss':'Discuter sur GitHub',
       'about-label': '// À propos', 'about-title': 'Salut, moi c\'est Uzem 👋', 'about-desc1': 'Développeur Full-Stack, entrepreneur et créateur de contenu multilingue basé aux Pays-Bas. Spécialisé dans le développement de solutions SaaS et l\'intégration de l\'IA, je documente mon parcours et mes innovations sur ce blog.', 'about-desc2': 'Animé par une vision minimaliste et agile de la technologie, je relève le défi technique de concevoir et coder l\'intégralité de mes projets depuis un smartphone. L\'innovation ne dépend pas des infrastructures, mais de la créativité et de la maîtrise technique.', 'about-portfolio': 'Portfolio →',
       'contact-label': '// Contact', 'contact-title': 'Une question ? Un projet ?', 'contact-desc': 'Envoie-moi un message directement depuis cette page. Je réponds sous 24h.', 'contact-name': 'Nom', 'contact-name-place': 'Ton nom', 'contact-email': 'Email', 'contact-email-place': 'ton@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Écris ton message ici...', 'contact-btn': 'Envoyer →', 'contact-sent': '✅ Message envoyé ! Merci ✨', 'contact-error': '❌ Erreur : remplis tous les champs.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Reste en avance.<br>Abonne-toi.',
@@ -1562,7 +1571,7 @@
       'section-saas-label': '// My SaaS Creations', 'section-saas-title': 'Tools built<br>from a smartphone',
       'section-saas-desc': 'Every project is a real, deployed, usable tool. Built 100% from mobile.',
       'search-label': '// Search', 'search-placeholder': 'Search articles...', 'search-btn': 'Search',
-      'tools-label': '// Built with ❤️ — try them:', 'reader-back': '← Back to blog', 'reader-back2': '← All articles', 'reader-share': 'Share:', 'reader-copy': '🔗', 'reader-related': 'Related articles',
+      'tools-label': '// Built with ❤️ — try them:', 'reader-back': '← Back to blog', 'reader-back2': '← All articles', 'reader-share': 'Share:', 'reader-copy': '🔗', 'reader-related': 'Related articles', 'readerPrev':'Previous','readerNext':'Next','readerDiscuss':'Discuss on GitHub',
       'about-label': '// About', 'about-title': 'Hi, I\'m Uzem 👋', 'about-desc1': 'Full-Stack Developer, entrepreneur and multilingual content creator based in the Netherlands. Specialized in SaaS development and AI integration, I document my journey and innovations on this tech blog.', 'about-desc2': 'Driven by a minimalist and agile vision of technology, I take on the technical challenge of designing and coding all my projects directly from a smartphone. Innovation depends not on traditional infrastructure, but on creativity and technical mastery.', 'about-portfolio': 'Portfolio →',
       'contact-label': '// Contact', 'contact-title': 'A question? A project?', 'contact-desc': 'Send me a message directly from this page. I reply within 24h.', 'contact-name': 'Name', 'contact-name-place': 'Your name', 'contact-email': 'Email', 'contact-email-place': 'your@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Write your message here...', 'contact-btn': 'Send →', 'contact-sent': '✅ Message sent! Thank you ✨', 'contact-error': '❌ Error: please fill all fields.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Stay ahead.<br>Subscribe.',
@@ -1584,7 +1593,7 @@
       'section-saas-label': '// Mis Creaciones SaaS', 'section-saas-title': 'Herramientas construidas<br>desde un smartphone',
       'section-saas-desc': 'Cada proyecto es una herramienta real, desplegada y utilizable. Construida 100% desde móvil.',
       'search-label': '// Buscar', 'search-placeholder': 'Buscar artículos...', 'search-btn': 'Buscar',
-      'tools-label': '// Hechos con ❤️ — pruébalos:', 'reader-back': '← Volver al blog', 'reader-back2': '← Todos los artículos', 'reader-share': 'Compartir:', 'reader-copy': '🔗', 'reader-related': 'Artículos similares',
+      'tools-label': '// Hechos con ❤️ — pruébalos:', 'reader-back': '← Volver al blog', 'reader-back2': '← Todos los artículos', 'reader-share': 'Compartir:', 'reader-copy': '🔗', 'reader-related': 'Artículos similares', 'readerPrev':'Anterior','readerNext':'Siguiente','readerDiscuss':'Discutir en GitHub',
       'about-label': '// Acerca de', 'about-title': 'Hola, soy Uzem 👋', 'about-desc1': 'Desarrollador Full-Stack, emprendedor y creador de contenido multilingüe con sede en Países Bajos. Especializado en desarrollo SaaS e integración de IA, documento mi trayectoria e innovaciones en este blog tecnológico.', 'about-desc2': 'Impulsado por una visión minimalista y ágil de la tecnología, asumo el desafío técnico de diseñar y codificar todos mis proyectos directamente desde un smartphone. La innovación no depende de las infraestructuras tradicionales, sino de la creatividad y el dominio técnico.', 'about-portfolio': 'Portafolio →',
       'contact-label': '// Contacto', 'contact-title': '¿Una pregunta? ¿Un proyecto?', 'contact-desc': 'Envíame un mensaje directamente desde esta página. Respondo en 24h.', 'contact-name': 'Nombre', 'contact-name-place': 'Tu nombre', 'contact-email': 'Email', 'contact-email-place': 'tu@email.com', 'contact-msg': 'Mensaje', 'contact-msg-place': 'Escribe tu mensaje aquí...', 'contact-btn': 'Enviar →', 'contact-sent': '✅ Mensaje enviado! Gracias ✨', 'contact-error': '❌ Error: completa todos los campos.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Mantente al día.<br>Suscríbete.',
@@ -1606,7 +1615,7 @@
       'section-saas-label': '// إبداعاتي SaaS', 'section-saas-title': 'أدوات بُنيت<br>من هاتف ذكي',
       'section-saas-desc': 'كل مشروع هو أداة حقيقية، منشورة وقابلة للاستخدام. بُنيت 100% من الجوال.',
       'search-label': '// بحث', 'search-placeholder': 'ابحث في المقالات...', 'search-btn': 'بحث',
-      'tools-label': '// صُنع بـ ❤️ — جربها:', 'reader-back': '← العودة للمدونة', 'reader-back2': '← جميع المقالات', 'reader-share': 'شارك:', 'reader-copy': '🔗', 'reader-related': 'مقالات مشابهة',
+      'tools-label': '// صُنع بـ ❤️ — جربها:', 'reader-back': '← العودة للمدونة', 'reader-back2': '← جميع المقالات', 'reader-share': 'شارك:', 'reader-copy': '🔗', 'reader-related': 'مقالات مشابهة', 'readerPrev':'السابق','readerNext':'التالي','readerDiscuss':'ناقش على GitHub',
       'about-label': '// عن', 'about-title': 'مرحباً، أنا أوزم 👋', 'about-desc1': 'مطور Full-Stack، رائد أعمال ومنشئ محتوى متعدد اللغات مقيم في هولندا. متخصص في تطوير حلول SaaS وتكامل الذكاء الاصطناعي، أوثق مسيرتي وابتكاراتي في هذه المدونة التقنية.', 'about-desc2': 'مدفوع برؤية بسيطة ومرنة للتكنولوجيا، أواجه التحدي التقني لتصميم وبرمجة جميع مشاريعي مباشرة من هاتف ذكي. الابتكار لا يعتمد على البنى التحتية التقليدية، بل على الإبداع والإتقان التقني.', 'about-portfolio': 'المحفظة ←',
       'contact-label': '// اتصل', 'contact-title': 'سؤال؟ مشروع؟', 'contact-desc': 'أرسل لي رسالة مباشرة من هذه الصفحة. أرد خلال 24 ساعة.', 'contact-name': 'الاسم', 'contact-name-place': 'اسمك', 'contact-email': 'البريد', 'contact-email-place': 'بريدك@email.com', 'contact-msg': 'الرسالة', 'contact-msg-place': 'اكتب رسالتك هنا...', 'contact-btn': 'أرسل ←', 'contact-sent': '✅ تم إرسال الرسالة! شكراً ✨', 'contact-error': '❌ خطأ: الرجاء ملء جميع الحقول.',
       'newsletter-label': '// النشرة البريدية', 'newsletter-title': 'ابقَ في المقدمة.<br>اشترك.',
@@ -1665,6 +1674,18 @@
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
   });
+  
+  // ─── SOCIAL PROOF ───
+  try {
+    const nc = parseInt(localStorage.getItem('ng_c') || '0')
+    if (nc > 0) {
+      const el = document.createElement('div')
+      el.className = 'hero-badge'
+      el.style.marginTop = '.75rem'
+      el.innerHTML = `<span class="badge-dot"></span> 🎨 ${nc} images générées sur NanoGen`
+      document.querySelector('.hero-actions')?.after(el)
+    }
+  } catch {}
   
 
   // ─── ARTICLE SYSTEM ───
@@ -1730,7 +1751,7 @@
       <div class="article-body">
         <div class="article-meta">
           <span class="tag tag-${categoryTag(featured.category)}">${featured.category || ''}</span>
-          <span class="article-date">${formatDate(featured.date, currentLang)}</span>
+          <span class="article-date">${formatDate(featured.date, currentLang)} · ${featured.readingTime || ''}</span>
         </div>
         <h3>${featured.title || ''}</h3>
         <p>${featured.description || ''}</p>
@@ -1834,8 +1855,29 @@
       relatedGrid.innerHTML = '';
     }
 
+    const idx = allArticles.findIndex(a => a.slug === slug)
+    const nav = document.getElementById('artNav')
+    let navHtml = ''
+    if (idx > 0) {
+      const prev = allArticles[idx - 1]
+      navHtml += `<a href="#article/${prev.slug}" onclick="openArticle('${prev.slug}');return false;"><div class="nav-label">← ${i18n[currentLang]?.readerPrev || 'Précédent'}</div><div class="nav-title">${prev.title || ''}</div></a>`
+    } else { navHtml += '<div></div>' }
+    if (idx < allArticles.length - 1) {
+      const next = allArticles[idx + 1]
+      navHtml += `<a href="#article/${next.slug}" onclick="openArticle('${next.slug}');return false;" class="nav-next"><div class="nav-label">${i18n[currentLang]?.readerNext || 'Suivant'} →</div><div class="nav-title">${next.title || ''}</div></a>`
+    } else { navHtml += '<div></div>' }
+    nav.innerHTML = navHtml
+
+    const gc = document.getElementById('artComments')
+    const discussUrl = `https://github.com/ucfzem/ucfzem.github.io/discussions/new?category=blog&title=${encodeURIComponent(title)}`
+    gc.innerHTML = `<div style="text-align:center;padding:1rem 0"><a href="${discussUrl}" target="_blank" class="saas-link" style="justify-content:center">💬 ${i18n[currentLang]?.readerDiscuss || 'Discuter sur GitHub'} →</a></div>`
+
     document.querySelector('header').style.display = 'flex';
     window.scrollTo(0, 0);
+    const pb = document.getElementById('artProgress')
+    const onScroll = () => { const s = document.getElementById('articleReader'); if(!s) return; const h = s.scrollHeight - window.innerHeight; pb.style.width = h > 0 ? Math.min(window.scrollY / h * 100, 100) + '%' : '0' }
+    window.addEventListener('scroll', onScroll)
+    pb._cleanup = () => window.removeEventListener('scroll', onScroll)
   }
 
   const tools = [
@@ -1861,6 +1903,8 @@
     document.querySelectorAll('section, #searchWrap, #articles, #saas, #topics, #about, #contact, .newsletter, .ticker-wrap, .hero').forEach(s => s.style.display = '');
     document.querySelector('header').style.display = 'flex';
     window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    const pb = document.getElementById('artProgress')
+    if (pb) { pb.style.width = '0'; if (pb._cleanup) pb._cleanup() }
     renderArticles();
   }
 
