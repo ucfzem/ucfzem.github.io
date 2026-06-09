@@ -78,6 +78,20 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 @media(max-width:520px){.row{flex-direction:column}.field{min-width:100%}.preview-box .p-header{flex-direction:column;gap:8px}}
 @media(max-width:400px){.container{padding:12px 8px}.card{padding:12px}.preview-box{padding:14px}.action-bar .btn{font-size:11px;padding:6px 12px}.total-row{gap:8px}.total-row .value{font-size:14px}}
 [dir=rtl]{text-align:right}
+[dir=rtl] .items-table th, 
+[dir=rtl] .preview-box .p-table th,
+[dir=rtl] .items-table td,
+[dir=rtl] .preview-box .p-table td {
+    text-align: right;
+}
+[dir=rtl] .preview-box .p-table th:last-child,
+[dir=rtl] .preview-box .p-table td:last-child,
+[dir=rtl] .items-table th:last-child,
+[dir=rtl] .items-table td:last-child {
+    text-align: left;
+}
+.total-col { text-align: right; }
+[dir=rtl] .total-col { text-align: left; }
 </style>
 </head>
 <body>
@@ -190,6 +204,7 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 // ══════ LANG ══════
 const L={fr:{emitter:"// Émetteur",emitName:"Nom / Société",emitICE:"ICE",emitAddr:"Adresse",emitEmail:"Email",emitPhone:"Tél",client:"// Client",cliName:"Client",cliAddr:"Adresse du client",cliEmail:"Email client",cliPhone:"Tél client",invoice:"// Facture",num:"N° Facture",date:"Date",due:"Échéance",currency:"Devise",tva:"TVA",logo:"Logo",items:"// Articles",desc:"Description",qty:"Qté",price:"Prix unit.",total:"Total",add:"+ Ajouter",subtotal:"Sous-total",tax:"TVA",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Conditions de paiement, délais, remerciements…",preview:"// Aperçu",pdf:"📄 Télécharger PDF",save:"💾 Enregistrer",demo:"🎲 Démo",history:"// Historique",delete:"✕",clearAll:"✕ Tout effacer",saved:"✓ Facture enregistrée",noHistory:"Aucune facture enregistrée",invTitle:"FACTURE",clientLbl:"CLIENT",dateLbl:"Date :",dueLbl:"Échéance :",numLbl:"N° :",tvaLbl:"TVA :",iceLbl:"ICE :",emailLbl:"Email :",telLbl:"Tél :",from:"DE",to:"À",paymentTerms:"Paiement :"},
@@ -254,57 +269,71 @@ function deleteInvoice(i){savedInvoices.splice(i,1);localStorage.setItem('microi
 function clearHistory(){savedInvoices=[];localStorage.removeItem('microinvoices');renderHistory()}
 // ══════ DEMO ══════
 function loadDemo(){
-document.getElementById('emitName').value='أحمد العمراني';
+const demoData = {
+    fr: {
+        emitName: 'Ahmed Al-Omrani', emitAddr: '125 Rue Mohammed V, Tanger',
+        client: 'Acme SARL', cliAddr: '45 Av. Hassan II, Casablanca',
+        notes: 'Paiement sous 30 jours. IBAN: MA6401151900000012345678901234',
+        items: [{desc:'Développement site vitrine responsive',qty:1,price:3500},{desc:'Hébergement + domaine (12 mois)',qty:1,price:1200},{desc:'Logo + charte graphique',qty:1,price:1500}]
+    },
+    en: {
+        emitName: 'Ahmed Al-Omrani', emitAddr: '125 Mohammed V St, Tangier',
+        client: 'Acme SARL', cliAddr: '45 Hassan II Ave, Casablanca',
+        notes: 'Payment within 30 days. IBAN: MA6401151900000012345678901234',
+        items: [{desc:'Responsive website development',qty:1,price:3500},{desc:'Hosting + domain (12 months)',qty:1,price:1200},{desc:'Logo + brand identity',qty:1,price:1500}]
+    },
+    es: {
+        emitName: 'Ahmed Al-Omrani', emitAddr: '125 Calle Mohammed V, Tánger',
+        client: 'Acme SARL', cliAddr: '45 Av. Hassan II, Casablanca',
+        notes: 'Pago a 30 días. IBAN: MA6401151900000012345678901234',
+        items: [{desc:'Desarrollo de sitio web responsivo',qty:1,price:3500},{desc:'Alojamiento + dominio (12 meses)',qty:1,price:1200},{desc:'Logo + identidad gráfica',qty:1,price:1500}]
+    },
+    ar: {
+        emitName: 'أحمد العمراني', emitAddr: '125 شارع محمد الخامس، طنجة',
+        client: 'شركة أكملس', cliAddr: '45 شارع حسن الثاني، الدار البيضاء',
+        notes: 'الدفع خلال 30 يومًا. IBAN: MA6401151900000012345678901234',
+        items: [{desc:'تطوير موقع إلكتروني متجاوب',qty:1,price:3500},{desc:'استضافة + نطاق (12 شهر)',qty:1,price:1200},{desc:'شعار + هوية بصرية',qty:1,price:1500}]
+    }
+};
+const data = demoData[lang] || demoData.fr;
+document.getElementById('emitName').value = data.emitName;
 document.getElementById('emitICE').value='1234567890000';
-document.getElementById('emitAddr').value='125 Rue Mohammed V, Tanger';
+document.getElementById('emitAddr').value = data.emitAddr;
 document.getElementById('emitEmail').value='ahmed@exemple.com';
 document.getElementById('emitPhone').value='+212 6 12 34 56 78';
-document.getElementById('client').value='Acme SARL';
-document.getElementById('cliAddr').value='45 Av. Hassan II, Casablanca';
+document.getElementById('client').value = data.client;
+document.getElementById('cliAddr').value = data.cliAddr;
 document.getElementById('cliEmail').value='contact@acme.ma';
 document.getElementById('cliPhone').value='+212 5 22 33 44 55';
 document.getElementById('currency').value='MAD';
 document.getElementById('tvaRate').value='20';
-document.getElementById('notes').value='Paiement sous 30 jours. IBAN: MA6401151900000012345678901234';
+document.getElementById('notes').value = data.notes;
 const today=new Date();const due=new Date(today);due.setDate(due.getDate()+30);
 document.getElementById('invDate').value=today.toISOString().split('T')[0];
 document.getElementById('invDue').value=due.toISOString().split('T')[0];
-items=[{desc:'Développement site vitrine responsive',qty:1,price:3500},{desc:'Hébergement + domaine (12 mois)',qty:1,price:1200},{desc:'Logo + charte graphique',qty:1,price:1500}];
+items = data.items;
 autoNumber();renderItems();refreshPreview()}
 // ══════ AUTO NUMBER ══════
 function autoNumber(){const y=new Date().getFullYear();
 const maxNum=savedInvoices.reduce((m,d)=>{const match=d.invNum?.match(/FAC-\d+-(\d+)/);return match?Math.max(m,+match[1]):m},0);
 document.getElementById('invNum').value='FAC-'+y+'-'+String(maxNum+1).padStart(3,'0')}
 // ══════ PDF ══════
-function exportPDF(){try{
-if(typeof window.jspdf==='undefined'||typeof window.jspdf.jsPDF==='undefined'){toast('Chargement du PDF…');setTimeout(exportPDF,800);return}
+function exportPDF(){
 if(!document.getElementById('client').value&&!items.some(it=>it.desc)){toast('Ajoutez un client et au moins un article');return}
-const{jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});const t=L[lang];const curr=document.getElementById('currency').value;const sym=curSym[curr];const pageW=190;const margin=14;const clr=[212,163,115];const sub=items.reduce((s,it)=>s+(it.qty||0)*(it.price||0),0);const rate=+document.getElementById('tvaRate').value;const tax=sub*rate/100;
-function w(text,x,y,color,size,opt){doc.setFontSize(size||10);if(opt)doc.setFont('Helvetica',opt);if(color)doc.setTextColor(color[0],color[1],color[2]);doc.text(text,x,y)}
-w('MicroInvoice',margin,20,clr,18,'bold');
-w(t.invTitle+' • '+document.getElementById('invNum').value,margin,27,clr,10,'bold');
-w(document.getElementById('invDate').value,pageW-margin,27,[100,100,100],9);
-const emit=document.getElementById('emitName').value||'MicroInvoice';
-w(t.from+':',margin,38,clr,9,'bold');
-w(emit,margin,44,[240,236,228],10);
-const emitDetail=[document.getElementById('emitAddr').value,document.getElementById('emitICE').value?t.iceLbl+' '+document.getElementById('emitICE').value:'',document.getElementById('emitEmail').value,document.getElementById('emitPhone').value].filter(Boolean);
-const detailY=48;emitDetail.forEach((l,i)=>w(l,margin,detailY+i*5,[140,130,120],8));
-const cy=detailY+emitDetail.length*5+5;
-w(t.to+':',margin,cy,clr,9,'bold');
-w(document.getElementById('client').value||'-',margin,cy+6,[240,236,228],10);
-const cliAddr=document.getElementById('cliAddr').value;if(cliAddr)w(cliAddr,margin,cy+12,[140,130,120],8);
-doc.autoTable({startY:cy+20,head:[[t.desc,t.qty,t.price,t.total]],body:items.filter(it=>it.desc).map(it=>[it.desc,String(it.qty),it.price.toFixed(2),(it.qty*it.price).toFixed(2)+' '+sym]),theme:'grid',headStyles:{fillColor:[212,163,115],textColor:[13,10,8],fontSize:8,fontStyle:'bold'},bodyStyles:{textColor:[240,236,228],fontSize:8},columnStyles:{0:{cellWidth:80},1:{cellWidth:20,halign:'center'},2:{cellWidth:35,halign:'right'},3:{cellWidth:35,halign:'right'}},styles:{cellPadding:3}});
-const fy=doc.lastAutoTable.finalY+8;
-w(t.subtotal+': '+fmtPDF(sub),pageW-margin,fy,[240,236,228],10,'bold');
-w(t.tax+' ('+rate+'%): '+fmtPDF(tax),pageW-margin,fy+7,[240,236,228],10,'bold');
-w(t.grandTotal+': '+fmtPDF(sub+tax),pageW-margin,fy+16,clr,14,'bold');
-const notes=document.getElementById('notes').value;
-if(notes){const ny=fy+26;w(t.notesPlaceholder,margin,ny,[100,100,100],8,'italic');w(notes,margin,ny+5,[140,130,120],7)}
-if(logoData){try{doc.addImage(logoData,'PNG',pageW-margin-12,margin-6,12,12)}catch(e){}}
-w('MicroInvoice — '+t.invTitle.toLowerCase()+' #'+document.getElementById('invNum').value,pageW/2,280,[100,100,100],7);
-doc.save('facture-'+document.getElementById('invNum').value+'.pdf')
-toast('✓ PDF téléchargé')
-}catch(e){toast('Erreur PDF: '+e.message);console.error(e)}}
+if(typeof window.html2canvas==='undefined'){toast('Chargement…');setTimeout(exportPDF,500);return}
+toast('Génération du PDF…');
+const previewBox=document.querySelector('.preview-box');
+html2canvas(previewBox,{scale:2,backgroundColor:'#1c1814',useCORS:true}).then(canvas=>{
+const imgData=canvas.toDataURL('image/png');
+const{jsPDF}=window.jspdf;const doc=new jsPDF('p','mm','a4');
+const pageW=210;const pageH=297;const margin=10;
+const imgW=pageW-margin*2;const imgH=canvas.height*imgW/canvas.width;
+let heightLeft=imgH;let pos=margin;
+doc.addImage(imgData,'PNG',margin,pos,imgW,imgH);
+heightLeft-=pageH-margin*2;
+while(heightLeft>0){doc.addPage();pos=margin-(imgH-heightLeft);doc.addImage(imgData,'PNG',margin,pos,imgW,imgH);heightLeft-=pageH-margin*2}
+doc.save(document.getElementById('invNum').value+'.pdf');toast('✓ PDF téléchargé')
+})}
 // ══════ INIT ══════
 const today=new Date();const due=new Date(today);due.setDate(due.getDate()+30);
 document.getElementById('invDate').value=today.toISOString().split('T')[0];
