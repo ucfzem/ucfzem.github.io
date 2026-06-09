@@ -238,6 +238,7 @@ m('lblPreview',t.preview);m('pThDesc',t.desc);m('pThQty',t.qty);m('pThPrice',t.p
 m('btnDemo',t.demo);m('lblHistory',t.history);document.querySelector('#historyCard .btn-danger').textContent=t.clearAll;
 document.getElementById('emitName').placeholder=t.emitNamePH;document.getElementById('emitICE').placeholder=t.emitICEPH;document.getElementById('emitAddr').placeholder=t.emitAddrPH;document.getElementById('emitEmail').placeholder=t.emitEmailPH;document.getElementById('emitPhone').placeholder=t.emitPhonePH;
 document.getElementById('client').placeholder=t.clientPH;document.getElementById('cliAddr').placeholder=t.cliAddrPH;document.getElementById('cliEmail').placeholder=t.cliEmailPH;document.getElementById('cliPhone').placeholder=t.cliPhonePH;
+if(window._demoActive){const d=demoData[l]||demoData.fr;document.getElementById('emitName').value=d.emitName;document.getElementById('emitAddr').value=d.emitAddr;document.getElementById('client').value=d.client;document.getElementById('cliAddr').value=d.cliAddr;document.getElementById('notes').value=d.notes;items=d.items;renderItems()}
 refreshPreview()}
 // ══════ THEME ══════
 function toggleTheme(){const html=document.documentElement;const isLight=html.getAttribute('data-theme')==='light';html.setAttribute('data-theme',isLight?'':'light');document.getElementById('themeBtn').textContent=isLight?'🌙':'☀️';localStorage.setItem('microinvoice-theme',isLight?'':'light')}
@@ -285,8 +286,7 @@ wrap.style.display='block';const t=L[lang];
 list.innerHTML=savedInvoices.map((d,i)=>'<div class="invoice-item"><div class="ii-info"><strong>'+d.invNum+'</strong><span> — '+d.date+' — '+d.client+' — '+d.total.toFixed(2).replace('.',',')+' '+(d.currency||'MAD')+'</span></div><button class="btn btn-danger" onclick="deleteInvoice('+i+')" style="font-size:9px;padding:2px 6px">✕</button></div>').join('')}
 function deleteInvoice(i){savedInvoices.splice(i,1);localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory()}
 function clearHistory(){savedInvoices=[];localStorage.removeItem('microinvoices');renderHistory()}
-// ══════ DEMO ══════
-function loadDemo(){
+// ══════ DEMO DATA ══════
 const demoData = {
     fr: {
         emitName: 'Ahmed Al-Omrani', emitAddr: '125 Rue Mohammed V, Tanger',
@@ -314,6 +314,7 @@ const demoData = {
     }
 };
 const data = demoData[lang] || demoData.fr;
+window._demoActive = true;
 document.getElementById('emitName').value = data.emitName;
 document.getElementById('emitICE').value='1234567890000';
 document.getElementById('emitAddr').value = data.emitAddr;
