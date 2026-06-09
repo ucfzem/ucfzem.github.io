@@ -916,14 +916,21 @@
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 1rem;
 }
-.back-btn {
-  display: inline-flex; align-items: center; gap: .4rem;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text); padding: .5rem 1rem; border-radius: 6px;
-  font-size: .85rem; cursor: pointer; text-decoration: none;
-  transition: all .2s; font-family: 'DM Sans', sans-serif;
-}
-.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: .5rem 1rem; border-radius: 6px;
+    font-size: .85rem; cursor: pointer; text-decoration: none;
+    transition: all .2s; font-family: 'DM Sans', sans-serif;
+  }
+  .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ───── TOOL CTAs ───── */
+  .art-tools { margin: 2rem 0; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .art-tools-label { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .art-tools-grid { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .art-tool-btn { display: inline-flex; align-items: center; gap: .35rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .5rem .85rem; color: var(--text); text-decoration: none; font-size: .82rem; font-weight: 500; transition: all .2s; }
+  .art-tool-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); background: var(--surface2); }
 
 /* ───── SOCIAL SHARING ───── */
 .share-bar { display: flex; gap: .5rem; align-items: center; }
@@ -1418,6 +1425,7 @@
     </div>
   </div>
   <div class="art-body" id="artBody"></div>
+  <div class="art-tools" id="artTools"></div>
   <div class="art-footer">
     <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back2">← Tous les articles</button>
     <div class="share-bar">
@@ -1531,7 +1539,7 @@
       'section-saas-label': '// Mes créations SaaS', 'section-saas-title': 'Des outils construits<br>depuis un smartphone',
       'section-saas-desc': 'Chaque projet est un outil réel, déployé, utilisable. Construit 100% depuis mobile.',
       'search-label': '// Rechercher', 'search-placeholder': 'Rechercher un article...', 'search-btn': 'Chercher',
-      'reader-back': '← Retour au blog', 'reader-back2': '← Tous les articles', 'reader-share': 'Partager :', 'reader-copy': '🔗', 'reader-related': 'Articles similaires',
+      'tools-label': '// Créés avec ❤️ — essaye-les :', 'reader-back': '← Retour au blog', 'reader-back2': '← Tous les articles', 'reader-share': 'Partager :', 'reader-copy': '🔗', 'reader-related': 'Articles similaires',
       'about-label': '// À propos', 'about-title': 'Salut, moi c\'est Uzem 👋', 'about-desc1': 'Développeur Full-Stack, entrepreneur et créateur de contenu multilingue basé aux Pays-Bas. Spécialisé dans le développement de solutions SaaS et l\'intégration de l\'IA, je documente mon parcours et mes innovations sur ce blog.', 'about-desc2': 'Animé par une vision minimaliste et agile de la technologie, je relève le défi technique de concevoir et coder l\'intégralité de mes projets depuis un smartphone. L\'innovation ne dépend pas des infrastructures, mais de la créativité et de la maîtrise technique.', 'about-portfolio': 'Portfolio →',
       'contact-label': '// Contact', 'contact-title': 'Une question ? Un projet ?', 'contact-desc': 'Envoie-moi un message directement depuis cette page. Je réponds sous 24h.', 'contact-name': 'Nom', 'contact-name-place': 'Ton nom', 'contact-email': 'Email', 'contact-email-place': 'ton@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Écris ton message ici...', 'contact-btn': 'Envoyer →', 'contact-sent': '✅ Message envoyé ! Merci ✨', 'contact-error': '❌ Erreur : remplis tous les champs.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Reste en avance.<br>Abonne-toi.',
@@ -1553,7 +1561,7 @@
       'section-saas-label': '// My SaaS Creations', 'section-saas-title': 'Tools built<br>from a smartphone',
       'section-saas-desc': 'Every project is a real, deployed, usable tool. Built 100% from mobile.',
       'search-label': '// Search', 'search-placeholder': 'Search articles...', 'search-btn': 'Search',
-      'reader-back': '← Back to blog', 'reader-back2': '← All articles', 'reader-share': 'Share:', 'reader-copy': '🔗', 'reader-related': 'Related articles',
+      'tools-label': '// Built with ❤️ — try them:', 'reader-back': '← Back to blog', 'reader-back2': '← All articles', 'reader-share': 'Share:', 'reader-copy': '🔗', 'reader-related': 'Related articles',
       'about-label': '// About', 'about-title': 'Hi, I\'m Uzem 👋', 'about-desc1': 'Full-Stack Developer, entrepreneur and multilingual content creator based in the Netherlands. Specialized in SaaS development and AI integration, I document my journey and innovations on this tech blog.', 'about-desc2': 'Driven by a minimalist and agile vision of technology, I take on the technical challenge of designing and coding all my projects directly from a smartphone. Innovation depends not on traditional infrastructure, but on creativity and technical mastery.', 'about-portfolio': 'Portfolio →',
       'contact-label': '// Contact', 'contact-title': 'A question? A project?', 'contact-desc': 'Send me a message directly from this page. I reply within 24h.', 'contact-name': 'Name', 'contact-name-place': 'Your name', 'contact-email': 'Email', 'contact-email-place': 'your@email.com', 'contact-msg': 'Message', 'contact-msg-place': 'Write your message here...', 'contact-btn': 'Send →', 'contact-sent': '✅ Message sent! Thank you ✨', 'contact-error': '❌ Error: please fill all fields.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Stay ahead.<br>Subscribe.',
@@ -1575,7 +1583,7 @@
       'section-saas-label': '// Mis Creaciones SaaS', 'section-saas-title': 'Herramientas construidas<br>desde un smartphone',
       'section-saas-desc': 'Cada proyecto es una herramienta real, desplegada y utilizable. Construida 100% desde móvil.',
       'search-label': '// Buscar', 'search-placeholder': 'Buscar artículos...', 'search-btn': 'Buscar',
-      'reader-back': '← Volver al blog', 'reader-back2': '← Todos los artículos', 'reader-share': 'Compartir:', 'reader-copy': '🔗', 'reader-related': 'Artículos similares',
+      'tools-label': '// Hechos con ❤️ — pruébalos:', 'reader-back': '← Volver al blog', 'reader-back2': '← Todos los artículos', 'reader-share': 'Compartir:', 'reader-copy': '🔗', 'reader-related': 'Artículos similares',
       'about-label': '// Acerca de', 'about-title': 'Hola, soy Uzem 👋', 'about-desc1': 'Desarrollador Full-Stack, emprendedor y creador de contenido multilingüe con sede en Países Bajos. Especializado en desarrollo SaaS e integración de IA, documento mi trayectoria e innovaciones en este blog tecnológico.', 'about-desc2': 'Impulsado por una visión minimalista y ágil de la tecnología, asumo el desafío técnico de diseñar y codificar todos mis proyectos directamente desde un smartphone. La innovación no depende de las infraestructuras tradicionales, sino de la creatividad y el dominio técnico.', 'about-portfolio': 'Portafolio →',
       'contact-label': '// Contacto', 'contact-title': '¿Una pregunta? ¿Un proyecto?', 'contact-desc': 'Envíame un mensaje directamente desde esta página. Respondo en 24h.', 'contact-name': 'Nombre', 'contact-name-place': 'Tu nombre', 'contact-email': 'Email', 'contact-email-place': 'tu@email.com', 'contact-msg': 'Mensaje', 'contact-msg-place': 'Escribe tu mensaje aquí...', 'contact-btn': 'Enviar →', 'contact-sent': '✅ Mensaje enviado! Gracias ✨', 'contact-error': '❌ Error: completa todos los campos.',
       'newsletter-label': '// Newsletter', 'newsletter-title': 'Mantente al día.<br>Suscríbete.',
@@ -1597,7 +1605,7 @@
       'section-saas-label': '// إبداعاتي SaaS', 'section-saas-title': 'أدوات بُنيت<br>من هاتف ذكي',
       'section-saas-desc': 'كل مشروع هو أداة حقيقية، منشورة وقابلة للاستخدام. بُنيت 100% من الجوال.',
       'search-label': '// بحث', 'search-placeholder': 'ابحث في المقالات...', 'search-btn': 'بحث',
-      'reader-back': '← العودة للمدونة', 'reader-back2': '← جميع المقالات', 'reader-share': 'شارك:', 'reader-copy': '🔗', 'reader-related': 'مقالات مشابهة',
+      'tools-label': '// صُنع بـ ❤️ — جربها:', 'reader-back': '← العودة للمدونة', 'reader-back2': '← جميع المقالات', 'reader-share': 'شارك:', 'reader-copy': '🔗', 'reader-related': 'مقالات مشابهة',
       'about-label': '// عن', 'about-title': 'مرحباً، أنا أوزم 👋', 'about-desc1': 'مطور Full-Stack، رائد أعمال ومنشئ محتوى متعدد اللغات مقيم في هولندا. متخصص في تطوير حلول SaaS وتكامل الذكاء الاصطناعي، أوثق مسيرتي وابتكاراتي في هذه المدونة التقنية.', 'about-desc2': 'مدفوع برؤية بسيطة ومرنة للتكنولوجيا، أواجه التحدي التقني لتصميم وبرمجة جميع مشاريعي مباشرة من هاتف ذكي. الابتكار لا يعتمد على البنى التحتية التقليدية، بل على الإبداع والإتقان التقني.', 'about-portfolio': 'المحفظة ←',
       'contact-label': '// اتصل', 'contact-title': 'سؤال؟ مشروع؟', 'contact-desc': 'أرسل لي رسالة مباشرة من هذه الصفحة. أرد خلال 24 ساعة.', 'contact-name': 'الاسم', 'contact-name-place': 'اسمك', 'contact-email': 'البريد', 'contact-email-place': 'بريدك@email.com', 'contact-msg': 'الرسالة', 'contact-msg-place': 'اكتب رسالتك هنا...', 'contact-btn': 'أرسل ←', 'contact-sent': '✅ تم إرسال الرسالة! شكراً ✨', 'contact-error': '❌ خطأ: الرجاء ملء جميع الحقول.',
       'newsletter-label': '// النشرة البريدية', 'newsletter-title': 'ابقَ في المقدمة.<br>اشترك.',
@@ -1803,6 +1811,7 @@
     document.getElementById('artReadingTime').textContent = readingTime;
     document.getElementById('breadcrumbCurrent').textContent = title;
     document.getElementById('artBody').innerHTML = content ? marked.parse(content) : '<p>Article non trouvé.</p>';
+    renderTools();
 
     const shareUrl = encodeURIComponent(window.location.href);
     const shareText = encodeURIComponent(title);
@@ -1826,6 +1835,22 @@
 
     document.querySelector('header').style.display = 'flex';
     window.scrollTo(0, 0);
+  }
+
+  const tools = [
+    {emoji:'🎨',name:'NanoGen',url:'/nanogen-app/',desc:'AI image generator'},
+    {emoji:'🔗',name:'NanoLink',url:'https://nanolink-v2.pages.dev',desc:'URL shortener'},
+    {emoji:'📄',name:'CVForge',url:'/cvforge/',desc:'CV generator'},
+    {emoji:'🧾',name:'MicroInvoice',url:'/microinvoice/',desc:'Invoice PDF'},
+    {emoji:'✨',name:'Pristine',url:'/pristine',desc:'AI photo editor'},
+    {emoji:'🧹',name:'Magic Eraser',url:'/magic-eraser',desc:'Remove objects'},
+    {emoji:'🤖',name:'PromptGenius',url:'https://promptgenius.azer-tyu199p.workers.dev/',desc:'AI prompts'},
+  ]
+  function renderTools() {
+    const el = document.getElementById('artTools')
+    if (!el) return
+    const label = i18n[currentLang]?.['tools-label'] || '// Built with ❤️ — try them:'
+    el.innerHTML = `<div class="art-tools-label">${label}</div><div class="art-tools-grid">${tools.map(t => `<a href="${t.url}" class="art-tool-btn" target="_blank">${t.emoji} ${t.name}</a>`).join('')}</div>`
   }
 
   function closeArticle() {
