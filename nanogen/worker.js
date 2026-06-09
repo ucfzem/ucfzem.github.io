@@ -190,6 +190,20 @@ async function generateWithHuggingFace(prompt, width, height, token) {
   throw new Error(text)
 }
 
+async function generateWithWorkersAI(prompt, width, height, ai) {
+  const inputs = { prompt, width: width||1024, height: height||1024, num_steps: 4 }
+  const response = await ai.run('@cf/black-forest-labs/flux-1-schnell', inputs)
+  const binary = atob(response.image)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+  const magic = bytes[0]<<16|bytes[1]<<8|bytes[2]
+  const ct = magic===0xFFD8FF?'image/jpeg':bytes[0]===137&&bytes[1]===80&&bytes[2]===78?'image/png':bytes[0]===71&&bytes[1]===73&&bytes[2]===70?'image/gif':bytes[0]===82&&bytes[1]===73&&bytes[2]===70?'image/webp':'image/png'
+  return new Response(bytes, {
+    status: 200,
+    headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': ct }
+  })
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -208,6 +222,14 @@ export default {
       try {
         const { prompt, width, height } = await request.json()
         const enhanced = await enhancePrompt(prompt, env)
+
+        if (env.AI) {
+          try {
+            return await generateWithWorkersAI(enhanced, width, height, env.AI)
+          } catch (e) {
+            // Workers AI failed, fall through
+          }
+        }
 
         if (env.REPLICATE_KEY) {
           try {
