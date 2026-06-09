@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <style>
 :root{--bg:#0d0a08;--surface:#161210;--card:#1c1814;--border:#2d251e;--accent:#d4a373;--text:#f0ece4;--muted:#8a7a6a;--success:#7ecba1;--font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,sans-serif;--mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;--radius:12px}
+[data-theme="light"]{--bg:#f5f0eb;--surface:#ffffff;--card:#ffffff;--border:#d9d0c8;--accent:#8a5a3a;--text:#1c1814;--muted:#a69b8e;--success:#4a9e6e}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
 .container{max-width:900px;margin:0 auto;padding:20px 12px}
@@ -65,11 +66,14 @@ header{text-align:center;margin-bottom:16px}
 footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-family:var(--mono)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:10px 20px;border-radius:8px;font-size:12px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:999}
 .toast.show{opacity:1}
-.logo-upload{position:relative;display:inline-block}
-.logo-upload input{opacity:0;position:absolute;inset:0;cursor:pointer}
-.logo-upload .preview-logo{width:48px;height:48px;border-radius:6px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);overflow:hidden}
-.logo-upload .preview-logo img{width:100%;height:100%;object-fit:contain}
-.logo-upload:hover .preview-logo{border-color:var(--accent)}
+.logo-upload{position:relative;margin-top:4px}
+.logo-upload input{opacity:0;position:absolute;inset:0;cursor:pointer;z-index:2}
+.logo-dropzone{display:flex;align-items:center;gap:14px;padding:16px;border:2px dashed var(--border);border-radius:12px;transition:.2s}
+.logo-dropzone:hover{border-color:var(--accent);background:rgba(212,163,115,0.05)}
+.logo-dropzone.has-logo{border-style:solid;border-color:var(--accent)}
+.logo-icon{font-size:28px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:var(--surface);border-radius:10px;flex-shrink:0;border:1px solid var(--border)}
+.logo-label{font-size:14px;font-weight:600;color:var(--text)}
+.logo-hint{font-size:11px;color:var(--muted);margin-top:2px}
 .invoice-list{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
 .invoice-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--surface);border-radius:6px;font-size:11px;font-family:var(--mono);border:1px solid var(--border);gap:8px}
 .invoice-item .ii-info{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
@@ -104,6 +108,7 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
 <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
 <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">AR</button>
+<button class="lang-btn" id="themeBtn" onclick="toggleTheme()" style="font-size:14px;line-height:1">🌙</button>
 </div>
 </header>
 
@@ -133,6 +138,17 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 </div>
 
 <div class="card">
+<div class="card-label" id="lblLogo">// Logo</div>
+<div class="logo-upload">
+<div class="logo-dropzone" id="logoPreview">
+<div class="logo-icon">🖼️</div>
+<div><div class="logo-label">Ajouter un logo</div><div class="logo-hint">PNG ou JPG • carré idéal</div></div>
+</div>
+<input type="file" accept="image/*" id="logoInput" onchange="loadLogo(event)">
+</div>
+</div>
+
+<div class="card">
 <div class="card-label" id="lblInvoice">// Facture</div>
 <div class="row">
 <div class="field"><label id="lblNum">N° Facture</label><input id="invNum" readonly style="background:var(--card);color:var(--accent);font-weight:700"></div>
@@ -140,9 +156,6 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 <div class="field"><label id="lblDue">Échéance</label><input id="invDue" type="date"></div>
 <div class="field"><label id="lblCurrency">Devise</label><select id="currency"><option value="MAD">MAD (درهم)</option><option value="EUR">EUR (€)</option></select></div>
 <div class="field"><label id="lblTVA">TVA</label><select id="tvaRate"><option value="20">20%</option><option value="14">14%</option><option value="10">10%</option><option value="7">7%</option><option value="0">0% (Exonéré)</option></select></div>
-</div>
-<div class="row" style="margin-top:8px">
-<div class="field" style="flex:0 0 auto"><label id="lblLogo">Logo</label><div class="logo-upload"><div class="preview-logo" id="logoPreview">+</div><input type="file" accept="image/*" id="logoInput" onchange="loadLogo(event)"></div></div>
 </div>
 </div>
 
@@ -207,10 +220,10 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 // ══════ LANG ══════
-const L={fr:{emitter:"// Émetteur",emitName:"Nom / Société",emitICE:"ICE",emitAddr:"Adresse",emitEmail:"Email",emitPhone:"Tél",client:"// Client",cliName:"Client",cliAddr:"Adresse du client",cliEmail:"Email client",cliPhone:"Tél client",invoice:"// Facture",num:"N° Facture",date:"Date",due:"Échéance",currency:"Devise",tva:"TVA",logo:"Logo",items:"// Articles",desc:"Description",qty:"Qté",price:"Prix unit.",total:"Total",add:"+ Ajouter",subtotal:"Sous-total",tax:"TVA",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Conditions de paiement, délais, remerciements…",preview:"// Aperçu",pdf:"📄 Télécharger PDF",save:"💾 Enregistrer",demo:"🎲 Démo",history:"// Historique",delete:"✕",clearAll:"✕ Tout effacer",saved:"✓ Facture enregistrée",noHistory:"Aucune facture enregistrée",invTitle:"FACTURE",clientLbl:"CLIENT",dateLbl:"Date :",dueLbl:"Échéance :",numLbl:"N° :",tvaLbl:"TVA :",iceLbl:"ICE :",emailLbl:"Email :",telLbl:"Tél :",from:"DE",to:"À",paymentTerms:"Paiement :"},
-en:{emitter:"// Issuer",emitName:"Name / Company",emitICE:"Tax ID",emitAddr:"Address",emitEmail:"Email",emitPhone:"Phone",client:"// Client",cliName:"Client",cliAddr:"Client address",cliEmail:"Client email",cliPhone:"Client phone",invoice:"// Invoice",num:"Invoice #",date:"Date",due:"Due date",currency:"Currency",tva:"VAT",logo:"Logo",items:"// Items",desc:"Description",qty:"Qty",price:"Unit price",total:"Total",add:"+ Add",subtotal:"Subtotal",tax:"VAT",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Payment terms, notes…",preview:"// Preview",pdf:"📄 Download PDF",save:"💾 Save",demo:"🎲 Demo",history:"// History",delete:"✕",clearAll:"✕ Clear all",saved:"✓ Invoice saved",noHistory:"No saved invoices",invTitle:"INVOICE",clientLbl:"CLIENT",dateLbl:"Date:",dueLbl:"Due:",numLbl:"No.:",tvaLbl:"VAT:",iceLbl:"Tax ID:",emailLbl:"Email:",telLbl:"Phone:",from:"FROM",to:"TO",paymentTerms:"Payment:"},
-es:{emitter:"// Emisor",emitName:"Nombre / Empresa",emitICE:"NIF/CIF",emitAddr:"Dirección",emitEmail:"Email",emitPhone:"Teléfono",client:"// Cliente",cliName:"Cliente",cliAddr:"Dirección del cliente",cliEmail:"Email del cliente",cliPhone:"Teléfono del cliente",invoice:"// Factura",num:"Factura N°",date:"Fecha",due:"Vencimiento",currency:"Moneda",tva:"IVA",logo:"Logo",items:"// Artículos",desc:"Descripción",qty:"Cant.",price:"Precio unit.",total:"Total",add:"+ Añadir",subtotal:"Subtotal",tax:"IVA",grandTotal:"Total",notes:"// Notas",notesPlaceholder:"Condiciones de pago, notas…",preview:"// Vista previa",pdf:"📄 Descargar PDF",save:"💾 Guardar",demo:"🎲 Demo",history:"// Historial",delete:"✕",clearAll:"✕ Vaciar todo",saved:"✓ Factura guardada",noHistory:"Ninguna factura guardada",invTitle:"FACTURA",clientLbl:"CLIENTE",dateLbl:"Fecha:",dueLbl:"Venc.:",numLbl:"N°:",tvaLbl:"IVA:",iceLbl:"NIF:",emailLbl:"Email:",telLbl:"Tel.:",from:"DE",to:"A",paymentTerms:"Pago:"},
-ar:{emitter:"// الجهة المصدرة",emitName:"الاسم / الشركة",emitICE:"الرقم الضريبي",emitAddr:"العنوان",emitEmail:"البريد الإلكتروني",emitPhone:"الهاتف",client:"// العميل",cliName:"العميل",cliAddr:"عنوان العميل",cliEmail:"البريد الإلكتروني للعميل",cliPhone:"هاتف العميل",invoice:"// الفاتورة",num:"رقم الفاتورة",date:"التاريخ",due:"تاريخ الاستحقاق",currency:"العملة",tva:"الضريبة",logo:"الشعار",items:"// العناصر",desc:"الوصف",qty:"الكمية",price:"السعر",total:"المجموع",add:"+ إضافة",subtotal:"المجموع الفرعي",tax:"الضريبة",grandTotal:"المجموع الكلي",notes:"// ملاحظات",notesPlaceholder:"شروط الدفع، ملاحظات…",preview:"// المعاينة",pdf:"📄 تحميل PDF",save:"💾 حفظ",demo:"🎲 تجربة",history:"// السجل",delete:"✕",clearAll:"✕ مسح الكل",saved:"✓ تم حفظ الفاتورة",noHistory:"لا توجد فواتير محفوظة",invTitle:"فاتورة",clientLbl:"العميل",dateLbl:"التاريخ :",dueLbl:"الاستحقاق :",numLbl:"رقم :",tvaLbl:"الضريبة :",iceLbl:"الرقم الضريبي :",emailLbl:"البريد :",telLbl:"الهاتف :",from:"من",to:"إلى",paymentTerms:"الدفع :"}};
+const L={fr:{emitter:"// Émetteur",emitName:"Nom / Société",emitICE:"ICE",emitAddr:"Adresse",emitEmail:"Email",emitPhone:"Tél",client:"// Client",cliName:"Client",cliAddr:"Adresse du client",cliEmail:"Email client",cliPhone:"Tél client",invoice:"// Facture",num:"N° Facture",date:"Date",due:"Échéance",currency:"Devise",tva:"TVA",logo:"// Logo",logoChange:"Cliquez pour changer",items:"// Articles",desc:"Description",qty:"Qté",price:"Prix unit.",total:"Total",add:"+ Ajouter",subtotal:"Sous-total",tax:"TVA",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Conditions de paiement, délais, remerciements…",preview:"// Aperçu",pdf:"📄 Télécharger PDF",save:"💾 Enregistrer",demo:"🎲 Démo",history:"// Historique",delete:"✕",clearAll:"✕ Tout effacer",saved:"✓ Facture enregistrée",noHistory:"Aucune facture enregistrée",invTitle:"FACTURE",clientLbl:"CLIENT",dateLbl:"Date :",dueLbl:"Échéance :",numLbl:"N° :",tvaLbl:"TVA :",iceLbl:"ICE :",emailLbl:"Email :",telLbl:"Tél :",from:"DE",to:"À",paymentTerms:"Paiement :"},
+en:{emitter:"// Issuer",emitName:"Name / Company",emitICE:"Tax ID",emitAddr:"Address",emitEmail:"Email",emitPhone:"Phone",client:"// Client",cliName:"Client",cliAddr:"Client address",cliEmail:"Client email",cliPhone:"Client phone",invoice:"// Invoice",num:"Invoice #",date:"Date",due:"Due date",currency:"Currency",tva:"VAT",logo:"// Logo",logoChange:"Click to change",items:"// Items",desc:"Description",qty:"Qty",price:"Unit price",total:"Total",add:"+ Add",subtotal:"Subtotal",tax:"VAT",grandTotal:"Total",notes:"// Notes",notesPlaceholder:"Payment terms, notes…",preview:"// Preview",pdf:"📄 Download PDF",save:"💾 Save",demo:"🎲 Demo",history:"// History",delete:"✕",clearAll:"✕ Clear all",saved:"✓ Invoice saved",noHistory:"No saved invoices",invTitle:"INVOICE",clientLbl:"CLIENT",dateLbl:"Date:",dueLbl:"Due:",numLbl:"No.:",tvaLbl:"VAT:",iceLbl:"Tax ID:",emailLbl:"Email:",telLbl:"Phone:",from:"FROM",to:"TO",paymentTerms:"Payment:"},
+es:{emitter:"// Emisor",emitName:"Nombre / Empresa",emitICE:"NIF/CIF",emitAddr:"Dirección",emitEmail:"Email",emitPhone:"Teléfono",client:"// Cliente",cliName:"Cliente",cliAddr:"Dirección del cliente",cliEmail:"Email del cliente",cliPhone:"Teléfono del cliente",invoice:"// Factura",num:"Factura N°",date:"Fecha",due:"Vencimiento",currency:"Moneda",tva:"IVA",logo:"// Logo",logoChange:"Clic para cambiar",items:"// Artículos",desc:"Descripción",qty:"Cant.",price:"Precio unit.",total:"Total",add:"+ Añadir",subtotal:"Subtotal",tax:"IVA",grandTotal:"Total",notes:"// Notas",notesPlaceholder:"Condiciones de pago, notas…",preview:"// Vista previa",pdf:"📄 Descargar PDF",save:"💾 Guardar",demo:"🎲 Demo",history:"// Historial",delete:"✕",clearAll:"✕ Vaciar todo",saved:"✓ Factura guardada",noHistory:"Ninguna factura guardada",invTitle:"FACTURA",clientLbl:"CLIENTE",dateLbl:"Fecha:",dueLbl:"Venc.:",numLbl:"N°:",tvaLbl:"IVA:",iceLbl:"NIF:",emailLbl:"Email:",telLbl:"Tel.:",from:"DE",to:"A",paymentTerms:"Pago:"},
+ar:{emitter:"// الجهة المصدرة",emitName:"الاسم / الشركة",emitICE:"الرقم الضريبي",emitAddr:"العنوان",emitEmail:"البريد الإلكتروني",emitPhone:"الهاتف",client:"// العميل",cliName:"العميل",cliAddr:"عنوان العميل",cliEmail:"البريد الإلكتروني للعميل",cliPhone:"هاتف العميل",invoice:"// الفاتورة",num:"رقم الفاتورة",date:"التاريخ",due:"تاريخ الاستحقاق",currency:"العملة",tva:"الضريبة",logo:"// الشعار",logoChange:"انقر للتغيير",items:"// العناصر",desc:"الوصف",qty:"الكمية",price:"السعر",total:"المجموع",add:"+ إضافة",subtotal:"المجموع الفرعي",tax:"الضريبة",grandTotal:"المجموع الكلي",notes:"// ملاحظات",notesPlaceholder:"شروط الدفع، ملاحظات…",preview:"// المعاينة",pdf:"📄 تحميل PDF",save:"💾 حفظ",demo:"🎲 تجربة",history:"// السجل",delete:"✕",clearAll:"✕ مسح الكل",saved:"✓ تم حفظ الفاتورة",noHistory:"لا توجد فواتير محفوظة",invTitle:"فاتورة",clientLbl:"العميل",dateLbl:"التاريخ :",dueLbl:"الاستحقاق :",numLbl:"رقم :",tvaLbl:"الضريبة :",iceLbl:"الرقم الضريبي :",emailLbl:"البريد :",telLbl:"الهاتف :",from:"من",to:"إلى",paymentTerms:"الدفع :"}};
 let lang='fr';let curSym={MAD:'DH',EUR:'€'};let logoData=null;let savedInvoices=JSON.parse(localStorage.getItem('microinvoices')||'[]');
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===l));
@@ -224,8 +237,11 @@ m('lblNotes',t.notes);document.getElementById('notes').placeholder=t.notesPlaceh
 m('lblPreview',t.preview);m('pThDesc',t.desc);m('pThQty',t.qty);m('pThPrice',t.price);m('pThTotal',t.total);
 m('btnDemo',t.demo);m('lblHistory',t.history);document.querySelector('#historyCard .btn-danger').textContent=t.clearAll;
 refreshPreview()}
+// ══════ THEME ══════
+function toggleTheme(){const html=document.documentElement;const isLight=html.getAttribute('data-theme')==='light';html.setAttribute('data-theme',isLight?'':'light');document.getElementById('themeBtn').textContent=isLight?'🌙':'☀️';localStorage.setItem('microinvoice-theme',isLight?'':'light')}
+function initTheme(){const saved=localStorage.getItem('microinvoice-theme');if(saved==='light'||(!saved&&!window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','light');document.getElementById('themeBtn').textContent='☀️'}}
 // ══════ LOGO ══════
-function loadLogo(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=function(ev){logoData=ev.target.result;document.getElementById('logoPreview').innerHTML='<img src="'+logoData+'">';refreshPreview()};r.readAsDataURL(file)}
+function loadLogo(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=function(ev){logoData=ev.target.result;const dz=document.getElementById('logoPreview');dz.innerHTML='<div class="logo-icon"><img src="'+logoData+'" style="width:100%;height:100%;object-fit:contain;border-radius:8px"></div><div><div class="logo-label">'+L[lang].logo.replace('// ','')+'</div><div class="logo-hint" style="color:var(--accent)">✓ '+L[lang].logoChange+'</div></div>';dz.classList.add('has-logo');refreshPreview()};r.readAsDataURL(file)}
 // ══════ ITEMS ══════
 let items=[{desc:'',qty:1,price:0}];
 function addItem(data){items.push(data||{desc:'',qty:1,price:0});renderItems()}
@@ -341,7 +357,7 @@ document.getElementById('invDue').value=due.toISOString().split('T')[0];
 ['emitName','emitICE','emitAddr','emitEmail','emitPhone','client','cliAddr','cliEmail','cliPhone','invDate','invDue','notes'].forEach(id=>document.getElementById(id).addEventListener('input',refreshPreview));
 document.getElementById('currency').addEventListener('change',()=>{calcTotals();refreshPreview()});
 document.getElementById('tvaRate').addEventListener('change',()=>{calcTotals();refreshPreview()});
-setLang('fr');autoNumber();renderItems();refreshPreview();renderHistory()
+initTheme();setLang('fr');autoNumber();renderItems();refreshPreview();renderHistory()
 </script>
 </body>
 </html>
