@@ -931,6 +931,8 @@
   .art-tools-grid { display: flex; flex-wrap: wrap; gap: .5rem; }
   .art-tool-btn { display: inline-flex; align-items: center; gap: .35rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .5rem .85rem; color: var(--text); text-decoration: none; font-size: .82rem; font-weight: 500; transition: all .2s; }
   .art-tool-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); background: var(--surface2); }
+  .kw-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-style: dotted; font-weight: 500; transition: opacity .2s; }
+  .kw-link:hover { opacity: .8; }
 
 /* ───── SOCIAL SHARING ───── */
 .share-bar { display: flex; gap: .5rem; align-items: center; }
@@ -1810,7 +1812,7 @@
     document.getElementById('artAuthor').textContent = author;
     document.getElementById('artReadingTime').textContent = readingTime;
     document.getElementById('breadcrumbCurrent').textContent = title;
-    document.getElementById('artBody').innerHTML = content ? marked.parse(content) : '<p>Article non trouvé.</p>';
+    document.getElementById('artBody').innerHTML = content ? linkKeywords(marked.parse(content), currentLang) : '<p>Article non trouvé.</p>';
     renderTools();
 
     const shareUrl = encodeURIComponent(window.location.href);
@@ -1846,6 +1848,53 @@
     {emoji:'🧹',name:'Magic Eraser',url:'/magic-eraser',desc:'Remove objects'},
     {emoji:'🤖',name:'PromptGenius',url:'https://promptgenius.azer-tyu199p.workers.dev/',desc:'AI prompts'},
   ]
+  const kwLinks = {
+    fr:[
+      {kw:['génération d\'images','générer une image','image'],url:'/nanogen-app/',tool:'NanoGen'},
+      {kw:['raccourcir','lien court','url court'],url:'https://nanolink-v2.pages.dev',tool:'NanoLink'},
+      {kw:['cv','curriculum'],url:'/cvforge/',tool:'CVForge'},
+      {kw:['facture','invoice'],url:'/microinvoice/',tool:'MicroInvoice'},
+      {kw:['supprimer','effacer','retoucher'],url:'/pristine',tool:'Pristine'},
+      {kw:['prompt','ia'],url:'https://promptgenius.azer-tyu199p.workers.dev/',tool:'PromptGenius'},
+    ],
+    en:[
+      {kw:['generate image','image generation'],url:'/nanogen-app/',tool:'NanoGen'},
+      {kw:['shorten','short link','short url'],url:'https://nanolink-v2.pages.dev',tool:'NanoLink'},
+      {kw:['resume','cv'],url:'/cvforge/',tool:'CVForge'},
+      {kw:['invoice'],url:'/microinvoice/',tool:'MicroInvoice'},
+      {kw:['remove','erase','edit photo'],url:'/pristine',tool:'Pristine'},
+      {kw:['prompt','ai'],url:'https://promptgenius.azer-tyu199p.workers.dev/',tool:'PromptGenius'},
+    ],
+    es:[
+      {kw:['generar imagen','imagen'],url:'/nanogen-app/',tool:'NanoGen'},
+      {kw:['acortar','enlace corto'],url:'https://nanolink-v2.pages.dev',tool:'NanoLink'},
+      {kw:['currículum','cv'],url:'/cvforge/',tool:'CVForge'},
+      {kw:['factura'],url:'/microinvoice/',tool:'MicroInvoice'},
+      {kw:['eliminar','borrar','editar foto'],url:'/pristine',tool:'Pristine'},
+      {kw:['prompt','ia'],url:'https://promptgenius.azer-tyu199p.workers.dev/',tool:'PromptGenius'},
+    ],
+    ar:[
+      {kw:['إنشاء صورة','توليد صورة'],url:'/nanogen-app/',tool:'NanoGen'},
+      {kw:['تقصير','رابط قصير'],url:'https://nanolink-v2.pages.dev',tool:'NanoLink'},
+      {kw:['سيرة ذاتية'],url:'/cvforge/',tool:'CVForge'},
+      {kw:['فاتورة'],url:'/microinvoice/',tool:'MicroInvoice'},
+      {kw:['إزالة','مسح','تعديل'],url:'/pristine',tool:'Pristine'},
+      {kw:['موجه','ذكاء اصطناعي'],url:'https://promptgenius.azer-tyu199p.workers.dev/',tool:'PromptGenius'},
+    ],
+  }
+  function linkKeywords(html, lang) {
+    const rules = kwLinks[lang] || kwLinks.fr
+    for (const r of rules) {
+      for (const kw of r.kw) {
+        const re = new RegExp(`(?<=>|^|[.!?\\s])(${kw})(?=[.!?\\s]|<|$)`, 'i')
+        if (re.test(html)) {
+          html = html.replace(re, `<a href="${r.url}" class="kw-link" target="_blank">$1</a>`)
+          break
+        }
+      }
+    }
+    return html
+  }
   function renderTools() {
     const el = document.getElementById('artTools')
     if (!el) return
