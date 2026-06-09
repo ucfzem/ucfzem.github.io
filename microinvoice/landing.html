@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroInvoice - Factures PDF en ligne pour freelances</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accent: {
+                            50: '#fdf8f4',
+                            100: '#f9ede1',
+                            200: '#f2dcc3',
+                            300: '#e8c5a0',
+                            400: '#d4a373',
+                            500: '#c28a5a',
+                            600: '#a67047',
+                            700: '#8a5a3a',
+                            800: '#6e472e',
+                            900: '#523422'
+                        },
+                        surface: {
+                            50: '#f5f3f0',
+                            100: '#e8e4de',
+                            200: '#ccc5bc',
+                            300: '#a69b8e',
+                            400: '#8a7a6a',
+                            500: '#6b5d4f',
+                            600: '#50443a',
+                            700: '#3a3028',
+                            800: '#2d251e',
+                            900: '#1c1814'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        code { font-family: 'JetBrains Mono', monospace; }
+        .bg-grid {
+            background-image: radial-gradient(rgba(212,163,115,0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+<body class="bg-[#0d0a08] text-[#f0ece4] antialiased bg-grid">
+
+
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-[#0d0a08]/90 backdrop-blur-sm z-50 border-b border-[#2d251e]">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold"><span class="text-[#f0ece4]">Micro</span><span class="text-accent-400">Invoice</span></span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-[#8a7a6a] hover:text-accent-400 transition">Fonctionnalités</a>
+                <a href="#pricing" class="text-[#8a7a6a] hover:text-accent-400 transition">Tarifs</a>
+                <a href="#faq" class="text-[#8a7a6a] hover:text-accent-400 transition">FAQ</a>
+            </div>
+            <a href="index.html" class="bg-accent-400 text-[#0d0a08] px-6 py-2.5 rounded-lg font-medium hover:bg-accent-500 transition shadow-sm">Ouvrir l'app</a>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 max-w-7xl mx-auto text-center lg:pt-48">
+        <span class="bg-accent-400/10 text-accent-400 px-4 py-2 rounded-full text-sm font-semibold mb-6 inline-block border border-accent-400/20">Gratuit &bull; Sans serveur &bull; 4 langues</span>
+        <h1 class="text-5xl md:text-6xl font-bold text-[#f0ece4] mb-6 leading-tight">
+            Créez des factures PDF <br>
+            <span class="text-accent-400">en 30 secondes, sans compte</span>
+        </h1>
+        <p class="text-lg md:text-xl text-[#8a7a6a] mb-10 max-w-2xl mx-auto font-light">
+            MicroInvoice génère vos factures directement dans le navigateur. 
+            Aucune donnée envoyée à un serveur &mdash; tout reste sur votre appareil. 
+            Français, Anglais, Espagnol, Arabe.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="index.html" class="w-full sm:w-auto bg-accent-400 text-[#0d0a08] px-8 py-4 rounded-xl font-semibold text-lg hover:bg-accent-500 transition shadow-lg shadow-accent-400/20">Créer une facture gratuitement</a>
+            <a href="#features" class="w-full sm:w-auto text-[#8a7a6a] bg-[#1c1814] border border-[#2d251e] px-8 py-4 rounded-xl font-semibold text-lg hover:bg-[#2d251e] transition">Voir les fonctionnalités</a>
+        </div>
+    </section>
+
+
+    <!-- Stats Bar -->
+    <section class="py-12 border-y border-[#2d251e] bg-[#161210]">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+                <div class="text-2xl font-bold text-accent-400">100%</div>
+                <div class="text-sm text-[#8a7a6a]">Côté client</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-accent-400">4</div>
+                <div class="text-sm text-[#8a7a6a]">Langues supportées</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-accent-400">0 DH</div>
+                <div class="text-sm text-[#8a7a6a]">Gratuit, sans limite</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-accent-400">50</div>
+                <div class="text-sm text-[#8a7a6a]">Factures sauvegardées</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features Grid -->
+    <section id="features" class="py-20 bg-[#161210]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#f0ece4] mb-4">Tout ce dont un freelance a besoin</h2>
+                <p class="text-[#8a7a6a]">Une application complète, pensée pour les travailleurs indépendants au Maroc et en Afrique.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-[#1c1814] border border-[#2d251e] hover:border-accent-400/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-accent-400/10 text-accent-400 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#f0ece4] mb-3">PDF professionnel</h3>
+                    <p class="text-[#8a7a6a] leading-relaxed">Génération de factures au format A4 avec TVA, logo, numérotation auto et tableau d'articles.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-[#1c1814] border border-[#2d251e] hover:border-accent-400/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-accent-400/10 text-accent-400 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m0 4h6m-6 4h6m-6 4h6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#f0ece4] mb-3">Multilingue & RTL</h3>
+                    <p class="text-[#8a7a6a] leading-relaxed">Français, Anglais, Espagnol, Arabe (support RTL complet). Vos clients lisent dans leur langue.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-[#1c1814] border border-[#2d251e] hover:border-accent-400/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-accent-400/10 text-accent-400 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#f0ece4] mb-3">100% privé</h3>
+                    <p class="text-[#8a7a6a] leading-relaxed">Aucun serveur, aucune API, aucun compte. Vos données restent dans votre navigateur. Période d'essai : jamais expirée.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Feature Details -->
+    <section class="py-20 bg-[#0d0a08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-[#f0ece4] mb-6">Une facture en 3 clics</h2>
+                    <ul class="space-y-4 text-[#8a7a6a]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent-400 font-bold mt-0.5">1.</span>
+                            <span>Remplissez vos infos (nom, ICE, adresse, logo)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent-400 font-bold mt-0.5">2.</span>
+                            <span>Ajoutez les articles avec quantité et prix unitaire</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-accent-400 font-bold mt-0.5">3.</span>
+                            <span>Téléchargez le PDF directement &mdash; 0 serveur, 0 latence</span>
+                        </li>
+                    </ul>
+                    <div class="mt-8 p-4 bg-[#1c1814] border border-[#2d251e] rounded-xl">
+                        <p class="text-sm text-[#8a7a6a]">
+                            <span class="text-accent-400 font-semibold">Devises supportées :</span> 
+                            MAD (DH) &bull; EUR (&euro;)
+                        </p>
+                        <p class="text-sm text-[#8a7a6a] mt-2">
+                            <span class="text-accent-400 font-semibold">TVA :</span> 
+                            20% &bull; 14% &bull; 10% &bull; 7% &bull; 0%
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-[#1c1814] border border-[#2d251e] rounded-2xl p-8 text-center">
+                    <div class="text-accent-400 text-6xl mb-4">🧾</div>
+                    <h3 class="text-xl font-bold text-[#f0ece4] mb-2">MicroInvoice</h3>
+                    <p class="text-[#8a7a6a] text-sm mb-4">Facture &bull; Fès, Maroc</p>
+                    <div class="border border-[#2d251e] rounded-lg p-4 text-left">
+                        <div class="flex justify-between text-sm mb-2"><span class="text-[#8a7a6a]">Design UX</span><span class="text-[#f0ece4]">5 000 DH</span></div>
+                        <div class="flex justify-between text-sm mb-2"><span class="text-[#8a7a6a]">Développement</span><span class="text-[#f0ece4]">12 000 DH</span></div>
+                        <div class="flex justify-between text-sm mb-2"><span class="text-[#8a7a6a]">Hébergement</span><span class="text-[#f0ece4]">1 200 DH</span></div>
+                        <div class="border-t border-[#2d251e] mt-2 pt-2 flex justify-between font-bold"><span>Total</span><span class="text-accent-400">18 200 DH</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-[#161210]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#f0ece4] mb-4">Un seul prix : gratuit</h2>
+                <p class="text-[#8a7a6a]">MicroInvoice est et restera gratuit. Pas de publicité, pas de limite, pas de piège.</p>
+            </div>
+
+            <div class="max-w-md mx-auto">
+                <div class="bg-[#1c1814] rounded-2xl border border-accent-400/30 shadow-xl p-10 text-center">
+                    <div class="text-accent-400 text-5xl mb-4">🧾</div>
+                    <h3 class="text-2xl font-bold text-[#f0ece4] mb-2">MicroInvoice</h3>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-accent-400">Gratuit</span>
+                    </div>
+                    <ul class="space-y-3 text-left mb-8 text-[#8a7a6a]">
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Factures PDF illimitées</li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 4 langues (FR &bull; EN &bull; ES &bull; AR)</li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Logo + TVA + numérotation auto</li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 50 factures sauvegardées dans le navigateur</li>
+                        <li class="flex items-center gap-2"><svg class="w-5 h-5 text-accent-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Aucun serveur, aucune inscription</li>
+                    </ul>
+                    <a href="index.html" class="block w-full bg-accent-400 text-[#0d0a08] py-4 rounded-xl font-bold text-lg hover:bg-accent-500 transition shadow-lg">Créer une facture maintenant</a>
+                    <p class="text-xs text-[#8a7a6a] mt-4">Aucune carte de crédit requise &bull; Aucun compte</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-[#0d0a08]">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#f0ece4] mb-4">Questions fréquentes</h2>
+                <p class="text-[#8a7a6a]">Tout ce que vous devez savoir.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="border border-[#2d251e] rounded-xl p-6 hover:border-accent-400/30 transition bg-[#1c1814]">
+                    <h3 class="text-lg font-semibold text-[#f0ece4] mb-2">Mes données sont-elles en sécurité ?</h3>
+                    <p class="text-[#8a7a6a]">Oui. Aucune donnée n'est envoyée vers un serveur. Tout le traitement se fait dans votre navigateur. Les factures sont sauvegardées dans le stockage local de votre appareil.</p>
+                </div>
+                <div class="border border-[#2d251e] rounded-xl p-6 hover:border-accent-400/30 transition bg-[#1c1814]">
+                    <h3 class="text-lg font-semibold text-[#f0ece4] mb-2">Puis-je ajouter mon logo ?</h3>
+                    <p class="text-[#8a7a6a]">Oui, importez votre logo au format image. Il apparaîtra dans l'aperçu et dans le PDF généré.</p>
+                </div>
+                <div class="border border-[#2d251e] rounded-xl p-6 hover:border-accent-400/30 transition bg-[#1c1814]">
+                    <h3 class="text-lg font-semibold text-[#f0ece4] mb-2">Est-ce vraiment gratuit ? Pas de limite cachée ?</h3>
+                    <p class="text-[#8a7a6a]">Vraiment gratuit. Pas de publicité, pas de quota, pas de fonctionnalités bloquées. Créez 5 ou 500 factures, c'est pareil.</p>
+                </div>
+                <div class="border border-[#2d251e] rounded-xl p-6 hover:border-accent-400/30 transition bg-[#1c1814]">
+                    <h3 class="text-lg font-semibold text-[#f0ece4] mb-2">Puis-je facturer en MAD et en EUR ?</h3>
+                    <p class="text-[#8a7a6a]">Oui, basculez entre Dirham marocain (DH) et Euro (&euro;) d'un clic. Les taux de TVA marocains sont inclus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-accent-500 to-[#8a5a3a]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Prêt à créer votre première facture ?</h2>
+            <p class="text-lg text-white/90 mb-10 max-w-2xl mx-auto">Gratuit, rapide, sans inscription. Utilisez-la depuis votre téléphone ou votre ordinateur.</p>
+            <a href="index.html" class="inline-block bg-white text-accent-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-stone-100 transition shadow-lg">Créer ma première facture</a>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-[#0d0a08] text-[#8a7a6a] py-12 border-t border-[#2d251e]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-2xl font-bold"><span class="text-[#f0ece4]">Micro</span><span class="text-accent-400">Invoice</span></span>
+                    <p class="text-sm mt-2">Factures PDF en ligne &mdash; pour freelances au Maroc &amp; Afrique</p>
+                </div>
+                <div class="flex space-x-6 text-sm">
+                    <a href="index.html" class="hover:text-accent-400 transition">L'app</a>
+                    <a href="https://github.com/ucfzem/ucfzem.github.io/tree/main/microinvoice" class="hover:text-accent-400 transition">Code source</a>
+                    <a href="/" class="hover:text-accent-400 transition">UcfZem</a>
+                </div>
+            </div>
+            <div class="border-t border-[#2d251e] mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2026 MicroInvoice. Construit depuis un S23 Ultra 🤳</p>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+</html>
