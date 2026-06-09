@@ -1,16 +1,180 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NanoGen - Générateur d'Images IA Gratuit</title>
-  <meta name="description" content="Générez des images IA en 4K gratuitement. Anime, réaliste, portrait, concept art." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/nanogen-app/assets/index-zglD5lLn.js"></script>
-  <link rel="stylesheet" crossorigin href="/nanogen-app/assets/index-gX2sNif2.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NanoGen - Générateur d'Images IA</title>
+<meta name="description" content="Générez des images IA gratuitement. Anime, réaliste, portrait, concept art.">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://js.puter.com/v2/"></script>
+<style>:root{--radius:12px}[data-theme='dark']{--primary:#d4a017;--primary-dark:#b8860b;--secondary:#c49a2a;--bg:#1a1410;--bg-card:#2a2018;--bg-hover:#3d3025;--text:#f0e8e0;--text-muted:#b8a898;--border:#3d3025;--success:#10b981;--error:#ef4444;--shadow:0 4px 6px -1px rgba(0,0,0,0.3)}[data-theme='light']{--primary:#b8860b;--primary-dark:#a0760a;--secondary:#d4a017;--bg:#f5f0e8;--bg-card:#fff;--bg-hover:#ede5d8;--text:#2a2018;--text-muted:#8a7a6a;--border:#d4c8b8;--success:#059669;--error:#dc2626;--shadow:0 4px 6px -1px rgba(0,0,0,0.1)}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;transition:background .3s,color .3s}.app{min-height:100vh;display:flex;flex-direction:column}.rtl{direction:rtl;text-align:right}.ltr{direction:ltr;text-align:left}.header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:.75rem 1rem;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}.header-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.5rem}.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}.nav{display:flex;gap:.25rem;flex-wrap:wrap}.nav-btn{background:transparent;border:1px solid var(--border);color:var(--text-muted);padding:.35rem .65rem;border-radius:var(--radius);cursor:pointer;font-size:.8rem;transition:all .2s}.nav-btn.active,.nav-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}.header-controls{display:flex;align-items:center;gap:.35rem}.theme-btn{background:var(--bg-hover);border:none;color:var(--text-muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}.theme-btn:hover{background:var(--primary);color:#fff}.lang-btn{background:var(--bg-hover);border:none;color:var(--text-muted);padding:.3rem .5rem;border-radius:6px;cursor:pointer;font-size:.75rem;transition:all .2s}.lang-btn.active,.lang-btn:hover{background:var(--primary);color:#fff}.main-content{flex:1;max-width:1200px;margin:0 auto;padding:1rem;width:100%}.generator{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}@media(max-width:768px){.generator{grid-template-columns:1fr}}.generator-form{background:var(--bg-card);padding:1.5rem;border-radius:var(--radius);border:1px solid var(--border)}.form-group{margin-bottom:1.25rem}.form-group label{display:block;margin-bottom:.4rem;font-weight:500;font-size:.9rem}.form-group input,.form-group textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.65rem .85rem;border-radius:var(--radius);font-size:.95rem;font-family:inherit;transition:border-color .2s}.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}.form-group textarea{min-height:100px;resize:vertical}.style-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:.4rem}.style-btn{background:var(--bg);border:1px solid var(--border);color:var(--text-muted);padding:.4rem;border-radius:8px;cursor:pointer;font-size:.8rem;transition:all .2s;text-align:center}.style-btn.active,.style-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;padding:.85rem 1.5rem;border-radius:var(--radius);font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:transform .2s}.btn-primary:active{transform:scale(.98)}.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-secondary{background:var(--bg-hover);color:var(--text);border:1px solid var(--border);padding:.6rem 1.2rem;border-radius:var(--radius);cursor:pointer;font-size:.85rem;transition:all .2s}.btn-secondary:hover{background:var(--primary);border-color:var(--primary);color:#fff}.image-preview{background:var(--bg-card);padding:1.5rem;border-radius:var(--radius);border:1px solid var(--border);min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center}.preview-image{width:100%;border-radius:var(--radius);box-shadow:var(--shadow)}.preview-placeholder{color:var(--text-muted);text-align:center;padding:1.5rem}.preview-actions{display:flex;gap:.75rem;margin-top:1rem;flex-wrap:wrap;justify-content:center}.loading-spinner{width:50px;height:50px;border:4px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}.gallery-item{background:var(--bg-card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}.gallery-item img{width:100%;aspect-ratio:1;object-fit:cover}.gallery-item-info{padding:.75rem}.gallery-item-prompt{font-size:.8rem;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.community-container{max-width:700px;margin:0 auto}.post-form{background:var(--bg-card);padding:1.25rem;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:1.5rem}.post-form textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.75rem;border-radius:var(--radius);min-height:80px;resize:vertical;font-family:inherit;margin-bottom:.75rem}.post-card{background:var(--bg-card);padding:1.25rem;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:.75rem}.post-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}.post-author{font-weight:600;color:var(--primary);font-size:.9rem}.post-date{font-size:.75rem;color:var(--text-muted)}.post-content{margin-bottom:.75rem;font-size:.9rem}.post-image{width:100%;border-radius:8px;margin-bottom:.75rem}.post-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}.tag{background:var(--bg-hover);color:var(--text-muted);padding:.2rem .6rem;border-radius:20px;font-size:.75rem}.post-actions{display:flex;gap:1rem;padding-top:.75rem;border-top:1px solid var(--border)}.action-btn{background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.85rem;display:flex;align-items:center;gap:.4rem}.action-btn:hover{color:var(--primary)}.profile-container{max-width:700px;margin:0 auto}.profile-header{background:var(--bg-card);padding:1.5rem;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:1.5rem;text-align:center}.profile-stats{display:flex;justify-content:center;gap:2rem;margin-top:1rem}.stat{text-align:center}.stat-number{font-size:1.8rem;font-weight:700;color:var(--primary)}.stat-label{font-size:.8rem;color:var(--text-muted)}.empty-state{text-align:center;padding:3rem 1.5rem;color:var(--text-muted)}.empty-state-icon{font-size:3rem;margin-bottom:.75rem;opacity:.5}.error-msg{color:var(--error);font-size:.85rem;text-align:center;margin-top:.75rem;word-break:break-word}.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem}.modal{background:var(--bg-card);padding:1.5rem;border-radius:var(--radius);max-width:400px;width:100%;border:1px solid var(--border);position:relative}.modal h2{margin-bottom:.5rem;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.modal p{color:var(--text-muted);margin-bottom:1rem;font-size:.9rem}.modal input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:.65rem .85rem;border-radius:var(--radius);font-size:.95rem;margin-bottom:.75rem}.modal-close{position:absolute;top:.75rem;right:.75rem;background:transparent;border:none;color:var(--text-muted);font-size:1.3rem;cursor:pointer}.success-text{color:var(--success);font-size:.85rem;margin-bottom:.5rem}.inline-flex{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}.mb-1{margin-bottom:.75rem}</style>
 </head>
-<body>
-  <div id="root"></div>
+<body><div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React
+
+const TRANS = {
+  fr: { app:"NanoGen", nav:["Accueil","Explorer","Communauté","Profil"], genT:"Créez votre image", prompt:"Décrivez votre image...", gen:"Générer", dl:"Télécharger", enhance:"Améliorer", style:"Style", ratio:"Format", neg:"Ce que vous ne voulez PAS voir...", styles:{anime:"Anime",realistic:"Réaliste",portrait:"Portrait",concept:"Concept Art",fantasy:"Fantasy",scifi:"Sci-Fi",oil:"Huile",watercolor:"Aquarelle","3d":"3D"}, ratios:{"1:1":"Carré","16:9":"Paysage","9:16":"Portrait","4:3":"Standard"}, loading:"Chargement...", error:"Erreur", copy:"Copier", share:"Partager", dark:"Sombre", light:"Clair", galT:"Galerie", galE:"Aucune image", comT:"Communauté", comPH:"Partagez votre création...", pub:"Publier", likes:"J'aime", comm:"Commentaires", reply:"Répondre", profT:"Mon Profil", gens:"générations", hist:"Historique", clear:"Effacer", first:"Soyez le premier à publier !" },
+  en: { app:"NanoGen", nav:["Home","Explore","Community","Profile"], genT:"Create your image", prompt:"Describe your image...", gen:"Generate", dl:"Download", enhance:"Enhance", style:"Style", ratio:"Ratio", neg:"What you DON'T want to see...", styles:{anime:"Anime",realistic:"Realistic",portrait:"Portrait",concept:"Concept Art",fantasy:"Fantasy",scifi:"Sci-Fi",oil:"Oil",watercolor:"Watercolor","3d":"3D"}, ratios:{"1:1":"Square","16:9":"Landscape","9:16":"Portrait","4:3":"Standard"}, loading:"Loading...", error:"Error", copy:"Copy", share:"Share", dark:"Dark", light:"Light", galT:"Gallery", galE:"No images yet", comT:"Community", comPH:"Share your creation...", pub:"Publish", likes:"Likes", comm:"Comments", reply:"Reply", profT:"My Profile", gens:"generations", hist:"History", clear:"Clear", first:"Be the first to post!" },
+  es: { app:"NanoGen", nav:["Inicio","Explorar","Comunidad","Perfil"], genT:"Crea tu imagen", prompt:"Describe tu imagen...", gen:"Generar", dl:"Descargar", enhance:"Mejorar", style:"Estilo", ratio:"Formato", neg:"Lo que NO quieres ver...", styles:{anime:"Anime",realistic:"Realista",portrait:"Retrato",concept:"Concept Art",fantasy:"Fantasía",scifi:"Sci-Fi",oil:"Óleo",watercolor:"Acuarela","3d":"3D"}, ratios:{"1:1":"Cuadrado","16:9":"Paisaje","9:16":"Retrato","4:3":"Estándar"}, loading:"Cargando...", error:"Error", copy:"Copiar", share:"Compartir", dark:"Oscuro", light:"Claro", galT:"Galería", galE:"Sin imágenes", comT:"Comunidad", comPH:"Comparte tu creación...", pub:"Publicar", likes:"Me gusta", comm:"Comentarios", reply:"Responder", profT:"Mi Perfil", gens:"generaciones", hist:"Historial", clear:"Borrar", first:"¡Sé el primero en publicar!" },
+  ar: { app:"نانو جين", nav:["الرئيسية","استكشاف","المجتمع","الملف"], genT:"أنشئ صورتك", prompt:"صف صورتك...", gen:"توليد", dl:"تحميل", enhance:"تحسين", style:"النمط", ratio:"النسبة", neg:"ما لا تريد رؤيته...", styles:{anime:"أنمي",realistic:"واقعي",portrait:"بورتريه",concept:"فن مفاهيمي",fantasy:"خيالي",scifi:"خيال علمي",oil:"زيتية",watercolor:"مائية","3d":"ثلاثي الأبعاد"}, ratios:{"1:1":"مربع","16:9":"أفقي","9:16":"عمودي","4:3":"عادي"}, loading:"جاري التحميل...", error:"خطأ", copy:"نسخ", share:"مشاركة", dark:"داكن", light:"فاتح", galT:"المعرض", galE:"لا توجد صور", comT:"المجتمع", comPH:"شارك إبداعك...", pub:"نشر", likes:"إعجاب", comm:"تعليقات", reply:"رد", profT:"ملفي", gens:"توليد", hist:"السجل", clear:"مسح", first:"!كن أول من ينشر" }
+}
+const t = (lang, key) => { const k=key.split('.'); let r=TRANS[lang]||TRANS.fr; for(const x of k) r=r?.[x]; return r||key }
+const STYLES = ['anime','realistic','portrait','concept','fantasy','scifi','oil','watercolor','3d']
+const RATIOS = ['1:1','16:9','9:16','4:3']
+const DIMS = {'1:1':[1024,1024],'16:9':[1280,720],'9:16':[720,1280],'4:3':[1024,768]}
+const LANG_ORDER = ['fr','en','es','ar']
+
+function App() {
+  const [page, setPage] = useState('home')
+  const [lang, setLang] = useState(() => localStorage.getItem('nanogen_lang')||'fr')
+  const [theme, setTheme] = useState(() => localStorage.getItem('nanogen_theme')||'dark')
+  const isRTL = lang === 'ar'
+  useEffect(() => { localStorage.setItem('nanogen_lang',lang); document.documentElement.dir=isRTL?'rtl':'ltr'; document.documentElement.lang=lang },[lang])
+  useEffect(() => { localStorage.setItem('nanogen_theme',theme); document.documentElement.setAttribute('data-theme',theme) },[theme])
+  const toggleTheme = () => setTheme(p=>p==='dark'?'light':'dark')
+  return (
+    <div className={'app '+(isRTL?'rtl':'ltr')}>
+      <header className="header">
+        <div className="header-content">
+          <div className="logo" onClick={()=>setPage('home')} style={{cursor:'pointer'}}>{t(lang,'app')}</div>
+          <nav className="nav">
+            {['home','explore','community','profile'].map((p,i)=>(
+              <button key={p} className={'nav-btn'+(page===p?' active':'')} onClick={()=>setPage(p)}>{t(lang,`nav.${i}`)}</button>
+            ))}
+          </nav>
+          <div className="header-controls">
+            <button className="theme-btn" onClick={toggleTheme}>{theme==='dark'?'☀️':'🌙'}</button>
+            {LANG_ORDER.map(c=><button key={c} className={'lang-btn'+(lang===c?' active':'')} onClick={()=>setLang(c)}>{c.toUpperCase()}</button>)}
+          </div>
+        </div>
+      </header>
+      <main className="main-content">
+        {page==='home'&&<Generator lang={lang} setPage={setPage}/>}
+        {page==='explore'&&<Gallery lang={lang}/>}
+        {page==='community'&&<Community lang={lang}/>}
+        {page==='profile'&&<Profile lang={lang}/>}
+      </main>
+    </div>
+  )
+}
+
+function Generator({ lang, setPage }) {
+  const [prompt, setPrompt] = useState('')
+  const [neg, setNeg] = useState('')
+  const [style, setStyle] = useState('realistic')
+  const [ratio, setRatio] = useState('1:1')
+  const [gen, setGen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [count, setCount] = useState(parseInt(localStorage.getItem('nanogen_count')||'0'))
+  const timer = useRef(null)
+  const MAX_FREE = 5
+
+  const generate = async () => {
+    if (!prompt.trim()) return
+    setLoading(true); setError(null); clearTimeout(timer.current)
+    const fp = (STYLE_PROMPTS_MAP[style]||'')+prompt
+    const [w,h] = DIMS[ratio]
+    let url
+    try {
+      const img = await puter.ai.txt2img(fp, { model:'gpt-image-1', quality:'low', width:w, height:h })
+      url = img.currentSrc||img.src
+    } catch {
+      try {
+        const img = await puter.ai.txt2img(fp, { model:'black-forest-labs/flux-schnell', width:w, height:h })
+        url = img.currentSrc||img.src
+      } catch {
+        url = `https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${w}&height=${h}&model=flux`
+      }
+    }
+    setGen({url, dataUrl:url, prompt, style, ratio, timestamp:Date.now()})
+    timer.current = setTimeout(()=>{ setLoading(false); setError("L'image n'a pas pu être chargée") }, 40000)
+    const n = parseInt(localStorage.getItem('nanogen_count')||'0')+1
+    localStorage.setItem('nanogen_count',''+n); setCount(n)
+    const h = JSON.parse(localStorage.getItem('nanogen_history')||'[]')
+    h.unshift({dataUrl:url, prompt, style, ratio, timestamp:Date.now()})
+    for(let i=h.length;i>0;i--){ try{ localStorage.setItem('nanogen_history',JSON.stringify(h.slice(0,i))); break }catch(e){ if(e.name!=='QuotaExceededError') throw e } }
+  }
+
+  const imgLoaded = () => { clearTimeout(timer.current); setLoading(false) }
+  const imgError = () => { clearTimeout(timer.current); setLoading(false); setError("L'image n'a pas pu être chargée") }
+  const dl = () => { const u=gen?.url; if(!u) return; fetch(u).then(r=>r.blob()).then(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='nanogen-'+Date.now()+'.png'; a.click() }).catch(()=>window.open(u)) }
+
+  return (
+    <div className="generator">
+      <div className="generator-form">
+        <h2 style={{marginBottom:'1rem',background:'linear-gradient(135deg,var(--primary),var(--secondary))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t(lang,'genT')}</h2>
+        {count>=MAX_FREE&&<div className="modal-overlay" style={{position:'static',background:'none',padding:0,marginBottom:'1rem'}}><div className="modal" style={{maxWidth:'100%'}}><h2>{t(lang,'comT')}</h2><p>{t(lang,'comPH')}</p><div className="modal-benefits">✓ {t(lang,'gens')} {t(lang,'hist')}</div><input placeholder={t(lang,'prompt')}/><button className="btn-primary">{t(lang,'pub')}</button></div></div>}
+        <div className="form-group"><label>{t(lang,'prompt')}</label><textarea value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder={t(lang,'prompt')} disabled={loading}/></div>
+        <div className="form-group"><label>{t(lang,'neg')}</label><input value={neg} onChange={e=>setNeg(e.target.value)} placeholder={t(lang,'neg')} disabled={loading}/></div>
+        <div className="form-group"><label>{t(lang,'style')}</label><div className="style-grid">{STYLES.map(s=><button key={s} className={'style-btn'+(style===s?' active':'')} onClick={()=>setStyle(s)} disabled={loading}>{t(lang,'styles.'+s)}</button>)}</div></div>
+        <div className="form-group"><label>{t(lang,'ratio')}</label><div className="style-grid">{RATIOS.map(r=><button key={r} className={'style-btn'+(ratio===r?' active':'')} onClick={()=>setRatio(r)} disabled={loading}>{t(lang,'ratios.'+r)}</button>)}</div></div>
+        <button className="btn-primary" onClick={generate} disabled={loading||!prompt.trim()}>{loading?'⏳ '+t(lang,'loading'):'🎨 '+t(lang,'gen')}</button>
+        {error&&<p className="error-msg">{error}</p>}
+      </div>
+      <div className="image-preview">
+        {loading?<div className="loading-spinner"></div>:gen?<><img src={gen.url} alt="" className="preview-image" onLoad={imgLoaded} onError={imgError}/><div className="preview-actions"><button className="btn-secondary" onClick={dl}>📥 {t(lang,'dl')}</button><button className="btn-secondary" onClick={()=>navigator.clipboard?.writeText(prompt)}>📋 {t(lang,'copy')}</button><button className="btn-secondary" onClick={()=>{const u=gen.url;navigator.share?.({title:'NanoGen',text:gen.prompt,url:u})}}>🔗 {t(lang,'share')}</button></div></>:<div className="preview-placeholder"><div style={{fontSize:'3rem',marginBottom:'.75rem'}}>🎨</div><p>{t(lang,'genT')}</p></div>}
+      </div>
+    </div>
+  )
+}
+const STYLE_PROMPTS_MAP = { realistic:'professional photography, 8k, dramatic lighting, sharp focus, ', anime:'anime style, studio ghibli, vibrant colors, detailed, ', portrait:'portrait photography, studio lighting, sharp focus, professional, ', concept:'concept art, detailed, epic composition, cinematic lighting, ', fantasy:'fantasy art, magical, ethereal lighting, detailed illustration, ', scifi:'sci-fi, futuristic, cyberpunk, neon lights, highly detailed, ', oil:'oil painting, classical art, rich textures, masterpiece, ', watercolor:'watercolor painting, soft colors, artistic, flowing brushstrokes, ', '3d':'3d render, octane render, highly detailed, professional lighting, ' }
+
+function Gallery({ lang }) {
+  const [imgs, setImgs] = useState([])
+  const [filter, setFilter] = useState('all')
+  useEffect(()=>{ setImgs(JSON.parse(localStorage.getItem('nanogen_history')||'[]')) },[])
+  const filtered = filter==='all'?imgs:imgs.filter(i=>i.style===filter)
+  return (
+    <div>
+      <h2 style={{marginBottom:'1rem',background:'linear-gradient(135deg,var(--primary),var(--secondary))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t(lang,'galT')}</h2>
+      <div className="inline-flex">{['all',...STYLES].map(s=><button key={s} className={'style-btn'+(filter===s?' active':'')} onClick={()=>setFilter(s)}>{s==='all'?'Tous':t(lang,'styles.'+s)}</button>)}</div>
+      {filtered.length===0?<div className="empty-state"><div className="empty-state-icon">🖼️</div><p>{t(lang,'galE')}</p></div>:<div className="gallery-grid">{filtered.map((img,i)=><div key={i} className="gallery-item"><img src={img.dataUrl||img.url} alt={img.prompt}/><div className="gallery-item-info"><div className="gallery-item-prompt">{img.prompt}</div></div></div>)}</div>}
+    </div>
+  )
+}
+
+function Community({ lang }) {
+  const [posts, setPosts] = useState(()=>JSON.parse(localStorage.getItem('nanogen_posts')||'[]'))
+  const [text, setText] = useState('')
+  const post = () => {
+    if(!text.trim()) return
+    const p = { id:Date.now()+'', author:'User_'+Date.now().toString(36).slice(-4), content:text, likes:0, created_at:new Date().toISOString() }
+    const all = [p,...posts]
+    setPosts(all); setText('')
+    localStorage.setItem('nanogen_posts',JSON.stringify(all))
+  }
+  const like = id => {
+    const all = posts.map(p=>p.id===id?{...p,likes:(p.likes||0)+1}:p)
+    setPosts(all); localStorage.setItem('nanogen_posts',JSON.stringify(all))
+  }
+  return (
+    <div className="community-container">
+      <h2 style={{marginBottom:'1rem',background:'linear-gradient(135deg,var(--primary),var(--secondary))',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>{t(lang,'comT')}</h2>
+      <div className="post-form"><textarea value={text} onChange={e=>setText(e.target.value)} placeholder={t(lang,'comPH')}/><button className="btn-primary" onClick={post} disabled={!text.trim()}>{t(lang,'pub')}</button></div>
+      {posts.length===0?<div className="empty-state"><div className="empty-state-icon">💬</div><p>{t(lang,'first')}</p></div>:posts.map(p=><div key={p.id} className="post-card"><div className="post-header"><span className="post-author">@{p.author}</span><span className="post-date">{new Date(p.created_at).toLocaleDateString(lang)}</span></div><div className="post-content">{p.content}</div><div className="post-actions"><button className="action-btn" onClick={()=>like(p.id)}>❤️ {p.likes||0} {t(lang,'likes')}</button><button className="action-btn">💬 {t(lang,'comm')}</button></div></div>)}
+    </div>
+  )
+}
+
+function Profile({ lang }) {
+  const [hist, setHist] = useState([])
+  const [cnt, setCnt] = useState(0)
+  useEffect(()=>{ setHist(JSON.parse(localStorage.getItem('nanogen_history')||'[]')); setCnt(parseInt(localStorage.getItem('nanogen_count')||'0')) },[])
+  const clear = () => { if(window.confirm('Effacer tout l\'historique ?')){ localStorage.removeItem('nanogen_history'); localStorage.removeItem('nanogen_count'); setHist([]); setCnt(0) } }
+  return (
+    <div className="profile-container">
+      <div className="profile-header"><h2>{t(lang,'profT')}</h2><div className="profile-stats"><div className="stat"><div className="stat-number">{cnt}</div><div className="stat-label">{t(lang,'gens')}</div></div><div className="stat"><div className="stat-number">{hist.length}</div><div className="stat-label">{t(lang,'hist')}</div></div></div></div>
+      <div className="inline-flex"><h3>{t(lang,'hist')}</h3>{hist.length>0&&<button className="btn-secondary" onClick={clear}>🗑️ {t(lang,'clear')}</button>}</div>
+      {hist.length===0?<div className="empty-state"><div className="empty-state-icon">📭</div><p>{t(lang,'galE')}</p></div>:<div className="gallery-grid">{hist.map((img,i)=><div key={i} className="gallery-item"><img src={img.dataUrl||img.url} alt={img.prompt}/><div className="gallery-item-info"><div className="gallery-item-prompt">{img.prompt}</div><div className="post-tags"><span className="tag">{t(lang,'styles.'+img.style)}</span><span className="tag">{img.ratio}</span></div></div></div>)}</div>}
+    </div>
+  )
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+</script>
 </body>
 </html>
