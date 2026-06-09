@@ -66,7 +66,7 @@ function Generator({lang}){
     }catch{}
     if(!u)u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux'
     sG({url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
-    tm.current=setTimeout(()=>{sLd(false);sEr("L'image n'a pas pu être chargée")},120000)
+    tm.current=setTimeout(()=>{sLd(false)},120000)
   }
   const il=()=>{clearTimeout(tm.current);sLd(false)}
   const ie=()=>{clearTimeout(tm.current);sLd(false);sEr("L'image n'a pas pu être chargée")}
@@ -74,17 +74,22 @@ function Generator({lang}){
   return $('div',{className:'gen'},
     $('div',{className:'gf'},
       $('h2',{className:'gl'},_(lang,'g')),
-      $('div',{className:'fg'},$('label',null,_(lang,'p')),$('textarea',{value:q,onChange:e=>sQ(e.target.value),placeholder:_(lang,'p'),disabled:ld})),
+      $('div',{className:'fg'},$('label',null,_(lang,'p')),
+        $('textarea',{value:q,onChange:e=>sQ(e.target.value),placeholder:_(lang,'p'),disabled:ld}),
+        $('button',{className:'bs',onClick:enh,disabled:eh||ld||!q.trim(),style:{marginTop:'.5rem',width:'100%'}},eh?'✨ ...':'✨ '+_(lang,'e'))
+      ),
       $('div',{className:'fg'},$('label',null,_(lang,'s')),$('div',{className:'sg'},S.map(x=>$('button',{key:x,className:'sb'+(st===x?' active':''),onClick:()=>sSt(x),disabled:ld},_(lang,'S.'+x))))),
       $('div',{className:'fg'},$('label',null,_(lang,'r')),$('div',{className:'sg'},R.map(x=>$('button',{key:x,className:'sb'+(ra===x?' active':''),onClick:()=>sRa(x),disabled:ld},_(lang,'R.'+x))))),
       $('button',{className:'bp',onClick:gen,disabled:ld||!q.trim()},ld?'⏳ '+_(lang,'L'):'🎨 '+_(lang,'G')),
-      $('button',{className:'bs',onClick:enh,disabled:eh||ld||!q.trim(),style:{marginTop:'.5rem',width:'100%'}},eh?'✨ ...':'✨ '+_(lang,'e')),
       er&&$('p',{className:'er'},er)
     ),
     $('div',{className:'ip'},
-      ld?$('div',{className:'ls'}):
-      g?[$('img',{src:g.url,alt:'',className:'ip-i',onLoad:il,onError:ie,style:{width:'100%',borderRadius:'var(--radius)',boxShadow:'var(--shadow)'}}),$('div',{className:'ipa'},$('button',{className:'bs',onClick:dl},'📥 '+_(lang,'d')),$('button',{className:'bs',onClick:()=>navigator.clipboard?.writeText(q)},'📋 '+_(lang,'C')),$('button',{className:'bs',onClick:()=>{const u=g.url;navigator.share?.({title:'NanoGen',text:g.prompt,url:u})}},'🔗 '+_(lang,'S2')))]:
-      $('div',{className:'ipp'},$('div',{style:{fontSize:'3rem',marginBottom:'.75rem'}},'🎨'),$('p',null,_(lang,'g')))
+      !g?$('div',{className:'ipp'},$('div',{style:{fontSize:'3rem',marginBottom:'.75rem'}},'🎨'),$('p',null,_(lang,'g'))):
+      $('div',{style:{position:'relative',width:'100%'}},
+        $('img',{src:g.url,alt:'',onLoad:il,onError:ie,style:{width:'100%',borderRadius:'var(--radius)',boxShadow:'var(--shadow)'}}),
+        ld&&$('div',{style:{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',zIndex:10}},$('div',{className:'ls'})),
+        !ld&&$('div',{className:'ipa'},$('button',{className:'bs',onClick:dl},'📥 '+_(lang,'d')),$('button',{className:'bs',onClick:()=>navigator.clipboard?.writeText(q)},'📋 '+_(lang,'C')),$('button',{className:'bs',onClick:()=>{const u=g.url;navigator.share?.({title:'NanoGen',text:g.prompt,url:u})}},'🔗 '+_(lang,'S2')))
+      )
     )
   )
 }
