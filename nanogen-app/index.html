@@ -52,20 +52,21 @@ function App(){
 }
 
 function Generator({lang}){
-  const[q,sQ]=useState(''),[st,sSt]=useState('realistic'),[ra,sRa]=useState('1:1'),[g,sG]=useState(null),[ld,sLd]=useState(false),[er,sEr]=useState(null)
+  const[q,sQ]=useState(''),[st,sSt]=useState('realistic'),[ra,sRa]=useState('1:1'),[g,sG]=useState(null),[ld,sLd]=useState(false),[er,sEr]=useState(null),[eh,sEh]=useState(false)
   const tm=useRef(null)
+  const enh=()=>{if(!q.trim())return;sEh(true);setTimeout(()=>{sQ((SM[st]||'')+q);sEh(false)},500)}
   const gen=async()=>{
     if(!q.trim())return
     sLd(true);sEr(null);clearTimeout(tm.current)
     const fp=(SM[st]||'')+q,[w,h]=D[ra]
     let u
     try{
-      const r=await fetch(W+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:fp,width:w,height:h}),signal:AbortSignal.timeout(25000)})
+      const r=await fetch(W+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:fp,width:w,height:h}),signal:AbortSignal.timeout(60000)})
       if(r.ok){const t=r.headers.get('content-type')||'';if(t.includes('application/json')){const j=await r.json();if(j.type==='pollinations')u=j.url}else{const b=await r.blob();u=URL.createObjectURL(b)}}
     }catch{}
     if(!u)u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux'
     sG({url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
-    tm.current=setTimeout(()=>{sLd(false);sEr("L'image n'a pas pu être chargée")},40000)
+    tm.current=setTimeout(()=>{sLd(false);sEr("L'image n'a pas pu être chargée")},120000)
   }
   const il=()=>{clearTimeout(tm.current);sLd(false)}
   const ie=()=>{clearTimeout(tm.current);sLd(false);sEr("L'image n'a pas pu être chargée")}
@@ -77,6 +78,7 @@ function Generator({lang}){
       $('div',{className:'fg'},$('label',null,_(lang,'s')),$('div',{className:'sg'},S.map(x=>$('button',{key:x,className:'sb'+(st===x?' active':''),onClick:()=>sSt(x),disabled:ld},_(lang,'S.'+x))))),
       $('div',{className:'fg'},$('label',null,_(lang,'r')),$('div',{className:'sg'},R.map(x=>$('button',{key:x,className:'sb'+(ra===x?' active':''),onClick:()=>sRa(x),disabled:ld},_(lang,'R.'+x))))),
       $('button',{className:'bp',onClick:gen,disabled:ld||!q.trim()},ld?'⏳ '+_(lang,'L'):'🎨 '+_(lang,'G')),
+      $('button',{className:'bs',onClick:enh,disabled:eh||ld||!q.trim(),style:{marginTop:'.5rem',width:'100%'}},eh?'✨ ...':'✨ '+_(lang,'e')),
       er&&$('p',{className:'er'},er)
     ),
     $('div',{className:'ip'},
