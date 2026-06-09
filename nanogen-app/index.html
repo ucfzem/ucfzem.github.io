@@ -59,14 +59,14 @@ function Generator({lang}){
     if(!q.trim())return
     sLd(true);sEr(null);clearTimeout(tm.current)
     const fp=(SM[st]||'')+q,[w,h]=D[ra]
-    let u
+    let u, d
     try{
       const r=await fetch(W+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:fp,width:w,height:h}),signal:AbortSignal.timeout(60000)})
-      if(r.ok){const t=r.headers.get('content-type')||'';if(t.includes('application/json')){const j=await r.json();if(j.type==='pollinations')u=j.url}else{const b=await r.blob();const v=new Uint8Array(await b.slice(0,4).arrayBuffer());const m=v[0]===255&&v[1]===216&&v[2]===255?'image/jpeg':v[0]===137&&v[1]===80&&v[2]===78&&v[3]===71?'image/png':v[0]===71&&v[1]===73&&v[2]===70?'image/gif':v[0]===82&&v[1]===73&&v[2]===70&&v[3]===70?'image/webp':'image/png';const f=new Blob([b],{type:m});u=URL.createObjectURL(f)}}
+      if(r.ok){const t=r.headers.get('content-type')||'';if(t.includes('application/json')){const j=await r.json();if(j.type==='pollinations'){u=j.url;d=u}}else{const b=await r.blob();const v=new Uint8Array(await b.slice(0,4).arrayBuffer());const m=v[0]===255&&v[1]===216&&v[2]===255?'image/jpeg':v[0]===137&&v[1]===80&&v[2]===78&&v[3]===71?'image/png':v[0]===71&&v[1]===73&&v[2]===70?'image/gif':v[0]===82&&v[1]===73&&v[2]===70&&v[3]===70?'image/webp':'image/png';const f=new Blob([b],{type:m});u=URL.createObjectURL(f);d=await new Promise(r=>{const rd=new FileReader();rd.onload=()=>r(rd.result);rd.readAsDataURL(f)})}}
     }catch{}
-    if(!u)u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux'
-    sG({url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
-    try{const e={url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()};const h=JSON.parse(localStorage.getItem('ng_h')||'[]');h.unshift(e);localStorage.setItem('ng_h',JSON.stringify(h));localStorage.setItem('ng_c',String(parseInt(localStorage.getItem('ng_c')||'0')+1))}catch(e){let h;try{h=JSON.parse(localStorage.getItem('ng_h')||'[]')}catch{h=[]};while(h.length){try{h=h.slice(0,Math.ceil(h.length/2));localStorage.setItem('ng_h',JSON.stringify(h));break}catch{}}}
+    if(!u){u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux';d=u}
+    sG({url:u,dataUrl:d,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
+    try{const e={url:u,dataUrl:d,prompt:q,style:st,ratio:ra,timestamp:Date.now()};const h=JSON.parse(localStorage.getItem('ng_h')||'[]');h.unshift(e);localStorage.setItem('ng_h',JSON.stringify(h));localStorage.setItem('ng_c',String(parseInt(localStorage.getItem('ng_c')||'0')+1))}catch(e){let h;try{h=JSON.parse(localStorage.getItem('ng_h')||'[]')}catch{h=[]};while(h.length){try{h=h.slice(0,Math.ceil(h.length/2));localStorage.setItem('ng_h',JSON.stringify(h));break}catch{}}}
     tm.current=setTimeout(()=>{sLd(false)},120000)
   }
   const il=()=>{clearTimeout(tm.current);sLd(false)}
