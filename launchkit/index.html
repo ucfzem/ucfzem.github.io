@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaunchKit - Lancez votre idée en or</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fef7e0',
+                            100: '#fdebb3',
+                            200: '#f5d97a',
+                            300: '#ecc94b',
+                            400: '#d4a017',
+                            500: '#b8860b',
+                            600: '#9a7209',
+                            700: '#7a5b07',
+                            800: '#5c4505',
+                            900: '#3e2e03'
+                        },
+                        brown: {
+                            50: '#f5f0eb',
+                            100: '#e8ddd1',
+                            200: '#d4c0ab',
+                            300: '#b89f85',
+                            400: '#8B5E3C',
+                            500: '#734d30',
+                            600: '#5c3d26',
+                            700: '#452e1c',
+                            800: '#2e1f13',
+                            900: '#170f09'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased">
+
+
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-sm z-50 border-b border-stone-100">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-gold-600">LaunchKit</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="hover:text-gold-500 transition">Fonctionnalités</a>
+                <a href="#pricing" class="hover:text-gold-500 transition">Tarifs</a>
+                <a href="#faq" class="hover:text-gold-500 transition">FAQ</a>
+            </div>
+            <a href="#pricing" class="bg-gold-400 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-gold-500 transition shadow-sm">Commencer</a>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 max-w-7xl mx-auto text-center lg:pt-48">
+        <span class="bg-gold-50 text-gold-600 px-4 py-2 rounded-full text-sm font-semibold mb-6 inline-block">Lancez votre idée en quelques minutes</span>
+        <h1 class="text-5xl md:text-6xl font-bold text-stone-900 mb-6 leading-tight">
+            Validez votre idée de SaaS <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-brown-400">sans écrire une ligne de code</span>
+        </h1>
+        <p class="text-lg md:text-xl text-stone-600 mb-10 max-w-2xl mx-auto font-light">
+            LaunchKit est l'outil parfait pour vos MVP, tests de validation ou pages de pré-lancement. Capturez vos leads et itérez plus vite que vos concurrents.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="#pricing" class="w-full sm:w-auto bg-gold-400 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gold-500 transition shadow-lg shadow-gold-400/20">Démarrer gratuitement</a>
+            <a href="#features" class="w-full sm:w-auto text-stone-700 bg-white border border-stone-200 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-stone-50 transition">En savoir plus</a>
+        </div>
+    </section>
+
+
+    <!-- Features Grid -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-stone-900 mb-4">Tout ce dont vous avez besoin pour convertir</h2>
+                <p class="text-stone-600">Un design épuré, pensé pour l'utilisateur, qui lève les objections dès la première visite.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="p-8 rounded-2xl bg-stone-50 border border-stone-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-xl bg-gold-50 text-gold-500 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-stone-900">Intégration rapide</h3>
+                    <p class="text-stone-600 leading-relaxed">Une structure HTML/CSS propre et optimisée pour charger instantanément sur tous les appareils.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-stone-50 border border-stone-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-xl bg-gold-50 text-gold-500 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-stone-900">Validation d'idée</h3>
+                    <p class="text-stone-600 leading-relaxed">Testez vos prix et vos fonctionnalités auprès de vos premiers utilisateurs avant le développement complet.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-stone-50 border border-stone-100 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-xl bg-gold-50 text-gold-500 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-stone-900">Appels à l'action</h3>
+                    <p class="text-stone-600 leading-relaxed">Des boutons CTA placés stratégiquement pour maximiser le taux de conversion et l'engagement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-stone-900 mb-4">Des tarifs simples et transparents</h2>
+                <p class="text-stone-600">Choisissez le plan qui correspond à votre étape de développement actuel.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6 max-w-6xl mx-auto">
+                <!-- Starter -->
+                <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">Starter</h3>
+                        <p class="text-stone-500 text-sm mb-6">Idéal pour valider une idée rapidement.</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold text-stone-900">$19</span><span class="text-stone-500">/mois</span>
+                        </div>
+                        <ul class="space-y-4 text-stone-600 mb-8">
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> 1 Projet actif</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Analytics basiques</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-stone-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> Support prioritaire</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="block text-center bg-gold-50 text-gold-600 py-3 px-6 rounded-xl font-semibold hover:bg-gold-100 transition">Choisir Starter</a>
+                </div>
+
+                <!-- Pro (Populaire) -->
+                <div class="bg-white p-8 rounded-2xl border-2 border-gold-400 shadow-xl relative flex flex-col justify-between">
+                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-gold-400 text-white font-bold text-xs py-1 px-3 rounded-full uppercase tracking-wider">Populaire</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">Pro</h3>
+                        <p class="text-stone-500 text-sm mb-6">Parfait pour les créateurs en pleine croissance.</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold text-stone-900">$49</span><span class="text-stone-500">/mois</span>
+                        </div>
+                        <ul class="space-y-4 text-stone-600 mb-8">
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Jusqu'à 5 Projets</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Analytics avancés</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Support prioritaire</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Domaine personnalisé</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="block text-center bg-gold-400 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gold-500 transition shadow-md">Choisir Pro</a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-2">Enterprise</h3>
+                        <p class="text-stone-500 text-sm mb-6">Pour les équipes et projets à grande échelle.</p>
+                        <div class="mb-6">
+                            <span class="text-4xl font-bold text-stone-900">$99</span><span class="text-stone-500">/mois</span>
+                        </div>
+                        <ul class="space-y-4 text-stone-600 mb-8">
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Projets illimités</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Analytics avancés + API</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Support dédié 24/7</li>
+                            <li class="flex items-center gap-2"><svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg> Multi-utilisateurs</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="block text-center bg-gold-50 text-gold-600 py-3 px-6 rounded-xl font-semibold hover:bg-gold-100 transition">Choisir Enterprise</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-white">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-stone-900 mb-4">Questions fréquentes</h2>
+                <p class="text-stone-600">Tout ce que vous devez savoir avant de commencer.</p>
+            </div>
+            <div class="space-y-6">
+                <div class="border border-stone-200 rounded-xl p-6 hover:border-gold-400/30 transition">
+                    <h3 class="text-lg font-semibold text-stone-900 mb-2">Ai-je besoin de compétences en code ?</h3>
+                    <p class="text-stone-600">Non, LaunchKit est conçu pour être utilisé sans aucune compétence technique. Tout est basé sur du HTML/CSS simple que vous pouvez personnaliser facilement.</p>
+                </div>
+                <div class="border border-stone-200 rounded-xl p-6 hover:border-gold-400/30 transition">
+                    <h3 class="text-lg font-semibold text-stone-900 mb-2">Puis-je annuler à tout moment ?</h3>
+                    <p class="text-stone-600">Oui, vous pouvez annuler votre abonnement à tout moment sans frais supplémentaires. Aucun engagement à long terme.</p>
+                </div>
+                <div class="border border-stone-200 rounded-xl p-6 hover:border-gold-400/30 transition">
+                    <h3 class="text-lg font-semibold text-stone-900 mb-2">Y a-t-il une période d'essai gratuite ?</h3>
+                    <p class="text-stone-600">Oui, tous les plans incluent un essai gratuit de 14 jours. Aucune carte de crédit n'est requise pour commencer.</p>
+                </div>
+                <div class="border border-stone-200 rounded-xl p-6 hover:border-gold-400/30 transition">
+                    <h3 class="text-lg font-semibold text-stone-900 mb-2">Puis-je utiliser mon propre nom de domaine ?</h3>
+                    <p class="text-stone-600">Oui, les plans Pro et Enterprise vous permettent de connecter votre propre nom de domaine personnalisé.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-gold-400 to-brown-400">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Prêt à lancer votre SaaS ?</h2>
+            <p class="text-lg text-white/90 mb-10 max-w-2xl mx-auto">Rejoignez des centaines d'entrepreneurs qui ont validé leur idée avec LaunchKit.</p>
+            <a href="#pricing" class="inline-block bg-white text-gold-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-stone-50 transition shadow-lg">Commencer maintenant</a>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <span class="text-2xl font-bold text-white">LaunchKit</span>
+                    <p class="text-sm mt-2">Le kit ultime pour lancer votre SaaS</p>
+                </div>
+                <div class="flex space-x-6 text-sm">
+                    <a href="#" class="hover:text-white transition">Confidentialité</a>
+                    <a href="#" class="hover:text-white transition">Conditions</a>
+                    <a href="#" class="hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="border-t border-stone-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2026 LaunchKit. Tous droits réservés. Construit depuis un S23 Ultra</p>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+</html>
