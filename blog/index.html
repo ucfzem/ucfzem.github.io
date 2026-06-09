@@ -1890,7 +1890,7 @@
     const rules = kwLinks[lang] || kwLinks.fr
     for (const r of rules) {
       for (const kw of r.kw) {
-        const re = new RegExp(`(?<=>|^|[.!?\\s])(${kw})(?=[.!?\\s]|<|$)`, 'i')
+        const re = new RegExp(`(?<=>|^|[.,!?;:\\s"'()\\[\\]])(${kw})(?=[.,!?;:\\s"'()\\[\\]]|<|$|&#?\\w+;)`, 'i')
         if (re.test(html)) {
           html = html.replace(re, `<a href="${r.url}" class="kw-link" target="_blank">$1</a>`)
           break
