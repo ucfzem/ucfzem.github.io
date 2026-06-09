@@ -66,7 +66,7 @@ function Generator({lang}){
     }catch{}
     if(!u)u='https://image.pollinations.ai/prompt/'+encodeURIComponent(fp)+'?width='+w+'&height='+h+'&model=flux'
     sG({url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()})
-    try{localStorage.setItem('ng_h',JSON.stringify([{url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()},...JSON.parse(localStorage.getItem('ng_h')||'[]')]));localStorage.setItem('ng_c',String(parseInt(localStorage.getItem('ng_c')||'0')+1))}catch{e=>{let h;try{h=JSON.parse(localStorage.getItem('ng_h')||'[]')}catch{h=[]};while(h.length){try{h=h.slice(0,Math.ceil(h.length/2));localStorage.setItem('ng_h',JSON.stringify(h));break}catch{}}}}
+    try{const e={url:u,dataUrl:u,prompt:q,style:st,ratio:ra,timestamp:Date.now()};const h=JSON.parse(localStorage.getItem('ng_h')||'[]');h.unshift(e);localStorage.setItem('ng_h',JSON.stringify(h));localStorage.setItem('ng_c',String(parseInt(localStorage.getItem('ng_c')||'0')+1))}catch(e){let h;try{h=JSON.parse(localStorage.getItem('ng_h')||'[]')}catch{h=[]};while(h.length){try{h=h.slice(0,Math.ceil(h.length/2));localStorage.setItem('ng_h',JSON.stringify(h));break}catch{}}}
     tm.current=setTimeout(()=>{sLd(false)},120000)
   }
   const il=()=>{clearTimeout(tm.current);sLd(false)}
