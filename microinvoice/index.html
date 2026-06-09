@@ -170,7 +170,7 @@ footer{text-align:center;margin-top:24px;font-size:10px;color:var(--muted);font-
 </div>
 
 <div class="action-bar">
-<button class="btn btn-outline" onclick="loadDemo()">🎲 Démo</button>
+<button class="btn btn-outline" id="btnDemo" onclick="loadDemo()">🎲 Démo</button>
 <button class="btn btn-outline" onclick="saveInvoice()">💾 Enregistrer</button>
 <button class="btn btn-primary" onclick="exportPDF()">📄 Télécharger PDF</button>
 </div>
@@ -204,7 +204,7 @@ m('lblItems',t.items);m('thDesc',t.desc);m('thQty',t.qty);m('thPrice',t.price);m
 m('lblSubtotal',t.subtotal);m('lblTax',t.tax);m('lblGrandTotal',t.grandTotal);
 m('lblNotes',t.notes);document.getElementById('notes').placeholder=t.notesPlaceholder;
 m('lblPreview',t.preview);m('pThDesc',t.desc);m('pThQty',t.qty);m('pThPrice',t.price);m('pThTotal',t.total);
-m('lblHistory',t.history);document.querySelector('#historyCard .btn-danger').textContent=t.clearAll;
+m('btnDemo',t.demo);m('lblHistory',t.history);document.querySelector('#historyCard .btn-danger').textContent=t.clearAll;
 refreshPreview()}
 // ══════ LOGO ══════
 function loadLogo(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=function(ev){logoData=ev.target.result;document.getElementById('logoPreview').innerHTML='<img src="'+logoData+'">';refreshPreview()};r.readAsDataURL(file)}
@@ -250,8 +250,8 @@ list.innerHTML=savedInvoices.map((d,i)=>'<div class="invoice-item"><div class="i
 function deleteInvoice(i){savedInvoices.splice(i,1);localStorage.setItem('microinvoices',JSON.stringify(savedInvoices));renderHistory()}
 function clearHistory(){savedInvoices=[];localStorage.removeItem('microinvoices');renderHistory()}
 // ══════ DEMO ══════
-function loadDemo(){setLang('fr');
-document.getElementById('emitName').value='Ahmed El Amrani';
+function loadDemo(){
+document.getElementById('emitName').value='أحمد العمراني';
 document.getElementById('emitICE').value='1234567890000';
 document.getElementById('emitAddr').value='125 Rue Mohammed V, Tanger';
 document.getElementById('emitEmail').value='ahmed@exemple.com';
