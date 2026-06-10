@@ -1018,6 +1018,7 @@
 .contact-status { font-size: .85rem; margin-top: .5rem; color: var(--accent); }
 
 </style>
+<script src="/tantantan/tracker.js"></script>
 </head>
 <body>
 
@@ -1746,7 +1747,7 @@
     const rest = filtered.slice(1);
 
     let html = '';
-    html += `<a class="article-card featured" href="#article/${featured.slug}" onclick="openArticle('${featured.slug}');return false;">
+    html += `<a class="article-card featured" data-track="article:featured" href="#article/${featured.slug}" onclick="openArticle('${featured.slug}');return false;">
       <div class="article-thumb-placeholder g-gold" style="aspect-ratio:16/9;font-size:5rem;">${featured.icon || '📝'}</div>
       <div class="article-body">
         <div class="article-meta">
@@ -1761,7 +1762,7 @@
     if (rest.length > 0) {
       html += `<div class="side-articles">`;
       rest.slice(0, 2).forEach(a => {
-        html += `<a class="side-article" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
+        html += `<a class="side-article" data-track="article:side" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
           <div class="side-thumb g-warm" style="font-size:2rem;">${a.icon || '📝'}</div>
           <div class="side-body">
             <div class="article-meta"><span class="tag tag-${categoryTag(a.category)}">${a.category || ''}</span></div>
@@ -1776,7 +1777,7 @@
     if (rest.length > 2) {
       html += `<div style="grid-column:1/-1;margin-top:1rem;"><div class="posts-list">`;
       rest.slice(2).forEach((a, idx) => {
-        html += `<a class="post-row" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
+        html += `<a class="post-row" data-track="article:row" href="#article/${a.slug}" onclick="openArticle('${a.slug}');return false;">
           <span class="post-num">${String(idx + 3).padStart(2, '0')}</span>
           <div class="post-icon g-gold">${a.icon || '📝'}</div>
           <div class="post-info">
