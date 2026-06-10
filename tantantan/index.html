@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Tanger d'Antan — Mémoire de la ville</title>
+<script src="tracker.js"></script>
+<style>
+:root{--bg:#2C1B18;--card:#3E2723;--border:#5D4037;--gold:#D4AF37;--text:#FDFBF7;--muted:#A1887F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.container{max-width:800px;margin:0 auto;padding:20px}
+header{text-align:center;padding:40px 0 20px}
+h1{font-size:2.2em;color:var(--gold);margin-bottom:8px;letter-spacing:-.5px}
+.sub{color:var(--muted);font-size:1em;margin-bottom:30px}
+.section{margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h2{color:var(--gold);font-size:1.1em;margin-bottom:10px}
+.card p{color:var(--muted);line-height:1.7;font-size:.95em}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:.3s}
+.gallery img:hover{border-color:var(--gold);transform:scale(1.02)}
+.btn{display:inline-block;background:var(--gold);color:var(--bg);padding:12px 24px;border-radius:50px;font-weight:700;text-decoration:none;font-size:.95em;transition:.2s;border:none;cursor:pointer}
+.btn:hover{box-shadow:0 4px 20px rgba(212,175,55,.3)}
+.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn-outline:hover{background:var(--gold);color:var(--bg)}
+.stats-bar{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.stat{text-align:center;padding:12px 20px;background:var(--card);border-radius:10px;border:1px solid var(--border);min-width:100px}
+.stat-num{font-size:1.5em;font-weight:800;color:var(--gold)}
+.stat-label{font-size:.75em;color:var(--muted);margin-top:2px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+nav a{color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid var(--border);font-size:.85em;transition:.2s}
+nav a:hover{border-color:var(--gold);color:var(--gold)}
+footer{text-align:center;padding:30px 0;color:var(--muted);font-size:.85em}
+[data-track]{cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header>
+  <h1>🇲🇦 Tanger d'Antan</h1>
+  <div class="sub">Mémoire et photographies du vieux Tanger</div>
+  <nav>
+    <a href="/tantantan/">🏠 Accueil</a>
+    <a href="/tantantan/spy.html">🕵️ Suivre un lien</a>
+    <a href="/tantantan/dashboard.html">📊 Stats</a>
+  </nav>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num" id="visitCount">-</div><div class="stat-label">Visites</div></div>
+  <div class="stat"><div class="stat-num" id="clickCount">-</div><div class="stat-label">Clics</div></div>
+  <div class="stat"><div class="stat-num" id="todayCount">-</div><div class="stat-label">Aujourd'hui</div></div>
+</div>
+
+<div class="section">
+  <div class="card">
+    <h2 data-track="section:histoire">📖 Histoire</h2>
+    <p>Tanger, ville aux mille visages, a été au fil des siècles un carrefour de civilisations. Berbères, Phéniciens, Romains, Arabes, Portugais, Espagnols et Français ont tous laissé leur empreinte sur cette perle du Détroit. Découvrez à travers ces pages les souvenirs d'une époque où le vent soufflait plus fort et le temps coulait plus lentement.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="card">
+    <h2 data-track="section:photos">📸 Galerie d'antan</h2>
+    <div class="gallery">
+      <img src="https://placehold.co/300x225/B8860B/FDFBF7?text=Tanger+1920" alt="Tanger 1920" data-track="photo:1920">
+      <img src="https://placehold.co/300x225/8B7355/FDFBF7?text=Souk" alt="Souk" data-track="photo:souk">
+      <img src="https://placehold.co/300x225/5D4037/FDFBF7?text=Port" alt="Port" data-track="photo:port">
+      <img src="https://placehold.co/300x225/3E2723/D4AF37?text=Médina" alt="Médina" data-track="photo:medina">
+    </div>
+  </div>
+</div>
+
+<div class="section" style="text-align:center">
+  <p style="color:var(--muted);margin-bottom:12px;font-size:.95em">Partagez ce lien pour suivre les visites :</p>
+  <code style="background:var(--card);padding:8px 16px;border-radius:8px;font-size:.85em;color:var(--gold);word-break:break-all">https://ucfzem.github.io/tantantan/spy.html</code>
+</div>
+
+<footer>
+  Tanger d'Antan — Projet mémoire • Données stockées localement 🕵️
+</footer>
+
+</div>
+
+<script>
+function refreshStats(){
+  if(!window.__tracker) return;
+  const s = window.__tracker.stats();
+  document.getElementById('visitCount').textContent = s.totalVisits;
+  document.getElementById('clickCount').textContent = s.topClicks.reduce((a,c) => a + c[1], 0) || 0;
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const todayVisits = s.lastVisits.filter(v => new Date(v.start).toISOString().split('T')[0] === todayStr).length;
+  document.getElementById('todayCount').textContent = todayVisits;
+}
+setTimeout(refreshStats, 300);
+</script>
+
+</body>
+</html>
