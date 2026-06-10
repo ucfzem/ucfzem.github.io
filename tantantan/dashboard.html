@@ -12,7 +12,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .container{max-width:900px;margin:0 auto;padding:20px}
 h1{text-align:center;color:var(--gold);font-size:1.8em;margin:20px 0 8px;letter-spacing:-.5px}
 .sub{text-align:center;color:var(--muted);font-size:.9em;margin-bottom:20px}
-nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.filters{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.filter-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:.82em;cursor:pointer;transition:.2s}
+.filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(212,175,55,.1)}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
 nav a{color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid var(--border);font-size:.85em;transition:.2s}
 nav a:hover{border-color:var(--gold);color:var(--gold)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
@@ -49,6 +53,11 @@ footer{text-align:center;padding:20px 0;color:var(--muted);font-size:.8em}
   <a href="/tantantan/dashboard.html">📊 Dashboard</a>
 </nav>
 
+<div class="filters">
+  <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">📊 Tout</button>
+  <button class="filter-btn" data-filter="tantantan" onclick="setFilter('tantantan')">🇲🇦 Tanger d'Antan</button>
+  <button class="filter-btn" data-filter="blog" onclick="setFilter('blog')">✏️ Blog</button>
+</div>
 <div class="grid" id="statsGrid">
   <div class="card"><h3>Visites (local)</h3><div class="num gold" id="totalVisits">-</div></div>
   <div class="card"><h3>Visites (global)</h3><div class="num green" id="globalVisits">-</div></div>
@@ -99,6 +108,19 @@ footer{text-align:center;padding:20px 0;color:var(--muted);font-size:.8em}
 </div>
 
 <script>
+var currentFilter = 'all';
+
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+  render();
+}
+
+function filterVisits(v){
+  if(currentFilter === 'all') return true;
+  return v.page && v.page.startsWith('/' + currentFilter);
+}
+
 function fmtDate(ts){
   const d = new Date(ts);
   return d.toLocaleDateString('fr-FR', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
@@ -115,11 +137,24 @@ function render(){
   if(!window.__tracker){ document.body.innerHTML += '<p style="text-align:center;color:var(--muted);padding:40px">Tracker pas encore chargé...</p>'; return; }
   const stats = window.__tracker.stats();
   
-  document.getElementById('totalVisits').textContent = stats.totalVisits;
-  document.getElementById('avgTime').textContent = fmtDuration(stats.avgTime);
+  // Filter visits
+  const filteredVisits = stats.lastVisits.filter(v => filterVisits(v));
+  const filteredPages = [];
+  const pageCounts = {};
+  filteredVisits.forEach(v => {
+    const p = v.page || '/';
+    pageCounts[p] = (pageCounts[p] || 0) + 1;
+  });
+  Object.keys(pageCounts).forEach(p => filteredPages.push([p, pageCounts[p]]));
+  filteredPages.sort((a,b) => b[1] - a[1]);
+  
+  document.getElementById('totalVisits').textContent = filteredVisits.length;
+  document.getElementById('avgTime').textContent = fmtDuration(
+    filteredVisits.reduce((s,v) => s + (v.duration || 0), 0) / (filteredVisits.length || 1)
+  );
   
   const today = new Date().toISOString().split('T')[0];
-  const todayCount = stats.lastVisits.filter(v => new Date(v.start).toISOString().split('T')[0] === today).length;
+  const todayCount = filteredVisits.filter(v => new Date(v.start).toISOString().split('T')[0] === today).length;
   document.getElementById('todayVisits').textContent = todayCount;
 
   // Fetch global stats via GitHub Issues
@@ -129,8 +164,8 @@ function render(){
     }
   });
 
-  const maxPage = stats.topPages.length ? stats.topPages[0][1] : 1;
-  document.getElementById('topPages').innerHTML = stats.topPages.map(([page, count]) =>
+  const maxPage = filteredPages.length ? filteredPages[0][1] : 1;
+  document.getElementById('topPages').innerHTML = filteredPages.map(([page, count]) =>
     '<tr><td>'+page+'</td><td>'+count+'</td><td><div class="bar"><div class="bar-fill" style="width:'+(count/maxPage*100)+'%"></div></div></td></tr>'
   ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center">Aucune donnée</td></tr>';
 
@@ -139,7 +174,7 @@ function render(){
     '<tr><td>'+label+'</td><td>'+count+'</td><td><div class="bar"><div class="bar-fill" style="width:'+(count/maxClick*100)+'%"></div></div></td></tr>'
   ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center">Aucun clic</td></tr>';
 
-  document.getElementById('lastVisits').innerHTML = stats.lastVisits.map(v =>
+  document.getElementById('lastVisits').innerHTML = filteredVisits.slice(0,50).map(v =>
     '<tr><td>'+fmtDate(v.start)+'</td><td>'+v.page+'</td><td style="color:var(--muted);font-size:.8em">'+(v.referrer||'-')+'</td><td>'+(v.duration>0?fmtDuration(v.duration):'<span style="color:var(--muted)">en cours</span>')+'</td></tr>'
   ).join('') || '<tr><td colspan="4" style="color:var(--muted);text-align:center">Aucune visite</td></tr>';
 
