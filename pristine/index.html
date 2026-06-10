@@ -86,16 +86,6 @@ nav a:hover{color:var(--text)}
 .resize-inputs{display:flex;gap:8px;align-items:center}
 .resize-inputs input{width:70px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:.8rem;text-align:center}
 .resize-inputs label{font-size:.7rem;color:var(--muted)}
-.pricing{max-width:1000px;margin:3rem auto;padding:0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
-.pc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:.3s}
-.pc:hover{transform:translateY(-4px);border-color:var(--primary)}
-.pc.featured{border-color:var(--primary);background:linear-gradient(180deg,rgba(139,92,246,.1),var(--card))}
-.popular{background:var(--primary);color:#fff;padding:3px 14px;border-radius:20px;font-size:.75rem;display:inline-block;margin-bottom:.5rem}
-.price{font-size:2.2rem;font-weight:800;margin:.5rem 0}
-.price span{font-size:.9rem;color:var(--muted);font-weight:400}
-.pc ul{list-style:none;text-align:left;margin:1rem 0;color:var(--muted);font-size:.85rem}
-.pc li{margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
-.full-w{width:100%;margin-top:.8rem}
 footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);margin-top:2rem}
 </style>
 </head>
@@ -104,7 +94,6 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
   <div class="logo">Pristine</div>
   <nav>
     <a href="#editor">Éditeur</a>
-    <a href="#pricing">Tarifs</a>
   </nav>
 </header>
 
@@ -255,43 +244,6 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
         <div class="err" id="err"></div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="pricing" id="pricing">
-  <div class="pc">
-    <h3>Gratuit</h3>
-    <div class="price">0€ <span>/mois</span></div>
-    <ul>
-      <li>✅ Tous les outils d'édition</li>
-      <li>✅ Filtres & ajustements</li>
-      <li>✅ Export PNG</li>
-      <li>❌ Traitement par lots</li>
-    </ul>
-    <button class="btn-p full-w">Commencer</button>
-  </div>
-  <div class="pc featured">
-    <div class="popular">Populaire</div>
-    <h3>Pro</h3>
-    <div class="price">9.99€ <span>/mois</span></div>
-    <ul>
-      <li>✅ Tout du Gratuit</li>
-      <li>✅ Export SVG & PDF</li>
-      <li>✅ Agrandissement IA x4</li>
-      <li>✅ Suppression fond HD</li>
-    </ul>
-    <button class="btn-p full-w">Choisir Pro</button>
-  </div>
-  <div class="pc">
-    <h3>Agence</h3>
-    <div class="price">29.99€ <span>/mois</span></div>
-    <ul>
-      <li>✅ Tout du Pro</li>
-      <li>✅ API Access</li>
-      <li>✅ Lots illimités</li>
-      <li>✅ Support prioritaire</li>
-    </ul>
-    <button class="btn-s full-w" style="background:transparent;border:1px solid var(--border);color:var(--text)">Contacter</button>
   </div>
 </div>
 
