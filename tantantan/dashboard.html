@@ -50,10 +50,10 @@ footer{text-align:center;padding:20px 0;color:var(--muted);font-size:.8em}
 </nav>
 
 <div class="grid" id="statsGrid">
-  <div class="card"><h3>Visites totales</h3><div class="num gold" id="totalVisits">-</div></div>
+  <div class="card"><h3>Visites (local)</h3><div class="num gold" id="totalVisits">-</div></div>
+  <div class="card"><h3>Visites (global)</h3><div class="num green" id="globalVisits">-</div></div>
   <div class="card"><h3>Temps moyen</h3><div class="num" id="avgTime">-</div><div class="label">secondes</div></div>
-  <div class="card"><h3>Aujourd'hui</h3><div class="num green" id="todayVisits">-</div></div>
-  <div class="card"><h3>Pages uniques</h3><div class="num" id="uniquePages">-</div></div>
+  <div class="card"><h3>Aujourd'hui</h3><div class="num" id="todayVisits">-</div></div>
 </div>
 
 <div class="card" style="margin-bottom:12px">
@@ -74,7 +74,22 @@ footer{text-align:center;padding:20px 0;color:var(--muted);font-size:.8em}
 <div class="btn-group">
   <button class="btn" onclick="exportJSON()" data-track="export:json">📥 Exporter JSON</button>
   <button class="btn" onclick="exportCSV()" data-track="export:csv">📥 Exporter CSV</button>
-  <button class="btn btn-danger" onclick="if(confirm('Effacer toutes les données ?')){window.__tracker.clear();location.reload()}">🗑️ Effacer</button>
+  <button class="btn btn-danger" onclick="if(confirm('Effacer toutes les données ?')){window.__tracker.clear();location.reload()}">🗑️ Effacer local</button>
+  <button class="btn" onclick="showConfig()">⚙️ Config GitHub</button>
+</div>
+
+<div id="configModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:999;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:480px;width:100%">
+    <h3 style="color:var(--gold);margin-bottom:12px">🔑 GitHub Token</h3>
+    <p style="color:var(--muted);font-size:.9em;margin-bottom:12px">Token stocké dans votre navigateur (localStorage). Pas dans le code source.</p>
+    <input id="tokenInput" type="password" placeholder="github_pat_..." style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.9em;margin-bottom:12px">
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="saveToken()">💾 Enregistrer</button>
+      <button class="btn" onclick="removeToken()" style="background:#c62828">🗑️ Effacer</button>
+      <button class="btn btn-outline" onclick="closeConfig()" style="margin-left:auto">Fermer</button>
+    </div>
+    <div id="tokenStatus" style="margin-top:8px;font-size:.85em"></div>
+  </div>
 </div>
 
 <footer>
@@ -102,11 +117,17 @@ function render(){
   
   document.getElementById('totalVisits').textContent = stats.totalVisits;
   document.getElementById('avgTime').textContent = fmtDuration(stats.avgTime);
-  document.getElementById('uniquePages').textContent = stats.topPages.length;
   
   const today = new Date().toISOString().split('T')[0];
   const todayCount = stats.lastVisits.filter(v => new Date(v.start).toISOString().split('T')[0] === today).length;
   document.getElementById('todayVisits').textContent = todayCount;
+
+  // Fetch global stats via GitHub Issues
+  window.__tracker.globalStats(function(global){
+    if(global){
+      document.getElementById('globalVisits').textContent = global.totalVisits;
+    }
+  });
 
   const maxPage = stats.topPages.length ? stats.topPages[0][1] : 1;
   document.getElementById('topPages').innerHTML = stats.topPages.map(([page, count]) =>
@@ -123,6 +144,25 @@ function render(){
   ).join('') || '<tr><td colspan="4" style="color:var(--muted);text-align:center">Aucune visite</td></tr>';
 
   document.getElementById('lastUpdate').textContent = 'Mis à jour : ' + new Date().toLocaleTimeString('fr-FR');
+}
+
+// Config GitHub Token
+function showConfig(){
+  document.getElementById('configModal').style.display = 'flex';
+  document.getElementById('tokenInput').value = window.__tracker.getToken() || '';
+  document.getElementById('tokenStatus').textContent = window.__tracker.hasToken() ? '✅ Token présent' : '⚠️ Aucun token';
+}
+function closeConfig(){ document.getElementById('configModal').style.display = 'none'; }
+function saveToken(){
+  const t = document.getElementById('tokenInput').value.trim();
+  if(!t){ document.getElementById('tokenStatus').textContent = '❌ Token vide'; return; }
+  window.__tracker.setToken(t);
+  document.getElementById('tokenStatus').textContent = '✅ Token enregistré !';
+}
+function removeToken(){
+  window.__tracker.removeToken();
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('tokenStatus').textContent = '🗑️ Token effacé';
 }
 
 function exportJSON(){

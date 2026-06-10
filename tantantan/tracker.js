@@ -1,8 +1,33 @@
 (function(){
   const SITE = 'tantantan';
   const STORAGE_KEY = SITE + '_visits';
+  const GH_KEY = SITE + '_gh_token';
   const NOW = Date.now();
   const SESSION = { id: NOW, start: NOW, page: location.pathname, referrer: document.referrer || 'direct' };
+
+  // GitHub Issues API config (stored in localStorage, not hardcoded)
+  function getGHToken(){ return localStorage.getItem(GH_KEY); }
+
+  function logToGitHub(type, data){
+    const token = getGHToken();
+    if(!token) return;
+    const title = type === 'visit'
+      ? 'Visite - ' + data.page + ' - ' + new Date().toISOString()
+      : 'Clic - ' + data.label + ' - ' + new Date().toISOString();
+    fetch('https://api.github.com/repos/ucfzem/ucfzem.github.io/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify({
+        title: title.substring(0, 256),
+        body: JSON.stringify(data, null, 2),
+        labels: [type === 'visit' ? 'visite' : 'clic']
+      })
+    }).catch(function(){});
+  }
 
   // Load existing data
   let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { visits: [], clicks: [] };
@@ -12,20 +37,22 @@
   // Track time on page (send on leave)
   function trackLeave(){
     const duration = Math.round((Date.now() - SESSION.start) / 1000);
-    if(duration < 2) return; // ignore bounces <2s
+    if(duration < 2) return;
     SESSION.duration = duration;
     data.visits.push(SESSION);
-    // Keep last 500 visits
     if(data.visits.length > 500) data.visits = data.visits.slice(-500);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    logToGitHub('visit', { page: SESSION.page, referrer: SESSION.referrer, duration: duration });
   }
 
   // Track clicks on tracked elements
   document.addEventListener('click', function(e){
     const el = e.target.closest('[data-track]');
     if(!el) return;
-    data.clicks.push({ label: el.dataset.track, time: Date.now(), page: location.pathname });
+    const clickData = { label: el.dataset.track, time: Date.now(), page: location.pathname };
+    data.clicks.push(clickData);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    logToGitHub('click', clickData);
   });
 
   // Track leave events
@@ -38,8 +65,23 @@
   SESSION.duration = 0;
   data.visits.push(SESSION);
 
-  // Export function (for dashboard)
+  // GitHub Issues reader (for dashboard)
+  let _ghCache = null;
+
+  function fetchGitHubIssues(label){
+    const token = getGHToken();
+    if(!token) return Promise.resolve([]);
+    return fetch('https://api.github.com/repos/ucfzem/ucfzem.github.io/issues?labels=' + label + '&state=all&per_page=100', {
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
+    }).then(function(r){ return r.json(); }).catch(function(){ return []; });
+  }
+
+  // Token management
   window.__tracker = {
+    setToken: function(token){ localStorage.setItem(GH_KEY, token); },
+    getToken: function(){ return getGHToken(); },
+    hasToken: function(){ return !!getGHToken(); },
+    removeToken: function(){ localStorage.removeItem(GH_KEY); },
     data: function(){ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { visits: [], clicks: [] }; },
     exportJSON: function(){ return JSON.stringify(window.__tracker.data(), null, 2); },
     exportCSV: function(){
@@ -50,24 +92,41 @@
       d.clicks.forEach(c => csv += c.label+','+new Date(c.time).toISOString()+','+c.page+'\n');
       return csv;
     },
-    clear: function(){ localStorage.removeItem(STORAGE_KEY); },
+    clear: function(){
+      localStorage.removeItem(STORAGE_KEY);
+    },
     stats: function(){
       const d = window.__tracker.data();
-      const unique = new Set(d.visits.map(v => v.start)).size;
-      const totalTime = d.visits.reduce((s, v) => s + (v.duration || 0), 0);
       const topPages = {};
       d.visits.forEach(v => { topPages[v.page] = (topPages[v.page] || 0) + 1; });
       const topClicks = {};
       d.clicks.forEach(c => { topClicks[c.label] = (topClicks[c.label] || 0) + 1; });
+      const totalTime = d.visits.reduce((s, v) => s + (v.duration || 0), 0);
       return {
         totalVisits: d.visits.length,
-        uniqueVisits: unique,
         totalTime: totalTime,
         avgTime: d.visits.length ? Math.round(totalTime / d.visits.length) : 0,
         topPages: Object.entries(topPages).sort((a,b) => b[1] - a[1]).slice(0,10),
         topClicks: Object.entries(topClicks).sort((a,b) => b[1] - a[1]).slice(0,10),
         lastVisits: d.visits.slice(-20).reverse()
       };
+    },
+    // Global stats from GitHub Issues API
+    globalStats: function(callback){
+      Promise.all([fetchGitHubIssues('visite'), fetchGitHubIssues('clic')]).then(function(results){
+        const visits = results[0] || [];
+        const clicks = results[1] || [];
+        callback({
+          totalVisits: visits.length,
+          totalClicks: clicks.length,
+          visits: visits.map(function(issue){
+            try { return JSON.parse(issue.body); } catch(e){ return {}; }
+          }),
+          clicks: clicks.map(function(issue){
+            try { return JSON.parse(issue.body); } catch(e){ return {}; }
+          })
+        });
+      }).catch(function(){ callback(null); });
     }
   };
 
