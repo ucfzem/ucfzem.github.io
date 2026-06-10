@@ -29,7 +29,7 @@ nav a:hover{color:var(--text)}
 .editor-main{flex:1;min-width:300px;padding:16px}
 .editor-side{width:240px;padding:16px;border-left:1px solid var(--border);background:rgba(0,0,0,.15)}
 @media(max-width:700px){.editor-side{width:100%;border-left:none;border-top:1px solid var(--border)}}
-.tabs{display:flex;gap:2px;overflow-x:auto;padding:3px;background:rgba(0,0,0,.2);border-radius:var(--sm)}.tabs::-webkit-scrollbar{height:0}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;padding:3px;background:rgba(0,0,0,.2);border-radius:var(--sm)}.tabs::-webkit-scrollbar{height:0}
 .tab{padding:6px 10px;border:none;background:transparent;color:var(--muted);font-size:.72rem;font-weight:600;cursor:pointer;border-radius:6px;white-space:nowrap;transition:.2s;flex-shrink:0}
 .tab.active{background:var(--primary);color:#fff}
 .tb{display:flex;flex-wrap:wrap;gap:4px;padding:8px 0;align-items:center}
@@ -64,9 +64,13 @@ nav a:hover{color:var(--text)}
 .filter-btn{padding:4px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);font-size:.65rem;cursor:pointer;text-align:center;transition:.2s}
 .filter-btn:hover{border-color:var(--primary);color:var(--text)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
-.crop-overlay{position:absolute;inset:0;z-index:5;cursor:crosshair;touch-action:none}
-.crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6;pointer-events:none}
-.crop-rect::after{content:'';position:absolute;right:-5px;bottom:-5px;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:all;cursor:nwse-resize}
+.crop-overlay{position:absolute;inset:0;z-index:5;touch-action:none}
+.crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6}
+.cr-h{position:absolute;width:16px;height:16px;background:#a78bfa;border:2px solid #fff;border-radius:50%;z-index:7;touch-action:none}
+.cr-tl{top:-8px;left:-8px;cursor:nwse-resize}
+.cr-tr{top:-8px;right:-8px;cursor:nesw-resize}
+.cr-bl{bottom:-8px;left:-8px;cursor:nesw-resize}
+.cr-br{bottom:-8px;right:-8px;cursor:nwse-resize}
 .draw-tools{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 .draw-tools input[type=color]{width:28px;height:28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:none;padding:0}
 .resize-inputs{display:flex;gap:8px;align-items:center}
@@ -123,7 +127,12 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
         <div class="canvas-wrap" id="cw" style="display:none">
           <canvas id="c"></canvas>
           <div class="crop-overlay" id="cropOverlay" style="display:none">
-            <div class="crop-rect" id="cropRect"></div>
+            <div class="crop-rect" id="cropRect">
+              <div class="cr-h cr-tl" data-h="tl"></div>
+              <div class="cr-h cr-tr" data-h="tr"></div>
+              <div class="cr-h cr-bl" data-h="bl"></div>
+              <div class="cr-h cr-br" data-h="br"></div>
+            </div>
           </div>
           <div class="loading" id="ld"><div class="spin"></div><p id="lt">Processing...</p></div>
         </div>
@@ -482,43 +491,85 @@ function applyFilter(f){
 }
 
 // === CROP ===
-let cropActive=false,cropDrag=false
+let cropDrag=false,cropMode=''
 function showCropOverlay(){
   if(!imgD)return;cropOverlay.style.display='block'
-  const mar=Math.round(cv.width*0.1)
+  const mar=Math.round(cv.width*0.12)
   cropRect.style.left=mar+'px';cropRect.style.top=mar+'px'
   cropRect.style.width=(cv.width-mar*2)+'px';cropRect.style.height=(cv.height-mar*2)+'px'
 }
-function crS(e){if(!imgD)return;e.preventDefault();cropDrag=true
-  const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
-  const sx=cv.width/r.width,sy=cv.height/r.height
-  const x=Math.max(0,(t.clientX-r.left)*sx),y=Math.max(0,(t.clientY-r.top)*sy)
-  cropRect.dataset.sx=x;cropRect.dataset.sy=y
-  cropRect.style.left=x+'px';cropRect.style.top=y+'px'
+function cp(e){const t=e.touches?e.touches[0]:e,r=cv.getBoundingClientRect()
+  return{x:Math.max(0,Math.min(cv.width,(t.clientX-r.left)*cv.width/r.width)),
+         y:Math.max(0,Math.min(cv.height,(t.clientY-r.top)*cv.height/r.height))}}
+function crS(e){if(!imgD)return;e.preventDefault()
+  const h=e.target.closest('.cr-h'),p=cp(e)
+  if(h){cropDrag=true;cropMode='resize';cropRect.dataset.h=h.dataset.h
+    cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
+    cropRect.dataset.rl=parseFloat(cropRect.style.left)||0
+    cropRect.dataset.rt=parseFloat(cropRect.style.top)||0
+    cropRect.dataset.rw=parseFloat(cropRect.style.width)||0
+    cropRect.dataset.rh=parseFloat(cropRect.style.height)||0;return}
+  const l=parseFloat(cropRect.style.left)||0,t=parseFloat(cropRect.style.top)||0
+  const rw=parseFloat(cropRect.style.width)||0,rh=parseFloat(cropRect.style.height)||0
+  if(p.x>=l&&p.x<=l+rw&&p.y>=t&&p.y<=t+rh){
+    cropDrag=true;cropMode='move'
+    cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
+    cropRect.dataset.rl=l;cropRect.dataset.rt=t;return}
+  cropDrag=true;cropMode='new'
+  cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
+  cropRect.style.left=p.x+'px';cropRect.style.top=p.y+'px'
   cropRect.style.width='0px';cropRect.style.height='0px'
 }
-function crM(e){if(!cropDrag)return;e.preventDefault()
-  const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
-  const sx=cv.width/r.width,sy=cv.height/r.height
-  const x=Math.min(cv.width,Math.max(0,(t.clientX-r.left)*sx))
-  const y=Math.min(cv.height,Math.max(0,(t.clientY-r.top)*sy))
-  const l=parseFloat(cropRect.dataset.sx),t2=parseFloat(cropRect.dataset.sy)
-  cropRect.style.left=Math.min(l,x)+'px';cropRect.style.top=Math.min(t2,y)+'px'
-  cropRect.style.width=Math.abs(x-l)+'px';cropRect.style.height=Math.abs(y-t2)+'px'
+function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
+  const p=cp(e),m=cropMode
+  if(m==='resize'){
+    let rl=parseFloat(cropRect.dataset.rl),rt=parseFloat(cropRect.dataset.rt)
+    let rw=parseFloat(cropRect.dataset.rw),rh=parseFloat(cropRect.dataset.rh)
+    const h=cropRect.dataset.h
+    if(h==='tr'){let ax=rl,ay=rt+rh;rl=ax;rt=Math.min(p.y,ay-10);rw=Math.max(p.x-ax,10);rh=Math.max(ay-p.y,10)}
+    else if(h==='bl'){let ax=rl+rw,ay=rt;rl=Math.min(p.x,ax-10);rt=ay;rw=Math.max(ax-p.x,10);rh=Math.max(p.y-ay,10)}
+    else if(h==='br'){let ax=rl,ay=rt;rl=ax;rt=ay;rw=Math.max(p.x-ax,10);rh=Math.max(p.y-ay,10)}
+    else{let ax=rl+rw,ay=rt+rh;rl=Math.min(p.x,ax-10);rt=Math.min(p.y,ay-10);rw=Math.max(ax-p.x,10);rh=Math.max(ay-p.y,10)}
+    cropRect.style.left=rl+'px';cropRect.style.top=rt+'px'
+    cropRect.style.width=rw+'px';cropRect.style.height=rh+'px'
+  }else if(m==='move'){
+    const sx=parseFloat(cropRect.dataset.sx),sy=parseFloat(cropRect.dataset.sy)
+    let dx=p.x-sx,dy=p.y-sy
+    let nl=parseFloat(cropRect.dataset.rl)+dx,nt=parseFloat(cropRect.dataset.rt)+dy
+    const nw=parseFloat(cropRect.style.width)||0,nh=parseFloat(cropRect.style.height)||0
+    nl=Math.max(0,Math.min(nl,cv.width-nw))
+    nt=Math.max(0,Math.min(nt,cv.height-nh))
+    cropRect.style.left=nl+'px';cropRect.style.top=nt+'px'
+    cropRect.dataset.rl=nl;cropRect.dataset.rt=nt
+    cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
+  }else{const sx=parseFloat(cropRect.dataset.sx),sy=parseFloat(cropRect.dataset.sy)
+    const l=Math.min(sx,p.x),t=Math.min(sy,p.y)
+    cropRect.style.left=l+'px';cropRect.style.top=t+'px'
+    cropRect.style.width=Math.abs(p.x-sx)+'px';cropRect.style.height=Math.abs(p.y-sy)+'px'}
 }
-function crE(e){if(!cropDrag)return;cropDrag=false;e.preventDefault()
+function crE(e){if(!cropDrag)return;cropDrag=false;cropMode='';e&&e.preventDefault()
   if(parseFloat(cropRect.style.width)<10||parseFloat(cropRect.style.height)<10)
     showCropOverlay()
+  else{cropRect.dataset.rl=parseFloat(cropRect.style.left)||0
+    cropRect.dataset.rt=parseFloat(cropRect.style.top)||0
+    cropRect.dataset.rw=parseFloat(cropRect.style.width)||0
+    cropRect.dataset.rh=parseFloat(cropRect.style.height)||0}
 }
-cropOverlay.addEventListener('mousemove',crM);cropOverlay.addEventListener('mouseup',crE)
-cropOverlay.addEventListener('touchmove',crM,{passive:false});cropOverlay.addEventListener('touchend',crE,{passive:false})
+cropOverlay.addEventListener('mousedown',crS)
+cropOverlay.addEventListener('mousemove',crM)
+cropOverlay.addEventListener('mouseup',crE)
+cropOverlay.addEventListener('mouseleave',crE)
+cropOverlay.addEventListener('touchstart',crS,{passive:false})
+cropOverlay.addEventListener('touchmove',crM,{passive:false})
+cropOverlay.addEventListener('touchend',crE,{passive:false})
+cropOverlay.addEventListener('touchcancel',crE,{passive:false})
 cropBtn.onclick=()=>{if(!imgD)return
   const x=Math.round(parseFloat(cropRect.style.left)||0),y=Math.round(parseFloat(cropRect.style.top)||0)
   const cw2=Math.round(parseFloat(cropRect.style.width)||cv.width),ch2=Math.round(parseFloat(cropRect.style.height)||cv.height)
   if(cw2<10||ch2<10){se('Zone trop petite');return}
-  const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
-  tc.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
-  cv.width=cw2;cv.height=ch2;imgD=tc.getContext('2d').getImageData(0,0,cw2,ch2)
+  const t2=document.createElement('canvas');t2.width=cw2;t2.height=ch2
+  t2.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
+  cv.width=cw2;cv.height=ch2;imgD=t2.getContext('2d').getImageData(0,0,cw2,ch2)
   origPixels=new Uint8ClampedArray(imgD.data);cx.putImageData(imgD,0,0);initM();initDraw()
   cropOverlay.style.display='none'
   if(drawLayer){drawLayer.width=cw2;drawLayer.height=ch2;drawCtx.clearRect(0,0,cw2,ch2)}
