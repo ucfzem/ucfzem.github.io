@@ -66,11 +66,17 @@ nav a:hover{color:var(--text)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
 .crop-overlay{position:absolute;inset:0;z-index:5;touch-action:none}
 .crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6}
-.cr-h{position:absolute;width:16px;height:16px;background:#a78bfa;border:2px solid #fff;border-radius:50%;z-index:7;touch-action:none}
-.cr-tl{top:-8px;left:-8px;cursor:nwse-resize}
-.cr-tr{top:-8px;right:-8px;cursor:nesw-resize}
-.cr-bl{bottom:-8px;left:-8px;cursor:nesw-resize}
-.cr-br{bottom:-8px;right:-8px;cursor:nwse-resize}
+.cr-h{position:absolute;width:30px;height:30px;z-index:7;touch-action:none}
+.cr-h::after{content:'';position:absolute;width:18px;height:18px;background:#a78bfa;border:2px solid #fff;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cr-r{position:absolute;z-index:7;touch-action:none;background:transparent}
+.cr-t{top:-10px;left:0;right:0;height:20px;cursor:n-resize}
+.cr-b{bottom:-10px;left:0;right:0;height:20px;cursor:s-resize}
+.cr-l{left:-10px;top:0;bottom:0;width:20px;cursor:w-resize}
+.cr-rr{right:-10px;top:0;bottom:0;width:20px;cursor:e-resize}
+.cr-tl{top:-15px;left:-15px;cursor:nwse-resize}
+.cr-tr{top:-15px;right:-15px;cursor:nesw-resize}
+.cr-bl{bottom:-15px;left:-15px;cursor:nesw-resize}
+.cr-br{bottom:-15px;right:-15px;cursor:nwse-resize}
 .draw-tools{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 .draw-tools input[type=color]{width:28px;height:28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:none;padding:0}
 .resize-inputs{display:flex;gap:8px;align-items:center}
@@ -128,6 +134,10 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
           <canvas id="c"></canvas>
           <div class="crop-overlay" id="cropOverlay" style="display:none">
             <div class="crop-rect" id="cropRect">
+              <div class="cr-r cr-t" data-h="t"></div>
+              <div class="cr-r cr-b" data-h="b"></div>
+              <div class="cr-r cr-l" data-h="l"></div>
+              <div class="cr-r cr-rr" data-h="r"></div>
               <div class="cr-h cr-tl" data-h="tl"></div>
               <div class="cr-h cr-tr" data-h="tr"></div>
               <div class="cr-h cr-bl" data-h="bl"></div>
@@ -525,11 +535,15 @@ function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
   if(m==='resize'){
     let rl=parseFloat(cropRect.dataset.rl),rt=parseFloat(cropRect.dataset.rt)
     let rw=parseFloat(cropRect.dataset.rw),rh=parseFloat(cropRect.dataset.rh)
-    const h=cropRect.dataset.h
-    if(h==='tr'){let ax=rl,ay=rt+rh;rl=ax;rt=Math.min(p.y,ay-10);rw=Math.max(p.x-ax,10);rh=Math.max(ay-p.y,10)}
-    else if(h==='bl'){let ax=rl+rw,ay=rt;rl=Math.min(p.x,ax-10);rt=ay;rw=Math.max(ax-p.x,10);rh=Math.max(p.y-ay,10)}
-    else if(h==='br'){let ax=rl,ay=rt;rl=ax;rt=ay;rw=Math.max(p.x-ax,10);rh=Math.max(p.y-ay,10)}
-    else{let ax=rl+rw,ay=rt+rh;rl=Math.min(p.x,ax-10);rt=Math.min(p.y,ay-10);rw=Math.max(ax-p.x,10);rh=Math.max(ay-p.y,10)}
+    const h2=cropRect.dataset.h
+    if(h2==='tr'){let ax=rl,ay=rt+rh;rl=ax;rt=Math.min(p.y,ay-10);rw=Math.max(p.x-ax,10);rh=Math.max(ay-p.y,10)}
+    else if(h2==='bl'){let ax=rl+rw,ay=rt;rl=Math.min(p.x,ax-10);rt=ay;rw=Math.max(ax-p.x,10);rh=Math.max(p.y-ay,10)}
+    else if(h2==='br'){let ax=rl,ay=rt;rl=ax;rt=ay;rw=Math.max(p.x-ax,10);rh=Math.max(p.y-ay,10)}
+    else if(h2==='tl'){let ax=rl+rw,ay=rt+rh;rl=Math.min(p.x,ax-10);rt=Math.min(p.y,ay-10);rw=Math.max(ax-p.x,10);rh=Math.max(ay-p.y,10)}
+    else if(h2==='t'){let ay=rt+rh;rt=Math.min(p.y,ay-10);rh=Math.max(ay-p.y,10)}
+    else if(h2==='b'){rh=Math.max(p.y-rt,10)}
+    else if(h2==='l'){let ax=rl+rw;rl=Math.min(p.x,ax-10);rw=Math.max(ax-p.x,10)}
+    else if(h2==='r'){rw=Math.max(p.x-rl,10)}
     cropRect.style.left=rl+'px';cropRect.style.top=rt+'px'
     cropRect.style.width=rw+'px';cropRect.style.height=rh+'px'
   }else if(m==='move'){
