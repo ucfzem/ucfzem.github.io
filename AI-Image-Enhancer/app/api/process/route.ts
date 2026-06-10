@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { processWithFallback } from "@/lib/api-providers"
+import { processWithFallback, getProviderStatus } from "@/lib/api-providers"
 import { checkRateLimit } from "@/lib/rate-limiter"
 
 export const runtime = "nodejs"
@@ -7,7 +7,7 @@ export const maxDuration = 120
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
-  
+
   const { allowed, remaining } = checkRateLimit(ip)
   if (!allowed) {
     return NextResponse.json(
@@ -53,4 +53,8 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ providers: getProviderStatus() })
 }
