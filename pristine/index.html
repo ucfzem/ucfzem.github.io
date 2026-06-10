@@ -514,17 +514,18 @@ function applyFilter(f){
 
 // === CROP ===
 let cropDrag=false,cropMode=''
+function cps(e){const t=e.touches?e.touches[0]:e,r=cv.getBoundingClientRect()
+  return{x:t.clientX-r.left,y:t.clientY-r.top}}
+function c2c(x,y){const r=cv.getBoundingClientRect()
+  return{x:x*cv.width/r.width,y:y*cv.height/r.height}}
 function showCropOverlay(){
   if(!imgD)return;cropOverlay.style.display='block'
-  const mar=Math.round(cv.width*0.12)
+  const r=cv.getBoundingClientRect(),mar=Math.round(r.width*0.12)
   cropRect.style.left=mar+'px';cropRect.style.top=mar+'px'
-  cropRect.style.width=(cv.width-mar*2)+'px';cropRect.style.height=(cv.height-mar*2)+'px'
+  cropRect.style.width=(r.width-mar*2)+'px';cropRect.style.height=(r.height-mar*2)+'px'
 }
-function cp(e){const t=e.touches?e.touches[0]:e,r=cv.getBoundingClientRect()
-  return{x:Math.max(0,Math.min(cv.width,(t.clientX-r.left)*cv.width/r.width)),
-         y:Math.max(0,Math.min(cv.height,(t.clientY-r.top)*cv.height/r.height))}}
 function crS(e){if(!imgD)return;e.preventDefault()
-  const h=e.target.closest('.cr-h'),p=cp(e)
+  const h=e.target.closest('.cr-h,.cr-r'),p=cps(e)
   if(h){cropDrag=true;cropMode='resize';cropRect.dataset.h=h.dataset.h
     cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
     cropRect.dataset.rl=parseFloat(cropRect.style.left)||0
@@ -543,7 +544,7 @@ function crS(e){if(!imgD)return;e.preventDefault()
   cropRect.style.width='0px';cropRect.style.height='0px'
 }
 function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
-  const p=cp(e),m=cropMode
+  const p=cps(e),r=cv.getBoundingClientRect(),m=cropMode
   if(m==='resize'){
     let rl=parseFloat(cropRect.dataset.rl),rt=parseFloat(cropRect.dataset.rt)
     let rw=parseFloat(cropRect.dataset.rw),rh=parseFloat(cropRect.dataset.rh)
@@ -556,24 +557,26 @@ function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
     else if(h2==='b'){rh=Math.max(p.y-rt,10)}
     else if(h2==='l'){let ax=rl+rw;rl=Math.min(p.x,ax-10);rw=Math.max(ax-p.x,10)}
     else if(h2==='r'){rw=Math.max(p.x-rl,10)}
-    cropRect.style.left=rl+'px';cropRect.style.top=rt+'px'
-    cropRect.style.width=rw+'px';cropRect.style.height=rh+'px'
+    cropRect.style.left=Math.max(0,Math.min(rl,r.width-10))+'px'
+    cropRect.style.top=Math.max(0,Math.min(rt,r.height-10))+'px'
+    cropRect.style.width=Math.max(10,Math.min(rw,r.width))+'px'
+    cropRect.style.height=Math.max(10,Math.min(rh,r.height))+'px'
   }else if(m==='move'){
     const sx=parseFloat(cropRect.dataset.sx),sy=parseFloat(cropRect.dataset.sy)
     let dx=p.x-sx,dy=p.y-sy
     let nl=parseFloat(cropRect.dataset.rl)+dx,nt=parseFloat(cropRect.dataset.rt)+dy
     const nw=parseFloat(cropRect.style.width)||0,nh=parseFloat(cropRect.style.height)||0
-    nl=Math.max(0,Math.min(nl,cv.width-nw))
-    nt=Math.max(0,Math.min(nt,cv.height-nh))
+    nl=Math.max(0,Math.min(nl,r.width-nw));nt=Math.max(0,Math.min(nt,r.height-nh))
     cropRect.style.left=nl+'px';cropRect.style.top=nt+'px'
     cropRect.dataset.rl=nl;cropRect.dataset.rt=nt
     cropRect.dataset.sx=p.x;cropRect.dataset.sy=p.y
   }else{const sx=parseFloat(cropRect.dataset.sx),sy=parseFloat(cropRect.dataset.sy)
-    const l=Math.min(sx,p.x),t=Math.min(sy,p.y)
-    cropRect.style.left=l+'px';cropRect.style.top=t+'px'
+    const l=Math.min(sx,p.x),t2=Math.min(sy,p.y)
+    cropRect.style.left=l+'px';cropRect.style.top=t2+'px'
     cropRect.style.width=Math.abs(p.x-sx)+'px';cropRect.style.height=Math.abs(p.y-sy)+'px'}
 }
 function crE(e){if(!cropDrag)return;cropDrag=false;cropMode='';e&&e.preventDefault()
+  const r=cv.getBoundingClientRect()
   if(parseFloat(cropRect.style.width)<10||parseFloat(cropRect.style.height)<10)
     showCropOverlay()
   else{cropRect.dataset.rl=parseFloat(cropRect.style.left)||0
@@ -590,8 +593,10 @@ cropOverlay.addEventListener('touchmove',crM,{passive:false})
 cropOverlay.addEventListener('touchend',crE,{passive:false})
 cropOverlay.addEventListener('touchcancel',crE,{passive:false})
 cropBtn.onclick=()=>{if(!imgD)return
-  const x=Math.round(parseFloat(cropRect.style.left)||0),y=Math.round(parseFloat(cropRect.style.top)||0)
-  const cw2=Math.round(parseFloat(cropRect.style.width)||cv.width),ch2=Math.round(parseFloat(cropRect.style.height)||cv.height)
+  const x=Math.round(c2c(parseFloat(cropRect.style.left)||0,0).x)
+  const y=Math.round(c2c(0,parseFloat(cropRect.style.top)||0).y)
+  const cw2=Math.round(c2c(parseFloat(cropRect.style.width)||0,0).x)
+  const ch2=Math.round(c2c(0,parseFloat(cropRect.style.height)||0).y)
   if(cw2<10||ch2<10){se('Zone trop petite');return}
   const t2=document.createElement('canvas');t2.width=cw2;t2.height=ch2
   t2.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
@@ -642,12 +647,6 @@ drawApply.onclick=()=>{if(!drawLayer||!imgD)return
   for(let i=0;i<imgD.data.length;i+=4){if(dd[i+3]>0){imgD.data[i]=dd[i];imgD.data[i+1]=dd[i+1];imgD.data[i+2]=dd[i+2];imgD.data[i+3]=255}}
   cx.putImageData(imgD,0,0);origPixels=new Uint8ClampedArray(imgD.data);drawCtx.clearRect(0,0,drawLayer.width,drawLayer.height)
   saveDraw();st('✅ Dessin appliqué')}
-function drawOnLayer(e){if(!drawCtx||!imgD||processing)return;e.preventDefault();const p=cp(e)
-  drawCtx.lineCap='round';drawCtx.lineWidth=parseInt(drawSize.value);drawCtx.strokeStyle=drawColor.value
-  if(!drawCtx._isDown){drawCtx.beginPath();drawCtx.moveTo(p.x,p.y);drawCtx._isDown=true;saveDraw()}
-  drawCtx.lineTo(p.x,p.y);drawCtx.stroke()
-  cx.putImageData(imgD,0,0);cx.drawImage(drawLayer,0,0);rC()}
-function endDrawLayer(){if(drawCtx)drawCtx._isDown=false}
 
 // === UNIFIED CANVAS EVENTS ===
 function cvHandler(e,type){
