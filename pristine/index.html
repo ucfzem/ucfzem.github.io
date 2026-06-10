@@ -30,7 +30,7 @@ nav a:hover{color:var(--text)}
 .editor-side{width:240px;padding:16px;border-left:1px solid var(--border);background:rgba(0,0,0,.15)}
 @media(max-width:700px){.editor-side{width:100%;border-left:none;border-top:1px solid var(--border)}}
 .tabs{display:flex;gap:2px;overflow-x:auto;padding:3px;background:rgba(0,0,0,.2);border-radius:var(--sm)}.tabs::-webkit-scrollbar{height:0}
-.tab{padding:6px 12px;border:none;background:transparent;color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer;border-radius:6px;white-space:nowrap;transition:.2s;flex-shrink:0}
+.tab{padding:6px 10px;border:none;background:transparent;color:var(--muted);font-size:.72rem;font-weight:600;cursor:pointer;border-radius:6px;white-space:nowrap;transition:.2s;flex-shrink:0}
 .tab.active{background:var(--primary);color:#fff}
 .tb{display:flex;flex-wrap:wrap;gap:4px;padding:8px 0;align-items:center}
 .tb .g{display:flex;align-items:center;gap:4px}
@@ -64,7 +64,7 @@ nav a:hover{color:var(--text)}
 .filter-btn{padding:4px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);font-size:.65rem;cursor:pointer;text-align:center;transition:.2s}
 .filter-btn:hover{border-color:var(--primary);color:var(--text)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
-.crop-overlay{position:absolute;inset:0;z-index:5;cursor:crosshair}
+.crop-overlay{position:absolute;inset:0;z-index:5;cursor:crosshair;touch-action:none}
 .crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6;pointer-events:none}
 .crop-rect::after{content:'';position:absolute;right:-5px;bottom:-5px;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:all;cursor:nwse-resize}
 .draw-tools{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
@@ -122,7 +122,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
         </div>
         <div class="canvas-wrap" id="cw" style="display:none">
           <canvas id="c"></canvas>
-          <div class="crop-overlay" id="cropOverlay" style="display:none" ontouchstart="crS(event)" onmousedown="crS(event)">
+          <div class="crop-overlay" id="cropOverlay" style="display:none">
             <div class="crop-rect" id="cropRect"></div>
           </div>
           <div class="loading" id="ld"><div class="spin"></div><p id="lt">Processing...</p></div>
@@ -311,6 +311,7 @@ A('.tab',t=>t.onclick=()=>{
   else if(tab==='draw')$('tbDraw').style.display='block'
   else if(tab==='resize'){updateResizeInputs();$('tbResize').style.display='block'}
   else if(tab==='avatar')$('tbAvatar').style.display='flex'
+  else if(tab==='upscale')$('tbUpscale').style.display='flex'
   re.style.display='none';he()
 })
 
@@ -481,40 +482,47 @@ function applyFilter(f){
 }
 
 // === CROP ===
-let cropActive=false
-function showCropOverlay(){if(!imgD)return;cropOverlay.style.display='block';
-  const r=cv.getBoundingClientRect();cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}
-let cropDrag=false
+let cropActive=false,cropDrag=false
+function showCropOverlay(){
+  if(!imgD)return;cropOverlay.style.display='block'
+  const mar=Math.round(cv.width*0.1)
+  cropRect.style.left=mar+'px';cropRect.style.top=mar+'px'
+  cropRect.style.width=(cv.width-mar*2)+'px';cropRect.style.height=(cv.height-mar*2)+'px'
+}
 function crS(e){if(!imgD)return;e.preventDefault();cropDrag=true
   const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
   const sx=cv.width/r.width,sy=cv.height/r.height
-  const x=(t.clientX-r.left)*sx,y=(t.clientY-r.top)*sy
-  cropRect.style.left=x+'px';cropRect.style.top=y+'px';cropRect.style.width='0px';cropRect.style.height='0px'}
+  const x=Math.max(0,(t.clientX-r.left)*sx),y=Math.max(0,(t.clientY-r.top)*sy)
+  cropRect.dataset.sx=x;cropRect.dataset.sy=y
+  cropRect.style.left=x+'px';cropRect.style.top=y+'px'
+  cropRect.style.width='0px';cropRect.style.height='0px'
+}
 function crM(e){if(!cropDrag)return;e.preventDefault()
   const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
   const sx=cv.width/r.width,sy=cv.height/r.height
-  const x=(t.clientX-r.left)*sx,y=(t.clientY-r.top)*sy
-  const l=parseFloat(cropRect.style.left),t2=parseFloat(cropRect.style.top)
+  const x=Math.min(cv.width,Math.max(0,(t.clientX-r.left)*sx))
+  const y=Math.min(cv.height,Math.max(0,(t.clientY-r.top)*sy))
+  const l=parseFloat(cropRect.dataset.sx),t2=parseFloat(cropRect.dataset.sy)
+  cropRect.style.left=Math.min(l,x)+'px';cropRect.style.top=Math.min(t2,y)+'px'
   cropRect.style.width=Math.abs(x-l)+'px';cropRect.style.height=Math.abs(y-t2)+'px'
-  cropRect.style.left=Math.min(l,x)+'px';cropRect.style.top=Math.min(t2,y)+'px'}
+}
 function crE(e){if(!cropDrag)return;cropDrag=false;e.preventDefault()
-  const w=parseFloat(cropRect.style.width),h=parseFloat(cropRect.style.height)
-  if(w<10||h<10){cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}}
+  if(parseFloat(cropRect.style.width)<10||parseFloat(cropRect.style.height)<10)
+    showCropOverlay()
+}
 cropOverlay.addEventListener('mousemove',crM);cropOverlay.addEventListener('mouseup',crE)
 cropOverlay.addEventListener('touchmove',crM,{passive:false});cropOverlay.addEventListener('touchend',crE,{passive:false})
 cropBtn.onclick=()=>{if(!imgD)return
-  const l=parseFloat(cropRect.style.left)||0,t=parseFloat(cropRect.style.top)||0
-  const w=parseFloat(cropRect.style.width)||cv.width,h=parseFloat(cropRect.style.height)||cv.height
-  const x=Math.round(l),y=Math.round(t),cw2=Math.round(w),ch2=Math.round(h)
-  if(cw2<10||ch2<10){se('Crop too small');return}
+  const x=Math.round(parseFloat(cropRect.style.left)||0),y=Math.round(parseFloat(cropRect.style.top)||0)
+  const cw2=Math.round(parseFloat(cropRect.style.width)||cv.width),ch2=Math.round(parseFloat(cropRect.style.height)||cv.height)
+  if(cw2<10||ch2<10){se('Zone trop petite');return}
   const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
   tc.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
-  imgD=tc.getContext('2d').getImageData(0,0,cw2,ch2)
-  origPixels=new Uint8ClampedArray(imgD.data)
-  cv.width=cw2;cv.height=ch2;cx.putImageData(imgD,0,0);initM();initDraw();cropOverlay.style.display='none';st('✅ Image recadrée')
-  const nw=cv.width,nh=cv.height
-  if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
-  updateResizeInputs()}
+  cv.width=cw2;cv.height=ch2;imgD=tc.getContext('2d').getImageData(0,0,cw2,ch2)
+  origPixels=new Uint8ClampedArray(imgD.data);cx.putImageData(imgD,0,0);initM();initDraw()
+  cropOverlay.style.display='none'
+  if(drawLayer){drawLayer.width=cw2;drawLayer.height=ch2;drawCtx.clearRect(0,0,cw2,ch2)}
+  updateResizeInputs();st('✅ Image recadrée')}
 cropReset.onclick=()=>{if(!img)return;const i=img;let w=i.width,h=i.height
   if(w>1024){h=h*1024/w;w=1024};cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
   imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw();cropOverlay.style.display='none';st('↺ Réinitialisé')}
