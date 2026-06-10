@@ -484,7 +484,7 @@ function applyFilter(f){
 let cropActive=false
 function showCropOverlay(){if(!imgD)return;cropOverlay.style.display='block';
   const r=cv.getBoundingClientRect();cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}
-let cropDrag=false,cropRectEl=null
+let cropDrag=false
 function crS(e){if(!imgD)return;e.preventDefault();cropDrag=true
   const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
   const sx=cv.width/r.width,sy=cv.height/r.height
@@ -506,7 +506,6 @@ cropBtn.onclick=()=>{if(!imgD)return
   const l=parseFloat(cropRect.style.left)||0,t=parseFloat(cropRect.style.top)||0
   const w=parseFloat(cropRect.style.width)||cv.width,h=parseFloat(cropRect.style.height)||cv.height
   const x=Math.round(l),y=Math.round(t),cw2=Math.round(w),ch2=Math.round(h)
-  const x=Math.round(l*sx),y=Math.round(t*sy),cw2=Math.round(w*sx),ch2=Math.round(h*sy)
   if(cw2<10||ch2<10){se('Crop too small');return}
   const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
   tc.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
