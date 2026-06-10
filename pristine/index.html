@@ -485,9 +485,9 @@ function crS(e){if(!imgD)return;cropDrag=true;const t=e.touches?e.touches[0]:e
   const x=(t.clientX-r.left)*sx/r.width*100,y=(t.clientY-r.top)*sy/r.height*100
   cropRect.style.left=x+'%';cropRect.style.top=y+'%';cropRect.style.width='10%';cropRect.style.height='10%'}
 cropBtn.onclick=()=>{if(!imgD)return;const r=cv.getBoundingClientRect()
-  const l=parseFloat(cropRect.style.left)/100*r.width/sx||0,t=parseFloat(cropRect.style.top)/100*r.height/sy||0
-  const w=parseFloat(cropRect.style.width)/100*r.width/sx||r.width,h=parseFloat(cropRect.style.height)/100*r.height/sy||r.height
   const sx=cv.width/r.width,sy=cv.height/r.height
+  const l=parseFloat(cropRect.style.left)/100*r.width*sx||0,t=parseFloat(cropRect.style.top)/100*r.height*sy||0
+  const w=parseFloat(cropRect.style.width)/100*r.width*sx||r.width*sx,h=parseFloat(cropRect.style.height)/100*r.height*sy||r.height*sy
   const x=Math.round(l*sx),y=Math.round(t*sy),cw2=Math.round(w*sx),ch2=Math.round(h*sy)
   if(cw2<10||ch2<10){se('Crop too small');return}
   const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
