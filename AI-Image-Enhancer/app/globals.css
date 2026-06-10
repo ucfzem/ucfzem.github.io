@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 30% 3%;
+    --foreground: 40 30% 90%;
+    --card: 30 25% 7%;
+    --card-foreground: 40 30% 90%;
+    --primary: 40 60% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 25% 12%;
+    --secondary-foreground: 40 30% 90%;
+    --border: 30 20% 15%;
+    --muted: 30 15% 45%;
+    --muted-foreground: 30 15% 65%;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2012 transparent;
+}
+
+body {
+  background: #0d0905;
+  color: #f0ebdf;
+}
