@@ -6,16 +6,16 @@
 <title>Pristine — Éditeur d'Images Intelligent</title>
 <meta name="description" content="Suppression de fond, filtres, recadrage, rotation, dessin, redimensionnement, avatar. Éditeur d'images 100% gratuit en ligne.">
 <style>
-:root{--bg:#0a0a0f;--card:#12121a;--primary:#8b5cf6;--primary2:#ec4899;--text:#f1f1f6;--muted:#6b7280;--border:#1e1e2a;--green:#10b981;--radius:12px;--sm:8px;--glow:0 0 20px rgba(139,92,246,.15)}
+:root{--bg:#0d0905;--card:#17120c;--primary:#d4a843;--primary2:#b87333;--text:#f0ebdf;--muted:#8a7a5a;--border:#2a2012;--green:#10b981;--radius:12px;--sm:8px;--glow:0 0 20px rgba(212,168,67,.15)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
 body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 5%;border-bottom:1px solid var(--border);background:rgba(10,10,15,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 5%;border-bottom:1px solid var(--border);background:rgba(13,9,5,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
 .logo{font-size:1.4rem;font-weight:800}.logo span{color:var(--primary)}
 nav{display:flex;gap:1rem;align-items:center}
 nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.9rem}
 nav a:hover{color:var(--text)}
 .btn-p{background:var(--primary);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:var(--sm);font-weight:600;cursor:pointer;transition:.2s;font-size:.85rem}
-.btn-p:hover{background:#7c3aed;transform:translateY(-1px)}
+.btn-p:hover{background:#c49a38;transform:translateY(-1px)}
 .btn-p:disabled{opacity:.4;cursor:default;transform:none}
 .btn-s{background:transparent;border:1px solid var(--border);color:var(--text);padding:.6rem 1.2rem;border-radius:var(--sm);font-weight:500;cursor:pointer;font-size:.8rem;transition:.2s}
 .btn-s:hover{border-color:var(--primary)}
@@ -40,12 +40,12 @@ nav a:hover{color:var(--text)}
 .canvas-wrap{position:relative;background:#000;border-radius:var(--sm);overflow:hidden;min-height:200px}
 .canvas-wrap canvas{display:block;width:100%;max-height:55vh;touch-action:none;background:#111}
 .uz{border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem 1rem;text-align:center;cursor:pointer;transition:.3s;background:rgba(255,255,255,.02)}
-.uz:hover,.uz.dragover{border-color:var(--primary);background:rgba(139,92,246,.05)}
+.uz:hover,.uz.dragover{border-color:var(--primary);background:rgba(212,168,67,.05)}
 .uz .ic{font-size:2.5rem;margin-bottom:.5rem}
 .uz .link{color:var(--primary);text-decoration:underline}
 .uz input[type=file]{display:none}
 .result{display:none;margin-top:8px;background:var(--card);border-radius:var(--sm);border:1px solid var(--border);overflow:hidden}
-.result img{display:block;width:100%;max-height:55vh;object-fit:contain;background:repeating-conic-gradient(#1a1a2e 0%25%,#13131a 0%50%) 0 0/20px 20px}
+.result img{display:block;width:100%;max-height:55vh;object-fit:contain;background:repeating-conic-gradient(#1a1410 0%25%,#120e0a 0%50%) 0 0/20px 20px}
 .result-actions{display:flex;gap:4px;padding:8px;border-top:1px solid var(--border);flex-wrap:wrap}
 .result-actions button{flex:1;min-width:80px}
 .info-bar{display:none;gap:12px;justify-content:center;padding:6px 12px;font-size:.7rem;color:var(--muted);border-top:1px solid var(--border)}
@@ -58,7 +58,7 @@ nav a:hover{color:var(--text)}
 .loading p{margin-top:8px;font-size:.8rem;color:var(--muted)}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);padding:8px 18px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}
 .toast.show{opacity:1}
-.err{color:#f87171;font-size:.8rem;display:none;text-align:center;margin:4px 0}
+.err{color:#d45530;font-size:.8rem;display:none;text-align:center;margin:4px 0}
 .palette-wrap{display:none;margin-top:8px;text-align:center}
 .palette-wrap p{color:var(--muted);font-size:.75rem;margin-bottom:4px}
 .palette{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
@@ -69,9 +69,9 @@ nav a:hover{color:var(--text)}
 .filter-btn:hover{border-color:var(--primary);color:var(--text)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
 .crop-overlay{position:absolute;inset:0;z-index:5;touch-action:none}
-.crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6}
+.crop-rect{position:absolute;border:2px dashed #fff;background:rgba(212,168,67,.1);z-index:6}
 .cr-h{position:absolute;width:30px;height:30px;z-index:7;touch-action:none}
-.cr-h::after{content:'';position:absolute;width:18px;height:18px;background:#a78bfa;border:2px solid #fff;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cr-h::after{content:'';position:absolute;width:18px;height:18px;background:#d4a843;border:2px solid #fff;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
 .cr-r{position:absolute;z-index:7;touch-action:none;background:transparent}
 .cr-t{top:-10px;left:0;right:0;height:20px;cursor:n-resize}
 .cr-b{bottom:-10px;left:0;right:0;height:20px;cursor:s-resize}
@@ -479,9 +479,7 @@ function showCropOverlay(){
   cropState={l,t,w,h}
 }
 function cropHit(p){
-  const s=cropState,mar=12
-  if(p.x<s.l-mar||p.x>s.l+s.w+mar||p.y<s.t-mar||p.y>s.t+s.h+mar)return null
-  const d=4
+  const s=cropState,d=15
   if(Math.abs(p.x-s.l)<d&&Math.abs(p.y-s.t)<d)return'tl'
   if(Math.abs(p.x-(s.l+s.w))<d&&Math.abs(p.y-s.t)<d)return'tr'
   if(Math.abs(p.x-s.l)<d&&Math.abs(p.y-(s.t+s.h))<d)return'bl'
@@ -495,14 +493,13 @@ function cropHit(p){
 }
 function crS(e){if(!imgD)return;e.preventDefault()
   const p=cps(e),h=cropHit(p);if(!h)return
-  cropDrag=true;cropMode=h;cropState={...cropState,sx:p.x,sy:p.y}
+  cropDrag=true;cropMode=h;cropState={...cropState,sx:p.x,sy:p.y,ol:cropState.l,ot:cropState.t}
   if(h==='new'){cropState.l=p.x;cropState.t=p.y;cropState.w=0;cropState.h=0}
 }
 function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
   const p=cps(e),s=cropState,r=cv.getBoundingClientRect()
   let{l,t,w,h}=s
-  const dx=p.x-s.sx,dy=p.y-s.sy
-  if(cropMode==='move'){l=s.l+dx;t=s.t+dy}
+  if(cropMode==='move'){l=s.ol+(p.x-s.sx);t=s.ot+(p.y-s.sy)}
   else if(cropMode==='tl'){l=Math.min(p.x,s.l+s.w-10);t=Math.min(p.y,s.t+s.h-10);w=s.l+s.w-l;h=s.t+s.h-t}
   else if(cropMode==='tr'){t=Math.min(p.y,s.t+s.h-10);w=Math.max(p.x-s.l,10);h=s.t+s.h-t}
   else if(cropMode==='bl'){l=Math.min(p.x,s.l+s.w-10);w=s.l+s.w-l;h=Math.max(p.y-s.t,10)}
@@ -516,7 +513,7 @@ function crM(e){if(!cropDrag||!imgD)return;e.preventDefault()
   w=Math.max(10,Math.min(w,r.width-l));h=Math.max(10,Math.min(h,r.height-t))
   cropRect.style.left=l+'px';cropRect.style.top=t+'px'
   cropRect.style.width=w+'px';cropRect.style.height=h+'px'
-  cropState={l,t,w,h}
+  cropState={l,t,w,h,sx:s.sx,sy:s.sy,ol:s.ol,ot:s.ot}
 }
 function crE(e){if(!cropDrag)return;cropDrag=false;e&&e.preventDefault()
   if(cropState.w<10||cropState.h<10)showCropOverlay()
