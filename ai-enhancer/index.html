@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Enhancer - Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        stone: { 950: '#0d0905', 900: '#17120c', 800: '#1f1810' }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .neon-border {
+            box-shadow: 0 0 15px rgba(212, 168, 67, 0.15);
+        }
+        .neon-border-active {
+            box-shadow: 0 0 20px rgba(212, 168, 67, 0.4);
+        }
+        .drag-active {
+            border-color: #d4a843 !important;
+            background-color: rgba(212, 168, 67, 0.05) !important;
+        }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-100 min-h-screen font-sans antialiased selection:bg-amber-500/30">
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
+        
+        <div class="text-center space-y-3 pt-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium mb-2">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Propulsé par l'IA
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-400 via-amber-600 to-orange-700 bg-clip-text text-transparent">
+                AI Image Enhancer
+            </h1>
+            <p class="text-stone-400 max-w-2xl mx-auto">
+                Restaurez, colorez et améliorez vos images en un clic grâce à notre réseau de neurones avancé.
+            </p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-4 space-y-4">
+                <h2 class="text-lg font-semibold flex items-center gap-2 text-stone-200">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5 text-amber-400"></i> 
+                    Choisir un outil
+                </h2>
+                <div class="space-y-3" id="tools-container"></div>
+            </div>
+
+            <div class="lg:col-span-8 space-y-6">
+                
+                <div id="upload-zone" class="border-2 border-dashed border-stone-700 rounded-2xl p-10 text-center cursor-pointer hover:border-amber-500/50 hover:bg-stone-900/50 transition-all duration-300 group">
+                    <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp">
+                    <div class="w-20 h-20 bg-stone-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-amber-500/10 transition-all duration-300">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-amber-400"></i>
+                    </div>
+                    <p class="text-xl font-medium text-stone-200">Glissez-déposez votre image ici</p>
+                    <p class="text-sm text-stone-500 mt-2">ou cliquez pour parcourir (PNG, JPG, WebP • Max 10MB)</p>
+                </div>
+
+                <div id="preview-zone" class="hidden space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-semibold text-stone-400 flex items-center gap-2">
+                                    <i data-lucide="image" class="w-4 h-4"></i> Original
+                                </span>
+                                <button id="reset-btn" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors">
+                                    <i data-lucide="trash-2" class="w-3 h-3"></i> Supprimer
+                                </button>
+                            </div>
+                            <div class="relative rounded-xl overflow-hidden border border-stone-800 bg-stone-900 aspect-square shadow-inner">
+                                <img id="original-image" src="" alt="Original" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <span class="text-sm font-semibold text-stone-400 flex items-center gap-2">
+                                <i data-lucide="wand-2" class="w-4 h-4 text-amber-400"></i> Résultat IA
+                            </span>
+                            <div class="relative rounded-xl overflow-hidden border border-stone-800 bg-stone-900 aspect-square flex items-center justify-center">
+                                
+                                <div id="loading-state" class="hidden absolute inset-0 bg-stone-900/90 flex flex-col items-center justify-center z-10">
+                                    <div class="relative w-16 h-16 mb-4">
+                                        <div class="absolute inset-0 border-4 border-stone-700 rounded-full"></div>
+                                        <div class="absolute inset-0 border-4 border-amber-500 rounded-full border-t-transparent animate-spin"></div>
+                                    </div>
+                                    <p class="text-amber-400 font-medium animate-pulse">L'IA analyse et traite l'image...</p>
+                                    <p class="text-xs text-stone-500 mt-2" id="provider-status">Connexion au serveur...</p>
+                                </div>
+
+                                <img id="result-image" src="" alt="Résultat" class="w-full h-full object-contain hidden">
+                                
+                                <div id="empty-result" class="text-center p-6">
+                                    <i data-lucide="hourglass" class="w-12 h-12 text-stone-700 mx-auto mb-3"></i>
+                                    <p class="text-stone-600 text-sm">En attente du lancement du traitement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="error-message" class="hidden p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 text-red-400">
+                        <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                        <span id="error-text">Une erreur est survenue.</span>
+                    </div>
+
+                    <button id="process-btn" class="w-full py-4 bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold rounded-xl shadow-lg shadow-amber-500/20 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        <span>Lancer l'amélioration IA</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const tools = [
+            { id: 'restore', name: 'Restauration', desc: 'Répare les rayures, déchirures et vieilles photos.', icon: 'scan-line' },
+            { id: 'colorize', name: 'Coloriage', desc: 'Transforme le noir & blanc en couleurs réalistes.', icon: 'palette' },
+            { id: 'upscale', name: 'Upscaling (4x)', desc: 'Agrandit l\'image sans perte de qualité.', icon: 'maximize' },
+            { id: 'denoise', name: 'Défloutage', desc: 'Corrige le flou de bougé et le bruit numérique.', icon: 'focus' }
+        ];
+
+        let state = {
+            file: null,
+            previewUrl: null,
+            selectedTool: 'restore',
+            isProcessing: false
+        };
+
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewZone = document.getElementById('preview-zone');
+        const originalImage = document.getElementById('original-image');
+        const resultImage = document.getElementById('result-image');
+        const loadingState = document.getElementById('loading-state');
+        const emptyResult = document.getElementById('empty-result');
+        const processBtn = document.getElementById('process-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const providerStatus = document.getElementById('provider-status');
+        const toolsContainer = document.getElementById('tools-container');
+
+        tools.forEach(tool => {
+            const btn = document.createElement('button');
+            btn.className = `w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-start gap-4 group ${
+                state.selectedTool === tool.id 
+                ? 'border-amber-500 bg-amber-500/10 neon-border-active' 
+                : 'border-stone-800 bg-stone-900 hover:border-stone-600 hover:bg-stone-800'
+            }`;
+            btn.innerHTML = `
+                <div class="p-2 rounded-lg ${state.selectedTool === tool.id ? 'bg-amber-500/20 text-amber-400' : 'bg-stone-800 text-stone-400 group-hover:text-stone-200'}">
+                    <i data-lucide="${tool.icon}" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="font-medium text-stone-100">${tool.name}</div>
+                    <div class="text-sm text-stone-400 mt-1">${tool.desc}</div>
+                </div>
+            `;
+            btn.onclick = () => {
+                state.selectedTool = tool.id;
+                renderTools();
+            };
+            toolsContainer.appendChild(btn);
+        });
+        lucide.createIcons();
+
+        function renderTools() {
+            toolsContainer.innerHTML = '';
+            tools.forEach(tool => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-start gap-4 group ${
+                    state.selectedTool === tool.id 
+                    ? 'border-amber-500 bg-amber-500/10 neon-border-active' 
+                    : 'border-stone-800 bg-stone-900 hover:border-stone-600 hover:bg-stone-800'
+                }`;
+                btn.innerHTML = `
+                    <div class="p-2 rounded-lg ${state.selectedTool === tool.id ? 'bg-amber-500/20 text-amber-400' : 'bg-stone-800 text-stone-400 group-hover:text-stone-200'}">
+                        <i data-lucide="${tool.icon}" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium text-stone-100">${tool.name}</div>
+                        <div class="text-sm text-stone-400 mt-1">${tool.desc}</div>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    state.selectedTool = tool.id;
+                    renderTools();
+                };
+                toolsContainer.appendChild(btn);
+            });
+            lucide.createIcons();
+        }
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, () => uploadZone.classList.add('drag-active'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, () => uploadZone.classList.remove('drag-active'), false);
+        });
+
+        uploadZone.addEventListener('drop', handleDrop, false);
+        uploadZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFiles);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles({ target: { files: files } });
+        }
+
+        function handleFiles(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showError("Veuillez sélectionner un fichier image valide.");
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showError("Le fichier est trop volumineux (Max 10MB).");
+                return;
+            }
+
+            state.file = file;
+            state.previewUrl = URL.createObjectURL(file);
+            originalImage.src = state.previewUrl;
+            
+            resultImage.classList.add('hidden');
+            emptyResult.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+            
+            uploadZone.classList.add('hidden');
+            previewZone.classList.remove('hidden');
+        }
+
+        resetBtn.addEventListener('click', () => {
+            state.file = null;
+            state.previewUrl = null;
+            fileInput.value = '';
+            previewZone.classList.add('hidden');
+            uploadZone.classList.remove('hidden');
+        });
+
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorMessage.classList.remove('hidden');
+        }
+
+        processBtn.addEventListener('click', async () => {
+            if (!state.file || state.isProcessing) return;
+
+            state.isProcessing = true;
+            processBtn.disabled = true;
+            processBtn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> <span>Traitement en cours...</span>`;
+            lucide.createIcons();
+
+            emptyResult.classList.add('hidden');
+            resultImage.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+
+            try {
+                providerStatus.textContent = "Envoi à l'API Replicate (Fallback: HuggingFace)...";
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                providerStatus.textContent = "Application du modèle de neurones...";
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const mockResults = {
+                    'restore': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=90',
+                    'colorize': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=90',
+                    'upscale': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=90',
+                    'denoise': 'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&q=90'
+                };
+
+                resultImage.src = mockResults[state.selectedTool] + '&t=' + new Date().getTime();
+
+                await new Promise((resolve, reject) => {
+                    resultImage.onload = resolve;
+                    resultImage.onerror = reject;
+                });
+
+                loadingState.classList.add('hidden');
+                resultImage.classList.remove('hidden');
+
+            } catch (error) {
+                loadingState.classList.add('hidden');
+                emptyResult.classList.remove('hidden');
+                showError("Le traitement a échoué. Veuillez réessayer ou vérifier votre connexion.");
+                console.error(error);
+            } finally {
+                state.isProcessing = false;
+                processBtn.disabled = false;
+                processBtn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i> <span>Lancer une nouvelle amélioration</span>`;
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
