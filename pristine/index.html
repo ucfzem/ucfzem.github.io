@@ -111,6 +111,7 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
       <div class="tab" data-t="draw">🖌 Draw</div>
       <div class="tab" data-t="resize">📐 Resize</div>
       <div class="tab" data-t="avatar">⭕ Avatar</div>
+      <div class="tab" data-t="upscale">🔍 Upscale</div>
     </div>
     <div class="editor-section">
       <div class="editor-main">
@@ -222,6 +223,10 @@ footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-
           <button class="btn-p" id="avatarBtn">⭕ Créer Avatar</button>
           <span style="font-size:.6rem;color:var(--muted)">Découpe en cercle 500×500</span>
         </div>
+        <div id="tbUpscale" class="tb" style="display:none">
+          <button class="btn-p" id="upscale2xBtn">🔍 Upscale 2×</button>
+          <span style="font-size:.6rem;color:var(--muted)">Agrandissement par interpolation</span>
+        </div>
         <div class="err" id="err"></div>
       </div>
     </div>
@@ -283,7 +288,7 @@ const adjBtn=$('adjBtn'),cropBtn=$('cropBtn'),cropReset=$('cropReset')
 const rotCW=$('rotCW'),rotCCW=$('rotCCW'),flipH=$('flipH'),flipV=$('flipV'),rotReset=$('rotReset')
 const drawColor=$('drawColor'),drawSize=$('drawSize'),drawUndo=$('drawUndo'),drawClear=$('drawClear'),drawApply=$('drawApply')
 const resizeW=$('resizeW'),resizeH=$('resizeH'),resizeBtn=$('resizeBtn'),keepRatio=$('keepRatio')
-const avatarBtn=$('avatarBtn'),cropOverlay=$('cropOverlay'),cropRect=$('cropRect')
+const avatarBtn=$('avatarBtn'),upscale2xBtn=$('upscale2xBtn'),cropOverlay=$('cropOverlay'),cropRect=$('cropRect')
 
 function st(m){ts.textContent=m;ts.classList.add('show');setTimeout(()=>ts.classList.remove('show'),2500)}
 function se(m){err.textContent=m;err.style.display='block'}
@@ -295,7 +300,7 @@ A('.tab',t=>t.onclick=()=>{
   A('.tab',x=>x.classList.remove('active'))
   t.classList.add('active')
   const tab=t.dataset.t
-  const allTbs=['tbRemove','tbBg','tbAdjust','tbFilters','tbCrop','tbRotate','tbDraw','tbResize','tbAvatar']
+  const allTbs=['tbRemove','tbBg','tbAdjust','tbFilters','tbCrop','tbRotate','tbDraw','tbResize','tbAvatar','tbUpscale']
   allTbs.forEach(id=>{const el=$(id);if(el)el.style.display='none'})
   if(tab==='remove')$('tbRemove').style.display='flex'
   else if(tab==='bg')$('tbBg').style.display='flex'
@@ -479,15 +484,28 @@ function applyFilter(f){
 let cropActive=false
 function showCropOverlay(){if(!imgD)return;cropOverlay.style.display='block';
   const r=cv.getBoundingClientRect();cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}
-let cropDrag=false,cropHandle=false
-function crS(e){if(!imgD)return;cropDrag=true;const t=e.touches?e.touches[0]:e
-  const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
-  const x=(t.clientX-r.left)*sx/r.width*100,y=(t.clientY-r.top)*sy/r.height*100
-  cropRect.style.left=x+'%';cropRect.style.top=y+'%';cropRect.style.width='10%';cropRect.style.height='10%'}
-cropBtn.onclick=()=>{if(!imgD)return;const r=cv.getBoundingClientRect()
+let cropDrag=false,cropRectEl=null
+function crS(e){if(!imgD)return;e.preventDefault();cropDrag=true
+  const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
   const sx=cv.width/r.width,sy=cv.height/r.height
-  const l=parseFloat(cropRect.style.left)/100*r.width*sx||0,t=parseFloat(cropRect.style.top)/100*r.height*sy||0
-  const w=parseFloat(cropRect.style.width)/100*r.width*sx||r.width*sx,h=parseFloat(cropRect.style.height)/100*r.height*sy||r.height*sy
+  const x=(t.clientX-r.left)*sx,y=(t.clientY-r.top)*sy
+  cropRect.style.left=x+'px';cropRect.style.top=y+'px';cropRect.style.width='0px';cropRect.style.height='0px'}
+function crM(e){if(!cropDrag)return;e.preventDefault()
+  const t=e.touches?e.touches[0]:e;const r=cv.getBoundingClientRect()
+  const sx=cv.width/r.width,sy=cv.height/r.height
+  const x=(t.clientX-r.left)*sx,y=(t.clientY-r.top)*sy
+  const l=parseFloat(cropRect.style.left),t2=parseFloat(cropRect.style.top)
+  cropRect.style.width=Math.abs(x-l)+'px';cropRect.style.height=Math.abs(y-t2)+'px'
+  cropRect.style.left=Math.min(l,x)+'px';cropRect.style.top=Math.min(t2,y)+'px'}
+function crE(e){if(!cropDrag)return;cropDrag=false;e.preventDefault()
+  const w=parseFloat(cropRect.style.width),h=parseFloat(cropRect.style.height)
+  if(w<10||h<10){cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}}
+cropOverlay.addEventListener('mousemove',crM);cropOverlay.addEventListener('mouseup',crE)
+cropOverlay.addEventListener('touchmove',crM,{passive:false});cropOverlay.addEventListener('touchend',crE,{passive:false})
+cropBtn.onclick=()=>{if(!imgD)return
+  const l=parseFloat(cropRect.style.left)||0,t=parseFloat(cropRect.style.top)||0
+  const w=parseFloat(cropRect.style.width)||cv.width,h=parseFloat(cropRect.style.height)||cv.height
+  const x=Math.round(l),y=Math.round(t),cw2=Math.round(w),ch2=Math.round(h)
   const x=Math.round(l*sx),y=Math.round(t*sy),cw2=Math.round(w*sx),ch2=Math.round(h*sy)
   if(cw2<10||ch2<10){se('Crop too small');return}
   const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
@@ -578,6 +596,16 @@ avatarBtn.onclick=()=>{if(!imgD){se('No image');return}
     tctx.beginPath();tctx.arc(s/2,s/2,s/2,0,Math.PI*2);tctx.clip()
     tctx.drawImage(cv,ox,oy,s*sx,s*sy)
     showResult(tc.toDataURL());ld.classList.remove('show');processing=false;avatarBtn.disabled=false;st('✅ Avatar créé')},100)}
+
+// === UPSCALE ===
+upscale2xBtn.onclick=()=>{if(!imgD){se('No image');return}
+  processing=true;upscale2xBtn.disabled=true;ld.classList.add('show');lt.textContent='Agrandissement 2×...'
+  setTimeout(()=>{const nw=cv.width*2,nh=cv.height*2,tc=document.createElement('canvas');tc.width=nw;tc.height=nh
+    const tctx=tc.getContext('2d');tctx.imageSmoothingEnabled=false;tctx.drawImage(cv,0,0,nw,nh)
+    cv.width=nw;cv.height=nh;cx.imageSmoothingEnabled=false;cx.drawImage(tc,0,0)
+    imgD=cx.getImageData(0,0,nw,nh);origPixels=new Uint8ClampedArray(imgD.data)
+    initM();initDraw();if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
+    resizeW.value=nw;resizeH.value=nh;ld.classList.remove('show');processing=false;upscale2xBtn.disabled=false;st('✅ Upscale 2× terminé')},100)}
 
 // === RESULT ===
 function showResult(url){ri.src=url;re.style.display='block'}
