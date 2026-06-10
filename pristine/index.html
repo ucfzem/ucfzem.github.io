@@ -1,186 +1,315 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="fr">
 <head>
-<meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Pristine — Photo Editor</title>
-<meta name="description" content="Remove objects, erase backgrounds, enhance photos. 100% free, no account needed.">
-<meta name="theme-color" content="#0a0a0f">
-<link rel="manifest" href='data:application/json,{"name":"Pristine","short_name":"Pristine","start_url":".","display":"standalone","background_color":"#0a0a0f","theme_color":"#0a0a0f","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2745%27 fill=%27%237c6aff%27/%3E%3Ctext x=%2750%27 y=%2768%27 font-size=%2750%27 text-anchor=%27middle%27 fill=%27white%27%3EP%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%237c6aff'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>P</text></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14" />
+<title>PixelForge Pro — Éditeur d'Images Intelligent</title>
+<meta name="description" content="Suppression de fond, filtres, recadrage, rotation, dessin, redimensionnement, avatar. Éditeur d'images 100% gratuit en ligne.">
 <style>
-:root{--bg:#0a0a0f;--surface:#13131a;--surface2:#1c1c28;--border:#2a2a3a;--accent:#7c6aff;--accent2:#ff6a9b;--text:#f0eff8;--muted:#7a7a9a;--gold:#ffcc55;--radius:16px;--radius-sm:10px;--green:#44d46a}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60%50% at 20%20%,rgba(124,106,255,0.1)0%,transparent 70%),radial-gradient(ellipse 50%60% at 80%80%,rgba(255,106,155,0.08)0%,transparent 70%)}
-header{position:relative;z-index:10;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.badge{font-size:.6rem;font-weight:700;background:var(--surface2);color:var(--muted);padding:3px 10px;border-radius:20px;border:1px solid var(--border)}
-.container{position:relative;z-index:10;max-width:800px;margin:0 auto;padding:0 16px 32px}
-.tabs{display:flex;gap:4px;margin-bottom:12px;background:var(--surface);border-radius:var(--radius);padding:3px;border:1px solid var(--border)}
-.tab{flex:1;text-align:center;padding:7px 2px;border-radius:var(--radius-sm);font-size:.75rem;font-weight:500;cursor:pointer;color:var(--muted);transition:all .2s}
-.tab .ti{display:block;font-size:1.1rem;margin-bottom:1px}
-.tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:600}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:36px 16px;text-align:center;cursor:pointer;background:var(--surface);transition:all .3s}
-.upload-zone.dragover,.upload-zone:hover{border-color:var(--accent);background:rgba(124,106,255,.04)}
-.upload-zone .ic{font-size:2.2rem;margin-bottom:8px}
-.upload-zone p{color:var(--muted);font-size:.85rem}
-.upload-zone .btn{display:inline-block;margin-top:8px;padding:8px 22px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:40px;color:#fff;font-weight:600;font-size:.85rem;cursor:pointer}
-.upload-zone input[type=file]{display:none}
-.editor{display:none}
-.canvas-wrap{position:relative;width:100%;background:#000;border-radius:var(--radius);overflow:hidden;min-height:240px}
+:root{--bg:#0f172a;--card:#1e293b;--primary:#8b5cf6;--primary2:#ec4899;--text:#f8fafc;--muted:#94a3b8;--border:#334155;--green:#10b981;--radius:12px;--sm:8px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 5%;border-bottom:1px solid var(--border);background:rgba(15,23,42,.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:800}.logo span{color:var(--primary)}
+nav{display:flex;gap:1rem;align-items:center}
+nav a{color:var(--muted);text-decoration:none;font-weight:500;font-size:.9rem}
+nav a:hover{color:var(--text)}
+.btn-p{background:var(--primary);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:var(--sm);font-weight:600;cursor:pointer;transition:.2s;font-size:.85rem}
+.btn-p:hover{background:#7c3aed;transform:translateY(-1px)}
+.btn-p:disabled{opacity:.4;cursor:default;transform:none}
+.btn-s{background:transparent;border:1px solid var(--border);color:var(--text);padding:.6rem 1.2rem;border-radius:var(--sm);font-weight:500;cursor:pointer;font-size:.8rem;transition:.2s}
+.btn-s:hover{border-color:var(--primary)}
+.hero{text-align:center;padding:2.5rem 1rem 1.5rem;max-width:700px;margin:0 auto}
+.hero h1{font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:.5rem}
+.gradient{background:linear-gradient(135deg,var(--primary),var(--primary2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:.95rem}
+.container{max-width:1000px;margin:0 auto;padding:0 12px 2rem}
+.app-card{background:var(--card);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 20px 25px -5px rgba(0,0,0,.3)}
+.editor-section{display:flex;flex-wrap:wrap;gap:0}
+.editor-main{flex:1;min-width:300px;padding:16px}
+.editor-side{width:240px;padding:16px;border-left:1px solid var(--border);background:rgba(0,0,0,.15)}
+@media(max-width:700px){.editor-side{width:100%;border-left:none;border-top:1px solid var(--border)}}
+.tabs{display:flex;gap:2px;overflow-x:auto;padding:3px;background:rgba(0,0,0,.2);border-radius:var(--sm)}.tabs::-webkit-scrollbar{height:0}
+.tab{padding:6px 12px;border:none;background:transparent;color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer;border-radius:6px;white-space:nowrap;transition:.2s;flex-shrink:0}
+.tab.active{background:var(--primary);color:#fff}
+.tb{display:flex;flex-wrap:wrap;gap:4px;padding:8px 0;align-items:center}
+.tb .g{display:flex;align-items:center;gap:4px}
+.tb label{font-size:.65rem;color:var(--muted);white-space:nowrap}
+.tb input[type=range]{width:56px;accent-color:var(--primary);height:3px}
+.spr{width:1px;height:14px;background:var(--border);margin:0 4px}
+.canvas-wrap{position:relative;background:#000;border-radius:var(--sm);overflow:hidden;min-height:200px}
 .canvas-wrap canvas{display:block;width:100%;max-height:55vh;touch-action:none;background:#111}
-.toolbar{display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);margin-bottom:10px}
-.toolbar .g{display:flex;align-items:center;gap:4px}
-.toolbar label{font-size:.7rem;color:var(--muted);white-space:nowrap}
-.toolbar input[type=range]{width:64px;accent-color:var(--accent);height:4px}
-.tool-btn{padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:.72rem;cursor:pointer;white-space:nowrap;transition:all .15s}
-.tool-btn:hover{border-color:var(--accent)}
-.tool-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff}
-.tool-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;font-weight:700}
-.tool-btn.primary:disabled{opacity:.4;cursor:default}
-.tool-btn.green{background:var(--green);border-color:transparent;color:#000;font-weight:600}
-.spr{width:1px;height:18px;background:var(--border);margin:0 3px}
-.result-area{display:none;margin-top:10px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
-.result-area img{display:block;width:100%;max-height:60vh;object-fit:contain;background:repeating-conic-gradient(#1a1a2e 0%25%,#13131a 0%50%) 0 0/20px 20px}
-.result-actions{display:flex;gap:6px;padding:8px 12px;border-top:1px solid var(--border)}
-.result-actions .tool-btn{flex:1;text-align:center}
-.loading{display:none;position:absolute;inset:0;z-index:20;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.85);border-radius:var(--radius)}
-.loading.show{display:flex}
-.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite}
+.uz{border:2px dashed var(--border);border-radius:var(--radius);padding:2.5rem 1rem;text-align:center;cursor:pointer;transition:.3s;background:rgba(255,255,255,.02)}
+.uz:hover,.uz.dragover{border-color:var(--primary);background:rgba(139,92,246,.05)}
+.uz .ic{font-size:2.5rem;margin-bottom:.5rem}
+.uz .link{color:var(--primary);text-decoration:underline}
+.uz input[type=file]{display:none}
+.result{display:none;margin-top:8px;background:var(--card);border-radius:var(--sm);border:1px solid var(--border);overflow:hidden}
+.result img{display:block;width:100%;max-height:55vh;object-fit:contain;background:repeating-conic-gradient(#1a1a2e 0%25%,#13131a 0%50%) 0 0/20px 20px}
+.result-actions{display:flex;gap:4px;padding:8px;border-top:1px solid var(--border)}
+.result-actions button{flex:1}
+.loading{display:none;position:absolute;inset:0;z-index:20;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
+.loading.show{display:flex}.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.loading p{margin-top:10px;font-size:.8rem;color:var(--text)}
-.loading .h{font-size:.65rem;color:var(--muted);margin-top:4px}
-.enhance-sliders{display:none;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm)}
-.enhance-sliders .row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.enhance-sliders .row:last-child{margin-bottom:0}
-.enhance-sliders label{font-size:.75rem;color:var(--muted);min-width:70px}
-.enhance-sliders input{flex:1;accent-color:var(--accent);height:4px}
-.enhance-sliders .val{font-size:.7rem;color:var(--text);min-width:28px;text-align:right}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--border);padding:8px 18px;border-radius:var(--radius-sm);font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}
+.loading p{margin-top:8px;font-size:.8rem;color:var(--muted)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--border);padding:8px 18px;border-radius:8px;font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}
 .toast.show{opacity:1}
-.error{color:var(--accent2);font-size:.8rem;margin:6px 0;display:none;text-align:center}
-.bg-picker{display:none;text-align:center;padding:8px;font-size:.8rem;color:var(--muted)}
-.bg-picker canvas{display:inline-block;width:100%;max-height:200px;border-radius:var(--radius-sm);cursor:crosshair;margin-top:6px}
-@media(max-width:500px){
-  .tabs .tab{font-size:.65rem;padding:5px 0}
-  .tabs .tab .ti{font-size:1rem}
-}
+.err{color:#f87171;font-size:.8rem;display:none;text-align:center;margin:4px 0}
+.palette-wrap{display:none;margin-top:8px;text-align:center}
+.palette-wrap p{color:var(--muted);font-size:.75rem;margin-bottom:4px}
+.palette{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.swatch{width:36px;height:36px;border-radius:50%;border:2px solid var(--card);cursor:pointer;position:relative}
+.swatch:hover::after{content:attr(data-c);position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:#000;padding:2px 6px;border-radius:4px;font-size:.7rem;white-space:nowrap}
+.filter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.filter-btn{padding:4px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);font-size:.65rem;cursor:pointer;text-align:center;transition:.2s}
+.filter-btn:hover{border-color:var(--primary);color:var(--text)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.crop-overlay{position:absolute;inset:0;z-index:5;cursor:crosshair}
+.crop-rect{position:absolute;border:2px dashed #fff;background:rgba(139,92,246,.1);z-index:6;pointer-events:none}
+.crop-rect::after{content:'';position:absolute;right:-5px;bottom:-5px;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:all;cursor:nwse-resize}
+.draw-tools{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.draw-tools input[type=color]{width:28px;height:28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:none;padding:0}
+.resize-inputs{display:flex;gap:8px;align-items:center}
+.resize-inputs input{width:70px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:.8rem;text-align:center}
+.resize-inputs label{font-size:.7rem;color:var(--muted)}
+.pricing{max-width:1000px;margin:3rem auto;padding:0 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:.3s}
+.pc:hover{transform:translateY(-4px);border-color:var(--primary)}
+.pc.featured{border-color:var(--primary);background:linear-gradient(180deg,rgba(139,92,246,.1),var(--card))}
+.popular{background:var(--primary);color:#fff;padding:3px 14px;border-radius:20px;font-size:.75rem;display:inline-block;margin-bottom:.5rem}
+.price{font-size:2.2rem;font-weight:800;margin:.5rem 0}
+.price span{font-size:.9rem;color:var(--muted);font-weight:400}
+.pc ul{list-style:none;text-align:left;margin:1rem 0;color:var(--muted);font-size:.85rem}
+.pc li{margin-bottom:.5rem;display:flex;align-items:center;gap:6px}
+.full-w{width:100%;margin-top:.8rem}
+footer{text-align:center;padding:2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);margin-top:2rem}
 </style>
 </head>
 <body>
-<div class="bg-mesh"></div>
 <header>
-  <div class="logo">Pristine ✦</div>
-  <span class="badge" id="badge">No account needed</span>
+  <div class="logo">PixelForge <span>Pro</span></div>
+  <nav>
+    <a href="#editor">Éditeur</a>
+    <a href="#pricing">Tarifs</a>
+  </nav>
 </header>
+
+<div class="hero">
+  <h1>Éditez vos images <span class="gradient">gratuitement</span></h1>
+  <p>Filtres, recadrage, rotation, dessin, suppression de fond, avatar — tout dans votre navigateur.</p>
+</div>
+
 <div class="container">
-  <div class="tabs" id="tabs">
-    <div class="tab active" data-t="remove"><span class="ti">🧹</span>Remove</div>
-    <div class="tab" data-t="bg"><span class="ti">🖼️</span>BG</div>
-    <div class="tab" data-t="enhance"><span class="ti">✨</span>Enhance</div>
-  </div>
-
-  <div class="upload-zone" id="uz">
-    <div class="ic" id="uzIcon">📸</div>
-    <p id="uzText">Tap to choose a photo or drag & drop</p>
-    <button class="btn" id="uzBtn">Choose Photo</button>
-    <input type="file" id="uzFile" accept="image/*">
-  </div>
-
-  <div class="editor" id="editor">
-    <div class="canvas-wrap" id="cw">
-      <canvas id="c"></canvas>
-      <div class="loading" id="loading">
-        <div class="spin"></div>
-        <p id="lt">Processing...</p>
-        <p class="h" id="lh"></p>
-      </div>
+  <div class="app-card" id="editor">
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-t="remove">🧹 Remove</div>
+      <div class="tab" data-t="bg">🖼 BG</div>
+      <div class="tab" data-t="adjust">✨ Adjust</div>
+      <div class="tab" data-t="filters">🎨 Filters</div>
+      <div class="tab" data-t="crop">✂️ Crop</div>
+      <div class="tab" data-t="rotate">🔄 Rotate</div>
+      <div class="tab" data-t="draw">🖌 Draw</div>
+      <div class="tab" data-t="resize">📐 Resize</div>
+      <div class="tab" data-t="avatar">⭕ Avatar</div>
     </div>
-    <div id="tbRemove" class="toolbar">
-      <div class="g">
-        <button class="tool-btn active" id="dMode">✏️</button>
-        <button class="tool-btn" id="eMode">🧹</button>
+    <div class="editor-section">
+      <div class="editor-main">
+        <div class="uz" id="uz">
+          <div class="ic">📁</div>
+          <p>Glissez-déposez une image ou <span class="link">parcourez</span></p>
+          <input type="file" id="uzF" accept="image/*">
+        </div>
+        <div class="canvas-wrap" id="cw" style="display:none">
+          <canvas id="c"></canvas>
+          <div class="crop-overlay" id="cropOverlay" style="display:none" ontouchstart="crS(event)" onmousedown="crS(event)">
+            <div class="crop-rect" id="cropRect"></div>
+          </div>
+          <div class="loading" id="ld"><div class="spin"></div><p id="lt">Processing...</p></div>
+        </div>
+        <div class="result" id="res">
+          <img id="resImg" alt="Result">
+          <div class="result-actions">
+            <button class="btn-p" id="dlBtn">⬇ Télécharger</button>
+            <button class="btn-s" id="rtBtn">↻ Recommencer</button>
+            <button class="btn-s" id="nBtn">🖼 Nouveau</button>
+          </div>
+        </div>
+        <div class="palette-wrap" id="palWrap">
+          <p>Palette extraite</p>
+          <div class="palette" id="pal"></div>
+        </div>
       </div>
-      <div class="spr"></div>
-      <div class="g">
-        <label>Size</label>
-        <input type="range" id="bSize" min="5" max="80" value="25">
+      <div class="editor-side" id="sidePanel">
+        <div id="tbRemove" class="tb">
+          <div class="g">
+            <button class="btn-s" id="dMode">✏️</button>
+            <button class="btn-s" id="eMode">🧹</button>
+          </div>
+          <div class="spr"></div>
+          <div class="g">
+            <label>Taille</label>
+            <input type="range" id="bSize" min="5" max="80" value="25">
+          </div>
+          <div class="spr"></div>
+          <div class="g">
+            <button class="btn-s" id="uBtn">↩</button>
+            <button class="btn-s" id="rBtn">✕</button>
+          </div>
+          <button class="btn-p" id="pBtn">🧹 Remove</button>
+        </div>
+        <div id="tbBg" class="tb" style="display:none">
+          <button class="btn-p" id="bgBtn">🖼 Auto Supprimer BG</button>
+          <span style="font-size:.6rem;color:var(--muted)">Cliquez sur le fond</span>
+        </div>
+        <div id="tbAdjust" class="tb" style="display:none">
+          <div style="width:100%">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><label>Luminosité</label><input type="range" id="bright" min="-50" max="50" value="0"><span class="val" style="font-size:.7rem;color:var(--muted);min-width:24px;text-align:right">0</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><label>Contraste</label><input type="range" id="contrast" min="-50" max="50" value="0"><span class="val" style="font-size:.7rem;color:var(--muted);min-width:24px;text-align:right">0</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><label>Saturation</label><input type="range" id="saturate" min="-50" max="50" value="0"><span class="val" style="font-size:.7rem;color:var(--muted);min-width:24px;text-align:right">0</span></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><label>Netteté</label><input type="range" id="sharpen" min="0" max="100" value="0"><span class="val" style="font-size:.7rem;color:var(--muted);min-width:24px;text-align:right">0</span></div>
+            <button class="btn-p" id="adjBtn" style="width:100%;margin-top:4px">✨ Appliquer</button>
+          </div>
+        </div>
+        <div id="tbFilters" class="tb" style="display:none">
+          <div class="filter-grid">
+            <div class="filter-btn active" data-f="original">Original</div>
+            <div class="filter-btn" data-f="bnw">B&W</div>
+            <div class="filter-btn" data-f="sepia">Sepia</div>
+            <div class="filter-btn" data-f="vintage">Vintage</div>
+            <div class="filter-btn" data-f="cool">Cool</div>
+            <div class="filter-btn" data-f="warm">Warm</div>
+            <div class="filter-btn" data-f="neon">Neon</div>
+            <div class="filter-btn" data-f="invert">Invert</div>
+            <div class="filter-btn" data-f="vivid">Vivid</div>
+            <div class="filter-btn" data-f="muted">Muted</div>
+            <div class="filter-btn" data-f="dramatic">Dramatic</div>
+            <div class="filter-btn" data-f="noir">Noir</div>
+          </div>
+        </div>
+        <div id="tbCrop" class="tb" style="display:none">
+          <button class="btn-p" id="cropBtn">✂️ Appliquer Crop</button>
+          <button class="btn-s" id="cropReset">↺ Reset</button>
+        </div>
+        <div id="tbRotate" class="tb" style="display:none">
+          <button class="btn-s" id="rotCW">↻ 90°</button>
+          <button class="btn-s" id="rotCCW">↺ 90°</button>
+          <div class="spr"></div>
+          <button class="btn-s" id="flipH">⇔ H</button>
+          <button class="btn-s" id="flipV">⇕ V</button>
+          <div class="spr"></div>
+          <button class="btn-s" id="rotReset">↺ Reset</button>
+        </div>
+        <div id="tbDraw" class="tb" style="display:none">
+          <div class="draw-tools">
+            <input type="color" id="drawColor" value="#ffffff">
+            <label>Size</label>
+            <input type="range" id="drawSize" min="2" max="40" value="8">
+            <button class="btn-s" id="drawUndo">↩</button>
+            <button class="btn-s" id="drawClear">✕</button>
+          </div>
+          <button class="btn-p" id="drawApply" style="width:100%;margin-top:4px">✅ Appliquer Dessin</button>
+        </div>
+        <div id="tbResize" class="tb" style="display:none">
+          <div class="resize-inputs">
+            <div><label>L</label><input type="number" id="resizeW" min="1" max="4000"></div>
+            <span style="color:var(--muted)">×</span>
+            <div><label>H</label><input type="number" id="resizeH" min="1" max="4000"></div>
+            <button class="btn-p" id="resizeBtn" style="margin-left:4px">Appliquer</button>
+          </div>
+          <label style="font-size:.65rem;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="keepRatio" checked> Garder le ratio</label>
+        </div>
+        <div id="tbAvatar" class="tb" style="display:none">
+          <button class="btn-p" id="avatarBtn">⭕ Créer Avatar</button>
+          <span style="font-size:.6rem;color:var(--muted)">Découpe en cercle 500×500</span>
+        </div>
+        <div class="err" id="err"></div>
       </div>
-      <div class="spr"></div>
-      <div class="g">
-        <button class="tool-btn" id="uBtn">↩</button>
-        <button class="tool-btn" id="rBtn">✕</button>
-      </div>
-      <button class="tool-btn primary" id="pBtn">🧹 Remove</button>
-    </div>
-    <div id="tbBg" class="toolbar" style="display:none">
-      <button class="tool-btn green" id="bgBtn">🖼️ Auto Remove BG</button>
-      <span style="font-size:.65rem;color:var(--muted);margin-left:4px">Tap background to refine</span>
-    </div>
-    <div id="tbEnhance" class="toolbar" style="display:none">
-      <button class="tool-btn primary" id="enhBtn">✨ Apply</button>
-      <span style="font-size:.65rem;color:var(--muted);margin-left:4px">Adjust sliders → Apply</span>
-    </div>
-    <div class="error" id="err"></div>
-  </div>
-
-  <div class="enhance-sliders" id="enhSliders">
-    <div class="row"><label>Brightness</label><input type="range" id="bright" min="-50" max="50" value="0"><span class="val" id="brightV">0</span></div>
-    <div class="row"><label>Contrast</label><input type="range" id="contrast" min="-50" max="50" value="0"><span class="val" id="contrastV">0</span></div>
-    <div class="row"><label>Saturation</label><input type="range" id="saturate" min="-50" max="50" value="0"><span class="val" id="saturateV">0</span></div>
-    <div class="row"><label>Sharpen</label><input type="range" id="sharpen" min="0" max="100" value="0"><span class="val" id="sharpenV">0</span></div>
-  </div>
-
-  <div class="result-area" id="res">
-    <img id="resImg" alt="Result">
-    <div class="result-actions">
-      <button class="tool-btn" id="dlBtn">⬇ Download</button>
-      <button class="tool-btn" id="retryBtn">↻ Retry</button>
-      <button class="tool-btn" id="newBtn">🖼 New</button>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<script>
-// === State ===
-const $=i=>document.getElementById(i),S=(s,...a)=>document.querySelector(s,...a),A=(s,l)=>document.querySelectorAll(s).forEach(l)
-let img=null,imgD=null,mC=null,mCtx=null,isD=false,hist=[],cStep=-1,bMode='draw',processing=false
-let origPixels=null,brightV=0,contrastV=0,saturateV=0,sharpenV=0
 
-// === DOM ===
-const uz=$('uz'),uzF=$('uzFile'),uzB=$('uzBtn')
-const ed=$('editor'),cv=$('c'),cx=cv.getContext('2d')
-const ld=$('loading'),lt=$('lt'),lh=$('lh')
-const re=$('res'),ri=$('resImg')
-const pB=$('pBtn'),bgB=$('bgBtn'),enhB=$('enhBtn')
-const dM=$('dMode'),eM=$('eMode'),bS=$('bSize')
-const uB=$('uBtn'),rB=$('rBtn')
-const dlB=$('dlBtn'),rtB=$('retryBtn'),nB=$('newBtn')
-const err=$('err'),ts=$('toast')
-const tR=$('tbRemove'),tB=$('tbBg'),tE=$('tbEnhance')
-const eS=$('enhSliders')
+<div class="pricing" id="pricing">
+  <div class="pc">
+    <h3>Gratuit</h3>
+    <div class="price">0€ <span>/mois</span></div>
+    <ul>
+      <li>✅ Tous les outils d'édition</li>
+      <li>✅ Filtres & ajustements</li>
+      <li>✅ Export PNG</li>
+      <li>❌ Traitement par lots</li>
+    </ul>
+    <button class="btn-p full-w">Commencer</button>
+  </div>
+  <div class="pc featured">
+    <div class="popular">Populaire</div>
+    <h3>Pro</h3>
+    <div class="price">9.99€ <span>/mois</span></div>
+    <ul>
+      <li>✅ Tout du Gratuit</li>
+      <li>✅ Export SVG & PDF</li>
+      <li>✅ Agrandissement IA x4</li>
+      <li>✅ Suppression fond HD</li>
+    </ul>
+    <button class="btn-p full-w">Choisir Pro</button>
+  </div>
+  <div class="pc">
+    <h3>Agence</h3>
+    <div class="price">29.99€ <span>/mois</span></div>
+    <ul>
+      <li>✅ Tout du Pro</li>
+      <li>✅ API Access</li>
+      <li>✅ Lots illimités</li>
+      <li>✅ Support prioritaire</li>
+    </ul>
+    <button class="btn-s full-w" style="background:transparent;border:1px solid var(--border);color:var(--text)">Contacter</button>
+  </div>
+</div>
+
+<footer>PixelForge Pro © 2026 — Éditeur d'images 100% client-side</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// === STATE ===
+const $=i=>document.getElementById(i),S=(s,...a)=>document.querySelector(s,...a),A=(s,l)=>document.querySelectorAll(s).forEach(l)
+let img=null,imgD=null,mC=null,mCtx=null,isD=false,hist=[],cStep=-1,bMode='draw',processing=false,drawLayer=null,drawCtx=null,drawHistory=[]
+let origPixels=null,brightV=0,contrastV=0,saturateV=0,sharpenV=0
+let cropStart=null,cropRectEl=null,isCropping=false
+
+const uz=$('uz'),uzF=$('uzF'),cw=$('cw'),cv=$('c'),cx=cv.getContext('2d'),ld=$('ld'),lt=$('lt')
+const re=$('res'),ri=$('resImg'),dlB=$('dlBtn'),rtB=$('rtBtn'),nB=$('nBtn')
+const pB=$('pBtn'),bgB=$('bgBtn'),dM=$('dMode'),eM=$('eMode'),bS=$('bSize'),uB=$('uBtn'),rB=$('rBtn')
+const err=$('err'),ts=$('toast'),palWrap=$('palWrap'),pal=$('pal')
+const adjBtn=$('adjBtn'),cropBtn=$('cropBtn'),cropReset=$('cropReset')
+const rotCW=$('rotCW'),rotCCW=$('rotCCW'),flipH=$('flipH'),flipV=$('flipV'),rotReset=$('rotReset')
+const drawColor=$('drawColor'),drawSize=$('drawSize'),drawUndo=$('drawUndo'),drawClear=$('drawClear'),drawApply=$('drawApply')
+const resizeW=$('resizeW'),resizeH=$('resizeH'),resizeBtn=$('resizeBtn'),keepRatio=$('keepRatio')
+const avatarBtn=$('avatarBtn'),cropOverlay=$('cropOverlay'),cropRect=$('cropRect')
 
 function st(m){ts.textContent=m;ts.classList.add('show');setTimeout(()=>ts.classList.remove('show'),2500)}
 function se(m){err.textContent=m;err.style.display='block'}
 function he(){err.style.display='none'}
+const valEls=S('.val')?S('.val'):null
 
+// === TAB SWITCHING ===
 A('.tab',t=>t.onclick=()=>{
   A('.tab',x=>x.classList.remove('active'))
   t.classList.add('active')
   const tab=t.dataset.t
-  tR.style.display=tab==='remove'?'flex':'none'
-  tB.style.display=tab==='bg'?'flex':'none'
-  tE.style.display=tab==='enhance'?'flex':'none'
-  eS.style.display=tab==='enhance'?'block':'none'
+  const allTbs=['tbRemove','tbBg','tbAdjust','tbFilters','tbCrop','tbRotate','tbDraw','tbResize','tbAvatar']
+  allTbs.forEach(id=>{const el=$(id);if(el)el.style.display='none'})
+  if(tab==='remove')$('tbRemove').style.display='flex'
+  else if(tab==='bg')$('tbBg').style.display='flex'
+  else if(tab==='adjust')$('tbAdjust').style.display='block'
+  else if(tab==='filters')$('tbFilters').style.display='flex'
+  else if(tab==='crop'){showCropOverlay();$('tbCrop').style.display='flex'}
+  else if(tab==='rotate')$('tbRotate').style.display='flex'
+  else if(tab==='draw')$('tbDraw').style.display='block'
+  else if(tab==='resize'){updateResizeInputs();$('tbResize').style.display='block'}
+  else if(tab==='avatar')$('tbAvatar').style.display='flex'
   re.style.display='none';he()
 })
 
-// === Upload ===
-uzB.onclick=()=>uzF.click()
+// === UPLOAD ===
 uz.onclick=()=>uzF.click()
 uz.addEventListener('dragover',e=>{e.preventDefault();uz.classList.add('dragover')})
 uz.addEventListener('dragleave',()=>uz.classList.remove('dragover'))
@@ -196,57 +325,43 @@ function loadI(f){
     i.onload=()=>{
       img=i;const mW=1024;let w=i.width,h=i.height
       if(w>mW){h=h*mW/w;w=mW}
-      cv.width=w;cv.height=h
-      cx.drawImage(i,0,0,w,h)
-      imgD=cx.getImageData(0,0,w,h)
-      origPixels=new Uint8ClampedArray(imgD.data)
+      cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
+      imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data)
       brightV=0;contrastV=0;saturateV=0;sharpenV=0
       S('#bright').value=0;S('#contrast').value=0;S('#saturate').value=0;S('#sharpen').value=0
-      S('#brightV').textContent='0';S('#contrastV').textContent='0';S('#saturateV').textContent='0';S('#sharpenV').textContent='0'
-      initM()
-      rC()
-      uz.style.display='none'
-      ed.style.display='block'
-      processing=false
+      S('#bright').nextElementSibling.textContent='0';S('#contrast').nextElementSibling.textContent='0';S('#saturate').nextElementSibling.textContent='0';S('#sharpen').nextElementSibling.textContent='0'
+      initM();initDraw();rC();uz.style.display='none';cw.style.display='block';processing=false
+      updateResizeInputs()
     }
     i.src=e.target.result
   }
   r.readAsDataURL(f)
 }
 
-// === Mask ===
-function initM(){
-  mC=document.createElement('canvas');mC.width=cv.width;mC.height=cv.height
-  mCtx=mC.getContext('2d');mCtx.fillStyle='#000';mCtx.fillRect(0,0,mC.width,mC.height)
-  hist=[];cStep=-1;sv()}
-function sv(){
-  const d=mCtx.getImageData(0,0,mC.width,mC.height)
-  cStep++;hist[cStep]=d;hist.length=cStep+1}
+// === MASK (Remove/BG) ===
+function initM(){mC=document.createElement('canvas');mC.width=cv.width;mC.height=cv.height
+  mCtx=mC.getContext('2d');mCtx.fillStyle='#000';mCtx.fillRect(0,0,mC.width,mC.height);hist=[];cStep=-1;sv()}
+function sv(){const d=mCtx.getImageData(0,0,mC.width,mC.height);cStep++;hist[cStep]=d;hist.length=cStep+1}
 function un(){if(cStep<=0)return;cStep--;mCtx.putImageData(hist[cStep],0,0);rC()}
 function clM(){if(!mCtx)return;mCtx.fillStyle='#000';mCtx.fillRect(0,0,mC.width,mC.height);sv();rC()}
 function rC(){
   if(!imgD||!mC)return
   const id=new ImageData(new Uint8ClampedArray(imgD.data),imgD.width,imgD.height),d=id.data
   const md=mCtx.getImageData(0,0,mC.width,mC.height).data
-  for(let i=0;i<d.length;i+=4){
-    if(md[i]>128){d[i]=d[i]*.3+255*.7;d[i+1]=d[i+1]*.3+100*.7;d[i+2]=d[i+2]*.3+100*.7}}
+  for(let i=0;i<d.length;i+=4){if(md[i]>128){d[i]=d[i]*.3+255*.7;d[i+1]=d[i+1]*.3+100*.7;d[i+2]=d[i+2]*.3+100*.7}}
   const tc=document.createElement('canvas');tc.width=cv.width;tc.height=cv.height
   tc.getContext('2d').putImageData(id,0,0);cx.drawImage(tc,0,0)}
-function cp(e){
-  const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
+
+function cp(e){const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
   const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)*sx,y:(t.clientY-r.top)*sy}}
-function sD(e){e.preventDefault();if(!mCtx||processing)return;isD=true
+function sD(e){e.preventDefault();if(!mCtx||processing)return;isD=true;if(drawLayer){cx.drawImage(drawLayer,0,0)}
   const p=cp(e);mCtx.beginPath();mCtx.moveTo(p.x,p.y)
-  mCtx.lineCap='round';mCtx.lineJoin='round'
-  const s=parseInt(bS.value)
-  mCtx.strokeStyle=bMode==='draw'?'#fff':'#000'
-  mCtx.fillStyle=bMode==='draw'?'#fff':'#000'
+  mCtx.lineCap='round';mCtx.lineJoin='round';const s=parseInt(bS.value)
+  mCtx.strokeStyle=bMode==='draw'?'#fff':'#000';mCtx.fillStyle=bMode==='draw'?'#fff':'#000'
   mCtx.lineWidth=s;mCtx.arc(p.x,p.y,s/2,0,Math.PI*2);mCtx.fill()}
 function mD(e){e.preventDefault();if(!isD||!mCtx||processing)return
-  const p=cp(e);mCtx.lineWidth=parseInt(bS.value)
-  mCtx.lineTo(p.x,p.y);mCtx.stroke();rC()}
+  const p=cp(e);mCtx.lineWidth=parseInt(bS.value);mCtx.lineTo(p.x,p.y);mCtx.stroke();rC()}
 function eD(e){e.preventDefault();if(!isD)return;isD=false;sv()}
-
 cv.addEventListener('mousedown',sD);cv.addEventListener('mousemove',mD)
 cv.addEventListener('mouseup',eD);cv.addEventListener('mouseleave',eD)
 cv.addEventListener('touchstart',sD,{passive:false});cv.addEventListener('touchmove',mD,{passive:false})
@@ -255,159 +370,221 @@ dM.onclick=()=>{bMode='draw';dM.classList.add('active');eM.classList.remove('act
 eM.onclick=()=>{bMode='erase';eM.classList.add('active');dM.classList.remove('active')}
 uB.onclick=un;rB.onclick=clM
 
-// === Object Removal (improved Telea) ===
+// === OBJECT REMOVAL ===
 pB.onclick=()=>{
-  he()
-  const md=mCtx?.getImageData(0,0,mC.width,mC.height)
+  he();const md=mCtx?.getImageData(0,0,mC.width,mC.height)
   if(!md||!md.data.some((v,i)=>!(i%4)&&v>128)){se('Draw on the object first');return}
-  processing=true;pB.disabled=true
-  ld.classList.add('show');lt.textContent='Removing...';lh.textContent=''
+  processing=true;pB.disabled=true;ld.classList.add('show');lt.textContent='Suppression...'
   const w=cv.width,h=cv.height,d=new Uint8ClampedArray(imgD.data)
   const fill=new Uint8Array(w*h);for(let i=0;i<w*h;i++)fill[i]=md.data[i*4]>128?1:0
-  const total=fill.reduce((s,v)=>s+v,0)
-  let prevRemaining=total
-
+  const total=fill.reduce((s,v)=>s+v,0);let prevRemaining=total
   function pass(){
     let changed=false
     for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
-      const i=y*w+x
-      if(!fill[i])continue
-      let border=false
+      const i=y*w+x;if(!fill[i])continue;let border=false
       for(let dy=-1;dy<=1&&!border;dy++)for(let dx=-1;dx<=1&&!border;dx++)
         if(dx||dy)if(!fill[(y+dy)*w+(x+dx)])border=true
-      if(!border)continue
-      let tr=0,tg=0,tb=0,n=0
+      if(!border)continue;let tr=0,tg=0,tb=0,n=0
       for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){
-        if(!dx&&!dy)continue
-        const ni=(y+dy)*w+(x+dx)
+        if(!dx&&!dy)continue;const ni=(y+dy)*w+(x+dx)
         if(ni<0||ni>=w*h||fill[ni])continue
         const wt=1/(Math.sqrt(dx*dx+dy*dy)+.3),pi=ni*4
         tr+=d[pi]*wt;tg+=d[pi+1]*wt;tb+=d[pi+2]*wt;n+=wt}
       if(n>0){const pi=i*4;d[pi]=tr/n;d[pi+1]=tg/n;d[pi+2]=tb/n;fill[i]=0;changed=true}
     }
     const remaining=fill.reduce((s,v)=>s+v,0)
-    const pct=total>0?Math.round((1-remaining/total)*100):100
-    lt.textContent='Removing... '+pct+'%'
+    lt.textContent='Suppression... '+((total>0?Math.round((1-remaining/total)*100):100))+'%'
     if(remaining&&changed&&remaining!==prevRemaining){prevRemaining=remaining;requestAnimationFrame(pass)}
-    else{
-      const o=new ImageData(d,w,h);const tc=document.createElement('canvas')
-      tc.width=w;tc.height=h;tc.getContext('2d').putImageData(o,0,0)
-      ri.src=tc.toDataURL();re.style.display='block'
-      ld.classList.remove('show');processing=false;pB.disabled=false
-      st('✅ Object removed')}
-  }
+    else{const o=new ImageData(d,w,h);const tc=document.createElement('canvas');tc.width=w;tc.height=h
+      tc.getContext('2d').putImageData(o,0,0);showResult(tc.toDataURL());ld.classList.remove('show');processing=false;pB.disabled=false;st('✅ Objet supprimé')}}
   requestAnimationFrame(pass)
 }
 
-// === Background Removal (simple click-based) ===
+// === BACKGROUND REMOVAL ===
 bgB.onclick=()=>{
-  he();processing=true;bgB.disabled=true
-  ld.classList.add('show');lt.textContent='Click/ tap on background...'
-  lh.textContent='Tap the background area in the image'
-  // Show image without mask for selection
-  cx.putImageData(imgD,0,0)
-  const tempCvs=document.createElement('canvas')
-  tempCvs.width=cv.width;tempCvs.height=cv.height
-  const tCtx=tempCvs.getContext('2d')
-  tCtx.drawImage(cv,0,0)
-  const handleClick=async(e)=>{
-    const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
-    const t=e.touches?e.touches[0]:e
-    const px=Math.round((t.clientX-r.left)*sx),py=Math.round((t.clientY-r.top)*sy)
+  he();processing=true;bgB.disabled=true;ld.classList.add('show');lt.textContent='Cliquez sur le fond...';cx.putImageData(imgD,0,0)
+  const tempCvs=document.createElement('canvas');tempCvs.width=cv.width;tempCvs.height=cv.height
+  const tCtx=tempCvs.getContext('2d');tCtx.drawImage(cv,0,0)
+  const handleClick=async(e)=>{const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
+    const t=e.touches?e.touches[0]:e;const px=Math.round((t.clientX-r.left)*sx),py=Math.round((t.clientY-r.top)*sy)
     if(px<0||px>=cv.width||py<0||py>=cv.height)return
     cv.removeEventListener('click',handleClick);cv.removeEventListener('touchstart',handleTouch)
-    ld.classList.add('show');lt.textContent='Removing background...';lh.textContent=''
-    await new Promise(r=>setTimeout(r,50))
-    const sd=tCtx.getImageData(0,0,cv.width,cv.height)
-    const pd=sd.data,ow=cv.width
-    const tx=px,ty=py,ti=(ty*ow+tx)*4
-    const tr=pd[ti],tg=pd[ti+1],tb=pd[ti+2]
-    const thr=40
-    const vis=new Uint8Array(cv.width*cv.height)
-    const stack=[[tx,ty]]
-    while(stack.length){
-      const [cx2,cy2]=stack.pop()
-      const idx2=cy2*ow+cx2
-      if(vis[idx2])continue;vis[idx2]=1
-      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
-        if(!dx&&!dy)continue
-        const nx=cx2+dx,ny=cy2+dy
-        if(nx<0||nx>=ow||ny<0||ny>=cv.height)continue
-        const ni=(ny*ow+nx)*4
-        const dr=Math.abs(pd[ni]-tr),dg=Math.abs(pd[ni+1]-tg),db=Math.abs(pd[ni+2]-tb)
-        if(dr+dg+db<thr*3&&!vis[ny*ow+nx])stack.push([nx,ny])}
-    }
-    // Make selected area transparent
+    ld.classList.add('show');lt.textContent='Suppression du fond...'
+    const sd=tCtx.getImageData(0,0,cv.width,cv.height);const pd=sd.data,ow=cv.width
+    const tx=px,ty=py,ti=(ty*ow+tx)*4;const tr=pd[ti],tg=pd[ti+1],tb=pd[ti+2]
+    const vis=new Uint8Array(cv.width*cv.height);const stack=[[tx,ty]]
+    while(stack.length){const [cx2,cy2]=stack.pop();const idx2=cy2*ow+cx2;if(vis[idx2])continue;vis[idx2]=1
+      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const nx=cx2+dx,ny=cy2+dy
+        if(nx<0||nx>=ow||ny<0||ny>=cv.height)continue;const ni=(ny*ow+nx)*4
+        if(Math.abs(pd[ni]-tr)+Math.abs(pd[ni+1]-tg)+Math.abs(pd[ni+2]-tb)<120&&!vis[ny*ow+nx])stack.push([nx,ny])}}
     const outD=tCtx.getImageData(0,0,cv.width,cv.height)
     for(let i=0;i<cv.width*cv.height;i++)if(vis[i])outD.data[i*4+3]=0
     const tc=document.createElement('canvas');tc.width=cv.width;tc.height=cv.height
-    tc.getContext('2d').putImageData(outD,0,0)
-    ri.src=tc.toDataURL()
-    re.style.display='block'
-    ld.classList.remove('show');processing=false;bgB.disabled=false
-    cv.removeEventListener('click',handleClick);cv.removeEventListener('touchstart',handleTouch)
-    st('✅ Background removed')
-  }
+    tc.getContext('2d').putImageData(outD,0,0);showResult(tc.toDataURL())
+    ld.classList.remove('show');processing=false;bgB.disabled=false;st('✅ Fond supprimé')}
   const handleTouch=e=>{e.preventDefault();handleClick(e)}
-  setTimeout(()=>{
-    cv.addEventListener('click',handleClick)
-    cv.addEventListener('touchstart',handleTouch,{passive:false})
-    ld.classList.remove('show')
-    st('👆 Tap on the background area')
-  },100)
+  setTimeout(()=>{cv.addEventListener('click',handleClick);cv.addEventListener('touchstart',handleTouch,{passive:false});ld.classList.remove('show');st('👆 Cliquez sur le fond')},100)
 }
 
-// === Enhance ===
-S('#bright').oninput=function(){brightV=+this.value;S('#brightV').textContent=this.value}
-S('#contrast').oninput=function(){contrastV=+this.value;S('#contrastV').textContent=this.value}
-S('#saturate').oninput=function(){saturateV=+this.value;S('#saturateV').textContent=this.value}
-S('#sharpen').oninput=function(){sharpenV=+this.value;S('#sharpenV').textContent=this.value}
-
-enhB.onclick=()=>{
+// === ADJUST (Enhance) ===
+S('#bright').oninput=function(){brightV=+this.value;this.nextElementSibling.textContent=this.value}
+S('#contrast').oninput=function(){contrastV=+this.value;this.nextElementSibling.textContent=this.value}
+S('#saturate').oninput=function(){saturateV=+this.value;this.nextElementSibling.textContent=this.value}
+S('#sharpen').oninput=function(){sharpenV=+this.value;this.nextElementSibling.textContent=this.value}
+adjBtn.onclick=()=>{
   he();if(!origPixels){se('No image loaded');return}
-  processing=true;enhB.disabled=true
-  ld.classList.add('show');lt.textContent='Enhancing...'
-  setTimeout(()=>{
-    const w=cv.width,h=cv.height,d=new Uint8ClampedArray(origPixels)
-    const out=new ImageData(new Uint8ClampedArray(origPixels),w,h)
-    const od=out.data
-    // Brightness
+  processing=true;adjBtn.disabled=true;ld.classList.add('show');lt.textContent='Ajustement...'
+  setTimeout(()=>{const w=cv.width,h=cv.height,d=new Uint8ClampedArray(origPixels)
+    const out=new ImageData(new Uint8ClampedArray(origPixels),w,h),od=out.data
     if(brightV){const b=brightV/100*255;for(let i=0;i<od.length;i+=4){od[i]=Math.max(0,Math.min(255,od[i]+b));od[i+1]=Math.max(0,Math.min(255,od[i+1]+b));od[i+2]=Math.max(0,Math.min(255,od[i+2]+b))}}
-    // Contrast
     if(contrastV){const f=(259*(contrastV*2.55+255))/(255*(259-contrastV*2.55));for(let i=0;i<od.length;i+=4){od[i]=Math.max(0,Math.min(255,f*(od[i]-128)+128));od[i+1]=Math.max(0,Math.min(255,f*(od[i+1]-128)+128));od[i+2]=Math.max(0,Math.min(255,f*(od[i+2]-128)+128))}}
-    // Saturation
     if(saturateV){const s=saturateV/100;for(let i=0;i<od.length;i+=4){const gs=.299*od[i]+.587*od[i+1]+.114*od[i+2];od[i]=Math.max(0,Math.min(255,gs+(od[i]-gs)*s));od[i+1]=Math.max(0,Math.min(255,gs+(od[i+1]-gs)*s));od[i+2]=Math.max(0,Math.min(255,gs+(od[i+2]-gs)*s))}}
-    // Sharpen (kernel)
-    if(sharpenV>5){
-      const src=new Uint8ClampedArray(origPixels)
-      const amt=sharpenV/100
-      const k=[0,-1,0,-1,5+1/amt,-1,0,-1,0]
-      for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){
-        let r=0,g=0,b2=0
-        for(let ky=-1;ky<=1;ky++)for(let kx=-1;kx<=1;kx++){
-          const pi=((y+ky)*w+(x+kx))*4
-          r+=src[pi]*k[(ky+1)*3+(kx+1)];g+=src[pi+1]*k[(ky+1)*3+(kx+1)];b2+=src[pi+2]*k[(ky+1)*3+(kx+1)]}
-        const pi=(y*w+x)*4
-        od[pi]=Math.max(0,Math.min(255,r));od[pi+1]=Math.max(0,Math.min(255,g));od[pi+2]=Math.max(0,Math.min(255,b2))}
-    }
-    const tc=document.createElement('canvas');tc.width=w;tc.height=h
-    tc.getContext('2d').putImageData(out,0,0)
-    ri.src=tc.toDataURL()
-    re.style.display='block'
-    ld.classList.remove('show');processing=false;enhB.disabled=false
-    st('✅ Enhanced')
-  },50)
+    if(sharpenV>5){const src=new Uint8ClampedArray(origPixels);const amt=sharpenV/100
+      for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){let r=0,g=0,b2=0;const k=[0,-1,0,-1,5+1/amt,-1,0,-1,0]
+        for(let ky=-1;ky<=1;ky++)for(let kx=-1;kx<=1;kx++){const pi=((y+ky)*w+(x+kx))*4;r+=src[pi]*k[(ky+1)*3+(kx+1)];g+=src[pi+1]*k[(ky+1)*3+(kx+1)];b2+=src[pi+2]*k[(ky+1)*3+(kx+1)]}
+        const pi=(y*w+x)*4;od[pi]=Math.max(0,Math.min(255,r));od[pi+1]=Math.max(0,Math.min(255,g));od[pi+2]=Math.max(0,Math.min(255,b2))}}
+    const tc=document.createElement('canvas');tc.width=w;tc.height=h;tc.getContext('2d').putImageData(out,0,0)
+    showResult(tc.toDataURL());ld.classList.remove('show');processing=false;adjBtn.disabled=false;st('✅ Ajusté')},50)
 }
 
-// === Result Actions ===
-dlB.onclick=()=>{const a=document.createElement('a');a.href=ri.src;a.download='pristine.png';a.click()}
+// === FILTERS ===
+let currentFilter='original'
+A('.filter-btn',b=>b.onclick=()=>{
+  A('.filter-btn',x=>x.classList.remove('active'));b.classList.add('active')
+  currentFilter=b.dataset.f;applyFilter(currentFilter)
+})
+function applyFilter(f){
+  if(!imgD)return;const w=cv.width,h=cv.height,id=new ImageData(new Uint8ClampedArray(imgD.data),w,h),d=id.data
+  for(let i=0;i<d.length;i+=4){let r=d[i],g=d[i+1],b=d[i+2]
+    switch(f){
+      case'original':break
+      case'bnw':{const gs=.299*r+.587*g+.114*b;r=gs;g=gs;b=gs;break}
+      case'sepia':{r=Math.min(255,r*.393+g*.769+b*.189);g=Math.min(255,r*.349+g*.686+b*.168);b=Math.min(255,r*.272+g*.534+b*.131);break}
+      case'vintage':{r=Math.min(255,r*.9+30);g=Math.min(255,g*.85+10);b=Math.min(255,b*.8+10);break}
+      case'cool':{r=Math.min(255,r*.9);g=Math.min(255,g*.95);b=Math.min(255,b*1.15);break}
+      case'warm':{r=Math.min(255,r*1.1);g=Math.min(255,g*.95);b=Math.min(255,b*.85);break}
+      case'neon':{r=Math.min(255,255*(r/255>0.5?1-Math.pow(1-2*(r/255-0.5),2):2*Math.pow(r/255,2)));g=Math.min(255,255*(g/255>0.5?1-Math.pow(1-2*(g/255-0.5),2):2*Math.pow(g/255,2)));b=Math.min(255,255*(b/255>0.5?1-Math.pow(1-2*(b/255-0.5),2):2*Math.pow(b/255,2)));break}
+      case'invert':{r=255-r;g=255-g;b=255-b;break}
+      case'vivid':{r=Math.min(255,r*1.3);g=Math.min(255,g*1.3);b=Math.min(255,b*1.3);break}
+      case'muted':{r=r*.7+70;g=g*.7+70;b=b*.7+70;break}
+      case'dramatic':{const gs=.299*r+.587*g+.114*b;r=r>128?Math.min(255,gs+80):Math.max(0,gs-40);g=g>128?Math.min(255,gs+80):Math.max(0,gs-40);b=b>128?Math.min(255,gs+80):Math.max(0,gs-40);break}
+      case'noir':{const gs=.299*r+.587*g+.114*b;r=gs*.5+20;g=gs*.5+20;b=gs*.5+20;break}
+    }
+    d[i]=Math.max(0,Math.min(255,r));d[i+1]=Math.max(0,Math.min(255,g));d[i+2]=Math.max(0,Math.min(255,b))
+  }
+  const tc=document.createElement('canvas');tc.width=w;tc.height=h;tc.getContext('2d').putImageData(id,0,0);cx.drawImage(tc,0,0)
+}
+
+// === CROP ===
+let cropActive=false
+function showCropOverlay(){if(!imgD)return;cropOverlay.style.display='block';
+  const r=cv.getBoundingClientRect();cropRect.style.left='10%';cropRect.style.top='10%';cropRect.style.width='80%';cropRect.style.height='80%'}
+let cropDrag=false,cropHandle=false
+function crS(e){if(!imgD)return;cropDrag=true;const t=e.touches?e.touches[0]:e
+  const r=cv.getBoundingClientRect(),sx=cv.width/r.width,sy=cv.height/r.height
+  const x=(t.clientX-r.left)*sx/r.width*100,y=(t.clientY-r.top)*sy/r.height*100
+  cropRect.style.left=x+'%';cropRect.style.top=y+'%';cropRect.style.width='10%';cropRect.style.height='10%'}
+cropBtn.onclick=()=>{if(!imgD)return;const r=cv.getBoundingClientRect()
+  const l=parseFloat(cropRect.style.left)/100*r.width/sx||0,t=parseFloat(cropRect.style.top)/100*r.height/sy||0
+  const w=parseFloat(cropRect.style.width)/100*r.width/sx||r.width,h=parseFloat(cropRect.style.height)/100*r.height/sy||r.height
+  const sx=cv.width/r.width,sy=cv.height/r.height
+  const x=Math.round(l*sx),y=Math.round(t*sy),cw2=Math.round(w*sx),ch2=Math.round(h*sy)
+  if(cw2<10||ch2<10){se('Crop too small');return}
+  const tc=document.createElement('canvas');tc.width=cw2;tc.height=ch2
+  tc.getContext('2d').drawImage(cv,x,y,cw2,ch2,0,0,cw2,ch2)
+  imgD=tc.getContext('2d').getImageData(0,0,cw2,ch2)
+  origPixels=new Uint8ClampedArray(imgD.data)
+  cv.width=cw2;cv.height=ch2;cx.putImageData(imgD,0,0);initM();initDraw();cropOverlay.style.display='none';st('✅ Image recadrée')
+  const nw=cv.width,nh=cv.height
+  if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
+  updateResizeInputs()}
+cropReset.onclick=()=>{if(!img)return;const i=img;let w=i.width,h=i.height
+  if(w>1024){h=h*1024/w;w=1024};cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
+  imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw();cropOverlay.style.display='none';st('↺ Réinitialisé')}
+
+// === ROTATE / FLIP ===
+function rotImg(fn){if(!imgD){st('No image');return}
+  const w=cv.width,h=cv.height,tc=document.createElement('canvas')
+  let nw=w,nh=h
+  if(fn==='cw'||fn==='ccw'){nw=h;nh=w}
+  tc.width=nw;tc.height=nh;const tctx=tc.getContext('2d')
+  tctx.save()
+  if(fn==='cw'){tctx.translate(nw,0);tctx.rotate(Math.PI/2)}
+  else if(fn==='ccw'){tctx.translate(0,nh);tctx.rotate(-Math.PI/2)}
+  else if(fn==='fh'){tctx.translate(w,0);tctx.scale(-1,1)}
+  else if(fn==='fv'){tctx.translate(0,h);tctx.scale(1,-1)}
+  tctx.drawImage(cv,0,0);tctx.restore()
+  cv.width=nw;cv.height=nh;imgD=tctx.getImageData(0,0,nw,nh)
+  origPixels=new Uint8ClampedArray(imgD.data);cx.putImageData(imgD,0,0);initM();initDraw()
+  if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
+  resizeW.value=nw;resizeH.value=nh}
+rotCW.onclick=()=>rotImg('cw')
+rotCCW.onclick=()=>rotImg('ccw')
+flipH.onclick=()=>rotImg('fh')
+flipV.onclick=()=>rotImg('fv')
+rotReset.onclick=()=>{if(!img)return;const i=img;let w=i.width,h=i.height
+  if(w>1024){h=h*1024/w;w=1024};cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
+  imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw()
+  if(drawLayer){drawLayer.width=w;drawLayer.height=h;drawCtx.clearRect(0,0,w,h)};resizeW.value=w;resizeH.value=h;st('↺ Réinitialisé')}
+
+// === DRAW ===
+function initDraw(){drawLayer=document.createElement('canvas');drawLayer.width=cv.width;drawLayer.height=cv.height
+  drawCtx=drawLayer.getContext('2d');drawHistory=[];saveDraw()}
+function saveDraw(){drawHistory.push(drawCtx.getImageData(0,0,drawLayer.width,drawLayer.height))}
+function undoDraw(){if(drawHistory.length<2)return;drawHistory.pop();drawCtx.putImageData(drawHistory[drawHistory.length-1],0,0);cx.putImageData(imgD,0,0);cx.drawImage(drawLayer,0,0);rC()}
+drawUndo.onclick=undoDraw
+drawClear.onclick=()=>{if(!drawCtx)return;saveDraw();drawCtx.clearRect(0,0,drawLayer.width,drawLayer.height);cx.putImageData(imgD,0,0);cx.drawImage(drawLayer,0,0);rC()}
+drawApply.onclick=()=>{if(!drawLayer||!imgD)return
+  const id=new ImageData(new Uint8ClampedArray(imgD.data),imgD.width,imgD.height)
+  const dd=drawCtx.getImageData(0,0,drawLayer.width,drawLayer.height).data
+  for(let i=0;i<imgD.data.length;i+=4){if(dd[i+3]>0){imgD.data[i]=dd[i];imgD.data[i+1]=dd[i+1];imgD.data[i+2]=dd[i+2];imgD.data[i+3]=255}}
+  cx.putImageData(imgD,0,0);origPixels=new Uint8ClampedArray(imgD.data);drawCtx.clearRect(0,0,drawLayer.width,drawLayer.height)
+  saveDraw();st('✅ Dessin appliqué')}
+function drawOnLayer(e){if(!drawCtx||!imgD||processing)return;e.preventDefault();const p=cp(e)
+  drawCtx.lineCap='round';drawCtx.lineWidth=parseInt(drawSize.value);drawCtx.strokeStyle=drawColor.value
+  if(!drawCtx._isDown){drawCtx.beginPath();drawCtx.moveTo(p.x,p.y);drawCtx._isDown=true;saveDraw()}
+  drawCtx.lineTo(p.x,p.y);drawCtx.stroke()
+  cx.putImageData(imgD,0,0);cx.drawImage(drawLayer,0,0);rC()}
+function endDrawLayer(){if(drawCtx)drawCtx._isDown=false}
+cv.addEventListener('mousedown',function(e){if($('tbDraw').style.display!=='none'&&$('tbDraw').style.display!==''&&$('tbDraw').style.display!==null){
+    drawOnLayer(e);return}sD(e)})
+cv.addEventListener('mousemove',function(e){if(drawCtx&&drawCtx._isDown){drawOnLayer(e);return}mD(e)})
+cv.addEventListener('mouseup',function(e){endDrawLayer();eD(e)})
+cv.addEventListener('touchstart',function(e){if($('tbDraw').style.display!=='none'&&$('tbDraw').style.display!==''&&$('tbDraw').style.display!==null){drawOnLayer(e);return}sD(e)},{passive:false})
+cv.addEventListener('touchmove',function(e){if(drawCtx&&drawCtx._isDown){drawOnLayer(e);return}mD(e)},{passive:false})
+cv.addEventListener('touchend',function(e){endDrawLayer();eD(e)},{passive:false})
+
+// === RESIZE ===
+function updateResizeInputs(){if(!imgD)return;resizeW.value=cv.width;resizeH.value=cv.height}
+let ratioLocked=true
+keepRatio.onchange=()=>{ratioLocked=keepRatio.checked}
+resizeW.oninput=function(){if(!ratioLocked||!imgD)return;resizeH.value=Math.round(+this.value*cv.height/cv.width)}
+resizeH.oninput=function(){if(!ratioLocked||!imgD)return;resizeW.value=Math.round(+this.value*cv.width/cv.height)}
+resizeBtn.onclick=()=>{if(!imgD){st('No image');return};const nw=parseInt(resizeW.value),nh=parseInt(resizeH.value)
+  if(!nw||!nh||nw<1||nh<1||nw>4000||nh>4000){se('Dimensions invalides');return}
+  processing=true;resizeBtn.disabled=true;ld.classList.add('show');lt.textContent='Redimensionnement...'
+  setTimeout(()=>{const tc=document.createElement('canvas');tc.width=nw;tc.height=nh
+    tc.getContext('2d').drawImage(cv,0,0,nw,nh);cv.width=nw;cv.height=nh
+    imgD=tc.getContext('2d').getImageData(0,0,nw,nh);origPixels=new Uint8ClampedArray(imgD.data)
+    cx.putImageData(imgD,0,0);initM();initDraw();ld.classList.remove('show');processing=false;resizeBtn.disabled=false
+    if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)};st('✅ Redimensionné')},100)}
+
+// === AVATAR ===
+avatarBtn.onclick=()=>{if(!imgD){se('No image');return}
+  processing=true;avatarBtn.disabled=true;ld.classList.add('show');lt.textContent='Création avatar...'
+  setTimeout(()=>{const s=500,tc=document.createElement('canvas');tc.width=s;tc.height=s
+    const tctx=tc.getContext('2d'),min=Math.min(cv.width,cv.height),sx=cv.width/min,sy=cv.height/min
+    const ox=(s-s*sx)/2,oy=(s-s*sy)/2
+    tctx.beginPath();tctx.arc(s/2,s/2,s/2,0,Math.PI*2);tctx.clip()
+    tctx.drawImage(cv,ox,oy,s*sx,s*sy)
+    showResult(tc.toDataURL());ld.classList.remove('show');processing=false;avatarBtn.disabled=false;st('✅ Avatar créé')},100)}
+
+// === RESULT ===
+function showResult(url){ri.src=url;re.style.display='block'}
+dlB.onclick=()=>{const a=document.createElement('a');a.href=ri.src;a.download='pixelforge.png';a.click()}
 rtB.onclick=()=>{re.style.display='none';processing=false;he()}
-nB.onclick=()=>{re.style.display='none';ed.style.display='none';uz.style.display='block';uzF.value='';img=null;imgD=null;processing=false;he()}
-
-// === PWA ===
-if('serviceWorker'in navigator)navigator.serviceWorker.register('data:text/javascript;base64,'+btoa('self.addEventListener("fetch",()=>{});self.addEventListener("install",()=>self.skipWaiting());self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()))')).catch(()=>{})
-
-st('✨ Upload a photo to start')
+nB.onclick=()=>{re.style.display='none';cw.style.display='none';uz.style.display='block';uzF.value='';img=null;imgD=null;drawLayer=null;processing=false;he()}
+st('📸 Uploadez une image pour commencer')
 </script>
 </body>
 </html>
