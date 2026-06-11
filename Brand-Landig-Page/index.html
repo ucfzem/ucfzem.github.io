@@ -56,6 +56,7 @@ input, textarea { font: inherit; }
   transition: transform var(--transition), opacity var(--transition);
 }
 #editor-toggle:hover { transform: scale(1.05); }
+#editor-toggle.hidden { display: none; }
 
 
 #editor-backdrop {
@@ -640,6 +641,38 @@ footer strong { color: var(--c-primary); }
   <div class="ep-divider"></div>
 
 
+  <!-- Batch upload -->
+  <div class="ep-section">
+    <span class="ep-label">Batch Upload</span>
+    <div class="ep-field">
+      <label>Select multiple photos (fills empty slots)</label>
+      <input type="file" accept="image/*" multiple onchange="batchUpload(this)" style="color:var(--c-muted);font-size:0.78rem;width:100%">
+    </div>
+  </div>
+
+
+  <div class="ep-divider"></div>
+
+
+  <!-- Lock -->
+  <div class="ep-section">
+    <span class="ep-label">Lock Page 🔐</span>
+    <div class="ep-field">
+      <label>Password</label>
+      <input type="password" id="ep-password" placeholder="Enter password" style="width:100%;background:var(--c-surface);border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);padding:0.5rem 0.75rem;font-size:0.85rem;">
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      <button class="ep-lock-btn" onclick="setPassword()" style="flex:1;padding:0.5rem;background:var(--c-primary);color:#000;border-radius:6px;font-weight:700;font-size:0.78rem;">Save Password</button>
+      <button class="ep-lock-btn" onclick="lockPage()" style="flex:1;padding:0.5rem;border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);font-weight:700;font-size:0.78rem;">🔒 Lock</button>
+      <button class="ep-lock-btn" onclick="unlockPage()" style="flex:1;padding:0.5rem;border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);font-weight:700;font-size:0.78rem;">🔓 Unlock</button>
+    </div>
+    <div id="lock-status" style="font-size:0.78rem;color:var(--c-muted);min-height:1.2em;"></div>
+  </div>
+
+
+  <div class="ep-divider"></div>
+
+
   <!-- Features -->
   <div class="ep-section">
     <span class="ep-label">USP / Features</span>
@@ -746,86 +779,7 @@ footer strong { color: var(--c-primary); }
   </p>
 
 
-  <div class="photo-grid">
-    <!-- Row 1 -->
-    <div class="photo-card reveal" onclick="openLightbox(0)" id="card-0">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,0)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-0">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 1</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-0" contenteditable="true" spellcheck="false">Product One</p>
-        <p class="photo-card-desc" id="photo-desc-0" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
-
-
-    <div class="photo-card reveal reveal-delay-1" onclick="openLightbox(1)" id="card-1">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,1)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-1">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 2</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-1" contenteditable="true" spellcheck="false">Product Two</p>
-        <p class="photo-card-desc" id="photo-desc-1" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
-
-
-    <!-- Row 2 -->
-    <div class="photo-card reveal reveal-delay-2" onclick="openLightbox(2)" id="card-2">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,2)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-2">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 3</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-2" contenteditable="true" spellcheck="false">Product Three</p>
-        <p class="photo-card-desc" id="photo-desc-2" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
-
-
-    <div class="photo-card reveal reveal-delay-3" onclick="openLightbox(3)" id="card-3">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,3)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-3">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 4</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-3" contenteditable="true" spellcheck="false">Product Four</p>
-        <p class="photo-card-desc" id="photo-desc-3" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
-
-
-    <!-- Row 3 -->
-    <div class="photo-card reveal" onclick="openLightbox(4)" id="card-4">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,4)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-4">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 5</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-4" contenteditable="true" spellcheck="false">Product Five</p>
-        <p class="photo-card-desc" id="photo-desc-4" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
-
-
-    <div class="photo-card reveal reveal-delay-1" onclick="openLightbox(5)" id="card-5">
-      <input type="file" accept="image/*" onchange="handlePhoto(this,5)" onclick="e=>e.stopPropagation()">
-      <div class="photo-upload-zone" id="zone-5">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo 6</span>
-      </div>
-      <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-5" contenteditable="true" spellcheck="false">Product Six</p>
-        <p class="photo-card-desc" id="photo-desc-5" contenteditable="true" spellcheck="false">Short description</p>
-      </div>
-    </div>
+  <div class="photo-grid" id="photo-grid">
   </div>
 </section>
 
@@ -896,7 +850,7 @@ const T = {
     btn1: "Shop Now", btn2: "Learn More",
     galLabel: "Collection", galTitle: "Our Products",
     galDesc: "Click any image slot to upload your own product photos. Hover to reveal details.",
-    photos: ["Product One","Product Two","Product Three","Product Four","Product Five","Product Six"],
+    photos: ["Product One","Product Two","Product Three","Product Four","Product Five","Product Six","Product Seven","Product Eight","Product Nine","Product Ten","Product Eleven","Product Twelve","Product Thirteen","Product Fourteen","Product Fifteen","Product Sixteen"],
     whyLabel: "Why choose us", whyTitle: "Built different.",
     feats: [["Premium Quality","Every product passes rigorous quality checks. No shortcuts, ever."],
             ["Fast Delivery","Shipped the same day. Delivered fast, safely packed to your door."],
@@ -917,7 +871,7 @@ const T = {
     btn1: "Acheter", btn2: "En savoir plus",
     galLabel: "Collection", galTitle: "Nos Produits",
     galDesc: "Cliquez sur un emplacement pour télécharger vos photos produits. Survolez pour les détails.",
-    photos: ["Produit Un","Produit Deux","Produit Trois","Produit Quatre","Produit Cinq","Produit Six"],
+    photos: ["Produit Un","Produit Deux","Produit Trois","Produit Quatre","Produit Cinq","Produit Six","Produit Sept","Produit Huit","Produit Neuf","Produit Dix","Produit Onze","Produit Douze","Produit Treize","Produit Quatorze","Produit Quinze","Produit Seize"],
     whyLabel: "Pourquoi nous choisir", whyTitle: "Fait différemment.",
     feats: [["Qualité Premium","Chaque produit passe des contrôles rigoureux. Jamais de compromis."],
             ["Livraison rapide","Expédié le jour même. Livré vite et bien emballé chez vous."],
@@ -938,7 +892,7 @@ const T = {
     btn1: "Comprar", btn2: "Saber más",
     galLabel: "Colección", galTitle: "Nuestros Productos",
     galDesc: "Haz clic en cualquier imagen para subir tus fotos de productos.",
-    photos: ["Producto Uno","Producto Dos","Producto Tres","Producto Cuatro","Producto Cinco","Producto Seis"],
+    photos: ["Producto Uno","Producto Dos","Producto Tres","Producto Cuatro","Producto Cinco","Producto Seis","Producto Siete","Producto Ocho","Producto Nueve","Producto Diez","Producto Once","Producto Doce","Producto Trece","Producto Catorce","Producto Quince","Producto Dieciséis"],
     whyLabel: "Por qué elegirnos", whyTitle: "Hecho diferente.",
     feats: [["Calidad Premium","Cada producto pasa controles rigurosos. Sin atajos, nunca."],
             ["Entrega Rápida","Enviado el mismo día. Entregado rápido y bien embalado."],
@@ -959,7 +913,7 @@ const T = {
     btn1: "تسوّق الآن", btn2: "اعرف المزيد",
     galLabel: "المجموعة", galTitle: "منتجاتنا",
     galDesc: "انقر على أي خانة لرفع صور منتجاتك. مرّر المؤشر لعرض التفاصيل.",
-    photos: ["المنتج الأول","المنتج الثاني","المنتج الثالث","المنتج الرابع","المنتج الخامس","المنتج السادس"],
+    photos: ["المنتج الأول","المنتج الثاني","المنتج الثالث","المنتج الرابع","المنتج الخامس","المنتج السادس","المنتج السابع","المنتج الثامن","المنتج التاسع","المنتج العاشر","المنتج الحادي عشر","المنتج الثاني عشر","المنتج الثالث عشر","المنتج الرابع عشر","المنتج الخامس عشر","المنتج السادس عشر"],
     whyLabel: "لماذا نحن", whyTitle: "صُنع باختلاف.",
     feats: [["جودة فائقة","كل منتج يجتاز فحوصات صارمة. لا تنازلات أبدًا."],
             ["توصيل سريع","شحن في نفس اليوم. توصيل سريع وآمن إلى بابك."],
@@ -977,7 +931,34 @@ const T = {
 
 
 let currentLang = 'en';
-const photoImages = new Array(6).fill(null);
+const photoImages = new Array(16).fill(null);
+const TOTAL_PHOTOS = 16;
+
+
+function renderGallery(){
+  const grid = document.getElementById('photo-grid');
+  grid.innerHTML = '';
+  for(let i=0;i<TOTAL_PHOTOS;i++){
+    const d = i % 4;
+    const delay = d ? ` reveal-delay-${d}` : '';
+    const card = document.createElement('div');
+    card.className = `photo-card reveal${delay}`;
+    card.id = `card-${i}`;
+    card.innerHTML = `
+      <input type="file" accept="image/*" onchange="handlePhoto(this,${i})" onclick="event.stopPropagation()">
+      <div class="photo-upload-zone" id="zone-${i}">
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
+        <span>Upload photo ${i+1}</span>
+      </div>
+      <div class="photo-card-overlay">
+        <p class="photo-card-title" id="photo-title-${i}" contenteditable="true" spellcheck="false">Product ${['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen'][i]}</p>
+        <p class="photo-card-desc" id="photo-desc-${i}" contenteditable="true" spellcheck="false">Short description</p>
+      </div>`;
+    card.onclick = () => openLightbox(i);
+    grid.appendChild(card);
+    if(typeof observer !== 'undefined') observer.observe(card);
+  }
+}
 
 
 function setLang(lang, dir, btn) {
@@ -999,7 +980,7 @@ function setLang(lang, dir, btn) {
   setText('gallery-desc', t.galDesc);
 
 
-  for(let i=0;i<6;i++){
+  for(let i=0;i<16;i++){
     const el = document.getElementById(`photo-title-${i}`);
     if(el && !el.dataset.custom) el.textContent = t.photos[i];
     const de = document.getElementById(`photo-desc-${i}`);
@@ -1040,13 +1021,6 @@ function setColor(prop, val){
 }
 
 
-function toggleEditor(){
-  const panel = document.getElementById('editor-panel');
-  const backdrop = document.getElementById('editor-backdrop');
-  const isOpen = panel.classList.toggle('open');
-  backdrop.classList.toggle('open', isOpen);
-  document.body.classList.toggle('panel-open', isOpen);
-}
 function closeEditor(){
   document.getElementById('editor-panel').classList.remove('open');
   document.getElementById('editor-backdrop').classList.remove('open');
@@ -1073,26 +1047,7 @@ function handleLogoUpload(input){ uploadLogo(input); }
 function handlePhoto(input, idx){
   if(!input.files[0]) return;
   const reader = new FileReader();
-  reader.onload = e => {
-    photoImages[idx] = e.target.result;
-    const card = document.getElementById(`card-${idx}`);
-    const zone = document.getElementById(`zone-${idx}`);
-
-
-    // Hide upload zone
-    zone.style.display = 'none';
-
-
-    // Create or update img inside card
-    let img = card.querySelector('img.photo-img');
-    if(!img){
-      img = document.createElement('img');
-      img.className = 'photo-img';
-      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;';
-      card.insertBefore(img, card.querySelector('.photo-card-overlay'));
-    }
-    img.src = e.target.result;
-  };
+  reader.onload = e => { handlePhotoData(idx, e.target.result); };
   reader.readAsDataURL(input.files[0]);
 }
 
@@ -1126,10 +1081,86 @@ document.querySelectorAll('[contenteditable]').forEach(el => {
 });
 
 
-/* Prevent file input from triggering lightbox */
-document.querySelectorAll('.photo-card input[type=file]').forEach(inp => {
-  inp.addEventListener('click', e => e.stopPropagation());
-});
+/* ── Init ── */
+renderGallery();
+
+
+/* ── Batch upload ── */
+function batchUpload(input){
+  const files = Array.from(input.files);
+  let slot = 0;
+  files.forEach(file => {
+    while(slot < TOTAL_PHOTOS && photoImages[slot]) slot++;
+    if(slot >= TOTAL_PHOTOS) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      handlePhotoData(slot, e.target.result);
+    };
+    reader.readAsDataURL(file);
+    slot++;
+  });
+  input.value = '';
+}
+function handlePhotoData(idx, data){
+  photoImages[idx] = data;
+  const card = document.getElementById(`card-${idx}`);
+  const zone = document.getElementById(`zone-${idx}`);
+  zone.style.display = 'none';
+  let img = card.querySelector('img.photo-img');
+  if(!img){
+    img = document.createElement('img');
+    img.className = 'photo-img';
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;';
+    card.insertBefore(img, card.querySelector('.photo-card-overlay'));
+  }
+  img.src = data;
+}
+
+
+/* ── Password lock ── */
+function setPassword(){
+  const pwd = document.getElementById('ep-password').value.trim();
+  if(!pwd) return;
+  localStorage.setItem('brand-lock-password', pwd);
+  document.getElementById('ep-password').value = '';
+  document.getElementById('lock-status').textContent = '🔐 Password saved';
+}
+function lockPage(){
+  const pwd = localStorage.getItem('brand-lock-password');
+  if(!pwd){ document.getElementById('lock-status').textContent = '⚠️ Set a password first'; return; }
+  localStorage.setItem('brand-locked', '1');
+  document.getElementById('editor-toggle').classList.add('hidden');
+  document.getElementById('lock-status').textContent = '🔒 Page locked';
+  closeEditor();
+}
+function unlockPage(){
+  const input = document.getElementById('ep-password');
+  const saved = localStorage.getItem('brand-lock-password');
+  if(input.value === saved){
+    localStorage.removeItem('brand-locked');
+    document.getElementById('editor-toggle').classList.remove('hidden');
+    document.getElementById('lock-status').textContent = '🔓 Page unlocked';
+    input.value = '';
+  } else {
+    document.getElementById('lock-status').textContent = '❌ Wrong password';
+  }
+}
+function toggleEditor(){
+  if(localStorage.getItem('brand-locked') === '1'){
+    document.getElementById('lock-status').textContent = '🔒 Page is locked — enter password below to unlock';
+    return;
+  }
+  const panel = document.getElementById('editor-panel');
+  const backdrop = document.getElementById('editor-backdrop');
+  const isOpen = panel.classList.toggle('open');
+  backdrop.classList.toggle('open', isOpen);
+  document.body.classList.toggle('panel-open', isOpen);
+}
+
+/* ── Check lock on load ── */
+if(localStorage.getItem('brand-locked') === '1'){
+  document.getElementById('editor-toggle').classList.add('hidden');
+}
 </script>
 </body>
 </html>
