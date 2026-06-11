@@ -805,8 +805,24 @@ body.page-locked .nav-logo-img {
       <input type="text" id="ep-btn1" placeholder="Shop Now" oninput="updateText('cta-btn-1',this.value); updateText('cta-btn-3',this.value)">
     </div>
     <div class="ep-field">
+      <label>Button link (Shop Now)</label>
+      <input type="text" id="ep-btn1-url" placeholder="#gallery" oninput="setBtnAction('cta-btn-1',this.value); setBtnAction('cta-btn-3',this.value)">
+    </div>
+    <div class="ep-field">
       <label>Secondary button</label>
       <input type="text" id="ep-btn2" placeholder="Learn More" oninput="updateText('cta-btn-2',this.value)">
+    </div>
+    <div class="ep-field">
+      <label>Button link (Learn More)</label>
+      <input type="text" id="ep-btn2-url" placeholder="#features" oninput="setBtnAction('cta-btn-2',this.value)">
+    </div>
+    <div class="ep-field">
+      <label>CTA button text (Get Started)</label>
+      <input type="text" id="ep-btn4" placeholder="Get Started" oninput="updateText('cta-btn-4',this.value)">
+    </div>
+    <div class="ep-field">
+      <label>CTA button link</label>
+      <input type="text" id="ep-btn4-url" placeholder="#features" oninput="setBtnAction('cta-btn-4',this.value)">
     </div>
   </div>
 
@@ -931,7 +947,7 @@ body.page-locked .nav-logo-img {
     </div>
     <span class="nav-brand" id="brand-name" contenteditable="true" spellcheck="false">Your Brand</span>
   </div>
-  <button class="nav-cta" id="cta-btn-1">Shop Now</button>
+  <button class="nav-cta" id="cta-btn-1" onclick="navigateTo('cta-btn-1')">Shop Now</button>
   <input type="file" id="logo-upload" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
 </nav>
 
@@ -946,8 +962,8 @@ body.page-locked .nav-logo-img {
     Discover our carefully crafted selection, built for people who care about quality and detail.
   </p>
   <div class="hero-actions reveal reveal-delay-3">
-    <button class="btn-primary" id="cta-btn-3">Shop Now</button>
-    <button class="btn-secondary" id="cta-btn-2">Learn More</button>
+    <button class="btn-primary" id="cta-btn-3" onclick="navigateTo('cta-btn-3')">Shop Now</button>
+    <button class="btn-secondary" id="cta-btn-2" onclick="navigateTo('cta-btn-2')">Learn More</button>
   </div>
 </section>
 
@@ -1003,7 +1019,7 @@ body.page-locked .nav-logo-img {
   <h2 class="reveal" id="cta-title">Ready to order?</h2>
   <p class="reveal" id="cta-desc">Join thousands of satisfied customers who made the switch.</p>
   <div class="reveal">
-    <button class="btn-primary" id="cta-btn-4">Get Started</button>
+    <button class="btn-primary" id="cta-btn-4" onclick="navigateTo('cta-btn-4')">Get Started</button>
   </div>
 </section>
 
@@ -1533,6 +1549,37 @@ function updatePageTitle(name){
 
 
 /* ═══════════════════════════════════════════
+   BUTTON ACTIONS
+═══════════════════════════════════════════ */
+const BTN_DEFAULTS = {
+  'cta-btn-1': '#gallery',
+  'cta-btn-3': '#gallery',
+  'cta-btn-2': '#features',
+  'cta-btn-4': '#features'
+};
+const btnUrls = {};
+
+
+function setBtnAction(id, url){
+  const target = url || BTN_DEFAULTS[id] || '#';
+  btnUrls[id] = target;
+  const btn = document.getElementById(id);
+  if(btn) btn.dataset.url = target;
+}
+
+
+function navigateTo(id){
+  const url = btnUrls[id] || BTN_DEFAULTS[id] || '#';
+  if(url.startsWith('#')){
+    const el = document.querySelector(url);
+    if(el) el.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
+
+/* ═══════════════════════════════════════════
    DOWNLOAD / SHARE
 ═══════════════════════════════════════════ */
 function downloadHTML(){
@@ -1700,6 +1747,10 @@ document.addEventListener('DOMContentLoaded', () => {
   buildPhotoGrid();
   observeAllReveals();
   loadState();
+
+
+  // Init button defaults
+  Object.keys(BTN_DEFAULTS).forEach(id => { setBtnAction(id, ''); });
 
 
   // Mark contenteditable fields as custom on input
