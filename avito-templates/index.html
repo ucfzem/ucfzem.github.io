@@ -12,6 +12,40 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <link rel="canonical" href="https://ucfzem.github.io/avito-templates/"/>
     
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Avito Maroc Templates",
+      "url": "https://ucfzem.github.io/avito-templates/",
+      "description": "Templates professionnels au Maroc : CV, PowerPoint, cartes de visite, flyers, réseaux sociaux et packs branding.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "MA"
+      },
+      "makesOffer": [
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Template CV Professionnel","description":"Design moderne pour votre recherche d'emploi","offers":{"@type":"Offer","price":"99","priceCurrency":"MAD"}}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Présentation PowerPoint","description":"Slides professionnels pour vos présentations","offers":{"@type":"Offer","price":"99","priceCurrency":"MAD"}}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Cartes de Visite","description":"Designs uniques pour votre image de marque","offers":{"@type":"Offer","price":"79","priceCurrency":"MAD"}}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Flyers et Affiches","description":"Templates prêts à imprimer pour votre communication","offers":{"@type":"Offer","price":"89","priceCurrency":"MAD"}}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Réseaux Sociaux","description":"Posts Instagram, Facebook et LinkedIn","offers":{"@type":"Offer","price":"69","priceCurrency":"MAD"}}},
+          {"@type":"Offer","itemOffered":{"@type":"Service","name":"Pack Complet Branding","description":"Tous les templates pour votre marque","offers":{"@type":"Offer","price":"299","priceCurrency":"MAD"}}}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Quels types de templates proposez-vous ?","acceptedAnswer":{"@type":"Answer","text":"Nous proposons des templates CV professionnels, présentations PowerPoint, cartes de visite, flyers & affiches, posts pour réseaux sociaux (Instagram, Facebook, LinkedIn), et un pack complet branding avec tous ces templates réunis."}},
+        {"@type":"Question","name":"Quels sont les prix ?","acceptedAnswer":{"@type":"Answer","text":"Nos prix commencent à partir de 69 MAD pour les templates réseaux sociaux, et vont jusqu'à 299 MAD pour le pack complet branding."}},
+        {"@type":"Question","name":"Les templates sont-ils personnalisables ?","acceptedAnswer":{"@type":"Answer","text":"Oui, tous nos templates sont entièrement personnalisables. Vous pouvez modifier les couleurs, textes, images et mise en page selon vos besoins."}},
+        {"@type":"Question","name":"Quand les templates seront-ils disponibles ?","acceptedAnswer":{"@type":"Answer","text":"Nous lançons très bientôt ! Abonnez-vous avec votre email pour être notifié en priorité dès le lancement officiel."}}
+      ]
+    }
+    </script>
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -438,6 +472,22 @@
         [dir="rtl"] .product-price {
             flex-direction: row;
         }
+
+        details summary::-webkit-details-marker { display: none; }
+        details summary { list-style: none; }
+        details summary::after {
+            content: '+';
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--avito-orange);
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after { content: '−'; }
+        [dir="rtl"] details summary::after { float: left; }
+
+        details p { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        details[open] p { max-height: 300px; }
     </style>
 </head>
 <body>
@@ -591,6 +641,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- SEO Content Section -->
+        <section class="seo-content" style="max-width:800px;margin:80px auto 0;text-align:center;color:var(--gray-medium);font-size:0.95rem;line-height:1.8;padding:0 20px;">
+            <h2 style="font-family:'Cairo',sans-serif;font-size:1.8rem;font-weight:700;color:var(--anthracite);margin-bottom:20px;" data-fr="Des templates professionnels pour tous vos projets au Maroc" data-ar="قوالب احترافية لجميع مشاريعك في المغرب">
+                Des templates professionnels pour tous vos projets au Maroc
+            </h2>
+            <p style="margin-bottom:15px;" data-fr="Que vous cherchiez un template CV pour votre recherche d'emploi, une présentation PowerPoint pour votre entreprise, ou des cartes de visite pour votre activité au Maroc, nous avons ce qu'il vous faut. Nos templates sont conçus par des designers professionnels et disponibles à des prix imbattables — à partir de 69 MAD seulement." data-ar="سواء كنت تبحث عن قالب سيرة ذاتية للبحث عن عمل، أو عرض بوربوينت لشركتك، أو بطاقات عمل لنشاطك التجاري في المغرب، لدينا ما تحتاجه. قوالبنا مصممة من قبل مصممين محترفين ومتوفرة بأسعار لا تُقاوم — ابتداء من 69 درهم فقط.">
+                Que vous cherchiez un template CV pour votre recherche d'emploi, une présentation PowerPoint pour votre entreprise, ou des cartes de visite pour votre activité au Maroc, nous avons ce qu'il vous faut. Nos templates sont conçus par des designers professionnels et disponibles à des prix imbattables — à partir de 69 MAD seulement.
+            </p>
+            <p data-fr="Restez informé de nos nouveautés et soyez le premier à découvrir nos packs templates. Abonnez-vous pour recevoir une notification dès le lancement." data-ar="تابع أحدث منتجاتنا وكن أول من يكتشف باقات القوالب لدينا. اشترك لتصلك إشعارات فور الإطلاق.">
+                Restez informé de nos nouveautés et soyez le premier à découvrir nos packs templates. Abonnez-vous pour recevoir une notification dès le lancement.
+            </p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section" style="max-width:700px;margin:80px auto 0;padding:0 20px;">
+            <h2 style="font-family:'Cairo',sans-serif;font-size:1.8rem;font-weight:700;color:var(--anthracite);text-align:center;margin-bottom:40px;" data-fr="Questions fréquentes" data-ar="أسئلة شائعة">Questions fréquentes</h2>
+            <div style="background:var(--white);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.08);overflow:hidden;">
+                <details style="padding:20px 25px;border-bottom:1px solid var(--gray-light);cursor:pointer;">
+                    <summary style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;color:var(--anthracite);" data-fr="Quels types de templates proposez-vous ?" data-ar="ما أنواع القوالب التي تقدمونها ؟">Quels types de templates proposez-vous ?</summary>
+                    <p style="margin-top:12px;color:var(--gray-medium);line-height:1.6;" data-fr="Nous proposons des templates CV professionnels, présentations PowerPoint, cartes de visite, flyers & affiches, posts pour réseaux sociaux (Instagram, Facebook, LinkedIn), et un pack complet branding avec tous ces templates réunis." data-ar="نقدم قوالب سيرة ذاتية احترافية، عروض بوربوينت، بطاقات عمل، منشورات وملصقات، منشورات لوسائل التواصل الاجتماعي (إنستغرام، فيسبوك، لينكد إن)، وباقة الهوية الكاملة التي تجمع كل هذه القوالب.">Nous proposons des templates CV professionnels, présentations PowerPoint, cartes de visite, flyers & affiches, posts pour réseaux sociaux (Instagram, Facebook, LinkedIn), et un pack complet branding avec tous ces templates réunis.</p>
+                </details>
+                <details style="padding:20px 25px;border-bottom:1px solid var(--gray-light);cursor:pointer;">
+                    <summary style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;color:var(--anthracite);" data-fr="Quels sont les prix ?" data-ar="ما هي الأسعار ؟">Quels sont les prix ?</summary>
+                    <p style="margin-top:12px;color:var(--gray-medium);line-height:1.6;" data-fr="Nos prix commencent à partir de 69 MAD pour les templates réseaux sociaux, et vont jusqu'à 299 MAD pour le pack complet branding. Chaque template est vendu à un prix fixe, sans abonnement." data-ar="أسعارنا تبدأ من 69 درهم لقوالب وسائل التواصل الاجتماعي، وتصل إلى 299 درهم لباقة الهوية الكاملة. كل قالب يباع بسعر ثابت، بدون اشتراك.">Nos prix commencent à partir de 69 MAD pour les templates réseaux sociaux, et vont jusqu'à 299 MAD pour le pack complet branding. Chaque template est vendu à un prix fixe, sans abonnement.</p>
+                </details>
+                <details style="padding:20px 25px;border-bottom:1px solid var(--gray-light);cursor:pointer;">
+                    <summary style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;color:var(--anthracite);" data-fr="Les templates sont-ils personnalisables ?" data-ar="هل القوالب قابلة للتخصيص ؟">Les templates sont-ils personnalisables ?</summary>
+                    <p style="margin-top:12px;color:var(--gray-medium);line-height:1.6;" data-fr="Oui, tous nos templates sont entièrement personnalisables. Vous pouvez modifier les couleurs, textes, images et mise en page selon vos besoins." data-ar="نعم، جميع قوالبنا قابلة للتخصيص بالكامل. يمكنك تعديل الألوان والنصوص والصور والتخطيط حسب احتياجاتك.">Oui, tous nos templates sont entièrement personnalisables. Vous pouvez modifier les couleurs, textes, images et mise en page selon vos besoins.</p>
+                </details>
+                <details style="padding:20px 25px;cursor:pointer;">
+                    <summary style="font-family:'Cairo',sans-serif;font-weight:700;font-size:1.1rem;color:var(--anthracite);" data-fr="Quand les templates seront-ils disponibles ?" data-ar="متى ستتوفر القوالب ؟">Quand les templates seront-ils disponibles ?</summary>
+                    <p style="margin-top:12px;color:var(--gray-medium);line-height:1.6;" data-fr="Nous lançons très bientôt ! Abonnez-vous avec votre email pour être notifié en priorité dès le lancement officiel." data-ar="سنطلق قريباً جداً! اشترك بإيميلك ليصلك إشعار فوري عند الإطلاق الرسمي.">Nous lançons très bientôt ! Abonnez-vous avec votre email pour être notifié en priorité dès le lancement officiel.</p>
+                </details>
             </div>
         </section>
 
