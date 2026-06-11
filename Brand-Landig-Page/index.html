@@ -41,10 +41,35 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 input, textarea { font: inherit; }
 
 
-/* ── Editor Panel ── */
-#editor-toggle {
+/* ── Editor Controls Container (Edit + Lock buttons) ── */
+#editorControls {
   position: fixed; bottom: 1.5rem; right: 1.5rem;
   z-index: 1000;
+  display: flex;
+  gap: 0.75rem;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+#editorControls.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+}
+#editorControls.hidden::after {
+  content: '';
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  width: 10px;
+  height: 10px;
+  background: var(--c-primary);
+  border-radius: 50%;
+  opacity: 0.5;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+
+#editor-toggle {
   background: var(--c-primary);
   color: #000;
   padding: 0.65rem 1.25rem;
@@ -61,8 +86,6 @@ input, textarea { font: inherit; }
 
 /* Lock button */
 #lock-toggle {
-  position: fixed; bottom: 1.5rem; left: 1.5rem;
-  z-index: 1000;
   background: var(--c-surface);
   color: var(--c-text);
   border: 1px solid var(--c-border);
@@ -664,8 +687,10 @@ body.page-locked .nav-logo-img {
 @media (max-width: 600px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .hero-actions { flex-direction: column; align-items: center; }
+  #editorControls { bottom: 1rem; right: 1rem; gap: 0.5rem; }
   #editor-toggle { font-size: 0.72rem; padding: 0.4rem 0.85rem; }
   #lock-toggle { font-size: 0.72rem; padding: 0.4rem 0.85rem; }
+  #editorControls.hidden::after { bottom: 1.25rem; right: 1.25rem; }
 }
 @media (max-width: 380px) {
   .photo-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
@@ -689,19 +714,18 @@ body.page-locked .nav-logo-img {
 [dir="rtl"] .section-desc { margin-right: 0; }
 [dir="rtl"] #editor-panel { right: auto; left: 0; border-left: none; border-right: 1px solid var(--c-border); transform: translateX(-100%); }
 [dir="rtl"] #editor-panel.open { transform: translateX(0); }
-[dir="rtl"] #editor-toggle { right: auto; left: 1.5rem; }
-[dir="rtl"] #lock-toggle { left: auto; right: 1.5rem; }
+[dir="rtl"] #editorControls { right: auto; left: 1.5rem; flex-direction: row-reverse; }
+[dir="rtl"] #editorControls.hidden::after { right: auto; left: 1.75rem; }
 </style>
 </head>
 <body>
 
 
-<!-- ▸ EDITOR TOGGLE -->
-<button id="editor-toggle" onclick="toggleEditor()">✏️ Edit</button>
-
-
-<!-- ▸ LOCK TOGGLE -->
-<button id="lock-toggle" onclick="handleLockClick()">🔓 Lock</button>
+<!-- ▸ EDITOR CONTROLS (Edit + Lock) -->
+<div id="editorControls">
+  <button id="editor-toggle" onclick="toggleEditor()">✏️ Edit</button>
+  <button id="lock-toggle" onclick="handleLockClick()">🔓 Lock</button>
+</div>
 
 
 <!-- ▸ PASSWORD MODAL -->
@@ -1636,6 +1660,26 @@ function rgbToHex(rgb){
 /* ── Auto-save on changes ── */
 document.addEventListener('input', () => { saveState(); });
 document.addEventListener('change', () => { saveState(); });
+
+
+/* ── Auto-hide editor controls after inactivity ── */
+(function(){
+  const controls = document.getElementById('editorControls');
+  if (!controls) return;
+  let hideTimer = null;
+  const IDLE_MS = 20000;
+  function showControls(){ controls.classList.remove('hidden'); resetTimer(); }
+  function hideControls(){
+    const panel = document.getElementById('editor-panel');
+    if(panel && panel.classList.contains('open')){ resetTimer(); return; }
+    controls.classList.add('hidden');
+  }
+  function resetTimer(){ clearTimeout(hideTimer); hideTimer = setTimeout(hideControls, IDLE_MS); }
+  document.addEventListener('click', showControls, { passive: true });
+  document.addEventListener('scroll', resetTimer, { passive: true });
+  document.addEventListener('touchmove', resetTimer, { passive: true });
+  resetTimer();
+})();
 
 
 /* ═══════════════════════════════════════════
