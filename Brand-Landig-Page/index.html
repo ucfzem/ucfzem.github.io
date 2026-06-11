@@ -47,7 +47,7 @@ input, textarea { font: inherit; }
   z-index: 1000;
   background: var(--c-primary);
   color: #000;
-  padding: 0.6rem 1.2rem;
+  padding: 0.65rem 1.25rem;
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.85rem;
@@ -56,36 +56,54 @@ input, textarea { font: inherit; }
   transition: transform var(--transition), opacity var(--transition);
 }
 #editor-toggle:hover { transform: scale(1.05); }
-#editor-toggle.hidden { display: none; }
+#editor-toggle.locked { opacity: 0.35; pointer-events: none; }
 
 
+/* Lock button */
+#lock-toggle {
+  position: fixed; bottom: 1.5rem; left: 1.5rem;
+  z-index: 1000;
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
+}
+#lock-toggle:hover { transform: scale(1.05); }
+#lock-toggle.is-locked {
+  background: #c0392b;
+  color: #fff;
+  border-color: #c0392b;
+}
+
+
+/* Backdrop overlay when panel is open */
 #editor-backdrop {
+  display: none;
   position: fixed; inset: 0;
-  z-index: 998;
   background: rgba(0,0,0,0.55);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--transition);
+  z-index: 998;
+  backdrop-filter: blur(2px);
 }
-#editor-backdrop.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-
-body.panel-open { overflow: hidden; }
+#editor-backdrop.open { display: block; }
 
 
 #editor-panel {
   position: fixed; top: 0; right: 0;
-  height: 100vh; width: min(360px, 100vw);
+  height: 100vh; width: min(320px, 88vw);
   background: #111;
   border-left: 1px solid var(--c-border);
   z-index: 999;
   transform: translateX(100%);
   transition: transform var(--transition);
   overflow-y: auto;
-  padding: 1.5rem;
+  overflow-x: hidden;
+  padding: 1rem 1.25rem 5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -93,18 +111,20 @@ body.panel-open { overflow: hidden; }
 #editor-panel.open { transform: translateX(0); }
 
 
-.panel-close-btn {
+/* Close button inside panel */
+#editor-close {
   position: absolute; top: 0.75rem; left: 0.75rem;
   width: 32px; height: 32px;
   border-radius: 50%;
-  background: var(--c-surface);
+  background: rgba(255,255,255,0.08);
   color: var(--c-muted);
   font-size: 1rem;
   display: flex; align-items: center; justify-content: center;
   transition: background var(--transition), color var(--transition);
+  flex-shrink: 0;
 }
-.panel-close-btn:hover { background: var(--c-border); color: var(--c-text); }
-[dir="rtl"] .panel-close-btn { left: auto; right: 0.75rem; }
+[dir="rtl"] #editor-close { left: auto; right: 0.75rem; }
+#editor-close:hover { background: rgba(255,255,255,0.15); color: var(--c-text); }
 
 
 #editor-panel h2 {
@@ -188,6 +208,27 @@ body.panel-open { overflow: hidden; }
   transition: all var(--transition);
 }
 .upload-btn:hover { border-color: var(--c-primary); color: var(--c-primary); }
+
+
+/* Batch upload button */
+.batch-upload-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--c-primary) 15%, transparent);
+  border: 1px solid var(--c-primary);
+  border-radius: 8px;
+  color: var(--c-primary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  transition: all var(--transition);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+.batch-upload-btn:hover {
+  background: var(--c-primary);
+  color: #000;
+}
 
 
 .ep-divider {
@@ -334,10 +375,10 @@ body.panel-open { overflow: hidden; }
 }
 
 
-/* 2×2×2 vertical scroll grid */
+/* 4-column grid for 24 photos */
 .photo-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--gap);
 }
 .photo-card {
@@ -349,7 +390,6 @@ body.panel-open { overflow: hidden; }
   border: 1px solid var(--c-border);
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition);
-  group: true;
 }
 .photo-card:hover {
   transform: translateY(-4px);
@@ -506,6 +546,101 @@ footer strong { color: var(--c-primary); }
 #lightbox-close:hover { background: rgba(255,255,255,0.2); }
 
 
+/* ── Password Modal ── */
+#password-modal {
+  position: fixed; inset: 0;
+  z-index: 3000;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+}
+#password-modal.active { display: flex; }
+.password-box {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: min(380px, 90vw);
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.password-box h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--c-text);
+}
+.password-box p {
+  font-size: 0.85rem;
+  color: var(--c-muted);
+  margin-bottom: 1.25rem;
+}
+.password-box input[type="password"] {
+  width: 100%;
+  background: var(--c-bg);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  color: var(--c-text);
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+.password-box input[type="password"]:focus {
+  outline: none;
+  border-color: var(--c-primary);
+}
+.password-box .pw-actions {
+  display: flex; gap: 0.75rem;
+}
+.password-box .pw-actions button {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all var(--transition);
+}
+.pw-cancel {
+  background: transparent;
+  border: 1px solid var(--c-border) !important;
+  color: var(--c-muted);
+}
+.pw-cancel:hover { border-color: var(--c-text) !important; color: var(--c-text); }
+.pw-confirm {
+  background: var(--c-primary);
+  color: #000;
+  border: none !important;
+}
+.pw-confirm:hover { opacity: 0.85; }
+.pw-error {
+  color: #e74c3c;
+  font-size: 0.78rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+  display: none;
+}
+.pw-error.show { display: block; }
+
+
+/* ── Locked state overlay ── */
+body.page-locked [contenteditable] {
+  pointer-events: none;
+  user-select: none;
+}
+body.page-locked .photo-card input[type="file"] {
+  display: none;
+}
+body.page-locked .photo-upload-zone {
+  display: none !important;
+}
+body.page-locked .nav-logo-img {
+  pointer-events: none;
+}
+
+
 /* ── Scroll animation ── */
 .reveal {
   opacity: 0;
@@ -519,13 +654,21 @@ footer strong { color: var(--c-primary); }
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
 
 
 /* ── Responsive ── */
-@media (max-width: 480px) {
-  .photo-grid { gap: 0.75rem; }
+@media (max-width: 900px) {
+  .photo-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .hero-actions { flex-direction: column; align-items: center; }
-  #editor-toggle { font-size: 0.75rem; padding: 0.5rem 1rem; bottom: 1rem; right: 1rem; }
+  #editor-toggle { font-size: 0.72rem; padding: 0.4rem 0.85rem; }
+  #lock-toggle { font-size: 0.72rem; padding: 0.4rem 0.85rem; }
+}
+@media (max-width: 380px) {
+  .photo-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 }
 @media (min-width: 1400px) {
   .photo-grid { gap: 2rem; }
@@ -544,6 +687,10 @@ footer strong { color: var(--c-primary); }
 [dir="rtl"] .nav-logo { flex-direction: row-reverse; }
 [dir="rtl"] .feature-card { align-items: flex-end; text-align: right; }
 [dir="rtl"] .section-desc { margin-right: 0; }
+[dir="rtl"] #editor-panel { right: auto; left: 0; border-left: none; border-right: 1px solid var(--c-border); transform: translateX(-100%); }
+[dir="rtl"] #editor-panel.open { transform: translateX(0); }
+[dir="rtl"] #editor-toggle { right: auto; left: 1.5rem; }
+[dir="rtl"] #lock-toggle { left: auto; right: 1.5rem; }
 </style>
 </head>
 <body>
@@ -553,14 +700,33 @@ footer strong { color: var(--c-primary); }
 <button id="editor-toggle" onclick="toggleEditor()">✏️ Edit</button>
 
 
+<!-- ▸ LOCK TOGGLE -->
+<button id="lock-toggle" onclick="handleLockClick()">🔓 Lock</button>
+
+
+<!-- ▸ PASSWORD MODAL -->
+<div id="password-modal">
+  <div class="password-box">
+    <h3 id="pw-modal-title">🔐 Set Password</h3>
+    <p id="pw-modal-desc">Enter a password to lock this page from editing.</p>
+    <input type="password" id="pw-input" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')confirmPassword()">
+    <p class="pw-error" id="pw-error">Incorrect password. Try again.</p>
+    <div class="pw-actions">
+      <button class="pw-cancel" onclick="closePasswordModal()">Cancel</button>
+      <button class="pw-confirm" onclick="confirmPassword()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- ▸ EDITOR BACKDROP -->
 <div id="editor-backdrop" onclick="closeEditor()"></div>
 
 
 <!-- ▸ EDITOR PANEL -->
 <div id="editor-panel">
-  <button class="panel-close-btn" onclick="closeEditor()">✕</button>
-  <h2>🎨 Page Editor</h2>
+  <button id="editor-close" onclick="closeEditor()" title="Close">✕</button>
+  <h2 style="padding-left:2rem">🎨 Page Editor</h2>
 
 
   <!-- Language -->
@@ -635,38 +801,18 @@ footer strong { color: var(--c-primary); }
       <label>Section description</label>
       <textarea id="ep-gal-desc" rows="2" placeholder="Explore our collection" oninput="updateText('gallery-desc',this.value)"></textarea>
     </div>
-  </div>
 
 
-  <div class="ep-divider"></div>
-
-
-  <!-- Batch upload -->
-  <div class="ep-section">
-    <span class="ep-label">Batch Upload</span>
-    <div class="ep-field">
-      <label>Select multiple photos (fills empty slots)</label>
-      <input type="file" accept="image/*" multiple onchange="batchUpload(this)" style="color:var(--c-muted);font-size:0.78rem;width:100%">
-    </div>
-  </div>
-
-
-  <div class="ep-divider"></div>
-
-
-  <!-- Lock -->
-  <div class="ep-section">
-    <span class="ep-label">Lock Page 🔐</span>
-    <div class="ep-field">
-      <label>Password</label>
-      <input type="password" id="ep-password" placeholder="Enter password" style="width:100%;background:var(--c-surface);border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);padding:0.5rem 0.75rem;font-size:0.85rem;">
-    </div>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <button class="ep-lock-btn" onclick="setPassword()" style="flex:1;padding:0.5rem;background:var(--c-primary);color:#000;border-radius:6px;font-weight:700;font-size:0.78rem;">Save Password</button>
-      <button class="ep-lock-btn" onclick="lockPage()" style="flex:1;padding:0.5rem;border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);font-weight:700;font-size:0.78rem;">🔒 Lock</button>
-      <button class="ep-lock-btn" onclick="unlockPage()" style="flex:1;padding:0.5rem;border:1px solid var(--c-border);border-radius:6px;color:var(--c-text);font-weight:700;font-size:0.78rem;">🔓 Unlock</button>
-    </div>
-    <div id="lock-status" style="font-size:0.78rem;color:var(--c-muted);min-height:1.2em;"></div>
+    <!-- BATCH UPLOAD -->
+    <div class="ep-divider"></div>
+    <span class="ep-label">⚡ Batch Upload (up to 24 photos)</span>
+    <button class="batch-upload-btn" onclick="document.getElementById('batch-file-input').click()">
+      📁 Select Multiple Photos (1–24)
+    </button>
+    <input type="file" id="batch-file-input" accept="image/*" multiple style="display:none" onchange="handleBatchUpload(this)">
+    <p style="font-size:0.7rem;color:var(--c-muted);margin-top:0.25rem;text-align:center;" id="batch-status">
+      Photos are assigned to slots 1 → 24 in order.
+    </p>
   </div>
 
 
@@ -770,16 +916,17 @@ footer strong { color: var(--c-primary); }
 </section>
 
 
-<!-- ▸ GALLERY — 2 × 2 × 2 vertical -->
+<!-- ▸ GALLERY — 4 × 6 grid (24 photos) -->
 <section id="gallery">
   <p class="section-label reveal">Collection</p>
   <h2 class="section-title reveal" id="gallery-title">Our Products</h2>
   <p class="section-desc reveal" id="gallery-desc">
-    Click any image slot to upload your own product photos. Hover to reveal details.
+    Click any image slot to upload your own product photos. Hover to reveal details. Use batch upload to add multiple photos at once.
   </p>
 
 
   <div class="photo-grid" id="photo-grid">
+    <!-- Cards 0–23 will be generated by JS -->
   </div>
 </section>
 
@@ -839,9 +986,15 @@ footer strong { color: var(--c-primary); }
 
 
 <script>
-/* ─────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════ */
+const TOTAL_PHOTOS = 24;
+
+
+/* ═══════════════════════════════════════════
    TRANSLATIONS
-───────────────────────────────────────── */
+═══════════════════════════════════════════ */
 const T = {
   en: {
     eyebrow: "NEW COLLECTION · 2025",
@@ -849,8 +1002,8 @@ const T = {
     sub: "Discover our carefully crafted selection, built for people who care about quality and detail.",
     btn1: "Shop Now", btn2: "Learn More",
     galLabel: "Collection", galTitle: "Our Products",
-    galDesc: "Click any image slot to upload your own product photos. Hover to reveal details.",
-    photos: ["Product One","Product Two","Product Three","Product Four","Product Five","Product Six","Product Seven","Product Eight","Product Nine","Product Ten","Product Eleven","Product Twelve","Product Thirteen","Product Fourteen","Product Fifteen","Product Sixteen"],
+    galDesc: "Click any image slot to upload your own product photos. Hover to reveal details. Use batch upload to add multiple photos at once.",
+    photos: ["Product One","Product Two","Product Three","Product Four","Product Five","Product Six","Product Seven","Product Eight","Product Nine","Product Ten","Product Eleven","Product Twelve","Product Thirteen","Product Fourteen","Product Fifteen","Product Sixteen","Product Seventeen","Product Eighteen","Product Nineteen","Product Twenty","Product Twenty One","Product Twenty Two","Product Twenty Three","Product Twenty Four"],
     whyLabel: "Why choose us", whyTitle: "Built different.",
     feats: [["Premium Quality","Every product passes rigorous quality checks. No shortcuts, ever."],
             ["Fast Delivery","Shipped the same day. Delivered fast, safely packed to your door."],
@@ -862,7 +1015,15 @@ const T = {
     footerText: "All rights reserved.",
     photoDesc: "Short description",
     upload: (n)=>`Upload photo ${n}`,
-    edit: "✏️ Edit"
+    edit: "✏️ Edit",
+    lock: "🔓 Lock", unlock: "🔒 Unlock",
+    pwSetTitle: "🔐 Set Password", pwSetDesc: "Enter a password to lock this page from editing.",
+    pwUnlockTitle: "🔒 Unlock Page", pwUnlockDesc: "Enter the password to unlock editing.",
+    pwError: "Incorrect password. Try again.",
+    pwCancel: "Cancel", pwConfirm: "Confirm",
+    batchLabel: "⚡ Batch Upload (up to 24 photos)",
+    batchBtn: "📁 Select Multiple Photos (1–24)",
+    batchStatus: "Photos are assigned to slots 1 → 24 in order."
   },
   fr: {
     eyebrow: "NOUVELLE COLLECTION · 2025",
@@ -870,8 +1031,8 @@ const T = {
     sub: "Découvrez notre sélection soigneusement élaborée, conçue pour ceux qui apprécient la qualité.",
     btn1: "Acheter", btn2: "En savoir plus",
     galLabel: "Collection", galTitle: "Nos Produits",
-    galDesc: "Cliquez sur un emplacement pour télécharger vos photos produits. Survolez pour les détails.",
-    photos: ["Produit Un","Produit Deux","Produit Trois","Produit Quatre","Produit Cinq","Produit Six","Produit Sept","Produit Huit","Produit Neuf","Produit Dix","Produit Onze","Produit Douze","Produit Treize","Produit Quatorze","Produit Quinze","Produit Seize"],
+    galDesc: "Cliquez sur un emplacement pour télécharger vos photos produits. Utilisez le téléchargement groupé pour en ajouter plusieurs.",
+    photos: ["Produit 1","Produit 2","Produit 3","Produit 4","Produit 5","Produit 6","Produit 7","Produit 8","Produit 9","Produit 10","Produit 11","Produit 12","Produit 13","Produit 14","Produit 15","Produit 16","Produit 17","Produit 18","Produit 19","Produit 20","Produit 21","Produit 22","Produit 23","Produit 24"],
     whyLabel: "Pourquoi nous choisir", whyTitle: "Fait différemment.",
     feats: [["Qualité Premium","Chaque produit passe des contrôles rigoureux. Jamais de compromis."],
             ["Livraison rapide","Expédié le jour même. Livré vite et bien emballé chez vous."],
@@ -883,7 +1044,15 @@ const T = {
     footerText: "Tous droits réservés.",
     photoDesc: "Description courte",
     upload: (n)=>`Photo ${n}`,
-    edit: "✏️ Éditer"
+    edit: "✏️ Éditer",
+    lock: "🔓 Verrouiller", unlock: "🔒 Déverrouiller",
+    pwSetTitle: "🔐 Définir le mot de passe", pwSetDesc: "Entrez un mot de passe pour verrouiller cette page.",
+    pwUnlockTitle: "🔒 Déverrouiller", pwUnlockDesc: "Entrez le mot de passe pour déverrouiller.",
+    pwError: "Mot de passe incorrect. Réessayez.",
+    pwCancel: "Annuler", pwConfirm: "Confirmer",
+    batchLabel: "⚡ Téléchargement groupé (jusqu'à 24 photos)",
+    batchBtn: "📁 Sélectionner plusieurs photos (1–24)",
+    batchStatus: "Les photos sont attribuées aux emplacements 1 → 24 dans l'ordre."
   },
   es: {
     eyebrow: "NUEVA COLECCIÓN · 2025",
@@ -891,8 +1060,8 @@ const T = {
     sub: "Descubre nuestra selección cuidadosamente elaborada, hecha para quienes valoran la calidad.",
     btn1: "Comprar", btn2: "Saber más",
     galLabel: "Colección", galTitle: "Nuestros Productos",
-    galDesc: "Haz clic en cualquier imagen para subir tus fotos de productos.",
-    photos: ["Producto Uno","Producto Dos","Producto Tres","Producto Cuatro","Producto Cinco","Producto Seis","Producto Siete","Producto Ocho","Producto Nueve","Producto Diez","Producto Once","Producto Doce","Producto Trece","Producto Catorce","Producto Quince","Producto Dieciséis"],
+    galDesc: "Haz clic en cualquier imagen para subir tus fotos. Usa la carga por lotes para añadir varias a la vez.",
+    photos: ["Producto 1","Producto 2","Producto 3","Producto 4","Producto 5","Producto 6","Producto 7","Producto 8","Producto 9","Producto 10","Producto 11","Producto 12","Producto 13","Producto 14","Producto 15","Producto 16","Producto 17","Producto 18","Producto 19","Producto 20","Producto 21","Producto 22","Producto 23","Producto 24"],
     whyLabel: "Por qué elegirnos", whyTitle: "Hecho diferente.",
     feats: [["Calidad Premium","Cada producto pasa controles rigurosos. Sin atajos, nunca."],
             ["Entrega Rápida","Enviado el mismo día. Entregado rápido y bien embalado."],
@@ -904,7 +1073,15 @@ const T = {
     footerText: "Todos los derechos reservados.",
     photoDesc: "Descripción corta",
     upload: (n)=>`Foto ${n}`,
-    edit: "✏️ Editar"
+    edit: "✏️ Editar",
+    lock: "🔓 Bloquear", unlock: "🔒 Desbloquear",
+    pwSetTitle: "🔐 Establecer contraseña", pwSetDesc: "Ingresa una contraseña para bloquear esta página.",
+    pwUnlockTitle: "🔒 Desbloquear página", pwUnlockDesc: "Ingresa la contraseña para desbloquear.",
+    pwError: "Contraseña incorrecta. Inténtalo de nuevo.",
+    pwCancel: "Cancelar", pwConfirm: "Confirmar",
+    batchLabel: "⚡ Carga por lotes (hasta 24 fotos)",
+    batchBtn: "📁 Seleccionar varias fotos (1–24)",
+    batchStatus: "Las fotos se asignan a las ranuras 1 → 24 en orden."
   },
   ar: {
     eyebrow: "مجموعة جديدة · 2025",
@@ -912,8 +1089,8 @@ const T = {
     sub: "اكتشف مجموعتنا المختارة بعناية، صُنعت لمن يهتم بالجودة والتفاصيل.",
     btn1: "تسوّق الآن", btn2: "اعرف المزيد",
     galLabel: "المجموعة", galTitle: "منتجاتنا",
-    galDesc: "انقر على أي خانة لرفع صور منتجاتك. مرّر المؤشر لعرض التفاصيل.",
-    photos: ["المنتج الأول","المنتج الثاني","المنتج الثالث","المنتج الرابع","المنتج الخامس","المنتج السادس","المنتج السابع","المنتج الثامن","المنتج التاسع","المنتج العاشر","المنتج الحادي عشر","المنتج الثاني عشر","المنتج الثالث عشر","المنتج الرابع عشر","المنتج الخامس عشر","المنتج السادس عشر"],
+    galDesc: "انقر على أي خانة لرفع صور منتجاتك. استخدم الرفع الجماعي لإضافة عدة صور دفعة واحدة.",
+    photos: ["المنتج ١","المنتج ٢","المنتج ٣","المنتج ٤","المنتج ٥","المنتج ٦","المنتج ٧","المنتج ٨","المنتج ٩","المنتج ١٠","المنتج ١١","المنتج ١٢","المنتج ١٣","المنتج ١٤","المنتج ١٥","المنتج ١٦","المنتج ١٧","المنتج ١٨","المنتج ١٩","المنتج ٢٠","المنتج ٢١","المنتج ٢٢","المنتج ٢٣","المنتج ٢٤"],
     whyLabel: "لماذا نحن", whyTitle: "صُنع باختلاف.",
     feats: [["جودة فائقة","كل منتج يجتاز فحوصات صارمة. لا تنازلات أبدًا."],
             ["توصيل سريع","شحن في نفس اليوم. توصيل سريع وآمن إلى بابك."],
@@ -925,42 +1102,71 @@ const T = {
     footerText: "جميع الحقوق محفوظة.",
     photoDesc: "وصف قصير",
     upload: (n)=>`صورة ${n}`,
-    edit: "✏️ تحرير"
+    edit: "✏️ تحرير",
+    lock: "🔓 قفل", unlock: "🔒 فتح",
+    pwSetTitle: "🔐 تعيين كلمة المرور", pwSetDesc: "أدخل كلمة مرور لقفل هذه الصفحة من التحرير.",
+    pwUnlockTitle: "🔒 فتح الصفحة", pwUnlockDesc: "أدخل كلمة المرور لفتح التحرير.",
+    pwError: "كلمة المرور غير صحيحة. حاول مرة أخرى.",
+    pwCancel: "إلغاء", pwConfirm: "تأكيد",
+    batchLabel: "⚡ رفع جماعي (حتى 24 صورة)",
+    batchBtn: "📁 اختر صور متعددة (1–24)",
+    batchStatus: "تُوزّع الصور على الخانات 1 → 24 بالترتيب."
   }
 };
 
 
 let currentLang = 'en';
-const photoImages = new Array(16).fill(null);
-const TOTAL_PHOTOS = 16;
+const photoImages = new Array(TOTAL_PHOTOS).fill(null);
+let pagePassword = null;   // null = never set
+let isLocked = false;
+let lockMode = 'set';      // 'set' or 'unlock'
 
 
-function renderGallery(){
+/* ═══════════════════════════════════════════
+   BUILD PHOTO GRID (24 cards)
+═══════════════════════════════════════════ */
+function buildPhotoGrid() {
   const grid = document.getElementById('photo-grid');
-  grid.innerHTML = '';
-  for(let i=0;i<TOTAL_PHOTOS;i++){
-    const d = i % 4;
-    const delay = d ? ` reveal-delay-${d}` : '';
-    const card = document.createElement('div');
-    card.className = `photo-card reveal${delay}`;
-    card.id = `card-${i}`;
-    card.innerHTML = `
+  const t = T[currentLang];
+  let html = '';
+  for (let i = 0; i < TOTAL_PHOTOS; i++) {
+    const delayClass = i < 4 ? '' : ` reveal-delay-${Math.min(i % 4, 3)}`;
+    html += `
+    <div class="photo-card reveal${delayClass}" onclick="openLightbox(${i})" id="card-${i}">
       <input type="file" accept="image/*" onchange="handlePhoto(this,${i})" onclick="event.stopPropagation()">
       <div class="photo-upload-zone" id="zone-${i}">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
-        <span>Upload photo ${i+1}</span>
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16V4m0 0L8 8m4-4 4 4"/><rect x="3" y="14" width="18" height="7" rx="2"/></svg>
+        <span>${t.upload(i + 1)}</span>
       </div>
       <div class="photo-card-overlay">
-        <p class="photo-card-title" id="photo-title-${i}" contenteditable="true" spellcheck="false">Product ${['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen'][i]}</p>
-        <p class="photo-card-desc" id="photo-desc-${i}" contenteditable="true" spellcheck="false">Short description</p>
-      </div>`;
-    card.onclick = () => openLightbox(i);
-    grid.appendChild(card);
-    if(typeof observer !== 'undefined') observer.observe(card);
+        <p class="photo-card-title" id="photo-title-${i}" contenteditable="true" spellcheck="false">${t.photos[i]}</p>
+        <p class="photo-card-desc" id="photo-desc-${i}" contenteditable="true" spellcheck="false">${t.photoDesc}</p>
+      </div>
+    </div>`;
   }
+  grid.innerHTML = html;
+
+
+  // Re-observe for scroll reveal
+  document.querySelectorAll('#photo-grid .reveal').forEach(el => observer.observe(el));
+
+
+  // Prevent file inputs from triggering lightbox
+  document.querySelectorAll('#photo-grid input[type=file]').forEach(inp => {
+    inp.addEventListener('click', e => e.stopPropagation());
+  });
+
+
+  // Re-mark contenteditable
+  document.querySelectorAll('#photo-grid [contenteditable]').forEach(el => {
+    el.addEventListener('input', () => el.dataset.custom = '1');
+  });
 }
 
 
+/* ═══════════════════════════════════════════
+   LANGUAGE
+═══════════════════════════════════════════ */
 function setLang(lang, dir, btn) {
   currentLang = lang;
   document.documentElement.lang = lang;
@@ -980,7 +1186,8 @@ function setLang(lang, dir, btn) {
   setText('gallery-desc', t.galDesc);
 
 
-  for(let i=0;i<16;i++){
+  // Update photo titles & upload zones
+  for(let i = 0; i < TOTAL_PHOTOS; i++){
     const el = document.getElementById(`photo-title-${i}`);
     if(el && !el.dataset.custom) el.textContent = t.photos[i];
     const de = document.getElementById(`photo-desc-${i}`);
@@ -988,7 +1195,7 @@ function setLang(lang, dir, btn) {
     const zone = document.getElementById(`zone-${i}`);
     if(zone){
       const span = zone.querySelector('span');
-      if(span) span.textContent = t.upload(i+1);
+      if(span) span.textContent = t.upload(i + 1);
     }
   }
 
@@ -1005,6 +1212,16 @@ function setLang(lang, dir, btn) {
   setText('cta-desc', t.ctaDesc);
   setText('footer-text', t.footerText);
   document.getElementById('editor-toggle').textContent = t.edit;
+
+
+  // Lock button text
+  const lockBtn = document.getElementById('lock-toggle');
+  lockBtn.textContent = isLocked ? t.unlock : t.lock;
+
+
+  // Batch upload labels
+  document.querySelector('.batch-upload-btn').textContent = t.batchBtn;
+  document.getElementById('batch-status').textContent = t.batchStatus;
 }
 
 
@@ -1021,14 +1238,145 @@ function setColor(prop, val){
 }
 
 
+/* ═══════════════════════════════════════════
+   EDITOR PANEL
+═══════════════════════════════════════════ */
+function toggleEditor(){
+  if(isLocked) return;
+  const panel = document.getElementById('editor-panel');
+  if(panel.classList.contains('open')){ closeEditor(); } else { openEditor(); }
+}
+function openEditor(){
+  if(isLocked) return;
+  document.getElementById('editor-panel').classList.add('open');
+  document.getElementById('editor-backdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 function closeEditor(){
   document.getElementById('editor-panel').classList.remove('open');
   document.getElementById('editor-backdrop').classList.remove('open');
-  document.body.classList.remove('panel-open');
+  document.body.style.overflow = '';
 }
 
 
-/* ── Logo ── */
+/* ═══════════════════════════════════════════
+   LOCK / UNLOCK
+═══════════════════════════════════════════ */
+function handleLockClick() {
+  if (!isLocked) {
+    // Want to lock
+    if (pagePassword === null) {
+      lockMode = 'set';
+      showPasswordModal(T[currentLang].pwSetTitle, T[currentLang].pwSetDesc);
+    } else {
+      // Already has a password — just lock immediately
+      applyLock();
+    }
+  } else {
+    // Want to unlock
+    lockMode = 'unlock';
+    showPasswordModal(T[currentLang].pwUnlockTitle, T[currentLang].pwUnlockDesc);
+  }
+}
+
+
+function showPasswordModal(title, desc) {
+  document.getElementById('pw-modal-title').textContent = title;
+  document.getElementById('pw-modal-desc').textContent = desc;
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-error').classList.remove('show');
+  document.getElementById('password-modal').classList.add('active');
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+
+
+function closePasswordModal() {
+  document.getElementById('password-modal').classList.remove('active');
+}
+
+
+function confirmPassword() {
+  const val = document.getElementById('pw-input').value;
+  const t = T[currentLang];
+
+
+  if (lockMode === 'set') {
+    if (val.length < 1) {
+      document.getElementById('pw-error').textContent = t.pwError;
+      document.getElementById('pw-error').classList.add('show');
+      return;
+    }
+    pagePassword = val;
+    closePasswordModal();
+    applyLock();
+  } else {
+    // unlock
+    if (val !== pagePassword) {
+      document.getElementById('pw-error').textContent = t.pwError;
+      document.getElementById('pw-error').classList.add('show');
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+      return;
+    }
+    closePasswordModal();
+    applyUnlock();
+  }
+}
+
+
+function applyLock() {
+  isLocked = true;
+  document.body.classList.add('page-locked');
+
+
+  // Remove contenteditable
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.dataset.wasEditable = '1';
+    el.removeAttribute('contenteditable');
+  });
+
+
+  // Disable editor
+  const editorToggle = document.getElementById('editor-toggle');
+  editorToggle.classList.add('locked');
+  closeEditor();
+
+
+  // Update lock button
+  const t = T[currentLang];
+  const lockBtn = document.getElementById('lock-toggle');
+  lockBtn.textContent = t.unlock;
+  lockBtn.classList.add('is-locked');
+}
+
+
+function applyUnlock() {
+  isLocked = false;
+  document.body.classList.remove('page-locked');
+
+
+  // Restore contenteditable
+  document.querySelectorAll('[data-was-editable]').forEach(el => {
+    el.setAttribute('contenteditable', 'true');
+    delete el.dataset.wasEditable;
+  });
+
+
+  // Re-enable editor
+  document.getElementById('editor-toggle').classList.remove('locked');
+
+
+  // Update lock button
+  const t = T[currentLang];
+  const lockBtn = document.getElementById('lock-toggle');
+  lockBtn.textContent = t.lock;
+  lockBtn.classList.remove('is-locked');
+}
+
+
+/* ═══════════════════════════════════════════
+   LOGO
+═══════════════════════════════════════════ */
 function uploadLogo(input){
   if(!input.files[0]) return;
   const reader = new FileReader();
@@ -1043,16 +1391,87 @@ function uploadLogo(input){
 function handleLogoUpload(input){ uploadLogo(input); }
 
 
-/* ── Photo cards ── */
+/* ═══════════════════════════════════════════
+   PHOTO CARDS
+═══════════════════════════════════════════ */
 function handlePhoto(input, idx){
   if(!input.files[0]) return;
   const reader = new FileReader();
-  reader.onload = e => { handlePhotoData(idx, e.target.result); };
+  reader.onload = e => {
+    setPhotoImage(idx, e.target.result);
+  };
   reader.readAsDataURL(input.files[0]);
 }
 
 
-/* ── Lightbox ── */
+function setPhotoImage(idx, dataUrl) {
+  photoImages[idx] = dataUrl;
+  const card = document.getElementById(`card-${idx}`);
+  if(!card) return;
+  const zone = document.getElementById(`zone-${idx}`);
+
+
+  // Hide upload zone
+  if(zone) zone.style.display = 'none';
+
+
+  // Create or update img inside card
+  let img = card.querySelector('img.photo-img');
+  if(!img){
+    img = document.createElement('img');
+    img.className = 'photo-img';
+    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;';
+    card.insertBefore(img, card.querySelector('.photo-card-overlay'));
+  }
+  img.src = dataUrl;
+}
+
+
+/* ═══════════════════════════════════════════
+   BATCH UPLOAD
+═══════════════════════════════════════════ */
+function handleBatchUpload(input) {
+  if (!input.files || input.files.length === 0) return;
+
+
+  const files = Array.from(input.files).slice(0, TOTAL_PHOTOS);
+  let loaded = 0;
+  const total = files.length;
+
+
+  // Find first empty slot to start filling from
+  let startSlot = 0;
+  for (let i = 0; i < TOTAL_PHOTOS; i++) {
+    if (photoImages[i] === null) { startSlot = i; break; }
+    if (i === TOTAL_PHOTOS - 1) startSlot = 0; // all full, overwrite from 0
+  }
+
+
+  files.forEach((file, i) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const slotIdx = (startSlot + i) % TOTAL_PHOTOS;
+      setPhotoImage(slotIdx, e.target.result);
+      loaded++;
+      if (loaded === total) {
+        const status = document.getElementById('batch-status');
+        const t = T[currentLang];
+        status.textContent = `✅ ${loaded} photo${loaded > 1 ? 's' : ''} uploaded!`;
+        setTimeout(() => { status.textContent = t.batchStatus; }, 3000);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+
+  // Reset input so same files can be re-selected
+  input.value = '';
+}
+
+
+/* ═══════════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════════ */
 function openLightbox(idx){
   if(!photoImages[idx]) return;
   document.getElementById('lightbox-img').src = photoImages[idx];
@@ -1061,106 +1480,44 @@ function openLightbox(idx){
 function closeLightbox(){
   document.getElementById('lightbox').classList.remove('active');
 }
-document.addEventListener('keydown', e => {
-  if(e.key!=='Escape') return;
-  closeLightbox();
-  closeEditor();
-});
 
 
-/* ── Scroll reveal ── */
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
 const observer = new IntersectionObserver((entries)=>{
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 
-/* ── Mark contenteditable fields as custom ── */
-document.querySelectorAll('[contenteditable]').forEach(el => {
-  el.addEventListener('input', () => el.dataset.custom = '1');
+function observeAllReveals() {
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  buildPhotoGrid();
+  observeAllReveals();
+
+
+  // Mark contenteditable fields as custom on input
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.addEventListener('input', () => el.dataset.custom = '1');
+  });
 });
 
 
-/* ── Init ── */
-renderGallery();
-
-
-/* ── Batch upload ── */
-function batchUpload(input){
-  const files = Array.from(input.files);
-  let slot = 0;
-  files.forEach(file => {
-    while(slot < TOTAL_PHOTOS && photoImages[slot]) slot++;
-    if(slot >= TOTAL_PHOTOS) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      handlePhotoData(slot, e.target.result);
-    };
-    reader.readAsDataURL(file);
-    slot++;
-  });
-  input.value = '';
-}
-function handlePhotoData(idx, data){
-  photoImages[idx] = data;
-  const card = document.getElementById(`card-${idx}`);
-  const zone = document.getElementById(`zone-${idx}`);
-  zone.style.display = 'none';
-  let img = card.querySelector('img.photo-img');
-  if(!img){
-    img = document.createElement('img');
-    img.className = 'photo-img';
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;';
-    card.insertBefore(img, card.querySelector('.photo-card-overlay'));
+/* ── Close modals on Escape key ── */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    closeLightbox();
+    closeEditor();
+    closePasswordModal();
   }
-  img.src = data;
-}
-
-
-/* ── Password lock ── */
-function setPassword(){
-  const pwd = document.getElementById('ep-password').value.trim();
-  if(!pwd) return;
-  localStorage.setItem('brand-lock-password', pwd);
-  document.getElementById('ep-password').value = '';
-  document.getElementById('lock-status').textContent = '🔐 Password saved';
-}
-function lockPage(){
-  const pwd = localStorage.getItem('brand-lock-password');
-  if(!pwd){ document.getElementById('lock-status').textContent = '⚠️ Set a password first'; return; }
-  localStorage.setItem('brand-locked', '1');
-  document.getElementById('editor-toggle').classList.add('hidden');
-  document.getElementById('lock-status').textContent = '🔒 Page locked';
-  closeEditor();
-}
-function unlockPage(){
-  const input = document.getElementById('ep-password');
-  const saved = localStorage.getItem('brand-lock-password');
-  if(input.value === saved){
-    localStorage.removeItem('brand-locked');
-    document.getElementById('editor-toggle').classList.remove('hidden');
-    document.getElementById('lock-status').textContent = '🔓 Page unlocked';
-    input.value = '';
-  } else {
-    document.getElementById('lock-status').textContent = '❌ Wrong password';
-  }
-}
-function toggleEditor(){
-  if(localStorage.getItem('brand-locked') === '1'){
-    document.getElementById('lock-status').textContent = '🔒 Page is locked — enter password below to unlock';
-    return;
-  }
-  const panel = document.getElementById('editor-panel');
-  const backdrop = document.getElementById('editor-backdrop');
-  const isOpen = panel.classList.toggle('open');
-  backdrop.classList.toggle('open', isOpen);
-  document.body.classList.toggle('panel-open', isOpen);
-}
-
-/* ── Check lock on load ── */
-if(localStorage.getItem('brand-locked') === '1'){
-  document.getElementById('editor-toggle').classList.add('hidden');
-}
+});
 </script>
 </body>
 </html>
