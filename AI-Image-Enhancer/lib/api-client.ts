@@ -10,85 +10,124 @@ export interface ProcessError {
   details?: string
 }
 
-function canvasColorize(
-  imageData: ImageData,
-  preserveColor: boolean
-): ImageData {
-  const d = imageData.data
-  const w = imageData.width
-  const h = imageData.height
-  const out = new ImageData(new Uint8ClampedArray(d), w, h)
-  const o = out.data
+function hsl2rgb(h: number, s: number, l: number): [number, number, number] {
+  const c = (1 - Math.abs(2 * l - 1)) * s
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
+  const m = l - c / 2
+  let r = 0, g = 0, b = 0
+  if (h < 60) { r = c; g = x }
+  else if (h < 120) { r = x; g = c }
+  else if (h < 180) { g = c; b = x }
+  else if (h < 240) { g = x; b = c }
+  else if (h < 300) { r = x; b = c }
+  else { r = c; b = x }
+  return [(r + m) * 255, (g + m) * 255, (b + m) * 255]
+}
 
-  const skinPixels: Array<[number, number, number]> = []
+function canvasColorize(imageData: ImageData): ImageData {
+  const d = imageData.data
+  const w = imageData.width, h = imageData.height
+  const len = w * h
+
+  // STEP 1: Convert to true grayscale (discard original color)
+  for (let i = 0; i < d.length; i += 4) {
+    const gray = Math.round(d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114)
+    d[i] = gray; d[i + 1] = gray; d[i + 2] = gray
+  }
+
+  // STEP 2: Histogram stretch for contrast
+  let mn = 255, mx = 0
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i] < mn) mn = d[i]
+    if (d[i] > mx) mx = d[i]
+  }
+  const rng = mx - mn || 1
+  for (let i = 0; i < d.length; i += 4) {
+    const v = Math.round((d[i] - mn) / rng * 255)
+    d[i] = v; d[i + 1] = v; d[i + 2] = v
+  }
+
+  // STEP 3: Luminance map + local variance (7x7 window)
+  const lum = new Float32Array(len)
+  for (let i = 0; i < len; i++) lum[i] = d[i * 4] / 255
+
+  const localMean = new Float32Array(len)
+  const localVar = new Float32Array(len)
+  const R = 3
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
-      const i = (y * w + x) * 4
-      const r = d[i], g = d[i + 1], b = d[i + 2]
-      const lum = 0.299 * r + 0.587 * g + 0.114 * b
-      const s = Math.max(r, g, b) - Math.min(r, g, b)
-
-      if (preserveColor && s > 30) {
-        o[i] = r; o[i + 1] = g; o[i + 2] = b; o[i + 3] = 255
-        continue
-      }
-
-      const nl = lum / 255
-      let cr: number, cg: number, cb: number
-
-      if (nl < 0.1) {
-        cr = 20 + nl * 100; cg = 25 + nl * 80; cb = 45 + nl * 150
-      } else if (nl < 0.25) {
-        const t = (nl - 0.1) / 0.15
-        cr = 30 + t * 40; cg = 33 + t * 50; cb = 60 + t * 80
-      } else if (nl < 0.4) {
-        const t = (nl - 0.25) / 0.15
-        cr = 55 + t * 80; cg = 50 + t * 70; cb = 90 + t * 30
-      } else if (nl < 0.55) {
-        const t = (nl - 0.4) / 0.15
-        cr = 110 + t * 70; cg = 95 + t * 60; cb = 85 + t * 10
-      } else if (nl < 0.7) {
-        const t = (nl - 0.55) / 0.15
-        cr = 160 + t * 50; cg = 140 + t * 50; cb = 90 - t * 20
-      } else {
-        const t = Math.min((nl - 0.7) / 0.3, 1)
-        cr = 200 + t * 55; cg = 180 + t * 75; cb = 100 + t * 155
-      }
-
-      const tr = Math.max(0, Math.min(255, Math.round(cr + (lum - cr) * 0.3)))
-      const tg = Math.max(0, Math.min(255, Math.round(cg + (lum - cg) * 0.3)))
-      const tb = Math.max(0, Math.min(255, Math.round(cb + (lum - cb) * 0.3)))
-
-      if (r > 60 && g > 40 && b > 30 && Math.abs(r - g) < 20 && Math.abs(g - b) < 20 && r > b) {
-        skinPixels.push([tr, tg, tb])
-      }
-
-      o[i] = tr; o[i + 1] = tg; o[i + 2] = tb; o[i + 3] = 255
-    }
-  }
-
-  if (skinPixels.length > w * h * 0.02) {
-    const avgR = skinPixels.reduce((a, p) => a + p[0], 0) / skinPixels.length
-    const avgG = skinPixels.reduce((a, p) => a + p[1], 0) / skinPixels.length
-    const avgB = skinPixels.reduce((a, p) => a + p[2], 0) / skinPixels.length
-    const skinLum = 0.299 * avgR + 0.587 * avgG + 0.114 * avgB
-    if (skinLum > 80 && skinLum < 220) {
-      for (let i = 0; i < o.length; i += 4) {
-        const rC = o[i], gC = o[i + 1], bC = o[i + 2]
-        const dist = Math.abs(rC - avgR) + Math.abs(gC - avgG) + Math.abs(bC - avgB)
-        const l = 0.299 * rC + 0.587 * gC + 0.114 * bC
-        const nL = l / 255
-        if (dist < 80 && nL > 0.15 && nL < 0.85) {
-          const f = 0.25 + 0.5 * (1 - dist / 80)
-          o[i] = Math.round(rC + (avgR + 15 - rC) * f)
-          o[i + 1] = Math.round(gC + (avgG + 10 - gC) * f)
-          o[i + 2] = Math.round(bC + (avgB - 5 - bC) * f)
+      let sum = 0, sum2 = 0, cnt = 0
+      const y0 = Math.max(0, y - R), y1 = Math.min(h - 1, y + R)
+      const x0 = Math.max(0, x - R), x1 = Math.min(w - 1, x + R)
+      for (let ky = y0; ky <= y1; ky++) {
+        for (let kx = x0; kx <= x1; kx++) {
+          const v = lum[ky * w + kx]
+          sum += v; sum2 += v * v; cnt++
         }
       }
+      const mean = sum / cnt
+      localMean[y * w + x] = mean
+      localVar[y * w + x] = sum2 / cnt - mean * mean
     }
   }
 
-  return out
+  // STEP 4: Per-pixel zone classification + HSL colorization
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const idx = y * w + x
+      const i4 = idx * 4
+      const n = lum[idx]
+      const lv = localVar[idx]
+      const lm = localMean[idx]
+
+      const isFlat = lv < 0.004
+      const isBright = n > 0.65
+      const isMid = n > 0.30 && n <= 0.65
+      const isDark = n <= 0.30
+
+      let hue: number, sat: number, lightness: number
+
+      if (isFlat && isBright) {
+        hue = 200 + n * 20
+        sat = 0.45 + lm * 0.3
+        lightness = 0.45 + n * 0.3
+      } else if (isDark && isFlat) {
+        hue = 225 + n * 30
+        sat = 0.25 + lv * 10
+        lightness = 0.08 + n * 0.4
+      } else if (isDark) {
+        hue = 100 + n * 40
+        sat = 0.30 + lv * 8
+        lightness = 0.10 + n * 0.5
+      } else if (isMid && !isFlat) {
+        const t = (n - 0.30) / 0.35
+        hue = 25 + t * 15
+        sat = 0.40 + lv * 6
+        lightness = 0.30 + n * 0.4
+      } else if (isMid && isFlat) {
+        hue = 35
+        sat = 0.15
+        lightness = 0.30 + n * 0.35
+      } else {
+        hue = 42 + (1 - n) * 15
+        sat = 0.20 + lv * 3
+        lightness = 0.60 + n * 0.35
+      }
+
+      sat = Math.max(0, Math.min(1, sat))
+      lightness = Math.max(0.05, Math.min(0.95, lightness))
+
+      const rgb = hsl2rgb(hue, sat, lightness)
+      const orig = n * 255
+
+      d[i4] = Math.round(rgb[0] * 0.75 + orig * 0.25)
+      d[i4 + 1] = Math.round(rgb[1] * 0.75 + orig * 0.25)
+      d[i4 + 2] = Math.round(rgb[2] * 0.75 + orig * 0.25)
+      d[i4 + 3] = 255
+    }
+  }
+
+  return imageData
 }
 
 export async function processImage(
@@ -123,17 +162,14 @@ export async function processImage(
       ctx.drawImage(img, 0, 0)
       URL.revokeObjectURL(img.src)
       const imageData = ctx.getImageData(0, 0, img.width, img.height)
-      let hasColor = false
-      for (let i = 0; i < imageData.data.length; i += 40) {
-        const p = Math.floor(i / 4) * 4
-        if (Math.abs(imageData.data[p] - imageData.data[p + 1]) > 25 ||
-            Math.abs(imageData.data[p + 1] - imageData.data[p + 2]) > 25) {
-          hasColor = true; break
-        }
-      }
-      const result = canvasColorize(imageData, hasColor)
-      ctx.putImageData(result, 0, 0)
-      const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, "image/png"))
+      canvasColorize(imageData)
+      ctx.putImageData(imageData, 0, 0)
+      const blur = document.createElement("canvas")
+      blur.width = img.width; blur.height = img.height
+      const blurCtx = blur.getContext("2d")!
+      blurCtx.filter = "blur(0.6px) saturate(1.15)"
+      blurCtx.drawImage(canvas, 0, 0)
+      const blob = await new Promise<Blob | null>((r) => blur.toBlob(r, "image/png"))
       if (!blob) throw new Error("Canvas fallback: failed to generate image")
       return { imageUrl: URL.createObjectURL(blob), provider: "Canvas" }
     }
