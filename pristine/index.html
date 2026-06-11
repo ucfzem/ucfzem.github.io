@@ -362,7 +362,7 @@ function loadI(f){
         imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data)
         brightV=0;contrastV=0;saturateV=0;sharpenV=0
         ;['bright','contrast','saturate','sharpen'].forEach(id=>{const el=S('#'+id);if(el){el.value=0;el.nextElementSibling.textContent='0'}})
-        initM();initDraw();rC();uz.style.display='none';cw.style.display='block';processing=false
+        initM();initDraw();rC();uz.style.display='none';cw.style.display='block';processing=false;syncResult()
         updateResizeInputs();showInfo(i.width,i.height,f.size)
     }
     i.src=e.target.result
@@ -482,7 +482,7 @@ function applyAdjust(){
 })
 adjBtn.onclick=()=>{he();if(!origPixels){se('No image loaded');return}
   processing=true;adjBtn.disabled=true;ld.classList.add('show');lt.textContent='Ajustement...'
-  setTimeout(()=>{applyAdjust();ld.classList.remove('show');processing=false;adjBtn.disabled=false;st('✅ Ajusté')},50)}
+  setTimeout(()=>{applyAdjust();syncResult();ld.classList.remove('show');processing=false;adjBtn.disabled=false;st('✅ Ajusté')},50)}
 
 // === FILTERS ===
 let currentFilter='original'
@@ -509,7 +509,7 @@ function applyFilter(f){
     }
     d[i]=Math.max(0,Math.min(255,r));d[i+1]=Math.max(0,Math.min(255,g));d[i+2]=Math.max(0,Math.min(255,b))
   }
-  const tc=document.createElement('canvas');tc.width=w;tc.height=h;tc.getContext('2d').putImageData(id,0,0);cx.drawImage(tc,0,0)
+  const tc=document.createElement('canvas');tc.width=w;tc.height=h;tc.getContext('2d').putImageData(id,0,0);cx.drawImage(tc,0,0);syncResult()
 }
 
 // === CROP ===
@@ -585,10 +585,10 @@ cropBtn.onclick=()=>{if(!imgD)return
   origPixels=new Uint8ClampedArray(imgD.data);cx.putImageData(imgD,0,0);initM();initDraw()
   cropOverlay.style.display='none'
   if(drawLayer){drawLayer.width=cw2;drawLayer.height=ch2;drawCtx.clearRect(0,0,cw2,ch2)}
-  updateResizeInputs();st('✅ Image recadrée')}
+  updateResizeInputs();syncResult();st('✅ Image recadrée')}
 cropReset.onclick=()=>{if(!img)return;const i=img;let w=i.width,h=i.height
   if(w>1024){h=h*1024/w;w=1024};cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
-  imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw();cropOverlay.style.display='none';st('↺ Réinitialisé')}
+  imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw();cropOverlay.style.display='none';syncResult();st('↺ Réinitialisé')}
 
 // === ROTATE / FLIP ===
 function rotImg(fn){if(!imgD){st('No image');return}
@@ -605,7 +605,7 @@ function rotImg(fn){if(!imgD){st('No image');return}
   cv.width=nw;cv.height=nh;imgD=tctx.getImageData(0,0,nw,nh)
   origPixels=new Uint8ClampedArray(imgD.data);cx.putImageData(imgD,0,0);initM();initDraw()
   if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
-  resizeW.value=nw;resizeH.value=nh}
+  resizeW.value=nw;resizeH.value=nh;syncResult()}
 rotCW.onclick=()=>rotImg('cw')
 rotCCW.onclick=()=>rotImg('ccw')
 flipH.onclick=()=>rotImg('fh')
@@ -613,7 +613,7 @@ flipV.onclick=()=>rotImg('fv')
 rotReset.onclick=()=>{if(!img)return;const i=img;let w=i.width,h=i.height
   if(w>1024){h=h*1024/w;w=1024};cv.width=w;cv.height=h;cx.drawImage(i,0,0,w,h)
   imgD=cx.getImageData(0,0,w,h);origPixels=new Uint8ClampedArray(imgD.data);initM();initDraw()
-  if(drawLayer){drawLayer.width=w;drawLayer.height=h;drawCtx.clearRect(0,0,w,h)};resizeW.value=w;resizeH.value=h;st('↺ Réinitialisé')}
+  if(drawLayer){drawLayer.width=w;drawLayer.height=h;drawCtx.clearRect(0,0,w,h)};resizeW.value=w;resizeH.value=h;syncResult();st('↺ Réinitialisé')}
 
 // === DRAW ===
 function initDraw(){drawLayer=document.createElement('canvas');drawLayer.width=cv.width;drawLayer.height=cv.height
@@ -627,7 +627,7 @@ drawApply.onclick=()=>{if(!drawLayer||!imgD)return
   const dd=drawCtx.getImageData(0,0,drawLayer.width,drawLayer.height).data
   for(let i=0;i<imgD.data.length;i+=4){if(dd[i+3]>0){imgD.data[i]=dd[i];imgD.data[i+1]=dd[i+1];imgD.data[i+2]=dd[i+2];imgD.data[i+3]=255}}
   cx.putImageData(imgD,0,0);origPixels=new Uint8ClampedArray(imgD.data);drawCtx.clearRect(0,0,drawLayer.width,drawLayer.height)
-  saveDraw();st('✅ Dessin appliqué')}
+  saveDraw();syncResult();st('✅ Dessin appliqué')}
 
 // === UNIFIED CANVAS EVENTS ===
 function cvHandler(e,type){
@@ -664,7 +664,7 @@ resizeBtn.onclick=()=>{if(!imgD){st('No image');return};const nw=parseInt(resize
     tc.getContext('2d').drawImage(cv,0,0,nw,nh);cv.width=nw;cv.height=nh
     imgD=tc.getContext('2d').getImageData(0,0,nw,nh);origPixels=new Uint8ClampedArray(imgD.data)
     cx.putImageData(imgD,0,0);initM();initDraw();ld.classList.remove('show');processing=false;resizeBtn.disabled=false
-    if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)};st('✅ Redimensionné')},100)}
+    if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)};syncResult();st('✅ Redimensionné')},100)}
 
 // === AVATAR ===
 avatarBtn.onclick=()=>{if(!imgD){se('No image');return}
@@ -684,12 +684,13 @@ upscale2xBtn.onclick=()=>{if(!imgD){se('No image');return}
     cv.width=nw;cv.height=nh;cx.imageSmoothingEnabled=false;cx.drawImage(tc,0,0)
     imgD=cx.getImageData(0,0,nw,nh);origPixels=new Uint8ClampedArray(imgD.data)
     initM();initDraw();if(drawLayer){drawLayer.width=nw;drawLayer.height=nh;drawCtx.clearRect(0,0,nw,nh)}
-    resizeW.value=nw;resizeH.value=nh;ld.classList.remove('show');processing=false;upscale2xBtn.disabled=false;st('✅ Upscale 2× terminé')},100)}
+    resizeW.value=nw;resizeH.value=nh;syncResult();ld.classList.remove('show');processing=false;upscale2xBtn.disabled=false;st('✅ Upscale 2× terminé')},100)}
 
 // === RESULT ===
 let beforeAfterData=null
 function showResult(url){ri.src=url;re.style.display='block';beforeAfterData=url}
-dlB.onclick=()=>{const a=document.createElement('a');a.href=ri.src;a.download='pristine.png';a.click()}
+function syncResult(){ri.src=cv.toDataURL('image/png');re.style.display='block'}
+dlB.onclick=()=>{const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download='pristine.png';a.click()}
 baBtn.onclick=()=>{if(!imgD||!beforeAfterData)return
   if(ri.src===beforeAfterData){const tc=document.createElement('canvas');tc.width=cv.width;tc.height=cv.height;tc.getContext('2d').drawImage(cv,0,0);ri.src=tc.toDataURL();baBtn.textContent='👁 Après'}
   else{ri.src=beforeAfterData;baBtn.textContent='👁 Avant'}}
