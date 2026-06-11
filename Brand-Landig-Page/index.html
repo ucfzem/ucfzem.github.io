@@ -1668,16 +1668,14 @@ document.addEventListener('change', () => { saveState(); });
   if (!controls) return;
   let hideTimer = null;
   const IDLE_MS = 20000;
-  function showControls(){ controls.classList.remove('hidden'); resetTimer(); }
   function hideControls(){
     const panel = document.getElementById('editor-panel');
     if(panel && panel.classList.contains('open')){ resetTimer(); return; }
-    controls.classList.add('hidden');
+    controls.classList.add('hidden'); console.log('hidden');
   }
   function resetTimer(){ clearTimeout(hideTimer); hideTimer = setTimeout(hideControls, IDLE_MS); }
-  document.addEventListener('click', showControls, { passive: true });
-  document.addEventListener('scroll', resetTimer, { passive: true });
-  document.addEventListener('touchmove', resetTimer, { passive: true });
+  document.addEventListener('click', function(){ controls.classList.remove('hidden'); resetTimer(); });
+  document.addEventListener('touchstart', function(){ controls.classList.remove('hidden'); resetTimer(); }, { passive: true });
   resetTimer();
 })();
 
