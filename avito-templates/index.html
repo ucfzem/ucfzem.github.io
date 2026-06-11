@@ -1,0 +1,759 @@
+<!DOCTYPE html><html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avito Maroc Templates - Templates Professionnels | قوالب احترافية</title>
+    <meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14" />
+    <meta name="description" content="Templates professionnels au Maroc. CV, PowerPoint, cartes de visite, flyers et packs branding. Prix imbattables dès 69 MAD. قوالب احترافية المغرب."/>
+    <meta property="og:title" content="Avito Maroc Templates — Templates Professionnels"/>
+    <meta property="og:description" content="Templates CV, PowerPoint, cartes de visite & plus. Prix dès 69 MAD."/>
+    <meta property="og:url" content="https://ucfzem.github.io/avito-templates/"/>
+    <meta property="og:type" content="website"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <link rel="canonical" href="https://ucfzem.github.io/avito-templates/"/>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --avito-orange: #F37021;
+            --avito-orange-dark: #E55A0A;
+            --white: #FFFFFF;
+            --off-white: #F9F9F7;
+            --gray-light: #F5F5F5;
+            --gray-medium: #9CA3AF;
+            --gray-dark: #374151;
+            --anthracite: #1F2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--off-white) 0%, var(--white) 100%);
+            color: var(--anthracite);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--white);
+            border: 2px solid var(--avito-orange);
+            border-radius: 50px;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(243, 112, 33, 0.2);
+        }
+
+        .lang-toggle:hover {
+            background: var(--avito-orange);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 112, 33, 0.4);
+        }
+
+        [dir="rtl"] .lang-toggle {
+            right: auto;
+            left: 20px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 60px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Construction Badge */
+        .badge-construction {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--avito-orange);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(243, 112, 33, 0.3);
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-construction::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes ripple {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 300px; height: 300px; opacity: 0; }
+        }
+
+        .badge-icon {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--white);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Title */
+        .hero h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            color: var(--anthracite);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-medium);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* Email Form */
+        .email-form {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 18px 25px;
+            border: 2px solid var(--gray-light);
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--avito-orange);
+            box-shadow: 0 0 0 4px rgba(243, 112, 33, 0.1);
+        }
+
+        .btn-subscribe {
+            padding: 18px 40px;
+            background: var(--avito-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 15px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(243, 112, 33, 0.3);
+        }
+
+        .btn-subscribe:hover {
+            background: var(--avito-orange-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(243, 112, 33, 0.4);
+        }
+
+        .btn-subscribe:active {
+            transform: translateY(-1px);
+        }
+
+        /* Subscriber Counter */
+        .subscriber-counter {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.5rem;
+            color: var(--anthracite);
+            margin-top: 30px;
+        }
+
+        .counter-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--avito-orange);
+            display: inline-block;
+            margin: 0 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Products Grid */
+        .products-section {
+            margin-top: 80px;
+        }
+
+        .section-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--anthracite);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            animation: fadeInUp 0.8s ease backwards;
+        }
+
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--anthracite);
+        }
+
+        .product-description {
+            color: var(--gray-medium);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-price {
+            display: inline-flex;
+            align-items: center;
+            background: var(--avito-orange);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(243, 112, 33, 0.3);
+        }
+
+        /* Coming Soon Overlay */
+        .coming-soon-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .coming-soon-overlay {
+            opacity: 1;
+        }
+
+        .coming-soon-text {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--avito-orange);
+            background: var(--white);
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 100px;
+            padding: 40px 20px;
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: #10B981;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 15px 40px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input,
+            .btn-subscribe {
+                width: 100%;
+            }
+
+            .counter-number {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lang-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+
+            [dir="rtl"] .lang-toggle {
+                left: 10px;
+                right: auto;
+            }
+        }
+
+        /* RTL Specific */
+        [dir="rtl"] {
+            text-align: right;
+        }
+
+        [dir="rtl"] .email-form {
+            flex-direction: row;
+        }
+
+        [dir="rtl"] .product-price {
+            flex-direction: row;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Language Toggle -->
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <span id="lang-text">العربية</span>
+    </button>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge-construction">
+                <div class="badge-icon"></div>
+                <span data-fr="En construction" data-ar="قيد الإنشاء">En construction</span>
+            </div>
+
+            <h1 data-fr="Templates Professionnels Maroc" data-ar="قوالب احترافية المغرب">
+                Templates Professionnels Maroc
+            </h1>
+
+            <p class="hero-subtitle" data-fr="Bientôt disponibles à des prix imbattables" data-ar="قريباً بأسعار لا تُقاوم">
+                Bientôt disponibles à des prix imbattables
+            </p>
+
+            <!-- Email Form -->
+            <form class="email-form" onsubmit="handleSubscribe(event)">
+                <input 
+                    type="email" 
+                    class="email-input" 
+                    id="emailInput"
+                    data-fr-placeholder="Entrez votre email"
+                    data-ar-placeholder="أدخل بريدك الإلكتروني"
+                    placeholder="Entrez votre email"
+                    required
+                >
+                <button type="submit" class="btn-subscribe" data-fr="S'abonner" data-ar="اشترك">
+                    S'abonner
+                </button>
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage" data-fr="🎉 Merci ! Vous êtes inscrit !" data-ar="🎉 شكراً! لقد اشتركت بنجاح!">
+                🎉 Merci ! Vous êtes inscrit !
+            </div>
+
+            <!-- Subscriber Counter -->
+            <div class="subscriber-counter">
+                <span class="counter-number" id="counter">1,247</span>
+                <span data-fr="abonnés" data-ar="مشترك">abonnés</span>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <h2 class="section-title" data-fr="Nos Templates" data-ar="قوالبنا">Nos Templates</h2>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Template CV Professionnel" data-ar="قالب سيرة ذاتية احترافي">Template CV Professionnel</h3>
+                        <p class="product-description" data-fr="Design moderne et élégant pour votre recherche d'emploi" data-ar="تصميم عصري وأنيق للبحث عن عمل">Design moderne et élégant pour votre recherche d'emploi</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;99 MAD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Présentation PowerPoint" data-ar="قالب بوربوينت">Présentation PowerPoint</h3>
+                        <p class="product-description" data-fr="Slides professionnels pour vos présentations" data-ar="شرائح احترافية لعروضك التقديمية">Slides professionnels pour vos présentations</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;99 MAD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Cartes de Visite" data-ar="بطاقات العمل">Cartes de Visite</h3>
+                        <p class="product-description" data-fr="Designs uniques pour votre image de marque" data-ar="تصاميم فريدة لصورتك التجارية">Designs uniques pour votre image de marque</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;79 MAD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Flyers & Affiches" data-ar="منشورات وملصقات">Flyers & Affiches</h3>
+                        <p class="product-description" data-fr="Templates prêts à imprimer pour votre communication" data-ar="قوالب جاهزة للطباعة لتسويقك">Templates prêts à imprimer pour votre communication</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;89 MAD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Réseaux Sociaux" data-ar="وسائل التواصل الاجتماعي">Réseaux Sociaux</h3>
+                        <p class="product-description" data-fr="Posts Instagram, Facebook et LinkedIn" data-ar="منشورات إنستغرام وفيسبوك ولينكد إن">Posts Instagram, Facebook et LinkedIn</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;69 MAD
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);"></div>
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text" data-fr="Bientôt" data-ar="قريباً">Bientôt</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title" data-fr="Pack Complet Branding" data-ar="باقة الهوية الكاملة">Pack Complet Branding</h3>
+                        <p class="product-description" data-fr="Tous les templates pour votre marque" data-ar="جميع القوالب لعلامتك التجارية">Tous les templates pour votre marque</p>
+                        <div class="product-price">
+                            <span data-fr="à partir de" data-ar="ابتداء من">à partir de</span>
+                            &nbsp;299 MAD
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2026 Avito Maroc Templates - <span data-fr="Tous droits réservés" data-ar="جميع الحقوق محفوظة">Tous droits réservés</span></p>
+        </footer>
+    </div>
+
+    <script>
+        const translations = {
+            fr: {
+                'lang-text': 'العربية',
+                'badge': 'En construction',
+                'title': 'Templates Professionnels Maroc',
+                'subtitle': 'Bientôt disponibles à des prix imbattables',
+                'email-placeholder': 'Entrez votre email',
+                'btn-subscribe': "S'abonner",
+                'success-message': '🎉 Merci ! Vous êtes inscrit !',
+                'subscribers': 'abonnés',
+                'section-title': 'Nos Templates',
+                'soon': 'Bientôt',
+                'from': 'à partir de',
+                'footer': 'Tous droits réservés'
+            },
+            ar: {
+                'lang-text': 'Français',
+                'badge': 'قيد الإنشاء',
+                'title': 'قوالب احترافية المغرب',
+                'subtitle': 'قريباً بأسعار لا تُقاوم',
+                'email-placeholder': 'أدخل بريدك الإلكتروني',
+                'btn-subscribe': 'اشترك',
+                'success-message': '🎉 شكراً! لقد اشتركت بنجاح!',
+                'subscribers': 'مشترك',
+                'section-title': 'قوالبنا',
+                'soon': 'قريباً',
+                'from': 'ابتداء من',
+                'footer': 'جميع الحقوق محفوظة'
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fr' ? 'ar' : 'fr';
+            const html = document.documentElement;
+            
+            if (currentLang === 'ar') {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'fr');
+            }
+
+            document.querySelectorAll('[data-fr]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+
+            document.querySelectorAll('[data-fr-placeholder]').forEach(element => {
+                element.setAttribute('placeholder', element.getAttribute(`data-${currentLang}-placeholder`));
+            });
+
+            document.getElementById('lang-text').textContent = translations[currentLang]['lang-text'];
+        }
+
+        function handleSubscribe(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('emailInput').value;
+            const successMessage = document.getElementById('successMessage');
+            
+            if (email) {
+                successMessage.style.display = 'block';
+                successMessage.textContent = translations[currentLang]['success-message'];
+                document.getElementById('emailInput').value = '';
+                triggerConfetti();
+                incrementCounter();
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+                console.log('Email subscribed:', email);
+            }
+        }
+
+        function triggerConfetti() {
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#F37021', '#FFD700', '#FF6B6B', '#4ECDC4']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#F37021', '#FFD700', '#FF6B6B', '#4ECDC4']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function incrementCounter() {
+            const counterElement = document.getElementById('counter');
+            let currentValue = parseInt(counterElement.textContent.replace(/,/g, ''));
+            const newValue = currentValue + 1;
+            counterElement.textContent = newValue.toLocaleString();
+            counterElement.style.transform = 'scale(1.3)';
+            counterElement.style.transition = 'transform 0.3s ease';
+            setTimeout(() => {
+                counterElement.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        function animateCounter() {
+            const counterElement = document.getElementById('counter');
+            const targetValue = 1247;
+            const duration = 2000;
+            const step = targetValue / (duration / 16);
+            let currentValue = 0;
+
+            const timer = setInterval(() => {
+                currentValue += step;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                counterElement.textContent = Math.floor(currentValue).toLocaleString();
+            }, 16);
+        }
+
+        document.querySelectorAll('.product-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.style.opacity = '1';
+            }, 100 * index);
+        });
+
+        window.addEventListener('load', animateCounter);
+
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.product-card');
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            cards.forEach((card, index) => {
+                if (card.matches(':hover')) {
+                    const depth = (index % 3 + 1) * 5;
+                    const moveX = mouseX * depth;
+                    const moveY = mouseY * depth;
+                    card.style.transform = `translateY(-10px) translate(${moveX}px, ${moveY}px)`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
