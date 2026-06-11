@@ -18,7 +18,7 @@ export async function processImage(
   formData.append("image", file)
   formData.append("tool", tool)
 
-  const resp = await fetch("/api/process", {
+  const resp = await fetch("https://ai-image-enhancer-api.azer-tyu199p.workers.dev/api/process", {
     method: "POST",
     body: formData,
   })
