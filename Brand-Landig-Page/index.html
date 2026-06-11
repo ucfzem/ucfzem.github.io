@@ -43,19 +43,36 @@ input, textarea { font: inherit; }
 
 /* ── Editor Panel ── */
 #editor-toggle {
-  position: fixed; top: 1rem; right: 1rem;
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
   z-index: 1000;
   background: var(--c-primary);
   color: #000;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   letter-spacing: 0.05em;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   transition: transform var(--transition), opacity var(--transition);
 }
 #editor-toggle:hover { transform: scale(1.05); }
+
+
+#editor-backdrop {
+  position: fixed; inset: 0;
+  z-index: 998;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+#editor-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+body.panel-open { overflow: hidden; }
 
 
 #editor-panel {
@@ -73,6 +90,20 @@ input, textarea { font: inherit; }
   gap: 1.25rem;
 }
 #editor-panel.open { transform: translateX(0); }
+
+
+.panel-close-btn {
+  position: absolute; top: 0.75rem; left: 0.75rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--c-surface);
+  color: var(--c-muted);
+  font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition), color var(--transition);
+}
+.panel-close-btn:hover { background: var(--c-border); color: var(--c-text); }
+[dir="rtl"] .panel-close-btn { left: auto; right: 0.75rem; }
 
 
 #editor-panel h2 {
@@ -493,7 +524,7 @@ footer strong { color: var(--c-primary); }
 @media (max-width: 480px) {
   .photo-grid { gap: 0.75rem; }
   .hero-actions { flex-direction: column; align-items: center; }
-  #editor-toggle { font-size: 0.72rem; padding: 0.4rem 0.85rem; }
+  #editor-toggle { font-size: 0.75rem; padding: 0.5rem 1rem; bottom: 1rem; right: 1rem; }
 }
 @media (min-width: 1400px) {
   .photo-grid { gap: 2rem; }
@@ -521,8 +552,13 @@ footer strong { color: var(--c-primary); }
 <button id="editor-toggle" onclick="toggleEditor()">✏️ Edit</button>
 
 
+<!-- ▸ EDITOR BACKDROP -->
+<div id="editor-backdrop" onclick="closeEditor()"></div>
+
+
 <!-- ▸ EDITOR PANEL -->
 <div id="editor-panel">
+  <button class="panel-close-btn" onclick="closeEditor()">✕</button>
   <h2>🎨 Page Editor</h2>
 
 
@@ -1005,7 +1041,16 @@ function setColor(prop, val){
 
 
 function toggleEditor(){
-  document.getElementById('editor-panel').classList.toggle('open');
+  const panel = document.getElementById('editor-panel');
+  const backdrop = document.getElementById('editor-backdrop');
+  const isOpen = panel.classList.toggle('open');
+  backdrop.classList.toggle('open', isOpen);
+  document.body.classList.toggle('panel-open', isOpen);
+}
+function closeEditor(){
+  document.getElementById('editor-panel').classList.remove('open');
+  document.getElementById('editor-backdrop').classList.remove('open');
+  document.body.classList.remove('panel-open');
 }
 
 
@@ -1061,7 +1106,11 @@ function openLightbox(idx){
 function closeLightbox(){
   document.getElementById('lightbox').classList.remove('active');
 }
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if(e.key!=='Escape') return;
+  closeLightbox();
+  closeEditor();
+});
 
 
 /* ── Scroll reveal ── */
@@ -1074,16 +1123,6 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 /* ── Mark contenteditable fields as custom ── */
 document.querySelectorAll('[contenteditable]').forEach(el => {
   el.addEventListener('input', () => el.dataset.custom = '1');
-});
-
-
-/* ── Close editor on outside click ── */
-document.addEventListener('click', e => {
-  const panel = document.getElementById('editor-panel');
-  const toggle = document.getElementById('editor-toggle');
-  if(panel.classList.contains('open') && !panel.contains(e.target) && e.target !== toggle){
-    panel.classList.remove('open');
-  }
 });
 
 
