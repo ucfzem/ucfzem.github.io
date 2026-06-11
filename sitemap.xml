@@ -79,6 +79,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://ucfzem.github.io/Brand-Landig-Page/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ucfzem.github.io/Brand-Landig-Page/index.html</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ucfzem.github.io/nass-el-ghiwane-parolier/</loc>
     <lastmod>2026-06-06</lastmod>
     <changefreq>monthly</changefreq>
