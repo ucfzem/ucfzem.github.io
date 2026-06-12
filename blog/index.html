@@ -841,6 +841,9 @@
   white-space: nowrap;
 }
 .search-bar button:hover { opacity: .85; }
+.search-bar input { padding-left: 2.5rem; }
+.search-wrap { position: relative; flex: 1; }
+.search-wrap .search-icon { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; opacity: .5; }
 
 /* ───── BREADCRUMBS ───── */
 .breadcrumbs {
@@ -926,6 +929,9 @@
     transition: all .2s; font-family: 'DM Sans', sans-serif;
   }
   .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .back-btn .arrow { display: inline-block; transition: transform .2s; }
+  .back-btn:hover .arrow { animation: arrowBob 1s ease-in-out infinite; }
+  @keyframes arrowBob { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-4px)} }
 
   /* ───── TOOL CTAs ───── */
   .art-tools { margin: 2rem 0; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
@@ -1149,7 +1155,10 @@
 <div id="searchWrap" style="margin-top: 6rem; padding: 0 clamp(1.5rem, 8vw, 5rem); text-align:center;">
   <div class="section-label" data-i18n="search-label">// Rechercher</div>
   <div class="search-bar">
-    <input type="text" id="searchInput" data-i18n="search-placeholder" placeholder="Rechercher un article..." oninput="filterArticles(this.value)">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" data-i18n="search-placeholder" placeholder="Rechercher un article..." oninput="filterArticles(this.value)">
+    </div>
     <button onclick="filterArticles(document.getElementById('searchInput').value)" data-i18n="search-btn">Chercher</button>
   </div>
 </div>
@@ -1419,7 +1428,7 @@
 
 <!-- ── ARTICLE READER ── -->
 <div id="articleReader" class="article-reader">
-  <div class="art-progress" id="artProgress"></div><button class="back-btn" onclick="closeArticle()" data-i18n="reader-back">← Retour au blog</button>
+  <div class="art-progress" id="artProgress"></div><button class="back-btn" onclick="closeArticle()" data-i18n="reader-back"><span class="arrow">←</span> Retour au blog</button>
   <div class="breadcrumbs" id="breadcrumbs">
     <a href="#articles" data-i18n="nav-blog">Blog</a>
     <span class="sep">/</span>
@@ -1438,7 +1447,7 @@
   <div class="art-body" id="artBody"></div>
   <div class="art-tools" id="artTools"></div>
   <div class="art-footer">
-    <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back2">← Tous les articles</button>
+    <button class="back-btn" onclick="closeArticle()" data-i18n="reader-back2"><span class="arrow">←</span> Tous les articles</button>
     <div class="share-bar">
       <span data-i18n="reader-share">Partager :</span>
       <a class="share-btn" id="shareTwitter" href="#" target="_blank" onclick="return shareOnTwitter()">𝕏</a>
