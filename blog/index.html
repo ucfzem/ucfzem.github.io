@@ -843,7 +843,9 @@
 .search-bar button:hover { opacity: .85; }
 .search-bar input { padding-left: 2.5rem; }
 .search-wrap { position: relative; flex: 1; }
-.search-wrap .search-icon { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; opacity: .5; }
+.search-wrap .search-icon { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; pointer-events: none; opacity: .7; }
+.search-bar { margin: 1rem auto 0; }
+.search-bar input { padding-left: 2.8rem; }
 
 /* ───── BREADCRUMBS ───── */
 .breadcrumbs {
@@ -929,9 +931,8 @@
     transition: all .2s; font-family: 'DM Sans', sans-serif;
   }
   .back-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .back-btn .arrow { display: inline-block; transition: transform .2s; }
-  .back-btn:hover .arrow { animation: arrowBob 1s ease-in-out infinite; }
-  @keyframes arrowBob { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-4px)} }
+  .back-btn .arrow { display: inline-block; font-size: 1.3rem; animation: arrowGentle 2s ease-in-out infinite; }
+  @keyframes arrowGentle { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-5px)} }
 
   /* ───── TOOL CTAs ───── */
   .art-tools { margin: 2rem 0; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
