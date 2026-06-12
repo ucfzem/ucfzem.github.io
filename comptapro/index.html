@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="fr" dir="ltr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComptaPro SaaS - Aperçu Intégral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' } } } } }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+        .font-ltr { font-family: 'Inter', sans-serif; }
+        .font-rtl { font-family: 'Noto Sans Arabic', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .chat-bubble { max-width: 85%; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-ltr transition-colors duration-300">
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-white dark:bg-slate-900 border-e border-slate-200 dark:border-slate-800 flex flex-col hidden md:flex flex-shrink-0">
+            <div class="p-6 flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
+                <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">C</div>
+                <span class="text-xl font-bold tracking-tight">ComptaPro</span>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebar-nav"></nav>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3 p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
+                    <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-700 dark:text-emerald-300 font-semibold text-xs">EC</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate" data-i18n="user.name">Cabinet Dupont</p>
+                        <p class="text-xs text-emerald-500 flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span> <span data-i18n="user.status">En ligne</span></p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div class="flex-1 flex flex-col h-screen overflow-hidden">
+            <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
+                <div class="flex items-center gap-4">
+                    <h2 id="page-title" class="text-lg font-semibold">Tableau de Bord</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <select id="lang-switcher" onchange="changeLanguage(this.value)" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium rounded-lg px-3 py-2 focus:outline-none cursor-pointer">
+                        <option value="fr">&#x1f1eb;&#x1f1f7; FR</option>
+                        <option value="ar">&#x1f1f8;&#x1f1e6; AR</option>
+                    </select>
+                    <button onclick="toggleTheme()" class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        <i data-lucide="sun" id="icon-sun" class="hidden w-5 h-5"></i>
+                        <i data-lucide="moon" id="icon-moon" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </header>
+            <main id="app-content" class="flex-1 overflow-y-auto p-6 no-scrollbar"></main>
+        </div>
+    </div>
+
+    <script>
+        const i18n = {
+            fr: {
+                nav: { dashboard: "Tableau de Bord", ocr: "Saisie & OCR", lettrage: "Lettrage", ia: "Assistant IA", system: "Sécurité" },
+                user: { name: "Cabinet Dupont", status: "En ligne" },
+                dashboard: { title: "Tableau de Bord", chartTitle: "Trésorerie Prévisionnelle (6 mois)", kpi1: "Trésorerie Nette", kpi2: "TVA à Décaisser", kpi3: "Écritures en Attente" },
+                ocr: { title: "Saisie & Automatisation", subtitle: "Numérisez vos factures et laissez l'IA pré-comptabiliser.", dropzone: "Glissez-déposez votre facture ici", processing: "Analyse OCR en cours...", extracted: "Données extraites", fields: { date: "Date", supplier: "Fournisseur", amountHT: "Montant HT", tva: "TVA", account: "Compte PCG suggéré" }, validate: "Valider", cancel: "Annuler", success: "Écriture comptabilisée avec succès !" },
+                lettrage: { title: "Travail de Lettrage", subtitle: "Rapprochez les débits et les crédits.", select: "Lettrer la sélection", empty: "Tout est lettré !", err: "Les totaux débit et crédit doivent être égaux." },
+                ia: { title: "Assistant Juridique & IA", subtitle: "Questions de doctrine fiscale sourcées (BOFIP, CGI).", placeholder: "Ex: Taux d'amortissement véhicule ?", send: "Envoyer", thinking: "Analyse en cours...", sources: "Sources :" },
+                system: { title: "Sécurité & Déploiement", subtitle: "Statut infrastructure.", enc: "Chiffrement BDD", rls: "Isolation Multi-Tenant (RLS)", up: "Disponibilité", back: "Dernière Sauvegarde", s1: "Actif (AES-256)", s2: "Appliqué (PostgreSQL)", s3: "99.99%", s4: "Il y a 2h" }
+            },
+            ar: {
+                nav: { dashboard: "لوحة القيادة", ocr: "الإدخال و OCR", lettrage: "مطابقة الحسابات", ia: "المساعد الذكي", system: "الأمن" },
+                user: { name: "مكتب دوبون", status: "متصل" },
+                dashboard: { title: "لوحة القيادة", chartTitle: "التدفق النقدي المتوقع", kpi1: "صافي الخزينة", kpi2: "ضريبة القيمة المضافة", kpi3: "قيود في الانتظار" },
+                ocr: { title: "الإدخال والأتمتة", subtitle: "امسح فواتيرك ضوئياً.", dropzone: "اسحب وأفلت فاتورتك هنا", processing: "تحليل OCR قيد التقدم...", extracted: "تم استخراج البيانات", fields: { date: "تاريخ", supplier: "المورد", amountHT: "المبلغ بدون ضريبة", tva: "ضريبة", account: "الحساب المقترح" }, validate: "التحقق", cancel: "إلغاء", success: "تم التسجيل بنجاح !" },
+                lettrage: { title: "عمل مطابقة الحسابات", subtitle: "قرب بين المدين والدائن.", select: "مطابقة التحديد", empty: "تمت التسوية !", err: "يجب أن يتساوى المدين والدائن." },
+                ia: { title: "المساعد القانوني", subtitle: "إجابات موثقة.", placeholder: "مثال: معدل إهلاك سيارة؟", send: "إرسال", thinking: "جاري التحليل...", sources: "المصادر :" },
+                system: { title: "الأمن والنشر", subtitle: "حالة البنية التحتية.", enc: "تشفير قاعدة البيانات", rls: "عزل متعدد المستأجرين", up: "توفر الخدمة", back: "آخر نسخة", s1: "نشط (AES-256)", s2: "مفرض", s3: "99.99%", s4: "منذ ساعتين" }
+            }
+        };
+
+        let state = {
+            lang: 'fr',
+            theme: 'dark',
+            currentView: 'dashboard',
+            entries: [
+                { id: '1', date: '2023-10-01', label: 'Facture Fournisseur A', account: '401000', debit: 0, credit: 1200.00, matchRef: null, selected: false },
+                { id: '2', date: '2023-10-01', label: 'TVA Facture A', account: '445660', debit: 240.00, credit: 0, matchRef: 'FAC-123', selected: false },
+                { id: '3', date: '2023-10-05', label: 'Règlement Banque X', account: '512000', debit: 1440.00, credit: 0, matchRef: null, selected: false },
+                { id: '4', date: '2023-10-10', label: 'Facture EDF', account: '606100', debit: 0, credit: 890.50, matchRef: null, selected: false },
+                { id: '5', date: '2023-10-10', label: 'TVA EDF', account: '445660', debit: 178.10, credit: 0, matchRef: null, selected: false },
+                { id: '6', date: '2023-10-12', label: 'Paiement EDF', account: '512000', debit: 1068.60, credit: 0, matchRef: null, selected: false }
+            ],
+            selectedLettrage: new Set(),
+            chatHistory: [{ role: 'ai', text: 'Bonjour ! Je suis votre assistant fiscal.' }]
+        };
+        let chartInstance = null;
+
+        function t(path) {
+            const keys = path.split('.');
+            let obj = i18n[state.lang];
+            for (let key of keys) obj = obj && obj[key];
+            return obj || path;
+        }
+
+        function changeLanguage(lang) {
+            state.lang = lang;
+            const isRTL = lang === 'ar';
+            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            document.body.className = document.body.className.replace(/font-\w+/g, '') + (isRTL ? ' font-rtl' : ' font-ltr');
+            renderSidebar();
+            renderView();
+        }
+
+        function toggleTheme() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            document.documentElement.classList.toggle('dark', state.theme === 'dark');
+            document.getElementById('icon-sun').classList.toggle('hidden', state.theme === 'dark');
+            document.getElementById('icon-moon').classList.toggle('hidden', state.theme !== 'dark');
+        }
+
+        function navigate(view) {
+            state.currentView = view;
+            renderView();
+            renderSidebar();
+        }
+
+        function renderView() {
+            const views = {
+                dashboard: renderDashboard,
+                ocr: renderOCR,
+                lettrage: renderLettrage,
+                ia: renderIA,
+                system: renderSystem
+            };
+            (views[state.currentView] || renderDashboard)();
+        }
+
+        function renderSidebar() {
+            const navItems = ['dashboard', 'ocr', 'lettrage', 'ia', 'system'];
+            const icons = { dashboard: 'layout-dashboard', ocr: 'file-scan', lettrage: 'link-2', ia: 'brain-circuit', system: 'shield-check' };
+            let html = '';
+            navItems.forEach(item => {
+                const isActive = state.currentView === item;
+                const activeClass = isActive ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800';
+                html += `<button onclick="navigate('${item}')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeClass}"><i data-lucide="${icons[item]}" class="w-5 h-5 flex-shrink-0"></i><span>${t('nav.' + item)}</span></button>`;
+            });
+            document.getElementById('sidebar-nav').innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderDashboard() {
+            document.getElementById('page-title').textContent = t('dashboard.title');
+            const unmatched = state.entries.filter(e => !e.matchRef).length;
+            document.getElementById('app-content').innerHTML = `
+                <div class="max-w-6xl mx-auto space-y-6 fade-in">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <p class="text-sm font-medium text-slate-500">${t('dashboard.kpi1')}</p>
+                            <h3 class="text-2xl font-bold mt-2 text-emerald-500">145 230,00 &euro;</h3>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <p class="text-sm font-medium text-slate-500">${t('dashboard.kpi2')}</p>
+                            <h3 class="text-2xl font-bold mt-2 text-amber-500">32 150,50 &euro;</h3>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <p class="text-sm font-medium text-slate-500">${t('dashboard.kpi3')}</p>
+                            <h3 class="text-2xl font-bold mt-2 text-rose-500">${unmatched}</h3>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <h3 class="font-semibold text-lg mb-4">${t('dashboard.chartTitle')}</h3>
+                        <div class="relative h-72 w-full"><canvas id="treasuryChart"></canvas></div>
+                    </div>
+                </div>`;
+            setTimeout(initChart, 100);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('treasuryChart');
+            if (!ctx) return;
+            if (chartInstance) chartInstance.destroy();
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Juil', 'Ao&ucirc;t', 'Sep', 'Oct', 'Nov', 'D&eacute;c'],
+                    datasets: [{
+                        label: 'Tr&eacute;sorerie',
+                        data: [120000, 132000, 128000, 145230, 141000, 152000],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59,130,246,0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { ticks: { callback: v => v.toLocaleString() + '€' } } }
+                }
+            });
+        }
+
+        function renderOCR() {
+            document.getElementById('page-title').textContent = t('ocr.title');
+            document.getElementById('app-content').innerHTML = `
+                <div class="max-w-4xl mx-auto space-y-6 fade-in">
+                    <div><h1 class="text-2xl font-bold">${t('ocr.title')}</h1><p class="text-slate-500 dark:text-slate-400 mt-1">${t('ocr.subtitle')}</p></div>
+                    <div id="dropzone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center cursor-pointer hover:border-primary-500 hover:bg-primary-50/50 dark:hover:bg-primary-900/10 transition-all" onclick="simulateOCR()">
+                        <i data-lucide="upload-cloud" class="mx-auto h-14 w-14 text-slate-400"></i>
+                        <p class="mt-4 text-lg font-semibold text-slate-700 dark:text-slate-200">${t('ocr.dropzone')}</p>
+                    </div>
+                    <div id="ocr-loading" class="hidden flex items-center justify-center gap-3 p-8 text-slate-500">
+                        <svg class="animate-spin h-6 w-6 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                        <span>${t('ocr.processing')}</span>
+                    </div>
+                    <div id="ocr-form" class="hidden bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                            <h2 class="text-lg font-semibold flex items-center gap-2"><i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i> ${t('ocr.extracted')}</h2>
+                            <span class="text-xs px-2 py-1 bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300 rounded-full font-medium">Confiance IA: 98.7%</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div><label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">${t('ocr.fields.date')}</label><input id="inp-date" type="text" value="23/05/2024" class="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary-500"></div>
+                            <div><label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">${t('ocr.fields.supplier')}</label><input id="inp-sup" type="text" value="FOURNISSEUR TECH SARL" class="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary-500"></div>
+                            <div><label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">${t('ocr.fields.amountHT')}</label><input id="inp-ht" type="text" value="1 250,00 &euro;" class="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary-500"></div>
+                            <div><label class="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1.5">${t('ocr.fields.tva')}</label><input id="inp-tva" type="text" value="250,00 &euro;" class="w-full px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary-500"></div>
+                            <div class="md:col-span-2 p-4 bg-gradient-to-r from-primary-50 to-indigo-50 dark:from-primary-900/20 dark:to-indigo-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
+                                <label class="block text-sm font-semibold text-primary-700 dark:text-primary-300 mb-1.5 flex items-center gap-2"><i data-lucide="arrow-right-left" class="w-4 h-4"></i> ${t('ocr.fields.account')}</label>
+                                <input id="inp-acc" type="text" value="606400 - Fournitures informatiques" class="w-full text-xl font-mono font-bold bg-transparent border-none focus:ring-0 p-0 text-slate-800 dark:text-slate-100">
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+                            <button onclick="resetOCR()" class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">${t('ocr.cancel')}</button>
+                            <button onclick="validateOCR()" class="px-5 py-2.5 text-sm font-medium bg-primary-600 hover:bg-primary-700 text-white rounded-lg shadow-sm flex items-center gap-2"><i data-lucide="check" class="w-4 h-4"></i> ${t('ocr.validate')}</button>
+                        </div>
+                    </div>
+                    <div id="ocr-success" class="hidden bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-4 py-3 rounded-lg flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i> <span class="font-medium">${t('ocr.success')}</span>
+                    </div>
+                </div>`;
+            lucide.createIcons();
+        }
+
+        function simulateOCR() {
+            document.getElementById('dropzone').classList.add('hidden');
+            document.getElementById('ocr-loading').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('ocr-loading').classList.add('hidden');
+                document.getElementById('ocr-form').classList.remove('hidden');
+                lucide.createIcons();
+            }, 1500);
+        }
+
+        function resetOCR() {
+            document.getElementById('ocr-form').classList.add('hidden');
+            document.getElementById('dropzone').classList.remove('hidden');
+            document.getElementById('ocr-success').classList.add('hidden');
+        }
+
+        function validateOCR() {
+            document.getElementById('ocr-form').classList.add('hidden');
+            document.getElementById('ocr-success').classList.remove('hidden');
+            const totalTTC = 1500.00;
+            state.entries.push({
+                id: Date.now().toString(),
+                date: new Date().toISOString().slice(0,10),
+                label: 'Fournitures informatiques',
+                account: '606400',
+                debit: 0,
+                credit: totalTTC,
+                matchRef: null,
+                selected: false
+            });
+            setTimeout(resetOCR, 2500);
+        }
+
+        function renderLettrage() {
+            document.getElementById('page-title').textContent = t('lettrage.title');
+            const unmatched = state.entries.filter(e => !e.matchRef);
+            document.getElementById('app-content').innerHTML = `
+                <div class="max-w-6xl mx-auto space-y-6 fade-in">
+                    <div class="flex justify-between items-center">
+                        <div><h1 class="text-2xl font-bold">${t('lettrage.title')}</h1><p class="text-slate-500 dark:text-slate-400 mt-1">${t('lettrage.subtitle')}</p></div>
+                        <button onclick="handleLettrage()" class="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                            <i data-lucide="link-2" class="w-4 h-4"></i> <span id="btn-lettrage-txt">${t('lettrage.select')} (0)</span>
+                        </button>
+                    </div>
+                    ${unmatched.length === 0 ? `
+                        <div class="flex flex-col items-center justify-center py-20 text-slate-400">
+                            <i data-lucide="check-circle" class="w-16 h-16 text-emerald-500 mb-4"></i>
+                            <p class="text-xl font-semibold text-emerald-600 dark:text-emerald-400">${t('lettrage.empty')}</p>
+                        </div>
+                    ` : `
+                        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                            <table class="w-full text-sm">
+                                <thead><tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                                    <th class="text-left p-4 font-medium w-10"><input type="checkbox" onchange="toggleAllLettrage(this.checked)"></th>
+                                    <th class="text-left p-4 font-medium">Date</th>
+                                    <th class="text-left p-4 font-medium">Libell&eacute;</th>
+                                    <th class="text-left p-4 font-medium">Compte</th>
+                                    <th class="text-right p-4 font-medium">D&eacute;bit</th>
+                                    <th class="text-right p-4 font-medium">Cr&eacute;dit</th>
+                                </tr></thead>
+                                <tbody>${unmatched.map(e => `
+                                    <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors ${state.selectedLettrage.has(e.id) ? 'bg-primary-50 dark:bg-primary-900/10' : ''}">
+                                        <td class="p-4"><input type="checkbox" ${state.selectedLettrage.has(e.id) ? 'checked' : ''} onchange="toggleLettrage('${e.id}')"></td>
+                                        <td class="p-4 font-mono text-xs">${e.date}</td>
+                                        <td class="p-4 font-medium">${e.label}</td>
+                                        <td class="p-4 font-mono text-xs text-slate-500">${e.account}</td>
+                                        <td class="p-4 text-right font-mono ${e.debit > 0 ? 'text-emerald-600 font-semibold' : ''}">${e.debit > 0 ? e.debit.toFixed(2)+' €' : '-'}</td>
+                                        <td class="p-4 text-right font-mono ${e.credit > 0 ? 'text-rose-600 font-semibold' : ''}">${e.credit > 0 ? e.credit.toFixed(2)+' €' : '-'}</td>
+                                    </tr>
+                                `).join('')}</tbody>
+                            </table>
+                        </div>
+                    `}
+                    <div id="lettrage-result" class="hidden"></div>
+                </div>`;
+            lucide.createIcons();
+            updateLettrageBtn();
+        }
+
+        function toggleLettrage(id) {
+            if (state.selectedLettrage.has(id)) state.selectedLettrage.delete(id);
+            else state.selectedLettrage.add(id);
+            renderLettrage();
+        }
+
+        function toggleAllLettrage(checked) {
+            const unmatched = state.entries.filter(e => !e.matchRef);
+            state.selectedLettrage = new Set(checked ? unmatched.map(e => e.id) : []);
+            renderLettrage();
+        }
+
+        function updateLettrageBtn() {
+            const btn = document.getElementById('btn-lettrage-txt');
+            if (btn) btn.textContent = `${t('lettrage.select')} (${state.selectedLettrage.size})`;
+        }
+
+        function handleLettrage() {
+            const selectedEntries = state.entries.filter(e => state.selectedLettrage.has(e.id));
+            const totalDebit = selectedEntries.reduce((s, e) => s + e.debit, 0);
+            const totalCredit = selectedEntries.reduce((s, e) => s + e.credit, 0);
+            const result = document.getElementById('lettrage-result');
+            if (totalDebit !== totalCredit) {
+                result.className = 'bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 px-4 py-3 rounded-lg flex items-center gap-2';
+                result.innerHTML = `<i data-lucide="alert-circle" class="w-5 h-5"></i> ${t('lettrage.err')} (D&eacute;bit: ${totalDebit.toFixed(2)} / Cr&eacute;dit: ${totalCredit.toFixed(2)})`;
+                result.classList.remove('hidden');
+                lucide.createIcons();
+                return;
+            }
+            const ref = 'LETT-' + Date.now();
+            selectedEntries.forEach(e => { e.matchRef = ref; e.selected = false; });
+            state.selectedLettrage = new Set();
+            result.className = 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 px-4 py-3 rounded-lg flex items-center gap-2';
+            result.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5"></i> Lettrage r&eacute;ussi ! R&eacute;f&eacute;rence: ${ref}`;
+            result.classList.remove('hidden');
+            renderLettrage();
+            setTimeout(() => result.classList.add('hidden'), 3000);
+        }
+
+        function renderIA() {
+            document.getElementById('page-title').textContent = t('ia.title');
+            document.getElementById('app-content').innerHTML = `
+                <div class="max-w-4xl mx-auto space-y-6 fade-in">
+                    <div><h1 class="text-2xl font-bold">${t('ia.title')}</h1><p class="text-slate-500 dark:text-slate-400 mt-1">${t('ia.subtitle')}</p></div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col h-[600px]">
+                        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="chat-messages">
+                            ${state.chatHistory.map(msg => `
+                                <div class="flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}">
+                                    <div class="chat-bubble p-3 rounded-xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-primary-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'}">
+                                        ${msg.role === 'ai' ? '<div class="flex items-center gap-2 mb-2"><div class="w-5 h-5 rounded bg-primary-500 flex items-center justify-center text-white text-xs font-bold">C</div><span class="font-semibold text-xs text-primary-600 dark:text-primary-400">ComptaPro IA</span></div>' : ''}
+                                        ${msg.text}
+                                        ${msg.sources ? '<div class="mt-2 pt-2 border-t border-slate-600/30 text-xs text-slate-400"><span class="font-medium">'+t('ia.sources')+'</span> '+msg.sources+'</div>' : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="border-t border-slate-200 dark:border-slate-800 p-4 flex gap-3">
+                            <input id="ia-input" type="text" placeholder="${t('ia.placeholder')}" onkeydown="if(event.key==='Enter') sendIAQuestion()" class="flex-1 px-4 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-primary-500 text-sm">
+                            <button onclick="sendIAQuestion()" class="px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm font-medium flex items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> ${t('ia.send')}</button>
+                        </div>
+                    </div>
+                </div>`;
+            lucide.createIcons();
+            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+        }
+
+        function sendIAQuestion() {
+            const input = document.getElementById('ia-input');
+            const q = input.value.trim();
+            if (!q) return;
+            state.chatHistory.push({ role: 'user', text: q });
+            input.value = '';
+            const msgContainer = document.getElementById('chat-messages');
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.className = 'flex justify-start';
+            thinkingDiv.innerHTML = `<div class="chat-bubble p-3 rounded-xl bg-slate-100 dark:bg-slate-800"><div class="flex items-center gap-2"><svg class="animate-spin h-4 w-4 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span class="text-sm text-slate-500">${t('ia.thinking')}</span></div></div>`;
+            msgContainer.appendChild(thinkingDiv);
+            msgContainer.scrollTop = msgContainer.scrollHeight;
+            const rl = state.lang === 'fr' ? 'française' : state.lang === 'ar' ? 'المغربية' : 'en vigueur';
+            const responses = {
+                fr: [
+                    { text: "Selon l'article 39 du CGI (Code Général des Impôts), le taux d'amortissement linéaire pour un véhicule de tourisme est plafonné à 18 300 € de prix d'acquisition. La fraction excédentaire n'est pas déductible. (BOI-BIC-AMT-20-10-10)", sources: "CGI art. 39, BOI-BIC-AMT-20-10-10" },
+                    { text: "Le délai de prescription de l'administration fiscale est de 3 ans pour les entreprises (année en cours + 3 exercices). Pour les manquements délibérés, ce délai passe à 6 ans. (LPF art. L169)", sources: "LPF art. L169, L188" },
+                    { text: `La TVA sur les frais de restauration professionnelle est déductible à 100% si le repas a lieu avec un client ou prospect. Pour les repas entre collaborateurs, la déduction est limitée à 50%. (BOI-TVA-DED-30-20-90)`, sources: "BOI-TVA-DED-30-20-90" }
+                ],
+                ar: [
+                    { text: "وفقاً للمادة 39 من القانون العام للضرائب، فإن معدل الإهلاك الخطي لسيارة السياحة محدود بسعر اقتناء قدره 18,300 يورو. الجزء الزائد غير قابل للخصم.", sources: "CGI art. 39" },
+                    { text: "فترة التقادم للإدارة الضريبية هي 3 سنوات للشركات. في حالة المخالفات المتعمدة، تمتد إلى 6 سنوات.", sources: "LPF art. L169" },
+                ]
+            };
+            const answers = responses[state.lang] || responses.fr;
+            setTimeout(() => {
+                thinkingDiv.remove();
+                const ans = answers[Math.floor(Math.random() * answers.length)];
+                state.chatHistory.push({ role: 'ai', text: ans.text, sources: ans.sources });
+                msgContainer.innerHTML += `
+                    <div class="flex justify-start">
+                        <div class="chat-bubble p-3 rounded-xl text-sm bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                            <div class="flex items-center gap-2 mb-2"><div class="w-5 h-5 rounded bg-primary-500 flex items-center justify-center text-white text-xs font-bold">C</div><span class="font-semibold text-xs text-primary-600 dark:text-primary-400">ComptaPro IA</span></div>
+                            ${ans.text}
+                            <div class="mt-2 pt-2 border-t border-slate-600/30 text-xs text-slate-400"><span class="font-medium">${t('ia.sources')}</span> ${ans.sources}</div>
+                        </div>
+                    </div>`;
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+            }, 1500);
+        }
+
+        function renderSystem() {
+            document.getElementById('page-title').textContent = t('system.title');
+            document.getElementById('app-content').innerHTML = `
+                <div class="max-w-4xl mx-auto space-y-6 fade-in">
+                    <div><h1 class="text-2xl font-bold">${t('system.title')}</h1><p class="text-slate-500 dark:text-slate-400 mt-1">${t('system.subtitle')}</p></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <div class="flex items-center justify-between mb-4"><h3 class="font-semibold">${t('system.enc')}</h3><span class="w-3 h-3 rounded-full bg-emerald-500"></span></div>
+                            <p class="text-2xl font-bold">${t('system.s1')}</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <div class="flex items-center justify-between mb-4"><h3 class="font-semibold">${t('system.rls')}</h3><span class="w-3 h-3 rounded-full bg-emerald-500"></span></div>
+                            <p class="text-2xl font-bold">${t('system.s2')}</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <div class="flex items-center justify-between mb-4"><h3 class="font-semibold">${t('system.up')}</h3><span class="w-3 h-3 rounded-full bg-emerald-500"></span></div>
+                            <p class="text-2xl font-bold">${t('system.s3')}</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <div class="flex items-center justify-between mb-4"><h3 class="font-semibold">${t('system.back')}</h3><span class="w-3 h-3 rounded-full bg-emerald-500"></span></div>
+                            <p class="text-2xl font-bold">${t('system.s4')}</p>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        renderSidebar();
+        renderDashboard();
+    </script>
+</body>
+</html>
