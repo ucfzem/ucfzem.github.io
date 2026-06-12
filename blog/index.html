@@ -931,8 +931,8 @@
     transition: all .2s; font-family: 'DM Sans', sans-serif;
   }
   .back-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .back-btn .arrow { display: inline-block; font-size: 1.3rem; animation: arrowGentle 2s ease-in-out infinite; }
-  @keyframes arrowGentle { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-5px)} }
+  .back-btn .arrow { display: inline-block; font-size: 1.8rem; animation: arrowBounce 1.5s ease-in-out infinite; }
+  @keyframes arrowBounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-10px)} }
 
   /* ───── TOOL CTAs ───── */
   .art-tools { margin: 2rem 0; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
@@ -1158,9 +1158,9 @@
   <div class="search-bar">
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" data-i18n="search-placeholder" placeholder="Rechercher un article..." oninput="filterArticles(this.value)">
+      <input type="text" id="searchInput" data-i18n="search-placeholder" placeholder="Rechercher un article..." oninput="filterArticles(this.value, false)">
     </div>
-    <button onclick="filterArticles(document.getElementById('searchInput').value)" data-i18n="search-btn">Chercher</button>
+    <button onclick="filterArticles(document.getElementById('searchInput').value, true)" data-i18n="search-btn">Chercher</button>
   </div>
 </div>
 
@@ -1387,37 +1387,37 @@
 
 
   <div class="topics-grid">
-    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('IA')">
+    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('IA', true)">
       <div class="topic-icon">🤖</div>
       <h4>Intelligence Artificielle</h4>
       <p>LLMs, agents, fine-tuning, prompt engineering — le cœur de la révolution actuelle.</p>
       <div class="topic-count">// 12 articles</div>
     </div>
-    <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('E-Commerce')">
+    <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('E-Commerce', true)">
       <div class="topic-icon">🛒</div>
       <h4>E-Commerce & Vente</h4>
       <p>Dropshipping IA, conversion, automatisation des ventes et stratégies growth.</p>
       <div class="topic-count">// 8 articles</div>
     </div>
-    <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('SaaS')">
+    <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('SaaS', true)">
       <div class="topic-icon">🚀</div>
       <h4>SaaS & Indie Dev</h4>
       <p>Construire des produits solo, sans budget, depuis un mobile. L'essentiel.</p>
       <div class="topic-count">// 10 articles</div>
     </div>
-    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('Mobile')">
+    <div class="topic-card" style="--accent-color:#c9a84c;" onclick="filterArticles('Mobile', true)">
       <div class="topic-icon">📱</div>
       <h4>Mobile-First Dev</h4>
       <p>Développer des apps complètes depuis Android. Termux, GitHub Pages et workflows.</p>
       <div class="topic-count">// 6 articles</div>
     </div>
-    <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('Marketing')">
+    <div class="topic-card" style="--accent-color:#d4a373;" onclick="filterArticles('Marketing', true)">
       <div class="topic-icon">📣</div>
       <h4>Marketing Digital</h4>
       <p>TikTok, contenu viral, SEO, croissance organique — sans budget publicitaire.</p>
       <div class="topic-count">// 9 articles</div>
     </div>
-    <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('Tech')">
+    <div class="topic-card" style="--accent-color:#8b6f3a;" onclick="filterArticles('Tech', true)">
       <div class="topic-icon">🌍</div>
       <h4>Tech & Culture</h4>
       <p>Patrimoine numérique, multilinguisme, tech au service de l'identité culturelle.</p>
@@ -1814,9 +1814,9 @@
     });
   }
 
-  function filterArticles(val) {
+  function filterArticles(val, doScroll) {
     renderArticles(val);
-    document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+    if (doScroll) document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
   }
 
   function openArticle(slug) {
