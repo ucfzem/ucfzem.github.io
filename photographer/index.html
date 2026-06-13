@@ -3,6 +3,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hassan Zemmouri — Photographe</title>
+  <meta name="description" content="Photographe basé à Goes (Pays-Bas) et au Maroc — paysages, portraits et documentaire. Disponible pour commandes éditoriales et expositions.">
+  <link rel="canonical" href="https://ucfzem.github.io/photographer/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hassan Zemmouri — Photographe">
+  <meta property="og:description" content="Photographe basé à Goes (Pays-Bas) et au Maroc — paysages, portraits et documentaire.">
+  <meta property="og:url" content="https://ucfzem.github.io/photographer/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ucfzem.github.io/photographer/bio.jpg">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Hassan Zemmouri">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hassan Zemmouri — Photographe">
+  <meta name="twitter:description" content="Photographe basé à Goes (Pays-Bas) et au Maroc — paysages, portraits et documentaire.">
+  <meta name="twitter:image" content="https://ucfzem.github.io/photographer/bio.jpg">
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="fr" href="https://ucfzem.github.io/photographer/">
+  <link rel="alternate" hreflang="en" href="https://ucfzem.github.io/photographer/">
+  <link rel="alternate" hreflang="nl" href="https://ucfzem.github.io/photographer/">
+  <link rel="alternate" hreflang="es" href="https://ucfzem.github.io/photographer/">
+  <link rel="alternate" hreflang="ar" href="https://ucfzem.github.io/photographer/">
+  <link rel="alternate" hreflang="x-default" href="https://ucfzem.github.io/photographer/">
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CLOUDFLARE_TOKEN"}'></script>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Hassan Zemmouri",
+    "jobTitle": "Photographer",
+    "description": "Photographe basé à Goes (Pays-Bas) et au Maroc — paysages, portraits et documentaire.",
+    "url": "https://ucfzem.github.io/photographer/",
+    "image": "https://ucfzem.github.io/photographer/bio.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Goes",
+      "addressCountry": "NL"
+    },
+    "knowsLanguage": ["fr", "en", "nl", "es", "ar"],
+    "sameAs": [
+      "https://www.instagram.com/hassan.zemmouri"
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
@@ -43,7 +94,27 @@
       overflow-x: hidden;
       transition: background .4s, color .4s;
     }
-    body.ar { font-family: 'Montserrat', sans-serif; }
+    body.ar { font-family: 'Montserrat', sans-serif; font-size: 18px; }
+    body.ar .hero-name { font-size: clamp(64px, 11vw, 140px); }
+    body.ar .hero-eyebrow { font-size: 12px; }
+    body.ar .apropos-body { font-size: 18px; line-height: 2; }
+    body.ar .hero-sub { font-size: 14px; }
+    body.ar .section-label { font-size: 11px; }
+    body.ar .photo-caption { font-size: 13px; }
+    body.ar .contact-desc { font-size: 17px; }
+    body.ar .stat-num { font-size: 54px; }
+    body.ar .stat-label { font-size: 12px; }
+    body.ar .field-label { font-size: 11px; }
+    body.ar .field-input,
+    body.ar .field-textarea { font-size: 16px; }
+    body.ar .btn-submit { font-size: 12px; }
+    body.ar .footer-copy { font-size: 13px; }
+    body.ar .footer-name { font-size: 16px; }
+    body.ar .contact-link { font-size: 15px; }
+    body.ar .form-success { font-size: 14px; }
+    body.ar .hero-scroll > span { font-size: 11px; }
+    body.ar .nav-links a { font-size: 13px; }
+    body.ar .nav-logo { font-size: 22px; }
 
     .gold-shine {
       background: linear-gradient(90deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
@@ -155,6 +226,8 @@
       border-color: var(--accent-light);
     }
     .lang-btn .flag { font-size: 12px; line-height: 1; }
+    .lang-btn[data-lang="ar"] { font-size: 11px; padding: 5px 10px; }
+    .lang-btn[data-lang="ar"] .flag { font-size: 14px; }
     .theme-btn {
       background: none;
       border: 1px solid var(--border);
@@ -301,6 +374,13 @@
     .photo-item:nth-child(11) { grid-column: 9 / 13; grid-row: 4; aspect-ratio: 4/3; }
     .photo-item:nth-child(12) { grid-column: 1 / 7; grid-row: 5; aspect-ratio: 4/3; }
     .photo-item:nth-child(13) { grid-column: 7 / 13; grid-row: 5; aspect-ratio: 3/4; }
+    .photo-item:nth-child(n+14) { grid-column: span 4; aspect-ratio: 4/3; }
+    .photo-item:nth-child(14n+14),
+    .photo-item:nth-child(14n+17),
+    .photo-item:nth-child(14n+20) { grid-column: span 4; aspect-ratio: 3/4; }
+    .photo-item:nth-child(14n+16),
+    .photo-item:nth-child(14n+18),
+    .photo-item:nth-child(14n+22) { grid-column: span 4; aspect-ratio: 1/1; }
     .photo-item img {
       width: 100%; height: 100%;
       object-fit: cover;
@@ -608,56 +688,144 @@
 
   <div class="gallery-grid">
     <div class="photo-item" data-hover>
-      <img src="363A6805_copy_2188x1459.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage, 2024</span></div>
+      <img src="363A6805_copy_2188x1459.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape2024">Paysage, 2024</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="363A2042_copy_972x1459.jpg" alt="Portrait" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Portrait</span></div>
+      <img src="363A2042_copy_972x1459.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="363A6734_copy_682x932.jpg" alt="Portrait" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Portrait</span></div>
+      <img src="363A6734_copy_682x932.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="363A3979_copy_935x1402.jpg" alt="Portrait" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Portrait</span></div>
+      <img src="363A3979_copy_935x1402.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="363A0809_copy_972x1459.jpg" alt="Portrait" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Portrait</span></div>
+      <img src="363A0809_copy_972x1459.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="363A6176_copy_1459x972.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="363A6176_copy_1459x972.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="542_copy_1382x921.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="542_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="IMG_9481_copy_1382x921.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="IMG_9481_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="1120_copy_1382x921.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="1120_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="125_copy_1220x643.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="125_copy_1220x643.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="Schermerhorne_copy_793x512.jpg" alt="Paysage" loading="lazy">
+      <img src="Schermerhorne_copy_793x512.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
       <div class="photo-overlay"><span class="photo-caption">Schermerhorne</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="IMG_9404_copy_1382x921.jpg" alt="Paysage" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Paysage</span></div>
+      <img src="IMG_9404_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
     <div class="photo-item" data-hover>
-      <img src="IMG_9614_copy_613x920.jpg" alt="Portrait" loading="lazy">
-      <div class="photo-overlay"><span class="photo-caption">Portrait</span></div>
+      <img src="IMG_9614_copy_613x920.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="035(1)_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="038(1)_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="124_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="134_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="136(1)_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="201_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="313_copy_921x1382.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="316_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="919_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="4.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="10151993_10200981207011182_7371621719123713507_n_copy_270x384.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="11312775_10203279372463882_478143309893264500_o_copy_521x342.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="11720384_10203279337303003_846873782_o_copy_440x293.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="18198180_1534066833311036_8993392787380830558_n_copy_192x302.jpg" alt="Portrait" data-i18n-alt="altPortrait" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capPortrait">Portrait</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="211049972_4237288196333026_1078263407967346094_n_copy_432x308.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_0049_copy_940x627.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_0051_copy_940x627.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_5541_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_65972_copy_800x532.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_9007_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_9083_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
+    </div>
+    <div class="photo-item" data-hover>
+      <img src="IMG_9486_copy_1382x921.jpg" alt="Paysage" data-i18n-alt="altLandscape" loading="lazy">
+      <div class="photo-overlay"><span class="photo-caption" data-i18n="capLandscape">Paysage</span></div>
     </div>
   </div>
 </section>
@@ -796,7 +964,12 @@ const translations = {
     formSubmit: 'Envoyer le message',
     formSuccess: 'Message envoyé — je vous recontacte sous 48h.',
     formAlert: 'Merci de remplir les champs obligatoires.',
-    footerCopy: '© 2026 Hassan Zemmouri. Tous droits réservés.'
+    footerCopy: '© 2026 Hassan Zemmouri. Tous droits réservés.',
+    altLandscape: 'Paysage',
+    altPortrait: 'Portrait',
+    capLandscape: 'Paysage',
+    capLandscape2024: 'Paysage, 2024',
+    capPortrait: 'Portrait'
   },
   en: {
     navName: 'Hassan Zemmouri',
@@ -833,7 +1006,12 @@ const translations = {
     formSubmit: 'Send message',
     formSuccess: 'Message sent — I will get back to you within 48h.',
     formAlert: 'Please fill in the required fields.',
-    footerCopy: '© 2026 Hassan Zemmouri. All rights reserved.'
+    footerCopy: '© 2026 Hassan Zemmouri. All rights reserved.',
+    altLandscape: 'Landscape',
+    altPortrait: 'Portrait',
+    capLandscape: 'Landscape',
+    capLandscape2024: 'Landscape, 2024',
+    capPortrait: 'Portrait'
   },
   nl: {
     navName: 'Hassan Zemmouri',
@@ -870,7 +1048,12 @@ const translations = {
     formSubmit: 'Verzend bericht',
     formSuccess: 'Bericht verzonden — ik neem binnen 48 uur contact met u op.',
     formAlert: 'Vul de verplichte velden in.',
-    footerCopy: '© 2026 Hassan Zemmouri. Alle rechten voorbehouden.'
+    footerCopy: '© 2026 Hassan Zemmouri. Alle rechten voorbehouden.',
+    altLandscape: 'Landschap',
+    altPortrait: 'Portret',
+    capLandscape: 'Landschap',
+    capLandscape2024: 'Landschap, 2024',
+    capPortrait: 'Portret'
   },
   es: {
     navName: 'Hassan Zemmouri',
@@ -907,7 +1090,12 @@ const translations = {
     formSubmit: 'Enviar mensaje',
     formSuccess: 'Mensaje enviado — le responderé en 48h.',
     formAlert: 'Por favor, rellene los campos obligatorios.',
-    footerCopy: '© 2026 Hassan Zemmouri. Todos los derechos reservados.'
+    footerCopy: '© 2026 Hassan Zemmouri. Todos los derechos reservados.',
+    altLandscape: 'Paisaje',
+    altPortrait: 'Retrato',
+    capLandscape: 'Paisaje',
+    capLandscape2024: 'Paisaje, 2024',
+    capPortrait: 'Retrato'
   },
   ar: {
     navName: 'حسن الزموري',
@@ -944,7 +1132,12 @@ const translations = {
     formSubmit: 'أرسل الرسالة',
     formSuccess: 'تم إرسال الرسالة — سأتواصل معك خلال 48 ساعة.',
     formAlert: 'يرجى ملء الحقول الإلزامية.',
-    footerCopy: '© 2026 حسن زموري. جميع الحقوق محفوظة.'
+    footerCopy: '© 2026 حسن زموري. جميع الحقوق محفوظة.',
+    altLandscape: 'منظر طبيعي',
+    altPortrait: 'بورتريه',
+    capLandscape: 'منظر طبيعي',
+    capLandscape2024: 'منظر طبيعي، 2024',
+    capPortrait: 'بورتريه'
   }
 };
 
@@ -965,6 +1158,11 @@ function switchLang(lang) {
     if (t[key]) el.placeholder = t[key];
   });
 
+  document.querySelectorAll('[data-i18n-alt]').forEach(el => {
+    const key = el.getAttribute('data-i18n-alt');
+    if (t[key]) el.alt = t[key];
+  });
+
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
   });
@@ -981,7 +1179,23 @@ function switchLang(lang) {
   }
 
   const titleKey = lang === 'fr' ? 'Photographe' : lang === 'en' ? 'Photographer' : lang === 'nl' ? 'Fotograaf' : lang === 'es' ? 'Fotógrafo' : 'مصور';
-  document.title = `Hassan Zemmouri — ${titleKey}`;
+  const fullTitle = `Hassan Zemmouri — ${titleKey}`;
+  document.title = fullTitle;
+
+  document.querySelector('meta[property="og:title"]').setAttribute('content', fullTitle);
+  document.querySelector('meta[name="twitter:title"]').setAttribute('content', fullTitle);
+
+  const descKeys = {
+    fr: 'Photographe basé à Goes (Pays-Bas) et au Maroc — paysages, portraits et documentaire.',
+    en: 'Photographer based in Goes (Netherlands) and Morocco — landscapes, portraits and documentary.',
+    nl: 'Fotograaf gevestigd in Goes (Nederland) en Marokko — landschappen, portretten en documentaire.',
+    es: 'Fotógrafo con sede en Goes (Países Bajos) y Marruecos — paisajes, retratos y documental.',
+    ar: 'مصور مقيم في خوس (هولندا) والمغرب — مناظر طبيعية، بورتريه ووثائقي.'
+  };
+  const desc = descKeys[lang] || descKeys.fr;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
+  document.querySelector('meta[property="og:description"]').setAttribute('content', desc);
+  document.querySelector('meta[name="twitter:description"]').setAttribute('content', desc);
 }
 
 function toggleTheme() {
