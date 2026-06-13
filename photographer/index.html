@@ -1019,20 +1019,20 @@
         <div class="form-row">
           <div class="field-group">
             <label class="field-label" for="nom" data-i18n="formNom">Nom</label>
-            <input class="field-input" id="nom" type="text" data-i18n-placeholder="formNomPlaceholder" placeholder="Votre nom" required>
+            <input class="field-input" id="nom" name="nom" type="text" data-i18n-placeholder="formNomPlaceholder" placeholder="Votre nom" required>
           </div>
           <div class="field-group">
             <label class="field-label" for="email" data-i18n="formEmail">Email</label>
-            <input class="field-input" id="email" type="email" data-i18n-placeholder="formEmailPlaceholder" placeholder="votre@email.com" required>
+            <input class="field-input" id="email" name="email" type="email" data-i18n-placeholder="formEmailPlaceholder" placeholder="votre@email.com" required>
           </div>
         </div>
         <div class="field-group">
           <label class="field-label" for="sujet" data-i18n="formSujet">Sujet</label>
-          <input class="field-input" id="sujet" type="text" data-i18n-placeholder="formSujetPlaceholder" placeholder="Nature du projet">
+            <input class="field-input" id="sujet" name="sujet" type="text" data-i18n-placeholder="formSujetPlaceholder" placeholder="Nature du projet">
         </div>
         <div class="field-group">
           <label class="field-label" for="message" data-i18n="formMessage">Message</label>
-          <textarea class="field-textarea" id="message" data-i18n-placeholder="formMessagePlaceholder" placeholder="Décrivez votre projet…" required></textarea>
+           <textarea class="field-textarea" id="message" name="message" data-i18n-placeholder="formMessagePlaceholder" placeholder="Décrivez votre projet…" required></textarea>
         </div>
         <button class="btn-submit" type="submit" data-i18n="formSubmit">Envoyer le message</button>
       </form>
