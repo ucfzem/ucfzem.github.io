@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html><html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,29 +9,41 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-
     :root {
-      --black: #0A1128;
+      --bg: #0A1128;
       --surface: #121A33;
-      --warm-white: #E8ECEF;
-      --sand: #D4AF37;
+      --text: #E8ECEF;
+      --text-body: #A8B2C1;
+      --accent: #D4AF37;
+      --accent-light: #FCF6BA;
       --muted: #7A869A;
       --border: #1E2D4A;
+      --nav-bg: rgba(10,17,40,.9);
     }
-
+    .light {
+      --bg: #F5F2EB;
+      --surface: #EDE8DC;
+      --text: #1A1A2E;
+      --text-body: #4A4A5A;
+      --accent: #B8860B;
+      --accent-light: #D4AF37;
+      --muted: #8A8A9A;
+      --border: #D4C9B5;
+      --nav-bg: rgba(245,242,235,.92);
+    }
 
     html { scroll-behavior: smooth; }
 
-
     body {
-      background: var(--black);
-      color: var(--warm-white);
+      background: var(--bg);
+      color: var(--text);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
       cursor: none;
       overflow-x: hidden;
+      transition: background .4s, color .4s;
     }
-
+    body.ar { font-family: 'Montserrat', sans-serif; }
 
     .gold-shine {
       background: linear-gradient(90deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
@@ -45,11 +57,10 @@
       to { background-position: 200% center; }
     }
 
-
     #cursor {
       position: fixed;
       width: 12px; height: 12px;
-      border: 1px solid var(--sand);
+      border: 1px solid var(--accent);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
@@ -59,7 +70,7 @@
     #cursor.hover {
       width: 48px; height: 48px;
       background: transparent;
-      border-color: #FCF6BA;
+      border-color: var(--accent-light);
     }
     #cursor.hover::after {
       content: '+';
@@ -69,10 +80,9 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 18px;
       font-weight: 400;
-      color: #FCF6BA;
+      color: var(--accent-light);
       line-height: 1;
     }
-
 
     nav {
       position: fixed;
@@ -81,14 +91,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 28px 48px;
+      padding: 20px 48px;
       mix-blend-mode: normal;
     }
     nav::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(10,17,40,.9) 0%, transparent 100%);
+      background: linear-gradient(to bottom, var(--nav-bg) 0%, transparent 100%);
       pointer-events: none;
     }
     .nav-logo {
@@ -97,7 +107,7 @@
       font-weight: 700;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: var(--warm-white);
+      color: var(--text);
       text-decoration: none;
       position: relative;
     }
@@ -116,8 +126,46 @@
       text-decoration: none;
       transition: color .2s;
     }
-    .nav-links a:hover { color: #FCF6BA; }
+    .nav-links a:hover { color: var(--accent-light); }
 
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+    .lang-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      padding: 4px 8px;
+      cursor: none;
+      transition: color .2s, border-color .2s, background .2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1;
+    }
+    .lang-btn:hover, .lang-btn.active {
+      color: var(--accent-light);
+      border-color: var(--accent-light);
+    }
+    .lang-btn .flag { font-size: 12px; line-height: 1; }
+    .theme-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      padding: 4px 8px;
+      cursor: none;
+      transition: color .2s, border-color .2s;
+      line-height: 1;
+    }
+    .theme-btn:hover { color: var(--accent-light); border-color: var(--accent-light); }
 
     #hero {
       height: 100vh;
@@ -138,6 +186,7 @@
       transform: scale(1.04);
       transition: transform 8s ease;
     }
+    .light .hero-bg { filter: brightness(.55) hue-rotate(200deg) saturate(.7); }
     #hero:hover .hero-bg { transform: scale(1); }
     .hero-content {
       position: relative;
@@ -148,7 +197,7 @@
       font-weight: 500;
       letter-spacing: .45em;
       text-transform: uppercase;
-      color: #FCF6BA;
+      color: var(--accent-light);
       margin-bottom: 24px;
       text-shadow: 0 0 10px rgba(252, 246, 186, 0.4);
     }
@@ -158,7 +207,7 @@
       font-weight: 900;
       letter-spacing: .02em;
       line-height: .92;
-      color: var(--warm-white);
+      color: var(--text);
     }
     .hero-name em {
       font-style: italic;
@@ -202,7 +251,6 @@
       50% { opacity: 1; transform: scaleY(.7); }
     }
 
-
     .section-header {
       display: flex;
       align-items: baseline;
@@ -214,20 +262,19 @@
       font-weight: 500;
       letter-spacing: .4em;
       text-transform: uppercase;
-      color: #FCF6BA;
+      color: var(--accent-light);
     }
     .section-title {
       font-family: 'Playfair Display', serif;
       font-size: clamp(32px, 5vw, 52px);
       font-weight: 700;
-      color: var(--warm-white);
+      color: var(--text);
     }
     .section-line {
       flex: 1;
       height: 1px;
       background: var(--border);
     }
-
 
     #galerie {
       padding: 120px 48px;
@@ -239,7 +286,6 @@
       grid-template-columns: repeat(12, 1fr);
       gap: 16px;
     }
-
 
     .photo-item { overflow: hidden; position: relative; }
     .photo-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; aspect-ratio: 4/3; }
@@ -256,6 +302,7 @@
       transition: transform .6s cubic-bezier(.25,.46,.45,.94), filter .6s;
       filter: saturate(.85) brightness(.9);
     }
+    .light .photo-item img { filter: saturate(.9) brightness(1); }
     .photo-item:hover img {
       transform: scale(1.04);
       filter: saturate(1) brightness(1.05);
@@ -276,13 +323,13 @@
       font-weight: 500;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: #FCF6BA;
+      color: var(--accent-light);
     }
-
 
     #apropos {
       padding: 120px 48px;
       background: var(--surface);
+      transition: background .4s;
     }
     .apropos-inner {
       max-width: 1400px;
@@ -302,17 +349,19 @@
       object-fit: cover;
       filter: grayscale(.3) brightness(.9);
     }
+    .light .apropos-img img { filter: grayscale(.15) brightness(1); }
     .apropos-body {
       font-size: 16px;
       line-height: 1.85;
-      color: #A8B2C1;
+      color: var(--text-body);
       margin-top: 32px;
     }
     .apropos-body p + p { margin-top: 20px; }
     .apropos-body strong {
-      color: #FCF6BA;
+      color: var(--accent-light);
       font-weight: 500;
     }
+    .light .apropos-body strong { color: var(--accent); }
     .apropos-stats {
       display: flex;
       gap: 48px;
@@ -341,7 +390,6 @@
       margin-top: 6px;
     }
 
-
     #contact {
       padding: 120px 48px;
       max-width: 1400px;
@@ -355,7 +403,7 @@
     .contact-desc {
       font-size: 15px;
       line-height: 1.8;
-      color: #A8B2C1;
+      color: var(--text-body);
       margin-top: 32px;
     }
     .contact-links {
@@ -375,15 +423,15 @@
       letter-spacing: .1em;
       transition: color .2s;
     }
-    .contact-link:hover { color: #FCF6BA; }
+    .contact-link:hover { color: var(--accent-light); }
+    .light .contact-link:hover { color: var(--accent); }
     .contact-link-dot {
       width: 5px; height: 5px;
-      background: #FCF6BA;
+      background: var(--accent-light);
       border-radius: 50%;
       flex-shrink: 0;
       box-shadow: 0 0 8px rgba(252, 246, 186, 0.6);
     }
-
 
     .contact-form {
       display: flex;
@@ -404,7 +452,7 @@
       border: none;
       border-bottom: 1px solid var(--border);
       padding: 12px 0;
-      color: var(--warm-white);
+      color: var(--text);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
       font-size: 14px;
@@ -413,18 +461,18 @@
       width: 100%;
     }
     .field-input:focus,
-    .field-textarea:focus { border-bottom-color: #FCF6BA; }
+    .field-textarea:focus { border-bottom-color: var(--accent-light); }
+    .light .field-input:focus,
+    .light .field-textarea:focus { border-bottom-color: var(--accent); }
     .field-textarea { resize: none; height: 100px; }
 
-
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
 
     .btn-submit {
       align-self: flex-start;
       background: transparent;
-      border: 1px solid var(--sand);
-      color: var(--sand);
+      border: 1px solid var(--accent);
+      color: var(--accent);
       font-family: 'Montserrat', sans-serif;
       font-size: 10px;
       font-weight: 500;
@@ -436,11 +484,10 @@
     }
     .btn-submit:hover {
       background: linear-gradient(90deg, #BF953F, #FCF6BA, #B38728);
-      color: var(--black);
+      color: #0A1128;
       border-color: transparent;
       box-shadow: 0 0 20px rgba(252, 246, 186, 0.4);
     }
-
 
     footer {
       border-top: 1px solid var(--border);
@@ -459,42 +506,46 @@
       font-size: 14px;
       font-weight: 700;
       letter-spacing: .2em;
-      color: #FCF6BA;
+      color: var(--accent-light);
     }
-
+    .light .footer-name { color: var(--accent); }
 
     .form-success {
       display: none;
       padding: 24px;
-      border: 1px solid var(--sand);
-      color: #FCF6BA;
+      border: 1px solid var(--accent);
+      color: var(--accent-light);
       font-size: 12px;
       font-weight: 500;
       letter-spacing: .15em;
       text-align: center;
     }
+    .light .form-success { color: var(--accent); }
 
+    [dir="rtl"] .nav-links { flex-direction: row-reverse; }
+    [dir="rtl"] .section-header { flex-direction: row-reverse; }
+    [dir="rtl"] .apropos-stats { flex-direction: row-reverse; }
+    [dir="rtl"] .contact-link { flex-direction: row-reverse; }
+    [dir="rtl"] footer { flex-direction: row-reverse; }
 
     @media (max-width: 900px) {
-      nav { padding: 24px 24px; }
+      nav { padding: 20px 24px; }
+      .nav-controls { gap: 6px; }
+      .lang-btn { font-size: 7px; padding: 3px 5px; }
       #galerie, #contact, footer { padding-left: 24px; padding-right: 24px; }
       #apropos { padding: 80px 24px; }
-
 
       .gallery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
       .photo-item:nth-child(n) { grid-column: auto; grid-row: auto; aspect-ratio: 4/3; }
       .photo-item:nth-child(1) { grid-column: 1 / -1; }
-
 
       .apropos-inner { grid-template-columns: 1fr; gap: 40px; }
       .apropos-img { aspect-ratio: 16/9; }
       .contact-inner { grid-template-columns: 1fr; gap: 56px; }
       .form-row { grid-template-columns: 1fr; }
 
-
       footer { flex-direction: column; gap: 12px; text-align: center; }
     }
-
 
     @media (max-width: 560px) {
       .nav-links { display: none; }
@@ -510,41 +561,44 @@
 </head>
 <body>
 
-
 <div id="cursor"></div>
-
 
 <nav>
   <a class="nav-logo" href="#hero">Hassan Zemmouri</a>
   <ul class="nav-links">
-    <li><a href="#galerie">Galerie</a></li>
-    <li><a href="#apropos">À propos</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#galerie" data-i18n="navGalerie">Galerie</a></li>
+    <li><a href="#apropos" data-i18n="navApropos">À propos</a></li>
+    <li><a href="#contact" data-i18n="navContact">Contact</a></li>
   </ul>
+  <div class="nav-controls">
+    <button class="lang-btn active" data-lang="fr"><span class="flag">🇫🇷</span> FR</button>
+    <button class="lang-btn" data-lang="en"><span class="flag">🇬🇧</span> EN</button>
+    <button class="lang-btn" data-lang="nl"><span class="flag">🇳🇱</span> NL</button>
+    <button class="lang-btn" data-lang="es"><span class="flag">🇪🇸</span> ES</button>
+    <button class="lang-btn" data-lang="ar"><span class="flag">🇲🇦</span> AR</button>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">☀</button>
+  </div>
 </nav>
-
 
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Photographe — Goes, Pays-Bas</p>
+    <p class="hero-eyebrow" data-i18n="heroEyebrow">Photographe — Goes, Pays-Bas · Maroc</p>
     <h1 class="hero-name">Hassan<br><em>Zemmouri</em></h1>
-    <p class="hero-sub">Paysage · Portrait · Documentaire</p>
+    <p class="hero-sub" data-i18n="heroSub">Paysage · Portrait · Documentaire</p>
   </div>
   <div class="hero-scroll">
     <div class="hero-scroll-line"></div>
-    <span>Défiler</span>
+    <span data-i18n="heroScroll">Défiler</span>
   </div>
 </section>
 
-
 <section id="galerie">
   <div class="section-header">
-    <span class="section-label">Portfolio</span>
-    <h2 class="section-title">Galerie</h2>
+    <span class="section-label" data-i18n="galerieLabel">Portfolio</span>
+    <h2 class="section-title" data-i18n="galerieTitle">Galerie</h2>
     <div class="section-line"></div>
   </div>
-
 
   <div class="gallery-grid">
     <div class="photo-item" data-hover>
@@ -578,7 +632,6 @@
   </div>
 </section>
 
-
 <section id="apropos">
   <div class="apropos-inner">
     <div class="apropos-img">
@@ -586,42 +639,41 @@
     </div>
     <div class="apropos-text">
       <div class="section-header" style="margin-bottom: 0;">
-        <span class="section-label">Parcours</span>
-        <h2 class="section-title">À propos</h2>
+        <span class="section-label" data-i18n="aproposLabel">Parcours</span>
+        <h2 class="section-title" data-i18n="aproposTitle">À propos</h2>
       </div>
       <div class="apropos-body">
-        <p>Photographe basé à <strong>Goes aux Pays-Bas</strong>, je capte la lumière des paysages nordiques et la richesse des visages qui croisent mon objectif.</p>
-        <p>Mon travail documente les <strong>paysages, les ports et les silences</strong> qui racontent des territoires souvent ignorés. Chaque image est une question posée au monde.</p>
-        <p>Disponible pour des commandes éditoriales, des projets documentaires et des expositions.</p>
+        <p data-i18n="aproposP1">Photographe basé à <strong>Goes aux Pays-Bas</strong> et au <strong>Maroc</strong>, je capte la lumière des paysages nordiques et la richesse des visages qui croisent mon objectif.</p>
+        <p data-i18n="aproposP2">Mon travail documente les <strong>paysages, les ports et les silences</strong> qui racontent des territoires souvent ignorés. Chaque image est une question posée au monde.</p>
+        <p data-i18n="aproposP3">Disponible pour des commandes éditoriales, des projets documentaires et des expositions.</p>
       </div>
       <div class="apropos-stats">
         <div>
           <div class="stat-num">12</div>
-          <div class="stat-label">Années</div>
+          <div class="stat-label" data-i18n="statAns">Années</div>
         </div>
         <div>
           <div class="stat-num">340+</div>
-          <div class="stat-label">Projets</div>
+          <div class="stat-label" data-i18n="statProj">Projets</div>
         </div>
         <div>
           <div class="stat-num">28</div>
-          <div class="stat-label">Pays</div>
+          <div class="stat-label" data-i18n="statPays">Pays</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-
 <section id="contact">
   <div class="section-header">
-    <span class="section-label">Collaborer</span>
-    <h2 class="section-title">Contact</h2>
+    <span class="section-label" data-i18n="contactLabel">Collaborer</span>
+    <h2 class="section-title" data-i18n="contactTitle">Contact</h2>
     <div class="section-line"></div>
   </div>
   <div class="contact-inner">
     <div class="contact-info">
-      <p class="contact-desc">
+      <p class="contact-desc" data-i18n="contactDesc">
         Pour toute demande de collaboration, commande ou simple question — écrivez-moi. Je réponds dans les 48h.
       </p>
       <div class="contact-links">
@@ -639,7 +691,7 @@
         </a>
         <a class="contact-link" href="#">
           <span class="contact-link-dot"></span>
-          Behance — Portfolio complet
+          <span data-i18n="behance">Behance — Portfolio complet</span>
         </a>
       </div>
     </div>
@@ -647,88 +699,300 @@
       <form class="contact-form" id="contactForm" novalidate>
         <div class="form-row">
           <div class="field-group">
-            <label class="field-label" for="nom">Nom</label>
-            <input class="field-input" id="nom" type="text" placeholder="Votre nom" required>
+            <label class="field-label" for="nom" data-i18n="formNom">Nom</label>
+            <input class="field-input" id="nom" type="text" data-i18n-placeholder="formNomPlaceholder" placeholder="Votre nom" required>
           </div>
           <div class="field-group">
-            <label class="field-label" for="email">Email</label>
-            <input class="field-input" id="email" type="email" placeholder="votre@email.com" required>
+            <label class="field-label" for="email" data-i18n="formEmail">Email</label>
+            <input class="field-input" id="email" type="email" data-i18n-placeholder="formEmailPlaceholder" placeholder="votre@email.com" required>
           </div>
         </div>
         <div class="field-group">
-          <label class="field-label" for="sujet">Sujet</label>
-          <input class="field-input" id="sujet" type="text" placeholder="Nature du projet">
+          <label class="field-label" for="sujet" data-i18n="formSujet">Sujet</label>
+          <input class="field-input" id="sujet" type="text" data-i18n-placeholder="formSujetPlaceholder" placeholder="Nature du projet">
         </div>
         <div class="field-group">
-          <label class="field-label" for="message">Message</label>
-          <textarea class="field-textarea" id="message" placeholder="Décrivez votre projet…" required></textarea>
+          <label class="field-label" for="message" data-i18n="formMessage">Message</label>
+          <textarea class="field-textarea" id="message" data-i18n-placeholder="formMessagePlaceholder" placeholder="Décrivez votre projet…" required></textarea>
         </div>
-        <button class="btn-submit" type="submit">Envoyer le message</button>
+        <button class="btn-submit" type="submit" data-i18n="formSubmit">Envoyer le message</button>
       </form>
-      <div class="form-success" id="formSuccess">
+      <div class="form-success" id="formSuccess" data-i18n="formSuccess">
         Message envoyé — je vous recontacte sous 48h.
       </div>
     </div>
   </div>
 </section>
 
-
 <footer>
-  <span class="footer-copy">© 2026 Hassan Zemmouri. Tous droits réservés.</span>
+  <span class="footer-copy" data-i18n="footerCopy">© 2026 Hassan Zemmouri. Tous droits réservés.</span>
   <span class="footer-name">Hassan Zemmouri</span>
 </footer>
 
-
 <script>
-  const cursor = document.getElementById('cursor');
-  let mx = -100, my = -100;
+const translations = {
+  fr: {
+    navGalerie: 'Galerie',
+    navApropos: 'À propos',
+    navContact: 'Contact',
+    heroEyebrow: 'Photographe — Goes, Pays-Bas · Maroc',
+    heroSub: 'Paysage · Portrait · Documentaire',
+    heroScroll: 'Défiler',
+    galerieLabel: 'Portfolio',
+    galerieTitle: 'Galerie',
+    aproposLabel: 'Parcours',
+    aproposTitle: 'À propos',
+    aproposP1: 'Photographe basé à <strong>Goes aux Pays-Bas</strong> et au <strong>Maroc</strong>, je capte la lumière des paysages nordiques et la richesse des visages qui croisent mon objectif.',
+    aproposP2: 'Mon travail documente les <strong>paysages, les ports et les silences</strong> qui racontent des territoires souvent ignorés. Chaque image est une question posée au monde.',
+    aproposP3: 'Disponible pour des commandes éditoriales, des projets documentaires et des expositions.',
+    statAns: 'Années',
+    statProj: 'Projets',
+    statPays: 'Pays',
+    contactLabel: 'Collaborer',
+    contactTitle: 'Contact',
+    contactDesc: 'Pour toute demande de collaboration, commande ou simple question — écrivez-moi. Je réponds dans les 48h.',
+    behance: 'Behance — Portfolio complet',
+    formNom: 'Nom',
+    formNomPlaceholder: 'Votre nom',
+    formEmail: 'Email',
+    formEmailPlaceholder: 'votre@email.com',
+    formSujet: 'Sujet',
+    formSujetPlaceholder: 'Nature du projet',
+    formMessage: 'Message',
+    formMessagePlaceholder: 'Décrivez votre projet…',
+    formSubmit: 'Envoyer le message',
+    formSuccess: 'Message envoyé — je vous recontacte sous 48h.',
+    formAlert: 'Merci de remplir les champs obligatoires.',
+    footerCopy: '© 2026 Hassan Zemmouri. Tous droits réservés.'
+  },
+  en: {
+    navGalerie: 'Gallery',
+    navApropos: 'About',
+    navContact: 'Contact',
+    heroEyebrow: 'Photographer — Goes, Netherlands · Morocco',
+    heroSub: 'Landscape · Portrait · Documentary',
+    heroScroll: 'Scroll',
+    galerieLabel: 'Portfolio',
+    galerieTitle: 'Gallery',
+    aproposLabel: 'Journey',
+    aproposTitle: 'About',
+    aproposP1: 'Photographer based in <strong>Goes, Netherlands</strong> and <strong>Morocco</strong>, capturing the light of Nordic landscapes and the richness of faces that cross my lens.',
+    aproposP2: 'My work documents <strong>landscapes, harbors and silences</strong> that tell stories of often overlooked territories. Every image is a question posed to the world.',
+    aproposP3: 'Available for editorial commissions, documentary projects and exhibitions.',
+    statAns: 'Years',
+    statProj: 'Projects',
+    statPays: 'Countries',
+    contactLabel: 'Collaborate',
+    contactTitle: 'Contact',
+    contactDesc: 'For any collaboration requests, commissions or questions — write to me. I respond within 48h.',
+    behance: 'Behance — Full Portfolio',
+    formNom: 'Name',
+    formNomPlaceholder: 'Your name',
+    formEmail: 'Email',
+    formEmailPlaceholder: 'your@email.com',
+    formSujet: 'Subject',
+    formSujetPlaceholder: 'Project nature',
+    formMessage: 'Message',
+    formMessagePlaceholder: 'Describe your project…',
+    formSubmit: 'Send message',
+    formSuccess: 'Message sent — I will get back to you within 48h.',
+    formAlert: 'Please fill in the required fields.',
+    footerCopy: '© 2026 Hassan Zemmouri. All rights reserved.'
+  },
+  nl: {
+    navGalerie: 'Galerij',
+    navApropos: 'Over',
+    navContact: 'Contact',
+    heroEyebrow: 'Fotograaf — Goes, Nederland · Marokko',
+    heroSub: 'Landschap · Portret · Documentaire',
+    heroScroll: 'Scrollen',
+    galerieLabel: 'Portfolio',
+    galerieTitle: 'Galerij',
+    aproposLabel: 'Reis',
+    aproposTitle: 'Over mij',
+    aproposP1: 'Fotograaf gevestigd in <strong>Goes, Nederland</strong> en <strong>Marokko</strong>, ik vang het licht van Noordse landschappen en de rijkdom van gezichten die mijn lens kruisen.',
+    aproposP2: 'Mijn werk documenteert <strong>landschappen, havens en stilte</strong> die verhalen vertellen van vaak over het hoofd geziene gebieden. Elk beeld is een vraag aan de wereld.',
+    aproposP3: 'Beschikbaar voor redactionele opdrachten, documentaire projecten en tentoonstellingen.',
+    statAns: 'Jaren',
+    statProj: 'Projecten',
+    statPays: 'Landen',
+    contactLabel: 'Samenwerken',
+    contactTitle: 'Contact',
+    contactDesc: 'Voor samenwerking, opdrachten of vragen — stuur me een bericht. Ik reageer binnen 48 uur.',
+    behance: 'Behance — Volledig portfolio',
+    formNom: 'Naam',
+    formNomPlaceholder: 'Uw naam',
+    formEmail: 'Email',
+    formEmailPlaceholder: 'uw@email.com',
+    formSujet: 'Onderwerp',
+    formSujetPlaceholder: 'Aard van het project',
+    formMessage: 'Bericht',
+    formMessagePlaceholder: 'Beschrijf uw project…',
+    formSubmit: 'Verzend bericht',
+    formSuccess: 'Bericht verzonden — ik neem binnen 48 uur contact met u op.',
+    formAlert: 'Vul de verplichte velden in.',
+    footerCopy: '© 2026 Hassan Zemmouri. Alle rechten voorbehouden.'
+  },
+  es: {
+    navGalerie: 'Galería',
+    navApropos: 'Sobre mí',
+    navContact: 'Contacto',
+    heroEyebrow: 'Fotógrafo — Goes, Países Bajos · Marruecos',
+    heroSub: 'Paisaje · Retrato · Documental',
+    heroScroll: 'Desplazar',
+    galerieLabel: 'Portafolio',
+    galerieTitle: 'Galería',
+    aproposLabel: 'Trayectoria',
+    aproposTitle: 'Sobre mí',
+    aproposP1: 'Fotógrafo con base en <strong>Goes, Países Bajos</strong> y <strong>Marruecos</strong>, capturo la luz de los paisajes nórdicos y la riqueza de los rostros que cruzan mi objetivo.',
+    aproposP2: 'Mi trabajo documenta <strong>paisajes, puertos y silencios</strong> que cuentan historias de territorios a menudo ignorados. Cada imagen es una pregunta al mundo.',
+    aproposP3: 'Disponible para encargos editoriales, proyectos documentales y exposiciones.',
+    statAns: 'Años',
+    statProj: 'Proyectos',
+    statPays: 'Países',
+    contactLabel: 'Colaborar',
+    contactTitle: 'Contacto',
+    contactDesc: 'Para cualquier solicitud de colaboración, encargo o pregunta — escríbame. Respondo en 48h.',
+    behance: 'Behance — Portafolio completo',
+    formNom: 'Nombre',
+    formNomPlaceholder: 'Su nombre',
+    formEmail: 'Email',
+    formEmailPlaceholder: 'su@email.com',
+    formSujet: 'Asunto',
+    formSujetPlaceholder: 'Naturaleza del proyecto',
+    formMessage: 'Mensaje',
+    formMessagePlaceholder: 'Describa su proyecto…',
+    formSubmit: 'Enviar mensaje',
+    formSuccess: 'Mensaje enviado — le responderé en 48h.',
+    formAlert: 'Por favor, rellene los campos obligatorios.',
+    footerCopy: '© 2026 Hassan Zemmouri. Todos los derechos reservados.'
+  },
+  ar: {
+    navGalerie: 'المعرض',
+    navApropos: 'عني',
+    navContact: 'اتصل',
+    heroEyebrow: 'مصور — خوس، هولندا · المغرب',
+    heroSub: 'منظر طبيعي · بورتريه · وثائقي',
+    heroScroll: 'تمرير',
+    galerieLabel: 'أعمالي',
+    galerieTitle: 'المعرض',
+    aproposLabel: 'المسيرة',
+    aproposTitle: 'عني',
+    aproposP1: 'مصور مقيم في <strong>خوس بهولندا</strong> و<strong>المغرب</strong>، أصطاد ضوء المناظر الطبيعية الشمالية وثراء الوجوه التي تعبر عدستي.',
+    aproposP2: 'يوثق عملي <strong>المناظر الطبيعية والموانئ والصمت</strong> التي تروي قصص مناطق غالبًا ما يتم تجاهلها. كل صورة هي سؤال للعالم.',
+    aproposP3: 'متاح للطلبات التحريرية والمشاريع الوثائقية والمعارض.',
+    statAns: 'سنوات',
+    statProj: 'مشروع',
+    statPays: 'بلد',
+    contactLabel: 'تعاون',
+    contactTitle: 'اتصل',
+    contactDesc: 'لأي طلب تعاون أو تكليف أو سؤال — اكتب لي. سأرد خلال 48 ساعة.',
+    behance: 'Behance — كامل الأعمال',
+    formNom: 'الاسم',
+    formNomPlaceholder: 'اسمك',
+    formEmail: 'البريد',
+    formEmailPlaceholder: 'بريدك@email.com',
+    formSujet: 'الموضوع',
+    formSujetPlaceholder: 'طبيعة المشروع',
+    formMessage: 'الرسالة',
+    formMessagePlaceholder: 'صف مشروعك…',
+    formSubmit: 'أرسل الرسالة',
+    formSuccess: 'تم إرسال الرسالة — سأتواصل معك خلال 48 ساعة.',
+    formAlert: 'يرجى ملء الحقول الإلزامية.',
+    footerCopy: '© 2026 حسن زموري. جميع الحقوق محفوظة.'
+  }
+};
 
+let currentLang = 'fr';
+let isDark = true;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
+function switchLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.innerHTML = t[key];
   });
 
-
-  document.querySelectorAll('[data-hover], a, button, input, textarea').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key]) el.placeholder = t[key];
   });
 
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
 
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const nom = document.getElementById('nom').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
+  const html = document.documentElement;
+  if (lang === 'ar') {
+    html.setAttribute('lang', 'ar');
+    html.setAttribute('dir', 'rtl');
+    document.body.classList.add('ar');
+  } else {
+    html.setAttribute('lang', lang);
+    html.setAttribute('dir', 'ltr');
+    document.body.classList.remove('ar');
+  }
 
+  const titleKey = lang === 'fr' ? 'Photographe' : lang === 'en' ? 'Photographer' : lang === 'nl' ? 'Fotograaf' : lang === 'es' ? 'Fotógrafo' : 'مصور';
+  document.title = `Hassan Zemmouri — ${titleKey}`;
+}
 
-    if (!nom || !email || !message) {
-      alert('Merci de remplir les champs obligatoires.');
-      return;
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.classList.toggle('light', !isDark);
+  document.getElementById('themeToggle').textContent = isDark ? '☀' : '☾';
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchLang(btn.getAttribute('data-lang')));
+});
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+const cursor = document.getElementById('cursor');
+let mx = -100, my = -100;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+document.querySelectorAll('[data-hover], a, button, input, textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nom = document.getElementById('nom').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (!nom || !email || !message) {
+    alert(translations[currentLang].formAlert);
+    return;
+  }
+  this.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
     }
-    this.style.display = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
   });
+}, { threshold: .1 });
 
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: .1 });
-
-
-  document.querySelectorAll('.photo-item, .apropos-img, .apropos-text, .contact-info').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-    observer.observe(el);
-  });
+document.querySelectorAll('.photo-item, .apropos-img, .apropos-text, .contact-info').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
 </script>
 </body>
 </html>
