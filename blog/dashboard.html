@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashboard — UcfZemTech</title>
+<script src="tracker.js"></script>
+<style>
+:root{--bg:#0d0a08;--card:#14100e;--border:rgba(255,255,255,0.06);--gold:#c9a84c;--text:#f0ece4;--muted:#8a7a6a;--green:#4ade80}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;color:var(--gold);font-size:1.8em;margin:20px 0 8px;letter-spacing:-.5px}
+.sub{text-align:center;color:var(--muted);font-size:.9em;margin-bottom:20px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+nav a{color:var(--muted);text-decoration:none;padding:6px 14px;border-radius:20px;border:1px solid var(--border);font-size:.85em;transition:.2s}
+nav a:hover{border-color:var(--gold);color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.card h3{color:var(--gold);font-size:.85em;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.num{font-size:2em;font-weight:800;color:var(--text)}
+.num.gold{color:var(--gold)}
+.num.green{color:var(--green)}
+.label{color:var(--muted);font-size:.8em;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:.9em}
+th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border);color:var(--muted);font-size:.8em;text-transform:uppercase}
+td{padding:8px 6px;border-bottom:1px solid var(--border);color:var(--text);font-size:.85em}
+.bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:4px}
+.bar-fill{height:100%;background:var(--gold);border-radius:3px}
+.btn-group{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.btn{background:var(--gold);color:#000;padding:8px 18px;border-radius:50px;font-weight:700;font-size:.85em;border:none;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
+.btn:hover{box-shadow:0 4px 20px rgba(201,168,76,.3)}
+.btn-danger{background:#c62828;color:white}
+.btn-danger:hover{box-shadow:0 4px 20px rgba(198,40,40,.3)}
+footer{text-align:center;padding:20px 0;color:var(--muted);font-size:.8em}
+[data-track]{cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>📊 Tableau de bord</h1>
+<div class="sub">UcfZemTech — Statistiques de visite</div>
+
+<nav>
+  <a href="/blog/">🏠 Accueil</a>
+  <a href="/blog/spy.html">🕵️ Spy</a>
+  <a href="/blog/dashboard.html">📊 Dashboard</a>
+</nav>
+
+<div class="grid" id="statsGrid">
+  <div class="card"><h3>Visites (local)</h3><div class="num gold" id="totalVisits">-</div></div>
+  <div class="card"><h3>Visites (global)</h3><div class="num green" id="globalVisits">-</div></div>
+  <div class="card"><h3>Temps moyen</h3><div class="num" id="avgTime">-</div><div class="label">secondes</div></div>
+  <div class="card"><h3>Aujourd'hui</h3><div class="num" id="todayVisits">-</div></div>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <h3>📄 Pages les plus visitées</h3>
+  <table><thead><tr><th>Page</th><th>Visites</th><th></th></tr></thead><tbody id="topPages"></tbody></table>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <h3>👆 Clics les plus fréquents</h3>
+  <table><thead><tr><th>Élément</th><th>Clics</th><th></th></tr></thead><tbody id="topClicks"></tbody></table>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <h3>🕐 Dernières visites</h3>
+  <table><thead><tr><th>Date</th><th>Page</th><th>Référant</th><th>Durée</th></tr></thead><tbody id="lastVisits"></tbody></table>
+</div>
+
+<div class="btn-group">
+  <button class="btn" onclick="exportJSON()" data-track="export:json">📥 Exporter JSON</button>
+  <button class="btn" onclick="exportCSV()" data-track="export:csv">📥 Exporter CSV</button>
+  <button class="btn btn-danger" onclick="if(confirm('Effacer toutes les données ?')){window.__tracker.clear();location.reload()}">🗑️ Effacer local</button>
+  <button class="btn" onclick="showConfig()">⚙️ Config GitHub</button>
+</div>
+
+<div id="configModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;z-index:999;padding:20px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:480px;width:100%">
+    <h3 style="color:var(--gold);margin-bottom:12px">🔑 GitHub Token</h3>
+    <p style="color:var(--muted);font-size:.9em;margin-bottom:12px">Token stocké dans votre navigateur (localStorage). Pas dans le code source.</p>
+    <input id="tokenInput" type="password" placeholder="github_pat_..." style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.9em;margin-bottom:12px">
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="saveToken()">💾 Enregistrer</button>
+      <button class="btn" onclick="removeToken()" style="background:#c62828">🗑️ Effacer</button>
+      <button class="btn btn-outline" onclick="closeConfig()" style="margin-left:auto">Fermer</button>
+    </div>
+    <div id="tokenStatus" style="margin-top:8px;font-size:.85em"></div>
+  </div>
+</div>
+
+<footer>
+  Données stockées dans votre navigateur (localStorage) • <span id="lastUpdate"></span>
+</footer>
+
+</div>
+
+<script>
+function fmtDate(ts){
+  const d = new Date(ts);
+  return d.toLocaleDateString('fr-FR', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+}
+
+function fmtDuration(s){
+  if(s < 60) return s + 's';
+  const m = Math.floor(s / 60);
+  s = s % 60;
+  return m + 'm ' + s + 's';
+}
+
+function render(){
+  if(!window.__tracker){ document.body.innerHTML += '<p style="text-align:center;color:var(--muted);padding:40px">Tracker pas encore chargé...</p>'; return; }
+  const stats = window.__tracker.stats();
+  
+  document.getElementById('totalVisits').textContent = stats.totalVisits;
+  document.getElementById('avgTime').textContent = fmtDuration(stats.avgTime);
+  
+  const today = new Date().toISOString().split('T')[0];
+  const todayCount = stats.lastVisits.filter(v => new Date(v.start).toISOString().split('T')[0] === today).length;
+  document.getElementById('todayVisits').textContent = todayCount;
+
+  window.__tracker.globalStats(function(global){
+    if(global){
+      document.getElementById('globalVisits').textContent = global.totalVisits;
+    }
+  });
+
+  const maxPage = stats.topPages.length ? stats.topPages[0][1] : 1;
+  document.getElementById('topPages').innerHTML = stats.topPages.map(([page, count]) =>
+    '<tr><td>'+page+'</td><td>'+count+'</td><td><div class="bar"><div class="bar-fill" style="width:'+(count/maxPage*100)+'%"></div></div></td></tr>'
+  ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center">Aucune donnée</td></tr>';
+
+  const maxClick = stats.topClicks.length ? stats.topClicks[0][1] : 1;
+  document.getElementById('topClicks').innerHTML = stats.topClicks.map(([label, count]) =>
+    '<tr><td>'+label+'</td><td>'+count+'</td><td><div class="bar"><div class="bar-fill" style="width:'+(count/maxClick*100)+'%"></div></div></td></tr>'
+  ).join('') || '<tr><td colspan="3" style="color:var(--muted);text-align:center">Aucun clic</td></tr>';
+
+  document.getElementById('lastVisits').innerHTML = stats.lastVisits.slice(0,50).map(v =>
+    '<tr><td>'+fmtDate(v.start)+'</td><td>'+v.page+'</td><td style="color:var(--muted);font-size:.8em">'+(v.referrer||'-')+'</td><td>'+(v.duration>0?fmtDuration(v.duration):'<span style="color:var(--muted)">en cours</span>')+'</td></tr>'
+  ).join('') || '<tr><td colspan="4" style="color:var(--muted);text-align:center">Aucune visite</td></tr>';
+
+  document.getElementById('lastUpdate').textContent = 'Mis à jour : ' + new Date().toLocaleTimeString('fr-FR');
+}
+
+function showConfig(){
+  document.getElementById('configModal').style.display = 'flex';
+  document.getElementById('tokenInput').value = window.__tracker.getToken() || '';
+  document.getElementById('tokenStatus').textContent = window.__tracker.hasToken() ? '✅ Token présent' : '⚠️ Aucun token';
+}
+function closeConfig(){ document.getElementById('configModal').style.display = 'none'; }
+function saveToken(){
+  const t = document.getElementById('tokenInput').value.trim();
+  if(!t){ document.getElementById('tokenStatus').textContent = '❌ Token vide'; return; }
+  window.__tracker.setToken(t);
+  document.getElementById('tokenStatus').textContent = '✅ Token enregistré !';
+}
+function removeToken(){
+  window.__tracker.removeToken();
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('tokenStatus').textContent = '🗑️ Token effacé';
+}
+
+function exportJSON(){
+  const blob = new Blob([window.__tracker.exportJSON()], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ucfzemtech-data.json';
+  a.click();
+}
+
+function exportCSV(){
+  const blob = new Blob([window.__tracker.exportCSV()], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ucfzemtech-data.csv';
+  a.click();
+}
+
+setTimeout(render, 400);
+setInterval(function(){
+  if(window.__tracker) render();
+}, 5000);
+</script>
+
+</body>
+</html>
