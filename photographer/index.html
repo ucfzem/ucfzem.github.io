@@ -1015,7 +1015,7 @@
       </div>
     </div>
     <div>
-      <form class="contact-form" id="contactForm" novalidate>
+      <form class="contact-form" id="contactForm" action="https://formsubmit.co/ajax/hassanzem62@gmail.com" method="POST" novalidate>
         <div class="form-row">
           <div class="field-group">
             <label class="field-label" for="nom" data-i18n="formNom">Nom</label>
@@ -1355,8 +1355,32 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     alert(translations[currentLang].formAlert);
     return;
   }
-  this.style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
+
+  const btn = this.querySelector('.btn-submit');
+  btn.textContent = '⏳';
+  btn.disabled = true;
+
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      this.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    } else {
+      alert('Error — please try again or email me directly.');
+      btn.textContent = translations[currentLang].formSubmit;
+      btn.disabled = false;
+    }
+  })
+  .catch(() => {
+    alert('Error — please try again or email me directly at hassanzem62@gmail.com');
+    btn.textContent = translations[currentLang].formSubmit;
+    btn.disabled = false;
+  });
 });
 
 const observer = new IntersectionObserver(entries => {
