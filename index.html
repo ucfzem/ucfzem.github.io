@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UcfZem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d0d0d; --gold: #c9a84c; --text: #e8e0d0; --muted: #8a7a5a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            margin: 0 auto 24px;
+            object-fit: cover;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        p {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: rgba(201,168,76,0.07);
+        }
+        .link:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201,168,76,0.2);
+        }
+        .link.primary {
+            background: linear-gradient(135deg, #c9a84c, #f0c866);
+            color: #0d0d0d;
+            font-weight: 700;
+            border: none;
+        }
+        .link.primary:hover {
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/avatar.png" alt="Avatar" class="avatar" onerror="this.style.display='none'">
+        <h1>UcfZem</h1>
+        <p>Web developer & creative coder</p>
+        <div class="links">
+            <a href="works/" class="link primary">🌳 My Works</a>
+            <a href="chat-socketio/public/" class="link">💬 UzChat</a>
+        </div>
+    </div>
+</body>
+</html>

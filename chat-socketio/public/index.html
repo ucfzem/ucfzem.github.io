@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>UzChat</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Chat en temps réel">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="UzChat">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="icon-96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --chat-bg: white;
+            --sidebar-bg: #f8f9fa;
+            --sidebar-border: #dee2e6;
+            --messages-bg: #fafafa;
+            --bubble-own: #0d6efd;
+            --bubble-own-text: white;
+            --bubble-other: #e9ecef;
+            --bubble-other-text: #212529;
+            --text: #212529;
+            --text-muted: #6c757d;
+            --input-bg: white;
+            --input-border: #dee2e6;
+        }
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --chat-bg: #1e1e2e;
+            --sidebar-bg: #2a2a3e;
+            --sidebar-border: #3a3a4e;
+            --messages-bg: #1a1a2a;
+            --bubble-own: #4a6cf7;
+            --bubble-own-text: white;
+            --bubble-other: #2a2a3e;
+            --bubble-other-text: #e0e0e0;
+            --text: #e0e0e0;
+            --text-muted: #8888aa;
+            --input-bg: #2a2a3e;
+            --input-border: #3a3a4e;
+        }
+        * { box-sizing: border-box; }
+        body { background: var(--bg-gradient); height: 100vh; height: 100dvh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; }
+        .chat-container { height: 100vh; height: 100dvh; background: var(--chat-bg); overflow: hidden; display: flex; flex-direction: column; }
+        .chat-header { display: flex; align-items: center; padding: 10px 15px; background: var(--sidebar-bg); border-bottom: 1px solid var(--sidebar-border); gap: 10px; min-height: 50px; }
+        .chat-header h5 { margin: 0; font-size: 1rem; color: var(--text); flex: 1; }
+        .chat-body { display: flex; flex: 1; overflow: hidden; }
+        .sidebar { background: var(--sidebar-bg); border-right: 1px solid var(--sidebar-border); width: 250px; overflow-y: auto; color: var(--text); padding: 15px; flex-shrink: 0; }
+        .messages-area { flex: 1; overflow-y: auto; padding: 20px; background: var(--messages-bg); }
+        .message { margin-bottom: 15px; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .message-own { text-align: right; }
+        .message-bubble { display: inline-block; padding: 10px 15px; border-radius: 18px; max-width: 70%; word-wrap: break-word; }
+        .message-own .message-bubble { background: var(--bubble-own); color: var(--bubble-own-text); }
+        .message-other .message-bubble { background: var(--bubble-other); color: var(--bubble-other-text); }
+        .message-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+        .msg-avatar { font-size: 1.1rem; }
+        .msg-username { font-weight: bold; font-size: 0.85rem; }
+        .message-text { line-height: 1.4; }
+        .message-footer { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+        .reactions { display: flex; gap: 4px; flex-wrap: wrap; }
+        .reaction-btn { background: none; border: none; cursor: pointer; font-size: 0.8rem; padding: 2px 4px; border-radius: 10px; transition: background 0.2s; }
+        .reaction-btn:hover { background: rgba(0,0,0,0.1); }
+        .reaction-badge { background: rgba(0,0,0,0.08); border-radius: 10px; padding: 2px 6px; font-size: 0.75rem; }
+        .system-message { text-align: center; color: var(--text-muted); font-size: 0.9rem; margin: 10px 0; font-style: italic; }
+        .user-item { padding: 10px; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: background 0.2s; }
+        .user-item:hover { background: rgba(0,0,0,0.05); }
+        .user-avatar { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; position: relative; flex-shrink: 0; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; position: absolute; bottom: -2px; right: -2px; border: 2px solid var(--sidebar-bg); }
+        .status-active { background: #198754; }
+        .status-away { background: #ffc107; }
+        .input-area { background: var(--input-bg); border-top: 1px solid var(--input-border); padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
+        #typingIndicator { font-size: 0.8rem; color: var(--text-muted); font-style: italic; padding: 4px 15px; background: var(--messages-bg); min-height: 0; }
+        .room-tabs { display: flex; gap: 4px; padding: 8px 12px; background: var(--sidebar-bg); border-bottom: 1px solid var(--sidebar-border); overflow-x: auto; flex-shrink: 0; }
+        .room-tab { padding: 6px 14px; border: 1px solid var(--sidebar-border); border-radius: 20px; background: transparent; color: var(--text); cursor: pointer; font-size: 0.8rem; white-space: nowrap; transition: all 0.2s; }
+        .room-tab.active { background: var(--bubble-own); color: white; border-color: var(--bubble-own); }
+        .room-tab:hover:not(.active) { background: rgba(0,0,0,0.05); }
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-card { background: var(--chat-bg); padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; color: var(--text); }
+        .timestamp { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+        #emojiPicker { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 10px 0; max-height: 80px; overflow-y: auto; }
+        .emoji-btn { background: none; border: 2px solid transparent; cursor: pointer; font-size: 1.3rem; padding: 3px; border-radius: 8px; transition: all 0.2s; }
+        .emoji-btn:hover { background: rgba(0,0,0,0.05); }
+        .emoji-btn.selected { border-color: var(--bubble-own); background: rgba(13,110,253,0.1); }
+        .toolbar { display: flex; gap: 4px; align-items: center; }
+        .toolbar button { background: none; border: 1px solid var(--sidebar-border); border-radius: 8px; padding: 5px 8px; cursor: pointer; color: var(--text); font-size: 0.9rem; transition: all 0.2s; }
+        .toolbar button:hover { background: rgba(0,0,0,0.05); }
+        .dm-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001; align-items: center; justify-content: center; }
+        .dm-modal { background: var(--chat-bg); border-radius: 15px; width: 90%; max-width: 500px; height: 70vh; display: flex; flex-direction: column; overflow: hidden; }
+        .dm-header { padding: 15px; border-bottom: 1px solid var(--sidebar-border); display: flex; justify-content: space-between; align-items: center; color: var(--text); }
+        .dm-header button { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text); }
+        .dm-messages { flex: 1; overflow-y: auto; padding: 15px; }
+        .dm-message { margin-bottom: 10px; display: flex; gap: 8px; align-items: flex-start; }
+        .dm-own { flex-direction: row-reverse; text-align: right; }
+        .dm-avatar { font-size: 1.5rem; }
+        .dm-input-area { padding: 10px; border-top: 1px solid var(--sidebar-border); display: flex; gap: 8px; }
+        .dm-input-area input { flex: 1; }
+
+        /* Install Banner */
+        .install-banner { display: none; background: var(--bubble-own); color: white; padding: 12px 15px; text-align: center; font-size: 0.9rem; cursor: pointer; animation: slideDown 0.3s ease; }
+        .install-banner.show { display: flex; align-items: center; justify-content: center; gap: 10px; }
+        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+        .install-banner button { background: white; color: var(--bubble-own); border: none; padding: 6px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.2rem; cursor: pointer; padding: 4px; }
+        .sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 99; }
+
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; top: 0; left: -260px; height: 100%; z-index: 100; transition: left 0.3s ease; width: 260px; }
+            .sidebar.open { left: 0; }
+            .sidebar-toggle { display: block; }
+            .sidebar-backdrop.show { display: block; }
+            .chat-header { padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="install-banner" id="installBanner">
+        <i class="bi bi-phone"></i>
+        <span>Installez UzChat sur votre téléphone</span>
+        <button id="installBtn">Installer</button>
+        <i class="bi bi-x-lg" id="installClose" style="cursor:pointer;margin-left:5px"></i>
+    </div>
+
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <h2 class="mb-3"><i class="bi bi-chat-dots-fill text-primary"></i> UzChat</h2>
+            <p class="text-muted mb-3">Choisissez un avatar et un pseudo</p>
+            <div id="emojiPicker" class="mb-3"></div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control form-control-lg" id="usernameInput" placeholder="Votre pseudo" maxlength="20" autocomplete="off">
+            </div>
+            <button class="btn btn-primary btn-lg w-100" id="joinBtn"><i class="bi bi-box-arrow-in-right"></i> Rejoindre</button>
+        </div>
+    </div>
+
+    <div class="dm-overlay" id="dmModal">
+        <div class="dm-modal">
+            <div class="dm-header">
+                <h5 id="dmTitle">DM</h5>
+                <button id="dmClose"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="dm-messages" id="dmMessages"></div>
+            <form id="dmForm" class="dm-input-area">
+                <input type="text" class="form-control" id="dmInput" placeholder="Message privé..." autocomplete="off">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <div class="chat-header">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+            <h5><i class="bi bi-chat-dots-fill text-primary"></i> UzChat</h5>
+            <div class="toolbar">
+                <button id="soundToggle" title="Son"><i class="bi bi-volume-up"></i></button>
+                <button id="darkToggle" title="Dark Mode"><i class="bi bi-moon"></i></button>
+            </div>
+        </div>
+
+        <div class="chat-body">
+            <div class="sidebar" id="sidebar">
+                <h6 class="mb-2"><i class="bi bi-people-fill"></i> Connectés</h6>
+                <div id="userCount" class="text-muted small mb-2">0 utilisateur</div>
+                <div id="usersList"></div>
+            </div>
+
+            <div class="d-flex flex-column" style="flex:1;min-width:0">
+                <div class="room-tabs" id="roomTabs"></div>
+                <div class="messages-area" id="messagesArea">
+                    <div class="text-center text-muted mt-5">
+                        <i class="bi bi-chat-square-text display-1"></i>
+                        <p class="mt-3">Bienvenue dans le chat ! Envoyez votre premier message.</p>
+                    </div>
+                </div>
+                <div id="typingIndicator" style="display:none"></div>
+                <div class="input-area">
+                    <form id="messageForm" class="d-flex gap-2" style="flex:1">
+                        <input type="text" class="form-control" id="messageInput" placeholder="Écrivez un message..." autocomplete="off" disabled>
+                        <button type="submit" class="btn btn-primary" disabled id="sendBtn"><i class="bi bi-send-fill"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('SW registered');
+            }).catch(err => console.log('SW error:', err));
+        }
+    </script>
+</body>
+</html>
