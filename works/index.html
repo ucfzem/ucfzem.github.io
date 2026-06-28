@@ -64,10 +64,16 @@
     overflow-x: hidden;
   }
   .container {
-    max-width: 480px;
+    width: 100%;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 20px 16px 40px;
     position: relative;
+  }
+
+  .main-grid {
+    max-width: 640px;
+    margin: 0 auto;
   }
 
 
@@ -388,10 +394,72 @@
 
 
   @media (max-width: 480px) {
-    .container { padding: 16px 16px 32px; }
-    .title { font-size: 1.7rem; }
-    .card { padding: 12px 14px; }
+    .container { padding: 12px 12px 32px; }
+    .title { font-size: 1.6rem; }
+    .card { padding: 12px 14px; gap: 10px; }
     .unlock-block { padding: 20px 16px; }
+    .avatar { width: 64px; height: 64px; }
+    .avatar-fallback { width: 64px; height: 64px; font-size: 1.2rem; }
+    .main-grid { max-width: 100%; }
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    .container { padding: 20px 24px 40px; }
+    .main-grid { max-width: 480px; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container { padding: 28px 32px 48px; }
+    .main-grid { max-width: 600px; }
+    .title { font-size: 2.4rem; }
+    .avatar { width: 96px; height: 96px; }
+    .avatar-fallback { width: 96px; height: 96px; font-size: 1.8rem; }
+    .header { margin-bottom: 40px; }
+    .card { padding: 16px 20px; gap: 14px; }
+    .unlock-block { padding: 32px; }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    .container { padding: 32px 48px 56px; }
+    .main-grid { max-width: 640px; }
+    .title { font-size: 2.6rem; }
+    .avatar { width: 100px; height: 100px; }
+    .avatar-fallback { width: 100px; height: 100px; font-size: 2rem; }
+    .header { margin-bottom: 44px; }
+    .card { padding: 18px 22px; gap: 16px; }
+    .card:hover { transform: translateX(4px); }
+    .unlock-block { padding: 36px 40px; }
+  }
+
+  @media (min-width: 1440px) {
+    .container { padding: 40px 64px 64px; }
+    .main-grid { max-width: 720px; }
+    .title { font-size: 3rem; }
+    .subtitle { font-size: 1rem; }
+    .avatar { width: 120px; height: 120px; border-width: 3px; }
+    .avatar-fallback { width: 120px; height: 120px; font-size: 2.4rem; border-width: 3px; }
+    .header { margin-bottom: 52px; }
+    .section-title { font-size: 1.3rem; }
+    .card { padding: 20px 24px; gap: 18px; border-radius: 14px; }
+    .card:hover { transform: translateX(6px); box-shadow: 0 0 25px rgba(201,168,76,0.2); }
+    .card-name { font-size: 1.1rem; }
+    .unlock-block { padding: 40px 48px; border-radius: 20px; }
+    .divider { margin: 36px 0; }
+  }
+
+  @media (min-width: 1920px) {
+    .container { padding: 48px 80px 80px; }
+    .main-grid { max-width: 900px; }
+    .title { font-size: 3.4rem; }
+    .avatar { width: 140px; height: 140px; }
+    .avatar-fallback { width: 140px; height: 140px; font-size: 2.8rem; }
+    .header { margin-bottom: 60px; }
+    .card { padding: 22px 28px; gap: 20px; border-radius: 16px; }
+    .card-name { font-size: 1.2rem; }
+    .unlock-block { padding: 48px 56px; }
+    .divider { margin: 40px 0; }
+    .toast { font-size: 1rem; padding: 16px 24px; }
+    #publicProjects, #lockedProjects { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   }
 </style>
 <script type="application/ld+json">
@@ -425,6 +493,7 @@
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
   </div>
 
+  <div class="main-grid">
 
   <div class="header">
     <img src="https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/avatar.png" alt="Avatar" class="avatar" id="avatarImg" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
@@ -463,6 +532,8 @@
 
   <h2 class="section-title">Projets verrouillés</h2>
   <div class="locked" id="lockedProjects"></div>
+
+  </div>
 </div>
 
 
