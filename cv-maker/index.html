@@ -1475,14 +1475,13 @@ async function downloadPDF(quality) {
   const wrapper = document.createElement('div');
   wrapper.style.cssText = [
     'position:absolute',
-    'top:0',
-    'left:0',
+    'top:-9999px',
+    'left:-9999px',
     'width:794px',
     'height:1123px',
     'overflow:hidden',
     'background:#ffffff',
-    'z-index:9999',
-    'opacity:0.01',
+    'opacity:1',
     'pointer-events:none'
   ].join(';');
 
