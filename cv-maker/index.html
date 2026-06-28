@@ -1434,11 +1434,10 @@ function closeDownloadModal() {
 }
 document.getElementById('downloadBtn').addEventListener('click', showDownloadModal);
 
-function downloadPDF(quality) {
+async function downloadPDF(quality) {
   closeDownloadModal();
   
   const previewContent = document.getElementById('a4Content');
-  
   if (!previewContent || !previewContent.innerHTML.trim() || previewContent.querySelector('.a4-empty')) {
     showToast('⚠️ ' + t('empty_state'));
     return;
@@ -1449,68 +1448,50 @@ function downloadPDF(quality) {
   const p = cvData.personal || {};
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : t('pdf_name')) + '.pdf';
 
-  const workerElement = document.createElement('div');
-  workerElement.style.position = 'absolute';
-  workerElement.style.top = '0';
-  workerElement.style.left = '0';
-  workerElement.style.zIndex = '-9999';
-  workerElement.style.opacity = '0.99';
+  await document.fonts.ready;
 
-  const a4Box = document.createElement('div');
-  a4Box.style.width = '794px';
-  a4Box.style.height = '1123px';
-  a4Box.style.background = '#ffffff';
-  a4Box.style.color = '#1a1a1a';
-  a4Box.style.boxSizing = 'border-box';
-  a4Box.style.overflow = 'hidden';
-  a4Box.innerHTML = previewContent.innerHTML;
-  workerElement.appendChild(a4Box);
+  const workerElement = document.createElement('div');
+  workerElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:794px;min-height:1123px;background:#ffffff;color:#1a1a1a;box-sizing:border-box;opacity:1;';
+  workerElement.innerHTML = previewContent.innerHTML;
   document.body.appendChild(workerElement);
 
-  const mainFlexContainer = a4Box.querySelector('div[style*="display:flex"]');
-  if (mainFlexContainer) {
-    mainFlexContainer.style.width = '100%';
-    mainFlexContainer.style.height = '1123px';
-    mainFlexContainer.style.minHeight = '1123px';
-    Array.from(mainFlexContainer.children).forEach(child => {
-      child.style.height = '1123px';
-      child.style.boxSizing = 'border-box';
-    });
-  }
+  const scaleMap = { high: 3, medium: 2, low: 1 };
+  const scale = scaleMap[quality] || 2;
 
-  setTimeout(() => {
-    const scaleMap = { high: 2.5, medium: 2, low: 1 };
-    const scale = scaleMap[quality] || 2;
+  const opt = {
+    margin: 0,
+    filename: fileName,
+    image: { type: 'jpeg', quality: quality === 'high' ? 0.98 : quality === 'medium' ? 0.85 : 0.7 },
+    html2canvas: {
+      scale,
+      useCORS: true,
+      allowTaint: true,
+      letterRendering: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: 794,
+      windowWidth: 794,
+      height: 1123,
+      windowHeight: 1123,
+      scrollX: 0,
+      scrollY: 0
+    },
+    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+  };
 
-    const opt = {
-      margin: 0,
-      filename: fileName,
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: {
-        scale: scale,
-        useCORS: true,
-        letterRendering: false,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: 794,
-        height: 1123,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: 794,
-        windowHeight: 1123
-      },
-      jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(a4Box).save().then(() => {
-      document.body.removeChild(workerElement);
-      showToast('✅ PDF ' + t('saved'));
-    }).catch(err => {
-      console.error('PDF error:', err);
-      if (workerElement.parentNode) document.body.removeChild(workerElement);
-      showToast('❌ ' + t('pdf_error'));
-    });
-  }, 250);
+  html2pdf().set(opt).from(workerElement).toPdf().get('pdf').then((pdf) => {
+    const totalPages = pdf.internal.getNumberOfPages();
+    if (totalPages > 1 && cvData.experiences.length <= 2) {
+      pdf.deletePage(totalPages);
+    }
+  }).save().then(() => {
+    document.body.removeChild(workerElement);
+    showToast('✅ PDF ' + t('saved'));
+  }).catch(err => {
+    console.error('PDF error:', err);
+    if (workerElement.parentNode) document.body.removeChild(workerElement);
+    showToast('❌ ' + t('pdf_error'));
+  });
 }
 
 // Toast
