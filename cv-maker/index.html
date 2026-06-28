@@ -1456,24 +1456,22 @@ async function triggerPrint() {
 
   showToast('⏳ ' + t('generating'));
 
-  const rightPanel = document.getElementById('rightPanel');
-  const a4Preview = document.getElementById('a4Preview');
   const a4Content = document.getElementById('a4Content');
+  const previewContainer = document.querySelector('.preview-container');
+  const a4Preview = document.getElementById('a4Preview');
 
-  const prevRight = rightPanel.style.cssText;
-  const prevPreview = a4Preview.style.cssText;
+  const savedTransform = a4Preview.style.transform || '';
+  const savedWidth = a4Preview.style.width || '';
 
-  rightPanel.style.cssText = 'display:flex;position:fixed;inset:0;z-index:9999;background:white;padding:0;overflow:visible;align-items:flex-start;justify-content:center;';
-  a4Preview.style.cssText = 'width:794px;min-height:1123px;box-shadow:none;border-radius:0;transform-origin:top left;';
-
-  const screenW = window.innerWidth;
-  const scale = screenW / 794;
-  a4Preview.style.transform = `scale(${scale})`;
+  a4Preview.style.transform = 'none';
   a4Preview.style.width = '794px';
+  a4Preview.style.position = 'absolute';
+  a4Preview.style.left = '-9999px';
+  a4Preview.style.top = '0';
+  document.body.appendChild(a4Preview);
 
-  await new Promise(r => setTimeout(r, 400));
   await document.fonts.ready;
-  await new Promise(r => setTimeout(r, 400));
+  await new Promise(r => setTimeout(r, 600));
 
   try {
     const canvas = await html2canvas(a4Content, {
@@ -1486,10 +1484,18 @@ async function triggerPrint() {
       height: 1123,
       windowWidth: 794,
       windowHeight: 1123,
+      x: 0,
+      y: 0,
+      scrollX: 0,
+      scrollY: 0
     });
 
-    rightPanel.style.cssText = prevRight;
-    a4Preview.style.cssText = prevPreview;
+    a4Preview.style.transform = savedTransform;
+    a4Preview.style.width = savedWidth;
+    a4Preview.style.position = '';
+    a4Preview.style.left = '';
+    a4Preview.style.top = '';
+    previewContainer.appendChild(a4Preview);
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
@@ -1522,11 +1528,15 @@ async function triggerPrint() {
 </body>
 </html>`);
     newTab.document.close();
-
     showToast('✅ PDF ' + t('saved'));
+
   } catch(err) {
-    rightPanel.style.cssText = prevRight;
-    a4Preview.style.cssText = prevPreview;
+    a4Preview.style.transform = savedTransform;
+    a4Preview.style.width = savedWidth;
+    a4Preview.style.position = '';
+    a4Preview.style.left = '';
+    a4Preview.style.top = '';
+    previewContainer.appendChild(a4Preview);
     console.error('PDF error:', err);
     showToast('❌ ' + t('pdf_error'));
   }
