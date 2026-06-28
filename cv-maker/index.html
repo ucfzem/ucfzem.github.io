@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CV-Maker — Créez votre CV professionnel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   
 <style>
 :root {
@@ -1448,38 +1450,61 @@ function fillDemo() {
 document.getElementById('demoBtn').addEventListener('click', fillDemo);
 
 // Download PDF
-function triggerPrint() {
+async function triggerPrint() {
   const p = cvData.personal || {};
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g,'_') : 'CV') + '.pdf';
 
-  const contentHTML = document.getElementById('a4Content').innerHTML;
+  showToast('⏳ ' + t('generating'));
 
-  const fullHTML = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>${fileName}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    @page { size: A4 portrait; margin: 0; }
-    * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    body { width:210mm; background:#fff; }
-  </style>
-</head>
-<body>${contentHTML}</body>
-</html>`;
+  const rightPanel = document.getElementById('rightPanel');
+  const a4Preview = document.getElementById('a4Preview');
+  const a4Content = document.getElementById('a4Content');
 
-  const win = window.open('', '_blank', 'width=900,height=700');
-  win.document.open();
-  win.document.write(fullHTML);
-  win.document.close();
+  const prevRight = rightPanel.style.cssText;
+  const prevPreview = a4Preview.style.cssText;
 
-  win.onload = () => {
-    setTimeout(() => {
-      win.focus();
-      win.print();
-    }, 1200);
-  };
+  rightPanel.style.cssText = 'display:flex;position:fixed;inset:0;z-index:9999;background:white;padding:0;overflow:visible;align-items:flex-start;justify-content:center;';
+  a4Preview.style.cssText = 'width:794px;min-height:1123px;box-shadow:none;border-radius:0;transform-origin:top left;';
+
+  const screenW = window.innerWidth;
+  const scale = screenW / 794;
+  a4Preview.style.transform = `scale(${scale})`;
+  a4Preview.style.width = '794px';
+
+  await new Promise(r => setTimeout(r, 400));
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 400));
+
+  try {
+    const canvas = await html2canvas(a4Content, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: 794,
+      height: 1123,
+      windowWidth: 794,
+      windowHeight: 1123,
+    });
+
+    rightPanel.style.cssText = prevRight;
+    a4Preview.style.cssText = prevPreview;
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit:'px', format:[794,1123], orientation:'portrait' });
+    pdf.addImage(imgData, 'JPEG', 0, 0, 794, 1123);
+    pdf.save(fileName);
+
+    showToast('✅ PDF ' + t('saved'));
+  } catch(err) {
+    rightPanel.style.cssText = prevRight;
+    a4Preview.style.cssText = prevPreview;
+    console.error('PDF error:', err);
+    showToast('❌ ' + t('pdf_error'));
+  }
 }
 
 function showDownloadModal() {
