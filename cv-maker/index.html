@@ -712,6 +712,8 @@ const I18N = {
     empty_state: 'Remplissez vos informations',
     pdf_name: 'CV-Maker',
     auto_saved: '✓ Auto-sauvegardé',
+    generating: 'Génération du PDF...',
+    pdf_error: 'Échec de la génération du PDF.',
     demo_title: 'Développeur Full Stack',
     demo_company: 'TechCorp',
     demo_position: 'Développeur Full Stack Senior',
@@ -747,6 +749,8 @@ const I18N = {
     empty_state: 'Fill in your details',
     pdf_name: 'CV-Maker',
     auto_saved: '✓ Auto-saved',
+    generating: 'Generating PDF...',
+    pdf_error: 'PDF generation failed.',
     demo_title: 'Full Stack Developer',
     demo_company: 'TechCorp',
     demo_position: 'Senior Full Stack Developer',
@@ -782,6 +786,8 @@ const I18N = {
     empty_state: 'Rellena tus datos',
     pdf_name: 'CV-Maker',
     auto_saved: '✓ Auto-guardado',
+    generating: 'Generando PDF...',
+    pdf_error: 'Error al generar el PDF.',
     demo_title: 'Desarrollador Full Stack',
     demo_company: 'TechCorp',
     demo_position: 'Desarrollador Full Stack Senior',
@@ -817,6 +823,8 @@ const I18N = {
     empty_state: 'املأ معلوماتك',
     pdf_name: 'السيرة الذاتية',
     auto_saved: '✓ تم الحفظ تلقائياً',
+    generating: 'جاري إنشاء PDF...',
+    pdf_error: 'فشل إنشاء PDF.',
     demo_title: 'مطور Full Stack',
     demo_company: 'TechCorp',
     demo_position: 'مطور Full Stack أول',
@@ -1428,29 +1436,70 @@ document.getElementById('downloadBtn').addEventListener('click', showDownloadMod
 
 function downloadPDF(quality) {
   closeDownloadModal();
-  const preview = document.getElementById('a4Content');
-  if (!preview.innerHTML.trim() || preview.querySelector('.a4-empty')) {
+  
+  const previewContainer = document.getElementById('a4Preview');
+  const previewContent = document.getElementById('a4Content');
+  
+  if (!previewContent.innerHTML.trim() || previewContent.querySelector('.a4-empty')) {
     showToast('⚠️ ' + t('empty_state'));
     return;
   }
+
+  showToast('⏳ ' + t('generating'));
+
+  const originalParams = {
+    position: previewContainer.style.position,
+    width: previewContainer.style.width,
+    height: previewContainer.style.height,
+    zIndex: previewContainer.style.zIndex,
+    background: previewContainer.style.background
+  };
+
+  previewContainer.style.position = 'fixed';
+  previewContainer.style.top = '0';
+  previewContainer.style.left = '0';
+  previewContainer.style.width = '794px';
+  previewContainer.style.height = '1123px';
+  previewContainer.style.zIndex = '99999';
+  previewContainer.style.background = '#ffffff';
+
   const scaleMap = { high: 3, medium: 2, low: 1 };
   const scale = scaleMap[quality] || 2;
-  const el = document.createElement('div');
-  // Création d'un conteneur hors écran à échelle 1:1 absolue
-  el.style.cssText = 'width:800px;min-height:1120px;padding:0;margin:0;background:white;position:absolute;top:-9999px;left:-9999px;';
-  el.innerHTML = preview.innerHTML;
-  document.body.appendChild(el);
-  
+
   const opt = {
-    margin: [10,10,10,10],
-    filename: t('pdf_name') + '.pdf',
-    image: { type: 'jpeg', quality: quality === 'high' ? 1 : quality === 'medium' ? 0.8 : 0.5 },
-    html2canvas: { scale: scale, useCORS: true, letterRendering: true, logging: false },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    margin: 0,
+    filename: (cvData.personal?.fullName ? cvData.personal.fullName.replace(/\s+/g, '_') : t('pdf_name')) + '.pdf',
+    image: { type: 'jpeg', quality: quality === 'high' ? 0.98 : quality === 'medium' ? 0.85 : 0.6 },
+    html2canvas: {
+      scale: scale,
+      useCORS: true,
+      letterRendering: true,
+      scrollX: 0,
+      scrollY: 0,
+      logging: false
+    },
+    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
   };
-  html2pdf().set(opt).from(el).save().then(() => {
-    document.body.removeChild(el);
+
+  html2pdf().set(opt).from(previewContainer).save().then(() => {
+    previewContainer.style.position = originalParams.position;
+    previewContainer.style.top = '';
+    previewContainer.style.left = '';
+    previewContainer.style.width = originalParams.width;
+    previewContainer.style.height = originalParams.height;
+    previewContainer.style.zIndex = originalParams.zIndex;
+    previewContainer.style.background = originalParams.background;
     showToast('✅ PDF ' + t('saved'));
+  }).catch(err => {
+    console.error('PDF error:', err);
+    previewContainer.style.position = originalParams.position;
+    previewContainer.style.top = '';
+    previewContainer.style.left = '';
+    previewContainer.style.width = originalParams.width;
+    previewContainer.style.height = originalParams.height;
+    previewContainer.style.zIndex = originalParams.zIndex;
+    previewContainer.style.background = originalParams.background;
+    showToast('❌ ' + t('pdf_error'));
   });
 }
 
