@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pristine — Professional Image Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --bg:         #1a1410;
+  --surface:    #241c15;
+  --card:       #2d2219;
+  --border:     #3d2e1e;
+  --border2:    #4a3826;
+  --muted:      #332518;
+  --text:       #f5f0e8;
+  --dim:        #8a7a6a;
+  --dim2:       #b8a58e;
+
+  --gold:       #c8963e;
+  --gold-light: #d4a84b;
+  --gold-dim:   rgba(200,150,62,0.15);
+  --gold-glow:  rgba(200,150,62,0.08);
+
+  --green:      #4ade80;
+  --blue:       #60a5fa;
+  --red:        #f87171;
+  --yellow:     #d4a830;
+  --purple:     #a78bfa;
+
+  --py:         #3b82f6;
+  --hf:         #4ade80;
+  --java:       #f59e0b;
+
+  --font-display: 'Cinzel', serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --radius:  10px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ─── NAV ────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 56px;
+  background: rgba(26,20,16,0.88);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.nav-logo sub {
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 1px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+.nav-sep { flex: 1; }
+.nav-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+.nav-tab {
+  padding: 5px 14px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--dim2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  letter-spacing: 0.3px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-tab.active { background: var(--gold); color: #1a1410; }
+.nav-tab:hover:not(.active) { color: var(--text); background: var(--muted); }
+
+/* ─── HERO ───────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 72px 24px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse at center, rgba(200,150,62,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero h1 span { color: var(--gold-light); }
+.hero p {
+  color: var(--dim2);
+  font-size: 15px;
+  max-width: 480px;
+  margin: 0 auto 32px;
+  font-weight: 300;
+}
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  padding: 10px 24px;
+  background: var(--gold);
+  color: #1a1410;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.15s;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-secondary {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--dim2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { color: var(--text); border-color: var(--gold); }
+
+/* ─── PAGES ──────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── EDITOR PAGE ────────────────────────────────────── */
+.editor-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr 240px;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+/* LEFT PANEL */
+.panel-left {
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.panel-section {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+/* Upload zone */
+.upload-zone {
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--gold);
+  background: var(--gold-glow);
+}
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.upload-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+.upload-zone p { font-size: 12px; color: var(--dim2); line-height: 1.5; }
+.upload-zone strong { color: var(--gold-light); display: block; font-size: 13px; margin-bottom: 4px; }
+
+/* Tool categories */
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.tool-btn {
+  padding: 8px 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--dim2);
+  font-size: 11px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.tool-btn .tool-icon { font-size: 16px; }
+.tool-btn:hover { border-color: var(--gold); color: var(--gold-light); background: var(--gold-glow); }
+.tool-btn.active { border-color: var(--gold); color: var(--gold-light); background: var(--gold-dim); }
+
+.ai-badge {
+  font-size: 9px;
+  background: rgba(74,222,128,0.15);
+  color: var(--green);
+  border: 1px solid rgba(74,222,128,0.2);
+  border-radius: 3px;
+  padding: 0 4px;
+  letter-spacing: 0.5px;
+}
+
+/* API status */
+.api-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.api-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+}
+.api-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--border2);
+}
+.api-dot.connected { background: var(--green); box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+.api-dot.error { background: var(--red); }
+.api-name { color: var(--dim2); flex: 1; }
+.api-config-btn {
+  font-size: 10px;
+  color: var(--gold);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  padding: 0;
+}
+
+/* CENTER CANVAS */
+.canvas-area {
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.canvas-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.toolbar-btn {
+  padding: 5px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--dim2);
+  font-size: 11px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.toolbar-btn:hover { color: var(--text); border-color: var(--border2); }
+.toolbar-sep { width: 1px; height: 20px; background: var(--border); }
+.zoom-display {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--dim);
+  margin-left: auto;
+}
+.canvas-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 24px;
+  position: relative;
+}
+.canvas-placeholder {
+  text-align: center;
+  pointer-events: none;
+}
+.canvas-placeholder .icon { font-size: 48px; opacity: 0.2; margin-bottom: 12px; }
+.canvas-placeholder p { color: var(--dim); font-size: 13px; }
+.canvas-placeholder strong { color: var(--dim2); }
+
+#mainCanvas {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  display: none;
+}
+
+/* Processing overlay */
+.processing-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,20,16,0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 50;
+  backdrop-filter: blur(4px);
+}
+.processing-overlay.active { display: flex; }
+.spinner {
+  width: 40px; height: 40px;
+  border: 2px solid var(--border2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.processing-overlay p { color: var(--dim2); font-size: 13px; }
+.processing-overlay strong { color: var(--gold-light); font-size: 15px; display: block; margin-bottom: 4px; }
+
+/* RIGHT PANEL */
+.panel-right {
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Sliders */
+.slider-group { display: flex; flex-direction: column; gap: 10px; }
+.slider-row { display: flex; flex-direction: column; gap: 4px; }
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--dim2);
+}
+.slider-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gold-light);
+}
+input[type="range"] {
+  width: 100%;
+  height: 3px;
+  appearance: none;
+  background: var(--muted);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* Select */
+select {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 7px 10px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7a6a'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+select:focus { border-color: var(--gold); }
+
+/* Text input */
+.text-input {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 7px 10px;
+  outline: none;
+}
+.text-input:focus { border-color: var(--gold); }
+
+/* Apply btn */
+.apply-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--gold);
+  color: #1a1410;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.15s;
+  margin-top: 4px;
+}
+.apply-btn:hover { background: var(--gold-light); }
+.apply-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Download row */
+.download-row {
+  display: flex;
+  gap: 6px;
+}
+.dl-btn {
+  flex: 1;
+  padding: 8px;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--dim2);
+  font-size: 11px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s;
+}
+.dl-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+/* Info box */
+.info-box {
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 11px;
+  display: flex;
+  gap: 8px;
+  line-height: 1.5;
+}
+.info-box.warn { background: rgba(212,168,48,0.07); border: 1px solid rgba(212,168,48,0.18); color: #e8c44a; }
+.info-box.tip  { background: rgba(200,150,62,0.07); border: 1px solid rgba(200,150,62,0.18); color: #d4a84b; }
+.info-box.ok   { background: rgba(74,222,128,0.07); border: 1px solid rgba(74,222,128,0.18); color: #86efac; }
+.info-box.gold { background: var(--gold-glow); border: 1px solid rgba(200,150,62,0.2); color: var(--gold-light); }
+
+/* Tool params pane */
+.tool-params { display: none; }
+.tool-params.active { display: block; }
+
+/* ─── API CONFIG MODAL ───────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal-backdrop.active { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-field label { font-size: 11px; color: var(--dim2); display: block; margin-bottom: 6px; }
+.modal-field .text-input { font-family: var(--font-mono); font-size: 11px; }
+.modal-footer { padding: 12px 20px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ─── DOCS PAGE ──────────────────────────────────────── */
+#page-docs {
+  display: none;
+}
+#page-docs.active {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+.docs-sidebar {
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  overflow-y: auto;
+  padding: 20px 0;
+}
+.docs-sidebar-section { padding: 0 12px 16px; }
+.docs-sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+  padding: 8px 6px 6px;
+  display: block;
+}
+.docs-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--dim2);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+}
+.docs-link:hover { color: var(--text); background: var(--muted); }
+.docs-link.active { color: var(--gold-light); background: var(--gold-dim); }
+.docs-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.docs-main { overflow-y: auto; padding: 32px; }
+.docs-phase { display: none; }
+.docs-phase.active { display: block; }
+
+.docs-phase-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.docs-phase-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.docs-phase-header h1 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.docs-phase-header p { color: var(--dim2); margin-top: 4px; font-size: 12px; }
+.phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+/* Endpoints */
+.endpoints { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+.endpoint-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.endpoint-card:hover { border-color: var(--border2); }
+.endpoint-card.open { border-color: rgba(200,150,62,0.3); }
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.method {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(74,222,128,0.12);
+  color: var(--green);
+  letter-spacing: 0.5px;
+}
+.endpoint-path {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+  font-weight: 600;
+}
+.endpoint-desc { color: var(--dim); font-size: 11px; flex: 1; }
+.chevron { color: var(--dim); font-size: 9px; transition: transform 0.2s; margin-left: auto; flex-shrink: 0; }
+.endpoint-card.open .chevron { transform: rotate(90deg); color: var(--gold); }
+.endpoint-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); }
+.endpoint-card.open .endpoint-body { display: block; }
+
+.params-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--dim);
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+.param-row {
+  display: grid;
+  grid-template-columns: 110px 70px 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  align-items: start;
+}
+.param-row:last-child { border-bottom: none; }
+.param-name { font-family: var(--font-mono); color: var(--purple); }
+.param-type { color: var(--dim); font-family: var(--font-mono); font-size: 10px; }
+.param-desc { color: var(--dim2); }
+.param-default { font-family: var(--font-mono); color: var(--yellow); font-size: 10px; }
+
+/* Code blocks in docs */
+.code-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 10px 0;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.code-lang {
+  font-size: 10px;
+  color: var(--dim);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.copy-btn {
+  font-size: 10px;
+  color: var(--dim);
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  transition: all 0.12s;
+}
+.copy-btn:hover { color: var(--gold-light); border-color: var(--gold); }
+pre {
+  padding: 14px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+.kw  { color: #ff7b72; }
+.fn  { color: #79c0ff; }
+.str { color: #a5d6ff; }
+.cm  { color: #545f6b; font-style: italic; }
+.num { color: #f2cc60; }
+.dec { color: #d2a8ff; }
+
+/* Setup steps */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+.step { display: flex; gap: 14px; padding: 0 0 20px; }
+.step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid rgba(200,150,62,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+.step-line { width: 1px; flex: 1; background: var(--border); margin-top: 5px; min-height: 16px; }
+.step:last-child .step-line { display: none; }
+.step-body { flex: 1; padding-top: 2px; }
+.step-title { font-weight: 600; font-size: 13px; margin-bottom: 6px; color: var(--text); }
+.step-body p { color: var(--dim2); font-size: 12px; margin-bottom: 6px; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 24px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.85;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ─── LANDING PAGE ───────────────────────────────────── */
+#page-landing .features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 0 24px 48px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+.feature-card:hover { border-color: rgba(200,150,62,0.3); }
+.feature-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+.feature-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.feature-card p { font-size: 12px; color: var(--dim2); line-height: 1.6; }
+.feature-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.tag-py { background: rgba(59,130,246,0.1); color: var(--py); border: 1px solid rgba(59,130,246,0.2); }
+.tag-ai { background: rgba(74,222,128,0.1); color: var(--hf); border: 1px solid rgba(74,222,128,0.2); }
+.tag-java { background: rgba(245,158,11,0.1); color: var(--java); border: 1px solid rgba(245,158,11,0.2); }
+
+.phases-strip {
+  display: flex;
+  gap: 12px;
+  padding: 0 24px 48px;
+  max-width: 960px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.phase-card {
+  flex: 1;
+  min-width: 200px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.phase-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+.phase-card .ph-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--dim);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.phase-card h3 { font-size: 13px; font-weight: 600; color: var(--text); }
+.phase-card p { font-size: 11px; color: var(--dim2); margin-top: 4px; }
+
+/* ─── MOBILE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .editor-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; }
+  .panel-left { display: none; }
+  .panel-right { border-left: none; border-top: 1px solid var(--border); }
+  .canvas-area { height: 50vh; }
+  #page-docs { grid-template-columns: 1fr; }
+  .docs-sidebar { display: none; }
+  .nav-tabs .nav-tab:first-child { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">Pristine <sub>v2</sub></div>
+  <div class="nav-sep"></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('landing')">Home</button>
+    <button class="nav-tab" onclick="showPage('editor')">Editor</button>
+    <button class="nav-tab" onclick="showPage('docs')">API Docs</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════
+     LANDING PAGE
+══════════════════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <div class="hero">
+    <div class="hero-eyebrow">✦ Professional Image Processing</div>
+    <h1>Pristine <span>✦</span></h1>
+    <p>Three-phase image processing pipeline. From basic compression to AI-powered restoration — all from a single interface.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('editor')">Open Editor</button>
+      <button class="btn-secondary" onclick="showPage('docs')">API Documentation</button>
+    </div>
+  </div>
+
+  <div class="phases-strip">
+    <div class="phase-card" onclick="showPage('editor')">
+      <div class="ph-num">PHASE 01 · PYTHON</div>
+      <h3>🐍 FastAPI + Pillow</h3>
+      <p>Compress, resize, convert, watermark. Free tier, 512MB RAM.</p>
+    </div>
+    <div class="phase-card" onclick="showPage('editor')">
+      <div class="ph-num">PHASE 02 · AI</div>
+      <h3>🤗 Hugging Face Spaces</h3>
+      <p>Remove background, inpaint, 4× upscale, restore faces.</p>
+    </div>
+    <div class="phase-card" onclick="showPage('editor')">
+      <div class="ph-num">PHASE 03 · JAVA</div>
+      <h3>☕ Spring Boot</h3>
+      <p>Batch resize → ZIP, thumbnails, Thumbnailator-powered.</p>
+    </div>
+  </div>
+
+  <div class="features" style="margin-top:0">
+    <div class="feature-card">
+      <span class="feature-icon">🗜️</span>
+      <h3>Smart Compression</h3>
+      <p>Quality-controlled JPEG/WEBP compression with real-time preview.</p>
+      <span class="feature-tag tag-py">Phase 1</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📐</span>
+      <h3>Resize & Presets</h3>
+      <p>Instagram, Twitter, YouTube presets. Batch resize multiple files → ZIP.</p>
+      <span class="feature-tag tag-py">Phase 1</span>
+      <span class="feature-tag tag-java" style="margin-left:4px">Phase 3</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">✂️</span>
+      <h3>Background Removal</h3>
+      <p>U2Net AI model removes backgrounds cleanly. Returns transparent PNG.</p>
+      <span class="feature-tag tag-ai">AI · Phase 2</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔍</span>
+      <h3>4× Super-Resolution</h3>
+      <p>Real-ESRGAN upscales images to 4× with tile-mode for memory safety.</p>
+      <span class="feature-tag tag-ai">AI · Phase 2</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🧑</span>
+      <h3>Face Restoration</h3>
+      <p>GFPGAN repairs old or blurry faces. Perfect for historical photos.</p>
+      <span class="feature-tag tag-ai">AI · Phase 2</span>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🖼️</span>
+      <h3>Object Removal</h3>
+      <p>Draw a mask over any object — LaMa inpainting fills it intelligently.</p>
+      <span class="feature-tag tag-ai">AI · Phase 2</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     EDITOR PAGE
+══════════════════════════════════════════════════════ -->
+<div id="page-editor" class="page">
+  <div class="editor-layout">
+
+    <!-- LEFT: tools + upload -->
+    <div class="panel-left">
+      <div class="panel-section">
+        <div class="panel-label">Image</div>
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept="image/*" onchange="loadImage(event)">
+          <span class="upload-icon">📁</span>
+          <strong>Drop or click to open</strong>
+          <p>JPG · PNG · WEBP · BMP · TIFF</p>
+        </div>
+        <div style="margin-top:10px;display:flex;gap:6px">
+          <button class="toolbar-btn" style="flex:1" onclick="resetImage()">Reset</button>
+          <button class="toolbar-btn" style="flex:1" onclick="downloadImage()">⬇ Save</button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Phase 1 — Basic</div>
+        <div class="tool-grid">
+          <button class="tool-btn" onclick="selectTool('compress')">
+            <span class="tool-icon">🗜️</span> Compress
+          </button>
+          <button class="tool-btn" onclick="selectTool('resize')">
+            <span class="tool-icon">📐</span> Resize
+          </button>
+          <button class="tool-btn" onclick="selectTool('convert')">
+            <span class="tool-icon">🔄</span> Convert
+          </button>
+          <button class="tool-btn" onclick="selectTool('watermark')">
+            <span class="tool-icon">💧</span> Watermark
+          </button>
+          <button class="tool-btn" onclick="selectTool('thumbnail')">
+            <span class="tool-icon">⬛</span> Thumbnail
+          </button>
+          <button class="tool-btn" onclick="selectTool('crop')">
+            <span class="tool-icon">✂️</span> Crop
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Phase 2 — AI <span class="ai-badge">HF</span></div>
+        <div class="tool-grid">
+          <button class="tool-btn" onclick="selectTool('rembg')">
+            <span class="tool-icon">🪄</span> Remove BG
+          </button>
+          <button class="tool-btn" onclick="selectTool('enhance')">
+            <span class="tool-icon">🔍</span> Enhance 4×
+          </button>
+          <button class="tool-btn" onclick="selectTool('restore')">
+            <span class="tool-icon">🧑</span> Faces
+          </button>
+          <button class="tool-btn" onclick="selectTool('inpaint')">
+            <span class="tool-icon">🖌️</span> Inpaint
+          </button>
+        </div>
+        <div class="info-box warn" style="margin-top:10px">
+          <span>⚠</span><span>First AI request may take ~30s (HF cold start).</span>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">Phase 3 — Batch <span class="ai-badge" style="background:rgba(245,158,11,0.12);color:var(--java);border-color:rgba(245,158,11,0.2)">Java</span></div>
+        <div class="tool-grid">
+          <button class="tool-btn" onclick="selectTool('batch')">
+            <span class="tool-icon">📦</span> Batch ZIP
+          </button>
+          <button class="tool-btn" onclick="selectTool('thumb-java')">
+            <span class="tool-icon">🖼️</span> Thumb Java
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="panel-label">API Status</div>
+        <div class="api-status">
+          <div class="api-row">
+            <div class="api-dot" id="dot-py"></div>
+            <span class="api-name">Python API</span>
+            <button class="api-config-btn" onclick="openModal('py')">Configure</button>
+          </div>
+          <div class="api-row">
+            <div class="api-dot" id="dot-hf"></div>
+            <span class="api-name">Hugging Face</span>
+            <button class="api-config-btn" onclick="openModal('hf')">Configure</button>
+          </div>
+          <div class="api-row">
+            <div class="api-dot" id="dot-java"></div>
+            <span class="api-name">Java API</span>
+            <button class="api-config-btn" onclick="openModal('java')">Configure</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER: canvas -->
+    <div class="canvas-area">
+      <div class="canvas-toolbar">
+        <button class="toolbar-btn" onclick="fitCanvas()">Fit</button>
+        <button class="toolbar-btn" onclick="zoomCanvas(1)">+</button>
+        <button class="toolbar-btn" onclick="zoomCanvas(-1)">−</button>
+        <div class="toolbar-sep"></div>
+        <button class="toolbar-btn" onclick="undoCanvas()">↩ Undo</button>
+        <button class="toolbar-btn" onclick="document.getElementById('fileInput').click()">Open</button>
+        <span class="zoom-display" id="zoomDisplay">100%</span>
+      </div>
+      <div class="canvas-wrapper" id="canvasWrapper">
+        <div class="canvas-placeholder" id="placeholder">
+          <div class="icon">🖼️</div>
+          <p><strong>Open an image</strong> to start editing</p>
+        </div>
+        <canvas id="mainCanvas"></canvas>
+        <div class="processing-overlay" id="processingOverlay">
+          <div class="spinner"></div>
+          <p><strong id="procLabel">Processing…</strong></p>
+          <p id="procDetail">This may take a few seconds</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: parameters -->
+    <div class="panel-right">
+      <div class="panel-section" id="paramsSection">
+        <div class="panel-label">Parameters</div>
+        <!-- Compress -->
+        <div class="tool-params" id="params-compress">
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-header">
+                <span>Quality</span>
+                <span class="slider-val" id="val-quality">80</span>
+              </div>
+              <input type="range" min="1" max="100" value="80" oninput="document.getElementById('val-quality').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-header"><span>Format</span></div>
+              <select id="compressFormat">
+                <option value="jpeg">JPEG</option>
+                <option value="webp">WebP</option>
+                <option value="png">PNG</option>
+              </select>
+            </div>
+            <button class="apply-btn" onclick="applyCompress()">Apply Compression</button>
+          </div>
+        </div>
+        <!-- Resize -->
+        <div class="tool-params" id="params-resize">
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-header"><span>Width</span><span class="slider-val" id="val-rw">800</span></div>
+              <input type="range" min="32" max="4096" value="800" oninput="document.getElementById('val-rw').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-header"><span>Height</span><span class="slider-val" id="val-rh">600</span></div>
+              <input type="range" min="32" max="4096" value="600" oninput="document.getElementById('val-rh').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-header"><span>Preset</span></div>
+              <select id="resizePreset" onchange="applyPreset(this.value)">
+                <option value="">Custom</option>
+                <option value="1080,1080">Instagram Square</option>
+                <option value="1200,630">Twitter Card</option>
+                <option value="1280,720">YouTube Thumb</option>
+                <option value="1920,1080">Full HD</option>
+              </select>
+            </div>
+            <button class="apply-btn" onclick="applyResize()">Apply Resize</button>
+          </div>
+        </div>
+        <!-- Convert -->
+        <div class="tool-params" id="params-convert">
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-header"><span>Target Format</span></div>
+              <select id="convertFormat">
+                <option value="jpeg">JPEG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WebP</option>
+                <option value="bmp">BMP</option>
+                <option value="tiff">TIFF</option>
+              </select>
+            </div>
+            <button class="apply-btn" onclick="applyConvert()">Convert</button>
+          </div>
+        </div>
+        <!-- Watermark -->
+        <div class="tool-params" id="params-watermark">
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-header"><span>Text</span></div>
+              <input class="text-input" id="wmText" value="© Pristine" placeholder="Watermark text">
+            </div>
+            <div class="slider-row">
+              <div class="slider-header"><span>Opacity</span><span class="slider-val" id="val-wm-opacity">50</span></div>
+              <input type="range" min="5" max="100" value="50" oninput="document.getElementById('val-wm-opacity').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-header"><span>Position</span></div>
+              <select id="wmPos">
+                <option value="br">Bottom Right</option>
+                <option value="bl">Bottom Left</option>
+                <option value="tr">Top Right</option>
+                <option value="tl">Top Left</option>
+                <option value="cc">Center</option>
+              </select>
+            </div>
+            <button class="apply-btn" onclick="applyWatermark()">Add Watermark</button>
+          </div>
+        </div>
+        <!-- Thumbnail -->
+        <div class="tool-params" id="params-thumbnail">
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-header"><span>Size</span><span class="slider-val" id="val-thumb">150</span></div>
+              <input type="range" min="32" max="512" value="150" oninput="document.getElementById('val-thumb').textContent=this.value">
+            </div>
+            <button class="apply-btn" onclick="applyThumbnail()">Generate Thumbnail</button>
+          </div>
+        </div>
+        <!-- Crop -->
+        <div class="tool-params" id="params-crop">
+          <p style="font-size:12px;color:var(--dim2);margin-bottom:8px">Click & drag on the image to select a crop region.</p>
+          <button class="apply-btn" onclick="enableCrop()">Enable Crop Tool</button>
+        </div>
+        <!-- Remove BG -->
+        <div class="tool-params" id="params-rembg">
+          <div class="info-box tip">🪄 Removes background using U2Net model. Returns transparent PNG.</div>
+          <button class="apply-btn" onclick="applyRemoveBG()">Remove Background</button>
+        </div>
+        <!-- Enhance -->
+        <div class="tool-params" id="params-enhance">
+          <div class="info-box tip">🔍 4× super-resolution via Real-ESRGAN. May take 10-20s.</div>
+          <button class="apply-btn" onclick="applyEnhance()">Enhance 4×</button>
+        </div>
+        <!-- Restore faces -->
+        <div class="tool-params" id="params-restore">
+          <div class="info-box tip">🧑 GFPGAN face restoration. Best for portraits & historical photos.</div>
+          <button class="apply-btn" onclick="applyRestore()">Restore Faces</button>
+        </div>
+        <!-- Inpaint -->
+        <div class="tool-params" id="params-inpaint">
+          <div class="info-box tip">🖌️ LaMa inpainting. Paint over object, AI fills the gap.</div>
+          <button class="apply-btn" onclick="applyInpaint()">Run Inpainting</button>
+        </div>
+        <!-- Batch -->
+        <div class="tool-params" id="params-batch">
+          <div class="info-box tip">📦 Upload multiple files → resize all → download ZIP.</div>
+          <button class="apply-btn" onclick="applyBatch()">Process Batch</button>
+        </div>
+        <!-- Thumb Java -->
+        <div class="tool-params" id="params-thumb-java">
+          <div class="info-box tip">🖼️ Java Thumbnailator-powered batch thumbnails.</div>
+          <button class="apply-btn" onclick="applyThumbJava()">Generate Thumbs</button>
+        </div>
+      </div>
+
+      <div class="panel-section" style="margin-top:auto;border-top:1px solid var(--border)">
+        <div class="panel-label">Export</div>
+        <div class="download-row">
+          <button class="dl-btn" onclick="downloadImage()">⬇ Download</button>
+          <button class="dl-btn" onclick="copyToClipboard2()">📋 Copy</button>
+        </div>
+        <div class="info-box gold" style="margin-top:8px">
+          <span>✦</span><span>Processed images stay in browser. No upload required for basic tools.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     DOCS PAGE
+══════════════════════════════════════════════════════ -->
+<div id="page-docs" class="page">
+  <div class="docs-sidebar">
+    <div class="docs-sidebar-section" style="padding-top:8px">
+      <span class="docs-sidebar-label">Phases</span>
+      <button class="docs-link active" onclick="showDocPhase('phase1')">
+        <span class="docs-dot" style="background:var(--py)"></span>Phase 1 · Python
+      </button>
+      <button class="docs-link" onclick="showDocPhase('phase2')">
+        <span class="docs-dot" style="background:var(--hf)"></span>Phase 2 · AI
+      </button>
+      <button class="docs-link" onclick="showDocPhase('phase3')">
+        <span class="docs-dot" style="background:var(--java)"></span>Phase 3 · Java
+      </button>
+    </div>
+  </div>
+  <div class="docs-main" id="docsContent">
+    <!-- Phase 1 -->
+    <div class="docs-phase active" id="phase1">
+      <div class="docs-phase-header">
+        <div class="docs-phase-icon" style="background:rgba(59,130,246,0.12);color:var(--py);border:1px solid rgba(59,130,246,0.2)">🐍</div>
+        <div>
+          <h1>Phase 1 · Python API</h1>
+          <p>FastAPI + Pillow — free tier, 512MB RAM, ~5s per op.</p>
+          <span class="phase-badge" style="border-color:rgba(59,130,246,0.3);color:var(--py);background:rgba(59,130,246,0.08)">🧪 Free</span>
+        </div>
+      </div>
+
+      <h3 class="section-title">Endpoints</h3>
+      <div class="endpoints">
+        <div class="endpoint-card open">
+          <div class="endpoint-header">
+            <span class="method" style="background:rgba(74,222,128,0.12);color:var(--green)">POST</span>
+            <span class="endpoint-path">/compress</span>
+            <span class="endpoint-desc">Compress image</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="endpoint-body">
+            <div class="params-label">Parameters</div>
+            <div class="param-row"><span class="param-name">file</span><span class="param-type">file</span><span class="param-desc">Image file (max 10MB)</span></div>
+            <div class="param-row"><span class="param-name">quality</span><span class="param-type">int</span><span class="param-desc">1-100 (default 80)</span></div>
+            <div class="param-row"><span class="param-name">format</span><span class="param-type">str</span><span class="param-desc">jpeg, webp, png (default jpeg)</span></div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">cURL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre>curl -X POST https://pristine-api.example.com/compress \<br>  -F "file=@photo.jpg" \<br>  -F "quality=80" \<br>  -F "format=webp"</pre>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method" style="background:rgba(74,222,128,0.12);color:var(--green)">POST</span>
+            <span class="endpoint-path">/resize</span>
+            <span class="endpoint-desc">Resize image</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="endpoint-body">
+            <div class="params-label">Parameters</div>
+            <div class="param-row"><span class="param-name">file</span><span class="param-type">file</span><span class="param-desc">Image file</span></div>
+            <div class="param-row"><span class="param-name">width</span><span class="param-type">int</span><span class="param-desc">Target width (px)</span></div>
+            <div class="param-row"><span class="param-name">height</span><span class="param-type">int</span><span class="param-desc">Target height (px)</span></div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">cURL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre>curl -X POST https://pristine-api.example.com/resize \<br>  -F "file=@photo.jpg" \<br>  -F "width=800" \<br>  -F "height=600"</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Phase 2 -->
+    <div class="docs-phase" id="phase2">
+      <div class="docs-phase-header">
+        <div class="docs-phase-icon" style="background:rgba(74,222,128,0.12);color:var(--hf);border:1px solid rgba(74,222,128,0.2)">🤗</div>
+        <div>
+          <h1>Phase 2 · Hugging Face AI</h1>
+          <p>GPU-accelerated models. Cold start ~30s, then fast.</p>
+          <span class="phase-badge" style="border-color:rgba(74,222,128,0.3);color:var(--hf);background:rgba(74,222,128,0.08)">🧪 Free GPU</span>
+        </div>
+      </div>
+      <h3 class="section-title">Space Endpoints</h3>
+      <div class="endpoints">
+        <div class="endpoint-card open">
+          <div class="endpoint-header">
+            <span class="method" style="background:rgba(96,165,250,0.12);color:var(--blue)">POST</span>
+            <span class="endpoint-path">/rembg</span>
+            <span class="endpoint-desc">Remove background</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="endpoint-body">
+            <p style="color:var(--dim2);font-size:12px;padding:6px 0">U2Net model. Returns PNG with transparency.</p>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kn">import</span> <span class="nn">requests</span><br><br><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><br>    <span class="s">"https://your-space.hf.space/rembg"</span><span class="p">,</span><br>    <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s">"file"</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">"photo.jpg"</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">)}</span><br><span class="p">)</span><br><span class="nb">open</span><span class="p">(</span><span class="s">"output.png"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method" style="background:rgba(96,165,250,0.12);color:var(--blue)">POST</span>
+            <span class="endpoint-path">/enhance</span>
+            <span class="endpoint-desc">4× super-resolution</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="endpoint-body">
+            <p style="color:var(--dim2);font-size:12px;padding:6px 0">Real-ESRGAN. Tile mode for large images.</p>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kn">import</span> <span class="nn">requests</span><br><br><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><br>    <span class="s">"https://your-space.hf.space/enhance"</span><span class="p">,</span><br>    <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s">"file"</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s">"photo.jpg"</span><span class="p">,</span> <span class="s">"rb"</span><span class="p">)}</span><br><span class="p">)</span><br><span class="nb">open</span><span class="p">(</span><span class="s">"enhanced.png"</span><span class="p">,</span> <span class="s">"wb"</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Phase 3 -->
+    <div class="docs-phase" id="phase3">
+      <div class="docs-phase-header">
+        <div class="docs-phase-icon" style="background:rgba(245,158,11,0.12);color:var(--java);border:1px solid rgba(245,158,11,0.2)">☕</div>
+        <div>
+          <h1>Phase 3 · Spring Boot</h1>
+          <p>Java batch processing with Thumbnailator.</p>
+          <span class="phase-badge" style="border-color:rgba(245,158,11,0.3);color:var(--java);background:rgba(245,158,11,0.08)">🧪 Free Tier</span>
+        </div>
+      </div>
+      <h3 class="section-title">Endpoints</h3>
+      <div class="endpoints">
+        <div class="endpoint-card open">
+          <div class="endpoint-header">
+            <span class="method" style="background:rgba(74,222,128,0.12);color:var(--green)">POST</span>
+            <span class="endpoint-path">/batch-resize</span>
+            <span class="endpoint-desc">Batch resize → ZIP download</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="endpoint-body">
+            <p style="color:var(--dim2);font-size:12px;padding:6px 0">Upload multiple files, resize all to target, download ZIP.</p>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">cURL</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre>curl -X POST https://pristine-java.example.com/batch-resize \<br>  -F "files=@img1.jpg" \<br>  -F "files=@img2.jpg" \<br>  -F "width=300" \<br>  -F "height=300" \<br>  --output thumbs.zip</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     API CONFIG MODAL
+══════════════════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Configure API</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>API Endpoint URL</label>
+        <input class="text-input" id="modalUrl" placeholder="https://your-api.example.com">
+      </div>
+      <div class="modal-field">
+        <label>API Key (optional)</label>
+        <input class="text-input" id="modalKey" placeholder="sk-..." type="password">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal()" style="padding:6px 16px;font-size:12px">Cancel</button>
+      <button class="btn-primary" onclick="saveModal()" style="padding:6px 16px;font-size:12px">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────
+let currentImage = null;
+let canvas, ctx;
+let zoom = 1;
+let currentTool = null;
+let modalTarget = null;
+let apiConfigs = {
+  py: { url: localStorage.getItem('api_py_url') || '', key: '' },
+  hf: { url: localStorage.getItem('api_hf_url') || '', key: '' },
+  java: { url: localStorage.getItem('api_java_url') || '', key: '' },
+};
+let history = [];
+let historyIndex = -1;
+
+// ─── PAGE ROUTING ─────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── DOCS ROUTING ─────────────────────────────────────────
+function showDocPhase(id) {
+  document.querySelectorAll('.docs-phase').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.docs-link').forEach(l => l.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── ENDPOINT ACCORDION ───────────────────────────────────
+document.querySelectorAll('.endpoint-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.parentElement.classList.toggle('open');
+  });
+});
+
+// ─── MODAL ────────────────────────────────────────────────
+function openModal(target) {
+  modalTarget = target;
+  const cfg = apiConfigs[target];
+  document.getElementById('modalTitle').textContent =
+    target === 'py' ? '🐍 Python API' :
+    target === 'hf' ? '🤗 Hugging Face' : '☕ Java API';
+  document.getElementById('modalUrl').value = cfg.url || '';
+  document.getElementById('modalKey').value = '';
+  document.getElementById('modalBackdrop').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('active');
+}
+
+function saveModal() {
+  const url = document.getElementById('modalUrl').value.trim();
+  if (modalTarget) {
+    apiConfigs[modalTarget].url = url;
+    localStorage.setItem('api_' + modalTarget + '_url', url);
+    updateApiDots();
+  }
+  closeModal();
+}
+
+function updateApiDots() {
+  ['py', 'hf', 'java'].forEach(t => {
+    const dot = document.getElementById('dot-' + t);
+    if (apiConfigs[t].url) {
+      dot.className = 'api-dot connected';
+    } else {
+      dot.className = 'api-dot';
+    }
+  });
+}
+
+// ─── TOOL SELECTION ───────────────────────────────────────
+function selectTool(tool) {
+  currentTool = tool;
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tool-params').forEach(p => p.classList.remove('active'));
+  const btn = event.target.closest('.tool-btn');
+  if (btn) btn.classList.add('active');
+  const params = document.getElementById('params-' + tool);
+  if (params) params.classList.add('active');
+}
+
+// ─── IMAGE LOADING ────────────────────────────────────────
+function loadImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      currentImage = img;
+      initCanvas();
+      document.getElementById('placeholder').style.display = 'none';
+      document.getElementById('mainCanvas').style.display = 'block';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function initCanvas() {
+  canvas = document.getElementById('mainCanvas');
+  ctx = canvas.getContext('2d');
+  canvas.width = currentImage.width;
+  canvas.height = currentImage.height;
+  renderCanvas();
+  saveState();
+}
+
+function renderCanvas() {
+  if (!ctx || !currentImage) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(currentImage, 0, 0);
+}
+
+function saveState() {
+  if (!canvas) return;
+  const data = canvas.toDataURL();
+  history = history.slice(0, historyIndex + 1);
+  history.push(data);
+  historyIndex = history.length - 1;
+}
+
+function undoCanvas() {
+  if (historyIndex <= 0) return;
+  historyIndex--;
+  const img = new Image();
+  img.onload = function() {
+    currentImage = img;
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+  };
+  img.src = history[historyIndex];
+}
+
+function resetImage() {
+  if (!currentImage) return;
+  canvas.width = currentImage.width;
+  canvas.height = currentImage.height;
+  ctx.drawImage(currentImage, 0, 0);
+  saveState();
+}
+
+function fitCanvas() {
+  if (!canvas) return;
+  const wrapper = document.getElementById('canvasWrapper');
+  const w = wrapper.clientWidth - 48;
+  const h = wrapper.clientHeight - 48;
+  const scale = Math.min(w / canvas.width, h / canvas.height, 1);
+  zoom = scale;
+  canvas.style.transform = 'scale(' + scale + ')';
+  canvas.style.transformOrigin = 'top left';
+  document.getElementById('zoomDisplay').textContent = Math.round(scale * 100) + '%';
+}
+
+function zoomCanvas(dir) {
+  zoom = Math.max(0.1, Math.min(4, zoom + dir * 0.25));
+  canvas.style.transform = 'scale(' + zoom + ')';
+  canvas.style.transformOrigin = 'top left';
+  document.getElementById('zoomDisplay').textContent = Math.round(zoom * 100) + '%';
+}
+
+// ─── DOWNLOAD ─────────────────────────────────────────────
+function downloadImage() {
+  if (!canvas) return;
+  const link = document.createElement('a');
+  link.download = 'pristine-output.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function copyToClipboard2() {
+  if (!canvas) return;
+  canvas.toBlob(function(blob) {
+    navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': blob })
+    ]).then(function() {
+      alert('Image copied to clipboard!');
+    }).catch(function() {
+      alert('Copy failed. Try downloading instead.');
+    });
+  });
+}
+
+// ─── TOOL HANDLERS ────────────────────────────────────────
+function showProcessing(label, detail) {
+  document.getElementById('procLabel').textContent = label;
+  document.getElementById('procDetail').textContent = detail || '';
+  document.getElementById('processingOverlay').classList.add('active');
+}
+
+function hideProcessing() {
+  document.getElementById('processingOverlay').classList.remove('active');
+}
+
+// Presets for resize
+function applyPreset(val) {
+  if (!val) return;
+  const [w, h] = val.split(',').map(Number);
+  document.querySelector('#params-resize input[type="range"]:first-child').value = w;
+  document.getElementById('val-rw').textContent = w;
+  const inputs = document.querySelectorAll('#params-resize input[type="range"]');
+  inputs[1].value = h;
+  document.getElementById('val-rh').textContent = h;
+}
+
+// These are stubs — replace with actual API calls
+function applyCompress() {
+  if (!canvas) return alert('Open an image first');
+  const quality = parseInt(document.querySelector('#params-compress input[type="range"]').value);
+  const format = document.getElementById('compressFormat').value;
+  showProcessing('Compressing…', quality + '% quality · ' + format.toUpperCase());
+  setTimeout(function() {
+    hideProcessing();
+    alert('Compression applied (simulated). Connect Python API for real processing.');
+  }, 1000);
+}
+
+function applyResize() {
+  if (!canvas) return alert('Open an image first');
+  const w = parseInt(document.querySelectorAll('#params-resize input[type="range"]')[0].value);
+  const h = parseInt(document.querySelectorAll('#params-resize input[type="range"]')[1].value);
+  showProcessing('Resizing…', w + '×' + h);
+  setTimeout(function() {
+    canvas.width = w;
+    canvas.height = h;
+    ctx.drawImage(currentImage, 0, 0, w, h);
+    currentImage = new Image();
+    currentImage.src = canvas.toDataURL();
+    saveState();
+    hideProcessing();
+  }, 500);
+}
+
+function applyConvert() {
+  if (!canvas) return alert('Open an image first');
+  const format = document.getElementById('convertFormat').value;
+  showProcessing('Converting…', format.toUpperCase());
+  setTimeout(function() {
+    hideProcessing();
+    alert('Converted to ' + format.toUpperCase() + ' (simulated). Use Download to save.');
+  }, 800);
+}
+
+function applyWatermark() {
+  if (!canvas) return alert('Open an image first');
+  const text = document.getElementById('wmText').value || '© Pristine';
+  const opacity = parseInt(document.querySelector('#params-watermark input[type="range"]').value) / 100;
+  const pos = document.getElementById('wmPos').value;
+  showProcessing('Adding watermark…');
+  setTimeout(function() {
+    ctx.globalAlpha = opacity;
+    ctx.font = 'bold 28px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    const metrics = ctx.measureText(text);
+    const tw = metrics.width, th = 28;
+    let x = 20, y = 40;
+    if (pos === 'br') { x = canvas.width - tw - 20; y = canvas.height - 20; }
+    if (pos === 'bl') { x = 20; y = canvas.height - 20; }
+    if (pos === 'tr') { x = canvas.width - tw - 20; y = 40; }
+    if (pos === 'cc') { x = (canvas.width - tw) / 2; y = (canvas.height + th) / 2; }
+    ctx.fillText(text, x, y);
+    ctx.globalAlpha = 1;
+    saveState();
+    hideProcessing();
+  }, 600);
+}
+
+function applyThumbnail() {
+  if (!canvas) return alert('Open an image first');
+  const size = parseInt(document.querySelector('#params-thumbnail input[type="range"]').value);
+  showProcessing('Generating thumbnail…', size + '×' + size);
+  setTimeout(function() {
+    const tw = size, th = size;
+    canvas.width = tw;
+    canvas.height = th;
+    ctx.drawImage(currentImage, 0, 0, tw, th);
+    currentImage = new Image();
+    currentImage.src = canvas.toDataURL();
+    saveState();
+    hideProcessing();
+  }, 400);
+}
+
+function enableCrop() {
+  if (!canvas) return alert('Open an image first');
+  alert('Crop tool: Click and drag on the image to select region. (Simulated)');
+}
+
+function applyRemoveBG() {
+  if (!canvas) return alert('Open an image first');
+  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first (click Configure)');
+  showProcessing('Removing background…', 'U2Net model');
+  setTimeout(function() {
+    hideProcessing();
+    alert('Background removed (simulated). Connect HF Space for real AI.');
+  }, 2000);
+}
+
+function applyEnhance() {
+  if (!canvas) return alert('Open an image first');
+  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
+  showProcessing('Enhancing 4×…', 'Real-ESRGAN');
+  setTimeout(function() {
+    hideProcessing();
+    alert('4× enhancement (simulated). Connect HF Space for real AI.');
+  }, 2000);
+}
+
+function applyRestore() {
+  if (!canvas) return alert('Open an image first');
+  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
+  showProcessing('Restoring faces…', 'GFPGAN');
+  setTimeout(function() {
+    hideProcessing();
+    alert('Face restoration (simulated). Connect HF Space for real AI.');
+  }, 2000);
+}
+
+function applyInpaint() {
+  if (!canvas) return alert('Open an image first');
+  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
+  showProcessing('Inpainting…', 'LaMa');
+  setTimeout(function() {
+    hideProcessing();
+    alert('Inpainting (simulated). Connect HF Space for real AI.');
+  }, 2000);
+}
+
+function applyBatch() {
+  alert('Batch: Select multiple images to resize → ZIP download. (Simulated)');
+}
+
+function applyThumbJava() {
+  alert('Java Thumbnails: Connect Java API for Thumbnailator batch processing.');
+}
+
+// ─── COPY CODE ────────────────────────────────────────────
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+// ─── DRAG & DROP ──────────────────────────────────────────
+const uploadZone = document.getElementById('uploadZone');
+if (uploadZone) {
+  uploadZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    this.classList.add('dragover');
+  });
+  uploadZone.addEventListener('dragleave', function() {
+    this.classList.remove('dragover');
+  });
+  uploadZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    this.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      const input = document.getElementById('fileInput');
+      const dt = new DataTransfer();
+      dt.items.add(files[0]);
+      input.files = dt.files;
+      loadImage({ target: input });
+    }
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+updateApiDots();
+
+// Close modal on backdrop click
+document.getElementById('modalBackdrop').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>
