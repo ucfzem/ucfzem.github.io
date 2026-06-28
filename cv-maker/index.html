@@ -300,8 +300,8 @@ textarea.form-input {
   transition: all .15s;
   font-size: 14px;
 }
-.icon-btn:hover { background: var(--bg-card); color: #EF4444; }
-.icon-btn.drag:hover { color: var(--gold); }
+.icon-btn:hover { background: var(--border); color: #EF4444; }
+.icon-btn.add-inside-btn:hover { color: var(--gold); background: var(--accent-bg); }
 
 .right-panel {
   flex: 1;
@@ -353,42 +353,43 @@ textarea.form-input {
   border-radius: 4px;
 }
 
+/* Échelle contrôlée de la preview pour correspondre à l'affichage écran sans casser les polices du PDF final */
 .a4-inner {
-  padding: 28px 32px;
-  font-size: 7px;
+  padding: 40px 50px;
+  font-size: 14px;
   line-height: 1.5;
   color: #1a1a1a;
 }
-.a4-inner h1 { font-size: 18px; margin-bottom: 2px; }
-.a4-inner h2 { font-size: 12px; color: #555; margin-bottom: 6px; }
+.a4-inner h1 { font-size: 26px; margin-bottom: 4px; font-family: var(--font-display); }
+.a4-inner h2 { font-size: 18px; color: #555; margin-bottom: 10px; }
 .a4-inner .section-title {
-  font-size: 9px; font-weight: 700;
+  font-size: 14px; font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .1em;
   color: var(--gold);
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 3px;
-  margin: 10px 0 6px;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 4px;
+  margin: 20px 0 12px;
 }
-.a4-inner .entry-title { font-size: 8px; font-weight: 600; }
-.a4-inner .entry-sub { font-size: 7px; color: #666; }
-.a4-inner .entry-desc { font-size: 7px; color: #444; margin-top: 2px; }
-.a4-inner .contact-line { font-size: 7px; color: #555; margin-bottom: 8px; }
+.a4-inner .entry-title { font-size: 14px; font-weight: 600; }
+.a4-inner .entry-sub { font-size: 13px; color: #666; }
+.a4-inner .entry-desc { font-size: 13px; color: #444; margin-top: 4px; }
+.a4-inner .contact-line { font-size: 13px; color: #555; margin-bottom: 12px; }
 .a4-inner .skill-tag {
   display: inline-block;
-  background: var(--accent-bg);
-  color: var(--gold);
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-size: 6px;
-  margin: 1px;
+  background: rgba(201,168,76,0.15);
+  color: var(--gold-dark);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 2px;
 }
-.a4-inner p { margin-bottom: 4px; }
+.a4-inner p { margin-bottom: 8px; }
 .a4-empty {
   display: flex; align-items: center; justify-content: center;
-  height: 100%;
+  height: 500px;
   color: #bbb;
-  font-size: 10px;
+  font-size: 16px;
 }
 
 /* MODAL */
@@ -498,7 +499,6 @@ textarea.form-input {
   .mobile-preview-btn { display: flex; }
   .close-preview-btn.open { display: flex; }
   .preview-container { width: 100%; }
-  .a4-inner { font-size: 5.5px; padding: 16px 18px; }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -542,7 +542,6 @@ textarea.form-input {
   .main-container { display: block; height: auto; }
   .right-panel { display: block; padding: 0; overflow: visible; background: white; }
   .a4-preview { box-shadow: none; border-radius: 0; width: 100%; min-height: auto; }
-  .a4-inner { padding: 15mm 20mm; }
   .preview-container { width: 100%; max-width: 100%; }
   .a4-preview { page-break-after: always; }
 }
@@ -580,7 +579,6 @@ textarea.form-input {
     </div>
 
     <div class="form-content" id="formContent">
-      <!-- Personal -->
       <div class="form-section active" id="section-personal">
         <div class="form-group">
           <label class="form-label" data-i18n="lbl_fullname">Full Name *</label>
@@ -616,33 +614,28 @@ textarea.form-input {
         </div>
       </div>
 
-      <!-- Experience -->
       <div class="form-section" id="section-experience">
-        <button class="btn btn-outline" onclick="addExperience()" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_experience">Add Work Experience</span></button>
+        <button class="btn btn-outline" onclick="addExperience(false)" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_experience">Add Work Experience</span></button>
         <div id="experienceList"></div>
       </div>
 
-      <!-- Education -->
       <div class="form-section" id="section-education">
-        <button class="btn btn-outline" onclick="addEducation()" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_education">Add Education</span></button>
+        <button class="btn btn-outline" onclick="addEducation(false)" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_education">Add Education</span></button>
         <div id="educationList"></div>
       </div>
 
-      <!-- Skills -->
       <div class="form-section" id="section-skills">
-        <button class="btn btn-outline" onclick="addSkillCategory()" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_skill">Add Skill Category</span></button>
+        <button class="btn btn-outline" onclick="addSkillCategory(false)" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_skill">Add Skill Category</span></button>
         <div id="skillsList"></div>
       </div>
 
-      <!-- Languages -->
       <div class="form-section" id="section-languages">
-        <button class="btn btn-outline" onclick="addLanguage()" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_language">Add Language</span></button>
+        <button class="btn btn-outline" onclick="addLanguage(false)" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_language">Add Language</span></button>
         <div id="languagesList"></div>
       </div>
 
-      <!-- Custom -->
       <div class="form-section" id="section-custom">
-        <button class="btn btn-outline" onclick="addCustomSection()" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_custom">Add Custom Section</span></button>
+        <button class="btn btn-outline" onclick="addCustomSection(false)" style="width:100%;margin-bottom:12px;justify-content:center;">+ <span data-i18n="add_custom">Add Custom Section</span></button>
         <div id="customList"></div>
       </div>
     </div>
@@ -987,7 +980,6 @@ function renderExperiences() {
       <div class="entry-card-header">
         <span class="entry-card-title">${escapeHTML(e.position || e.company || t('add_experience'))}</span>
         <div class="entry-card-actions">
-          <button class="icon-btn drag" onclick="addExperience()" title="${t('add')}">+</button>
           <button class="icon-btn" onclick="removeExperience(${e.id})" title="${t('remove')}">✕</button>
         </div>
       </div>
@@ -1025,7 +1017,6 @@ function renderEducation() {
       <div class="entry-card-header">
         <span class="entry-card-title">${escapeHTML(e.institution || t('add_education'))}</span>
         <div class="entry-card-actions">
-          <button class="icon-btn drag" onclick="addEducation()" title="${t('add')}">+</button>
           <button class="icon-btn" onclick="removeEducation(${e.id})" title="${t('remove')}">✕</button>
         </div>
       </div>
@@ -1048,7 +1039,7 @@ function renderEducation() {
 // Skills
 cvData.skillCategories = cvData.skillCategories || [];
 function addSkillCategory(silent) {
-  cvData.skillCategories.push({ id: uid(), name: t('add_skill'), skills: [] });
+  cvData.skillCategories.push({ id: uid(), name: '', skills: [] });
   renderSkills();
   if (!silent) { markDirty(); updatePreview(); }
 }
@@ -1079,7 +1070,7 @@ function renderSkills() {
       <div class="entry-card-header">
         <input class="form-input" style="font-weight:600;font-size:13px;width:auto;flex:1;margin-right:8px;" value="${escapeAttr(cat.name)}" oninput="updateSkillCatField(${cat.id},'name',this.value)" placeholder="${t('add_skill')}">
         <div class="entry-card-actions">
-          <button class="icon-btn drag" onclick="addSkill(${cat.id})" title="${t('add')}">+</button>
+          <button class="icon-btn add-inside-btn" onclick="addSkill(${cat.id})" title="${t('add')}">+</button>
           <button class="icon-btn" onclick="removeSkillCategory(${cat.id})" title="${t('remove')}">✕</button>
         </div>
       </div>
@@ -1160,9 +1151,9 @@ function renderCustomSections() {
   document.getElementById('customList').innerHTML = cvData.customSections.map(s => `
     <div class="entry-card">
       <div class="entry-card-header">
-        <input class="form-input" style="font-weight:600;font-size:13px;flex:1;margin-right:8px;" value="${escapeAttr(s.title)}" placeholder="${t('add_custom')}" oninput="updateCustomSectionField(${s.id},'title',this.value)">
+        <input class="form-input" style="font-weight:600;font-size:13px;flex:1;margin-right:8px;" value="${escapeAttr(s.title)}" placeholder="${t('tab_custom')}" oninput="updateCustomSectionField(${s.id},'title',this.value)">
         <div class="entry-card-actions">
-          <button class="icon-btn drag" onclick="addCustomItem(${s.id})" title="${t('add')}">+</button>
+          <button class="icon-btn add-inside-btn" onclick="addCustomItem(${s.id})" title="${t('add')}">+</button>
           <button class="icon-btn" onclick="removeCustomSection(${s.id})" title="${t('remove')}">✕</button>
         </div>
       </div>
@@ -1225,58 +1216,70 @@ function getSkillDots(level) {
   const n = map[level] || 0;
   let dots = '';
   for (let i = 0; i < 4; i++) {
-    dots += `<span style="display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:2px;${i < n ? 'background:'+GOLD : 'background:#ddd'}"></span>`;
+    dots += `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:3px;${i < n ? 'background:'+GOLD : 'background:#ddd'}"></span>`;
   }
   return dots;
 }
 
 function renderModern() {
   const p = cvData.personal || {};
-  return `<div style="display:flex;align-items:stretch;min-height:1123px;font-family:Inter,sans-serif;">
-    <div style="width:30%;background:#1a1a1a;color:#e8e0d0;padding:20px 16px;display:flex;flex-direction:column;">
-      <h1 style="font-size:16px;color:${GOLD};margin-bottom:2px;font-weight:700;">${escapeHTML(p.fullName || '')}</h1>
-      <div style="font-size:7px;color:#aaa;margin-bottom:10px;">${escapeHTML(p.title || '')}</div>
-      ${p.email ? `<div style="font-size:6px;color:#ccc;margin-bottom:2px;">✉ ${escapeHTML(p.email)}</div>` : ''}
-      ${p.phone ? `<div style="font-size:6px;color:#ccc;margin-bottom:2px;">📞 ${escapeHTML(p.phone)}</div>` : ''}
-      ${p.location ? `<div style="font-size:6px;color:#ccc;margin-bottom:2px;">📍 ${escapeHTML(p.location)}</div>` : ''}
-      ${p.website ? `<div style="font-size:6px;color:${GOLD};margin-bottom:2px;">🔗 ${escapeHTML(p.website)}</div>` : ''}
-      <hr style="border:none;border-top:1px solid #444;margin:10px 0;">
-      ${cvData.skillCategories.length ? `<div style="font-size:7px;font-weight:600;color:${GOLD};text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;">Skills</div>` : ''}
-      ${cvData.skillCategories.map(cat => `
-        <div style="margin-bottom:6px;">
-          <div style="font-size:6px;font-weight:600;color:#ccc;margin-bottom:3px;">${escapeHTML(cat.name)}</div>
-          ${cat.skills.map(sk => `<div style="font-size:6px;color:#aaa;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center;"><span>${escapeHTML(sk.name)}</span>${getSkillDots(sk.level)}</div>`).join('')}
+  return `<div style="display:flex;align-items:stretch;min-height:1040px;font-family:Inter,sans-serif;text-align:left;">
+    <div style="width:32%;background:#2C1A06;color:#FAF3E8;padding:30px 20px;display:flex;flex-direction:column;">
+      <h1 style="font-size:22px;color:${GOLD};margin-bottom:4px;font-weight:700;line-height:1.2;">${escapeHTML(p.fullName || '')}</h1>
+      <div style="font-size:13px;color:#D4C4A8;margin-bottom:20px;font-weight:500;">${escapeHTML(p.title || '')}</div>
+      
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:15px;">
+        ${p.email ? `<div style="font-size:11px;color:#FAF3E8;">✉ ${escapeHTML(p.email)}</div>` : ''}
+        ${p.phone ? `<div style="font-size:11px;color:#FAF3E8;">📞 ${escapeHTML(p.phone)}</div>` : ''}
+        ${p.location ? `<div style="font-size:11px;color:#FAF3E8;">📍 ${escapeHTML(p.location)}</div>` : ''}
+        ${p.website ? `<div style="font-size:11px;color:${GOLD_light};word-break:break-all;">🔗 ${escapeHTML(p.website)}</div>` : ''}
+      </div>
+      
+      ${cvData.skillCategories.some(cat => cat.skills.length) ? `
+        <hr style="border:none;border-top:1px solid #5C4A2E;margin:15px 0;">
+        <div style="font-size:12px;font-weight:700;color:${GOLD};text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;">Compétences</div>
+      ` : ''}
+      ${cvData.skillCategories.map(cat => cat.skills.length ? `
+        <div style="margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:600;color:#D4C4A8;margin-bottom:4px;">${escapeHTML(cat.name)}</div>
+          ${cat.skills.map(sk => `<div style="font-size:11px;color:#FAF3E8;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;"><span>${escapeHTML(sk.name)}</span><span>${getSkillDots(sk.level)}</span></div>`).join('')}
         </div>
-      `).join('')}
-      ${cvData.languages.length ? `<hr style="border:none;border-top:1px solid #444;margin:8px 0;"><div style="font-size:7px;font-weight:600;color:${GOLD};text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Languages</div>` : ''}
-      ${cvData.languages.map(l => `<div style="font-size:6px;color:#ccc;margin-bottom:2px;display:flex;justify-content:space-between;"><span>${escapeHTML(l.name)}</span><span style="color:${GOLD};">${escapeHTML(l.level)}</span></div>`).join('')}
+      ` : '').join('')}
+      
+      ${cvData.languages.length ? `
+        <hr style="border:none;border-top:1px solid #5C4A2E;margin:15px 0;">
+        <div style="font-size:12px;font-weight:700;color:${GOLD};text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Langues</div>
+      ` : ''}
+      ${cvData.languages.map(l => `<div style="font-size:11px;color:#FAF3E8;margin-bottom:4px;display:flex;justify-content:space-between;"><span>${escapeHTML(l.name)}</span><span style="color:${GOLD};font-weight:500;">${escapeHTML(l.level)}</span></div>`).join('')}
     </div>
-    <div style="width:70%;padding:20px 20px;">
-      <h1 style="font-size:18px;margin-bottom:0;color:#1a1a1a;">${escapeHTML(p.fullName || '')}</h1>
-      <div style="font-size:8px;color:#555;margin-bottom:8px;">${escapeHTML(p.title || '')}</div>
-      ${p.summary ? `<p style="font-size:7px;color:#444;margin-bottom:10px;line-height:1.6;">${escapeHTML(p.summary)}</p>` : ''}
-      ${cvData.experiences.filter(e => e.company).length ? `<div class="section-title" style="color:${GOLD};">Experience</div>` : ''}
+    
+    <div style="width:68%;padding:30px 25px;background:#ffffff;color:#2C1A06;">
+      ${p.summary ? `<p style="font-size:13px;color:#3D2E1A;margin-bottom:20px;line-height:1.6;white-space:pre-line;">${escapeHTML(p.summary)}</p>` : ''}
+      
+      ${cvData.experiences.filter(e => e.company).length ? `<div class="section-title">Expérience Professionnelle</div>` : ''}
       ${cvData.experiences.filter(e => e.company).map(e => `
-        <div style="margin-bottom:6px;">
-          <div style="font-size:8px;font-weight:600;color:#1a1a1a;">${escapeHTML(e.position || '')}</div>
-          <div style="font-size:7px;color:${GOLD};">${escapeHTML(e.company)} — ${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}</div>
-          ${e.description ? `<p style="font-size:7px;color:#444;margin-top:2px;">${escapeHTML(e.description)}</p>` : ''}
+        <div style="margin-bottom:14px;">
+          <div style="font-size:14px;font-weight:700;color:#2C1A06;">${escapeHTML(e.position || '')}</div>
+          <div style="font-size:12px;color:${GOLD_dark};font-weight:600;margin-bottom:4px;">${escapeHTML(e.company)} — <span style="color:#666;font-weight:400;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span></div>
+          ${e.description ? `<p style="font-size:12.5px;color:#3D2E1A;line-height:1.5;white-space:pre-line;">${escapeHTML(e.description)}</p>` : ''}
         </div>
       `).join('')}
-      ${cvData.education.filter(e => e.institution).length ? `<div class="section-title" style="color:${GOLD};">Education</div>` : ''}
+      
+      ${cvData.education.filter(e => e.institution).length ? `<div class="section-title">Education & Formations</div>` : ''}
       ${cvData.education.filter(e => e.institution).map(e => `
-        <div style="margin-bottom:5px;">
-          <div style="font-size:8px;font-weight:600;color:#1a1a1a;">${escapeHTML(e.degree || '')}${e.field ? ' in '+escapeHTML(e.field) : ''}</div>
-          <div style="font-size:7px;color:${GOLD};">${escapeHTML(e.institution)} — ${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}${e.gpa ? ' | GPA: '+escapeHTML(e.gpa) : ''}</div>
+        <div style="margin-bottom:12px;">
+          <div style="font-size:13px;font-weight:700;color:#2C1A06;">${escapeHTML(e.degree || '')}${e.field ? ' en '+escapeHTML(e.field) : ''}</div>
+          <div style="font-size:12px;color:${GOLD_dark};font-weight:600;">${escapeHTML(e.institution)} — <span style="color:#666;font-weight:400;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span>${e.gpa ? ' | GPA: '+escapeHTML(e.gpa) : ''}</div>
         </div>
       `).join('')}
+      
       ${cvData.customSections.filter(s => s.title && s.items.length).map(s => `
-        <div class="section-title" style="color:${GOLD};">${escapeHTML(s.title)}</div>
+        <div class="section-title">${escapeHTML(s.title)}</div>
         ${s.items.filter(i => i.title).map(i => `
-          <div style="margin-bottom:4px;">
-            <div style="font-size:8px;font-weight:600;color:#1a1a1a;">${escapeHTML(i.title)}</div>
-            ${i.subtitle ? `<div style="font-size:7px;color:#555;">${escapeHTML(i.subtitle)}</div>` : ''}
-            ${i.description ? `<p style="font-size:7px;color:#444;">${escapeHTML(i.description)}</p>` : ''}
+          <div style="margin-bottom:10px;">
+            <div style="font-size:13px;font-weight:700;color:#2C1A06;">${escapeHTML(i.title)}</div>
+            ${i.subtitle ? `<div style="font-size:12px;color:#666;font-style:italic;">${escapeHTML(i.subtitle)}</div>` : ''}
+            ${i.description ? `<p style="font-size:12.5px;color:#3D2E1A;margin-top:2px;white-space:pre-line;">${escapeHTML(i.description)}</p>` : ''}
           </div>
         `).join('')}
       `).join('')}
@@ -1286,41 +1289,53 @@ function renderModern() {
 
 function renderClassic() {
   const p = cvData.personal || {};
-  return `<div style="font-family:Inter,sans-serif;padding:10px 20px;">
-    <div style="text-align:center;margin-bottom:10px;">
-      <h1 style="font-size:18px;margin-bottom:1px;color:#1a1a1a;">${escapeHTML(p.fullName || '')}</h1>
-      <div style="font-size:8px;color:${GOLD};font-weight:600;">${escapeHTML(p.title || '')}</div>
-      <div style="font-size:7px;color:#555;margin-top:4px;">
-        ${[p.email,p.phone,p.location,p.website].filter(Boolean).join(' &middot; ')}
+  return `<div style="font-family:Inter,sans-serif;padding:10px 10px;background:#ffffff;color:#2C1A06;text-align:left;">
+    <div style="text-align:center;margin-bottom:20px;">
+      <h1 style="font-size:26px;margin-bottom:4px;font-weight:700;color:#2C1A06;">${escapeHTML(p.fullName || '')}</h1>
+      <div style="font-size:14px;color:${GOLD_dark};font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">${escapeHTML(p.title || '')}</div>
+      <div style="font-size:12px;color:#5C4A2E;margin-top:8px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+        ${[p.email, p.phone, p.location, p.website].filter(Boolean).map(x => `<span>${escapeHTML(x)}</span>`).join(' • ')}
       </div>
     </div>
-    ${p.summary ? `<p style="font-size:7px;color:#444;text-align:center;margin-bottom:8px;line-height:1.6;">${escapeHTML(p.summary)}</p>` : ''}
-    ${cvData.experiences.filter(e => e.company).length ? `<div class="section-title">Experience</div>` : ''}
+    
+    ${p.summary ? `<p style="font-size:13px;color:#3D2E1A;text-align:justify;margin-bottom:20px;line-height:1.6;white-space:pre-line;">${escapeHTML(p.summary)}</p>` : ''}
+    
+    ${cvData.experiences.filter(e => e.company).length ? `<div class="section-title">Expérience Professionnelle</div>` : ''}
     ${cvData.experiences.filter(e => e.company).map(e => `
-      <div style="margin-bottom:6px;">
-        <div style="font-size:8px;font-weight:600;color:#1a1a1a;">${escapeHTML(e.position || '')} <span style="color:${GOLD};">— ${escapeHTML(e.company)}</span></div>
-        <div style="font-size:7px;color:#666;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}</div>
-        ${e.description ? `<p style="font-size:7px;color:#444;margin-top:2px;">${escapeHTML(e.description)}</p>` : ''}
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:between;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:14px;font-weight:700;color:#2C1A06;">${escapeHTML(e.position || '')} <span style="color:${GOLD_dark};font-weight:600;">— ${escapeHTML(e.company)}</span></span>
+          <span style="font-size:12px;color:#666;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span>
+        </div>
+        ${e.description ? `<p style="font-size:12.5px;color:#3D2E1A;margin-top:4px;line-height:1.5;white-space:pre-line;">${escapeHTML(e.description)}</p>` : ''}
       </div>
     `).join('')}
-    ${cvData.education.filter(e => e.institution).length ? `<div class="section-title">Education</div>` : ''}
+    
+    ${cvData.education.filter(e => e.institution).length ? `<div class="section-title">Education & Formations</div>` : ''}
     ${cvData.education.filter(e => e.institution).map(e => `
-      <div style="margin-bottom:4px;">
-        <div style="font-size:8px;font-weight:600;">${escapeHTML(e.degree || '')}${e.field ? ' in '+escapeHTML(e.field) : ''}</div>
-        <div style="font-size:7px;color:#555;">${escapeHTML(e.institution)} — ${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}</div>
+      <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;">
+        <div>
+          <span style="font-size:13px;font-weight:700;color:#2C1A06;">${escapeHTML(e.degree || '')}${e.field ? ' en '+escapeHTML(e.field) : ''}</span>
+          <div style="font-size:12px;color:${GOLD_dark};font-weight:600;">${escapeHTML(e.institution)} ${e.gpa ? ' | GPA: '+escapeHTML(e.gpa) : ''}</div>
+        </div>
+        <span style="font-size:12px;color:#666;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span>
       </div>
     `).join('')}
-    ${cvData.skillCategories.length ? `<div class="section-title">Skills</div>` : ''}
-    <div style="margin-bottom:6px;">
-    ${cvData.skillCategories.map(cat => cat.skills.map(sk => `<span class="skill-tag" style="display:inline-block;background:rgba(201,168,76,0.12);color:${GOLD};padding:1px 6px;border-radius:3px;font-size:6px;margin:1px;">${escapeHTML(sk.name)}</span>`).join('')).join('')}
+    
+    ${cvData.skillCategories.some(cat => cat.skills.length) ? `<div class="section-title">Compétences</div>` : ''}
+    <div style="margin-bottom:15px;">
+      ${cvData.skillCategories.map(cat => cat.skills.map(sk => `<span class="skill-tag">${escapeHTML(sk.name)}</span>`).join('')).join('')}
     </div>
+    
     ${cvData.customSections.filter(s => s.title && s.items.length).map(s => `
       <div class="section-title">${escapeHTML(s.title)}</div>
       ${s.items.filter(i => i.title).map(i => `
-        <div style="margin-bottom:4px;">
-          <div style="font-size:8px;font-weight:600;">${escapeHTML(i.title)}</div>
-          ${i.subtitle ? `<div style="font-size:7px;color:#555;">${escapeHTML(i.subtitle)}</div>` : ''}
-          ${i.description ? `<p style="font-size:7px;color:#444;">${escapeHTML(i.description)}</p>` : ''}
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:13px;font-weight:700;color:#2C1A06;">${escapeHTML(i.title)}</span>
+            ${i.subtitle ? `<span style="font-size:12px;color:#666;font-style:italic;">${escapeHTML(i.subtitle)}</span>` : ''}
+          </div>
+          ${i.description ? `<p style="font-size:12.5px;color:#3D2E1A;margin-top:2px;white-space:pre-line;">${escapeHTML(i.description)}</p>` : ''}
         </div>
       `).join('')}
     `).join('')}
@@ -1329,39 +1344,37 @@ function renderClassic() {
 
 function renderMinimal() {
   const p = cvData.personal || {};
-  return `<div style="font-family:Inter,sans-serif;padding:10px 24px;">
-    <h1 style="font-size:18px;font-weight:300;text-transform:uppercase;letter-spacing:.15em;color:#1a1a1a;margin-bottom:2px;">${escapeHTML(p.fullName || '')}</h1>
-    <div style="font-size:8px;color:#888;margin-bottom:8px;">${escapeHTML(p.title || '')}</div>
-    <hr style="border:none;border-top:1px solid #ddd;margin-bottom:8px;">
-    ${p.summary ? `<p style="font-size:7px;color:#555;margin-bottom:8px;line-height:1.6;">${escapeHTML(p.summary)}</p>` : ''}
-    ${cvData.experiences.filter(e => e.company).length ? `<div style="font-size:7px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px;">Experience</div>` : ''}
-    ${cvData.experiences.filter(e => e.company).map(e => `
-      <div style="margin-bottom:5px;">
-        <div style="font-size:8px;font-weight:600;color:#1a1a1a;">${escapeHTML(e.position || '')}</div>
-        <div style="font-size:7px;color:#888;">${escapeHTML(e.company)} — ${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}</div>
-        ${e.description ? `<p style="font-size:7px;color:#666;margin-top:1px;">${escapeHTML(e.description)}</p>` : ''}
-      </div>
-    `).join('')}
-    ${cvData.education.filter(e => e.institution).length ? `<div style="font-size:7px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.15em;margin:6px 0 4px;">Education</div>` : ''}
-    ${cvData.education.filter(e => e.institution).map(e => `
-      <div style="margin-bottom:3px;">
-        <div style="font-size:7px;color:#555;">${escapeHTML(e.degree || '')}${e.field ? ', '+escapeHTML(e.field) : ''}</div>
-        <div style="font-size:6px;color:#888;">${escapeHTML(e.institution)} — ${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Present'}</div>
-      </div>
-    `).join('')}
-    ${cvData.skillCategories.length ? `<div style="font-size:7px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.15em;margin:6px 0 4px;">Skills</div>` : ''}
-    <div style="margin-bottom:6px;">
-    ${cvData.skillCategories.map(cat => cat.skills.map(sk => `<span class="skill-tag" style="display:inline-block;background:rgba(201,168,76,0.12);color:${GOLD};padding:1px 6px;border-radius:3px;font-size:6px;margin:1px;">${escapeHTML(sk.name)}</span>`).join('')).join('')}
+  return `<div style="font-family:Inter,sans-serif;padding:10px 15px;background:#ffffff;color:#2C1A06;text-align:left;">
+    <h1 style="font-size:28px;font-weight:300;text-transform:uppercase;letter-spacing:.1em;color:#2C1A06;margin-bottom:2px;">${escapeHTML(p.fullName || '')}</h1>
+    <div style="font-size:13px;color:#888;margin-bottom:12px;font-weight:500;letter-spacing:0.05em;">${escapeHTML(p.title || '')}</div>
+    <div style="font-size:11.5px;color:#555;margin-bottom:15px;display:flex;gap:12px;flex-wrap:wrap;">
+      ${[p.email,p.phone,p.location,p.website].filter(Boolean).join('  |  ')}
     </div>
-    ${cvData.customSections.filter(s => s.title && s.items.length).map(s => `
-      <div style="font-size:7px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.15em;margin:6px 0 4px;">${escapeHTML(s.title)}</div>
-      ${s.items.filter(i => i.title).map(i => `
-        <div style="margin-bottom:3px;">
-          <div style="font-size:7px;font-weight:600;color:#1a1a1a;">${escapeHTML(i.title)}</div>
-          ${i.subtitle ? `<div style="font-size:6px;color:#888;">${escapeHTML(i.subtitle)}</div>` : ''}
-        </div>
-      `).join('')}
+    <hr style="border:none;border-top:1px solid #E0D5C0;margin-bottom:15px;">
+    
+    ${p.summary ? `<p style="font-size:13px;color:#444;margin-bottom:20px;line-height:1.6;white-space:pre-line;">${escapeHTML(p.summary)}</p>` : ''}
+    
+    ${cvData.experiences.filter(e => e.company).length ? `<div style="font-size:12px;font-weight:700;color:#A89878;text-transform:uppercase;letter-spacing:.12em;margin:20px 0 10px;">Expérience</div>` : ''}
+    ${cvData.experiences.filter(e => e.company).map(e => `
+      <div style="margin-bottom:14px;">
+        <div style="font-size:14px;font-weight:600;color:#2C1A06;">${escapeHTML(e.position || '')}</div>
+        <div style="font-size:12px;color:#666;margin-bottom:4px;">${escapeHTML(e.company)} — <span style="color:#888;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span></div>
+        ${e.description ? `<p style="font-size:12.5px;color:#555;line-height:1.5;white-space:pre-line;">${escapeHTML(e.description)}</p>` : ''}
+      </div>
     `).join('')}
+    
+    ${cvData.education.filter(e => e.institution).length ? `<div style="font-size:12px;font-weight:700;color:#A89878;text-transform:uppercase;letter-spacing:.12em;margin:20px 0 10px;">Formation</div>` : ''}
+    ${cvData.education.filter(e => e.institution).map(e => `
+      <div style="margin-bottom:10px;">
+        <div style="font-size:13px;font-weight:600;color:#2C1A06;">${escapeHTML(e.degree || '')}${e.field ? ', '+escapeHTML(e.field) : ''}</div>
+        <div style="font-size:12px;color:#666;">${escapeHTML(e.institution)} — <span style="color:#888;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</span></div>
+      </div>
+    `).join('')}
+    
+    ${cvData.skillCategories.some(cat => cat.skills.length) ? `<div style="font-size:12px;font-weight:700;color:#A89878;text-transform:uppercase;letter-spacing:.12em;margin:20px 0 10px;">Compétences</div>` : ''}
+    <div style="margin-bottom:15px;">
+      ${cvData.skillCategories.map(cat => cat.skills.map(sk => `<span class="skill-tag" style="background:#FAF3E8;color:#5C4A2E;border:1px solid #E0D5C0;">${escapeHTML(sk.name)}</span>`).join('')).join('')}
+    </div>
   </div>`;
 }
 
@@ -1414,14 +1427,16 @@ function downloadPDF(quality) {
   const scaleMap = { high: 3, medium: 2, low: 1 };
   const scale = scaleMap[quality] || 2;
   const el = document.createElement('div');
-  el.style.cssText = 'width:794px;padding:28px 32px;font-size:7px;line-height:1.5;font-family:Inter,sans-serif;color:#1a1a1a;background:white;';
+  // Création d'un conteneur hors écran à échelle 1:1 absolue
+  el.style.cssText = 'width:800px;min-height:1120px;padding:0;margin:0;background:white;position:absolute;top:-9999px;left:-9999px;';
   el.innerHTML = preview.innerHTML;
   document.body.appendChild(el);
+  
   const opt = {
     margin: [10,10,10,10],
     filename: t('pdf_name') + '.pdf',
     image: { type: 'jpeg', quality: quality === 'high' ? 1 : quality === 'medium' ? 0.8 : 0.5 },
-    html2canvas: { scale: scale, useCORS: true, letterRendering: true },
+    html2canvas: { scale: scale, useCORS: true, letterRendering: true, logging: false },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   html2pdf().set(opt).from(el).save().then(() => {
@@ -1473,14 +1488,12 @@ function init() {
   const savedTmpl = localStorage.getItem('cvmaker-template');
   if (savedTmpl) curTemplate = savedTmpl;
 
-  // Set active template button
   document.querySelectorAll('.template-btn').forEach(b => {
     b.classList.remove('active');
     const tmpl = b.getAttribute('onclick')?.match(/selectTemplate\('(\w+)'/);
     if (tmpl && tmpl[1] === curTemplate) b.classList.add('active');
   });
 
-  // Add initial empty entries if no data
   if (cvData.experiences.length === 0) addExperience(true);
   if (cvData.education.length === 0) addEducation(true);
   if (cvData.skillCategories.length === 0) addSkillCategory(true);

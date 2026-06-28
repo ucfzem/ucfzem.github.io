@@ -1,41 +1,42 @@
-# Conversation Backup — 2026-06-27
+# Conversation Backup — 2026-06-28
 
 ## Projects Worked On
 
 ### 1. 500 Prompts IA
-- **GitHub:** https://github.com/ucfzem/500-prompts-ia
-- **GitHub Pages:** https://ucfzem.github.io/500-prompts-ia/
-- **Cloudflare:** https://500-prompts-ia.pages.dev
-- **Vercel:** https://500-prompts-ia.vercel.app
 - **Features:** 500 prompts, 4 languages (FR/EN/SP/AR), RTL Arabic, dark/light theme
 - **Fonts:** Manrope (body + headings), Cinzel (ornaments)
 - **Changes made:** Font Outfit→Manrope, Playfair Display→Manrope, aligned prompt numbers, fixed Arabic Latin fonts, cache-busting
 
 ### 2. Chat Socket.io
-- **GitHub:** https://github.com/ucfzem/chat-socketio
-- **GitHub Pages:** https://ucfzem.github.io/chat-socketio/
-- **Cloudflare:** https://chat-socketio.pages.dev
-- **Vercel:** https://chat-socketio.vercel.app
-- **Render (real-time):** https://ucfzem-github-io.onrender.com
 - **Features:** 8 features — rooms/channels, emoji reactions, typing indicator, sound notifications, user avatars, private messaging, online status, dark mode
 - **PWA:** Installable from Chrome on mobile
 
 ### 3. Guide Freelance (InFreelancing)
-- **GitHub:** https://github.com/ucfzem/guide-freelance
-- **GitHub Pages:** https://ucfzem.github.io/guide-freelance/
-- **Vercel:** https://guide-freelance.vercel.app
 - **Features:** 4 languages (FR/EN/ES/AR), Moroccan flag for Arabic, RTL support, dark/light theme, interactive checklist, progress bar
 - **Fonts:** Cinzel (headings), Inter (body)
-- **Backup:** BACKUP.md in repo
 
 ### 4. Works Page (Portfolio)
-- **URL:** https://ucfzem.github.io/works/
-- **Root:** https://ucfzem.github.io/
-- **Password validator:** https://works-validator.azer-tyu199p.workers.dev
+- **Password validator:** Cloudflare Worker
 - **Status:** Recovered from force-push wipe, dead links removed/updated
 - **Public projects:** 7 (Quran Majeed, Tanger, Blog, Lingotech, MicroInvoice, Rafeeq, ElixirTech)
 - **Locked projects:** 24 (password protected)
 - **Dead repos deleted:** Blog, Guide Freelance (old), EmailCollector, MicroInvoice, Rafeeq, Pristine, Magic Eraser, CVForge, Sandrawing
+
+### 5. Pristine Photo Editor
+- All basic tools rewritten with real Canvas API (compress, resize, convert, watermark, thumbnail, crop, batch)
+- Fixed CSS grid layout (min-height:0 on all panels)
+- Fixed event param bugs in showPage/showDocPhase/selectTool
+- Fixed mobile layout (tool buttons visible as scrollable strip)
+- Warm dark mode theme (brown/gold/yellow/white)
+
+### 6. Rafeeq Assistant
+- Full rebuild with 4 languages (FR/EN/ES/AR), SOS emergency (15 countries), medication reminders, health advice
+- Dark/light theme toggle persisted in localStorage
+- Family CRUD, Gregorian + Hijri date
+
+### 7. CV-Maker
+- Fixed A4 preview layout (removed aspect-ratio, added min-height:1123px)
+- Applied cvforgez.html user fix (proper font sizes, WYSIWYG PDF, 3 quality levels)
 
 ## Active Tokens
 - **GitHub:** (stored separately)
@@ -48,34 +49,18 @@
 - **Email:** azer.tyu199p@gmail.com
 - **User ID:** 225979212
 - **Total repos:** 45
-- **Repos with GitHub Pages:** 17
 
 ## Key Decisions
 - Font: Manrope used for 500 Prompts (body + headings + Arabic Latin)
 - Chat on Render for real-time Socket.io (Vercel/Cloudflare can't run WebSockets)
-- PWA approach for mobile install (no PC/Android Studio)
+- PWA approach for mobile install
 - Works page: password-protected via Cloudflare Workers
-- Guide Freelance: 4 languages with flags (🇫🇷 🇬🇧 🇪🇸 🇲🇦)
-- Arabic uses Moroccan flag 🇲🇦
-
-## Deploy Commands
-```bash
-# GitHub Pages
-git push origin main
-
-# Vercel (CLI)
-cd project && vercel --yes --token <TOKEN> --prod
-
-# Cloudflare Pages
-# Auto-deploys from GitHub
-
-# Render
-# Auto-deploys from GitHub (real-time server)
-```
+- Guide Freelance: 4 languages with flags (FR/EN/ES/AR)
+- Arabic uses Moroccan flag
 
 ## Session Notes
 - Multiple token rotations throughout session (GitHub, Vercel expired)
 - Force push to ucfzem.github.io wiped original content — recovered
-- Works page dead links identified and updated
-- Guide Freelance rebuilt with 4 languages from user's HTML code
-- Vercel API had issues with default templates — fixed with Vercel CLI
+- Vercel CLI token expired — relies on GitHub webhook auto-deploy
+- cvforgez.html user fix applied to cv-maker/index.html
+- All links removed from backup files for security

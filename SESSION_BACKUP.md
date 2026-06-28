@@ -1,14 +1,10 @@
-# Session Backup — 500 Prompts IA + Chat Socket.io
+# Session Backup — 500 Prompts IA + Chat Socket.io + All Projects
 
-**Date:** June 27, 2026
-
----
+**Date:** June 27-28, 2026
 
 ## Project 1: 500 Prompts IA
 
-**Repo:** https://github.com/ucfzem/pack500Prompts  
-**Cloudflare:** https://500-prompts-ia.pages.dev  
-**Vercel:** https://500-prompts-ia-ucfzem-s-projects.vercel.app
+**Repo:** ucfzem/pack500Prompts
 
 ### What we did:
 1. Translated all 500 prompts to EN, SP, AR (French default)
@@ -26,23 +22,19 @@
 - Single `index.html` (inline CSS/JS)
 - Google Fonts (Manrope + Noto Naskh Arabic)
 - Dark/Light theme toggle
-- Deployed to: Cloudflare Pages + Vercel + GitHub
 
 ---
 
 ## Project 2: Chat Socket.io
 
-**Repo:** https://github.com/ucfzem/ucfzem.github.io/tree/main/chat-socketio  
-**Cloudflare (static UI):** https://chat-socketio.pages.dev  
-**Render (real-time server):** https://ucfzem-github-io.onrender.com  
-**Vercel:** https://chat-socketio-ucfzem-s-projects.vercel.app
+**Repo:** ucfzem/ucfzem.github.io (chat-socketio/)
 
 ### Features (v2):
-1. **Rooms/Channels** — Général, Gaming, Random, Tech
-2. **Emoji Reactions** — 👍😂❤️🔥👀 on any message
-3. **Typing Indicator** — "X est en train d'écrire..."
+1. **Rooms/Channels** — General, Gaming, Random, Tech
+2. **Emoji Reactions** — on any message
+3. **Typing Indicator**
 4. **Sound Notifications** — beep on new message, mute toggle
-5. **User Avatars** — emoji picker on login (100+ emojis)
+5. **User Avatars** — emoji picker on login
 6. **Private Messaging** — click username → DM modal
 7. **Online Status** — green dot (active), yellow dot (away)
 8. **Dark Mode** — toggle button, saves to localStorage
@@ -66,27 +58,26 @@ chat-socketio/
 
 ---
 
-## Tokens used:
-- All tokens are in a separate secure file (not in repo)
+## Project 3: Pristine Photo Editor
+- Real Canvas API tools (compress, resize, convert, watermark, thumbnail, crop, batch)
+- Warm dark mode theme (brown/gold)
+- Grid/mobile/event fixes
+
+## Project 4: Rafeeq Assistant
+- 4 languages, SOS, med reminders, health advice, dark/light theme
+
+## Project 5: CV-Maker
+- A4 preview fix, cvforgez.html user fix applied
 
 ---
 
-## To make it an APK:
-Use **Capacitor** (Ionic):
+## To make an APK:
+Use Capacitor (Ionic):
 ```bash
 npm install @capacitor/core @capacitor/cli
-npx cap init ChatSocketio com.ucfzem.chat --web-dir public
+npx cap init AppName com.ucfzem.app --web-dir public
 npx cap add android
 npx cap sync
 npx cap open android
 ```
 Opens Android Studio → Build → Generate APK.
-
----
-
-## Next steps:
-- [ ] Test all 8 features live
-- [ ] Make APK with Capacitor
-- [ ] Add more rooms/categories
-- [ ] Add file/image sharing
-- [ ] Deploy to Play Store
