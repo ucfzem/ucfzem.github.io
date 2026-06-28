@@ -1436,24 +1436,36 @@ document.getElementById('downloadBtn').addEventListener('click', showDownloadMod
 
 async function downloadPDF(quality) {
   closeDownloadModal();
-  
+
   const previewContent = document.getElementById('a4Content');
-  if (!previewContent || !previewContent.innerHTML.trim() || previewContent.querySelector('.a4-empty')) {
+  if (!previewContent || previewContent.querySelector('.a4-empty')) {
     showToast('⚠️ ' + t('empty_state'));
     return;
   }
 
   showToast('⏳ ' + t('generating'));
+  await document.fonts.ready;
 
   const p = cvData.personal || {};
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : t('pdf_name')) + '.pdf';
 
-  await document.fonts.ready;
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'position:fixed;left:0;top:0;width:794px;height:1123px;border:none;opacity:0;pointer-events:none;z-index:-1;';
+  document.body.appendChild(iframe);
 
-  const workerElement = document.createElement('div');
-  workerElement.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:794px;min-height:1123px;background:#ffffff;color:#1a1a1a;box-sizing:border-box;opacity:1;';
-  workerElement.innerHTML = previewContent.innerHTML;
-  document.body.appendChild(workerElement);
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      * { margin:0; padding:0; box-sizing:border-box; }
+      body { width:794px; height:1123px; background:#fff; color:#1a1a1a; overflow:hidden; }
+    </style>
+  </head><body>${previewContent.innerHTML}</body></html>`);
+  doc.close();
+
+  await new Promise(r => setTimeout(r, 800));
 
   const scaleMap = { high: 3, medium: 2, low: 1 };
   const scale = scaleMap[quality] || 2;
@@ -1470,28 +1482,26 @@ async function downloadPDF(quality) {
       backgroundColor: '#ffffff',
       logging: false,
       width: 794,
-      windowWidth: 794,
       height: 1123,
-      windowHeight: 1123,
       scrollX: 0,
       scrollY: 0
     },
     jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
   };
 
-  html2pdf().set(opt).from(workerElement).toPdf().get('pdf').then((pdf) => {
-    const totalPages = pdf.internal.getNumberOfPages();
-    if (totalPages > 1 && cvData.experiences.length <= 2) {
-      pdf.deletePage(totalPages);
-    }
-  }).save().then(() => {
-    document.body.removeChild(workerElement);
-    showToast('✅ PDF ' + t('saved'));
-  }).catch(err => {
-    console.error('PDF error:', err);
-    if (workerElement.parentNode) document.body.removeChild(workerElement);
-    showToast('❌ ' + t('pdf_error'));
-  });
+  html2pdf()
+    .set(opt)
+    .from(doc.body)
+    .save()
+    .then(() => {
+      document.body.removeChild(iframe);
+      showToast('✅ PDF ' + t('saved'));
+    })
+    .catch(err => {
+      console.error('PDF error:', err);
+      if (iframe.parentNode) document.body.removeChild(iframe);
+      showToast('❌ ' + t('pdf_error'));
+    });
 }
 
 // Toast
