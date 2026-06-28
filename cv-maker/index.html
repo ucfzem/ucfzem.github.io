@@ -1496,7 +1496,19 @@ async function triggerPrint() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit:'px', format:[794,1123], orientation:'portrait' });
     pdf.addImage(imgData, 'JPEG', 0, 0, 794, 1123);
-    pdf.save(fileName);
+
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 1000);
 
     showToast('✅ PDF ' + t('saved'));
   } catch(err) {
