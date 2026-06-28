@@ -543,8 +543,10 @@ textarea.form-input {
   .header, .left-panel, .mobile-preview-btn, .close-preview-btn, .template-selector, .modal-overlay { display: none !important; }
   .main-container { display: block !important; height: auto !important; overflow: visible !important; }
   .right-panel { display: block !important; position: static !important; padding: 0 !important; background: white !important; overflow: visible !important; width: 100% !important; }
-  .a4-preview { box-shadow: none !important; border-radius: 0 !important; width: 210mm !important; min-height: 297mm !important; }
+  .a4-preview { box-shadow: none !important; border-radius: 0 !important; width: 210mm !important; min-height: unset !important; height: auto !important; }
   .preview-container { width: 210mm !important; margin: 0 auto !important; }
+  #a4Content > div { height: auto !important; min-height: unset !important; }
+  #a4Content > div > div { height: auto !important; min-height: unset !important; }
 }
 </style>
 </head>
@@ -1240,14 +1242,14 @@ function renderModern() {
   const sidebarSub = '#D4C4A8';
   const sidebarDotEmpty = '#6B5535';
 
-  return `<div style="display:flex;width:794px;height:1123px;font-family:'Inter',sans-serif;
+  return `<div style="display:flex;width:794px;min-height:1123px;font-family:'Inter',sans-serif;
     background:linear-gradient(to right, ${sidebarBg} 280px, #ffffff 280px);
     color:#2C1A06;box-sizing:border-box;overflow:hidden;">
 
     <!-- SIDEBAR -->
     <div style="width:280px;min-width:280px;flex-shrink:0;padding:40px 24px;
       display:flex;flex-direction:column;box-sizing:border-box;
-      color:${sidebarText};background:transparent;">
+      color:${sidebarText};background:transparent;min-height:100%;">
       <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;color:${GOLD};margin-bottom:6px;font-weight:800;line-height:1.2;letter-spacing:-0.02em;">${escapeHTML(p.fullName || '')}</h1>
       <div style="font-size:12px;color:${sidebarSub};margin-bottom:28px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">${escapeHTML(p.title || '')}</div>
 
@@ -1457,8 +1459,10 @@ function triggerPrint() {
       .header, .left-panel, .mobile-preview-btn, .close-preview-btn, .template-selector, .modal-overlay { display: none !important; }
       .main-container { display: block !important; height: auto !important; overflow: visible !important; }
       .right-panel { display: block !important; position: static !important; padding: 0 !important; background: white !important; overflow: visible !important; width: 100% !important; }
-      .a4-preview { box-shadow: none !important; border-radius: 0 !important; width: 210mm !important; min-height: 297mm !important; }
+      .a4-preview { box-shadow: none !important; border-radius: 0 !important; width: 210mm !important; min-height: unset !important; height: auto !important; }
       .preview-container { width: 210mm !important; margin: 0 auto !important; }
+      #a4Content > div { height: auto !important; min-height: unset !important; }
+      #a4Content > div > div { height: auto !important; min-height: unset !important; }
     }
   `;
   document.head.appendChild(style);
