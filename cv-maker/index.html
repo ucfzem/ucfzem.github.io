@@ -348,14 +348,13 @@ textarea.form-input {
 .a4-preview {
   background: var(--white);
   box-shadow: 0 4px 20px var(--shadow);
-  aspect-ratio: 210 / 297;
+  width: 794px;
+  min-height: 1123px;
   border-radius: 4px;
-  overflow: hidden;
 }
 
 .a4-inner {
   padding: 28px 32px;
-  height: 100%;
   font-size: 7px;
   line-height: 1.5;
   color: #1a1a1a;
@@ -535,6 +534,17 @@ textarea.form-input {
   .form-content { padding: 24px; }
   .section-tabs { padding: 18px; gap: 8px; }
   .section-tab { font-size: 13px; padding: 9px 16px; }
+}
+
+@media print {
+  body { overflow: visible; height: auto; background: white; }
+  .header, .left-panel, .mobile-preview-btn, .close-preview-btn, .template-selector { display: none !important; }
+  .main-container { display: block; height: auto; }
+  .right-panel { display: block; padding: 0; overflow: visible; background: white; }
+  .a4-preview { box-shadow: none; border-radius: 0; width: 100%; min-height: auto; }
+  .a4-inner { padding: 15mm 20mm; }
+  .preview-container { width: 100%; max-width: 100%; }
+  .a4-preview { page-break-after: always; }
 }
 </style>
 </head>
@@ -1222,7 +1232,7 @@ function getSkillDots(level) {
 
 function renderModern() {
   const p = cvData.personal || {};
-  return `<div style="display:flex;height:100%;font-family:Inter,sans-serif;">
+  return `<div style="display:flex;align-items:stretch;min-height:1123px;font-family:Inter,sans-serif;">
     <div style="width:30%;background:#1a1a1a;color:#e8e0d0;padding:20px 16px;display:flex;flex-direction:column;">
       <h1 style="font-size:16px;color:${GOLD};margin-bottom:2px;font-weight:700;">${escapeHTML(p.fullName || '')}</h1>
       <div style="font-size:7px;color:#aaa;margin-bottom:10px;">${escapeHTML(p.title || '')}</div>
@@ -1241,7 +1251,7 @@ function renderModern() {
       ${cvData.languages.length ? `<hr style="border:none;border-top:1px solid #444;margin:8px 0;"><div style="font-size:7px;font-weight:600;color:${GOLD};text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;">Languages</div>` : ''}
       ${cvData.languages.map(l => `<div style="font-size:6px;color:#ccc;margin-bottom:2px;display:flex;justify-content:space-between;"><span>${escapeHTML(l.name)}</span><span style="color:${GOLD};">${escapeHTML(l.level)}</span></div>`).join('')}
     </div>
-    <div style="width:70%;padding:20px 20px;overflow:hidden;">
+    <div style="width:70%;padding:20px 20px;">
       <h1 style="font-size:18px;margin-bottom:0;color:#1a1a1a;">${escapeHTML(p.fullName || '')}</h1>
       <div style="font-size:8px;color:#555;margin-bottom:8px;">${escapeHTML(p.title || '')}</div>
       ${p.summary ? `<p style="font-size:7px;color:#444;margin-bottom:10px;line-height:1.6;">${escapeHTML(p.summary)}</p>` : ''}
