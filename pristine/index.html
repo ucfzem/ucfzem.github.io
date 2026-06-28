@@ -1669,44 +1669,76 @@ function applyPreset(val) {
   document.getElementById('val-rh').textContent = h;
 }
 
-// These are stubs — replace with actual API calls
-function applyCompress() {
-  if (!canvas) return alert('Open an image first');
-  const quality = parseInt(document.querySelector('#params-compress input[type="range"]').value);
-  const format = document.getElementById('compressFormat').value;
-  showProcessing('Compressing…', quality + '% quality · ' + format.toUpperCase());
-  setTimeout(function() {
-    hideProcessing();
-    alert('Compression applied (simulated). Connect Python API for real processing.');
-  }, 1000);
+function syncCurrentImage() {
+  currentImage = new Image();
+  currentImage.src = canvas.toDataURL();
 }
 
+// ─── COMPRESS (real) ─────────────────────────────────────
+function applyCompress() {
+  if (!canvas) return alert('Open an image first');
+  const quality = parseInt(document.querySelector('#params-compress input[type="range"]').value) / 100;
+  const format = document.getElementById('compressFormat').value;
+  const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+  showProcessing('Compressing…', Math.round(quality * 100) + '% · ' + format.toUpperCase());
+  setTimeout(function() {
+    const dataUrl = canvas.toDataURL(mime, quality);
+    const img = new Image();
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      currentImage = img;
+      saveState();
+      hideProcessing();
+    };
+    img.src = dataUrl;
+  }, 200);
+}
+
+// ─── RESIZE (real) ────────────────────────────────────────
 function applyResize() {
   if (!canvas) return alert('Open an image first');
   const w = parseInt(document.querySelectorAll('#params-resize input[type="range"]')[0].value);
   const h = parseInt(document.querySelectorAll('#params-resize input[type="range"]')[1].value);
   showProcessing('Resizing…', w + '×' + h);
   setTimeout(function() {
+    const tmp = document.createElement('canvas');
+    tmp.width = w;
+    tmp.height = h;
+    const tmpCtx = tmp.getContext('2d');
+    tmpCtx.drawImage(currentImage, 0, 0, w, h);
     canvas.width = w;
     canvas.height = h;
-    ctx.drawImage(currentImage, 0, 0, w, h);
-    currentImage = new Image();
-    currentImage.src = canvas.toDataURL();
+    ctx.drawImage(tmp, 0, 0);
+    syncCurrentImage();
     saveState();
     hideProcessing();
-  }, 500);
+  }, 200);
 }
 
+// ─── CONVERT (real) ───────────────────────────────────────
 function applyConvert() {
   if (!canvas) return alert('Open an image first');
   const format = document.getElementById('convertFormat').value;
+  const mime = format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : format === 'bmp' ? 'image/bmp' : format === 'tiff' ? 'image/tiff' : 'image/png';
   showProcessing('Converting…', format.toUpperCase());
   setTimeout(function() {
-    hideProcessing();
-    alert('Converted to ' + format.toUpperCase() + ' (simulated). Use Download to save.');
-  }, 800);
+    const dataUrl = canvas.toDataURL(mime, 0.92);
+    const img = new Image();
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      currentImage = img;
+      saveState();
+      hideProcessing();
+    };
+    img.src = dataUrl;
+  }, 200);
 }
 
+// ─── WATERMARK (real) ─────────────────────────────────────
 function applyWatermark() {
   if (!canvas) return alert('Open an image first');
   const text = document.getElementById('wmText').value || '© Pristine';
@@ -1714,90 +1746,163 @@ function applyWatermark() {
   const pos = document.getElementById('wmPos').value;
   showProcessing('Adding watermark…');
   setTimeout(function() {
+    renderCanvas();
     ctx.globalAlpha = opacity;
-    ctx.font = 'bold 28px sans-serif';
+    const fontSize = Math.max(16, Math.min(canvas.width, canvas.height) * 0.04);
+    ctx.font = 'bold ' + fontSize + 'px sans-serif';
     ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+    ctx.lineWidth = 2;
     const metrics = ctx.measureText(text);
-    const tw = metrics.width, th = 28;
-    let x = 20, y = 40;
-    if (pos === 'br') { x = canvas.width - tw - 20; y = canvas.height - 20; }
-    if (pos === 'bl') { x = 20; y = canvas.height - 20; }
-    if (pos === 'tr') { x = canvas.width - tw - 20; y = 40; }
+    const tw = metrics.width, th = fontSize;
+    const pad = Math.max(16, fontSize);
+    let x = pad, y = pad + fontSize;
+    if (pos === 'br') { x = canvas.width - tw - pad; y = canvas.height - pad; }
+    if (pos === 'bl') { x = pad; y = canvas.height - pad; }
+    if (pos === 'tr') { x = canvas.width - tw - pad; y = pad + fontSize; }
     if (pos === 'cc') { x = (canvas.width - tw) / 2; y = (canvas.height + th) / 2; }
+    ctx.strokeText(text, x, y);
     ctx.fillText(text, x, y);
     ctx.globalAlpha = 1;
     saveState();
     hideProcessing();
-  }, 600);
+  }, 200);
 }
 
+// ─── THUMBNAIL (real) ─────────────────────────────────────
 function applyThumbnail() {
   if (!canvas) return alert('Open an image first');
   const size = parseInt(document.querySelector('#params-thumbnail input[type="range"]').value);
   showProcessing('Generating thumbnail…', size + '×' + size);
   setTimeout(function() {
-    const tw = size, th = size;
-    canvas.width = tw;
-    canvas.height = th;
-    ctx.drawImage(currentImage, 0, 0, tw, th);
-    currentImage = new Image();
-    currentImage.src = canvas.toDataURL();
+    const tmp = document.createElement('canvas');
+    tmp.width = size;
+    tmp.height = size;
+    const tmpCtx = tmp.getContext('2d');
+    const src = currentImage;
+    const scale = Math.max(size / src.width, size / src.height);
+    const sw = src.width * scale, sh = src.height * scale;
+    const sx = (size - sw) / 2, sy = (size - sh) / 2;
+    tmpCtx.fillStyle = '#000000';
+    tmpCtx.fillRect(0, 0, size, size);
+    tmpCtx.drawImage(src, sx, sy, sw, sh);
+    canvas.width = size;
+    canvas.height = size;
+    ctx.drawImage(tmp, 0, 0);
+    syncCurrentImage();
     saveState();
     hideProcessing();
-  }, 400);
+  }, 200);
 }
+
+// ─── CROP (real) ──────────────────────────────────────────
+let cropActive = false, cropStart = {}, cropEnd = {};
 
 function enableCrop() {
   if (!canvas) return alert('Open an image first');
-  alert('Crop tool: Click and drag on the image to select region. (Simulated)');
+  cropActive = !cropActive;
+  if (cropActive) {
+    canvas.style.cursor = 'crosshair';
+    document.querySelector('#params-crop .apply-btn').textContent = '✕ Cancel Crop';
+    canvas.onmousedown = function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      cropStart.x = (e.clientX - rect.left) * scaleX;
+      cropStart.y = (e.clientY - rect.top) * scaleY;
+      cropEnd = {};
+    };
+    canvas.onmousemove = function(e) {
+      if (cropStart.x === undefined) return;
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      cropEnd.x = Math.min(canvas.width, Math.max(0, (e.clientX - rect.left) * scaleX));
+      cropEnd.y = Math.min(canvas.height, Math.max(0, (e.clientY - rect.top) * scaleY));
+      renderCanvas();
+      ctx.fillStyle = 'rgba(200,150,62,0.2)';
+      ctx.strokeStyle = 'var(--gold)';
+      ctx.lineWidth = 2;
+      const x = Math.min(cropStart.x, cropEnd.x);
+      const y = Math.min(cropStart.y, cropEnd.y);
+      const w = Math.abs(cropEnd.x - cropStart.x);
+      const h = Math.abs(cropEnd.y - cropStart.y);
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeRect(x, y, w, h);
+    };
+    canvas.onmouseup = function() {
+      if (!cropStart.x || !cropEnd.x) return;
+      const x = Math.min(cropStart.x, cropEnd.x);
+      const y = Math.min(cropStart.y, cropEnd.y);
+      const w = Math.abs(cropEnd.x - cropStart.x);
+      const h = Math.abs(cropEnd.y - cropStart.y);
+      if (w < 5 || h < 5) return;
+      const imgData = ctx.getImageData(x, y, w, h);
+      canvas.width = w;
+      canvas.height = h;
+      ctx.putImageData(imgData, 0, 0);
+      syncCurrentImage();
+      saveState();
+      cropActive = false;
+      cropStart = {};
+      canvas.style.cursor = '';
+      canvas.onmousedown = canvas.onmousemove = canvas.onmouseup = null;
+      document.querySelector('#params-crop .apply-btn').textContent = 'Enable Crop Tool';
+    };
+  } else {
+    canvas.style.cursor = '';
+    canvas.onmousedown = canvas.onmousemove = canvas.onmouseup = null;
+    renderCanvas();
+    document.querySelector('#params-crop .apply-btn').textContent = 'Enable Crop Tool';
+  }
 }
 
-function applyRemoveBG() {
-  if (!canvas) return alert('Open an image first');
-  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first (click Configure)');
-  showProcessing('Removing background…', 'U2Net model');
-  setTimeout(function() {
-    hideProcessing();
-    alert('Background removed (simulated). Connect HF Space for real AI.');
-  }, 2000);
-}
-
-function applyEnhance() {
-  if (!canvas) return alert('Open an image first');
-  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
-  showProcessing('Enhancing 4×…', 'Real-ESRGAN');
-  setTimeout(function() {
-    hideProcessing();
-    alert('4× enhancement (simulated). Connect HF Space for real AI.');
-  }, 2000);
-}
-
-function applyRestore() {
-  if (!canvas) return alert('Open an image first');
-  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
-  showProcessing('Restoring faces…', 'GFPGAN');
-  setTimeout(function() {
-    hideProcessing();
-    alert('Face restoration (simulated). Connect HF Space for real AI.');
-  }, 2000);
-}
-
-function applyInpaint() {
-  if (!canvas) return alert('Open an image first');
-  if (!apiConfigs.hf.url) return alert('Configure Hugging Face API first');
-  showProcessing('Inpainting…', 'LaMa');
-  setTimeout(function() {
-    hideProcessing();
-    alert('Inpainting (simulated). Connect HF Space for real AI.');
-  }, 2000);
-}
-
+// ─── BATCH (real) ─────────────────────────────────────────
 function applyBatch() {
-  alert('Batch: Select multiple images to resize → ZIP download. (Simulated)');
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.multiple = true;
+  input.onchange = function(e) {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    const w = parseInt(document.querySelector('#params-resize input[type="range"]').value) || 300;
+    const h = parseInt(document.querySelectorAll('#params-resize input[type="range"]')[1].value) || 300;
+    showProcessing('Batch processing…', files.length + ' files → ' + w + '×' + h);
+    let loaded = 0, zipData = [];
+    files.forEach(function(file) {
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        const img = new Image();
+        img.onload = function() {
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const cx = c.getContext('2d');
+          cx.drawImage(img, 0, 0, w, h);
+          zipData.push({ name: file.name.replace(/\.[^.]+$/, '') + '_thumb.png', data: c.toDataURL('image/png') });
+          loaded++;
+          if (loaded === files.length) {
+            hideProcessing();
+            let html = '<html><body>';
+            zipData.forEach(function(item) {
+              html += '<img src="' + item.data + '" title="' + item.name + '"><br>';
+            });
+            html += '</body></html>';
+            const wnd = window.open();
+            wnd.document.write(html);
+          }
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  input.click();
 }
 
 function applyThumbJava() {
-  alert('Java Thumbnails: Connect Java API for Thumbnailator batch processing.');
+  applyBatch();
 }
 
 // ─── COPY CODE ────────────────────────────────────────────
