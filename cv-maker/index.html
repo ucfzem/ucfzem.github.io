@@ -1449,30 +1449,37 @@ document.getElementById('demoBtn').addEventListener('click', fillDemo);
 
 // Download PDF
 function triggerPrint() {
-  const style = document.createElement('style');
-  style.id = 'force-print';
-  style.textContent = `
-    @media print {
-      @page { size: A4 portrait; margin: 0; }
-      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      body { overflow: visible !important; height: auto !important; }
-      .header, .left-panel, .mobile-preview-btn, .close-preview-btn, .template-selector, .modal-overlay { display: none !important; }
-      .main-container { display: block !important; height: auto !important; overflow: visible !important; }
-      .right-panel { display: block !important; position: static !important; padding: 0 !important; background: white !important; overflow: visible !important; width: 100% !important; }
-      .a4-preview { box-shadow: none !important; border-radius: 0 !important; width: 210mm !important; min-height: unset !important; height: auto !important; }
-      .preview-container { width: 210mm !important; margin: 0 auto !important; }
-      #a4Content > div { height: auto !important; min-height: unset !important; }
-      #a4Content > div > div { height: auto !important; min-height: unset !important; }
-    }
-  `;
-  document.head.appendChild(style);
-  setTimeout(() => {
-    window.print();
+  const p = cvData.personal || {};
+  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g,'_') : 'CV') + '.pdf';
+
+  const contentHTML = document.getElementById('a4Content').innerHTML;
+
+  const fullHTML = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>${fileName}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 portrait; margin: 0; }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    body { width:210mm; background:#fff; }
+  </style>
+</head>
+<body>${contentHTML}</body>
+</html>`;
+
+  const win = window.open('', '_blank', 'width=900,height=700');
+  win.document.open();
+  win.document.write(fullHTML);
+  win.document.close();
+
+  win.onload = () => {
     setTimeout(() => {
-      const s = document.getElementById('force-print');
-      if (s) s.remove();
-    }, 1000);
-  }, 300);
+      win.focus();
+      win.print();
+    }, 1200);
+  };
 }
 
 function showDownloadModal() {
