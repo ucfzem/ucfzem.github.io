@@ -217,6 +217,7 @@ nav {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 0;
 }
 .panel-section {
   padding: 16px;
@@ -336,6 +337,7 @@ nav {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  min-height: 0;
 }
 .canvas-toolbar {
   display: flex;
@@ -422,6 +424,7 @@ nav {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-height: 0;
 }
 
 /* Sliders */
@@ -931,9 +934,9 @@ pre {
   <div class="nav-logo">Pristine <sub>v2</sub></div>
   <div class="nav-sep"></div>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('landing')">Home</button>
-    <button class="nav-tab" onclick="showPage('editor')">Editor</button>
-    <button class="nav-tab" onclick="showPage('docs')">API Docs</button>
+    <button class="nav-tab active" onclick="showPage('landing',this)">Home</button>
+    <button class="nav-tab" onclick="showPage('editor',this)">Editor</button>
+    <button class="nav-tab" onclick="showPage('docs',this)">API Docs</button>
   </div>
 </nav>
 
@@ -946,23 +949,23 @@ pre {
     <h1>Pristine <span>✦</span></h1>
     <p>Three-phase image processing pipeline. From basic compression to AI-powered restoration — all from a single interface.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="showPage('editor')">Open Editor</button>
-      <button class="btn-secondary" onclick="showPage('docs')">API Documentation</button>
+      <button class="btn-primary" onclick="showPage('editor',this)">Open Editor</button>
+      <button class="btn-secondary" onclick="showPage('docs',this)">API Documentation</button>
     </div>
   </div>
 
   <div class="phases-strip">
-    <div class="phase-card" onclick="showPage('editor')">
+    <div class="phase-card" onclick="showPage('editor',this)">
       <div class="ph-num">PHASE 01 · PYTHON</div>
       <h3>🐍 FastAPI + Pillow</h3>
       <p>Compress, resize, convert, watermark. Free tier, 512MB RAM.</p>
     </div>
-    <div class="phase-card" onclick="showPage('editor')">
+    <div class="phase-card" onclick="showPage('editor',this)">
       <div class="ph-num">PHASE 02 · AI</div>
       <h3>🤗 Hugging Face Spaces</h3>
       <p>Remove background, inpaint, 4× upscale, restore faces.</p>
     </div>
-    <div class="phase-card" onclick="showPage('editor')">
+    <div class="phase-card" onclick="showPage('editor',this)">
       <div class="ph-num">PHASE 03 · JAVA</div>
       <h3>☕ Spring Boot</h3>
       <p>Batch resize → ZIP, thumbnails, Thumbnailator-powered.</p>
@@ -1035,22 +1038,22 @@ pre {
       <div class="panel-section">
         <div class="panel-label">Phase 1 — Basic</div>
         <div class="tool-grid">
-          <button class="tool-btn" onclick="selectTool('compress')">
+          <button class="tool-btn" onclick="selectTool('compress',this)">
             <span class="tool-icon">🗜️</span> Compress
           </button>
-          <button class="tool-btn" onclick="selectTool('resize')">
+          <button class="tool-btn" onclick="selectTool('resize',this)">
             <span class="tool-icon">📐</span> Resize
           </button>
-          <button class="tool-btn" onclick="selectTool('convert')">
+          <button class="tool-btn" onclick="selectTool('convert',this)">
             <span class="tool-icon">🔄</span> Convert
           </button>
-          <button class="tool-btn" onclick="selectTool('watermark')">
+          <button class="tool-btn" onclick="selectTool('watermark',this)">
             <span class="tool-icon">💧</span> Watermark
           </button>
-          <button class="tool-btn" onclick="selectTool('thumbnail')">
+          <button class="tool-btn" onclick="selectTool('thumbnail',this)">
             <span class="tool-icon">⬛</span> Thumbnail
           </button>
-          <button class="tool-btn" onclick="selectTool('crop')">
+          <button class="tool-btn" onclick="selectTool('crop',this)">
             <span class="tool-icon">✂️</span> Crop
           </button>
         </div>
@@ -1059,16 +1062,16 @@ pre {
       <div class="panel-section">
         <div class="panel-label">Phase 2 — AI <span class="ai-badge">HF</span></div>
         <div class="tool-grid">
-          <button class="tool-btn" onclick="selectTool('rembg')">
+          <button class="tool-btn" onclick="selectTool('rembg',this)">
             <span class="tool-icon">🪄</span> Remove BG
           </button>
-          <button class="tool-btn" onclick="selectTool('enhance')">
+          <button class="tool-btn" onclick="selectTool('enhance',this)">
             <span class="tool-icon">🔍</span> Enhance 4×
           </button>
-          <button class="tool-btn" onclick="selectTool('restore')">
+          <button class="tool-btn" onclick="selectTool('restore',this)">
             <span class="tool-icon">🧑</span> Faces
           </button>
-          <button class="tool-btn" onclick="selectTool('inpaint')">
+          <button class="tool-btn" onclick="selectTool('inpaint',this)">
             <span class="tool-icon">🖌️</span> Inpaint
           </button>
         </div>
@@ -1080,10 +1083,10 @@ pre {
       <div class="panel-section">
         <div class="panel-label">Phase 3 — Batch <span class="ai-badge" style="background:rgba(245,158,11,0.12);color:var(--java);border-color:rgba(245,158,11,0.2)">Java</span></div>
         <div class="tool-grid">
-          <button class="tool-btn" onclick="selectTool('batch')">
+          <button class="tool-btn" onclick="selectTool('batch',this)">
             <span class="tool-icon">📦</span> Batch ZIP
           </button>
-          <button class="tool-btn" onclick="selectTool('thumb-java')">
+          <button class="tool-btn" onclick="selectTool('thumb-java',this)">
             <span class="tool-icon">🖼️</span> Thumb Java
           </button>
         </div>
@@ -1095,17 +1098,17 @@ pre {
           <div class="api-row">
             <div class="api-dot" id="dot-py"></div>
             <span class="api-name">Python API</span>
-            <button class="api-config-btn" onclick="openModal('py')">Configure</button>
+            <button class="api-config-btn" onclick="openModal('py',this)">Configure</button>
           </div>
           <div class="api-row">
             <div class="api-dot" id="dot-hf"></div>
             <span class="api-name">Hugging Face</span>
-            <button class="api-config-btn" onclick="openModal('hf')">Configure</button>
+            <button class="api-config-btn" onclick="openModal('hf',this)">Configure</button>
           </div>
           <div class="api-row">
             <div class="api-dot" id="dot-java"></div>
             <span class="api-name">Java API</span>
-            <button class="api-config-btn" onclick="openModal('java')">Configure</button>
+            <button class="api-config-btn" onclick="openModal('java',this)">Configure</button>
           </div>
         </div>
       </div>
@@ -1293,13 +1296,13 @@ pre {
   <div class="docs-sidebar">
     <div class="docs-sidebar-section" style="padding-top:8px">
       <span class="docs-sidebar-label">Phases</span>
-      <button class="docs-link active" onclick="showDocPhase('phase1')">
+      <button class="docs-link active" onclick="showDocPhase('phase1',this)">
         <span class="docs-dot" style="background:var(--py)"></span>Phase 1 · Python
       </button>
-      <button class="docs-link" onclick="showDocPhase('phase2')">
+      <button class="docs-link" onclick="showDocPhase('phase2',this)">
         <span class="docs-dot" style="background:var(--hf)"></span>Phase 2 · AI
       </button>
-      <button class="docs-link" onclick="showDocPhase('phase3')">
+      <button class="docs-link" onclick="showDocPhase('phase3',this)">
         <span class="docs-dot" style="background:var(--java)"></span>Phase 3 · Java
       </button>
     </div>
@@ -1474,19 +1477,19 @@ let history = [];
 let historyIndex = -1;
 
 // ─── PAGE ROUTING ─────────────────────────────────────────
-function showPage(name) {
+function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  event.target.classList.add('active');
+  if (el) el.classList.add('active');
 }
 
 // ─── DOCS ROUTING ─────────────────────────────────────────
-function showDocPhase(id) {
+function showDocPhase(id, el) {
   document.querySelectorAll('.docs-phase').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.docs-link').forEach(l => l.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
+  if (el) el.classList.add('active');
 }
 
 // ─── ENDPOINT ACCORDION ───────────────────────────────────
@@ -1534,11 +1537,11 @@ function updateApiDots() {
 }
 
 // ─── TOOL SELECTION ───────────────────────────────────────
-function selectTool(tool) {
+function selectTool(tool, el) {
   currentTool = tool;
   document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tool-params').forEach(p => p.classList.remove('active'));
-  const btn = event.target.closest('.tool-btn');
+  const btn = el ? el.closest('.tool-btn') : null;
   if (btn) btn.classList.add('active');
   const params = document.getElementById('params-' + tool);
   if (params) params.classList.add('active');
