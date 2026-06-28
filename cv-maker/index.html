@@ -1453,28 +1453,31 @@ document.getElementById('demoBtn').addEventListener('click', fillDemo);
 async function triggerPrint() {
   const p = cvData.personal || {};
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g,'_') : 'CV') + '.pdf';
-
   showToast('⏳ ' + t('generating'));
 
-  const a4Content = document.getElementById('a4Content');
-  const previewContainer = document.querySelector('.preview-container');
-  const a4Preview = document.getElementById('a4Preview');
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'position:fixed;left:0;top:0;width:794px;height:1123px;border:none;z-index:-999;visibility:hidden;';
+  document.body.appendChild(iframe);
 
-  const savedTransform = a4Preview.style.transform || '';
-  const savedWidth = a4Preview.style.width || '';
+  const idoc = iframe.contentDocument;
+  idoc.open();
+  idoc.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box;}
+      html,body{width:794px;height:1123px;overflow:hidden;background:#fff;}
+    </style>
+  </head><body>${document.getElementById('a4Content').innerHTML}</body></html>`);
+  idoc.close();
 
-  a4Preview.style.transform = 'none';
-  a4Preview.style.width = '794px';
-  a4Preview.style.position = 'absolute';
-  a4Preview.style.left = '-9999px';
-  a4Preview.style.top = '0';
-  document.body.appendChild(a4Preview);
+  await new Promise(r => setTimeout(r, 1500));
 
-  await document.fonts.ready;
-  await new Promise(r => setTimeout(r, 600));
+  iframe.style.visibility = 'visible';
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
   try {
-    const canvas = await html2canvas(a4Content, {
+    const canvas = await html2canvas(idoc.body, {
       scale: 2,
       useCORS: true,
       allowTaint: true,
@@ -1482,70 +1485,34 @@ async function triggerPrint() {
       logging: false,
       width: 794,
       height: 1123,
-      windowWidth: 860,
-      windowHeight: 1200,
-      x: 0,
-      y: 0,
+      windowWidth: 794,
+      windowHeight: 1123,
       scrollX: 0,
-      scrollY: 0,
-      onclone: (clonedDoc) => {
-        const content = clonedDoc.getElementById('a4Content');
-        if (content && content.firstElementChild) {
-          content.firstElementChild.style.width = '794px';
-          content.firstElementChild.style.height = '1123px';
-          content.firstElementChild.style.overflow = 'hidden';
-          content.firstElementChild.style.minHeight = '1123px';
-        }
-      }
+      scrollY: 0
     });
 
-    a4Preview.style.transform = savedTransform;
-    a4Preview.style.width = savedWidth;
-    a4Preview.style.position = '';
-    a4Preview.style.left = '';
-    a4Preview.style.top = '';
-    previewContainer.appendChild(a4Preview);
+    document.body.removeChild(iframe);
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ unit:'px', format:[794,1123], orientation:'portrait' });
     pdf.addImage(imgData, 'JPEG', 0, 0, 794, 1123);
 
     const pdfBase64 = pdf.output('datauristring');
     const newTab = window.open();
-    newTab.document.write(`<!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>${fileName}</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#111; display:flex; flex-direction:column; align-items:center; min-height:100vh; font-family:sans-serif; }
-    .bar { width:100%; background:#1a1a1a; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:10; }
-    .bar span { color:#C9A84C; font-weight:700; font-size:15px; }
-    .btn { background:#C9A84C; color:#1a1a1a; border:none; padding:10px 18px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; text-decoration:none; }
-    iframe { width:100%; height:calc(100vh - 52px); border:none; }
-  </style>
-</head>
-<body>
-  <div class="bar">
-    <span>📄 ${fileName}</span>
-    <a class="btn" href="${pdfBase64}" download="${fileName}">⬇️ Télécharger</a>
-  </div>
-  <iframe src="${pdfBase64}"></iframe>
-</body>
-</html>`);
+    newTab.document.write(`<!DOCTYPE html><html><head>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>${fileName}</title>
+      <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#111;font-family:sans-serif;}.bar{width:100%;background:#1a1a1a;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}.bar span{color:#C9A84C;font-weight:700;font-size:15px;}.btn{background:#C9A84C;color:#1a1a1a;padding:10px 18px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;display:inline-block;}iframe{width:100%;height:calc(100vh - 52px);border:none;}</style>
+    </head><body>
+      <div class="bar"><span>📄 ${fileName}</span><a class="btn" href="${pdfBase64}" download="${fileName}">⬇️ Télécharger</a></div>
+      <iframe src="${pdfBase64}"></iframe>
+    </body></html>`);
     newTab.document.close();
     showToast('✅ PDF ' + t('saved'));
 
   } catch(err) {
-    a4Preview.style.transform = savedTransform;
-    a4Preview.style.width = savedWidth;
-    a4Preview.style.position = '';
-    a4Preview.style.left = '';
-    a4Preview.style.top = '';
-    previewContainer.appendChild(a4Preview);
+    if(iframe.parentNode) document.body.removeChild(iframe);
     console.error('PDF error:', err);
     showToast('❌ ' + t('pdf_error'));
   }
