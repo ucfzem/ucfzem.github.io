@@ -917,10 +917,16 @@ pre {
 
 /* ─── MOBILE ─────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .editor-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: auto; }
-  .panel-left { display: none; }
-  .panel-right { border-left: none; border-top: 1px solid var(--border); }
-  .canvas-area { height: 50vh; }
+  .editor-layout { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr auto; height: auto; overflow-y: auto; }
+  .panel-left { display: block; border-right: none; border-bottom: 1px solid var(--border); max-height: none; overflow-y: visible; }
+  .panel-left .panel-section:not(:has(.tool-grid)) { display: none; }
+  .panel-left .panel-section { padding: 8px 12px; }
+  .panel-left .panel-label { margin-bottom: 6px; font-size: 8px; }
+  .tool-grid { grid-template-columns: repeat(6,auto); overflow-x: auto; gap: 4px; }
+  .tool-btn { padding: 6px 8px; font-size: 10px; flex-direction: row; gap: 4px; white-space: nowrap; }
+  .tool-btn .tool-icon { font-size: 13px; }
+  .panel-right { border-left: none; border-top: 1px solid var(--border); max-height: 35vh; }
+  .canvas-area { height: 45vh; min-height: 0; }
   #page-docs { grid-template-columns: 1fr; }
   .docs-sidebar { display: none; }
   .nav-tabs .nav-tab:first-child { display: none; }
