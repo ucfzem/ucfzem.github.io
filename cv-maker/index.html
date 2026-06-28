@@ -1239,9 +1239,14 @@ function renderModern() {
   const sidebarSub = '#D4C4A8';
   const sidebarDotEmpty = '#6B5535';
 
-  return `<div style="display:flex;width:794px;height:1123px;font-family:'Inter',sans-serif;background:#ffffff;color:#2C1A06;box-sizing:border-box;align-items:stretch;">
+  return `<div style="display:flex;width:794px;height:1123px;font-family:'Inter',sans-serif;
+    background:linear-gradient(to right, ${sidebarBg} 280px, #ffffff 280px);
+    color:#2C1A06;box-sizing:border-box;overflow:hidden;">
+
     <!-- SIDEBAR -->
-    <div style="width:280px;min-width:280px;background:${sidebarBg};color:${sidebarText};padding:40px 24px;display:flex;flex-direction:column;box-sizing:border-box;flex-shrink:0;align-self:stretch;">
+    <div style="width:280px;min-width:280px;flex-shrink:0;padding:40px 24px;
+      display:flex;flex-direction:column;box-sizing:border-box;
+      color:${sidebarText};background:transparent;">
       <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;color:${GOLD};margin-bottom:6px;font-weight:800;line-height:1.2;letter-spacing:-0.02em;">${escapeHTML(p.fullName || '')}</h1>
       <div style="font-size:12px;color:${sidebarSub};margin-bottom:28px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">${escapeHTML(p.title || '')}</div>
 
@@ -1289,7 +1294,7 @@ function renderModern() {
     </div>
 
     <!-- MAIN CONTENT -->
-    <div style="flex:1;padding:40px 32px;box-sizing:border-box;background:#ffffff;color:#2C1A06;align-self:stretch;">
+    <div style="flex:1;padding:40px 32px;box-sizing:border-box;background:transparent;color:#2C1A06;">
       ${p.summary ? `<div style="font-size:13px;color:#3D2E1A;margin-bottom:26px;line-height:1.65;background:#FAF3E8;padding:14px 16px;border-left:3px solid ${GOLD};border-radius:0 6px 6px 0;white-space:pre-line;">${escapeHTML(p.summary)}</div>` : ''}
 
       <!-- EXPERIENCE -->
