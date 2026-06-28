@@ -1450,51 +1450,55 @@ function downloadPDF(quality) {
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : t('pdf_name')) + '.pdf';
 
   const workerElement = document.createElement('div');
+  workerElement.style.position = 'fixed';
+  workerElement.style.top = '0';
+  workerElement.style.left = '0';
   workerElement.style.width = '794px';
   workerElement.style.minHeight = '1123px';
   workerElement.style.background = '#ffffff';
   workerElement.style.color = '#1a1a1a';
-  workerElement.style.position = 'absolute';
-  workerElement.style.left = '-9999px';
-  workerElement.style.top = '0';
   workerElement.style.boxSizing = 'border-box';
+  workerElement.style.zIndex = '-1';
+  workerElement.style.opacity = '0.01';
   workerElement.innerHTML = previewContent.innerHTML;
   document.body.appendChild(workerElement);
 
-  const scaleMap = { high: 3, medium: 2, low: 1 };
-  const scale = scaleMap[quality] || 2;
+  setTimeout(() => {
+    const scaleMap = { high: 3, medium: 2, low: 1 };
+    const scale = scaleMap[quality] || 2;
 
-  const opt = {
-    margin: 0,
-    filename: fileName,
-    image: { type: 'jpeg', quality: quality === 'high' ? 0.98 : quality === 'medium' ? 0.85 : 0.7 },
-    html2canvas: {
-      scale: scale,
-      useCORS: true,
-      letterRendering: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: 794,
-      height: 1123
-    },
-    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-  };
+    const opt = {
+      margin: 0,
+      filename: fileName,
+      image: { type: 'jpeg', quality: quality === 'high' ? 0.98 : quality === 'medium' ? 0.85 : 0.7 },
+      html2canvas: {
+        scale: scale,
+        useCORS: true,
+        letterRendering: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: 794,
+        height: 1123,
+        scrollX: 0,
+        scrollY: 0
+      },
+      jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+    };
 
-  html2pdf().set(opt).from(workerElement).toPdf().get('pdf').then((pdf) => {
-    const totalPages = pdf.internal.getNumberOfPages();
-    if (totalPages > 1 && cvData.experiences.length <= 2) {
-      pdf.deletePage(totalPages);
-    }
-  }).save().then(() => {
-    document.body.removeChild(workerElement);
-    showToast('✅ PDF ' + t('saved'));
-  }).catch(err => {
-    console.error('PDF error:', err);
-    if (workerElement.parentNode) {
+    html2pdf().set(opt).from(workerElement).toPdf().get('pdf').then((pdf) => {
+      const totalPages = pdf.internal.getNumberOfPages();
+      if (totalPages > 1 && cvData.experiences.length <= 2) {
+        pdf.deletePage(totalPages);
+      }
+    }).save().then(() => {
       document.body.removeChild(workerElement);
-    }
-    showToast('❌ ' + t('pdf_error'));
-  });
+      showToast('✅ PDF ' + t('saved'));
+    }).catch(err => {
+      console.error('PDF error:', err);
+      if (workerElement.parentNode) document.body.removeChild(workerElement);
+      showToast('❌ ' + t('pdf_error'));
+    });
+  }, 150);
 }
 
 // Toast
