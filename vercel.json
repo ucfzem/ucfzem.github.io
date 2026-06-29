@@ -3,17 +3,7 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "trailingSlash": true,
-  "functions": {
-    "api/**/*.py": {
-      "runtime": "vercel-python@3.0.0",
-      "memory": 256,
-      "maxDuration": 30
-    }
-  },
   "redirects": [
     { "source": "/works", "destination": "/works/", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/api/generate-cv", "destination": "/api/generate_cv" }
   ]
 }
