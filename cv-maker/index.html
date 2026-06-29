@@ -1487,7 +1487,7 @@ function triggerPrint() {
   let mainY = MARGIN;
 
   function ensureSpace(need) {
-    if (mainY + need > H - 30) {
+    if (mainY + need > H - 30 || sideY + need > H - 30) {
       pdf.addPage();
       drawBackgrounds();
       mainY = MARGIN;
