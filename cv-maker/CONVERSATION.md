@@ -30,6 +30,9 @@ PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scal
 - `-webkit-print-color-adjust: exact` preserves dark sidebar
 - Opens native print dialog → user selects "Save as PDF"
 - Arabic renders natively, no scaling issues, no download restrictions
+- Arabic RTL requires `dir="rtl"` on the template container + Cairo font
+- html2canvas fundamentally cannot handle Arabic glyphs (bidi rendering, phone number reversal, broken letter connections)
+- `window.print()` delegates to browser's native BiDi engine — perfect Arabic rendering, selectable text in PDF
 
 ## Current State
 - `renderModern()`: flex-based `<div>` layout, explicit 794×1123, 278px sidebar / 516px main
