@@ -6,6 +6,7 @@
   <title>nano invoice | minimal billing for creators</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --bg: #1a1208;
@@ -232,8 +233,8 @@
               <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Notes (optional)</label>
               <textarea id="invNotes" rows="2" placeholder="Payment terms, thank you note..." class="w-full px-3 py-2 rounded-lg text-sm"></textarea>
             </div>
-            <button id="printBtn" class="btn-glow font-semibold px-5 py-3 rounded-lg text-sm flex items-center justify-center gap-2 w-full transition-colors no-print" style="background:var(--accent);color:var(--bg-alt);">
-              <i data-lucide="printer" class="w-4 h-4"></i> Print / Save PDF
+            <button id="downloadBtn" class="btn-glow font-semibold px-5 py-3 rounded-lg text-sm flex items-center justify-center gap-2 w-full transition-colors no-print" style="background:var(--accent);color:var(--bg-alt);">
+              <i data-lucide="download" class="w-4 h-4"></i> Download PDF
             </button>
           </div>
           
@@ -549,11 +550,160 @@
         renderAll();
       });
 
-      document.getElementById('printBtn')?.addEventListener('click', () => {
+      document.getElementById('downloadBtn')?.addEventListener('click', () => {
+        if (typeof jspdf === 'undefined') { fallbackPrint(); return; }
+        const { jsPDF } = jspdf;
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        const L = 20, R = 190, W = 170;
+        let y = 25;
+
+        function txt(text, x, size, style, color) {
+          doc.setFont('helvetica', style || 'normal');
+          doc.setFontSize(size || 11);
+          if (color) doc.setTextColor(color[0], color[1], color[2]);
+          doc.text(text, x, y);
+        }
+
+        // Gold underline
+        doc.setDrawColor(201, 168, 76);
+        doc.setLineWidth(0.8);
+        doc.line(L, y, R, y);
+        doc.setFillColor(201, 168, 76);
+        doc.rect(L, y - 0.5, W, 1, 'F');
+
+        y += 8;
+        // Logo
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(22);
+        doc.setTextColor(201, 168, 76);
+        doc.text('nano', L, y);
+        doc.setTextColor(26, 26, 26);
+        doc.text('invoice', L + doc.getTextWidth('nano'), y);
+        y += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(168, 152, 120);
+        doc.text('INVOICE', L, y);
+
+        // Invoice #
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.setTextColor(26, 26, 26);
+        const invNum = invNumber?.value || 'INV-001';
+        doc.text(invNum, R - doc.getTextWidth(invNum), 33);
+
+        // Date
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(139, 115, 85);
+        const d = invDate?.value ? new Date(invDate.value).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }) : '';
+        if (d) doc.text(d, R - doc.getTextWidth(d), 39);
+
+        // Gold line
+        doc.setDrawColor(201, 168, 76);
+        doc.setLineWidth(0.5);
+        doc.line(L, y + 10, R, y + 10);
+
+        y = 55;
+        // From
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(168, 152, 120);
+        txt('FROM', L, 7, 'normal', [168,152,120]);
+        y += 5;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.setTextColor(26, 26, 26);
+        txt(businessInput?.value || 'Your name', L, 13, 'bold', [26,26,26]);
+
+        // Bill to
+        const billTo = clientInput?.value || 'Client name';
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        doc.setTextColor(168, 152, 120);
+        doc.text('BILL TO', R - doc.getTextWidth('BILL TO'), 55);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.setTextColor(26, 26, 26);
+        doc.text(billTo, R - doc.getTextWidth(billTo), 62);
+
+        y = 75;
+        // Table header
+        doc.setFillColor(245, 240, 232);
+        doc.rect(L, y - 4, W, 7, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(107, 91, 78);
+        doc.text('DESCRIPTION', L, y + 1);
+        doc.text('AMOUNT', R - doc.getTextWidth('AMOUNT'), y + 1);
+
+        y += 8;
+        // Table rows
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        doc.setTextColor(26, 26, 26);
+        lineItems.forEach((item, i) => {
+          if (y > 265) return;
+          const desc = item.description || 'Item';
+          const amt = formatCurrency(item.amount);
+          doc.text(desc, L, y);
+          doc.text(amt, R - doc.getTextWidth(amt), y);
+          y += 7;
+          if (i < lineItems.length - 1) {
+            doc.setDrawColor(232, 224, 208);
+            doc.setLineWidth(0.2);
+            doc.line(L, y - 3, R, y - 3);
+          }
+        });
+
+        y = Math.max(y + 4, 85 + lineItems.length * 7 + 4);
+        // Total line
+        doc.setDrawColor(201, 168, 76);
+        doc.setLineWidth(0.8);
+        doc.line(L, y, R, y);
+        y += 4;
+        const total = lineItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(107, 91, 78);
+        doc.text('TOTAL', L, y);
+        doc.setFontSize(18);
+        doc.setTextColor(26, 26, 26);
+        const totalStr = formatCurrency(total);
+        doc.text(totalStr, R - doc.getTextWidth(totalStr), y);
+
+        // Notes
+        if (invNotes?.value) {
+          y += 10;
+          doc.setDrawColor(201, 168, 76);
+          doc.setLineWidth(0.5);
+          doc.line(L, y, R, y);
+          y += 4;
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(9);
+          doc.setTextColor(107, 91, 78);
+          const notes = invNotes.value;
+          const maxW = W - 4;
+          let lines = [];
+          let line = '';
+          notes.split(' ').forEach(w => {
+            const test = line + ' ' + w;
+            if (doc.getTextWidth(test.trim()) > maxW) { lines.push(line.trim()); line = w; }
+            else { line = test; }
+          });
+          if (line.trim()) lines.push(line.trim());
+          lines.forEach(l => { doc.text(l, L, y); y += 4.5; });
+        }
+
+        const name = (businessInput?.value || 'invoice').replace(/\s+/g, '_');
+        doc.save(name + '.pdf');
+      });
+
+      function fallbackPrint() {
         buildPrintInvoice();
         setTimeout(() => window.print(), 50);
         setTimeout(() => { document.getElementById('printInvoice').innerHTML = ''; }, 1000);
-      });
+      }
 
       clientInput?.addEventListener('input', updatePreview);
       businessInput?.addEventListener('input', updatePreview);
