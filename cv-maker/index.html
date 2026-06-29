@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
 <style>
 :root {
@@ -671,15 +670,15 @@ textarea.form-input {
     <h3 data-i18n="export_title">Export CV as PDF</h3>
     <p data-i18n="export_desc">Choose your export quality</p>
     <div class="modal-actions">
-      <button class="quality-btn" onclick="downloadPDF('high')">
+      <button class="quality-btn" onclick="downloadPDF()">
         <span class="qlabel" data-i18n="high">High</span>
         <span class="qdesc" data-i18n="high_desc">Best quality, larger file</span>
       </button>
-      <button class="quality-btn" onclick="downloadPDF('medium')">
+      <button class="quality-btn" onclick="downloadPDF()">
         <span class="qlabel" data-i18n="medium">Medium</span>
         <span class="qdesc" data-i18n="medium_desc">Balanced quality & size</span>
       </button>
-      <button class="quality-btn" onclick="downloadPDF('low')">
+      <button class="quality-btn" onclick="downloadPDF()">
         <span class="qlabel" data-i18n="low">Low</span>
         <span class="qdesc" data-i18n="low_desc">Small file, faster</span>
       </button>
@@ -1671,7 +1670,7 @@ function closeDownloadModal() {
   document.getElementById('downloadModal').classList.remove('show');
 }
 
-function downloadPDF(quality) {
+function downloadPDF() {
   closeDownloadModal();
 
   const previewContent = document.getElementById('a4Content');
@@ -1680,55 +1679,50 @@ function downloadPDF(quality) {
     return;
   }
 
-  showToast('⏳ Génération du PDF...');
+  showToast('⏳ Préparation de l\'impression du PDF...');
 
-  const p = cvData.personal || {};
-  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : t('pdf_name')) + '.pdf';
+  const printStyle = document.createElement('style');
+  printStyle.id = 'pdf-print-style';
+  printStyle.innerHTML = `
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #a4Preview, #a4Preview * {
+        visibility: visible !important;
+      }
+      #a4Preview {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 794px !important;
+        height: 1123px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 0 !important;
+      }
+    }
+  `;
+  document.head.appendChild(printStyle);
 
-  const workerElement = document.createElement('div');
-  workerElement.style.position = 'absolute';
-  workerElement.style.top = '0';
-  workerElement.style.left = '-9999px';
-  workerElement.style.width = '794px';
-  workerElement.style.height = '1123px';
-  workerElement.style.background = '#ffffff';
+  setTimeout(() => {
+    window.print();
 
-  workerElement.innerHTML = previewContent.innerHTML;
-  document.body.appendChild(workerElement);
-
-  const scaleMap = { high: 2.5, medium: 2, low: 1.5 };
-  const currentScale = scaleMap[quality] || 2;
-
-  const opt = {
-    margin: 0,
-    filename: fileName,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale: currentScale,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: 794,
-      height: 1123,
-      windowWidth: 794,
-      windowHeight: 1123,
-      scrollX: 0,
-      scrollY: 0
-    },
-    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait', compress: true }
-  };
-
-  html2pdf().set(opt).from(workerElement).save().then(() => {
-    document.body.removeChild(workerElement);
-    showToast('✅ PDF généré avec succès !');
-  }).catch(err => {
-    console.error('Erreur PDF:', err);
-    if (workerElement.parentNode) document.body.removeChild(workerElement);
-    showToast('❌ Erreur lors de l\'export.');
-  });
+    setTimeout(() => {
+      const styleToRemove = document.getElementById('pdf-print-style');
+      if (styleToRemove) styleToRemove.remove();
+    }, 1000);
+  }, 50);
 }
 
-document.getElementById('downloadBtn').addEventListener('click', () => downloadPDF('high'));
+document.getElementById('downloadBtn').addEventListener('click', () => downloadPDF());
 
 // Toast
 function showToast(msg) {
