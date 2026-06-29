@@ -1,7 +1,7 @@
 # CV-Maker Conversation Log — 29 June 2026
 
 ## Problem
-PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scaling or empty images. Arabic text corrupted with jsPDF helvetica font.
+PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scaling or empty images. Arabic text corrupted with jsPDF helvetica font. All buttons dead after revert.
 
 ## Attempts
 
@@ -13,42 +13,36 @@ PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scal
 ### 2. html2canvas + jsPDF + New Tab (raw)
 - Forced 794×1123 px A4 box, html2canvas capture → jsPDF → data URI → new tab with iframe + download button
 - **Failed**: On mobile, html2canvas uses phone viewport causing ~25% scale text
-- Attempted fixes: `windowWidth: 794`, forced column widths (278px / 516px), forced heights (1123px)
 
 ### 3. html2pdf.js Wrapper
-- Used `html2pdf().set(opt).from(element).save()`
-- **Failed**: `.save()` blocked on Chrome Android (programmatic download loses user gesture)
+- **Failed**: `.save()` blocked on Chrome Android
 
 ### 4. `<table>` Layout + html2pdf
-- Switched renderModern from flex `<div>` to `<table>` for rigid dimensions
-- **Failed**: "images vides" (blank capture)
+- **Failed**: blank capture
 
-### 5. `window.print()` (current — working)
-- No html2canvas, no jsPDF, no html2pdf
-- Injects `@media print` CSS: hides everything except `#a4Preview`
+### 5. `window.print()` (final — working)
+- Injects `@media print` CSS hiding everything except `#a4Preview`
 - `@page { size: A4 portrait; margin: 0; }`
 - `-webkit-print-color-adjust: exact` preserves dark sidebar
 - Opens native print dialog → user selects "Save as PDF"
-- Arabic renders natively, no scaling issues, no download restrictions
-- Arabic RTL requires `dir="rtl"` on the template container + Cairo font
-- html2canvas fundamentally cannot handle Arabic glyphs (bidi rendering, phone number reversal, broken letter connections)
-- `window.print()` delegates to browser's native BiDi engine — perfect Arabic rendering, selectable text in PDF
+- Arabic renders natively via browser BiDi engine — no scaling issues, no glyph corruption, selectable text
 
-## Current State
-- `renderModern(lang)`: flex-based `<div>` layout, explicit 794×1120, 278px sidebar / 516px main
-  - RTL support (ar): `dir="rtl"`, Cairo font, mirrored layout (sidebar right / main left)
-  - `unicode-bidi: bidi-override` on contact blocks, `plaintext` on each field + description
-  - Arabic section titles (المهارات, الخبرة المهنية, التعليم والتكوين, اللغات)
-  - Skill levels: خبير/متقدم/متوسط/مبتدئ
-- `downloadPDF()`: Arabic → POST to `/api/generate-cv` (ReportLab), opens new tab with iframe + download button
-  - Other languages → `fallbackPrint()` → `window.print()` with print CSS
-- CDNs: jspdf + html2canvas still loaded (legacy), html2pdf removed
-- Google Fonts: Inter, Plus Jakarta Sans, Cairo added
-- Deployed to GitHub Pages + Vercel (serverless API)
+### 6. Vercel Python API (attempted then reverted)
+- ReportLab FastAPI at `api/generate_cv.py` for Arabic PDF generation
+- **Failed**: unnecessary — `window.print()` already handles Arabic perfectly
+- **Reverted**: removed `api/`, `requirements.txt`, cleaned `vercel.json`
+
+### 7. Syntax Error Fix (critical)
+- Revert left orphaned `fallbackPrint()` body at top level → stray `}` broke entire script
+- **Fixed**: removed orphaned code, `downloadPDF()` now clean and single
+
+## Final State
+- `downloadPDF()`: single `window.print()` call for all languages
+- `renderModern(lang)`: flex layout, 794×1120, RTL support via Cairo font + `unicode-bidi`
+- CDNs: jspdf + html2canvas loaded (legacy/unused)
+- Google Fonts: Inter, Plus Jakarta Sans, Cairo
+- Deployed to GitHub Pages only (no Vercel)
 
 ## Files
 - `cv-maker/index.html` — all template functions + PDF export
-- `api/generate_cv.py` — Vercel Python serverless function (FastAPI + ReportLab)
-- `requirements.txt` — Python dependencies for Vercel
-- `vercel.json` — routing + Python runtime config
 - `cv-maker/CONVERSATION.md` — this log
