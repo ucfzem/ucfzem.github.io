@@ -615,6 +615,201 @@
       color: var(--text-muted);
     }
 
+
+    /* 500 Prompts IA Showcase */
+    .promo-showcase {
+      margin: 2.5rem 0;
+      padding: 2rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1a1208 0%, #2a1e10 50%, #1a1208 100%);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .promo-showcase::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .promo-showcase-content {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .promo-showcase-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .promo-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #c9a84c, #f0c866);
+      color: #1a1208;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+    .promo-showcase-text h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: #f0c866;
+      margin-bottom: 0.5rem;
+    }
+    .promo-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+    .promo-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .promo-stat {
+      text-align: center;
+    }
+    .promo-stat-num {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #c9a84c;
+      line-height: 1.2;
+    }
+    .promo-stat-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .promo-langs {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .promo-langs span {
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .promo-cta {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #c9a84c, #f0c866);
+      color: #1a1208;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .promo-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+      color: #1a1208;
+    }
+    .promo-showcase-visual {
+      flex-shrink: 0;
+    }
+    .promo-card-preview {
+      width: 180px;
+      padding: 1.2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.12), rgba(240, 200, 102, 0.05));
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      text-align: center;
+    }
+    .promo-card-header {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      color: #c9a84c;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+    .promo-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .promo-card-item {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      padding: 0.3rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+    }
+    .promo-card-item span {
+      margin-right: 0.2rem;
+    }
+    .promo-card-footer {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    [data-theme="light"] .promo-showcase {
+      background: linear-gradient(135deg, #f5f0e8 0%, #e8dcc8 50%, #f5f0e8 100%);
+      border-color: rgba(201, 168, 76, 0.3);
+    }
+    [data-theme="light"] .promo-showcase-text h3 {
+      color: #8a7330;
+    }
+    [data-theme="light"] .promo-desc {
+      color: rgba(0,0,0,0.6);
+    }
+    [data-theme="light"] .promo-langs span {
+      background: rgba(0,0,0,0.05);
+      color: rgba(0,0,0,0.6);
+      border-color: rgba(0,0,0,0.1);
+    }
+    [data-theme="light"] .promo-card-preview {
+      background: rgba(201, 168, 76, 0.08);
+    }
+    [data-theme="light"] .promo-card-item {
+      color: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.03);
+    }
+    [data-theme="light"] .promo-card-footer {
+      color: rgba(0,0,0,0.3);
+    }
+    [data-theme="light"] .promo-stat-label {
+      color: rgba(0,0,0,0.4);
+    }
+    @media (max-width: 600px) {
+      .promo-showcase-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .promo-showcase-visual {
+        order: -1;
+      }
+      .promo-stats {
+        justify-content: center;
+      }
+      .promo-langs {
+        justify-content: center;
+      }
+      .promo-card-preview {
+        width: 160px;
+      }
+    }
     /* Back to Top */
     #back-to-top {
       position: fixed;
@@ -892,6 +1087,50 @@
         <!-- Content injected by JS -->
       </div>
 
+
+      <!-- 500 Prompts IA Premium Showcase -->
+      <div class="promo-showcase">
+        <div class="promo-showcase-content">
+          <div class="promo-showcase-text">
+            <span class="promo-badge" data-i18n="promo_badge">🔥 Nouveau</span>
+            <h3 data-i18n="promo_title">Pack 500 Prompts IA Premium</h3>
+            <p class="promo-desc" data-i18n="promo_desc">Coder, Créer et Vendre plus vite sur Internet avec 500 prompts premium en 4 langues.</p>
+            <div class="promo-stats">
+              <div class="promo-stat">
+                <span class="promo-stat-num">500</span>
+                <span class="promo-stat-label" data-i18n="promo_stat1">Prompts</span>
+              </div>
+              <div class="promo-stat">
+                <span class="promo-stat-num">4</span>
+                <span class="promo-stat-label" data-i18n="promo_stat2">Piliers</span>
+              </div>
+              <div class="promo-stat">
+                <span class="promo-stat-num">4</span>
+                <span class="promo-stat-label" data-i18n="promo_stat3">Langues</span>
+              </div>
+            </div>
+            <div class="promo-langs">
+              <span>🇫🇷 FR</span>
+              <span>🇬🇧 EN</span>
+              <span>🇪🇸 ES</span>
+              <span>🇲🇦 AR</span>
+            </div>
+            <a href="https://500-prompts-ia.vercel.app/" class="promo-cta" target="_blank" rel="noopener" data-i18n="promo_cta">🛒 Voir le pack →</a>
+          </div>
+          <div class="promo-showcase-visual">
+            <div class="promo-card-preview">
+              <div class="promo-card-header">✦ 500 Prompts IA</div>
+              <div class="promo-card-body">
+                <div class="promo-card-item"><span>💻</span> Code</div>
+                <div class="promo-card-item"><span>🎨</span> Création</div>
+                <div class="promo-card-item"><span>📢</span> Marketing</div>
+                <div class="promo-card-item"><span>💰</span> Vente</div>
+              </div>
+              <div class="promo-card-footer">FR · EN · ES · AR</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Newsletter -->
       <div class="newsletter">
         <h3 data-i18n="newsletter_title">📬 Restez informé</h3>
@@ -929,7 +1168,7 @@
             <h4 data-i18n="footer_projects">Projets</h4>
             <a href="https://ucfzem.github.io/guide-freelance/" data-i18n="footer_guide">Guide Freelance</a>
             <a href="https://elixir-techx.vercel.app/">ElixirTechx</a>
-            <a href="https://500-prompts-ia.vercel.app/">500 Prompts IA</a>
+            <a href="https://500-prompts-ia.vercel.app/" style="color: var(--gold); font-weight: 600;">🔥 500 Prompts IA</a>
           </div>
           <div class="footer-col">
             <h4 data-i18n="footer_contact">Contact</h4>
@@ -986,6 +1225,13 @@
         footer_cgv: "CGV",
         footer_privacy: "Confidentialité",
         footer_tagline: "Guides techniques, tutors et outils pour développeurs et e-commerçants.",
+        promo_badge: "🔥 Nouveau",
+        promo_title: "Pack 500 Prompts IA Premium",
+        promo_desc: "Coder, Créer et Vendre plus vite sur Internet avec 500 prompts premium en 4 langues.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Piliers",
+        promo_stat3: "Langues",
+        promo_cta: "🛒 Voir le pack →",
         toc_items: [
           { id: "intro", text: "Introduction" },
           { id: "section1", text: "1. Le Pipeline Technique" },
@@ -1233,9 +1479,9 @@
           <p>Vos concurrents passent encore leurs journées à écrire des fiches à la main. Vous, vous pouvez <strong>automatiser tout le processus</strong> et consacrer votre temps à ce qui compte vraiment : vendre.</p>
         `,
         related: [
-          { tag: "Next.js", title: "Optimiser le SEO avec Next.js App Router", desc: "Guide complet pour le référencement naturel." },
-          { tag: "IA", title: "Intégrer l'IA dans votre workflow e-commerce", desc: "Des chatbots aux descriptions automatiques." },
-          { tag: "Performance", title: "Réduire le Time to First Byte de 60%", desc: "Techniques avancées de optimisation serveur." }
+          { tag: "🔥 Prompts", title: "500 Prompts IA Premium – Pack Complet", desc: "Coder, créer et vendre plus vite. 500 prompts, 4 piliers, 4 langues.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "Next.js", title: "Optimiser le SEO avec Next.js App Router", desc: "Guide complet pour le référencement naturel.", url: "https://ucfzem.github.io/ucfzem-blog/" },
+          { tag: "IA", title: "Intégrer l'IA dans votre workflow e-commerce", desc: "Des chatbots aux descriptions automatiques.", url: "https://ucfzem.github.io/ucfzem-blog/" }
         ]
       },
       en: {
@@ -1267,6 +1513,13 @@
         footer_cgv: "Terms",
         footer_privacy: "Privacy",
         footer_tagline: "Technical guides, tutorials and tools for developers and e-commerce.",
+        promo_badge: "🔥 New",
+        promo_title: "500 Prompts IA Premium Pack",
+        promo_desc: "Code, create and sell faster on the Internet with 500 premium prompts in 4 languages.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Pillars",
+        promo_stat3: "Languages",
+        promo_cta: "🛒 See the pack →",
         toc_items: [
           { id: "intro", text: "Introduction" },
           { id: "section1", text: "1. The Technical Pipeline" },
@@ -1514,9 +1767,9 @@
           <p>Your competitors still spend their days writing product pages manually. You can <strong>automate the entire process</strong> and dedicate your time to what really matters: selling.</p>
         `,
         related: [
-          { tag: "Next.js", title: "Optimizing SEO with Next.js App Router", desc: "Complete guide for natural referencing." },
-          { tag: "AI", title: "Integrating AI into your e-commerce workflow", desc: "From chatbots to automatic descriptions." },
-          { tag: "Performance", title: "Reducing Time to First Byte by 60%", desc: "Advanced server optimization techniques." }
+          { tag: "🔥 Prompts", title: "500 Prompts IA Premium – Complete Pack", desc: "Code, create and sell faster. 500 prompts, 4 pillars, 4 languages.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "Next.js", title: "Optimizing SEO with Next.js App Router", desc: "Complete guide for natural referencing.", url: "https://ucfzem.github.io/ucfzem-blog/" },
+          { tag: "AI", title: "Integrating AI into your e-commerce workflow", desc: "From chatbots to automatic descriptions.", url: "https://ucfzem.github.io/ucfzem-blog/" }
         ]
       },
       es: {
@@ -1548,6 +1801,13 @@
         footer_cgv: "Términos",
         footer_privacy: "Privacidad",
         footer_tagline: "Guías técnicos, tutoriales y herramientas para desarrolladores y e-commerce.",
+        promo_badge: "🔥 Nuevo",
+        promo_title: "Pack 500 Prompts IA Premium",
+        promo_desc: "Codifica, crea y vende más rápido en Internet con 500 prompts premium en 4 idiomas.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Pilares",
+        promo_stat3: "Idiomas",
+        promo_cta: "🛒 Ver el pack →",
         toc_items: [
           { id: "intro", text: "Introducción" },
           { id: "section1", text: "1. El Pipeline Técnico" },
@@ -1795,9 +2055,9 @@
           <p>Tus competidores aún pasan sus días escribiendo fichas a mano. Tú puedes <strong>automatizar todo el proceso</strong> y dedicar tu tiempo a lo que realmente importa: vender.</p>
         `,
         related: [
-          { tag: "Next.js", title: "Optimizar el SEO con Next.js App Router", desc: "Guía completa para el posicionamiento natural." },
-          { tag: "IA", title: "Integrar la IA en tu flujo de trabajo e-commerce", desc: "De chatbots a descripciones automáticas." },
-          { tag: "Rendimiento", title: "Reducir el Time to First Byte en un 60%", desc: "Técnicas avanzadas de optimización de servidor." }
+          { tag: "🔥 Prompts", title: "500 Prompts IA Premium – Pack Completo", desc: "Codifica, crea y vende más rápido. 500 prompts, 4 pilares, 4 idiomas.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "Next.js", title: "Optimizar el SEO con Next.js App Router", desc: "Guía completa para el posicionamiento natural.", url: "https://ucfzem.github.io/ucfzem-blog/" },
+          { tag: "IA", title: "Integrar la IA en tu flujo de trabajo e-commerce", desc: "De chatbots a descripciones automáticas.", url: "https://ucfzem.github.io/ucfzem-blog/" }
         ]
       },
       ar: {
@@ -1829,6 +2089,13 @@
         footer_cgv: "الشروط",
         footer_privacy: "الخصوصية",
         footer_tagline: "أدلة تقنية ودروس وأدوات للمطورين والتجارة الإلكترونية.",
+        promo_badge: "🔥 جديد",
+        promo_title: "500 برومبت IA احترافية – حزمة كاملة",
+        promo_desc: "برمج، ابتكر وبع أسرع على الإنترنت مع 500 برومبت احترافية بـ 4 لغات.",
+        promo_stat1: "برومبت",
+        promo_stat2: "ركائز",
+        promo_stat3: "لغات",
+        promo_cta: "🛒 عرض الحزمة →",
         toc_items: [
           { id: "intro", text: "المقدمة" },
           { id: "section1", text: "1. خطوات خط الأنفاق التقني" },
@@ -2076,9 +2343,9 @@
           <p>منافسوك ما زالوا يقضون أيامهم في كتابة صفحات المنتجات يدوياً. أنت يمكنك <strong>أتمتة العملية بأكملها</strong> وتخصيص وقتك لما يهم حقاً: البيع.</p>
         `,
         related: [
-          { tag: "Next.js", title: "تحسين SEO مع Next.js App Router", desc: "دليل شامل للمرجعة الطبيعية." },
-          { tag: "الذكاء الاصطناعي", title: "دمج الذكاء الاصطناعي في سير عمل التجارة الإلكترونية", desc: "من روبوتات المحادثة إلى الأوصاف التلقائية." },
-          { tag: "الأداء", title: "تقليل Time to First Byte بنسبة 60%", desc: "تقنيات متقدمة لتحسين الخادم." }
+          { tag: "🔥 برومبتات", title: "500 برومبت IA احترافية – حزمة كاملة", desc: "برمج، ابتكر وبع أسرع. 500 برومبت، 4 ركائز، 4 لغات.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "Next.js", title: "تحسين SEO مع Next.js App Router", desc: "دليل شامل للمرجعة الطبيعية.", url: "https://ucfzem.github.io/ucfzem-blog/" },
+          { tag: "الذكاء الاصطناعي", title: "دمج الذكاء الاصطناعي في سير عمل التجارة الإلكترونية", desc: "من روبوتات المحادثة إلى الأوصاف التلقائية.", url: "https://ucfzem.github.io/ucfzem-blog/" }
         ]
       }
     };
@@ -2139,11 +2406,11 @@
       ).join('');
 
       document.getElementById('related-grid').innerHTML = t.related.map(r =>
-        `<div class="related-card">
+        `<a href="${r.url || '#'}" class="related-card" target="_blank" rel="noopener">
           <span class="related-card-tag">${r.tag}</span>
           <h4>${r.title}</h4>
           <p>${r.desc}</p>
-        </div>`
+        </a>`
       ).join('');
 
       document.title = t.title + ' | UcfZem Tech';
