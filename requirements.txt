@@ -1,0 +1,5 @@
+fastapi
+pydantic
+reportlab
+arabic-reshaper
+python-bidi

@@ -1,10 +1,10 @@
 """
-Unified CV PDF generator — FastAPI endpoint.
-Auto-detects language from cvData.lang or cvData.personal.lang.
-French → LTR (Helvetica), Arabic → RTL (Amiri + arabic_reshaper + bidi).
+Vercel serverless function — generates CV PDF via ReportLab.
+POST /api/generate-cv with JSON body matching CVData schema.
+Auto-detects language: fr → Helvetica LTR, ar → Amiri RTL + arabic_reshaper.
 """
 
-import os, tempfile
+import os, tempfile, urllib.request, zipfile, shutil
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -18,7 +18,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 app = FastAPI(title="CV Generator")
 
-# ── Colors (shared) ──
+# ── Colors ──
 GOLD      = HexColor('#C9A84C')
 GOLD_DARK = HexColor('#A88830')
 DARK      = HexColor('#2C1A06')
@@ -37,29 +37,49 @@ MARGIN_M  = 18
 MAIN_X    = SIDEBAR_W + MARGIN_M
 MAIN_W    = W - SIDEBAR_W - MARGIN_M - 14
 
-AMIRI_PATH = os.environ.get('AMIRI_FONT', '/home/claude/Amiri-Regular.ttf')
+FONT_DIR = '/tmp/amiri_font'
+AMIRI_PATH = os.path.join(FONT_DIR, 'Amiri-Regular.ttf')
+AMIRI_URL = 'https://github.com/alif-type/amiri/releases/download/v1.001/Amiri-1.001.zip'
 
-# ── Arabic dependencies (lazy-loaded) ──
+_arabic_loaded = False
 _arabic_reshaper = None
 _bidi_get_display = None
 
+def _ensure_amiri():
+    if os.path.exists(AMIRI_PATH):
+        return
+    os.makedirs(FONT_DIR, exist_ok=True)
+    zip_path = os.path.join(FONT_DIR, 'amiri.zip')
+    req = urllib.request.Request(AMIRI_URL, headers={'User-Agent': 'CV-Maker/1.0'})
+    with urllib.request.urlopen(req, timeout=30) as src, open(zip_path, 'wb') as dst:
+        shutil.copyfileobj(src, dst)
+    with zipfile.ZipFile(zip_path, 'r') as z:
+        for f in z.namelist():
+            if f.endswith('Amiri-Regular.ttf'):
+                z.extract(f, FONT_DIR)
+                extracted = os.path.join(FONT_DIR, f)
+                shutil.move(extracted, AMIRI_PATH)
+                break
+    os.remove(zip_path)
+
 def _load_arabic():
-    global _arabic_reshaper, _bidi_get_display
-    if _arabic_reshaper is None:
+    global _arabic_loaded, _arabic_reshaper, _bidi_get_display
+    if not _arabic_loaded:
         import arabic_reshaper
         _arabic_reshaper = arabic_reshaper
-    if _bidi_get_display is None:
         from bidi.algorithm import get_display
         _bidi_get_display = get_display
+        _ensure_amiri()
+        pdfmetrics.registerFont(TTFont('Amiri', AMIRI_PATH))
+        _arabic_loaded = True
 
 def ar(text):
-    if not text:
-        return ''
+    if not text: return ''
     _load_arabic()
     reshaped = _arabic_reshaper.reshape(str(text))
     return _bidi_get_display(reshaped)
 
-# ── Pydantic models ──
+# ── Models ──
 class Skill(BaseModel):
     name: str
     level: int
@@ -122,7 +142,7 @@ def draw_dots(c_obj, x, y, filled, total=4):
         c_obj.setFillColor(GOLD if i < filled else EMPTY_DOT)
         c_obj.circle(x + i * gap, y, r, fill=1, stroke=0)
 
-# ── French (LTR) helpers ──
+# ── French (LTR) ──
 def draw_sidebar_fr(c, p, skill_cats, langs):
     sy = H - 36
     c.setFillColor(GOLD)
@@ -213,7 +233,85 @@ def section_title_fr(c, text, x, y, width):
     c.line(x, y, x + width, y)
     return y - 10
 
-# ── Arabic (RTL) helpers ──
+def draw_main_fr(c, p, exps, edus, custom_secs):
+    my = H - 30
+    if p.summary:
+        words = p.summary.split()
+        lines = []
+        line = ''
+        for w in words:
+            test = (line + ' ' + w).strip()
+            if c.stringWidth(test, 'Helvetica', 8.5) <= MAIN_W - 12:
+                line = test
+            else:
+                lines.append(line)
+                line = w
+        if line: lines.append(line)
+        box_h = len(lines) * 11 + 14
+        c.setFillColor(BEIGE_BG)
+        c.rect(MAIN_X - 2, my - box_h + 6, MAIN_W + 4, box_h, fill=1, stroke=0)
+        c.setFillColor(GOLD)
+        c.rect(MAIN_X - 2, my - box_h + 6, 2.5, box_h, fill=1, stroke=0)
+        c.setFillColor(MAIN_TEXT)
+        c.setFont('Helvetica', 8.5)
+        ty = my
+        for l in lines:
+            c.drawString(MAIN_X + 8, ty, l)
+            ty -= 11
+        my = ty - 8
+    if exps:
+        my = section_title_fr(c, 'Expérience Professionnelle', MAIN_X, my, MAIN_W)
+        for e in exps:
+            c.setFont('Helvetica-Bold', 9.5)
+            c.setFillColor(DARK)
+            c.drawString(MAIN_X, my, e.position)
+            date_str = e.startDate + ' - ' + (e.endDate or 'Présent')
+            c.setFont('Helvetica', 7.5)
+            c.setFillColor(MUTED)
+            c.drawRightString(MAIN_X + MAIN_W, my, date_str)
+            my -= 11
+            c.setFont('Helvetica-Bold', 8)
+            c.setFillColor(GOLD_DARK)
+            c.drawString(MAIN_X, my, e.company)
+            my -= 11
+            if e.description:
+                my = wrap_ltr(c, e.description, MAIN_X, my, MAIN_W, 'Helvetica', 8, MAIN_TEXT, 11)
+            my -= 6
+    if edus:
+        my = section_title_fr(c, 'Education & Formation', MAIN_X, my, MAIN_W)
+        for e in edus:
+            degree = e.degree + (' en ' + e.field if e.field else '')
+            c.setFont('Helvetica-Bold', 9)
+            c.setFillColor(DARK)
+            c.drawString(MAIN_X, my, degree)
+            date_str = e.startDate + ' - ' + (e.endDate or 'Présent')
+            c.setFont('Helvetica', 7.5)
+            c.setFillColor(MUTED)
+            c.drawRightString(MAIN_X + MAIN_W, my, date_str)
+            my -= 11
+            inst = e.institution + (' | GPA: ' + e.gpa if e.gpa else '')
+            c.setFont('Helvetica', 8)
+            c.setFillColor(MID_TEXT)
+            c.drawString(MAIN_X, my, inst)
+            my -= 14
+    for sec in custom_secs:
+        if not sec.items: continue
+        my = section_title_fr(c, sec.title, MAIN_X, my, MAIN_W)
+        for item in sec.items:
+            c.setFont('Helvetica-Bold', 9)
+            c.setFillColor(DARK)
+            c.drawString(MAIN_X, my, item.title)
+            my -= 11
+            if item.subtitle:
+                c.setFont('Helvetica-Oblique', 7.5)
+                c.setFillColor(MUTED)
+                c.drawString(MAIN_X, my, item.subtitle)
+                my -= 10
+            if item.description:
+                my = wrap_ltr(c, item.description, MAIN_X, my, MAIN_W, 'Helvetica', 8, MAIN_TEXT, 11)
+            my -= 4
+
+# ── Arabic (RTL) ──
 def draw_sidebar_ar(c, p, skill_cats, langs):
     sy = H - 36
     c.setFillColor(GOLD)
@@ -306,85 +404,6 @@ def section_title_ar(c, text, x, y, width):
     c.line(x, y, x + width, y)
     return y - 10
 
-# ── Main content drawers ──
-def draw_main_fr(c, p, exps, edus, custom_secs):
-    my = H - 30
-    if p.summary:
-        words = p.summary.split()
-        lines = []
-        line = ''
-        for w in words:
-            test = (line + ' ' + w).strip()
-            if c.stringWidth(test, 'Helvetica', 8.5) <= MAIN_W - 12:
-                line = test
-            else:
-                lines.append(line)
-                line = w
-        if line: lines.append(line)
-        box_h = len(lines) * 11 + 14
-        c.setFillColor(BEIGE_BG)
-        c.rect(MAIN_X - 2, my - box_h + 6, MAIN_W + 4, box_h, fill=1, stroke=0)
-        c.setFillColor(GOLD)
-        c.rect(MAIN_X - 2, my - box_h + 6, 2.5, box_h, fill=1, stroke=0)
-        c.setFillColor(MAIN_TEXT)
-        c.setFont('Helvetica', 8.5)
-        ty = my
-        for l in lines:
-            c.drawString(MAIN_X + 8, ty, l)
-            ty -= 11
-        my = ty - 8
-    if exps:
-        my = section_title_fr(c, 'Expérience Professionnelle', MAIN_X, my, MAIN_W)
-        for e in exps:
-            c.setFont('Helvetica-Bold', 9.5)
-            c.setFillColor(DARK)
-            c.drawString(MAIN_X, my, e.position)
-            date_str = e.startDate + ' - ' + (e.endDate or 'Présent')
-            c.setFont('Helvetica', 7.5)
-            c.setFillColor(MUTED)
-            c.drawRightString(MAIN_X + MAIN_W, my, date_str)
-            my -= 11
-            c.setFont('Helvetica-Bold', 8)
-            c.setFillColor(GOLD_DARK)
-            c.drawString(MAIN_X, my, e.company)
-            my -= 11
-            if e.description:
-                my = wrap_ltr(c, e.description, MAIN_X, my, MAIN_W, 'Helvetica', 8, MAIN_TEXT, 11)
-            my -= 6
-    if edus:
-        my = section_title_fr(c, 'Education & Formation', MAIN_X, my, MAIN_W)
-        for e in edus:
-            degree = e.degree + (' en ' + e.field if e.field else '')
-            c.setFont('Helvetica-Bold', 9)
-            c.setFillColor(DARK)
-            c.drawString(MAIN_X, my, degree)
-            date_str = e.startDate + ' - ' + (e.endDate or 'Présent')
-            c.setFont('Helvetica', 7.5)
-            c.setFillColor(MUTED)
-            c.drawRightString(MAIN_X + MAIN_W, my, date_str)
-            my -= 11
-            inst = e.institution + (' | GPA: ' + e.gpa if e.gpa else '')
-            c.setFont('Helvetica', 8)
-            c.setFillColor(MID_TEXT)
-            c.drawString(MAIN_X, my, inst)
-            my -= 14
-    for sec in custom_secs:
-        if not sec.items: continue
-        my = section_title_fr(c, sec.title, MAIN_X, my, MAIN_W)
-        for item in sec.items:
-            c.setFont('Helvetica-Bold', 9)
-            c.setFillColor(DARK)
-            c.drawString(MAIN_X, my, item.title)
-            my -= 11
-            if item.subtitle:
-                c.setFont('Helvetica-Oblique', 7.5)
-                c.setFillColor(MUTED)
-                c.drawString(MAIN_X, my, item.subtitle)
-                my -= 10
-            if item.description:
-                my = wrap_ltr(c, item.description, MAIN_X, my, MAIN_W, 'Helvetica', 8, MAIN_TEXT, 11)
-            my -= 4
-
 def draw_main_ar(c, p, exps, edus, custom_secs):
     my = H - 30
     if p.summary:
@@ -465,15 +484,13 @@ def draw_main_ar(c, p, exps, edus, custom_secs):
             my -= 4
 
 # ── Endpoint ──
-@app.post("/generate-cv")
+@app.post("/api/generate-cv")
 async def generate_cv(data: CVData):
     lang = (data.personal.lang or 'fr').lower()
     is_ar = lang in ('ar', 'ara', 'arabic')
 
     if is_ar:
-        if not os.path.exists(AMIRI_PATH):
-            raise HTTPException(500, f"Amiri font not found at {AMIRI_PATH}")
-        pdfmetrics.registerFont(TTFont('Amiri', AMIRI_PATH))
+        _load_arabic()
 
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf')
     out_path = tmp.name

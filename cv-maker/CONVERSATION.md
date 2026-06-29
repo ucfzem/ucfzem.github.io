@@ -35,13 +35,20 @@ PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scal
 - `window.print()` delegates to browser's native BiDi engine — perfect Arabic rendering, selectable text in PDF
 
 ## Current State
-- `renderModern()`: flex-based `<div>` layout, explicit 794×1123, 278px sidebar / 516px main
-  - RTL support: `currentLang === 'ar'` → `dir="rtl"`, Cairo font, mirrored summary border, swapped date margins
-- `downloadPDF()`: `window.print()` with print-specific CSS
+- `renderModern(lang)`: flex-based `<div>` layout, explicit 794×1120, 278px sidebar / 516px main
+  - RTL support (ar): `dir="rtl"`, Cairo font, mirrored layout (sidebar right / main left)
+  - `unicode-bidi: bidi-override` on contact blocks, `plaintext` on each field + description
+  - Arabic section titles (المهارات, الخبرة المهنية, التعليم والتكوين, اللغات)
+  - Skill levels: خبير/متقدم/متوسط/مبتدئ
+- `downloadPDF()`: Arabic → POST to `/api/generate-cv` (ReportLab), opens new tab with iframe + download button
+  - Other languages → `fallbackPrint()` → `window.print()` with print CSS
 - CDNs: jspdf + html2canvas still loaded (legacy), html2pdf removed
 - Google Fonts: Inter, Plus Jakarta Sans, Cairo added
-- Deployed to GitHub Pages
+- Deployed to GitHub Pages + Vercel (serverless API)
 
 ## Files
 - `cv-maker/index.html` — all template functions + PDF export
-- `cv-maker/triggerprint_fix.js` — untracked helper file
+- `api/generate_cv.py` — Vercel Python serverless function (FastAPI + ReportLab)
+- `requirements.txt` — Python dependencies for Vercel
+- `vercel.json` — routing + Python runtime config
+- `cv-maker/CONVERSATION.md` — this log

@@ -1693,6 +1693,49 @@ function downloadPDF() {
     return;
   }
 
+  // Arabic → server-side via API; other languages → browser print
+  if (currentLang === 'ar') {
+    showToast('⏳ Génération du PDF via le serveur...');
+    fetch('/api/generate-cv', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cvData)
+    })
+      .then(r => {
+        if (!r.ok) throw new Error('Erreur serveur');
+        return r.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const w = window.open('', '_blank');
+        if (w) {
+          w.document.write(`
+            <html><head><title>${cvData.personal.fullName || 'CV'} - PDF</title>
+            <style>body{margin:0;display:flex;flex-direction:column;height:100vh;background:#333;font-family:sans-serif}
+            iframe{flex:1;border:none;width:100%;height:calc(100vh-50px)}
+            .toolbar{height:50px;background:#222;display:flex;align-items:center;justify-content:center;gap:12px}
+            .toolbar a{background:#C9A84C;color:#1a0f00;padding:10px 24px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:14px;cursor:pointer}
+            .toolbar a:hover{background:#dbb956}
+            </style></head>
+            <body>
+            <div class="toolbar"><a href="${url}" download="${cvData.personal.fullName || 'CV'}.pdf">📥 Télécharger le PDF</a></div>
+            <iframe src="${url}"></iframe>
+            </body></html>
+          `);
+          w.document.close();
+        }
+        URL.revokeObjectURL(url);
+      })
+      .catch(err => {
+        showToast('⚠️ Erreur: ' + err.message + ' — passage en impression navigateur');
+        fallbackPrint();
+      });
+  } else {
+    fallbackPrint();
+  }
+}
+
+function fallbackPrint() {
   showToast('⏳ Alignement et édition du PDF unique...');
 
   const printStyle = document.createElement('style');
