@@ -4,59 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>nano invoice | minimal billing for creators</title>
-  <!-- Tailwind via CDN + custom layer for deep gray & accents -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide icons library -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
+    :root {
+      --bg: #1a1208;
+      --bg-alt: #0d0a04;
+      --card-bg: #2C1A06;
+      --card-hover: #3D2E1A;
+      --text-primary: #F5ECD7;
+      --text-secondary: #D4C4A8;
+      --text-muted: #A89878;
+      --accent: #C9A84C;
+      --accent-light: #F0C866;
+      --accent-dark: #A88830;
+      --border: rgba(201,168,76,0.25);
+      --border-hover: rgba(201,168,76,0.5);
+      --shadow: rgba(0,0,0,0.4);
+    }
+    [data-theme="light"] {
+      --bg: #f5f0e8;
+      --bg-alt: #faf3e8;
+      --card-bg: #faf3e8;
+      --card-hover: #f0e6d3;
+      --text-primary: #3D2E1A;
+      --text-secondary: #5C4A2E;
+      --text-muted: #8B7355;
+      --accent: #C9A84C;
+      --accent-light: #F0C866;
+      --accent-dark: #A88830;
+      --border: rgba(201,168,76,0.35);
+      --border-hover: rgba(201,168,76,0.6);
+      --shadow: rgba(44,26,6,0.1);
+    }
     body {
-      background-color: #0B0F19;
+      background-color: var(--bg);
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       margin: 0;
-      color: #F8FAFC;
+      color: var(--text-primary);
+      transition: background-color 0.3s, color 0.3s;
     }
-    /* custom smooth transitions & micro-interactions */
     .hover-lift {
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .hover-lift:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 24px -8px rgba(0, 229, 255, 0.08);
+      box-shadow: 0 12px 24px -8px var(--shadow);
     }
     .btn-glow {
       transition: all 0.2s ease;
-      box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.3);
+      box-shadow: 0 0 0 0 rgba(201,168,76,0.3);
     }
     .btn-glow:hover {
-      box-shadow: 0 0 16px 0 rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 16px 0 rgba(201,168,76,0.25);
       transform: scale(1.02);
     }
-    .accent-border {
-      border: 1px solid rgba(0, 229, 255, 0.25);
-    }
     .card-dark {
-      background-color: #111827;
-      border: 1px solid #1F2937;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
       transition: border-color 0.2s, background-color 0.2s;
     }
     .card-dark:hover {
-      border-color: rgba(0, 229, 255, 0.45);
-      background-color: #161c28;
+      border-color: var(--border-hover);
+      background-color: var(--card-hover);
     }
     input, textarea {
-      background-color: #0F1320;
-      border: 1px solid #2D3748;
-      color: #E2E8F0;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
       transition: border 0.2s, box-shadow 0.2s;
     }
     input:focus, textarea:focus {
       outline: none;
-      border-color: #00E5FF;
-      box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.25);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(201,168,76,0.25);
     }
     .preview-badge {
-      background: rgba(0, 229, 255, 0.12);
-      color: #00E5FF;
+      background: rgba(201,168,76,0.12);
+      color: var(--accent);
       border-radius: 20px;
       padding: 0.2rem 0.8rem;
       font-size: 0.7rem;
@@ -64,184 +89,178 @@
       letter-spacing: 0.5px;
     }
     hr {
-      border-color: #1F2937;
+      border-color: var(--border);
+    }
+    .theme-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .theme-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
   </style>
 </head>
 <body class="antialiased">
 
-
-  <!-- Main container with subtle gradient background -->
   <div class="min-h-screen flex flex-col px-4 md:px-8 lg:px-16 max-w-7xl mx-auto relative">
 
-
-    <!-- Header / Nav (clean, minimal) -->
-    <header class="flex items-center justify-between py-6 border-b border-gray-800/60">
+    <header class="flex items-center justify-between py-6 border-b" style="border-color:var(--border);">
       <div class="flex items-center gap-2">
-        <i data-lucide="zap" class="w-6 h-6 text-[#00E5FF]"></i>
-        <span class="text-xl font-semibold tracking-tight text-white">nano<span class="text-[#00E5FF]">invoice</span></span>
+        <i data-lucide="zap" style="color:var(--accent);" class="w-6 h-6"></i>
+        <span class="text-xl font-semibold tracking-tight" style="color:var(--text-primary);">nano<span style="color:var(--accent);">invoice</span></span>
       </div>
-      <div class="flex items-center gap-4 md:gap-6 text-sm text-gray-400">
-        <a href="#" class="hover:text-white transition-colors">Docs</a>
-        <a href="#" class="hover:text-white transition-colors">GitHub</a>
-        <span class="hidden sm:inline text-gray-600">|</span>
-        <span class="text-gray-300 text-xs bg-gray-800/50 px-3 py-1 rounded-full">v0.2.0</span>
+      <div class="flex items-center gap-4 md:gap-6 text-sm" style="color:var(--text-muted);">
+        <a href="#" class="hover-lift transition-colors" style="color:var(--text-muted);">Docs</a>
+        <a href="#" class="hover-lift transition-colors" style="color:var(--text-muted);">GitHub</a>
+        <span class="hidden sm:inline" style="color:var(--border);">|</span>
+        <button class="theme-btn" id="themeToggle">☀️</button>
       </div>
     </header>
 
-
-    <!-- Hero Section -->
     <section class="flex flex-col items-center text-center mt-16 md:mt-24 mb-16 md:mb-20">
-      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight max-w-4xl">
-        Invoicing stripped down to the <span class="text-[#00E5FF]">essentials</span>.
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight max-w-4xl" style="color:var(--text-primary);">
+        Invoicing stripped down to the <span style="color:var(--accent);">essentials</span>.
       </h1>
-      <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl">
+      <p class="mt-6 text-lg md:text-xl max-w-2xl" style="color:var(--text-secondary);">
         A micro invoice tool for small businesses, indie devs, and creators. No accounts, no bloat – just clean, fast billing.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 mt-8">
-        <button class="btn-glow bg-[#00E5FF] text-black font-semibold px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 hover:bg-[#0fd5e8] transition-colors">
+        <button class="btn-glow font-semibold px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-colors" style="background:var(--accent);color:var(--bg-alt);">
           <i data-lucide="file-plus" class="w-5 h-5"></i> Create an Invoice – Free
         </button>
-        <button class="btn-glow border border-gray-500 text-white font-medium px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 hover:border-gray-300 hover:bg-white/5 transition-all">
+        <button class="btn-glow border font-medium px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-all" style="border-color:var(--border);color:var(--text-primary);">
           <i data-lucide="play-circle" class="w-5 h-5"></i> View Demo
         </button>
       </div>
-      <p class="text-xs text-gray-500 mt-4 flex items-center gap-1">
+      <p class="text-xs mt-4 flex items-center gap-1" style="color:var(--text-muted);">
         <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> No sign-up · local processing
       </p>
     </section>
 
-
-    <!-- Live Interactive Preview (Invoice Generator Mockup) -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-4">
-        <i data-lucide="edit-3" class="w-5 h-5 text-[#00E5FF]"></i>
-        <h2 class="text-xl font-semibold text-white tracking-tight">Live preview · try it now</h2>
+        <i data-lucide="edit-3" style="color:var(--accent);" class="w-5 h-5"></i>
+        <h2 class="text-xl font-semibold tracking-tight" style="color:var(--text-primary);">Live preview · try it now</h2>
         <span class="preview-badge">interactive</span>
       </div>
       
       <div class="card-dark rounded-2xl p-5 md:p-7 shadow-2xl backdrop-blur-sm">
-        <!-- Simplified invoice form -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Left: input fields -->
           <div class="space-y-5">
             <div>
-              <label class="block text-xs font-medium text-gray-400 mb-1">Client name</label>
+              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Client name</label>
               <input type="text" id="clientName" placeholder="Acme Studio" value="Stellar Labs" class="w-full px-4 py-2.5 rounded-lg text-sm">
             </div>
             <div>
-              <label class="block text-xs font-medium text-gray-400 mb-1">Your business / freelancer</label>
+              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Your business / freelancer</label>
               <input type="text" id="businessName" placeholder="nano invoice user" value="Alex Rivera" class="w-full px-4 py-2.5 rounded-lg text-sm">
             </div>
-            <div class="border-t border-gray-700/50 pt-4">
-              <p class="text-xs font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="list" class="w-3.5 h-3.5"></i> Line items</p>
-              <div id="lineItemsContainer" class="space-y-3">
-                <!-- dynamic line items will be injected via js -->
-              </div>
-              <button id="addLineBtn" class="mt-3 text-xs flex items-center gap-1 text-[#00E5FF] hover:text-white transition-colors">
+            <div class="border-t pt-4" style="border-color:var(--border);">
+              <p class="text-xs font-semibold mb-2 flex items-center gap-1" style="color:var(--text-secondary);"><i data-lucide="list" class="w-3.5 h-3.5"></i> Line items</p>
+              <div id="lineItemsContainer" class="space-y-3"></div>
+              <button id="addLineBtn" class="mt-3 text-xs flex items-center gap-1 transition-colors" style="color:var(--accent);">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i> Add item
               </button>
             </div>
           </div>
           
-          <!-- Right: live invoice preview card -->
-          <div class="bg-[#0B0F19] rounded-xl p-5 border border-gray-800 flex flex-col justify-between">
+          <div class="rounded-xl p-5 flex flex-col justify-between" style="background:var(--bg);border:1px solid var(--border);">
             <div>
               <div class="flex justify-between items-start">
                 <div>
-                  <span class="text-lg font-bold text-white" id="previewBusiness">Alex Rivera</span>
-                  <p class="text-xs text-gray-400">invoice@nanotool.dev</p>
+                  <span class="text-lg font-bold" style="color:var(--text-primary);" id="previewBusiness">Alex Rivera</span>
+                  <p class="text-xs" style="color:var(--text-muted);">invoice@nanotool.dev</p>
                 </div>
-                <span class="text-[#00E5FF] font-mono text-sm border border-[#00E5FF]/30 px-3 py-1 rounded-full">INV-001</span>
+                <span class="font-mono text-sm border px-3 py-1 rounded-full" style="color:var(--accent);border-color:rgba(201,168,76,0.3);">INV-001</span>
               </div>
               <div class="mt-5">
-                <p class="text-xs text-gray-500 uppercase tracking-wider">Bill to</p>
-                <p class="text-white font-medium" id="previewClient">Stellar Labs</p>
+                <p class="text-xs uppercase tracking-wider" style="color:var(--text-muted);">Bill to</p>
+                <p class="font-medium" style="color:var(--text-primary);" id="previewClient">Stellar Labs</p>
               </div>
-              <div class="mt-5 space-y-2" id="previewLineItems">
-                <!-- dynamic preview items -->
-              </div>
+              <div class="mt-5 space-y-2" id="previewLineItems"></div>
             </div>
-            <div class="mt-6 border-t border-gray-800 pt-4 flex justify-between items-center">
-              <span class="text-sm font-semibold text-gray-300">Total</span>
-              <span class="text-2xl font-bold text-[#00E5FF]" id="previewTotal">$0.00</span>
+            <div class="mt-6 border-t pt-4 flex justify-between items-center" style="border-color:var(--border);">
+              <span class="text-sm font-semibold" style="color:var(--text-secondary);">Total</span>
+              <span class="text-2xl font-bold" style="color:var(--accent);" id="previewTotal">$0.00</span>
             </div>
-            <p class="text-[10px] text-gray-500 mt-3 flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> local preview · no data sent</p>
+            <p class="text-[10px] mt-3 flex items-center gap-1" style="color:var(--text-muted);"><i data-lucide="lock" class="w-3 h-3"></i> local preview · no data sent</p>
           </div>
         </div>
-        <p class="text-xs text-gray-500 mt-4 flex items-center gap-1">
+        <p class="text-xs mt-4 flex items-center gap-1" style="color:var(--text-muted);">
           <i data-lucide="mouse-pointer-2" class="w-3.5 h-3.5"></i> Edit fields to see real‑time update
         </p>
       </div>
     </section>
 
-
-    <!-- Feature Grid (3 columns) -->
     <section class="mb-20 md:mb-28">
-      <h2 class="text-2xl md:text-3xl font-bold text-white mb-10 flex items-center gap-2">
-        <i data-lucide="sparkles" class="w-7 h-7 text-[#00E5FF]"></i> Why nano?
+      <h2 class="text-2xl md:text-3xl font-bold mb-10 flex items-center gap-2" style="color:var(--text-primary);">
+        <i data-lucide="sparkles" style="color:var(--accent);" class="w-7 h-7"></i> Why nano?
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <div class="card-dark rounded-xl p-6 hover-lift flex flex-col items-start">
-          <div class="bg-[#00E5FF]/10 p-3 rounded-lg mb-5">
-            <i data-lucide="zap" class="w-7 h-7 text-[#00E5FF]"></i>
+          <div class="p-3 rounded-lg mb-5" style="background:rgba(201,168,76,0.1);">
+            <i data-lucide="zap" style="color:var(--accent);" class="w-7 h-7"></i>
           </div>
-          <h3 class="text-xl font-semibold text-white mb-2">Lightning Fast</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">No account required to start. Loads in milliseconds. Generate an invoice before your coffee gets cold.</p>
+          <h3 class="text-xl font-semibold mb-2" style="color:var(--text-primary);">Lightning Fast</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-muted);">No account required to start. Loads in milliseconds. Generate an invoice before your coffee gets cold.</p>
         </div>
 
-
         <div class="card-dark rounded-xl p-6 hover-lift flex flex-col items-start">
-          <div class="bg-[#00E5FF]/10 p-3 rounded-lg mb-5">
-            <i data-lucide="code-2" class="w-7 h-7 text-[#00E5FF]"></i>
+          <div class="p-3 rounded-lg mb-5" style="background:rgba(201,168,76,0.1);">
+            <i data-lucide="code-2" style="color:var(--accent);" class="w-7 h-7"></i>
           </div>
-          <h3 class="text-xl font-semibold text-white mb-2">Developer Friendly</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">Markdown support for descriptions. Simple JSON export/import. Built for your workflow.</p>
+          <h3 class="text-xl font-semibold mb-2" style="color:var(--text-primary);">Developer Friendly</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-muted);">Markdown support for descriptions. Simple JSON export/import. Built for your workflow.</p>
         </div>
 
-
         <div class="card-dark rounded-xl p-6 hover-lift flex flex-col items-start">
-          <div class="bg-[#00E5FF]/10 p-3 rounded-lg mb-5">
-            <i data-lucide="shield" class="w-7 h-7 text-[#00E5FF]"></i>
+          <div class="p-3 rounded-lg mb-5" style="background:rgba(201,168,76,0.1);">
+            <i data-lucide="shield" style="color:var(--accent);" class="w-7 h-7"></i>
           </div>
-          <h3 class="text-xl font-semibold text-white mb-2">Privacy First</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">All data stays locally in your browser. No databases, no trackers. Your invoices are yours alone.</p>
+          <h3 class="text-xl font-semibold mb-2" style="color:var(--text-primary);">Privacy First</h3>
+          <p class="text-sm leading-relaxed" style="color:var(--text-muted);">All data stays locally in your browser. No databases, no trackers. Your invoices are yours alone.</p>
         </div>
       </div>
     </section>
 
-
-    <!-- Pricing Section (single transparent tier) -->
     <section class="mb-20 md:mb-28 text-center">
-      <div class="max-w-2xl mx-auto card-dark rounded-2xl p-8 md:p-10 border-[#1F2937]">
-        <span class="bg-[#00E5FF]/15 text-[#00E5FF] text-xs font-bold px-4 py-1.5 rounded-full">Pricing</span>
-        <h2 class="text-3xl md:text-4xl font-bold text-white mt-4">100% Free & Open Source</h2>
-        <p class="text-gray-300 mt-3 max-w-lg mx-auto text-sm md:text-base">
+      <div class="max-w-2xl mx-auto card-dark rounded-2xl p-8 md:p-10">
+        <span class="text-xs font-bold px-4 py-1.5 rounded-full" style="background:rgba(201,168,76,0.15);color:var(--accent);">Pricing</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4" style="color:var(--text-primary);">100% Free & Open Source</h2>
+        <p class="mt-3 max-w-lg mx-auto text-sm md:text-base" style="color:var(--text-secondary);">
           No hidden fees, no premium plans. Just a lightweight tool for the community.
         </p>
         <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
-          <a href="#" class="btn-glow inline-flex items-center gap-2 bg-white text-black font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition">
+          <a href="#" class="btn-glow inline-flex items-center gap-2 font-semibold px-6 py-3 rounded-lg transition" style="background:var(--accent);color:var(--bg-alt);">
             <i data-lucide="github" class="w-5 h-5"></i> Star on GitHub
           </a>
-          <span class="text-gray-500 text-sm flex items-center gap-1">
-            <i data-lucide="heart" class="w-4 h-4 text-red-400"></i> MIT License
+          <span class="text-sm flex items-center gap-1" style="color:var(--text-muted);">
+            <i data-lucide="heart" style="color:#ef4444;" class="w-4 h-4"></i> MIT License
           </span>
         </div>
-        <p class="text-xs text-gray-500 mt-4">Repository: github.com/nano-invoice/app (placeholder)</p>
+        <p class="text-xs mt-4" style="color:var(--text-muted);">Repository: github.com/nano-invoice/app (placeholder)</p>
       </div>
     </section>
 
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-800/70 py-8 mt-auto">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+    <footer class="border-t py-8 mt-auto" style="border-color:var(--border);">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm" style="color:var(--text-muted);">
         <div class="flex gap-6">
-          <a href="#" class="hover:text-white transition-colors">Privacy</a>
-          <a href="#" class="hover:text-white transition-colors">Terms</a>
-          <a href="#" class="hover:text-white transition-colors">Contact</a>
+          <a href="#" class="transition-colors" style="color:var(--text-muted);">Privacy</a>
+          <a href="#" class="transition-colors" style="color:var(--text-muted);">Terms</a>
+          <a href="#" class="transition-colors" style="color:var(--text-muted);">Contact</a>
         </div>
-        <div class="flex items-center gap-2 text-gray-500">
+        <div class="flex items-center gap-2" style="color:var(--text-muted);">
           <i data-lucide="code" class="w-4 h-4"></i>
           <span>Built by developers, for creators</span>
         </div>
@@ -249,46 +268,44 @@
     </footer>
   </div>
 
-
-  <!-- Interactive invoice logic -->
   <script>
     (function() {
-      // Initialize Lucide icons
       lucide.createIcons();
 
+      // Theme
+      const themeToggle = document.getElementById('themeToggle');
+      const currentTheme = localStorage.getItem('microinvoice_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+      themeToggle.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('microinvoice_theme', next);
+      });
 
-      // State for line items
       let lineItems = [
         { id: 1, description: 'Website redesign', amount: 1200.00 }
       ];
-
 
       const container = document.getElementById('lineItemsContainer');
       const addBtn = document.getElementById('addLineBtn');
       const clientInput = document.getElementById('clientName');
       const businessInput = document.getElementById('businessName');
-      
-      // Preview elements
       const previewBusiness = document.getElementById('previewBusiness');
       const previewClient = document.getElementById('previewClient');
       const previewLineItemsContainer = document.getElementById('previewLineItems');
       const previewTotal = document.getElementById('previewTotal');
 
-
-      // Helper to format currency
       function formatCurrency(value) {
         return '$' + parseFloat(value).toFixed(2);
       }
 
-
-      // Re-render line item inputs and preview
       function renderAll() {
         renderLineInputs();
         updatePreview();
       }
 
-
-      // Render input fields for line items
       function renderLineInputs() {
         if (!container) return;
         container.innerHTML = '';
@@ -300,15 +317,13 @@
                    class="flex-1 px-3 py-2 rounded-lg text-sm desc-input" data-index="${index}">
             <input type="number" step="0.01" min="0" value="${item.amount}" 
                    class="w-28 px-3 py-2 rounded-lg text-sm amount-input" data-index="${index}">
-            <button class="remove-btn text-gray-500 hover:text-red-400 transition p-1" data-index="${index}">
+            <button class="remove-btn p-1 transition" data-index="${index}" style="color:var(--text-muted);">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           `;
           container.appendChild(div);
         });
 
-
-        // Attach event listeners to dynamic inputs
         document.querySelectorAll('.desc-input').forEach(input => {
           input.addEventListener('input', function(e) {
             const idx = parseInt(e.target.getAttribute('data-index'));
@@ -318,7 +333,6 @@
             }
           });
         });
-
 
         document.querySelectorAll('.amount-input').forEach(input => {
           input.addEventListener('input', function(e) {
@@ -332,7 +346,6 @@
           });
         });
 
-
         document.querySelectorAll('.remove-btn').forEach(btn => {
           btn.addEventListener('click', function(e) {
             const idx = parseInt(e.currentTarget.getAttribute('data-index'));
@@ -342,18 +355,13 @@
             } else if (lineItems.length <= 1) {
               alert('Keep at least one line item.');
             }
-            // re-init icons after removal
             lucide.createIcons();
           });
         });
 
-
-        // re-init lucide icons inside container
         lucide.createIcons();
       }
 
-
-      // Update preview section
       function updatePreview() {
         if (previewBusiness) {
           previewBusiness.textContent = businessInput?.value || 'Alex Rivera';
@@ -367,12 +375,11 @@
           lineItems.forEach(item => {
             const row = document.createElement('div');
             row.className = 'flex justify-between text-sm';
-            row.innerHTML = `<span class="text-gray-300">${item.description || 'Item'}</span>
-                             <span class="text-white font-medium">${formatCurrency(item.amount)}</span>`;
+            row.innerHTML = `<span style="color:var(--text-secondary);">${item.description || 'Item'}</span>
+                             <span style="color:var(--text-primary);font-weight:500;">${formatCurrency(item.amount)}</span>`;
             previewLineItemsContainer.appendChild(row);
           });
         }
-
 
         const total = lineItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
         if (previewTotal) {
@@ -380,25 +387,17 @@
         }
       }
 
-
-      // Add new line item
       addBtn?.addEventListener('click', () => {
         const newId = lineItems.length ? Math.max(...lineItems.map(i => i.id)) + 1 : 1;
         lineItems.push({ id: newId, description: 'New item', amount: 0 });
         renderAll();
       });
 
-
-      // Listen for changes on client/business inputs
       clientInput?.addEventListener('input', updatePreview);
       businessInput?.addEventListener('input', updatePreview);
 
-
-      // Initial render
       renderAll();
 
-
-      // Re-init icons after dynamic changes might be needed
       window.addEventListener('load', () => {
         lucide.createIcons();
       });
