@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Complet du SEO Technique avec Next.js App Router | UcfZem Tech</title>
+  <meta name="description" content="Maîtrisez le SEO technique avec Next.js App Router : metadata API, sitemaps, données structurées, Core Web Vitals et i18n SEO. Guide complet avec code source.">
+  <meta name="keywords" content="Next.js, App Router, SEO technique, metadata, sitemap, structured data, JSON-LD, Core Web Vitals, i18n, React, TypeScript">
+  <meta name="author" content="UcfZem Tech">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Guide Complet du SEO Technique avec Next.js App Router">
+  <meta property="og:description" content="Maîtrisez le SEO technique avec Next.js App Router : metadata API, sitemaps, données structurées, Core Web Vitals et i18n SEO.">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ar_MA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Guide Complet du SEO Technique avec Next.js App Router">
+  <meta name="twitter:description" content="Maîtrisez le SEO technique avec Next.js App Router : metadata API, sitemaps, données structurées, Core Web Vitals et i18n SEO.">
+  <link rel="canonical" href="/blog/seo-nextjs-app-router/">
+  <link rel="alternate" hreflang="fr" href="/blog/seo-nextjs-app-router/" />
+  <link rel="alternate" hreflang="en" href="/blog/seo-nextjs-app-router/?lang=en" />
+  <link rel="alternate" hreflang="es" href="/blog/seo-nextjs-app-router/?lang=es" />
+  <link rel="alternate" hreflang="ar" href="/blog/seo-nextjs-app-router/?lang=ar" />
+  <link rel="alternate" hreflang="x-default" href="/blog/seo-nextjs-app-router/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FAF3E8;
+      --bg-secondary: #F0E6D3;
+      --bg-card: #FFFFFF;
+      --text-primary: #2C1A06;
+      --text-secondary: #5C4A2E;
+      --text-muted: #8B7355;
+      --accent: #C9A84C;
+      --accent-hover: #B8963A;
+      --border: #E0D5C0;
+      --code-bg: #1A1208;
+      --code-text: #F5ECD7;
+      --shadow: rgba(44, 26, 6, 0.1);
+      --progress-bg: #E0D5C0;
+      --progress-fill: #C9A84C;
+      --badge-bg: #C9A84C;
+      --badge-text: #1A1208;
+      --table-header: #F0E6D3;
+      --table-row-alt: #FAF3E8;
+      --toc-bg: #FFFFFF;
+      --newsletter-bg: #F0E6D3;
+      --cta-bg: linear-gradient(135deg, #C9A84C, #F0C866);
+      --cta-text: #1A1208;
+      --related-bg: #FFFFFF;
+      --tag-bg: #F0E6D3;
+      --tag-text: #5C4A2E;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1A1208;
+      --bg-secondary: #2A1E10;
+      --bg-card: #2A1E10;
+      --text-primary: #F5ECD7;
+      --text-secondary: #D4C4A8;
+      --text-muted: #A89878;
+      --accent: #C9A84C;
+      --accent-hover: #F0C866;
+      --border: #3D2E1A;
+      --code-bg: #0D0A04;
+      --code-text: #F5ECD7;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --progress-bg: #3D2E1A;
+      --progress-fill: #C9A84C;
+      --badge-bg: #C9A84C;
+      --badge-text: #1A1208;
+      --table-header: #2A1E10;
+      --table-row-alt: #1A1208;
+      --toc-bg: #2A1E10;
+      --newsletter-bg: #2A1E10;
+      --cta-bg: linear-gradient(135deg, #C9A84C, #F0C866);
+      --cta-text: #1A1208;
+      --related-bg: #2A1E10;
+      --tag-bg: #3D2E1A;
+      --tag-text: #D4C4A8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cinzel', serif;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--progress-fill);
+      z-index: 10000;
+      transition: width 0.1s;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      position: fixed;
+      top: 3px;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 9999;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+
+    .top-bar-left {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 0.3rem;
+      background: var(--bg-secondary);
+      padding: 0.25rem;
+      border-radius: 8px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--text-secondary);
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: var(--badge-text);
+      font-weight: 600;
+    }
+
+    .lang-btn:hover:not(.active) {
+      background: var(--border);
+    }
+
+    .theme-toggle {
+      background: var(--bg-secondary);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+      color: var(--text-primary);
+    }
+
+    .theme-toggle:hover {
+      background: var(--border);
+      transform: rotate(20deg);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 3rem;
+    }
+
+    /* Table of Contents */
+    .toc {
+      position: sticky;
+      top: 5rem;
+      height: fit-content;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+      background: var(--toc-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .toc h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      display: block;
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .toc a:hover, .toc a.active {
+      color: var(--accent);
+      background: var(--bg-secondary);
+      border-left-color: var(--accent);
+    }
+
+    /* Article */
+    .article {
+      min-width: 0;
+    }
+
+    .article-badge {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .article-title {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .share-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .share-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .share-btn:hover {
+      background: var(--accent);
+      color: var(--badge-text);
+      border-color: var(--accent);
+    }
+
+    .article-content h2 {
+      font-size: 1.6rem;
+      margin: 2.5rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .article-content h3 {
+      font-size: 1.2rem;
+      margin: 2rem 0 0.8rem;
+    }
+
+    .article-content p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .article-content ul, .article-content ol {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .article-content strong {
+      color: var(--text-primary);
+    }
+
+    /* Code Blocks */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1.2rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 1.2rem 0;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    pre code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      background: var(--bg-secondary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .code-lang {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.8rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Syntax highlighting */
+    .kw { color: #C9A84C; }
+    .str { color: #A8D4A0; }
+    .cm { color: #6B6B6B; font-style: italic; }
+    .fn { color: #88C0D0; }
+    .num { color: #D19A66; }
+    .type { color: #E5C07B; }
+    .op { color: #56B6C2; }
+    .prop { color: #E06C75; }
+    .tag { color: #C9A84C; }
+    .attr { color: #D19A66; }
+    .val { color: #98C379; }
+
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .comparison-table th {
+      background: var(--table-header);
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .comparison-table td {
+      padding: 0.7rem 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .comparison-table tr:nth-child(even) td {
+      background: var(--table-row-alt);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--cta-bg);
+      color: var(--cta-text);
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .cta-section h3 {
+      color: var(--cta-text);
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .cta-section p {
+      color: var(--cta-text);
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .cta-btn-primary {
+      background: var(--cta-text);
+      color: var(--accent);
+    }
+
+    .cta-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .cta-btn-secondary {
+      background: transparent;
+      color: var(--cta-text);
+      border: 2px solid var(--cta-text);
+    }
+
+    .cta-btn-secondary:hover {
+      background: var(--cta-text);
+      color: var(--accent);
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--newsletter-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .newsletter h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .newsletter p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .newsletter-form input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .newsletter-form button {
+      padding: 0.7rem 1.2rem;
+      background: var(--accent);
+      color: var(--badge-text);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .newsletter-form button:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Related Articles */
+    .related {
+      margin: 3rem 0 2rem;
+    }
+
+    .related h3 {
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .related-card {
+      background: var(--related-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .related-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px var(--shadow);
+    }
+
+    .related-card-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .related-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .related-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+
+    /* 500 Prompts IA Showcase */
+    .promo-showcase {
+      margin: 2.5rem 0;
+      padding: 2rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1a1208 0%, #2a1e10 50%, #1a1208 100%);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .promo-showcase::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .promo-showcase-content {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .promo-showcase-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .promo-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #c9a84c, #f0c866);
+      color: #1a1208;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+    .promo-showcase-text h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: #f0c866;
+      margin-bottom: 0.5rem;
+    }
+    .promo-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+    .promo-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .promo-stat {
+      text-align: center;
+    }
+    .promo-stat-num {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #c9a84c;
+      line-height: 1.2;
+    }
+    .promo-stat-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .promo-langs {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .promo-langs span {
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.08);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .promo-cta {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #c9a84c, #f0c866);
+      color: #1a1208;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .promo-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+      color: #1a1208;
+    }
+    .promo-showcase-visual {
+      flex-shrink: 0;
+    }
+    .promo-card-preview {
+      width: 180px;
+      padding: 1.2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.12), rgba(240, 200, 102, 0.05));
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      text-align: center;
+    }
+    .promo-card-header {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      color: #c9a84c;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+    .promo-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .promo-card-item {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      padding: 0.3rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+    }
+    .promo-card-item span {
+      margin-right: 0.2rem;
+    }
+    .promo-card-footer {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    [data-theme="light"] .promo-showcase {
+      background: linear-gradient(135deg, #f5f0e8 0%, #e8dcc8 50%, #f5f0e8 100%);
+      border-color: rgba(201, 168, 76, 0.3);
+    }
+    [data-theme="light"] .promo-showcase-text h3 {
+      color: #8a7330;
+    }
+    [data-theme="light"] .promo-desc {
+      color: rgba(0,0,0,0.6);
+    }
+    [data-theme="light"] .promo-langs span {
+      background: rgba(0,0,0,0.05);
+      color: rgba(0,0,0,0.6);
+      border-color: rgba(0,0,0,0.1);
+    }
+    [data-theme="light"] .promo-card-preview {
+      background: rgba(201, 168, 76, 0.08);
+    }
+    [data-theme="light"] .promo-card-item {
+      color: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.03);
+    }
+    [data-theme="light"] .promo-card-footer {
+      color: rgba(0,0,0,0.3);
+    }
+    [data-theme="light"] .promo-stat-label {
+      color: rgba(0,0,0,0.4);
+    }
+    @media (max-width: 600px) {
+      .promo-showcase-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .promo-showcase-visual {
+        order: -1;
+      }
+      .promo-stats {
+        justify-content: center;
+      }
+      .promo-langs {
+        justify-content: center;
+      }
+      .promo-card-preview {
+        width: 160px;
+      }
+    }
+    /* Back to Top */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      color: var(--badge-text);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      z-index: 9998;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+    }
+
+    #back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+    }
+
+    /* RTL Support */
+    [dir="rtl"] {
+      text-align: right;
+    }
+
+    [dir="rtl"] .toc {
+      border-left: none;
+      border-right: 1px solid var(--border);
+    }
+
+    [dir="rtl"] .toc a {
+      border-left: none;
+      border-right: 2px solid transparent;
+    }
+
+    [dir="rtl"] .toc a:hover,
+    [dir="rtl"] .toc a.active {
+      border-left-color: transparent;
+      border-right-color: var(--accent);
+    }
+
+    [dir="rtl"] .article-content ul,
+    [dir="rtl"] .article-content ol {
+      padding-left: 0;
+      padding-right: 1.5rem;
+    }
+
+    /* Mobile TOC */
+    .mobile-toc-toggle {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    [dir="rtl"] .mobile-toc-toggle {
+      text-align: right;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 4.5rem 1rem 1rem;
+      }
+
+      .toc {
+        position: static;
+        display: none;
+        max-height: none;
+      }
+
+      .toc.open {
+        display: block;
+      }
+
+      .mobile-toc-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .article-title {
+        font-size: 1.6rem;
+      }
+
+      .top-bar {
+        padding: 0.5rem 1rem;
+      }
+
+      .lang-btn span.lang-label {
+        display: none;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .article-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+
+    /* ─── FOOTER ─── */
+    .blog-footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      padding: 2.5rem 1.5rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .footer-brand {
+      margin-bottom: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .footer-col h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--gold);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin: 0;
+    }
+    .footer-legal {
+      display: flex;
+      gap: 1rem;
+    }
+    .footer-legal a {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-legal a:hover {
+      color: var(--gold);
+    }
+    [dir="rtl"] .footer-links {
+      text-align: right;
+    }
+    @media (max-width: 600px) {
+      .footer-links {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+
+  <!-- Top Bar -->
+  <nav class="top-bar">
+    <div class="top-bar-left">UcfZem Tech</div>
+    <div class="top-bar-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fr" title="Français">🇫🇷 <span class="lang-label">FR</span></button>
+        <button class="lang-btn" data-lang="en" title="English">🇬🇧 <span class="lang-label">EN</span></button>
+        <button class="lang-btn" data-lang="es" title="Español">🇪🇸 <span class="lang-label">ES</span></button>
+        <button class="lang-btn" data-lang="ar" title="العربية">🇲🇦 <span class="lang-label">AR</span></button>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle theme">🌙</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Table of Contents -->
+    <aside>
+      <button class="mobile-toc-toggle" id="toc-toggle">☰ <span data-i18n="toc_title">Table des matières</span></button>
+      <div class="toc" id="toc">
+        <h3 data-i18n="toc_title">Table des matières</h3>
+        <ul id="toc-list"></ul>
+      </div>
+    </aside>
+
+    <!-- Article -->
+    <article class="article">
+      <span class="article-badge" data-i18n="badge">🔄 Mis à jour : Juin 2026</span>
+      <h1 class="article-title" data-i18n="title">Comment Automatiser la Création de Fiches Produit E-commerce en Combinant Next.js et l'API de ChatGPT</h1>
+
+      <div class="article-meta">
+        <span>✍️ <span data-i18n="author">UcfZem Tech</span></span>
+        <span>📅 <span data-i18n="date">Juin 2026</span></span>
+        <span>⏱️ <span data-i18n="reading_time">12 min de lecture</span></span>
+      </div>
+
+      <div class="share-bar">
+        <button class="share-btn" onclick="copyLink()">🔗 <span data-i18n="share_copy">Copier le lien</span></button>
+        <button class="share-btn" onclick="shareTwitter()">🐦 Twitter</button>
+        <button class="share-btn" onclick="shareLinkedIn()">💼 LinkedIn</button>
+      </div>
+
+      <div class="article-content" id="article-content">
+        <!-- Content injected by JS -->
+      </div>
+
+
+      <!-- 500 Prompts IA Premium Showcase -->
+      <div class="promo-showcase">
+        <div class="promo-showcase-content">
+          <div class="promo-showcase-text">
+            <span class="promo-badge" data-i18n="promo_badge">🔥 Nouveau</span>
+            <h3 data-i18n="promo_title">Pack 500 Prompts IA Premium</h3>
+            <p class="promo-desc" data-i18n="promo_desc">Coder, Créer et Vendre plus vite sur Internet avec 500 prompts premium en 4 langues.</p>
+            <div class="promo-stats">
+              <div class="promo-stat">
+                <span class="promo-stat-num">500</span>
+                <span class="promo-stat-label" data-i18n="promo_stat1">Prompts</span>
+              </div>
+              <div class="promo-stat">
+                <span class="promo-stat-num">4</span>
+                <span class="promo-stat-label" data-i18n="promo_stat2">Piliers</span>
+              </div>
+              <div class="promo-stat">
+                <span class="promo-stat-num">4</span>
+                <span class="promo-stat-label" data-i18n="promo_stat3">Langues</span>
+              </div>
+            </div>
+            <div class="promo-langs">
+              <span>🇫🇷 FR</span>
+              <span>🇬🇧 EN</span>
+              <span>🇪🇸 ES</span>
+              <span>🇲🇦 AR</span>
+            </div>
+            <a href="https://500-prompts-ia.vercel.app/" class="promo-cta" target="_blank" rel="noopener" data-i18n="promo_cta">🛒 Voir le pack →</a>
+          </div>
+          <div class="promo-showcase-visual">
+            <div class="promo-card-preview">
+              <div class="promo-card-header">✦ 500 Prompts IA</div>
+              <div class="promo-card-body">
+                <div class="promo-card-item"><span>💻</span> Code</div>
+                <div class="promo-card-item"><span>🎨</span> Création</div>
+                <div class="promo-card-item"><span>📢</span> Marketing</div>
+                <div class="promo-card-item"><span>💰</span> Vente</div>
+              </div>
+              <div class="promo-card-footer">FR · EN · ES · AR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Newsletter -->
+      <div class="newsletter">
+        <h3 data-i18n="newsletter_title">📬 Restez informé</h3>
+        <p data-i18n="newsletter_desc">Recevez nos derniers articles techniques et conseils e-commerce directement dans votre boîte mail.</p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input type="email" placeholder="votre@email.com" data-i18n-placeholder="newsletter_placeholder">
+          <button type="submit" data-i18n="newsletter_btn">S'abonner</button>
+        </form>
+      </div>
+
+      <!-- Related Articles -->
+      <div class="related">
+        <h3 data-i18n="related_title">📖 Articles connexes</h3>
+        <div class="related-grid" id="related-grid">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="blog-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">UcfZem Tech</span>
+          <p class="footer-tagline" data-i18n="footer_tagline">Guides techniques, tutors et outils pour développeurs et e-commerçants.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4 data-i18n="footer_nav">Navigation</h4>
+            <a href="/" data-i18n="footer_home">Accueil</a>
+            <a href="/works/" data-i18n="footer_works">Mes Projets</a>
+            <a href="/blog.html" data-i18n="footer_blog">Blog</a>
+          </div>
+          <div class="footer-col">
+            <h4 data-i18n="footer_projects">Projets</h4>
+            <a href="https://ucfzem.github.io/guide-freelance/" data-i18n="footer_guide">Guide Freelance</a>
+            <a href="https://elixir-techx.vercel.app/">ElixirTechx</a>
+            <a href="https://500-prompts-ia.vercel.app/" style="color: var(--gold); font-weight: 600;">🔥 500 Prompts IA</a>
+          </div>
+          <div class="footer-col">
+            <h4 data-i18n="footer_contact">Contact</h4>
+            <a href="https://github.com/ucfzem">GitHub</a>
+            <a href="mailto:azer.tyu199p@gmail.com" data-i18n="footer_email">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p data-i18n="footer_copy">© 2026 UcfZem Tech. Tous droits réservés.</p>
+          <div class="footer-legal">
+            <a href="#" data-i18n="footer_legal">Mentions légales</a>
+            <a href="#" data-i18n="footer_cgv">CGV</a>
+            <a href="#" data-i18n="footer_privacy">Confidentialité</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" title="Back to top">↑</button>
+
+  <script>
+    // ============================================================
+    // I18N TRANSLATIONS
+    // ============================================================
+    const I18N = {
+      fr: {
+        toc_title: "Table des matières",
+        badge: "🔄 Mis à jour : Juin 2026",
+        title: "Maîtriser le SEO Technique avec Next.js App Router",
+        author: "UcfZem Tech",
+        date: "Juin 2026",
+        reading_time: "6 min de lecture",
+        share_copy: "Copier le lien",
+        newsletter_title: "📬 Restez informé",
+        newsletter_desc: "Recevez nos derniers articles techniques et conseils directement dans votre boîte mail.",
+        newsletter_placeholder: "votre@email.com",
+        newsletter_btn: "S'abonner",
+        related_title: "📖 Articles connexes",
+        footer_nav: "Navigation",
+        footer_projects: "Projets",
+        footer_contact: "Contact",
+        footer_home: "Accueil",
+        footer_works: "Mes Projets",
+        footer_blog: "Blog",
+        footer_guide: "Guide Freelance",
+        footer_elixir: "ElixirTechx",
+        footer_prompts: "500 Prompts IA",
+        footer_github: "GitHub",
+        footer_email: "Email",
+        footer_copy: "© 2026 UcfZem Tech. Tous droits réservés.",
+        footer_legal: "Mentions légales",
+        footer_cgv: "CGV",
+        footer_privacy: "Confidentialité",
+        footer_tagline: "Guides techniques, tutors et outils pour développeurs et e-commerçants.",
+        promo_badge: "🔥 Nouveau",
+        promo_title: "Pack 500 Prompts IA Premium",
+        promo_desc: "Coder, Créer et Vendre plus vite sur Internet avec 500 prompts premium en 4 langues.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Piliers",
+        promo_stat3: "Langues",
+        promo_cta: "🛒 Voir le pack →",
+        toc_items: [
+          { id: "intro", text: "Introduction" },
+          { id: "metadata", text: "1. La Metadata API" },
+          { id: "sitemap", text: "2. Sitemaps et Robots.txt" },
+          { id: "structured", text: "3. Données Structurées" },
+          { id: "perf", text: "4. Core Web Vitals" },
+          { id: "i18n", text: "5. SEO International" },
+          { id: "conclusion", text: "Conclusion" }
+        ],
+        content: `
+          <h2 id="intro">Introduction : Pourquoi le SEO technique est crucial avec App Router</h2>
+          <p>Le App Router de Next.js 13+ a profondément modifié la façon dont nous abordons le référencement technique. Avec l'architecture basée sur les React Server Components, chaque page bénéficie désormais d'un <strong>rendu serveur natif</strong>, mais nécessite une compréhension fine des nouvelles API pour maximiser son potentiel SEO.</p>
+          <p>Dans cet article, nous allons explorer les <strong>techniques essentielles</strong> pour maîtriser le SEO avec le App Router : de la Metadata API aux sitemaps dynamiques, en passant par les données structurées et l'internationalisation.</p>
+
+          <h2 id="metadata">1. La Metadata API de Next.js</h2>
+          <p>Next.js 14 introduit une <strong>Metadata API puissante</strong> qui permet de définir les balises head pour le SEO. Avec <code>generateMetadata</code>, chaque page génère ses propres métadonnées de manière statique ou dynamique. Combinez-la avec <code>generateStaticParams</code> pour pré-générer les pages et leurs balises, améliorant ainsi l'indexation.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/produits/[slug]/page.tsx</span>
+<span class="kw">import</span> { Metadata } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">interface</span> <span class="type">Props</span> {
+  params: { slug: <span class="type">string</span> };
+}
+
+<span class="kw">export async function</span> <span class="fn">generateMetadata</span>(
+  { params }: <span class="type">Props</span>
+): <span class="type">Promise</span>&lt;<span class="type">Metadata</span>&gt; {
+  <span class="kw">const</span> product = <span class="kw">await</span> <span class="fn">getProduct</span>(params.slug);
+
+  <span class="kw">return</span> {
+    title: product.<span class="prop">seoTitle</span>,
+    description: product.<span class="prop">metaDesc</span>,
+    openGraph: {
+      title: product.<span class="prop">seoTitle</span>,
+      images: [product.<span class="prop">image</span>],
+    },
+  };
+}</code></pre>
+
+          <h2 id="sitemap">2. Sitemaps Dynamiques et Robots.txt</h2>
+          <p>Le App Router permet de créer des <strong>sitemaps dynamiques</strong> via le fichier <code>app/sitemap.ts</code>. Next.js génère un sitemap à jour à chaque build en incluant toutes vos routes dynamiques. Configurez aussi un fichier <code>robots.txt</code> statique ou dynamique pour guider les bots d'indexation.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/sitemap.ts</span>
+<span class="kw">import</span> { MetadataRoute } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">export default async function</span> <span class="fn">sitemap</span>(): <span class="type">Promise</span>&lt;<span class="type">MetadataRoute</span>.<span class="type">Sitemap</span>&gt; {
+  <span class="kw">const</span> products = <span class="kw">await</span> <span class="fn">getAllProducts</span>();
+
+  <span class="kw">return</span> [
+    { url: <span class="str">'https://votresite.com'</span>, lastModified: <span class="kw">new</span> <span class="fn">Date</span>(), priority: <span class="num">1.0</span> },
+    ...products.<span class="fn">map</span>(p =&gt; ({
+      url: <span class="str">\`https://votresite.com/produits/\${p.slug}\`</span>,
+      lastModified: p.<span class="prop">updatedAt</span>,
+      priority: <span class="num">0.8</span>,
+    })),
+  ];
+}</code></pre>
+
+          <h2 id="structured">3. Données Structurées JSON-LD</h2>
+          <p>Les <strong>données structurées</strong> (schema.org) sont essentielles pour obtenir des rich snippets dans les SERP. Avec le App Router, injectez du JSON-LD directement dans vos composants serveur. Utilisez les types <code>Product</code>, <code>Article</code> ou <code>FAQPage</code> selon votre contenu.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/produits/[slug]/page.tsx</span>
+<span class="kw">const</span> jsonLd = {
+  <span class="prop">@context</span>: <span class="str">'https://schema.org'</span>,
+  <span class="prop">@type</span>: <span class="str">'Product'</span>,
+  name: product.<span class="prop">name</span>,
+  offers: { <span class="prop">@type</span>: <span class="str">'Offer'</span>, price: product.<span class="prop">price</span> },
+};
+
+<span class="kw">return</span> (
+  <span class="tag">&lt;section&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">type</span>=<span class="val">"application/ld+json"</span>
+      <span class="attr">dangerouslySetInnerHTML</span>={{ __html: JSON.<span class="fn">stringify</span>(jsonLd) }} <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/section&gt;</span>
+);</code></pre>
+
+          <h2 id="perf">4. Core Web Vitals et Performance</h2>
+          <p>Google utilise les <strong>Core Web Vitals</strong> comme facteur de classement. Le App Router offre des optimisations natives : le streaming avec <code>loading.js</code>, l'optimisation des images avec <code>next/image</code>, et la mise en cache via <code>unstable_cache</code>. Privilégiez les composants serveur pour améliorer le LCP et réduisez le CLS grâce au rendu serveur.</p>
+
+          <h2 id="i18n">5. SEO International avec le App Router</h2>
+          <p>Pour un site multilingue, utilisez les <strong>balises hreflang</strong> et les URLs alternées. Next.js permet de gérer l'internationalisation via le routing ou un middleware personnalisé. Chaque page doit déclarer ses alternatives linguistiques dans <code>generateMetadata</code> pour un référencement international optimal.</p>
+
+          <h2 id="conclusion">Conclusion</h2>
+          <p>Maîtriser le SEO technique avec le App Router de Next.js est un <strong>avantage concurrentiel majeur</strong>. En combinant la Metadata API, les sitemaps dynamiques, les données structurées et les optimisations de performance, vous offrez aux moteurs de recherche un contenu parfaitement indexable et aux utilisateurs une expérience optimale. Mettez ces techniques en pratique dès aujourd'hui pour dominer les SERP.</p>
+        `,
+        related: [
+          { tag: "⚡ E-commerce", title: "Automatiser les Fiches Produit E-commerce avec Next.js et ChatGPT", desc: "Construisez un pipeline d'automatisation de fiches produit avec Next.js et ChatGPT.", url: "/blog/automatiser-fiches-produit/" },
+          { tag: "🔥 Prompts", title: "500 Prompts IA – Pack Complet", desc: "Coder, créer et vendre plus vite. 500 prompts, 4 piliers, 4 langues.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "📘 Guide", title: "Guide du Freelance Moderne", desc: "Tout ce qu'il faut savoir pour réussir en freelance.", url: "/guide-freelance/" }
+        ]
+      },
+      en: {
+        toc_title: "Table of Contents",
+        badge: "🔄 Updated: June 2026",
+        title: "Mastering Technical SEO with Next.js App Router",
+        author: "UcfZem Tech",
+        date: "June 2026",
+        reading_time: "6 min read",
+        share_copy: "Copy link",
+        newsletter_title: "📬 Stay informed",
+        newsletter_desc: "Get our latest technical articles and tips directly in your inbox.",
+        newsletter_placeholder: "your@email.com",
+        newsletter_btn: "Subscribe",
+        related_title: "📖 Related Articles",
+        footer_nav: "Navigation",
+        footer_projects: "Projects",
+        footer_contact: "Contact",
+        footer_home: "Home",
+        footer_works: "My Works",
+        footer_blog: "Blog",
+        footer_guide: "Freelancer Guide",
+        footer_elixir: "ElixirTechx",
+        footer_prompts: "500 Prompts IA",
+        footer_github: "GitHub",
+        footer_email: "Email",
+        footer_copy: "© 2026 UcfZem Tech. All rights reserved.",
+        footer_legal: "Legal",
+        footer_cgv: "Terms",
+        footer_privacy: "Privacy",
+        footer_tagline: "Technical guides, tutorials and tools for developers and e-commerce.",
+        promo_badge: "🔥 New",
+        promo_title: "500 Prompts IA Premium Pack",
+        promo_desc: "Code, create and sell faster on the Internet with 500 premium prompts in 4 languages.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Pillars",
+        promo_stat3: "Languages",
+        promo_cta: "🛒 See the pack →",
+        toc_items: [
+          { id: "intro", text: "Introduction" },
+          { id: "metadata", text: "1. The Metadata API" },
+          { id: "sitemap", text: "2. Sitemaps & Robots.txt" },
+          { id: "structured", text: "3. Structured Data" },
+          { id: "perf", text: "4. Core Web Vitals" },
+          { id: "i18n", text: "5. International SEO" },
+          { id: "conclusion", text: "Conclusion" }
+        ],
+        content: `
+          <h2 id="intro">Introduction: Why Technical SEO Matters with App Router</h2>
+          <p>Next.js 13+ App Router has fundamentally changed how we approach technical SEO. With the React Server Components architecture, every page now benefits from <strong>native server-side rendering</strong>, but requires a solid understanding of the new APIs to maximize its SEO potential.</p>
+          <p>In this article, we will explore the <strong>essential techniques</strong> to master SEO with the App Router: from the Metadata API to dynamic sitemaps, structured data, and internationalization.</p>
+
+          <h2 id="metadata">1. The Next.js Metadata API</h2>
+          <p>Next.js 14 introduces a <strong>powerful Metadata API</strong> that lets you define head tags for SEO. With <code>generateMetadata</code>, each page generates its own metadata statically or dynamically. Combine it with <code>generateStaticParams</code> to pre-generate pages and their tags, improving indexing.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/products/[slug]/page.tsx</span>
+<span class="kw">import</span> { Metadata } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">interface</span> <span class="type">Props</span> {
+  params: { slug: <span class="type">string</span> };
+}
+
+<span class="kw">export async function</span> <span class="fn">generateMetadata</span>(
+  { params }: <span class="type">Props</span>
+): <span class="type">Promise</span>&lt;<span class="type">Metadata</span>&gt; {
+  <span class="kw">const</span> product = <span class="kw">await</span> <span class="fn">getProduct</span>(params.slug);
+
+  <span class="kw">return</span> {
+    title: product.<span class="prop">seoTitle</span>,
+    description: product.<span class="prop">metaDesc</span>,
+    openGraph: {
+      title: product.<span class="prop">seoTitle</span>,
+      images: [product.<span class="prop">image</span>],
+    },
+  };
+}</code></pre>
+
+          <h2 id="sitemap">2. Dynamic Sitemaps and Robots.txt</h2>
+          <p>The App Router lets you create <strong>dynamic sitemaps</strong> via the <code>app/sitemap.ts</code> file. Next.js generates an up-to-date sitemap at each build, including all your dynamic routes. Also configure a static or dynamic <code>robots.txt</code> file to guide indexing bots.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/sitemap.ts</span>
+<span class="kw">import</span> { MetadataRoute } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">export default async function</span> <span class="fn">sitemap</span>(): <span class="type">Promise</span>&lt;<span class="type">MetadataRoute</span>.<span class="type">Sitemap</span>&gt; {
+  <span class="kw">const</span> products = <span class="kw">await</span> <span class="fn">getAllProducts</span>();
+
+  <span class="kw">return</span> [
+    { url: <span class="str">'https://yoursite.com'</span>, lastModified: <span class="kw">new</span> <span class="fn">Date</span>(), priority: <span class="num">1.0</span> },
+    ...products.<span class="fn">map</span>(p =&gt; ({
+      url: <span class="str">\`https://yoursite.com/products/\${p.slug}\`</span>,
+      lastModified: p.<span class="prop">updatedAt</span>,
+      priority: <span class="num">0.8</span>,
+    })),
+  ];
+}</code></pre>
+
+          <h2 id="structured">3. JSON-LD Structured Data</h2>
+          <p><strong>Structured data</strong> (schema.org) is essential for rich snippets in SERPs. With the App Router, inject JSON-LD directly into your server components. Use <code>Product</code>, <code>Article</code>, or <code>FAQPage</code> types depending on your content.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/products/[slug]/page.tsx</span>
+<span class="kw">const</span> jsonLd = {
+  <span class="prop">@context</span>: <span class="str">'https://schema.org'</span>,
+  <span class="prop">@type</span>: <span class="str">'Product'</span>,
+  name: product.<span class="prop">name</span>,
+  offers: { <span class="prop">@type</span>: <span class="str">'Offer'</span>, price: product.<span class="prop">price</span> },
+};
+
+<span class="kw">return</span> (
+  <span class="tag">&lt;section&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">type</span>=<span class="val">"application/ld+json"</span>
+      <span class="attr">dangerouslySetInnerHTML</span>={{ __html: JSON.<span class="fn">stringify</span>(jsonLd) }} <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/section&gt;</span>
+);</code></pre>
+
+          <h2 id="perf">4. Core Web Vitals and Performance</h2>
+          <p>Google uses <strong>Core Web Vitals</strong> as a ranking factor. The App Router offers native optimizations: streaming with <code>loading.js</code>, automatic image optimization with <code>next/image</code>, and caching via <code>unstable_cache</code>. Favor server components to improve LCP and reduce CLS through server-side rendering.</p>
+
+          <h2 id="i18n">5. International SEO with the App Router</h2>
+          <p>For multilingual sites, use <strong>hreflang tags</strong> and alternate URLs. Next.js handles internationalization through routing or a custom middleware. Each page must declare its language alternatives in <code>generateMetadata</code> for optimal international SEO.</p>
+
+          <h2 id="conclusion">Conclusion</h2>
+          <p>Mastering technical SEO with the Next.js App Router is a <strong>major competitive advantage</strong>. By combining the Metadata API, dynamic sitemaps, structured data, and performance optimizations, you deliver perfectly indexable content to search engines and an optimal experience to users. Put these techniques into practice today to dominate the SERPs.</p>
+        `,
+        related: [
+          { tag: "⚡ E-commerce", title: "Automate E-commerce Product Pages with Next.js and ChatGPT", desc: "Build a product page automation pipeline with Next.js and ChatGPT.", url: "/blog/automatiser-fiches-produit/" },
+          { tag: "🔥 Prompts", title: "500 Prompts IA – Complete Pack", desc: "Code, create and sell faster. 500 prompts, 4 pillars, 4 languages.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "📘 Guide", title: "Modern Freelancer Guide", desc: "Everything you need to succeed as a freelancer.", url: "/guide-freelance/" }
+        ]
+      },
+      es: {
+        toc_title: "Tabla de Contenidos",
+        badge: "🔄 Actualizado: Junio 2026",
+        title: "Dominar el SEO Técnico con Next.js App Router",
+        author: "UcfZem Tech",
+        date: "Junio 2026",
+        reading_time: "6 min de lectura",
+        share_copy: "Copiar enlace",
+        newsletter_title: "📬 Mantente informado",
+        newsletter_desc: "Recibe nuestros últimos artículos técnicos y consejos directamente en tu bandeja de entrada.",
+        newsletter_placeholder: "tu@email.com",
+        newsletter_btn: "Suscribirse",
+        related_title: "📖 Artículos Relacionados",
+        footer_nav: "Navegación",
+        footer_projects: "Proyectos",
+        footer_contact: "Contacto",
+        footer_home: "Inicio",
+        footer_works: "Mis Proyectos",
+        footer_blog: "Blog",
+        footer_guide: "Guía Freelance",
+        footer_elixir: "ElixirTechx",
+        footer_prompts: "500 Prompts IA",
+        footer_github: "GitHub",
+        footer_email: "Email",
+        footer_copy: "© 2026 UcfZem Tech. Todos los derechos reservados.",
+        footer_legal: "Aviso legal",
+        footer_cgv: "Términos",
+        footer_privacy: "Privacidad",
+        footer_tagline: "Guías técnicos, tutoriales y herramientas para desarrolladores y e-commerce.",
+        promo_badge: "🔥 Nuevo",
+        promo_title: "Pack 500 Prompts IA Premium",
+        promo_desc: "Codifica, crea y vende más rápido en Internet con 500 prompts premium en 4 idiomas.",
+        promo_stat1: "Prompts",
+        promo_stat2: "Pilares",
+        promo_stat3: "Idiomas",
+        promo_cta: "🛒 Ver el pack →",
+        toc_items: [
+          { id: "intro", text: "Introducción" },
+          { id: "metadata", text: "1. La Metadata API" },
+          { id: "sitemap", text: "2. Sitemaps y Robots.txt" },
+          { id: "structured", text: "3. Datos Estructurados" },
+          { id: "perf", text: "4. Core Web Vitals" },
+          { id: "i18n", text: "5. SEO Internacional" },
+          { id: "conclusion", text: "Conclusión" }
+        ],
+        content: `
+          <h2 id="intro">Introducción: Por qué el SEO Técnico es crucial con App Router</h2>
+          <p>El App Router de Next.js 13+ ha cambiado profundamente la forma en que abordamos el SEO técnico. Con la arquitectura basada en React Server Components, cada página se beneficia de un <strong>renderizado nativo del servidor</strong>, pero requiere una comprensión sólida de las nuevas API para maximizar su potencial SEO.</p>
+          <p>En este artículo, exploraremos las <strong>técnicas esenciales</strong> para dominar el SEO con el App Router: desde la Metadata API hasta los sitemaps dinámicos, los datos estructurados y la internacionalización.</p>
+
+          <h2 id="metadata">1. La Metadata API de Next.js</h2>
+          <p>Next.js 14 introduce una <strong>Metadata API potente</strong> que permite definir las etiquetas head para el SEO. Con <code>generateMetadata</code>, cada página genera sus propios metadatos de forma estática o dinámica. Combínala con <code>generateStaticParams</code> para pre-generar páginas y sus etiquetas, mejorando la indexación.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/productos/[slug]/page.tsx</span>
+<span class="kw">import</span> { Metadata } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">interface</span> <span class="type">Props</span> {
+  params: { slug: <span class="type">string</span> };
+}
+
+<span class="kw">export async function</span> <span class="fn">generateMetadata</span>(
+  { params }: <span class="type">Props</span>
+): <span class="type">Promise</span>&lt;<span class="type">Metadata</span>&gt; {
+  <span class="kw">const</span> product = <span class="kw">await</span> <span class="fn">getProduct</span>(params.slug);
+
+  <span class="kw">return</span> {
+    title: product.<span class="prop">seoTitle</span>,
+    description: product.<span class="prop">metaDesc</span>,
+    openGraph: {
+      title: product.<span class="prop">seoTitle</span>,
+      images: [product.<span class="prop">image</span>],
+    },
+  };
+}</code></pre>
+
+          <h2 id="sitemap">2. Sitemaps Dinámicos y Robots.txt</h2>
+          <p>El App Router permite crear <strong>sitemaps dinámicos</strong> mediante el archivo <code>app/sitemap.ts</code>. Next.js genera un sitemap actualizado en cada build, incluyendo todas tus rutas dinámicas. Configura también un archivo <code>robots.txt</code> estático o dinámico para guiar los bots de indexación.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/sitemap.ts</span>
+<span class="kw">import</span> { MetadataRoute } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">export default async function</span> <span class="fn">sitemap</span>(): <span class="type">Promise</span>&lt;<span class="type">MetadataRoute</span>.<span class="type">Sitemap</span>&gt; {
+  <span class="kw">const</span> products = <span class="kw">await</span> <span class="fn">getAllProducts</span>();
+
+  <span class="kw">return</span> [
+    { url: <span class="str">'https://tusitio.com'</span>, lastModified: <span class="kw">new</span> <span class="fn">Date</span>(), priority: <span class="num">1.0</span> },
+    ...products.<span class="fn">map</span>(p =&gt; ({
+      url: <span class="str">\`https://tusitio.com/productos/\${p.slug}\`</span>,
+      lastModified: p.<span class="prop">updatedAt</span>,
+      priority: <span class="num">0.8</span>,
+    })),
+  ];
+}</code></pre>
+
+          <h2 id="structured">3. Datos Estructurados JSON-LD</h2>
+          <p>Los <strong>datos estructurados</strong> (schema.org) son esenciales para obtener rich snippets en las SERP. Con el App Router, inyecta JSON-LD directamente en tus componentes servidor. Usa los tipos <code>Product</code>, <code>Article</code> o <code>FAQPage</code> según tu contenido.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/productos/[slug]/page.tsx</span>
+<span class="kw">const</span> jsonLd = {
+  <span class="prop">@context</span>: <span class="str">'https://schema.org'</span>,
+  <span class="prop">@type</span>: <span class="str">'Product'</span>,
+  name: product.<span class="prop">name</span>,
+  offers: { <span class="prop">@type</span>: <span class="str">'Offer'</span>, price: product.<span class="prop">price</span> },
+};
+
+<span class="kw">return</span> (
+  <span class="tag">&lt;section&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">type</span>=<span class="val">"application/ld+json"</span>
+      <span class="attr">dangerouslySetInnerHTML</span>={{ __html: JSON.<span class="fn">stringify</span>(jsonLd) }} <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/section&gt;</span>
+);</code></pre>
+
+          <h2 id="perf">4. Core Web Vitals y Rendimiento</h2>
+          <p>Google utiliza los <strong>Core Web Vitals</strong> como factor de clasificación. El App Router ofrece optimizaciones nativas: streaming con <code>loading.js</code>, optimización automática de imágenes con <code>next/image</code>, y caché mediante <code>unstable_cache</code>. Prioriza los componentes servidor para mejorar el LCP y reducir el CLS gracias al renderizado del servidor.</p>
+
+          <h2 id="i18n">5. SEO Internacional con el App Router</h2>
+          <p>Para sitios multilingües, usa las <strong>etiquetas hreflang</strong> y las URLs alternativas. Next.js gestiona la internacionalización mediante el enrutamiento o un middleware personalizado. Cada página debe declarar sus alternativas lingüísticas en <code>generateMetadata</code> para un SEO internacional óptimo.</p>
+
+          <h2 id="conclusion">Conclusión</h2>
+          <p>Dominar el SEO técnico con el App Router de Next.js es una <strong>ventaja competitiva importante</strong>. Al combinar la Metadata API, los sitemaps dinámicos, los datos estructurados y las optimizaciones de rendimiento, ofreces a los motores de búsqueda un contenido perfectamente indexable y a los usuarios una experiencia óptima. Pon estas técnicas en práctica hoy para dominar las SERP.</p>
+        `,
+        related: [
+          { tag: "⚡ E-commerce", title: "Automatizar las Fichas de Producto E-commerce con Next.js y ChatGPT", desc: "Construye un pipeline de automatización de fichas de producto con Next.js y ChatGPT.", url: "/blog/automatiser-fiches-produit/" },
+          { tag: "🔥 Prompts", title: "500 Prompts IA – Pack Completo", desc: "Codifica, crea y vende más rápido. 500 prompts, 4 pilares, 4 idiomas.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "📘 Guía", title: "Guía del Freelance Moderno", desc: "Todo lo que necesitas saber para triunfar como freelancer.", url: "/guide-freelance/" }
+        ]
+      },
+      ar: {
+        toc_title: "جدول المحتويات",
+        badge: "🔄 تم التحديث: يونيو 2026",
+        title: "إتقان تحسين محركات البحث التقني مع Next.js App Router",
+        author: "UcfZem Tech",
+        date: "يونيو 2026",
+        reading_time: "6 دقائق قراءة",
+        share_copy: "نسخ الرابط",
+        newsletter_title: "📬 ابقَ على اطلاع",
+        newsletter_desc: "احصل على أحدث مقالاتنا التقنية والنصائح مباشرة في بريدك الإلكتروني.",
+        newsletter_placeholder: "بريدك@البريد.com",
+        newsletter_btn: "اشتراك",
+        related_title: "📖 مقالات ذات صلة",
+        footer_nav: "التنقل",
+        footer_projects: "المشاريع",
+        footer_contact: "اتصل بنا",
+        footer_home: "الرئيسية",
+        footer_works: "أعمالي",
+        footer_blog: "المدونة",
+        footer_guide: "دليل المستقلين",
+        footer_elixir: "ElixirTechx",
+        footer_prompts: "500 Prompts IA",
+        footer_github: "GitHub",
+        footer_email: "البريد الإلكتروني",
+        footer_copy: "© 2026 UcfZem Tech. جميع الحقوق محفوظة.",
+        footer_legal: "الإشعارات القانونية",
+        footer_cgv: "الشروط",
+        footer_privacy: "الخصوصية",
+        footer_tagline: "أدلة تقنية ودروس وأدوات للمطورين والتجارة الإلكترونية.",
+        promo_badge: "🔥 جديد",
+        promo_title: "500 برومبت IA احترافية – حزمة كاملة",
+        promo_desc: "برمج، ابتكر وبع أسرع على الإنترنت مع 500 برومبت احترافية بـ 4 لغات.",
+        promo_stat1: "برومبت",
+        promo_stat2: "ركائز",
+        promo_stat3: "لغات",
+        promo_cta: "🛒 عرض الحزمة →",
+        toc_items: [
+          { id: "intro", text: "المقدمة" },
+          { id: "metadata", text: "1. Metadata API" },
+          { id: "sitemap", text: "2. Sitemaps و Robots.txt" },
+          { id: "structured", text: "3. البيانات المنظمة" },
+          { id: "perf", text: "4. Core Web Vitals" },
+          { id: "i18n", text: "5. تحسين محركات البحث الدولي" },
+          { id: "conclusion", text: "الخاتمة" }
+        ],
+        content: `
+          <h2 id="intro">المقدمة: لماذا يُعتبر تحسين محركات البحث التقني مهماً مع App Router</h2>
+          <p>غيّر App Router في Next.js 13+ بشكل جذري الطريقة التي نتعامل بها مع تحسين محركات البحث التقني. مع بنية React Server Components، كل صفحة تستفيد من <strong>العرض الأصلي على الخادم</strong>، ولكنها تتطلب فهماً عميقاً لواجهات API الجديدة لتعظيم إمكاناتها في تحسين محركات البحث.</p>
+          <p>في هذا المقال، سنستكشف <strong>التقنيات الأساسية</strong> لإتقان تحسين محركات البحث مع App Router: من Metadata API إلى sitemaps الديناميكية، مروراً بالبيانات المنظمة والتدويل.</p>
+
+          <h2 id="metadata">1. Metadata API في Next.js</h2>
+          <p>يقدم Next.js 14 <strong>Metadata API قوية</strong> تتيح تعريف علامات head لتحسين محركات البحث. باستخدام <code>generateMetadata</code>، تولّد كل صفحة بياناتها الوصفية بشكل ثابت أو ديناميكي. ادمجها مع <code>generateStaticParams</code> لإنشاء الصفحات وعلاماتها مسبقاً، مما يحسن الفهرسة.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/products/[slug]/page.tsx</span>
+<span class="kw">import</span> { Metadata } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">interface</span> <span class="type">Props</span> {
+  params: { slug: <span class="type">string</span> };
+}
+
+<span class="kw">export async function</span> <span class="fn">generateMetadata</span>(
+  { params }: <span class="type">Props</span>
+): <span class="type">Promise</span>&lt;<span class="type">Metadata</span>&gt; {
+  <span class="kw">const</span> product = <span class="kw">await</span> <span class="fn">getProduct</span>(params.slug);
+
+  <span class="kw">return</span> {
+    title: product.<span class="prop">seoTitle</span>,
+    description: product.<span class="prop">metaDesc</span>,
+    openGraph: {
+      title: product.<span class="prop">seoTitle</span>,
+      images: [product.<span class="prop">image</span>],
+    },
+  };
+}</code></pre>
+
+          <h2 id="sitemap">2. Sitemaps الديناميكية و Robots.txt</h2>
+          <p>يتيح لك App Router إنشاء <strong>sitemaps ديناميكية</strong> عبر ملف <code>app/sitemap.ts</code>. يقوم Next.js بتوليد sitemap محدّث في كل build، بما في ذلك جميع مساراتك الديناميكية. قم أيضاً بتكوين ملف <code>robots.txt</code> ثابت أو ديناميكي لتوجيه بوتات الفهرسة.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/sitemap.ts</span>
+<span class="kw">import</span> { MetadataRoute } <span class="kw">from</span> <span class="str">'next'</span>;
+
+<span class="kw">export default async function</span> <span class="fn">sitemap</span>(): <span class="type">Promise</span>&lt;<span class="type">MetadataRoute</span>.<span class="type">Sitemap</span>&gt; {
+  <span class="kw">const</span> products = <span class="kw">await</span> <span class="fn">getAllProducts</span>();
+
+  <span class="kw">return</span> [
+    { url: <span class="str">'https://yoursite.com'</span>, lastModified: <span class="kw">new</span> <span class="fn">Date</span>(), priority: <span class="num">1.0</span> },
+    ...products.<span class="fn">map</span>(p =&gt; ({
+      url: <span class="str">\`https://yoursite.com/products/\${p.slug}\`</span>,
+      lastModified: p.<span class="prop">updatedAt</span>,
+      priority: <span class="num">0.8</span>,
+    })),
+  ];
+}</code></pre>
+
+          <h2 id="structured">3. البيانات المنظمة JSON-LD</h2>
+          <p><strong>البيانات المنظمة</strong> (schema.org) أساسية للحصول على مقتطفات غنية في صفحات نتائج محركات البحث. مع App Router، قم بحقن JSON-LD مباشرة في مكونات الخادم الخاصة بك. استخدم أنواع <code>Product</code> أو <code>Article</code> أو <code>FAQPage</code> حسب المحتوى الخاص بك.</p>
+
+          <pre><code><span class="code-lang">TypeScript</span>
+<span class="cm">// app/products/[slug]/page.tsx</span>
+<span class="kw">const</span> jsonLd = {
+  <span class="prop">@context</span>: <span class="str">'https://schema.org'</span>,
+  <span class="prop">@type</span>: <span class="str">'Product'</span>,
+  name: product.<span class="prop">name</span>,
+  offers: { <span class="prop">@type</span>: <span class="str">'Offer'</span>, price: product.<span class="prop">price</span> },
+};
+
+<span class="kw">return</span> (
+  <span class="tag">&lt;section&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">type</span>=<span class="val">"application/ld+json"</span>
+      <span class="attr">dangerouslySetInnerHTML</span>={{ __html: JSON.<span class="fn">stringify</span>(jsonLd) }} <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/section&gt;</span>
+);</code></pre>
+
+          <h2 id="perf">4. Core Web Vitals والأداء</h2>
+          <p>تستخدم Google <strong>Core Web Vitals</strong> كعامل ترتيب. يقدم App Router تحسينات أصلية: البث مع <code>loading.js</code>، والتحسين التلقائي للصور مع <code>next/image</code>، والتخزين المؤقت عبر <code>unstable_cache</code>. فضّل مكونات الخادم لتحسين LCP وتقليل CLS بفضل العرض على الخادم.</p>
+
+          <h2 id="i18n">5. تحسين محركات البحث الدولي مع App Router</h2>
+          <p>للمواقع متعددة اللغات، استخدم <strong>علامات hreflang</strong> وعناوين URL البديلة. يدير Next.js التدويل من خلال التوجيه أو middleware مخصص. يجب على كل صفحة أن تعلن بدائلها اللغوية في <code>generateMetadata</code> للحصول على تحسين محركات بحث دولي أمثل.</p>
+
+          <h2 id="conclusion">الخاتمة</h2>
+          <p>إتقان تحسين محركات البحث التقني مع App Router في Next.js هو <strong>ميزة تنافسية كبرى</strong>. من خلال الجمع بين Metadata API و sitemaps الديناميكية والبيانات المنظمة وتحسينات الأداء، تقدم لمحركات البحث محتوى قابلًا للفهرسة بشكل مثالي وللمستخدمين تجربة مثلى. طبّق هذه التقنيات اليوم للسيطرة على صفحات نتائج محركات البحث.</p>
+        `,
+        related: [
+          { tag: "⚡ تجارة إلكترونية", title: "أتمتة صفحات المنتجات الإلكترونية باستخدام Next.js و ChatGPT", desc: "ابنِ خط أنفاق لأتمتة صفحات المنتجات باستخدام Next.js و ChatGPT.", url: "/blog/automatiser-fiches-produit/" },
+          { tag: "🔥 برومبتات", title: "500 برومبت IA – حزمة كاملة", desc: "برمج، ابتكر وبع أسرع. 500 برومبت، 4 ركائز، 4 لغات.", url: "https://500-prompts-ia.vercel.app/" },
+          { tag: "📘 دليل", title: "دليل المستقل العصري", desc: "كل ما تحتاج معرفته للنجاح كمستقل.", url: "/guide-freelance/" }
+        ]
+      }
+    };
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    let currentLang = localStorage.getItem('lang') || 'fr';
+    let currentTheme = localStorage.getItem('theme') || 'light';
+
+    // ============================================================
+    // THEME TOGGLE
+    // ============================================================
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('theme-toggle').textContent = theme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('theme', theme);
+      currentTheme = theme;
+    }
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    applyTheme(currentTheme);
+
+    // ============================================================
+    // LANGUAGE SWITCHER
+    // ============================================================
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      const t = I18N[lang];
+      const isRTL = lang === 'ar';
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+      });
+
+      document.getElementById('article-content').innerHTML = t.content;
+
+      const tocList = document.getElementById('toc-list');
+      tocList.innerHTML = t.toc_items.map(item =>
+        `<li><a href="#${item.id}">${item.text}</a></li>`
+      ).join('');
+
+      document.getElementById('related-grid').innerHTML = t.related.map(r =>
+        `<a href="${r.url || '#'}" class="related-card" target="_blank" rel="noopener">
+          <span class="related-card-tag">${r.tag}</span>
+          <h4>${r.title}</h4>
+          <p>${r.desc}</p>
+        </a>`
+      ).join('');
+
+      document.title = t.title + ' | UcfZem Tech';
+      initTOCObserver();
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    applyLang(currentLang);
+
+    // ============================================================
+    // PROGRESS BAR
+    // ============================================================
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('progress-bar').style.width = progress + '%';
+    });
+
+    // ============================================================
+    // BACK TO TOP
+    // ============================================================
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 400);
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ============================================================
+    // TOC HIGHLIGHT ON SCROLL
+    // ============================================================
+    function initTOCObserver() {
+      const headings = document.querySelectorAll('.article-content h2[id]');
+      const tocLinks = document.querySelectorAll('#toc-list a');
+      if (!headings.length || !tocLinks.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`#toc-list a[href="#${entry.target.id}"]`);
+            if (activeLink) activeLink.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      headings.forEach(h => observer.observe(h));
+    }
+
+    // ============================================================
+    // MOBILE TOC TOGGLE
+    // ============================================================
+    document.getElementById('toc-toggle').addEventListener('click', () => {
+      document.getElementById('toc').classList.toggle('open');
+    });
+
+    // Close TOC on link click (mobile)
+    document.getElementById('toc-list').addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') {
+        document.getElementById('toc').classList.remove('open');
+      }
+    });
+
+    // ============================================================
+    // SHARE BUTTONS
+    // ============================================================
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const btn = document.querySelector('.share-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '✅ Copié!';
+        setTimeout(() => btn.innerHTML = original, 2000);
+      });
+    }
+
+    function shareTwitter() {
+      const text = encodeURIComponent(document.title);
+      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+    }
+
+    function shareLinkedIn() {
+      window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
