@@ -108,6 +108,35 @@
       border-color: var(--accent);
       color: var(--accent);
     }
+    #invoicePreview {
+      background: white;
+      color: #1a1a1a;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    #invoicePreview table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #invoicePreview th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      border-bottom: 2px solid #C9A84C;
+    }
+    #invoicePreview td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e0d5c0;
+    }
+    @media print {
+      @page { size: A4; margin: 15mm; }
+      body * { visibility: hidden; }
+      #printArea, #printArea * { visibility: visible; }
+      #printArea { position: absolute; top: 0; left: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -147,58 +176,85 @@
       </p>
     </section>
 
-    <section class="mb-20 md:mb-28">
+    <section class="mb-20 md:mb-28" id="invoiceSection">
       <div class="flex items-center gap-3 mb-4">
         <i data-lucide="edit-3" style="color:var(--accent);" class="w-5 h-5"></i>
-        <h2 class="text-xl font-semibold tracking-tight" style="color:var(--text-primary);">Live preview · try it now</h2>
-        <span class="preview-badge">interactive</span>
+        <h2 class="text-xl font-semibold tracking-tight" style="color:var(--text-primary);">Create your invoice</h2>
+        <span class="preview-badge" id="liveBadge">live</span>
       </div>
       
       <div class="card-dark rounded-2xl p-5 md:p-7 shadow-2xl backdrop-blur-sm">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-5">
-            <div>
-              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Client name</label>
-              <input type="text" id="clientName" placeholder="Acme Studio" value="Stellar Labs" class="w-full px-4 py-2.5 rounded-lg text-sm">
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Invoice #</label>
+                <input type="text" id="invNumber" value="INV-001" class="w-full px-3 py-2 rounded-lg text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Date</label>
+                <input type="date" id="invDate" class="w-full px-3 py-2 rounded-lg text-sm">
+              </div>
             </div>
             <div>
-              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Your business / freelancer</label>
-              <input type="text" id="businessName" placeholder="nano invoice user" value="Alex Rivera" class="w-full px-4 py-2.5 rounded-lg text-sm">
+              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">From (your business)</label>
+              <input type="text" id="businessName" placeholder="Your name / company" value="Alex Rivera" class="w-full px-3 py-2 rounded-lg text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Client name</label>
+              <input type="text" id="clientName" placeholder="Client name" value="Stellar Labs" class="w-full px-3 py-2 rounded-lg text-sm">
             </div>
             <div class="border-t pt-4" style="border-color:var(--border);">
               <p class="text-xs font-semibold mb-2 flex items-center gap-1" style="color:var(--text-secondary);"><i data-lucide="list" class="w-3.5 h-3.5"></i> Line items</p>
-              <div id="lineItemsContainer" class="space-y-3"></div>
-              <button id="addLineBtn" class="mt-3 text-xs flex items-center gap-1 transition-colors" style="color:var(--accent);">
+              <div id="lineItemsContainer" class="space-y-2"></div>
+              <button id="addLineBtn" class="mt-2 text-xs flex items-center gap-1 transition-colors" style="color:var(--accent);">
                 <i data-lucide="plus-circle" class="w-4 h-4"></i> Add item
               </button>
             </div>
+            <div>
+              <label class="block text-xs font-medium mb-1" style="color:var(--text-muted);">Notes (optional)</label>
+              <textarea id="invNotes" rows="2" placeholder="Payment terms, thank you note..." class="w-full px-3 py-2 rounded-lg text-sm"></textarea>
+            </div>
+            <button id="printBtn" class="btn-glow font-semibold px-5 py-3 rounded-lg text-sm flex items-center justify-center gap-2 w-full transition-colors no-print" style="background:var(--accent);color:var(--bg-alt);">
+              <i data-lucide="printer" class="w-4 h-4"></i> Print / Save PDF
+            </button>
           </div>
           
-          <div class="rounded-xl p-5 flex flex-col justify-between" style="background:var(--bg);border:1px solid var(--border);">
-            <div>
-              <div class="flex justify-between items-start">
+          <div id="printArea">
+            <div id="invoicePreview" class="rounded-xl p-6" style="min-height:500px;">
+              <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:24px;">
                 <div>
-                  <span class="text-lg font-bold" style="color:var(--text-primary);" id="previewBusiness">Alex Rivera</span>
-                  <p class="text-xs" style="color:var(--text-muted);">invoice@nanotool.dev</p>
+                  <div style="font-size:22px;font-weight:800;color:#C9A84C;">nano<span style="color:#1a1a1a;">invoice</span></div>
+                  <div style="font-size:11px;color:#8B7355;margin-top:2px;">invoice</div>
                 </div>
-                <span class="font-mono text-sm border px-3 py-1 rounded-full" style="color:var(--accent);border-color:rgba(201,168,76,0.3);">INV-001</span>
+                <div style="text-align:right;">
+                  <div style="font-size:16px;font-weight:700;color:#1a1a1a;" id="piNumber">INV-001</div>
+                  <div style="font-size:12px;color:#8B7355;" id="piDate"></div>
+                </div>
               </div>
-              <div class="mt-5">
-                <p class="text-xs uppercase tracking-wider" style="color:var(--text-muted);">Bill to</p>
-                <p class="font-medium" style="color:var(--text-primary);" id="previewClient">Stellar Labs</p>
+              <div style="display:flex;justify-content:space-between;margin-bottom:24px;">
+                <div>
+                  <div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#8B7355;margin-bottom:4px;">From</div>
+                  <div style="font-size:14px;font-weight:600;color:#1a1a1a;" id="piBusiness">Alex Rivera</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#8B7355;margin-bottom:4px;">Bill to</div>
+                  <div style="font-size:14px;font-weight:600;color:#1a1a1a;" id="piClient">Stellar Labs</div>
+                </div>
               </div>
-              <div class="mt-5 space-y-2" id="previewLineItems"></div>
+              <table>
+                <thead>
+                  <tr><th style="width:60%;">Description</th><th style="width:20%;text-align:right;">Amount</th></tr>
+                </thead>
+                <tbody id="piItems"></tbody>
+              </table>
+              <div style="margin-top:16px;text-align:right;font-size:18px;font-weight:700;color:#1a1a1a;">
+                Total: <span id="piTotal">$0.00</span>
+              </div>
+              <div id="piNotes" style="margin-top:20px;font-size:11px;color:#8B7355;border-top:1px solid #e0d5c0;padding-top:12px;"></div>
             </div>
-            <div class="mt-6 border-t pt-4 flex justify-between items-center" style="border-color:var(--border);">
-              <span class="text-sm font-semibold" style="color:var(--text-secondary);">Total</span>
-              <span class="text-2xl font-bold" style="color:var(--accent);" id="previewTotal">$0.00</span>
-            </div>
-            <p class="text-[10px] mt-3 flex items-center gap-1" style="color:var(--text-muted);"><i data-lucide="lock" class="w-3 h-3"></i> local preview · no data sent</p>
           </div>
         </div>
-        <p class="text-xs mt-4 flex items-center gap-1" style="color:var(--text-muted);">
-          <i data-lucide="mouse-pointer-2" class="w-3.5 h-3.5"></i> Edit fields to see real‑time update
-        </p>
       </div>
     </section>
 
@@ -292,10 +348,7 @@
       const addBtn = document.getElementById('addLineBtn');
       const clientInput = document.getElementById('clientName');
       const businessInput = document.getElementById('businessName');
-      const previewBusiness = document.getElementById('previewBusiness');
-      const previewClient = document.getElementById('previewClient');
-      const previewLineItemsContainer = document.getElementById('previewLineItems');
-      const previewTotal = document.getElementById('previewTotal');
+
 
       function formatCurrency(value) {
         return '$' + parseFloat(value).toFixed(2);
@@ -363,28 +416,7 @@
       }
 
       function updatePreview() {
-        if (previewBusiness) {
-          previewBusiness.textContent = businessInput?.value || 'Alex Rivera';
-        }
-        if (previewClient) {
-          previewClient.textContent = clientInput?.value || 'Stellar Labs';
-        }
-        
-        if (previewLineItemsContainer) {
-          previewLineItemsContainer.innerHTML = '';
-          lineItems.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'flex justify-between text-sm';
-            row.innerHTML = `<span style="color:var(--text-secondary);">${item.description || 'Item'}</span>
-                             <span style="color:var(--text-primary);font-weight:500;">${formatCurrency(item.amount)}</span>`;
-            previewLineItemsContainer.appendChild(row);
-          });
-        }
-
-        const total = lineItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
-        if (previewTotal) {
-          previewTotal.textContent = formatCurrency(total);
-        }
+        // old preview removed, invoice preview handles it
       }
 
       addBtn?.addEventListener('click', () => {
@@ -394,19 +426,71 @@
       });
 
       document.getElementById('createBtn')?.addEventListener('click', () => {
-        document.querySelector('.card-dark')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById('invoiceSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
       document.getElementById('demoBtn')?.addEventListener('click', () => {
         clientInput.value = 'Acme Corp';
         businessInput.value = 'Jane Smith';
+        document.getElementById('invNumber').value = 'INV-2026-001';
+        document.getElementById('invDate').value = new Date().toISOString().slice(0,10);
+        document.getElementById('invNotes').value = 'Payment due within 15 days. Thank you for your business!';
         lineItems = [
           { id: 1, description: 'UI/UX Design', amount: 2400 },
           { id: 2, description: 'Frontend Development', amount: 3600 },
           { id: 3, description: 'SEO Audit', amount: 800 }
         ];
         renderAll();
-        document.querySelector('.card-dark')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.getElementById('invoiceSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      const invNumber = document.getElementById('invNumber');
+      const invDate = document.getElementById('invDate');
+      const invNotes = document.getElementById('invNotes');
+      const piNumber = document.getElementById('piNumber');
+      const piDate = document.getElementById('piDate');
+      const piBusiness = document.getElementById('piBusiness');
+      const piClient = document.getElementById('piClient');
+      const piItems = document.getElementById('piItems');
+      const piTotal = document.getElementById('piTotal');
+      const piNotesEl = document.getElementById('piNotes');
+
+      // Set default date
+      invDate.value = new Date().toISOString().slice(0,10);
+
+      function updateInvoicePreview() {
+        piNumber.textContent = invNumber?.value || 'INV-001';
+        piDate.textContent = invDate?.value ? new Date(invDate.value).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }) : '';
+        piBusiness.textContent = businessInput?.value || 'Your name';
+        piClient.textContent = clientInput?.value || 'Client name';
+
+        piItems.innerHTML = '';
+        lineItems.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${item.description || 'Item'}</td><td style="text-align:right;">${formatCurrency(item.amount)}</td>`;
+          piItems.appendChild(tr);
+        });
+
+        const total = lineItems.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+        piTotal.textContent = formatCurrency(total);
+
+        piNotesEl.textContent = invNotes?.value || '';
+        piNotesEl.style.display = invNotes?.value ? '' : 'none';
+      }
+
+      // Override updatePreview to also update the invoice
+      const origUpdate = updatePreview;
+      updatePreview = function() {
+        origUpdate();
+        updateInvoicePreview();
+      };
+
+      invNumber?.addEventListener('input', updateInvoicePreview);
+      invDate?.addEventListener('input', updateInvoicePreview);
+      invNotes?.addEventListener('input', updateInvoicePreview);
+
+      document.getElementById('printBtn')?.addEventListener('click', () => {
+        window.print();
       });
 
       clientInput?.addEventListener('input', updatePreview);
