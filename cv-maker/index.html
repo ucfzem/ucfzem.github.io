@@ -1458,7 +1458,7 @@ function triggerPrint() {
   const pdf = new jsPDF({ unit:'pt', format:'a4', orientation:'portrait' });
 
   const W = 595.28, H = 841.89;
-  const SIDEBAR = 190;
+  const SIDEBAR = 175;
   const GOLD = '#C9A84C';
   const DARK = '#2C1A06';
   const LIGHT = '#FAF3E8';
@@ -1474,8 +1474,8 @@ function triggerPrint() {
   let sy = 36;
   let my = 36;
   const sx = 18;
-  const mx = SIDEBAR + 20;
-  const mw = W - SIDEBAR - 36;
+  const mx = SIDEBAR + 18;
+  const mw = W - SIDEBAR - 30;
 
   // Name
   pdf.setFont('helvetica', 'bold');
@@ -1570,15 +1570,15 @@ function triggerPrint() {
   // Summary
   if (p.summary) {
     pdf.setFillColor('#FAF3E8');
-    const sumLines = pdf.splitTextToSize(p.summary, mw - 10);
-    const sumH = sumLines.length * 10 + 10;
-    pdf.rect(mx - 2, my - 8, mw + 4, sumH, 'F');
+    const sumLines = pdf.splitTextToSize(p.summary, mw - 16);
+    const sumH = sumLines.length * 11 + 14;
+    pdf.rect(mx, my - 10, mw, sumH, 'F');
     pdf.setFillColor(GOLD);
-    pdf.rect(mx - 2, my - 8, 2.5, sumH, 'F');
+    pdf.rect(mx, my - 10, 2.5, sumH, 'F');
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(8.5);
     pdf.setTextColor('#3D2E1A');
-    pdf.text(sumLines, mx + 6, my);
+    pdf.text(sumLines, mx + 8, my);
     my += sumH + 8;
   }
 
