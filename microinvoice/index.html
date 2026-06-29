@@ -156,23 +156,12 @@
       </div>
     </header>
 
-    <section class="flex flex-col items-center text-center mt-16 md:mt-24 mb-16 md:mb-20">
-      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight max-w-4xl" style="color:var(--text-primary);">
+    <section class="flex flex-col items-center text-center mt-10 md:mt-16 mb-8 md:mb-12">
+      <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight" style="color:var(--text-primary);">
         Invoicing stripped down to the <span style="color:var(--accent);">essentials</span>.
       </h1>
-      <p class="mt-6 text-lg md:text-xl max-w-2xl" style="color:var(--text-secondary);">
-        A micro invoice tool for small businesses, indie devs, and creators. No accounts, no bloat – just clean, fast billing.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 mt-8">
-        <button id="createBtn" class="btn-glow font-semibold px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-colors" style="background:var(--accent);color:var(--bg-alt);">
-          <i data-lucide="file-plus" class="w-5 h-5"></i> Create an Invoice – Free
-        </button>
-        <button id="demoBtn" class="btn-glow border font-medium px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-all" style="border-color:var(--border);color:var(--text-primary);">
-          <i data-lucide="play-circle" class="w-5 h-5"></i> View Demo
-        </button>
-      </div>
-      <p class="text-xs mt-4 flex items-center gap-1" style="color:var(--text-muted);">
-        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> No sign-up · local processing
+      <p class="mt-4 text-base md:text-lg" style="color:var(--text-secondary);">
+        No accounts, no bloat – just clean, fast billing.
       </p>
     </section>
 
@@ -425,24 +414,7 @@
         renderAll();
       });
 
-      document.getElementById('createBtn')?.addEventListener('click', () => {
-        document.getElementById('invoiceSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
 
-      document.getElementById('demoBtn')?.addEventListener('click', () => {
-        clientInput.value = 'Acme Corp';
-        businessInput.value = 'Jane Smith';
-        document.getElementById('invNumber').value = 'INV-2026-001';
-        document.getElementById('invDate').value = new Date().toISOString().slice(0,10);
-        document.getElementById('invNotes').value = 'Payment due within 15 days. Thank you for your business!';
-        lineItems = [
-          { id: 1, description: 'UI/UX Design', amount: 2400 },
-          { id: 2, description: 'Frontend Development', amount: 3600 },
-          { id: 3, description: 'SEO Audit', amount: 800 }
-        ];
-        renderAll();
-        document.getElementById('invoiceSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
 
       const invNumber = document.getElementById('invNumber');
       const invDate = document.getElementById('invDate');
