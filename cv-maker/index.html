@@ -1508,13 +1508,18 @@ function triggerPrint() {
   pdf.setFontSize(8);
   pdf.setTextColor(LIGHT);
   const contacts = [
-    p.email    ? 'Email: ' + p.email       : null,
-    p.phone    ? 'Tel: '   + p.phone       : null,
-    p.location ? 'Loc: '   + p.location    : null,
-    p.website  ? 'Web: '   + p.website     : null,
+    p.email    ? p.email             : null,
+    p.phone    ? p.phone             : null,
+    p.location ? p.location          : null,
+    p.website  ? p.website           : null,
   ].filter(Boolean);
   contacts.forEach(c => {
-    pdf.text(c, sx, sy);
+    pdf.setFillColor(GOLD);
+    pdf.rect(sx, sy - 4, 3, 3, 'F');
+    pdf.setTextColor(LIGHT);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+    pdf.text(c, sx + 6, sy);
     sy += 11;
   });
   sy += 6;
