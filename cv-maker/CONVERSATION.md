@@ -36,8 +36,10 @@ PDF export on Samsung S23 Ultra (Chrome Android) produced either "1/4 text" scal
 
 ## Current State
 - `renderModern()`: flex-based `<div>` layout, explicit 794×1123, 278px sidebar / 516px main
+  - RTL support: `currentLang === 'ar'` → `dir="rtl"`, Cairo font, mirrored summary border, swapped date margins
 - `downloadPDF()`: `window.print()` with print-specific CSS
 - CDNs: jspdf + html2canvas still loaded (legacy), html2pdf removed
+- Google Fonts: Inter, Plus Jakarta Sans, Cairo added
 - Deployed to GitHub Pages
 
 ## Files
