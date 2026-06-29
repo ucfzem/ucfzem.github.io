@@ -1457,7 +1457,7 @@ function triggerPrint() {
   }
 
   const p = cvData.personal || {};
-  const fileName = (p.fullName ? p.fullName.trim().replace(\s+/g,'_') : 'CV') + '.pdf';
+  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g,'_') : 'CV') + '.pdf';
   showToast('⏳ Génération...');
 
   const { jsPDF } = window.jspdf;
