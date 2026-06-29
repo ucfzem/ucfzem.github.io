@@ -1229,17 +1229,6 @@ function formatDate(d) {
 function getSkillDots(level) {
   const map = { 'Expert': 4, 'Advanced': 3, 'Intermediate': 2, 'Beginner': 1 };
   const n = map[level] || 0;
-  let dots = '<div style="display:flex;gap:4px;align-items:center;">';
-  for (let i = 0; i < 4; i++) {
-    dots += `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${i < n ? GOLD : '#D4C4A8'}"></span>`;
-  }
-  dots += '</div>';
-  return dots;
-}
-
-function getSkillDots(level) {
-  const map = { 'Expert': 4, 'Advanced': 3, 'Intermediate': 2, 'Beginner': 1 };
-  const n = map[level] || 0;
   let dots = '<div style="display:flex;gap:5px;align-items:center;">';
   for (let i = 0; i < 4; i++) {
     dots += '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;' + (i < n ? 'background:' + GOLD : 'background:rgba(255,255,255,0.25)') + '"></span>';
@@ -1248,63 +1237,61 @@ function getSkillDots(level) {
   return dots;
 }
 
-function renderSidebarContent(p) {
-  return '<h1 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:30px;color:' + GOLD + ';margin:0 0 8px 0;font-weight:800;line-height:1.2;">' + escapeHTML(p.fullName || '') + '</h1>'
+function renderSidebarContent(p, isAr) {
+  return '<h1 style="font-size:30px;color:' + GOLD + ';margin:0 0 8px 0;font-weight:800;line-height:1.2;">' + escapeHTML(p.fullName || '') + '</h1>'
     + '<div style="font-size:14px;color:#D4C4A8;margin-bottom:40px;font-weight:600;text-transform:uppercase;">' + escapeHTML(p.title || '') + '</div>'
-    + '<div style="margin-bottom:40px;font-size:13.5px;line-height:1.6;">'
+    + '<div style="margin-bottom:40px;font-size:13.5px;line-height:1.6;direction:ltr;text-align:' + (isAr ? 'right' : 'left') + ';unicode-bidi:embed;">'
       + (p.email ? '<div style="margin-bottom:10px;word-break:break-all;">✉ ' + escapeHTML(p.email) + '</div>' : '')
-      + (p.phone ? '<div style="margin-bottom:10px;">📞 ' + escapeHTML(p.phone) + '</div>' : '')
+      + (p.phone ? '<div style="margin-bottom:10px;direction:ltr;unicode-bidi:embed;">📞 ' + escapeHTML(p.phone) + '</div>' : '')
       + (p.location ? '<div style="margin-bottom:10px;">📍 ' + escapeHTML(p.location) + '</div>' : '')
       + (p.website ? '<div style="margin-bottom:10px;word-break:break-all;color:' + GOLD + ';">🔗 ' + escapeHTML(p.website) + '</div>' : '')
     + '</div>'
     + (cvData.skillCategories.some(cat => cat.skills.length)
-      ? '<div style="font-size:13px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:5px;">Compétences</div>'
+      ? '<div style="font-size:13px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:5px;margin-bottom:15px;">' + (isAr ? 'المهارات' : 'Compétences') + '</div>'
       : '')
     + cvData.skillCategories.map(cat => cat.skills.length
-      ? '<div style="margin-bottom:20px;">'
-        + '<div style="font-size:13px;font-weight:600;color:#D4C4A8;margin-bottom:8px;">' + escapeHTML(cat.name) + '</div>'
-        + cat.skills.map(sk => '<div style="font-size:12.5px;color:#FAF3E8;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">'
-          + '<span style="font-weight:500;">' + escapeHTML(sk.name) + '</span>'
-          + getSkillDots(sk.level)
+      ? '<div style="margin-bottom:15px;">'
+        + '<div style="font-size:12.5px;font-weight:600;color:#D4C4A8;margin-bottom:6px;">' + escapeHTML(cat.name) + '</div>'
+        + cat.skills.map(sk => '<div style="font-size:12px;color:#FAF3E8;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;">'
+          + '<span>' + escapeHTML(sk.name) + '</span>'
+          + '<span style="color:' + GOLD + ';font-size:11px;">' + escapeHTML(sk.level) + '</span>'
         + '</div>').join('')
       + '</div>'
       : '').join('')
     + (cvData.languages.length
-      ? '<div style="font-size:13px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;letter-spacing:.12em;margin:25px 0 15px;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:5px;">Langues</div>'
-      + '<div style="line-height:1.8;">'
-        + cvData.languages.map(l => '<div style="font-size:12.5px;color:#FAF3E8;margin-bottom:6px;display:flex;justify-content:space-between;">'
-          + '<span>' + escapeHTML(l.name) + '</span>'
-          + '<span style="color:' + GOLD + ';font-weight:600;">' + escapeHTML(l.level) + '</span>'
-        + '</div>').join('')
-      + '</div>'
+      ? '<div style="font-size:13px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:5px;margin:20px 0 12px;">' + (isAr ? 'اللغات' : 'Langues') + '</div>'
+      + cvData.languages.map(l => '<div style="font-size:12px;color:#FAF3E8;margin-bottom:5px;display:flex;justify-content:space-between;">'
+        + '<span>' + escapeHTML(l.name) + '</span>'
+        + '<span style="color:' + GOLD + ';font-weight:600;">' + escapeHTML(l.level) + '</span>'
+      + '</div>').join('')
       : '');
 }
 
-function renderMainContent(p, isRtl) {
-  const borderSide = isRtl ? 'border-right' : 'border-left';
+function renderMainContent(p, isAr) {
+  const borderSide = isAr ? 'border-right' : 'border-left';
   return (p.summary
-    ? '<div style="font-size:14.5px;color:#3D2E1A;margin-bottom:35px;line-height:1.6;white-space:pre-line;background:#FAF6EE;padding:18px;' + borderSide + ':4px solid ' + GOLD + ';border-radius:0 8px 8px 0;">' + escapeHTML(p.summary) + '</div>'
+    ? '<div style="font-size:14px;color:#3D2E1A;margin-bottom:30px;line-height:1.6;white-space:pre-line;background:#FAF6EE;padding:15px;' + borderSide + ':4px solid ' + GOLD + ';border-radius:4px;">' + escapeHTML(p.summary) + '</div>'
     : '')
     + (cvData.experiences.filter(e => e.company).length
-      ? '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:15px;font-weight:700;color:#1A1208;text-transform:uppercase;letter-spacing:.1em;border-bottom:2px solid #1A1208;padding-bottom:5px;margin-bottom:20px;">Expérience Professionnelle</div>'
+      ? '<div style="font-size:15px;font-weight:700;color:#1A1208;text-transform:uppercase;border-bottom:2px solid #1A1208;padding-bottom:5px;margin-bottom:20px;">' + (isAr ? 'الخبرة المهنية' : 'Expérience Professionnelle') + '</div>'
       : '')
-    + cvData.experiences.filter(e => e.company).map(e => '<div style="margin-bottom:22px;">'
+    + cvData.experiences.filter(e => e.company).map(e => '<div style="margin-bottom:20px;page-break-inside:avoid;">'
       + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
-        + '<span style="font-size:15.5px;font-weight:700;color:#1A1208;">' + escapeHTML(e.position || '') + '</span>'
-        + '<span style="font-size:12.5px;color:#A89878;font-weight:600;white-space:nowrap;width:150px;text-align:right;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : 'Présent') + '</span>'
+        + '<span style="font-size:15px;font-weight:700;color:#1A1208;">' + escapeHTML(e.position || '') + '</span>'
+        + '<span style="font-size:12px;color:#A89878;font-weight:600;direction:ltr;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : (isAr ? 'الآن' : 'Présent')) + '</span>'
       + '</div>'
-      + '<div style="font-size:13.5px;color:' + GOLD_dark + ';font-weight:600;margin-bottom:8px;">' + escapeHTML(e.company) + '</div>'
-      + (e.description ? '<div style="font-size:13.5px;color:#3D2E1A;line-height:1.55;white-space:pre-line;">' + escapeHTML(e.description) + '</div>' : '')
+      + '<div style="font-size:13px;color:' + GOLD_dark + ';font-weight:600;margin-bottom:6px;">' + escapeHTML(e.company) + '</div>'
+      + (e.description ? '<div style="font-size:13px;color:#3D2E1A;line-height:1.5;white-space:pre-line;">' + escapeHTML(e.description) + '</div>' : '')
     + '</div>').join('')
     + (cvData.education.filter(e => e.institution).length
-      ? '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:15px;font-weight:700;color:#1A1208;text-transform:uppercase;letter-spacing:.1em;border-bottom:2px solid #1A1208;padding-bottom:5px;margin:25px 0 15px;">Éducation & Formation</div>'
+      ? '<div style="font-size:15px;font-weight:700;color:#1A1208;text-transform:uppercase;border-bottom:2px solid #1A1208;padding-bottom:5px;margin:25px 0 15px;">' + (isAr ? 'التعليم والتكوين' : 'Éducation & Formation') + '</div>'
       : '')
-    + cvData.education.filter(e => e.institution).map(e => '<div style="margin-bottom:18px;">'
+    + cvData.education.filter(e => e.institution).map(e => '<div style="margin-bottom:18px;page-break-inside:avoid;">'
       + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
         + '<span style="font-size:14.5px;font-weight:700;color:#1A1208;">' + escapeHTML(e.degree || '') + (e.field ? ' en ' + escapeHTML(e.field) : '') + '</span>'
-        + '<span style="font-size:12.5px;color:#A89878;font-weight:600;white-space:nowrap;width:150px;text-align:right;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : 'Présent') + '</span>'
+        + '<span style="font-size:12px;color:#A89878;font-weight:600;direction:ltr;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : (isAr ? 'الآن' : 'Présent')) + '</span>'
       + '</div>'
-      + '<div style="font-size:13.5px;color:#5C4A2E;">' + escapeHTML(e.institution) + (e.gpa ? ' <span style="color:#A89878;">| GPA: ' + escapeHTML(e.gpa) + '</span>' : '') + '</div>'
+      + '<div style="font-size:13px;color:#5C4A2E;">' + escapeHTML(e.institution) + (e.gpa ? ' <span style="color:#A89878;">| GPA: ' + escapeHTML(e.gpa) + '</span>' : '') + '</div>'
     + '</div>').join('');
 }
 
@@ -1314,15 +1301,13 @@ function renderModern(lang) {
   const font = isAr ? "'Cairo', sans-serif" : "'Inter', sans-serif";
   const dir = isAr ? 'rtl' : 'ltr';
 
-  return '<table cellpadding="0" cellspacing="0" border="0" dir="' + dir + '" style="width:794px;height:1123px;min-height:1123px;table-layout:fixed;font-family:' + font + ';background:#ffffff;color:#2C1A06;border-collapse:collapse;overflow:hidden;">'
-    + '<tr>'
-      + (isAr
-        ? '<td valign="top" style="width:516px;height:1123px;padding:50px 35px;box-sizing:border-box;">' + renderMainContent(p, isAr) + '</td>'
-          + '<td valign="top" style="width:278px;height:1123px;background:#1A1208;color:#FAF3E8;padding:50px 24px;box-sizing:border-box;">' + renderSidebarContent(p) + '</td>'
-        : '<td valign="top" style="width:278px;height:1123px;background:#1A1208;color:#FAF3E8;padding:50px 24px;box-sizing:border-box;">' + renderSidebarContent(p) + '</td>'
-          + '<td valign="top" style="width:516px;height:1123px;padding:50px 35px;box-sizing:border-box;">' + renderMainContent(p, isAr) + '</td>')
-    + '</tr>'
-  + '</table>';
+  return '<div dir="' + dir + '" style="display:flex;width:794px;height:1123px;min-height:1123px;max-height:1123px;font-family:' + font + ';background:#ffffff;color:#2C1A06;box-sizing:border-box;overflow:hidden;page-break-inside:avoid;">'
+    + (isAr
+      ? '<div style="width:516px;min-width:516px;max-width:516px;height:1123px;padding:50px 40px;box-sizing:border-box;text-align:right;">' + renderMainContent(p, true) + '</div>'
+        + '<div style="width:278px;min-width:278px;max-width:278px;height:1123px;background:#1A1208;color:#FAF3E8;padding:50px 24px;box-sizing:border-box;text-align:right;">' + renderSidebarContent(p, true) + '</div>'
+      : '<div style="width:278px;min-width:278px;max-width:278px;height:1123px;background:#1A1208;color:#FAF3E8;padding:50px 24px;box-sizing:border-box;">' + renderSidebarContent(p, false) + '</div>'
+        + '<div style="width:516px;min-width:516px;max-width:516px;height:1123px;padding:50px 40px;box-sizing:border-box;">' + renderMainContent(p, false) + '</div>')
+  + '</div>';
 }
 
 function renderClassic() {
@@ -1717,10 +1702,13 @@ function downloadPDF() {
         left: 0 !important;
         width: 794px !important;
         height: 1123px !important;
+        max-height: 1123px !important;
         margin: 0 !important;
         padding: 0 !important;
         box-shadow: none !important;
+        overflow: hidden !important;
         page-break-inside: avoid !important;
+        page-break-after: avoid !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
