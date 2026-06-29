@@ -135,10 +135,10 @@
         A micro invoice tool for small businesses, indie devs, and creators. No accounts, no bloat – just clean, fast billing.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 mt-8">
-        <button class="btn-glow font-semibold px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-colors" style="background:var(--accent);color:var(--bg-alt);">
+        <button id="createBtn" class="btn-glow font-semibold px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-colors" style="background:var(--accent);color:var(--bg-alt);">
           <i data-lucide="file-plus" class="w-5 h-5"></i> Create an Invoice – Free
         </button>
-        <button class="btn-glow border font-medium px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-all" style="border-color:var(--border);color:var(--text-primary);">
+        <button id="demoBtn" class="btn-glow border font-medium px-8 py-3.5 rounded-lg text-base flex items-center justify-center gap-2 transition-all" style="border-color:var(--border);color:var(--text-primary);">
           <i data-lucide="play-circle" class="w-5 h-5"></i> View Demo
         </button>
       </div>
@@ -391,6 +391,22 @@
         const newId = lineItems.length ? Math.max(...lineItems.map(i => i.id)) + 1 : 1;
         lineItems.push({ id: newId, description: 'New item', amount: 0 });
         renderAll();
+      });
+
+      document.getElementById('createBtn')?.addEventListener('click', () => {
+        document.querySelector('.card-dark')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      document.getElementById('demoBtn')?.addEventListener('click', () => {
+        clientInput.value = 'Acme Corp';
+        businessInput.value = 'Jane Smith';
+        lineItems = [
+          { id: 1, description: 'UI/UX Design', amount: 2400 },
+          { id: 2, description: 'Frontend Development', amount: 3600 },
+          { id: 3, description: 'SEO Audit', amount: 800 }
+        ];
+        renderAll();
+        document.querySelector('.card-dark')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
       clientInput?.addEventListener('input', updatePreview);
