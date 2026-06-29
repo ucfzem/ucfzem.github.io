@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CV-Maker — Créez votre CV professionnel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   
 <style>
 :root {
@@ -1713,78 +1711,16 @@ function closeDownloadModal() {
 
 function downloadPDF(quality) {
   closeDownloadModal();
-
-  const previewContent = document.getElementById('a4Content');
-
-  if (!previewContent || !previewContent.innerHTML.trim() || previewContent.querySelector('.a4-empty')) {
-    showToast('⚠️ ' + (t('empty_state') || 'Remplissez d\'abord votre CV'));
+  const c = document.getElementById('a4Content');
+  if (!c || !c.innerHTML.trim() || c.querySelector('.a4-empty')) {
+    showToast('⚠️ Remplissez d\'abord votre CV');
     return;
   }
-
-  showToast('⏳ Génération du PDF...');
-
-  const p = cvData.personal || {};
-  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : 'CV') + '.pdf';
-
-  const worker = document.createElement('div');
-  worker.style.cssText = 'position:absolute;top:0;left:0;z-index:-9999;opacity:1;';
-  const box = document.createElement('div');
-  box.style.cssText = 'width:794px;height:1123px;background:#fff;box-sizing:border-box;overflow:hidden;';
-  box.innerHTML = previewContent.innerHTML;
-  worker.appendChild(box);
-  document.body.appendChild(worker);
-
-  const mainFlex = box.querySelector('div[style*="display:flex"]');
-  if (mainFlex) {
-    mainFlex.style.width = '794px';
-    mainFlex.style.height = '1123px';
-    mainFlex.style.minHeight = '1123px';
-    if (mainFlex.children[0]) mainFlex.children[0].style.width = '278px';
-    if (mainFlex.children[1]) mainFlex.children[1].style.width = '516px';
-  }
-
-  setTimeout(async () => {
-    try {
-      const scale = quality === 'high' ? 2 : quality === 'low' ? 1 : 1.5;
-      const canvas = await html2canvas(box, {
-        scale,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: 794,
-        height: 1123,
-        windowWidth: 794,
-        windowHeight: 1123,
-        scrollX: 0,
-        scrollY: 0
-      });
-
-      document.body.removeChild(worker);
-
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: 'px', format: [794, 1123], orientation: 'portrait' });
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      pdf.addImage(imgData, 'JPEG', 0, 0, 794, 1123);
-
-      const pdfBase64 = pdf.output('datauristring');
-      const newTab = window.open();
-      newTab.document.write(`<!DOCTYPE html><html><head>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>${fileName}</title>
-        <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#111;font-family:sans-serif;display:flex;flex-direction:column;height:100vh;}.bar{width:100%;background:#1a1a1a;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}.bar span{color:#C9A84C;font-weight:700;font-size:15px;}.btn{background:#C9A84C;color:#1a1a1a;padding:10px 20px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;}iframe{flex:1;width:100%;border:none;}</style>
-      </head><body>
-        <div class="bar"><span>📄 ${fileName}</span><a class="btn" href="${pdfBase64}" download="${fileName}">⬇️ Télécharger</a></div>
-        <iframe src="${pdfBase64}"></iframe>
-      </body></html>`);
-      newTab.document.close();
-      showToast('✅ PDF généré !');
-    } catch (err) {
-      if (worker.parentNode) document.body.removeChild(worker);
-      console.error('PDF error:', err);
-      showToast('❌ Erreur: ' + err.message);
-    }
-  }, 300);
+  // Use native print-to-PDF — works on all devices, handles Arabic, no scaling issues
+  window.print();
 }
+
+document.getElementById('downloadBtn').addEventListener('click', () => downloadPDF('high'));
 
 document.getElementById('downloadBtn').addEventListener('click', () => downloadPDF('high'));
 
