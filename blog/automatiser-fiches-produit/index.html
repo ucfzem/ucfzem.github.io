@@ -1080,7 +1080,7 @@
 
       <div class="share-bar">
         <button class="share-btn" onclick="copyLink()">🔗 <span data-i18n="share_copy">Copier le lien</span></button>
-        <button class="share-btn" onclick="shareTwitter()">🐦 Twitter</button>
+        <button class="share-btn" onclick="shareX()">𝕏 X</button>
         <button class="share-btn" onclick="shareLinkedIn()">💼 LinkedIn</button>
       </div>
 
@@ -2492,9 +2492,9 @@
       });
     }
 
-    function shareTwitter() {
+    function shareX() {
       const text = encodeURIComponent(document.title);
-      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank');
+      window.open(`https://x.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`, '_blank');
     }
 
     function shareLinkedIn() {
