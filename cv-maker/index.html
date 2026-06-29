@@ -1741,16 +1741,15 @@ function triggerPrint() {
     });
   });
 
-  const pdfBlob = pdf.output('blob');
-  const pdfUrl = URL.createObjectURL(pdfBlob);
+  const pdfBase64 = pdf.output('datauristring');
   const newTab = window.open();
   newTab.document.write(`<!DOCTYPE html><html><head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>${fileName}</title>
-    <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#111;font-family:system-ui,sans-serif;display:flex;flex-direction:column;height:100vh;}.bar{width:100%;background:#1a1a1a;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}.bar span{color:#C9A84C;font-weight:700;font-size:15px;}.btn{background:#C9A84C;color:#1a1a1a;padding:10px 20px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;}iframe{flex:1;width:100%;border:none;}</style>
+    <style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#111;font-family:sans-serif;display:flex;flex-direction:column;height:100vh;}.bar{width:100%;background:#1a1a1a;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}.bar span{color:#C9A84C;font-weight:700;font-size:15px;}.btn{background:#C9A84C;color:#1a1a1a;padding:10px 20px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;}iframe{flex:1;width:100%;border:none;}</style>
   </head><body>
-    <div class="bar"><span>📄 ${fileName}</span><a class="btn" href="${pdfUrl}" download="${fileName}">⬇️ Télécharger</a></div>
-    <iframe src="${pdfUrl}"></iframe>
+    <div class="bar"><span>📄 ${fileName}</span><a class="btn" href="${pdfBase64}" download="${fileName}">⬇️ Télécharger</a></div>
+    <iframe src="${pdfBase64}"></iframe>
   </body></html>`);
   newTab.document.close();
   showToast('✅ PDF généré !');
