@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
 <style>
 :root {
@@ -1251,99 +1250,59 @@ function getSkillDots(level) {
 
 function renderModern() {
   const p = cvData.personal || {};
-
-  return `
-  <table cellpadding="0" cellspacing="0" border="0" style="width:794px; height:1123px; min-height:1123px; table-layout:fixed; font-family:'Inter',sans-serif; background:#ffffff; color:#2C1A06; border-collapse:collapse; overflow:hidden;">
-    <tr>
-      <td valign="top" style="width:278px; height:1123px; background:#1A1208; color:#FAF3E8; padding:50px 24px; box-sizing:border-box;">
-
-        <h1 style="font-family:'Plus Jakarta Sans',sans-serif; font-size:30px; color:${GOLD}; margin:0 0 8px 0; font-weight:800; line-height:1.2; letter-spacing:-0.02em;">${escapeHTML(p.fullName || '')}</h1>
-        <div style="font-size:14px; color:#D4C4A8; margin-bottom:40px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${escapeHTML(p.title || '')}</div>
-
-        <div style="margin-bottom:40px; font-size:13.5px; line-height:1.6;">
-          ${p.email ? `<div style="margin-bottom:10px; word-break:break-all;">✉ ${escapeHTML(p.email)}</div>` : ''}
-          ${p.phone ? `<div style="margin-bottom:10px;">📞 ${escapeHTML(p.phone)}</div>` : ''}
-          ${p.location ? `<div style="margin-bottom:10px;">📍 ${escapeHTML(p.location)}</div>` : ''}
-          ${p.website ? `<div style="margin-bottom:10px; word-break:break-all; color:${GOLD};">🔗 ${escapeHTML(p.website)}</div>` : ''}
-        </div>
-
-        ${cvData.skillCategories.some(cat => cat.skills.length) ? `
-          <div style="font-size:13px; font-weight:700; color:${GOLD}; text-transform:uppercase; letter-spacing:.12em; margin-bottom:18px; border-bottom:1px solid rgba(201,168,76,0.3); padding-bottom:5px;">Compétences</div>
-        ` : ''}
-        ${cvData.skillCategories.map(cat => cat.skills.length ? `
-          <div style="margin-bottom:20px;">
-            <div style="font-size:13px; font-weight:600; color:#D4C4A8; margin-bottom:8px;">${escapeHTML(cat.name)}</div>
-            ${cat.skills.map(sk => `
-              <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:6px; font-size:12.5px;">
-                <tr>
-                  <td style="color:#FAF3E8; font-weight:500;">${escapeHTML(sk.name)}</td>
-                  <td align="right" style="width:60px;">${getSkillDots(sk.level)}</td>
-                </tr>
-              </table>
-            `).join('')}
-          </div>
-        ` : '').join('')}
-
-        ${cvData.languages.length ? `
-          <div style="font-size:13px; font-weight:700; color:${GOLD}; text-transform:uppercase; letter-spacing:.12em; margin:25px 0 15px; border-bottom:1px solid rgba(201,168,76,0.3); padding-bottom:5px;">Langues</div>
-          <div style="line-height:1.8;">
-            ${cvData.languages.map(l => `
-              <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:6px; font-size:12.5px;">
-                <tr>
-                  <td style="color:#FAF3E8;">${escapeHTML(l.name)}</td>
-                  <td align="right" style="color:${GOLD}; font-weight:600;">${escapeHTML(l.level)}</td>
-                </tr>
-              </table>
-            `).join('')}
-          </div>
-        ` : ''}
-
-
-      </td>
-
-      <td valign="top" style="width:516px; height:1123px; padding:50px 35px; box-sizing:border-box;">
-
-        ${p.summary ? `
-          <div style="font-size:14.5px; color:#3D2E1A; margin-bottom:35px; line-height:1.6; white-space:pre-line; background:#FAF6EE; padding:18px; border-left:4px solid ${GOLD}; border-radius:0 8px 8px 0;">
-            ${escapeHTML(p.summary)}
-          </div>
-        ` : ''}
-
-        ${cvData.experiences.filter(e => e.company).length ? `
-          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; color:#1A1208; text-transform:uppercase; letter-spacing:.1em; border-bottom:2px solid #1A1208; padding-bottom:5px; margin-bottom:20px;">Expérience Professionnelle</div>
-        ` : ''}
-        ${cvData.experiences.filter(e => e.company).map(e => `
-          <div style="margin-bottom:22px;">
-            <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:4px;">
-              <tr>
-                <td style="font-size:15.5px; font-weight:700; color:#1A1208;">${escapeHTML(e.position || '')}</td>
-                <td align="right" valign="baseline" style="font-size:12.5px; color:#A89878; font-weight:600; width:150px; white-space:nowrap;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</td>
-              </tr>
-            </table>
-            <div style="font-size:13.5px; color:${GOLD_dark}; font-weight:600; margin-bottom:8px;">${escapeHTML(e.company)}</div>
-            ${e.description ? `<div style="font-size:13.5px; color:#3D2E1A; line-height:1.55; white-space:pre-line;">${escapeHTML(e.description)}</div>` : ''}
-          </div>
-        `).join('')}
-
-        ${cvData.education.filter(e => e.institution).length ? `
-          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; color:#1A1208; text-transform:uppercase; letter-spacing:.1em; border-bottom:2px solid #1A1208; padding-bottom:5px; margin:25px 0 15px;">Éducation & Formation</div>
-        ` : ''}
-        ${cvData.education.filter(e => e.institution).map(e => `
-          <div style="margin-bottom:18px;">
-            <table cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:4px;">
-              <tr>
-                <td style="font-size:14.5px; font-weight:700; color:#1A1208;">${escapeHTML(e.degree || '')}${e.field ? ' en ' + escapeHTML(e.field) : ''}</td>
-                <td align="right" valign="baseline" style="font-size:12.5px; color:#A89878; font-weight:600; width:150px; white-space:nowrap;">${formatDate(e.startDate)} – ${e.endDate ? formatDate(e.endDate) : 'Présent'}</td>
-              </tr>
-            </table>
-            <div style="font-size:13.5px; color:#5C4A2E;">${escapeHTML(e.institution)}${e.gpa ? ' <span style="color:#A89878;">| GPA: '+escapeHTML(e.gpa)+'</span>' : ''}</div>
-          </div>
-        `).join('')}
-
-
-      </td>
-    </tr>
-  </table>`;
+  return '<div style="display:flex;width:794px;height:1123px;min-height:1123px;font-family:\'Inter\',sans-serif;background:#ffffff;color:#2C1A06;box-sizing:border-box;overflow:hidden;">'
+    + '<div style="width:278px;min-width:278px;max-width:278px;height:1123px;background:#1A1208;color:#FAF3E8;padding:50px 30px;display:flex;flex-direction:column;box-sizing:border-box;">'
+      + '<h1 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:32px;color:' + GOLD + ';margin:0 0 8px 0;font-weight:800;line-height:1.2;letter-spacing:-0.02em;">' + escapeHTML(p.fullName || '') + '</h1>'
+      + '<div style="font-size:15px;color:#D4C4A8;margin-bottom:40px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">' + escapeHTML(p.title || '') + '</div>'
+      + '<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:40px;font-size:14px;line-height:1.5;">'
+        + (p.email ? '<div style="display:flex;align-items:center;gap:10px;"><span>✉</span> <span style="word-break:break-all;">' + escapeHTML(p.email) + '</span></div>' : '')
+        + (p.phone ? '<div style="display:flex;align-items:center;gap:10px;"><span>📞</span> <span>' + escapeHTML(p.phone) + '</span></div>' : '')
+        + (p.location ? '<div style="display:flex;align-items:center;gap:10px;"><span>📍</span> <span>' + escapeHTML(p.location) + '</span></div>' : '')
+        + (p.website ? '<div style="display:flex;align-items:center;gap:10px;"><span>🔗</span> <span style="color:' + GOLD + ';word-break:break-all;">' + escapeHTML(p.website) + '</span></div>' : '')
+      + '</div>'
+      + (cvData.skillCategories.some(cat => cat.skills.length)
+        ? '<div style="font-size:14px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;letter-spacing:.12em;margin-bottom:20px;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:6px;">Compétences</div>'
+        : '')
+      + cvData.skillCategories.map(cat => cat.skills.length
+        ? '<div style="margin-bottom:22px;">'
+          + '<div style="font-size:13.5px;font-weight:600;color:#D4C4A8;margin-bottom:8px;">' + escapeHTML(cat.name) + '</div>'
+          + cat.skills.map(sk => '<div style="font-size:13px;color:#FAF3E8;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:4px;">'
+            + '<span style="font-weight:500;">' + escapeHTML(sk.name) + '</span>'
+            + getSkillDots(sk.level)
+          + '</div>').join('')
+        + '</div>'
+        : '').join('')
+      + (cvData.languages.length
+        ? '<div style="font-size:14px;font-weight:700;color:' + GOLD + ';text-transform:uppercase;letter-spacing:.12em;margin:25px 0 20px;border-bottom:1px solid rgba(201,168,76,0.3);padding-bottom:6px;">Langues</div>'
+        : '')
+      + '<div style="display:flex;flex-direction:column;gap:10px;">'
+        + cvData.languages.map(l => '<div style="font-size:13px;color:#FAF3E8;display:flex;justify-content:space-between;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:4px;">'
+          + '<span>' + escapeHTML(l.name) + '</span>'
+          + '<span style="color:' + GOLD + ';font-weight:600;">' + escapeHTML(l.level) + '</span>'
+        + '</div>').join('')
+      + '</div>'
+    + '</div>'
+    + '<div style="width:516px;min-width:516px;max-width:516px;height:1123px;padding:50px 40px;display:flex;flex-direction:column;box-sizing:border-box;">'
+      + (p.summary ? '<p style="font-size:14.5px;color:#3D2E1A;margin:0 0 35px 0;line-height:1.6;white-space:pre-line;background:#FAF6EE;padding:18px;border-left:4px solid ' + GOLD + ';border-radius:0 8px 8px 0;">' + escapeHTML(p.summary) + '</p>' : '')
+      + (cvData.experiences.filter(e => e.company).length ? '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:16px;font-weight:700;color:#1A1208;text-transform:uppercase;letter-spacing:.1em;border-bottom:2px solid #1A1208;padding-bottom:6px;margin-bottom:20px;">Expérience Professionnelle</div>' : '')
+      + cvData.experiences.filter(e => e.company).map(e => '<div style="margin-bottom:25px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
+          + '<span style="font-size:16px;font-weight:700;color:#1A1208;">' + escapeHTML(e.position || '') + '</span>'
+          + '<span style="font-size:13px;color:#A89878;font-weight:600;white-space:nowrap;margin-left:10px;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : 'Présent') + '</span>'
+        + '</div>'
+        + '<div style="font-size:14px;color:' + GOLD_dark + ';font-weight:600;margin-bottom:8px;">' + escapeHTML(e.company) + '</div>'
+        + (e.description ? '<p style="font-size:14px;color:#3D2E1A;line-height:1.55;white-space:pre-line;margin:0;">' + escapeHTML(e.description) + '</p>' : '')
+      + '</div>').join('')
+      + (cvData.education.filter(e => e.institution).length ? '<div style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:16px;font-weight:700;color:#1A1208;text-transform:uppercase;letter-spacing:.1em;border-bottom:2px solid #1A1208;padding-bottom:6px;margin:20px 0;">Éducation & Formation</div>' : '')
+      + cvData.education.filter(e => e.institution).map(e => '<div style="margin-bottom:20px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
+          + '<span style="font-size:15px;font-weight:700;color:#1A1208;">' + escapeHTML(e.degree || '') + (e.field ? ' en ' + escapeHTML(e.field) : '') + '</span>'
+          + '<span style="font-size:13px;color:#A89878;font-weight:600;white-space:nowrap;margin-left:10px;">' + formatDate(e.startDate) + ' \u2013 ' + (e.endDate ? formatDate(e.endDate) : 'Présent') + '</span>'
+        + '</div>'
+        + '<div style="font-size:14px;color:#5C4A2E;">' + escapeHTML(e.institution) + (e.gpa ? ' <span style="color:#A89878;">| GPA: ' + escapeHTML(e.gpa) + '</span>' : '') + '</div>'
+      + '</div>').join('')
+    + '</div>'
+  + '</div>';
 }
 
 function renderClassic() {
@@ -1715,66 +1674,63 @@ function downloadPDF(quality) {
   closeDownloadModal();
 
   const previewContent = document.getElementById('a4Content');
+
   if (!previewContent || !previewContent.innerHTML.trim() || previewContent.querySelector('.a4-empty')) {
-    showToast('⚠️ ' + t('empty_state'));
+    showToast('⚠️ Remplissez d\'abord votre CV');
     return;
   }
 
-
-  showToast('⏳ Génération du PDF...');
-
+  showToast('⏳ ' + (t('generating') || 'Génération...'));
 
   const p = cvData.personal || {};
-  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : t('pdf_name')) + '.pdf';
+  const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g, '_') : 'CV') + '.pdf';
 
+  const worker = document.createElement('div');
+  worker.style.cssText = 'position:absolute;left:-9999px;top:0;opacity:1;';
+  worker.innerHTML = previewContent.innerHTML;
+  document.body.appendChild(worker);
 
-  // 1. Créer une racine propre et isolée
-  const workerElement = document.createElement('div');
-  workerElement.style.position = 'absolute';
-  workerElement.style.top = '0';
-  workerElement.style.left = '-9999px'; // Totalement hors de l'écran pour éviter de polluer la vue
-  workerElement.style.width = '794px';
-  workerElement.style.height = '1123px';
-  workerElement.style.background = '#ffffff';
+  setTimeout(async () => {
+    try {
+      const scale = { high: 2, medium: 1.5, low: 1 }[quality] || 1.5;
+      const canvas = await html2canvas(worker, {
+        scale,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        width: 794,
+        height: 1123,
+        windowWidth: 794,
+        windowHeight: 1123,
+        scrollX: 0,
+        scrollY: 0
+      });
 
-  workerElement.innerHTML = previewContent.innerHTML;
-  document.body.appendChild(workerElement);
+      document.body.removeChild(worker);
 
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: 'px', format: [794, 1123], orientation: 'portrait' });
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      pdf.addImage(imgData, 'JPEG', 0, 0, 794, 1123);
 
-  // 2. Configuration rigide : On force html2canvas à croire qu'il capture un écran de PC fixe de 794px
-  const scaleMap = { high: 2, medium: 1.5, low: 1 };
-  const currentScale = scaleMap[quality] || 1.5;
-
-
-  const opt = {
-    margin: 0,
-    filename: fileName,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale: currentScale,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      width: 794,
-      height: 1123,
-      windowWidth: 794,   // LE SECRET : Bloque la largeur virtuelle sur mobile
-      windowHeight: 1123, // Bloque la hauteur virtuelle sur mobile
-      scrollX: 0,
-      scrollY: 0
-    },
-    jsPDF: { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-  };
-
-
-  // 3. Rendu direct
-  html2pdf().set(opt).from(workerElement).save().then(() => {
-    document.body.removeChild(workerElement);
-    showToast('✅ PDF généré avec succès !');
-  }).catch(err => {
-    console.error('Erreur PDF:', err);
-    if (workerElement.parentNode) document.body.removeChild(workerElement);
-    showToast('❌ Erreur lors de l\'export.');
-  });
+      const pdfBase64 = pdf.output('datauristring');
+      const newTab = window.open();
+      newTab.document.write('<!DOCTYPE html><html><head>'
+        + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        + '<title>' + fileName + '</title>'
+        + '<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#111;font-family:sans-serif;display:flex;flex-direction:column;height:100vh;}.bar{width:100%;background:#1a1a1a;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}.bar span{color:#C9A84C;font-weight:700;font-size:15px;}.btn{background:#C9A84C;color:#1a1a1a;padding:10px 20px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;}iframe{flex:1;width:100%;border:none;}</style>'
+        + '</head><body>'
+        + '<div class="bar"><span>📄 ' + fileName + '</span><a class="btn" href="' + pdfBase64 + '" download="' + fileName + '">⬇️ Télécharger</a></div>'
+        + '<iframe src="' + pdfBase64 + '"></iframe>'
+        + '</body></html>');
+      newTab.document.close();
+      showToast('✅ PDF ' + (t('saved') || 'généré !'));
+    } catch (err) {
+      if (worker.parentNode) document.body.removeChild(worker);
+      console.error('PDF error:', err);
+      showToast('❌ ' + (t('pdf_error') || 'Erreur'));
+    }
+  }, 200);
 }
 
 document.getElementById('downloadBtn').addEventListener('click', () => downloadPDF('high'));
