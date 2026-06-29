@@ -189,6 +189,7 @@
         <i data-lucide="edit-3" style="color:var(--accent);" class="w-5 h-5"></i>
         <h2 class="text-xl font-semibold tracking-tight" style="color:var(--text-primary);">Create your invoice</h2>
         <span class="preview-badge" id="liveBadge">live</span>
+        <button id="demoFillBtn" class="btn-glow text-xs font-medium px-3 py-1.5 rounded-lg transition-colors no-print" style="background:rgba(201,168,76,0.15);color:var(--accent);border:1px solid var(--border);">🎲 Demo</button>
       </div>
       
       <div class="card-dark rounded-2xl p-5 md:p-7 shadow-2xl backdrop-blur-sm">
@@ -516,6 +517,20 @@
           ${notesHtml}
         `;
       }
+
+      document.getElementById('demoFillBtn')?.addEventListener('click', () => {
+        clientInput.value = 'Acme Corp';
+        businessInput.value = 'Jane Smith';
+        document.getElementById('invNumber').value = 'INV-2026-001';
+        document.getElementById('invDate').value = new Date().toISOString().slice(0,10);
+        document.getElementById('invNotes').value = 'Payment due within 15 days. Thank you for your business!';
+        lineItems = [
+          { id: 1, description: 'UI/UX Design', amount: 2400 },
+          { id: 2, description: 'Frontend Development', amount: 3600 },
+          { id: 3, description: 'SEO Audit', amount: 800 }
+        ];
+        renderAll();
+      });
 
       document.getElementById('printBtn')?.addEventListener('click', () => {
         buildPrintInvoice();
