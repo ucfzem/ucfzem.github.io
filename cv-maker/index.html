@@ -1450,6 +1450,12 @@ document.getElementById('demoBtn').addEventListener('click', fillDemo);
 
 // Download PDF
 function triggerPrint() {
+  if (!window.jspdf) {
+    showToast('❌ jsPDF non chargé');
+    console.error('jsPDF missing');
+    return;
+  }
+
   const p = cvData.personal || {};
   const fileName = (p.fullName ? p.fullName.trim().replace(/\s+/g,'_') : 'CV') + '.pdf';
   showToast('⏳ Génération...');
@@ -1502,10 +1508,10 @@ function triggerPrint() {
   pdf.setFontSize(8);
   pdf.setTextColor(LIGHT);
   const contacts = [
-    p.email ? '✉  ' + p.email : null,
-    p.phone ? '📞 ' + p.phone : null,
-    p.location ? '📍 ' + p.location : null,
-    p.website ? '🔗 ' + p.website : null,
+    p.email    ? 'Email: ' + p.email       : null,
+    p.phone    ? 'Tel: '   + p.phone       : null,
+    p.location ? 'Loc: '   + p.location    : null,
+    p.website  ? 'Web: '   + p.website     : null,
   ].filter(Boolean);
   contacts.forEach(c => {
     pdf.text(c, sx, sy);
