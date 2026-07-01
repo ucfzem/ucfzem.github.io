@@ -17,6 +17,18 @@
 - `0fa770a` — chore: trigger GitHub Pages rebuild
 - `67b4cc0` — fusion: template interactif 4 langues + collecteur de leads
 
+## Actions (Part 4)
+1. Moved EmailCollector from locked projects → public projects (position 8, under ElixirTech)
+2. Updated JSON-LD schema, subtitle count (8 projets publics)
+3. All flags now inline SVGs (FR, UK, ES, MA)
+
+## Commits
+- `510ff99` — backup: session 2026-07-01 (3) flags SVGs + template
+- `2c8acbc` — fix: spanish flag SVG
+- `d554c3a` — fix: UK flag SVG with crosses
+- `1ab6b94` — fix: moroccan flag SVG with pentagram
+- `8ed4726` — fix: french flag SVG inline
+
 ## Actions
 1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon
 2. Copied logo to `works/assets/web-dev-logo.png`
