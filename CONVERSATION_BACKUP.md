@@ -35,3 +35,20 @@
 - **Sitemap:** https://ucfzem.github.io/sitemap.xml
 - **Cloudflare Worker:** https://ucfzem.azer-tyu199p.workers.dev
 - **GitHub repo:** https://github.com/ucfzem/ucfzem.github.io
+- **Droppy:** https://ucfzem.github.io/droppy/
+- **Droppy get:** https://ucfzem.github.io/droppy/get.html?id=EXAMPLE
+
+## Session 4: Droppy Avatar + Binary Fix
+- Fixed Cloudflare Worker binary corruption (0x89 → EF BF BD): switched from FormData upload to raw body with X-Filename/X-Password headers (bypasses Workers runtime UTF-8 decoding bug)
+- Fixed CORS headers to allow custom headers
+- Added avatar (468×468 PNG) as Droppy header logo, replacing the "D" badge
+- Undeployed old corrupted KV entries (e152623d, ffc78c08); user re-uploaded via new method (d727bc15)
+- Avatar saved permanently to `droppy/assets/avatar.png` (36×36px, rounded corners, gold border)
+
+**Worker changes:**
+- `kvGet` → returns `arrayBuffer()`
+- `uploadDroppy` → reads `request.arrayBuffer()` directly + headers for metadata
+- `corsOk` → allows `X-Filename`, `X-Password` headers
+- `downloadDroppy` → serves raw binary from KV arrayBuffer
+
+**Commits:** `e303e02`, `df272d7`, `e333f98`, `efa33fa`, `2d9959b`
