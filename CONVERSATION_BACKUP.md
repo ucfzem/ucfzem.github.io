@@ -28,6 +28,7 @@
 - `d554c3a` — fix: UK flag SVG with crosses
 - `1ab6b94` — fix: moroccan flag SVG with pentagram
 - `8ed4726` — fix: french flag SVG inline
+- `c16205e` — backup: session 2026-07-01 (3) part 2, EmailCollector public
 
 ## Actions
 1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon
@@ -59,7 +60,7 @@
 
 ## URLs
 - Main site: https://ucfzem.github.io/
-- Works (locked projects): https://ucfzem.github.io/works/
+- Works (8 projets publics): https://ucfzem.github.io/works/
 - Web Dev (Code portfolio): https://ucfzem.github.io/web-dev/
 - Cloudflare Worker: https://ucfzem.azer-tyu199p.workers.dev
 - Blog (Worker): https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/
