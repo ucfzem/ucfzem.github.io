@@ -214,14 +214,13 @@
             try {
                 for (let i = 0; i < total; i++) {
                     const f = selectedFiles[i];
-                    const fd = new FormData();
-                    fd.append('file', f);
-                    fd.append('filename', f.name);
-                    if (pw) fd.append('password', pw);
-
                     const res = await fetch(`${WORKER}/droppy/upload`, {
                         method: 'POST',
-                        body: fd
+                        headers: {
+                            'X-Filename': encodeURIComponent(f.name),
+                            'X-Password': pw || ''
+                        },
+                        body: f
                     });
                     if (!res.ok) throw new Error('Upload failed: ' + res.status);
                     const data = await res.json();
