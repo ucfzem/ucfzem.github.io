@@ -105,39 +105,41 @@
     <div id="toast" class="toast" style="background-color: var(--gold); color: var(--bg);"></div>
 
     <script>
-        const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwNzE5NTIsImV4cCI6MjAzMDY0Nzk1Mn0.LhJjJFZzJesAxkJNQY3Z3LJRNH-EPfZqy7E9N5P1r48';
-        const BUCKET = 'tmp-files';
+        const WORKER = 'https://ucfzem.azer-tyu199p.workers.dev';
 
         const id = new URLSearchParams(location.search).get('id');
         let files = [];
         let hasPassword = false;
-        let correctPwHash = '';
 
         async function init() {
             if (!id) { showError(); return; }
             try {
-                const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/.meta`);
-                if (res.ok) {
-                    const meta = await res.json();
-                    if (meta.p) {
-                        hasPassword = true;
-                        correctPwHash = meta.p;
-                        document.getElementById('loading').classList.add('hidden');
-                        document.getElementById('pwScreen').classList.remove('hidden');
-                        return;
-                    }
+                const res = await fetch(`${WORKER}/droppy/list/${id}`);
+                if (!res.ok) { showError(); return; }
+                const data = await res.json();
+                if (data.error) { showError(); return; }
+                files = data.files || [];
+                hasPassword = data.hasPassword || false;
+                if (hasPassword) {
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('pwScreen').classList.remove('hidden');
+                } else {
+                    await loadFiles();
                 }
-                await loadFiles();
             } catch {
-                await loadFiles();
+                showError();
             }
         }
 
         async function checkPassword() {
             const entered = document.getElementById('pwInput').value.trim();
-            const hash = await sha256(entered);
-            if (hash === correctPwHash) {
+            const res = await fetch(`${WORKER}/droppy/verify/${id}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: entered })
+            });
+            const data = await res.json();
+            if (data.ok) {
                 document.getElementById('pwScreen').classList.add('hidden');
                 await loadFiles();
             } else {
@@ -149,42 +151,26 @@
 
         async function loadFiles() {
             document.getElementById('loading').classList.add('hidden');
-            try {
-                const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/`);
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const links = doc.querySelectorAll('a');
-                files = [];
-                for (const a of links) {
-                    const name = a.textContent.trim();
-                    if (name === '' || name === '../' || name === '.meta' || name.endsWith('/')) continue;
-                    files.push(name);
-                }
-                if (files.length === 0) { showError(); return; }
-                document.getElementById('filesScreen').classList.remove('hidden');
-                document.getElementById('files-count').textContent = `${files.length} fichier${files.length > 1 ? 's' : ''}`;
-                document.getElementById('filesList').innerHTML = files.map(f => {
-                    const ext = f.split('.').pop().toLowerCase();
-                    const icon = ['jpg','jpeg','png','gif','webp','svg'].includes(ext) ? '🖼️' : ['mp4','webm','mov'].includes(ext) ? '🎬' : ['mp3','wav','ogg'].includes(ext) ? '🎵' : ['pdf'].includes(ext) ? '📄' : ['zip','rar','7z'].includes(ext) ? '📦' : '📄';
-                    const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/${f}`;
-                    return `<a href="${url}" target="_blank" class="file-item card flex items-center gap-3 p-4 rounded-xl no-underline hover:border-[var(--gold)] transition-all">
-                        <span class="text-xl">${icon}</span>
-                        <div class="flex-1 min-w-0">
-                            <div class="text-sm font-medium truncate">${f}</div>
-                        </div>
-                        <span class="text-xs opacity-50">⬇️</span>
-                    </a>`;
-                }).join('');
-            } catch {
-                showError();
-            }
+            if (!files || files.length === 0) { showError(); return; }
+            document.getElementById('filesScreen').classList.remove('hidden');
+            document.getElementById('files-count').textContent = `${files.length} fichier${files.length > 1 ? 's' : ''}`;
+            document.getElementById('filesList').innerHTML = files.map(f => {
+                const ext = f.split('.').pop().toLowerCase();
+                const icon = ['jpg','jpeg','png','gif','webp','svg'].includes(ext) ? '🖼️' : ['mp4','webm','mov'].includes(ext) ? '🎬' : ['mp3','wav','ogg'].includes(ext) ? '🎵' : ['pdf'].includes(ext) ? '📄' : ['zip','rar','7z'].includes(ext) ? '📦' : '📄';
+                const url = `${WORKER}/droppy/dl/${id}/${f}`;
+                return `<a href="${url}" target="_blank" class="file-item card flex items-center gap-3 p-4 rounded-xl no-underline hover:border-[var(--gold)] transition-all">
+                    <span class="text-xl">${icon}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-sm font-medium truncate">${f}</div>
+                    </div>
+                    <span class="text-xs opacity-50">⬇️</span>
+                </a>`;
+            }).join('');
         }
 
         function downloadAll() {
             for (const f of files) {
-                const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/${f}`;
-                window.open(url, '_blank');
+                window.open(`${WORKER}/droppy/dl/${id}/${f}`, '_blank');
             }
         }
 
@@ -194,11 +180,6 @@
         }
 
         function toggleTheme() { document.documentElement.classList.toggle('dark'); }
-
-        async function sha256(str) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
 
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
             document.documentElement.classList.add('dark');

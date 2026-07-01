@@ -142,9 +142,7 @@
     <div id="toast" class="toast" style="background-color: var(--gold); color: var(--bg);">Copié !</div>
 
     <script>
-        const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
-        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwNzE5NTIsImV4cCI6MjAzMDY0Nzk1Mn0.LhJjJFZzJesAxkJNQY3Z3LJRNH-EPfZqy7E9N5P1r48';
-        const BUCKET = 'tmp-files';
+        const WORKER = 'https://ucfzem.azer-tyu199p.workers.dev';
 
         let selectedFiles = [];
 
@@ -159,7 +157,6 @@
         const progressBar = document.getElementById('progressBar');
         const result = document.getElementById('result');
 
-        // Drag & Drop
         dropZone.addEventListener('click', () => fileInput.click());
         dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -207,43 +204,30 @@
             progressBar.classList.remove('hidden');
             progressFill.style.width = '0%';
 
-            const id = crypto.randomUUID().slice(0, 8);
             const pw = document.getElementById('password').value.trim();
             const total = selectedFiles.length;
+            let shareId = '';
 
             try {
                 for (let i = 0; i < total; i++) {
                     const f = selectedFiles[i];
-                    const path = `droppy/${id}/${f.name}`;
-                    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
+                    const fd = new FormData();
+                    fd.append('file', f);
+                    fd.append('filename', f.name);
+                    if (pw) fd.append('password', pw);
+
+                    const res = await fetch(`${WORKER}/droppy/upload`, {
                         method: 'POST',
-                        headers: {
-                            'apikey': ANON_KEY,
-                            'Authorization': 'Bearer ' + ANON_KEY,
-                            'Content-Type': f.type || 'application/octet-stream'
-                        },
-                        body: f
+                        body: fd
                     });
                     if (!res.ok) throw new Error('Upload failed: ' + res.status);
+                    const data = await res.json();
+                    if (!shareId) shareId = data.id;
                     progressFill.style.width = ((i + 1) / total * 80) + '%';
-                }
-
-                // Store password as .meta
-                if (pw) {
-                    const meta = JSON.stringify({ p: sha256(pw), t: Date.now() });
-                    await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/droppy/${id}/.meta`, {
-                        method: 'POST',
-                        headers: {
-                            'apikey': ANON_KEY,
-                            'Authorization': 'Bearer ' + ANON_KEY,
-                            'Content-Type': 'application/json'
-                        },
-                        body: meta
-                    });
                 }
                 progressFill.style.width = '100%';
 
-                const link = `https://ucfzem.github.io/droppy/get.html?id=${id}`;
+                const link = `https://ucfzem.github.io/droppy/get.html?id=${shareId}`;
                 document.getElementById('shareLink').value = link;
                 const sharePw = document.getElementById('sharePw');
                 const sharePwInput = document.getElementById('sharePwInput');
@@ -282,18 +266,12 @@
 
         function showToast(msg) {
             const t = document.getElementById('toast');
-            document.getElementById('toast-message').textContent = msg;
+            t.textContent = msg;
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2500);
         }
 
         function toggleTheme() { document.documentElement.classList.toggle('dark'); }
-
-        // SHA-256
-        async function sha256(str) {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
 
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
             document.documentElement.classList.add('dark');
