@@ -258,7 +258,11 @@
                     EN
                 </button>
                 <button onclick="setLang('es')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-es">
-                    <span class="flag-icon" style="background: linear-gradient(to bottom, #AA151B 25%, #F1BF00 25%, #F1BF00 75%, #AA151B 75%);"></span>
+                    <svg class="flag-icon" viewBox="0 0 750 500">
+                        <rect width="750" height="125" fill="#AA151B"/>
+                        <rect y="125" width="750" height="250" fill="#F1BF00"/>
+                        <rect y="375" width="750" height="125" fill="#AA151B"/>
+                    </svg>
                     ES
                 </button>
                 <button onclick="setLang('ar')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-ar">
