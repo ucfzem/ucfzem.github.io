@@ -245,7 +245,16 @@
                     FR
                 </button>
                 <button onclick="setLang('en')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-en">
-                    <span class="flag-icon" style="background: linear-gradient(135deg, #012169 25%, transparent 25%) -10px 0, linear-gradient(225deg, #012169 25%, transparent 25%) -10px 0, linear-gradient(315deg, #012169 25%, transparent 25%), linear-gradient(45deg, #012169 25%, transparent 25%); background-size: 20px 20px; background-color: #C8102E;"></span>
+                    <svg class="flag-icon" viewBox="0 0 60 30">
+                        <rect width="60" height="30" fill="#012169"/>
+                        <clipPath id="uk-clip">
+                            <path d="M0,0 L60,30 M60,0 L0,30"/>
+                        </clipPath>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFF" stroke-width="6"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="2" clip-path="url(#uk-clip)"/>
+                        <path d="M30,0 V30 M0,15 H60" stroke="#FFF" stroke-width="10"/>
+                        <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+                    </svg>
                     EN
                 </button>
                 <button onclick="setLang('es')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-es">
