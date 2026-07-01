@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Droppy — File Share</title>
+    <meta name="description" content="Partagez des fichiers simplement. Glisser-déposer ou depuis votre téléphone.">
+    <link rel="canonical" href="https://ucfzem.github.io/droppy/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { bg: '#1a1209', card: '#2d1f0f', gold: '#D4AF37', yellow: '#F4D03F', white: '#F5F5DC', accent: '#C9A227' },
+                        light: { bg: '#F5F5DC', card: '#FAF0E6', beige: '#F5F5DC', brown: '#5D4037', gold: '#B8860B', accent: '#8B6914' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Playfair Display', 'Georgia', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #F5F5DC; --card: #FAF0E6; --text: #3E2723; --gold: #B8860B; --brown: #5D4037; --accent: #8B6914; --border: #D7CCC8; }
+        .dark { --bg: #1a1209; --card: #2d1f0f; --text: #F5F5DC; --gold: #D4AF37; --brown: #8B6914; --accent: #C9A227; --border: #4E342E; }
+        body { background-color: var(--bg); color: var(--text); transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
+        .card { background-color: var(--card); border: 1px solid var(--border); }
+        .gold-text { color: var(--gold); }
+        .accent-bg { background-color: var(--accent); }
+        .border-gold { border-color: var(--gold); }
+        .toggle-switch { position: relative; width: 48px; height: 26px; background-color: var(--brown); border-radius: 13px; cursor: pointer; transition: background-color 0.3s; }
+        .toggle-switch::after { content: ''; position: absolute; width: 22px; height: 22px; background-color: var(--gold); border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; }
+        .dark .toggle-switch::after { transform: translateX(22px); }
+
+        #dropZone { transition: all 0.3s ease; }
+        #dropZone.dragover { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); transform: scale(1.01); }
+        #dropZone.has-files { border-style: solid; }
+
+        .file-item { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { animation: spin 0.8s linear infinite; }
+
+        .btn-main { background: linear-gradient(135deg, var(--gold), var(--accent)); color: var(--bg); font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184,134,11,0.3); }
+        .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 600; padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+
+        .progress-bar { height: 4px; background: rgba(212, 175, 55, 0.2); border-radius: 2px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--accent)); border-radius: 2px; transition: width 0.3s ease; width: 0%; }
+
+        input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.95rem; outline: none; transition: all 0.3s; font-family: inherit; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(212,175,55,0.2); }
+        input::placeholder { color: var(--brown); opacity: 0.6; }
+        .dark input::placeholder { color: var(--gold); opacity: 0.4; }
+
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 24px; border-radius: 12px; font-weight: 600; z-index: 100; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+    <header class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)]" style="background-color: rgba(var(--bg), 0.9);">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="https://ucfzem.github.io/works/" class="text-xs opacity-60 hover:opacity-100 transition-opacity">← Works</a>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg accent-bg flex items-center justify-center text-white font-bold text-sm">D</div>
+                <h1 class="font-display text-xl font-bold gold-text">Droppy</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs opacity-60">☀️</span>
+                <div class="toggle-switch" onclick="toggleTheme()" role="button" aria-label="Toggle dark mode"></div>
+                <span class="text-xs opacity-60">🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <div class="text-5xl mb-4">📤</div>
+            <h2 class="font-display text-3xl font-bold gold-text mb-2">Partage de fichiers</h2>
+            <p class="text-sm opacity-70" id="upload-desc">Glissez-déposer vos fichiers ou cliquez pour sélectionner</p>
+        </div>
+
+        <!-- Drop Zone -->
+        <div id="dropZone" class="card rounded-2xl p-12 text-center border-2 border-dashed border-[var(--border)] cursor-pointer mb-6" role="button" tabindex="0">
+            <input type="file" id="fileInput" multiple class="hidden" accept="*/*">
+            <div id="dropEmpty" class="space-y-3">
+                <div class="text-4xl">📁</div>
+                <p class="text-sm opacity-70">Glissez vos fichiers ici</p>
+                <p class="text-xs opacity-50">ou cliquez pour parcourir</p>
+                <p class="text-xs opacity-40" id="supported-formats">Tous les formats acceptés</p>
+            </div>
+            <div id="dropFiles" class="hidden space-y-3 text-left">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm font-semibold opacity-70" id="file-count">0 fichier</span>
+                    <button onclick="clearFiles()" class="text-xs text-[var(--gold)] hover:underline">Tout retirer</button>
+                </div>
+                <div id="fileList" class="space-y-2 max-h-60 overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <!-- Options -->
+        <div class="card rounded-2xl p-6 mb-6 space-y-4">
+            <div>
+                <label class="text-sm font-semibold opacity-70 mb-2 block" id="pw-label">Mot de passe (optionnel)</label>
+                <input type="text" id="password" placeholder="Laissez vide pour accès libre" maxlength="50">
+            </div>
+            <button class="btn-main w-full text-lg" id="uploadBtn" onclick="startUpload()">
+                <span id="upload-btn-text">🚀 Uploader</span>
+            </button>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="hidden card rounded-2xl p-6 space-y-4">
+            <div class="text-center">
+                <div class="text-3xl mb-2">✅</div>
+                <h3 class="font-display text-xl font-bold gold-text">Partage créé !</h3>
+            </div>
+            <div>
+                <label class="text-sm font-semibold opacity-70 mb-2 block">Lien de partage</label>
+                <div class="flex gap-2">
+                    <input type="text" id="shareLink" readonly onclick="this.select()" class="flex-1">
+                    <button onclick="copyLink()" class="btn-outline text-sm whitespace-nowrap">Copier</button>
+                </div>
+            </div>
+            <div id="sharePw" class="hidden">
+                <label class="text-sm font-semibold opacity-70 mb-2 block">Mot de passe</label>
+                <div class="flex gap-2">
+                    <input type="text" id="sharePwInput" readonly onclick="this.select()" class="flex-1">
+                    <button onclick="copyPw()" class="btn-outline text-sm whitespace-nowrap">Copier</button>
+                </div>
+            </div>
+            <button onclick="resetUpload()" class="btn-main w-full">Uploader d'autres fichiers</button>
+        </div>
+    </main>
+
+    <div id="toast" class="toast" style="background-color: var(--gold); color: var(--bg);">Copié !</div>
+
+    <script>
+        const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwNzE5NTIsImV4cCI6MjAzMDY0Nzk1Mn0.LhJjJFZzJesAxkJNQY3Z3LJRNH-EPfZqy7E9N5P1r48';
+        const BUCKET = 'tmp-files';
+
+        let selectedFiles = [];
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const dropEmpty = document.getElementById('dropEmpty');
+        const dropFiles = document.getElementById('dropFiles');
+        const fileList = document.getElementById('fileList');
+        const fileCount = document.getElementById('file-count');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const progressFill = document.getElementById('progressFill');
+        const progressBar = document.getElementById('progressBar');
+        const result = document.getElementById('result');
+
+        // Drag & Drop
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+        fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+        function handleFiles(files) {
+            for (const f of files) selectedFiles.push(f);
+            renderFiles();
+        }
+
+        function renderFiles() {
+            if (selectedFiles.length === 0) {
+                dropEmpty.classList.remove('hidden');
+                dropFiles.classList.add('hidden');
+                dropZone.classList.remove('has-files');
+                return;
+            }
+            dropEmpty.classList.add('hidden');
+            dropFiles.classList.remove('hidden');
+            dropZone.classList.add('has-files');
+            fileCount.textContent = `${selectedFiles.length} fichier${selectedFiles.length > 1 ? 's' : ''}`;
+            fileList.innerHTML = selectedFiles.map((f, i) => {
+                const size = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(1)+' KB';
+                const icon = f.type.startsWith('image/') ? '🖼️' : f.type.startsWith('video/') ? '🎬' : f.type.startsWith('audio/') ? '🎵' : f.type.startsWith('text/') ? '📄' : '📦';
+                return `<div class="file-item flex items-center gap-3 p-3 rounded-xl bg-[var(--bg)]">
+                    <span class="text-lg">${icon}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-sm font-medium truncate">${f.name}</div>
+                        <div class="text-xs opacity-50">${size}</div>
+                    </div>
+                    <button onclick="removeFile(${i})" class="text-xs opacity-50 hover:opacity-100 hover:text-red-400">✕</button>
+                </div>`;
+            }).join('');
+            fileList.scrollTop = fileList.scrollHeight;
+        }
+
+        function removeFile(i) { selectedFiles.splice(i, 1); renderFiles(); }
+        function clearFiles() { selectedFiles = []; renderFiles(); }
+
+        async function startUpload() {
+            if (selectedFiles.length === 0) { showToast('Ajoutez des fichiers d\'abord'); return; }
+            uploadBtn.disabled = true;
+            document.getElementById('upload-btn-text').textContent = '⏳ Upload...';
+            progressBar.classList.remove('hidden');
+            progressFill.style.width = '0%';
+
+            const id = crypto.randomUUID().slice(0, 8);
+            const pw = document.getElementById('password').value.trim();
+            const total = selectedFiles.length;
+
+            try {
+                for (let i = 0; i < total; i++) {
+                    const f = selectedFiles[i];
+                    const path = `droppy/${id}/${f.name}`;
+                    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': 'Bearer ' + ANON_KEY,
+                            'Content-Type': f.type || 'application/octet-stream'
+                        },
+                        body: f
+                    });
+                    if (!res.ok) throw new Error('Upload failed: ' + res.status);
+                    progressFill.style.width = ((i + 1) / total * 80) + '%';
+                }
+
+                // Store password as .meta
+                if (pw) {
+                    const meta = JSON.stringify({ p: sha256(pw), t: Date.now() });
+                    await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/droppy/${id}/.meta`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': ANON_KEY,
+                            'Authorization': 'Bearer ' + ANON_KEY,
+                            'Content-Type': 'application/json'
+                        },
+                        body: meta
+                    });
+                }
+                progressFill.style.width = '100%';
+
+                const link = `https://ucfzem.github.io/droppy/get.html?id=${id}`;
+                document.getElementById('shareLink').value = link;
+                const sharePw = document.getElementById('sharePw');
+                const sharePwInput = document.getElementById('sharePwInput');
+                if (pw) {
+                    sharePw.classList.remove('hidden');
+                    sharePwInput.value = pw;
+                } else {
+                    sharePw.classList.add('hidden');
+                }
+                result.classList.remove('hidden');
+                document.getElementById('upload-btn-text').textContent = '✅ Fait !';
+                showToast('✅ Fichiers partagés !');
+            } catch (e) {
+                showToast('❌ Erreur: ' + e.message);
+                document.getElementById('upload-btn-text').textContent = '🚀 Réessayer';
+                uploadBtn.disabled = false;
+            }
+        }
+
+        function resetUpload() {
+            selectedFiles = [];
+            document.getElementById('password').value = '';
+            progressBar.classList.add('hidden');
+            result.classList.add('hidden');
+            renderFiles();
+            document.getElementById('upload-btn-text').textContent = '🚀 Uploader';
+            uploadBtn.disabled = false;
+        }
+
+        function copyLink() { copyToClipboard(document.getElementById('shareLink').value, 'Lien copié !'); }
+        function copyPw() { copyToClipboard(document.getElementById('sharePwInput').value, 'Mot de passe copié !'); }
+
+        function copyToClipboard(text, msg) {
+            navigator.clipboard.writeText(text).then(() => showToast(msg));
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function toggleTheme() { document.documentElement.classList.toggle('dark'); }
+
+        // SHA-256
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            document.documentElement.classList.add('dark');
+    </script>
+</body>
+</html>

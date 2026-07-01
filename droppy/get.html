@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droppy — Téléchargement</title>
+    <meta name="description" content="Téléchargez les fichiers partagés via Droppy.">
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { bg: '#1a1209', card: '#2d1f0f', gold: '#D4AF37', yellow: '#F4D03F', white: '#F5F5DC', accent: '#C9A227' },
+                        light: { bg: '#F5F5DC', card: '#FAF0E6', beige: '#F5F5DC', brown: '#5D4037', gold: '#B8860B', accent: '#8B6914' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], display: ['Playfair Display', 'Georgia', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #F5F5DC; --card: #FAF0E6; --text: #3E2723; --gold: #B8860B; --brown: #5D4037; --accent: #8B6914; --border: #D7CCC8; }
+        .dark { --bg: #1a1209; --card: #2d1f0f; --text: #F5F5DC; --gold: #D4AF37; --brown: #8B6914; --accent: #C9A227; --border: #4E342E; }
+        body { background-color: var(--bg); color: var(--text); transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
+        .card { background-color: var(--card); border: 1px solid var(--border); }
+        .gold-text { color: var(--gold); }
+        .accent-bg { background-color: var(--accent); }
+        .border-gold { border-color: var(--gold); }
+        .toggle-switch { position: relative; width: 48px; height: 26px; background-color: var(--brown); border-radius: 13px; cursor: pointer; transition: background-color 0.3s; }
+        .toggle-switch::after { content: ''; position: absolute; width: 22px; height: 22px; background-color: var(--gold); border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; }
+        .dark .toggle-switch::after { transform: translateX(22px); }
+        .btn-main { background: linear-gradient(135deg, var(--gold), var(--accent)); color: var(--bg); font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184,134,11,0.3); }
+        .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 600; padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.95rem; outline: none; transition: all 0.3s; font-family: inherit; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(212,175,55,0.2); }
+        input::placeholder { color: var(--brown); opacity: 0.6; }
+        .dark input::placeholder { color: var(--gold); opacity: 0.4; }
+        .file-item { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 24px; border-radius: 12px; font-weight: 600; z-index: 100; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+    <header class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)]" style="background-color: rgba(var(--bg), 0.9);">
+        <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="https://ucfzem.github.io/works/" class="text-xs opacity-60 hover:opacity-100 transition-opacity">← Works</a>
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg accent-bg flex items-center justify-center text-white font-bold text-sm">D</div>
+                <h1 class="font-display text-xl font-bold gold-text">Droppy</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-xs opacity-60">☀️</span>
+                <div class="toggle-switch" onclick="toggleTheme()" role="button" aria-label="Toggle dark mode"></div>
+                <span class="text-xs opacity-60">🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-4 py-16">
+        <div id="loading" class="text-center">
+            <div class="text-4xl mb-4 spinner" style="animation: spin 0.8s linear infinite;">⏳</div>
+            <p class="text-sm opacity-70">Chargement...</p>
+        </div>
+
+        <!-- Password Screen -->
+        <div id="pwScreen" class="hidden card rounded-2xl p-8 text-center max-w-md mx-auto space-y-6">
+            <div class="text-5xl">🔐</div>
+            <h2 class="font-display text-2xl font-bold gold-text">Accès protégé</h2>
+            <p class="text-sm opacity-70">Un mot de passe est requis pour accéder à ces fichiers.</p>
+            <input type="password" id="pwInput" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPassword()">
+            <p id="pwError" class="text-sm hidden" style="color: var(--gold);">Mot de passe incorrect</p>
+            <button class="btn-main w-full" onclick="checkPassword()">Déverrouiller</button>
+        </div>
+
+        <!-- Files Screen -->
+        <div id="filesScreen" class="hidden space-y-6">
+            <div class="text-center">
+                <div class="text-5xl mb-4">📥</div>
+                <h2 class="font-display text-2xl font-bold gold-text" id="files-title">Fichiers partagés</h2>
+                <p class="text-sm opacity-70" id="files-count">0 fichier</p>
+            </div>
+            <div id="filesList" class="space-y-3"></div>
+            <button onclick="downloadAll()" class="btn-main w-full flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Tout télécharger
+            </button>
+        </div>
+
+        <!-- Error -->
+        <div id="errorScreen" class="hidden card rounded-2xl p-8 text-center max-w-md mx-auto">
+            <div class="text-5xl mb-4">😕</div>
+            <h2 class="font-display text-xl font-bold gold-text mb-2">Fichiers introuvables</h2>
+            <p class="text-sm opacity-70 mb-6">Ce lien n'est pas valide ou a expiré.</p>
+            <a href="https://ucfzem.github.io/droppy/" class="btn-main inline-block">Créer un partage</a>
+        </div>
+    </main>
+
+    <div id="toast" class="toast" style="background-color: var(--gold); color: var(--bg);"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUwNzE5NTIsImV4cCI6MjAzMDY0Nzk1Mn0.LhJjJFZzJesAxkJNQY3Z3LJRNH-EPfZqy7E9N5P1r48';
+        const BUCKET = 'tmp-files';
+
+        const id = new URLSearchParams(location.search).get('id');
+        let files = [];
+        let hasPassword = false;
+        let correctPwHash = '';
+
+        async function init() {
+            if (!id) { showError(); return; }
+            try {
+                const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/.meta`);
+                if (res.ok) {
+                    const meta = await res.json();
+                    if (meta.p) {
+                        hasPassword = true;
+                        correctPwHash = meta.p;
+                        document.getElementById('loading').classList.add('hidden');
+                        document.getElementById('pwScreen').classList.remove('hidden');
+                        return;
+                    }
+                }
+                await loadFiles();
+            } catch {
+                await loadFiles();
+            }
+        }
+
+        async function checkPassword() {
+            const entered = document.getElementById('pwInput').value.trim();
+            const hash = await sha256(entered);
+            if (hash === correctPwHash) {
+                document.getElementById('pwScreen').classList.add('hidden');
+                await loadFiles();
+            } else {
+                document.getElementById('pwError').classList.remove('hidden');
+                document.getElementById('pwInput').value = '';
+                document.getElementById('pwInput').focus();
+            }
+        }
+
+        async function loadFiles() {
+            document.getElementById('loading').classList.add('hidden');
+            try {
+                const res = await fetch(`${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/`);
+                const html = await res.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const links = doc.querySelectorAll('a');
+                files = [];
+                for (const a of links) {
+                    const name = a.textContent.trim();
+                    if (name === '' || name === '../' || name === '.meta' || name.endsWith('/')) continue;
+                    files.push(name);
+                }
+                if (files.length === 0) { showError(); return; }
+                document.getElementById('filesScreen').classList.remove('hidden');
+                document.getElementById('files-count').textContent = `${files.length} fichier${files.length > 1 ? 's' : ''}`;
+                document.getElementById('filesList').innerHTML = files.map(f => {
+                    const ext = f.split('.').pop().toLowerCase();
+                    const icon = ['jpg','jpeg','png','gif','webp','svg'].includes(ext) ? '🖼️' : ['mp4','webm','mov'].includes(ext) ? '🎬' : ['mp3','wav','ogg'].includes(ext) ? '🎵' : ['pdf'].includes(ext) ? '📄' : ['zip','rar','7z'].includes(ext) ? '📦' : '📄';
+                    const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/${f}`;
+                    return `<a href="${url}" target="_blank" class="file-item card flex items-center gap-3 p-4 rounded-xl no-underline hover:border-[var(--gold)] transition-all">
+                        <span class="text-xl">${icon}</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-medium truncate">${f}</div>
+                        </div>
+                        <span class="text-xs opacity-50">⬇️</span>
+                    </a>`;
+                }).join('');
+            } catch {
+                showError();
+            }
+        }
+
+        function downloadAll() {
+            for (const f of files) {
+                const url = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/droppy/${id}/${f}`;
+                window.open(url, '_blank');
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('errorScreen').classList.remove('hidden');
+        }
+
+        function toggleTheme() { document.documentElement.classList.toggle('dark'); }
+
+        async function sha256(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            document.documentElement.classList.add('dark');
+        init();
+    </script>
+</body>
+</html>
