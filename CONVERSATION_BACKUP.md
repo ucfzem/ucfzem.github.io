@@ -1,71 +1,37 @@
-# Session Backup — 2026-07-01 (3)
+# Session Backup — 2026-07-01
 
-## Actions (Part 3)
-1. Replaced all CSS-gradient flags in `email-collector/index.html` with inline SVGs:
-   - FR: tricolore SVG
-   - EN: Union Jack SVG (St. George + St. Andrew + St. Patrick crosses)
-   - ES: rojigualda SVG (3 bands)
-   - AR: Moroccan flag SVG (red + green pentagram)
-2. Merged interactive SaaS Email Generator template with lead capture form
-3. Interactive template features: 4 langs, 2 variants, copy-to-clipboard, word count, read time, PLG score, pain points, tips
+## Session 1: Web Dev + Email Collector + SEO
+- Added web-dev entry (`Code`) to locked projects with logo icon
+- Removed "Uz" branding → kept only "Code"
+- Created `/email-collector/` page with form + dark/light theme
+- Replaced dead worker link with live GitHub Pages link
+- Added GSC verification, updated sitemap
 
-## Commits
-- `2c8acbc` — fix: spanish flag SVG
-- `d554c3a` — fix: UK flag SVG with crosses
-- `1ab6b94` — fix: moroccan flag SVG with pentagram
-- `8ed4726` — fix: french flag SVG inline
-- `0fa770a` — chore: trigger GitHub Pages rebuild
-- `67b4cc0` — fusion: template interactif 4 langues + collecteur de leads
+**Commits:** `a1449b9`, `cdf4b3b`, `e428617`, `f8e80cb`, `a5a70b2`, `c772227`, `8b3f71f`, `bd51777`, `9a0b5b0`
 
-## Actions (Part 4)
-1. Moved EmailCollector from locked projects → public projects (position 8, under ElixirTech)
-2. Updated JSON-LD schema, subtitle count (8 projets publics)
-3. All flags now inline SVGs (FR, UK, ES, MA)
+## Session 2: SaaS Email Generator + Flags SVGs
+- Merged interactive SaaS Email Generator template (4 langs, 2 variants, copy-to-clipboard, metrics) with lead capture form
+- Replaced all CSS-gradient flags with inline SVGs (FR tricolore, UK Union Jack, ES rojigualda, MA pentagram)
 
-## Commits
-- `510ff99` — backup: session 2026-07-01 (3) flags SVGs + template
-- `2c8acbc` — fix: spanish flag SVG
-- `d554c3a` — fix: UK flag SVG with crosses
-- `1ab6b94` — fix: moroccan flag SVG with pentagram
-- `8ed4726` — fix: french flag SVG inline
-- `c16205e` — backup: session 2026-07-01 (3) part 2, EmailCollector public
+**Commits:** `67b4cc0`, `8ed4726`, `1ab6b94`, `d554c3a`, `2c8acbc`
 
-## Actions
-1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon
-2. Copied logo to `works/assets/web-dev-logo.png`
-3. Updated `renderLocked()` to support icon property
-4. Removed "Uz" branding from web-dev page → kept only "Code"
-5. Simplified Code entry: logo + name only (no lock icon, no tag)
-6. Added Google Search Console verification to root `index.html`
-7. Updated root `sitemap.xml` with all URLs + fresh dates
-8. Blog articles already updated: `🐦 Twitter` → `𝕏 X` (in `shareX()` function)
+## Session 3: Works Restructure + Fixes
+- Moved EmailCollector from locked → public (position 8, under ElixirTech)
+- Moved Code from public → locked with lock icon (🔒) + UZ logo bitmap
+- Accidentally deleted 10 locked entries (Pristine, NanoLink, Brand Landing, NanoGen, Guide Freelance, Ultralengua Pro, TikTok Downloader, PromptGenius, Product Generator, Projets) — restored all
+- Updated JSON-LD schema (position 8 → EmailCollector)
+- Subtitle: 8 projets publics / 21 verrouillés
 
-## Commits
-- `a1449b9` — SEO: add GSC verification to root, update sitemap dates + URLs
-- `cdf4b3b` — Simplify Code entry: logo + name only
-- `e428617` — Remove Uz branding, keep only Code
-- `f8e80cb` — Add web-dev to locked projects with logo icon
-- `a5a70b2` — add SEO: meta tags, OG, Twitter, canonical, JSON-LD to index.html and web-dev, add web-dev to sitemap
-- `c772227` — add web-dev site (Uz Code portfolio with logo)
-- `8b3f71f` — remove Photographer from locked works
-- `bd51777` — add PicPulse to locked works (AI Vision)
-
-## Actions (Part 2)
-8. Created `/email-collector/` — full lead capture page with form, dark/light theme
-9. Replaced dead worker link `ucfzem.azer-tyu199p.workers.dev/email-collector/` with live GitHub Pages link
-10. Form POSTs to `__collect` worker endpoint; falls back to success UI if worker unreachable
-
-## Commits
-- `9a0b5b0` — Add EmailCollector page, replace dead worker link with live GitHub link
+**Commits:** `d6d632d`, `335e1b0`, `bc66830`, `728c9eb`
 
 ## URLs
-- Main site: https://ucfzem.github.io/
-- Works (8 projets publics): https://ucfzem.github.io/works/
-- Web Dev (Code portfolio): https://ucfzem.github.io/web-dev/
-- Cloudflare Worker: https://ucfzem.azer-tyu199p.workers.dev
-- Blog (Worker): https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/
-- Blog article 1: https://ucfzem.github.io/blog/automatiser-fiches-produit/
-- Blog article 2: https://ucfzem.github.io/blog/seo-nextjs-app-router/
-- EmailCollector: https://ucfzem.github.io/email-collector/
-- Sitemap: https://ucfzem.github.io/sitemap.xml
-- GitHub repo: https://github.com/ucfzem/ucfzem.github.io
+- **Main site:** https://ucfzem.github.io/
+- **Works (linktree):** https://ucfzem.github.io/works/
+- **Web Dev (Code portfolio):** https://ucfzem.github.io/web-dev/
+- **Email Collector:** https://ucfzem.github.io/email-collector/
+- **Blog:** https://ucfzem.github.io/blog.html
+- **Blog article 1:** https://ucfzem.github.io/blog/automatiser-fiches-produit/
+- **Blog article 2:** https://ucfzem.github.io/blog/seo-nextjs-app-router/
+- **Sitemap:** https://ucfzem.github.io/sitemap.xml
+- **Cloudflare Worker:** https://ucfzem.azer-tyu199p.workers.dev
+- **GitHub repo:** https://github.com/ucfzem/ucfzem.github.io
