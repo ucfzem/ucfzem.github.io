@@ -218,7 +218,8 @@
                         method: 'POST',
                         headers: {
                             'X-Filename': encodeURIComponent(f.name),
-                            'X-Password': pw || ''
+                            'X-Password': pw || '',
+                            'Content-Type': 'application/octet-stream'
                         },
                         body: f
                     });
