@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EmailCollector — UcfZem</title>
+<meta name="description" content="Collectez des leads facilement. Formulaire de capture d'emails simple et efficace.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ucfzem.github.io/email-collector/">
+<style>
+:root {
+  --bg: #1a1410;
+  --surface: #231c15;
+  --surface-light: #2e241b;
+  --gold: #c9a84c;
+  --gold-light: #f0c866;
+  --gold-glow: rgba(201, 168, 76, 0.25);
+  --text: #e8e0d0;
+  --text-sec: #b8a899;
+  --text-muted: #8a7a6a;
+  --border: #3a2e22;
+  --border-light: #4a3d30;
+  --error: #e74c3c;
+  --success: #27ae60;
+  --radius: 16px;
+}
+
+[data-theme="light"] {
+  --bg: #f5f0e8;
+  --surface: #f0e8d8;
+  --surface-light: #ede4cf;
+  --gold: #b8860b;
+  --gold-light: #d4a832;
+  --gold-glow: rgba(184, 134, 11, 0.15);
+  --text: #1a1a1a;
+  --text-sec: #6b5a45;
+  --text-muted: #8c7a65;
+  --border: #d4c5a9;
+  --border-light: #e0d3bb;
+  --error: #c0392b;
+  --success: #27ae60;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+[data-theme="light"] .card {
+  box-shadow: 0 8px 24px rgba(139,101,8,0.08);
+}
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.back-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--gold); }
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.theme-toggle:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.icon-wrap {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--gold-glow);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 1.6rem;
+}
+h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+.sub {
+  text-align: center;
+  color: var(--text-sec);
+  font-size: 0.85rem;
+  margin-bottom: 28px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-sec);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: #1a1410;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  margin-top: 8px;
+}
+.btn-submit:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.success-msg {
+  display: none;
+  text-align: center;
+  padding: 24px;
+}
+.success-msg .check {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(39,174,96,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 1.8rem;
+}
+.success-msg h2 {
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+.success-msg p {
+  color: var(--text-sec);
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+.success-msg.show { display: block; }
+.form-area.hide { display: none; }
+.error-text {
+  color: var(--error);
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: none;
+}
+.error-text.show { display: block; }
+.footer-text {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast.error { border-color: var(--error); }
+</style>
+</head>
+<body data-theme="dark">
+
+<div class="container">
+  <div class="card">
+    <div class="top-bar">
+      <a href="https://ucfzem.github.io/works/" class="back-link">← Works</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    </div>
+
+    <div class="form-area" id="formArea">
+      <div class="icon-wrap">💳</div>
+      <h1>EmailCollector</h1>
+      <p class="sub">Laissez vos coordonnées, je vous recontacterai.</p>
+
+      <form id="leadForm" novalidate>
+        <div class="form-group">
+          <label for="name">Nom complet</label>
+          <input type="text" id="name" placeholder="Votre nom" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="vous@exemple.com" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message (optionnel)</label>
+          <textarea id="message" placeholder="Votre message..."></textarea>
+        </div>
+        <p class="error-text" id="formError">Veuillez remplir tous les champs requis.</p>
+        <button type="submit" class="btn-submit" id="submitBtn">Envoyer</button>
+      </form>
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div class="check">✅</div>
+      <h2>Merci !</h2>
+      <p>Votre message a bien été reçu. Je vous répondrai rapidement.</p>
+      <a href="https://ucfzem.github.io/works/" class="btn-submit" style="display:inline-block;text-decoration:none;padding:12px 28px;">← Retour aux projets</a>
+    </div>
+  </div>
+  <p class="footer-text">UcfZem · EmailCollector</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const current = document.body.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', next);
+  themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
+});
+
+const form = document.getElementById('leadForm');
+const formArea = document.getElementById('formArea');
+const successMsg = document.getElementById('successMsg');
+const formError = document.getElementById('formError');
+const submitBtn = document.getElementById('submitBtn');
+const toast = document.getElementById('toast');
+
+function showToast(msg, type) {
+  toast.textContent = msg;
+  toast.className = 'toast' + (type ? ' ' + type : '');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formError.classList.remove('show');
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (!name || !email) {
+    formError.textContent = 'Veuillez remplir tous les champs requis.';
+    formError.classList.add('show');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Envoi...';
+
+  try {
+    const payload = { name, email, message };
+    const res = await fetch('https://ucfzem.azer-tyu199p.workers.dev/__collect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      formArea.classList.add('hide');
+      successMsg.classList.add('show');
+    } else {
+      showToast('❌ Erreur lors de l\'envoi', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Envoyer';
+    }
+  } catch {
+    formArea.classList.add('hide');
+    successMsg.classList.add('show');
+  }
+});
+</script>
+
+</body>
+</html>
