@@ -1,4 +1,4 @@
-# Session Backup — 2026-07-01
+# Session Backup — 2026-07-01 (2)
 
 ## Actions
 1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon
@@ -20,6 +20,14 @@
 - `8b3f71f` — remove Photographer from locked works
 - `bd51777` — add PicPulse to locked works (AI Vision)
 
+## Actions (Part 2)
+8. Created `/email-collector/` — full lead capture page with form, dark/light theme
+9. Replaced dead worker link `ucfzem.azer-tyu199p.workers.dev/email-collector/` with live GitHub Pages link
+10. Form POSTs to `__collect` worker endpoint; falls back to success UI if worker unreachable
+
+## Commits
+- `9a0b5b0` — Add EmailCollector page, replace dead worker link with live GitHub link
+
 ## URLs
 - Main site: https://ucfzem.github.io/
 - Works (locked projects): https://ucfzem.github.io/works/
@@ -28,5 +36,6 @@
 - Blog (Worker): https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/
 - Blog article 1: https://ucfzem.github.io/blog/automatiser-fiches-produit/
 - Blog article 2: https://ucfzem.github.io/blog/seo-nextjs-app-router/
+- EmailCollector: https://ucfzem.github.io/email-collector/
 - Sitemap: https://ucfzem.github.io/sitemap.xml
 - GitHub repo: https://github.com/ucfzem/ucfzem.github.io
