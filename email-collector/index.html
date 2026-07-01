@@ -1,348 +1,742 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EmailCollector — UcfZem</title>
-<meta name="description" content="Collectez des leads facilement. Formulaire de capture d'emails simple et efficace.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ucfzem.github.io/email-collector/">
-<style>
-:root {
-  --bg: #1a1410;
-  --surface: #231c15;
-  --surface-light: #2e241b;
-  --gold: #c9a84c;
-  --gold-light: #f0c866;
-  --gold-glow: rgba(201, 168, 76, 0.25);
-  --text: #e8e0d0;
-  --text-sec: #b8a899;
-  --text-muted: #8a7a6a;
-  --border: #3a2e22;
-  --border-light: #4a3d30;
-  --error: #e74c3c;
-  --success: #27ae60;
-  --radius: 16px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Cold Email Generator — PLG Edition</title>
+    <meta name="description" content="Générateur d'emails PLG + collecteur de leads. 4 langues, 2 variantes, prêt à copier.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ucfzem.github.io/email-collector/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#1a1209',
+                            card: '#2d1f0f',
+                            brown: '#8B6914',
+                            gold: '#D4AF37',
+                            yellow: '#F4D03F',
+                            white: '#F5F5DC',
+                            accent: '#C9A227'
+                        },
+                        light: {
+                            bg: '#F5F5DC',
+                            card: '#FAF0E6',
+                            beige: '#F5F5DC',
+                            brown: '#5D4037',
+                            gold: '#B8860B',
+                            accent: '#8B6914'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Playfair Display', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F5F5DC;
+            --card: #FAF0E6;
+            --text: #3E2723;
+            --gold: #B8860B;
+            --brown: #5D4037;
+            --accent: #8B6914;
+            --border: #D7CCC8;
+        }
+        .dark {
+            --bg: #1a1209;
+            --card: #2d1f0f;
+            --text: #F5F5DC;
+            --gold: #D4AF37;
+            --brown: #8B6914;
+            --accent: #C9A227;
+            --border: #4E342E;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        .card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+        }
+        .gold-text { color: var(--gold); }
+        .brown-text { color: var(--brown); }
+        .accent-bg { background-color: var(--accent); }
+        .accent-text { color: var(--accent); }
 
-[data-theme="light"] {
-  --bg: #f5f0e8;
-  --surface: #f0e8d8;
-  --surface-light: #ede4cf;
-  --gold: #b8860b;
-  --gold-light: #d4a832;
-  --gold-glow: rgba(184, 134, 11, 0.15);
-  --text: #1a1a1a;
-  --text-sec: #6b5a45;
-  --text-muted: #8c7a65;
-  --border: #d4c5a9;
-  --border-light: #e0d3bb;
-  --error: #c0392b;
-  --success: #27ae60;
-}
+        .lang-btn { transition: all 0.2s ease; }
+        .lang-btn.active {
+            background-color: var(--gold);
+            color: var(--bg);
+            font-weight: 600;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s, color 0.3s;
-}
-.container {
-  width: 100%;
-  max-width: 480px;
-  padding: 24px;
-}
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 40px 32px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-}
-[data-theme="light"] .card {
-  box-shadow: 0 8px 24px rgba(139,101,8,0.08);
-}
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-}
-.back-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-.back-link:hover { color: var(--gold); }
-.theme-toggle {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  color: var(--text-muted);
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-.theme-toggle:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.icon-wrap {
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--gold-glow);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 1.6rem;
-}
-h1 {
-  text-align: center;
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 6px;
-}
-.sub {
-  text-align: center;
-  color: var(--text-sec);
-  font-size: 0.85rem;
-  margin-bottom: 28px;
-}
-.form-group {
-  margin-bottom: 16px;
-}
-.form-group label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-sec);
-  margin-bottom: 6px;
-}
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-size: 0.95rem;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 12px var(--gold-glow);
-}
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: var(--text-muted);
-}
-.form-group textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  border-radius: 50px;
-  border: none;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  color: #1a1410;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-  margin-top: 8px;
-}
-.btn-submit:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 0 20px var(--gold-glow);
-}
-.btn-submit:active { transform: scale(0.98); }
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.success-msg {
-  display: none;
-  text-align: center;
-  padding: 24px;
-}
-.success-msg .check {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: rgba(39,174,96,0.15);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
-  font-size: 1.8rem;
-}
-.success-msg h2 {
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-}
-.success-msg p {
-  color: var(--text-sec);
-  font-size: 0.85rem;
-  margin-bottom: 20px;
-}
-.success-msg.show { display: block; }
-.form-area.hide { display: none; }
-.error-text {
-  color: var(--error);
-  font-size: 0.75rem;
-  margin-top: 4px;
-  display: none;
-}
-.error-text.show { display: block; }
-.footer-text {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  border: 1px solid var(--gold);
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 0.9rem;
-  color: var(--text);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 100;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-.toast.error { border-color: var(--error); }
-</style>
+        .variant-btn { transition: all 0.2s ease; }
+        .variant-btn.active {
+            border-color: var(--gold);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .copy-btn { transition: all 0.2s ease; }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .email-preview {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+        }
+
+        .flag-icon {
+            width: 20px;
+            height: 14px;
+            display: inline-block;
+            border-radius: 2px;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-right: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, transparent 0%, rgba(212, 175, 55, 0.3) 15%, rgba(212, 175, 55, 0.3) 85%, transparent 100%);
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+
+        .pain-point {
+            border-left: 3px solid var(--gold);
+            padding-left: 12px;
+            margin: 8px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background-color: var(--brown);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        .dark .toggle-switch::after {
+            transform: translateX(22px);
+        }
+
+        .word-count {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background-color: var(--gold);
+            color: var(--bg);
+            font-weight: 600;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--gold), var(--accent));
+            color: var(--bg);
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .rtl-content {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Segoe UI', 'Tahoma', sans-serif;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+        }
+        .form-input::placeholder { color: var(--brown); opacity: 0.6; }
+        .dark .form-input::placeholder { color: var(--gold); opacity: 0.4; }
+        .collector-card {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(139,105,20,0.08));
+            border: 1px solid var(--gold);
+        }
+        .error-text { color: var(--gold); }
+    </style>
 </head>
-<body data-theme="dark">
+<body class="min-h-screen font-sans antialiased">
 
-<div class="container">
-  <div class="card">
-    <div class="top-bar">
-      <a href="https://ucfzem.github.io/works/" class="back-link">← Works</a>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)]" style="background-color: rgba(var(--bg), 0.9);">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg accent-bg flex items-center justify-center text-white font-bold text-lg">S</div>
+                <div>
+                    <a href="https://ucfzem.github.io/works/" class="text-xs opacity-60 hover:opacity-100 transition-opacity">← Works</a>
+                    <h1 class="font-display text-xl font-bold gold-text">SaaS Email Gen</h1>
+                    <p class="text-xs opacity-70">PLG · Cold Outreach · 4 Langues</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs opacity-60">☀️</span>
+                    <div class="toggle-switch" onclick="toggleTheme()" role="button" aria-label="Toggle dark mode"></div>
+                    <span class="text-xs opacity-60">🌙</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+
+        <!-- Language Selector -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button onclick="setLang('fr')" class="lang-btn active px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-fr">
+                    <span class="flag-icon" style="background: linear-gradient(to bottom, #0055A4 33%, #FFFFFF 33%, #FFFFFF 66%, #EF4135 66%);"></span>
+                    FR
+                </button>
+                <button onclick="setLang('en')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-en">
+                    <span class="flag-icon" style="background: linear-gradient(135deg, #012169 25%, transparent 25%) -10px 0, linear-gradient(225deg, #012169 25%, transparent 25%) -10px 0, linear-gradient(315deg, #012169 25%, transparent 25%), linear-gradient(45deg, #012169 25%, transparent 25%); background-size: 20px 20px; background-color: #C8102E;"></span>
+                    EN
+                </button>
+                <button onclick="setLang('es')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-es">
+                    <span class="flag-icon" style="background: linear-gradient(to bottom, #AA151B 25%, #F1BF00 25%, #F1BF00 75%, #AA151B 75%);"></span>
+                    ES
+                </button>
+                <button onclick="setLang('ar')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-ar">
+                    <span class="flag-icon" style="background: #C1272D; position: relative;">
+                        <span style="position: absolute; top: 2px; left: 3px; width: 6px; height: 6px; background: #006233; border-radius: 50%; box-shadow: 0 0 0 1px #C1272D;"></span>
+                    </span>
+                    AR
+                </button>
+            </div>
+        </div>
+
+        <!-- Variant Selector -->
+        <div class="mb-8 flex justify-center gap-4">
+            <button onclick="setVariant('pain')" class="variant-btn active px-6 py-3 rounded-xl border-2 border-[var(--border)] text-sm font-medium flex items-center gap-2" id="btn-pain">
+                <span class="text-lg">😤</span>
+                <span id="label-pain">Frustration</span>
+            </button>
+            <button onclick="setVariant('gain')" class="variant-btn px-6 py-3 rounded-xl border-2 border-[var(--border)] text-sm font-medium flex items-center gap-2" id="btn-gain">
+                <span class="text-lg">⚡</span>
+                <span id="label-gain">Gain de temps</span>
+            </button>
+        </div>
+
+        <!-- Email Preview Cards -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+
+            <!-- Subject Line Card -->
+            <div class="card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider opacity-60" id="subject-label">Objet</h3>
+                    <span class="word-count" id="subject-count">3 mots</span>
+                </div>
+                <div class="email-preview text-lg font-medium gold-text" id="subject-preview"></div>
+                <button onclick="copyToClipboard('subject')" class="copy-btn mt-4 w-full py-2 rounded-lg border border-[var(--border)] text-sm font-medium opacity-80 hover:opacity-100">
+                    <span id="copy-subject">Copier l'objet</span>
+                </button>
+            </div>
+
+            <!-- Body Card -->
+            <div class="card rounded-2xl p-6 md:col-span-2">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider opacity-60" id="body-label">Corps de l'email</h3>
+                    <div class="flex items-center gap-3">
+                        <span class="word-count" id="body-count">0 mots</span>
+                        <span class="text-xs px-2 py-1 rounded bg-[var(--gold)] text-[var(--bg)] font-bold" id="cta-badge">BÊTA FERMÉE</span>
+                    </div>
+                </div>
+                <div class="email-preview text-base leading-relaxed" id="body-preview"></div>
+
+                <!-- Pain Points Highlight (only for pain variant) -->
+                <div id="pain-highlights" class="mt-6 hidden">
+                    <div class="text-xs font-semibold uppercase tracking-wider opacity-60 mb-2" id="pain-label">Points de douleur identifiés</div>
+                    <div class="grid sm:grid-cols-2 gap-3" id="pain-list"></div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="mt-6 pt-6 border-t border-[var(--border)]">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wider opacity-60 mb-1" id="cta-label">Appel à l'action</div>
+                            <div class="font-medium" id="cta-preview"></div>
+                        </div>
+                        <button onclick="copyToClipboard('body')" class="cta-button flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                            <span id="copy-body">Copier l'email complet</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips & Best Practices -->
+        <div class="card rounded-2xl p-6 mb-8">
+            <h3 class="font-display text-lg font-bold mb-4 gold-text flex items-center gap-2">
+                <span>💡</span>
+                <span id="tips-title">Conseils PLG 2026</span>
+            </h3>
+            <div class="grid sm:grid-cols-2 gap-4 text-sm" id="tips-content"></div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <div class="card rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold gold-text" id="metric-words">0</div>
+                <div class="text-xs opacity-60 mt-1" id="metric-words-label">Mots</div>
+            </div>
+            <div class="card rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold gold-text" id="metric-read">0s</div>
+                <div class="text-xs opacity-60 mt-1" id="metric-read-label">Temps de lecture</div>
+            </div>
+            <div class="card rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold gold-text" id="metric-score">A+</div>
+                <div class="text-xs opacity-60 mt-1" id="metric-score-label">Score PLG</div>
+            </div>
+        </div>
+
+        <!-- EmailCollector Lead Capture -->
+        <div class="collector-card rounded-2xl p-8 mb-8" id="collectorSection">
+            <div class="form-area" id="collectorForm">
+                <div class="flex items-center justify-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-full accent-bg flex items-center justify-center text-white text-xl font-bold">✉️</div>
+                    <div>
+                        <h2 class="font-display text-xl font-bold gold-text">EmailCollector</h2>
+                        <p class="text-sm opacity-70" id="collector-desc">Recevez le template complet + 5 autres gratuits par email</p>
+                    </div>
+                </div>
+                <form id="leadForm" class="grid sm:grid-cols-3 gap-3" novalidate>
+                    <input type="text" id="leadName" class="form-input" placeholder="Votre nom" required>
+                    <input type="email" id="leadEmail" class="form-input" placeholder="vous@exemple.com" required>
+                    <button type="submit" class="cta-button text-sm font-semibold" id="collectorBtn">Recevoir gratuit →</button>
+                </form>
+                <p class="text-xs opacity-50 mt-3 text-center" id="collector-note">Sans spam. Désabonnement à tout moment.</p>
+                <p class="error-text text-xs mt-2 hidden text-center" id="collectorError">Veuillez remplir tous les champs.</p>
+            </div>
+            <div class="success-msg text-center hidden" id="collectorSuccess">
+                <div class="text-3xl mb-3">✅</div>
+                <h3 class="font-display text-xl font-bold gold-text" id="collectorSuccessTitle">Merci !</h3>
+                <p class="text-sm opacity-70" id="collectorSuccessDesc">Vérifiez votre boîte mail — les templates arrivent.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 px-6 py-3 rounded-xl shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 font-medium" style="background-color: var(--gold); color: var(--bg);">
+        <span id="toast-message">Copié !</span>
     </div>
 
-    <div class="form-area" id="formArea">
-      <div class="icon-wrap">💳</div>
-      <h1>EmailCollector</h1>
-      <p class="sub">Laissez vos coordonnées, je vous recontacterai.</p>
+    <script>
+        const data = {
+            fr: {
+                labels: {
+                    pain: "Frustration",
+                    gain: "Gain de temps",
+                    subject: "Objet",
+                    body: "Corps de l'email",
+                    painPoints: "Points de douleur identifiés",
+                    cta: "Appel à l'action",
+                    copySubject: "Copier l'objet",
+                    copyBody: "Copier l'email complet",
+                    words: "mots",
+                    readTime: "Temps de lecture",
+                    score: "Score PLG",
+                    tipsTitle: "Conseils PLG 2026",
+                    ctaBadge: "BÊTA FERMÉE",
+                    collectorDesc: "Recevez le template complet + 5 autres gratuits par email",
+                    collectorBtn: "Recevoir gratuit →",
+                    collectorNote: "Sans spam. Désabonnement à tout moment.",
+                    collectorSuccessTitle: "Merci !",
+                    collectorSuccessDesc: "Vérifiez votre boîte mail — les templates arrivent."
+                },
+                pain: {
+                    subject: "5h perdues sur Excel ?",
+                    body: `Salut [Prénom],<br><br>Tu passes encore tes soirées à recopier des factures sur Excel ?<br><br>On a compté : en moyenne, les freelances perdent <span class="highlight">5 heures par semaine</span> sur la facturation. Et 1 facture sur 4 contient une erreur de calcul.<br><br>Notre SaaS [Nom Produit] automatise tout ça en <span class="highlight">1 clic</span>.<br><br>Pas de carte bancaire. Pas d'engagement. Juste 10 min pour voir si ça te change la vie.<br><br>Tu veux tester la bêta privée ?`,
+                    painPoints: [
+                        "5h/semaine perdues sur Excel",
+                        "Erreurs de calcul fréquentes",
+                        "Facturation manuelle répétitive",
+                        "Stress du retard de paiement"
+                    ],
+                    cta: "→ Tester la bêta privée (10 min, sans CB)",
+                    tips: [
+                        "<strong>Moins de 75 mots</strong> = +40% de réponses selon les benchmarks 2026",
+                        "<strong>Objet en question</strong> = taux d'ouverture 2.34x supérieur",
+                        "Mentionner une <strong>frustration chiffrée</strong> crée l'effet 'c'est moi qu'il parle'",
+                        "CTA à faible friction : '10 min' bat '30 min' de 3.4x"
+                    ]
+                },
+                gain: {
+                    subject: "Facturation auto en 1 clic",
+                    body: `Salut [Prénom],<br><br>Imagine : ta facturation de la semaine, <span class="highlight">faite en 90 secondes</span>. Zéro Excel. Zéro erreur. Zéro stress.<br><br>[Nom Produit] transforme ton temps perdu en <span class="highlight">heures facturables</span>. Nos testeurs gagnent en moyenne 4h/semaine.<br><br>La bêta privée est ouverte. 10 minutes suffisent pour configurer ton premier workflow auto.<br><br>Prêt à récupérer ton temps ?`,
+                    painPoints: [],
+                    cta: "→ Lancer ma démo gratuite (10 min)",
+                    tips: [
+                        "<strong>Lead avec le résultat</strong> : '90 secondes' est plus fort que 'automatise'",
+                        "<strong>Chiffre concret</strong> : '4h/semaine' = preuve sociale chiffrée",
+                        "Variante 'Gain' convertit mieux sur les <strong>audiences déjà sensibilisées</strong>",
+                        "Mot magique : 'Imagine' active la visualisation mentale"
+                    ]
+                }
+            },
+            en: {
+                labels: {
+                    pain: "Frustration",
+                    gain: "Time Saved",
+                    subject: "Subject",
+                    body: "Email Body",
+                    painPoints: "Pain Points Identified",
+                    cta: "Call to Action",
+                    copySubject: "Copy Subject",
+                    copyBody: "Copy Full Email",
+                    words: "words",
+                    readTime: "Read time",
+                    score: "PLG Score",
+                    tipsTitle: "PLG Tips 2026",
+                    ctaBadge: "CLOSED BETA",
+                    collectorDesc: "Get the full template + 5 more freebies by email",
+                    collectorBtn: "Get it free →",
+                    collectorNote: "No spam. Unsubscribe anytime.",
+                    collectorSuccessTitle: "Thank you!",
+                    collectorSuccessDesc: "Check your inbox — templates are on the way."
+                },
+                pain: {
+                    subject: "Still doing invoices in Excel?",
+                    body: `Hi [First Name],<br><br>Are you still spending your evenings copying invoices into Excel?<br><br>We counted: freelancers lose <span class="highlight">5 hours per week</span> on billing. And 1 in 4 invoices has a calculation error.<br><br>Our SaaS [Product Name] automates everything in <span class="highlight">1 click</span>.<br><br>No credit card. No commitment. Just 10 minutes to see if it changes your life.<br><br>Want to join the private beta?`,
+                    painPoints: [
+                        "5h/week lost in Excel",
+                        "Frequent calculation errors",
+                        "Manual repetitive billing",
+                        "Payment delay stress"
+                    ],
+                    cta: "→ Join private beta (10 min, no CC)",
+                    tips: [
+                        "<strong>Under 75 words</strong> = +40% reply rates per 2026 benchmarks",
+                        "<strong>Question subject lines</strong> = 2.34x higher open rates",
+                        "Mentioning a <strong>quantified pain</strong> creates 'he's talking about me' effect",
+                        "Low-friction CTA: '10 min' outperforms '30 min' by 3.4x"
+                    ]
+                },
+                gain: {
+                    subject: "Auto-billing in 1 click",
+                    body: `Hi [First Name],<br><br>Imagine: your weekly billing, <span class="highlight">done in 90 seconds</span>. Zero Excel. Zero errors. Zero stress.<br><br>[Product Name] turns your wasted time into <span class="highlight">billable hours</span>. Our beta testers save 4h/week on average.<br><br>The private beta is open. 10 minutes is all it takes to set up your first auto workflow.<br><br>Ready to get your time back?`,
+                    painPoints: [],
+                    cta: "→ Start my free demo (10 min)",
+                    tips: [
+                        "<strong>Lead with the outcome</strong>: '90 seconds' beats 'automates'",
+                        "<strong>Concrete number</strong>: '4h/week' = quantified social proof",
+                        "Gain variant converts better on <strong>already-aware audiences</strong>",
+                        "Magic word: 'Imagine' triggers mental visualization"
+                    ]
+                }
+            },
+            es: {
+                labels: {
+                    pain: "Frustración",
+                    gain: "Ahorro de tiempo",
+                    subject: "Asunto",
+                    body: "Cuerpo del email",
+                    painPoints: "Puntos de dolor identificados",
+                    cta: "Llamada a la acción",
+                    copySubject: "Copiar asunto",
+                    copyBody: "Copiar email completo",
+                    words: "palabras",
+                    readTime: "Tiempo de lectura",
+                    score: "Score PLG",
+                    tipsTitle: "Consejos PLG 2026",
+                    ctaBadge: "BETA CERRADA",
+                    collectorDesc: "Recibe la plantilla completa + 5 más gratis por email",
+                    collectorBtn: "Recibir gratis →",
+                    collectorNote: "Sin spam. Cancela cuando quieras.",
+                    collectorSuccessTitle: "¡Gracias!",
+                    collectorSuccessDesc: "Revisa tu correo — las plantillas llegan."
+                },
+                pain: {
+                    subject: "¿5h perdidas en Excel?",
+                    body: `Hola [Nombre],<br><br>¿Sigues pasando las noches copiando facturas en Excel?<br><br>Hemos contado: los freelancers pierden <span class="highlight">5 horas por semana</span> en facturación. Y 1 de cada 4 facturas tiene un error de cálculo.<br><br>Nuestro SaaS [Nombre Producto] automatiza todo en <span class="highlight">1 clic</span>.<br><br>Sin tarjeta. Sin compromiso. Solo 10 minutos para ver si te cambia la vida.<br><br>¿Quieres probar la beta privada?`,
+                    painPoints: [
+                        "5h/semana perdidas en Excel",
+                        "Errores de cálculo frecuentes",
+                        "Facturación manual repetitiva",
+                        "Estrés por retrasos de pago"
+                    ],
+                    cta: "→ Probar beta privada (10 min, sin tarjeta)",
+                    tips: [
+                        "<strong>Menos de 75 palabras</strong> = +40% respuestas según benchmarks 2026",
+                        "<strong>Asunto en pregunta</strong> = tasa de apertura 2.34x superior",
+                        "Mencionar un <strong>dolor cuantificado</strong> crea efecto 'habla de mí'",
+                        "CTA de baja fricción: '10 min' supera a '30 min' 3.4x"
+                    ]
+                },
+                gain: {
+                    subject: "Facturación auto en 1 clic",
+                    body: `Hola [Nombre],<br><br>Imagina: tu facturación semanal, <span class="highlight">hecha en 90 segundos</span>. Cero Excel. Cero errores. Cero estrés.<br><br>[Nombre Producto] convierte tu tiempo perdido en <span class="highlight">horas facturables</span>. Nuestros testers ahorran 4h/semana de media.<br><br>La beta privada está abierta. 10 minutos bastan para configurar tu primer workflow auto.<br><br>¿Listo para recuperar tu tiempo?`,
+                    painPoints: [],
+                    cta: "→ Iniciar mi demo gratuita (10 min)",
+                    tips: [
+                        "<strong>Empieza con el resultado</strong>: '90 segundos' es más fuerte que 'automatiza'",
+                        "<strong>Número concreto</strong>: '4h/semana' = prueba social cuantificada",
+                        "Variante 'Ganancia' convierte mejor en <strong>audiencias ya sensibilizadas</strong>",
+                        "Palabra mágica: 'Imagina' activa la visualización mental"
+                    ]
+                }
+            },
+            ar: {
+                labels: {
+                    pain: "الإحباط",
+                    gain: "توفير الوقت",
+                    subject: "الموضوع",
+                    body: "نص البريد",
+                    painPoints: "نقاط الألم المحددة",
+                    cta: "دعوة للعمل",
+                    copySubject: "نسخ الموضوع",
+                    copyBody: "نسخ البريد الكامل",
+                    words: "كلمات",
+                    readTime: "وقت القراءة",
+                    score: "تقييم PLG",
+                    tipsTitle: "نصائح PLG 2026",
+                    ctaBadge: "بيتا مغلقة",
+                    collectorDesc: "احصل على القالب الكامل + 5 قوالب أخرى مجاناً عبر البريد",
+                    collectorBtn: "احصل مجاناً ←",
+                    collectorNote: "لا بريد مزعج. إلغاء الاشتراك في أي وقت.",
+                    collectorSuccessTitle: "شكراً لك!",
+                    collectorSuccessDesc: "تفقد بريدك الوارد — القوالب في الطريق."
+                },
+                pain: {
+                    subject: "5 ساعات ضائعة على Excel؟",
+                    body: `مرحبا [الاسم],<br><br>هل ما زلت تقضي مساءك في نسخ الفواتير على Excel؟<br><br>لقد حسبنا: يخسر المستقلون <span class="highlight">5 ساعات أسبوعياً</span> في الفوترة. وواحدة من كل 4 فواتير تحتوي على خطأ حسابي.<br><br>برنامجنا [اسم المنتج] يؤتمت كل شيء في <span class="highlight">نقرة واحدة</span>.<br><br>لا بطاقة مصرفية. لا التزام. فقط 10 دقائق لترى إذا كان سيغير حياتك.<br><br>هل تريد اختبار البيتا الخاصة؟`,
+                    painPoints: [
+                        "5 ساعات/أسبوع ضائعة على Excel",
+                        "أخطاء حسابية متكررة",
+                        "فوترة يدوية متكررة",
+                        "توتر تأخر الدفع"
+                    ],
+                    cta: "→ اختبار البيتا الخاصة (10 دقائق، بدون بطاقة)",
+                    tips: [
+                        "<strong>أقل من 75 كلمة</strong> = +40% نسبة رد حسب معايير 2026",
+                        "<strong>سطر الموضوع في شكل سؤال</strong> = معدل فتح أعلى 2.34x",
+                        "ذكر <strong>ألم مُقَدَّر</strong> يخلق تأثير 'إنه يتحدث عني'",
+                        "CTA منخفض الاحتكاك: '10 دقائق' تتفوق على '30 دقيقة' بـ 3.4x"
+                    ]
+                },
+                gain: {
+                    subject: "فوترة تلقائية بنقرة واحدة",
+                    body: `تخيل: فوترتك الأسبوعية، <span class="highlight">تمت في 90 ثانية</span>. صفر Excel. صفر أخطاء. صفر توتر.<br><br>[اسم المنتج] يحول وقتك الضائع إلى <span class="highlight">ساعات قابلة للفوترة</span>. يوفر مختبرونا 4 ساعات/أسبوع في المتوسط.<br><br>البيتا الخاصة مفتوحة. 10 دقائق تكفي لإعداد أول سير عمل تلقائي.<br><br>مستعد لاستعادة وقتك؟`,
+                    painPoints: [],
+                    cta: "→ بدء تجربتي المجانية (10 دقائق)",
+                    tips: [
+                        "<strong>ابدأ بالنتيجة</strong>: '90 ثانية' أقوى من 'يؤتمت'",
+                        "<strong>رقم ملموس</strong>: '4 ساعات/أسبوع' = دليل اجتماعي مُقَدَّر",
+                        "متغير 'الربح' يحول أفضل مع <strong>الجمهور المُدرك سابقاً</strong>",
+                        "الكلمة السحرية: 'تخيل' تُفَعِّل التخيل الذهني"
+                    ]
+                }
+            }
+        };
 
-      <form id="leadForm" novalidate>
-        <div class="form-group">
-          <label for="name">Nom complet</label>
-          <input type="text" id="name" placeholder="Votre nom" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="vous@exemple.com" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Message (optionnel)</label>
-          <textarea id="message" placeholder="Votre message..."></textarea>
-        </div>
-        <p class="error-text" id="formError">Veuillez remplir tous les champs requis.</p>
-        <button type="submit" class="btn-submit" id="submitBtn">Envoyer</button>
-      </form>
-    </div>
+        let currentLang = 'fr';
+        let currentVariant = 'pain';
 
-    <div class="success-msg" id="successMsg">
-      <div class="check">✅</div>
-      <h2>Merci !</h2>
-      <p>Votre message a bien été reçu. Je vous répondrai rapidement.</p>
-      <a href="https://ucfzem.github.io/works/" class="btn-submit" style="display:inline-block;text-decoration:none;padding:12px 28px;">← Retour aux projets</a>
-    </div>
-  </div>
-  <p class="footer-text">UcfZem · EmailCollector</p>
-</div>
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+            if (lang === 'ar') {
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+            } else {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = 'ltr';
+            }
+            updateUI();
+        }
 
-<div class="toast" id="toast"></div>
+        function setVariant(variant) {
+            currentVariant = variant;
+            document.querySelectorAll('.variant-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${variant}`).classList.add('active');
+            updateUI();
+        }
 
-<script>
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-  const current = document.body.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.body.setAttribute('data-theme', next);
-  themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
-});
+        function updateUI() {
+            const langData = data[currentLang];
+            const variantData = langData[currentVariant];
 
-const form = document.getElementById('leadForm');
-const formArea = document.getElementById('formArea');
-const successMsg = document.getElementById('successMsg');
-const formError = document.getElementById('formError');
-const submitBtn = document.getElementById('submitBtn');
-const toast = document.getElementById('toast');
+            document.getElementById('label-pain').textContent = langData.labels.pain;
+            document.getElementById('label-gain').textContent = langData.labels.gain;
+            document.getElementById('subject-label').textContent = langData.labels.subject;
+            document.getElementById('body-label').textContent = langData.labels.body;
+            document.getElementById('pain-label').textContent = langData.labels.painPoints;
+            document.getElementById('cta-label').textContent = langData.labels.cta;
+            document.getElementById('copy-subject').textContent = langData.labels.copySubject;
+            document.getElementById('copy-body').textContent = langData.labels.copyBody;
+            document.getElementById('cta-badge').textContent = langData.labels.ctaBadge;
+            document.getElementById('tips-title').textContent = langData.labels.tipsTitle;
+            document.getElementById('metric-words-label').textContent = langData.labels.words;
+            document.getElementById('metric-read-label').textContent = langData.labels.readTime;
+            document.getElementById('metric-score-label').textContent = langData.labels.score;
 
-function showToast(msg, type) {
-  toast.textContent = msg;
-  toast.className = 'toast' + (type ? ' ' + type : '');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
-}
+            // Collector i18n
+            document.getElementById('collector-desc').textContent = langData.labels.collectorDesc;
+            document.getElementById('collectorBtn').textContent = langData.labels.collectorBtn;
+            document.getElementById('collector-note').textContent = langData.labels.collectorNote;
+            document.getElementById('collectorSuccessTitle').textContent = langData.labels.collectorSuccessTitle;
+            document.getElementById('collectorSuccessDesc').textContent = langData.labels.collectorSuccessDesc;
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  formError.classList.remove('show');
+            const isRTL = currentLang === 'ar';
+            const bodyPreview = document.getElementById('body-preview');
+            if (isRTL) {
+                bodyPreview.classList.add('rtl-content');
+            } else {
+                bodyPreview.classList.remove('rtl-content');
+            }
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+            document.getElementById('subject-preview').innerHTML = variantData.subject;
+            bodyPreview.innerHTML = variantData.body;
+            document.getElementById('cta-preview').textContent = variantData.cta;
 
-  if (!name || !email) {
-    formError.textContent = 'Veuillez remplir tous les champs requis.';
-    formError.classList.add('show');
-    return;
-  }
+            const painContainer = document.getElementById('pain-highlights');
+            const painList = document.getElementById('pain-list');
+            if (currentVariant === 'pain' && variantData.painPoints.length > 0) {
+                painContainer.classList.remove('hidden');
+                painList.innerHTML = variantData.painPoints.map(p =>
+                    `<div class="pain-point text-sm">${p}</div>`
+                ).join('');
+            } else {
+                painContainer.classList.add('hidden');
+            }
 
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Envoi...';
+            document.getElementById('tips-content').innerHTML = variantData.tips.map(tip =>
+                `<div class="flex items-start gap-2"><span class="gold-text mt-0.5">▸</span><span>${tip}</span></div>`
+            ).join('');
 
-  try {
-    const payload = { name, email, message };
-    const res = await fetch('https://ucfzem.azer-tyu199p.workers.dev/__collect', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+            const bodyText = variantData.body.replace(/<[^>]*>/g, '');
+            const wordCount = bodyText.split(/\s+/).filter(w => w.length > 0).length;
+            const subjectWords = variantData.subject.split(/\s+/).length;
+            const totalWords = wordCount + subjectWords;
 
-    if (res.ok) {
-      formArea.classList.add('hide');
-      successMsg.classList.add('show');
-    } else {
-      showToast('❌ Erreur lors de l\'envoi', 'error');
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Envoyer';
-    }
-  } catch {
-    formArea.classList.add('hide');
-    successMsg.classList.add('show');
-  }
-});
-</script>
+            document.getElementById('metric-words').textContent = totalWords;
+            document.getElementById('body-count').textContent = `${wordCount} ${langData.labels.words}`;
+            document.getElementById('subject-count').textContent = `${subjectWords} ${langData.labels.words}`;
 
+            const readTime = Math.ceil(totalWords / 200 * 60);
+            document.getElementById('metric-read').textContent = `${readTime}s`;
+
+            let score = 'A+';
+            if (totalWords > 100) score = 'B';
+            if (totalWords > 120) score = 'C';
+            document.getElementById('metric-score').textContent = score;
+
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('fade-in');
+                void card.offsetWidth;
+                card.classList.add('fade-in');
+            });
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function copyToClipboard(type) {
+            const variantData = data[currentLang][currentVariant];
+            let text = '';
+            if (type === 'subject') {
+                text = variantData.subject;
+            } else {
+                text = `${variantData.subject}\n\n${variantData.body.replace(/<[^>]*>/g, '')}\n\n${variantData.cta}`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(type === 'subject' ? data[currentLang].labels.copySubject : data[currentLang].labels.copyBody);
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message + ' ✓';
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2000);
+        }
+
+        // Lead form submit
+        document.getElementById('leadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('leadName').value.trim();
+            const email = document.getElementById('leadEmail').value.trim();
+            const err = document.getElementById('collectorError');
+            if (!name || !email) {
+                err.classList.remove('hidden');
+                return;
+            }
+            err.classList.add('hidden');
+            const btn = document.getElementById('collectorBtn');
+            btn.disabled = true;
+            btn.textContent = '...';
+            try {
+                await fetch('https://ucfzem.azer-tyu199p.workers.dev/__collect', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, source: 'email-collector' })
+                });
+            } catch {}
+            document.getElementById('collectorForm').classList.add('hidden');
+            document.getElementById('collectorSuccess').classList.remove('hidden');
+        });
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        updateUI();
+    </script>
 </body>
 </html>
