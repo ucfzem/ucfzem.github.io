@@ -1,4 +1,21 @@
-# Session Backup — 2026-07-01 (2)
+# Session Backup — 2026-07-01 (3)
+
+## Actions (Part 3)
+1. Replaced all CSS-gradient flags in `email-collector/index.html` with inline SVGs:
+   - FR: tricolore SVG
+   - EN: Union Jack SVG (St. George + St. Andrew + St. Patrick crosses)
+   - ES: rojigualda SVG (3 bands)
+   - AR: Moroccan flag SVG (red + green pentagram)
+2. Merged interactive SaaS Email Generator template with lead capture form
+3. Interactive template features: 4 langs, 2 variants, copy-to-clipboard, word count, read time, PLG score, pain points, tips
+
+## Commits
+- `2c8acbc` — fix: spanish flag SVG
+- `d554c3a` — fix: UK flag SVG with crosses
+- `1ab6b94` — fix: moroccan flag SVG with pentagram
+- `8ed4726` — fix: french flag SVG inline
+- `0fa770a` — chore: trigger GitHub Pages rebuild
+- `67b4cc0` — fusion: template interactif 4 langues + collecteur de leads
 
 ## Actions
 1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon

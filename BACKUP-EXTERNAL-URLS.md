@@ -204,6 +204,18 @@ Page de redirection uniquement, aucun lien externe.
 
 ---
 
-**Total : ~123 URLs** sur 11 fichiers HTML.
+---
+
+## `email-collector/index.html` (4 URLs)
+
+| Ligne | URL |
+|-------|-----|
+| 10 | `https://cdn.tailwindcss.com` |
+| 43 | `https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap` |
+| 9 | `https://ucfzem.github.io/email-collector/` (canonical) |
+| ~635 | `https://ucfzem.azer-tyu199p.workers.dev/__collect` (form POST) |
+| ~206 | `https://ucfzem.github.io/works/` (← Works link in header) |
+
+**Total : ~128 URLs** sur 12 fichiers HTML.
 
 **Règle :** Ne jamais supprimer ou modifier un lien sans confirmation explicite.
