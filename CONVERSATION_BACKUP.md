@@ -1,18 +1,32 @@
-# Session Backup — 2026-06-29
+# Session Backup — 2026-07-01
 
 ## Actions
-1. Restored `works/assets/avatar.png` to original (508KB, 864×794)
-2. Added new avatar at `images/avatar.png` (708KB, 768×768) from `Avatar002.png`
-3. Pushed both changes to `main`
+1. Added web-dev entry (`Code`) to locked projects on `/works/` with logo icon
+2. Copied logo to `works/assets/web-dev-logo.png`
+3. Updated `renderLocked()` to support icon property
+4. Removed "Uz" branding from web-dev page → kept only "Code"
+5. Simplified Code entry: logo + name only (no lock icon, no tag)
+6. Added Google Search Console verification to root `index.html`
+7. Updated root `sitemap.xml` with all URLs + fresh dates
+8. Blog articles already updated: `🐦 Twitter` → `𝕏 X` (in `shareX()` function)
 
 ## Commits
-- `e159d0d` — fix(works): restore original avatar
-- `82eb9e0` — fix(projets): add avatar image
+- `a1449b9` — SEO: add GSC verification to root, update sitemap dates + URLs
+- `cdf4b3b` — Simplify Code entry: logo + name only
+- `e428617` — Remove Uz branding, keep only Code
+- `f8e80cb` — Add web-dev to locked projects with logo icon
+- `a5a70b2` — add SEO: meta tags, OG, Twitter, canonical, JSON-LD to index.html and web-dev, add web-dev to sitemap
+- `c772227` — add web-dev site (Uz Code portfolio with logo)
+- `8b3f71f` — remove Photographer from locked works
+- `bd51777` — add PicPulse to locked works (AI Vision)
 
 ## URLs
-- Works page: https://ucfzem.github.io/works/
-- Projets page: https://ucfzem.github.io/projets/
-- Original avatar: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/avatar.png
-- New avatar: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/images/avatar.png
+- Main site: https://ucfzem.github.io/
+- Works (locked projects): https://ucfzem.github.io/works/
+- Web Dev (Code portfolio): https://ucfzem.github.io/web-dev/
 - Cloudflare Worker: https://ucfzem.azer-tyu199p.workers.dev
-- Worker backup doc: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/CLOUDFLARE-WORKER.md
+- Blog (Worker): https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/
+- Blog article 1: https://ucfzem.github.io/blog/automatiser-fiches-produit/
+- Blog article 2: https://ucfzem.github.io/blog/seo-nextjs-app-router/
+- Sitemap: https://ucfzem.github.io/sitemap.xml
+- GitHub repo: https://github.com/ucfzem/ucfzem.github.io
