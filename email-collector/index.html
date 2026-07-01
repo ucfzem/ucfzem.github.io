@@ -237,7 +237,11 @@
         <div class="mb-8">
             <div class="flex flex-wrap gap-2 justify-center">
                 <button onclick="setLang('fr')" class="lang-btn active px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-fr">
-                    <span class="flag-icon" style="background: linear-gradient(to bottom, #0055A4 33%, #FFFFFF 33%, #FFFFFF 66%, #EF4135 66%);"></span>
+                    <svg class="flag-icon" viewBox="0 0 900 600">
+                        <rect width="300" height="600" fill="#0055A4"/>
+                        <rect x="300" width="300" height="600" fill="#FFFFFF"/>
+                        <rect x="600" width="300" height="600" fill="#EF4135"/>
+                    </svg>
                     FR
                 </button>
                 <button onclick="setLang('en')" class="lang-btn px-4 py-2 rounded-full text-sm border border-[var(--border)] flex items-center gap-2" id="btn-en">
