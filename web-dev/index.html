@@ -1,0 +1,900 @@
+<!DOCTYPE html><html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Développeur Web Fullstack à Tanger. Sites vitrines, applications web, SEO.">
+    <title>Uz Code · Développeur Web Tanger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #1a1410;
+            --surface: #231c15;
+            --surface-light: #2e241b;
+            --primary: #c9a050;
+            --primary-glow: rgba(201, 160, 80, 0.3);
+            --primary-dark: #a07830;
+            --accent: #e8d5a3;
+            --accent-soft: #f5ecd7;
+            --text: #f5f0e8;
+            --text-dim: #b8a899;
+            --text-muted: #8a7a6a;
+            --border: #3a2e22;
+            --border-light: #4a3d30;
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-card: 0 8px 30px rgba(0,0,0,0.4);
+            --hero-gradient: radial-gradient(ellipse at top right, rgba(201,160,80,0.08), transparent 60%);
+        }
+
+
+        body.light-mode {
+            --bg: #faf7f0;
+            --surface: #f5efe0;
+            --surface-light: #ede4cf;
+            --primary: #b8860b;
+            --primary-glow: rgba(184, 134, 11, 0.2);
+            --primary-dark: #8b6508;
+            --accent: #5c3d1a;
+            --accent-soft: #d4b87a;
+            --text: #2a1f14;
+            --text-dim: #6b5a45;
+            --text-muted: #8c7a65;
+            --border: #d4c5a9;
+            --border-light: #e0d3bb;
+            --shadow-card: 0 8px 25px rgba(139, 101, 8, 0.08);
+            --hero-gradient: radial-gradient(ellipse at top right, rgba(184,134,11,0.06), transparent 60%);
+        }
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+
+        body[dir="rtl"] { text-align: right; }
+        body[dir="rtl"] .hero-buttons { justify-content: flex-end; }
+        body[dir="rtl"] .contact-info p { flex-direction: row-reverse; justify-content: flex-end; }
+        body[dir="rtl"] .btn-primary i,
+        body[dir="rtl"] .btn-secondary i { margin-right: 0; margin-left: 8px; }
+        body[dir="rtl"] .stats { justify-content: flex-end; }
+
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 6px 0;
+            font-size: 0.8rem;
+        }
+        .topbar-inner {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 18px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            flex-wrap: wrap;
+        }
+        .lang-flags { display: flex; gap: 8px; align-items: center; }
+        .lang-flags button {
+            background: transparent;
+            border: 1.5px solid transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all var(--transition);
+            font-weight: 500;
+        }
+        .lang-flags button:hover,
+        .lang-flags button.active-lang {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-glow);
+        }
+        .lang-flags button img {
+            width: 18px;
+            height: 12px;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+        .theme-toggle {
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            color: var(--text);
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: all var(--transition);
+        }
+        .theme-toggle:hover { border-color: var(--primary); }
+
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 12px 0;
+            transition: background 0.4s;
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+        }
+        .logo-img { width: 38px; height: 38px; object-fit: contain; border-radius: 6px; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color var(--transition);
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .btn-nav {
+            background: var(--primary);
+            color: #1a1410 !important;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all var(--transition);
+            box-shadow: 0 0 20px var(--primary-glow);
+            white-space: nowrap;
+        }
+        .btn-nav:hover { box-shadow: 0 0 35px var(--primary-glow); transform: translateY(-2px); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1100; }
+        .hamburger span { width: 26px; height: 2.5px; background: var(--text); border-radius: 5px; transition: var(--transition); }
+
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            background: var(--hero-gradient);
+            position: relative;
+        }
+        .hero-grid { display: flex; align-items: center; gap: 50px; flex-wrap: wrap; }
+        .hero-text { flex: 1 1 400px; }
+        .badge {
+            display: inline-block;
+            background: var(--surface-light);
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero-text h1 {
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 18px;
+            letter-spacing: -1.5px;
+        }
+        .hero-text h1 span { color: var(--primary); }
+        .hero-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 30px; max-width: 460px; }
+        .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--primary);
+            color: #1a1410;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+        .btn-primary:hover { box-shadow: 0 0 45px var(--primary-glow); transform: translateY(-3px); }
+        .btn-secondary {
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition);
+        }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+        .hero-visual { flex: 1 1 350px; display: flex; justify-content: center; }
+        .code-window {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+        .code-header { background: var(--surface-light); padding: 10px 16px; display: flex; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+        .code-body {
+            padding: 16px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+        .code-body .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--primary);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+
+        .section { padding: 90px 0; }
+        .section-alt { background: var(--surface); }
+        .section-title { text-align: center; font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -1px; }
+        .section-subtitle { text-align: center; color: var(--text-dim); margin-bottom: 50px; font-size: 1rem; }
+
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .service-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            transition: all var(--transition);
+        }
+        .service-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(201, 160, 80, 0.1);
+        }
+        .service-card .icon-circle {
+            width: 48px; height: 48px;
+            background: var(--primary-glow);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 18px; font-size: 1.3rem; color: var(--primary);
+        }
+        .service-card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+        .service-card p { color: var(--text-dim); font-size: 0.9rem; }
+
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .project-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden; transition: all var(--transition);
+        }
+        .project-card:hover { border-color: var(--primary); box-shadow: var(--shadow-card); }
+        .project-img {
+            height: 180px; background: var(--surface-light);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; color: var(--primary);
+        }
+        .project-info { padding: 20px; }
+        .project-info h4 { margin-bottom: 4px; }
+        .project-info p { color: var(--text-dim); font-size: 0.85rem; }
+        .project-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .project-tags span {
+            background: var(--surface-light); color: var(--primary);
+            padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+
+        .about-grid { display: flex; gap: 50px; align-items: center; flex-wrap: wrap; }
+        .about-img {
+            flex: 0 0 200px; width: 200px; height: 200px; border-radius: 50%;
+            background: var(--surface-light); border: 3px solid var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 4rem;
+        }
+        .about-text { flex: 1 1 350px; }
+        .about-text h2 { font-size: 2rem; margin-bottom: 16px; }
+        .about-text p { color: var(--text-dim); margin-bottom: 12px; }
+        .stats { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+        .stat h4 { font-size: 1.8rem; color: var(--primary); }
+        .stat span { font-size: 0.8rem; color: var(--text-dim); }
+
+
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .testimonial-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 28px 24px;
+        }
+        .testimonial-card .stars { color: #f0c040; margin-bottom: 12px; }
+        .testimonial-card p { color: var(--text-dim); font-style: italic; margin-bottom: 14px; font-size: 0.95rem; }
+        .testimonial-card .author { font-weight: 700; color: var(--text); }
+        .testimonial-card .author span { color: var(--text-dim); font-weight: 400; font-size: 0.8rem; }
+
+
+        .contact-grid {
+            display: flex; gap: 40px; flex-wrap: wrap;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 40px;
+        }
+        .contact-info { flex: 1 1 250px; }
+        .contact-info h3 { margin-bottom: 16px; font-size: 1.5rem; }
+        .contact-info p { color: var(--text-dim); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .contact-info i { color: var(--primary); width: 20px; }
+        .contact-form { flex: 1 1 300px; display: flex; flex-direction: column; gap: 14px; }
+        .contact-form input,
+        .contact-form textarea {
+            background: var(--surface-light); border: 1px solid var(--border);
+            padding: 14px 18px; border-radius: 50px; color: var(--text);
+            font-family: inherit; resize: vertical; transition: var(--transition);
+        }
+        .contact-form textarea { border-radius: 20px; }
+        .contact-form input:focus,
+        .contact-form textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .contact-form button {
+            background: var(--primary); color: #1a1410; border: none;
+            padding: 14px 28px; border-radius: 50px; font-weight: 700;
+            cursor: pointer; transition: all var(--transition);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+        .contact-form button:hover { box-shadow: 0 0 40px var(--primary-glow); }
+
+
+        .floating-cta {
+            position: fixed; bottom: 24px; right: 24px; z-index: 999;
+            background: #25D366; color: white; width: 56px; height: 56px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem; box-shadow: 0 8px 30px rgba(37,211,102,0.4);
+            text-decoration: none; animation: pulse-cta 2s infinite;
+        }
+        @keyframes pulse-cta {
+            0%{box-shadow:0 0 0 0 rgba(37,211,102,0.5);}
+            70%{box-shadow:0 0 0 18px rgba(37,211,102,0);}
+            100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+        }
+
+
+        footer { border-top: 1px solid var(--border); padding: 30px 0; text-align: center; color: var(--text-dim); font-size: 0.85rem; }
+        .footer-socials { display: flex; gap: 18px; justify-content: center; margin-bottom: 14px; }
+        .footer-socials a { color: var(--text-dim); font-size: 1.2rem; transition: color var(--transition); }
+        .footer-socials a:hover { color: var(--primary); }
+
+
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                background: var(--surface); flex-direction: column; padding: 100px 30px;
+                gap: 30px; transition: right var(--transition); border-left: 1px solid var(--border);
+            }
+            .nav-links.active { right: 0; }
+            .hamburger { display: flex; }
+            .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+            .hero-grid { flex-direction: column-reverse; text-align: center; }
+            .hero-text p { margin: 0 auto 30px; }
+            .hero-buttons { justify-content: center; }
+            .hero-visual { max-width: 320px; margin: 0 auto; }
+            .about-grid { flex-direction: column; text-align: center; }
+            .stats { justify-content: center; }
+            .contact-grid { flex-direction: column; }
+            body[dir="rtl"] .nav-links { right: auto; left: -100%; }
+            body[dir="rtl"] .nav-links.active { left: 0; }
+            body[dir="rtl"] .hero-buttons { justify-content: center; }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+
+
+    <!-- ==================== TOP BAR ==================== -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="lang-flags">
+                <button onclick="switchLang('fr')" class="active-lang" id="btn-fr">🇫🇷 FR</button>
+                <button onclick="switchLang('en')" id="btn-en">🇬🇧 EN</button>
+                <button onclick="switchLang('es')" id="btn-es">🇪🇸 ES</button>
+                <button onclick="switchLang('ar')" id="btn-ar">🇲🇦 العربية</button>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                <i class="fas fa-sun"></i> <span data-i18n="lightMode">Mode clair</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="logo-link">
+                <img src="assets/logo.png" alt="Uz Code" class="logo-img">
+                Uz Code
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#accueil" data-i18n="navHome" onclick="closeMenu()">Accueil</a></li>
+                <li><a href="#services" data-i18n="navServices" onclick="closeMenu()">Services</a></li>
+                <li><a href="#projets" data-i18n="navProjects" onclick="closeMenu()">Projets</a></li>
+                <li><a href="#about" data-i18n="navAbout" onclick="closeMenu()">À propos</a></li>
+                <li><a href="#contact" class="btn-nav" data-i18n="navContact" onclick="closeMenu()">Devis gratuit</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="accueil">
+        <div class="container hero-grid">
+            <div class="hero-text fade-in">
+                <div class="badge" data-i18n="badge">🟢 Disponible pour missions</div>
+                <h1 data-i18n="heroTitle">Développeur Web <span>Fullstack</span> à Tanger</h1>
+                <p data-i18n="heroDesc">Je conçois des sites web et applications sur mesure, rapides, modernes et optimisés SEO. Transformez votre idée en produit digital performant.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn-primary" data-i18n="ctaDevis"><i class="fas fa-paper-plane"></i> Demander un devis</a>
+                    <a href="#projets" class="btn-secondary" data-i18n="ctaProjects"><i class="fas fa-folder-open"></i> Voir mes projets</a>
+                </div>
+            </div>
+            <div class="hero-visual fade-in">
+                <div class="code-window">
+                    <div class="code-header"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                    <div class="code-body" style="color:#c9a050;">
+                        &lt;<span style="color:#e8d5a3;">html</span>&gt;<br>
+                        &nbsp;&nbsp;&lt;<span style="color:#e8d5a3;">head</span>&gt;...&lt;/<span style="color:#e8d5a3;">head</span>&gt;<br>
+                        &nbsp;&nbsp;&lt;<span style="color:#e8d5a3;">body</span>&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f5ecd7;">const</span> dev = <span style="color:#c9a050;">"Uz Code"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#f5ecd7;">console</span>.log(<span style="color:#c9a050;">`Hello, ${dev}`</span>);<span class="cursor"></span><br>
+                        &nbsp;&nbsp;&lt;/<span style="color:#e8d5a3;">body</span>&gt;<br>
+                        &lt;/<span style="color:#e8d5a3;">html</span>&gt;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== SERVICES ==================== -->
+    <section class="section section-alt" id="services">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="servicesTitle">Mes Services</h2>
+            <p class="section-subtitle fade-in" data-i18n="servicesSub">Des solutions web complètes pour votre activité</p>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-laptop-code"></i></div>
+                    <h3 data-i18n="service1Title">Sites Vitrines</h3>
+                    <p data-i18n="service1Desc">Design responsive, moderne, optimisé SEO. Idéal pour présenter votre activité et attirer des clients.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-shopping-cart"></i></div>
+                    <h3 data-i18n="service2Title">E-commerce</h3>
+                    <p data-i18n="service2Desc">Boutiques en ligne complètes avec paiement sécurisé, gestion des stocks et tableau de bord administrateur.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-mobile-alt"></i></div>
+                    <h3 data-i18n="service3Title">Applications Web</h3>
+                    <p data-i18n="service3Desc">Outils sur mesure, dashboards, SaaS. Développement front-end et back-end avec les dernières technologies.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-search"></i></div>
+                    <h3 data-i18n="service4Title">Référencement SEO</h3>
+                    <p data-i18n="service4Desc">Audit complet, optimisation technique et contenu. Positionnez votre site en première page Google.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3 data-i18n="service5Title">Optimisation Performance</h3>
+                    <p data-i18n="service5Desc">Amélioration de la vitesse de chargement, Core Web Vitals, expérience utilisateur fluide.</p>
+                </div>
+                <div class="service-card fade-in">
+                    <div class="icon-circle"><i class="fas fa-headset"></i></div>
+                    <h3 data-i18n="service6Title">Maintenance & Support</h3>
+                    <p data-i18n="service6Desc">Mises à jour régulières, sécurité, sauvegardes. Votre site entre de bonnes mains.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== PROJETS ==================== -->
+    <section class="section" id="projets">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="projectsTitle">Projets Récents</h2>
+            <p class="section-subtitle fade-in" data-i18n="projectsSub">Quelques réalisations récentes</p>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-img"><i class="fas fa-utensils"></i></div>
+                    <div class="project-info">
+                        <h4>Restaurant DarBahar</h4>
+                        <p data-i18n="project1Desc">Site vitrine avec réservation en ligne</p>
+                        <div class="project-tags"><span>React</span><span>Node.js</span><span>SEO</span></div>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-img"><i class="fas fa-dumbbell"></i></div>
+                    <div class="project-info">
+                        <h4>CoachFit Pro</h4>
+                        <p data-i18n="project2Desc">Plateforme de coaching sportif en ligne</p>
+                        <div class="project-tags"><span>Next.js</span><span>Stripe</span><span>API</span></div>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-img"><i class="fas fa-building"></i></div>
+                    <div class="project-info">
+                        <h4>ImmoCasa</h4>
+                        <p data-i18n="project3Desc">Agence immobilière - catalogue interactif</p>
+                        <div class="project-tags"><span>Vue.js</span><span>Firebase</span><span>PWA</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== À PROPOS ==================== -->
+    <section class="section section-alt" id="about">
+        <div class="container about-grid">
+            <div class="about-img fade-in">👨‍💻</div>
+            <div class="about-text fade-in">
+                <h2 data-i18n="aboutTitle">À propos de moi</h2>
+                <p data-i18n="aboutP1">Développeur fullstack basé à <strong>Tanger</strong>, passionné par le code propre et les interfaces élégantes. Je crée des expériences web qui allient <strong>performance</strong> et <strong>design</strong>.</p>
+                <p data-i18n="aboutP2">Diplômé en génie logiciel, +5 ans d'expérience en freelance et agence. J'accompagne startups, PME et indépendants dans leur transformation digitale.</p>
+                <div class="stats">
+                    <div class="stat"><h4>50+</h4><span data-i18n="stat1">Projets livrés</span></div>
+                    <div class="stat"><h4>30+</h4><span data-i18n="stat2">Clients satisfaits</span></div>
+                    <div class="stat"><h4>5</h4><span data-i18n="stat3">Années d'exp.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== TÉMOIGNAGES ==================== -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="testimonialsTitle">Ce que disent mes clients</h2>
+            <p class="section-subtitle fade-in" data-i18n="testimonialsSub">Ils m'ont fait confiance</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p data-i18n="testimonial1">"Un développeur réactif et créatif. Mon site e-commerce a dépassé mes attentes. Je recommande vivement !"</p>
+                    <div class="author">Amina B. <span>• Fondatrice, ModeEthik</span></div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p data-i18n="testimonial2">"Professionnel, à l'écoute et techniquement excellent. Il a transformé notre vieux site en une machine de guerre SEO."</p>
+                    <div class="author">Youssef M. <span>• Directeur, Agence ImmoCasa</span></div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p data-i18n="testimonial3">"Très bonne maîtrise technique, délais respectés. Un vrai partenaire pour notre startup."</p>
+                    <div class="author">Sarah L. <span>• CEO, CoachFit Pro</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="section section-alt" id="contact">
+        <div class="container">
+            <h2 class="section-title fade-in" data-i18n="contactTitle">Contactez-moi</h2>
+            <p class="section-subtitle fade-in" data-i18n="contactSub">Un projet ? Discutons-en gratuitement</p>
+            <div class="contact-grid fade-in">
+                <div class="contact-info">
+                    <h3 data-i18n="coordinates">Mes coordonnées</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Tanger, Maroc</p>
+                    <p><i class="fas fa-envelope"></i> contact@uzcode.ma</p>
+                    <p><i class="fas fa-phone"></i> +212 6 98 76 54 32</p>
+                    <p style="margin-top:14px;"><i class="fas fa-clock"></i> <span data-i18n="hours">Lun - Ven · 9h00 - 18h00</span></p>
+                </div>
+                <form class="contact-form" onsubmit="alert('✅ Message envoyé avec succès ! (Démo)'); return false;">
+                    <input type="text" data-i18n-placeholder="formName" placeholder="Votre nom complet" required aria-label="Nom">
+                    <input type="email" data-i18n-placeholder="formEmail" placeholder="Votre email" required aria-label="Email">
+                    <input type="text" data-i18n-placeholder="formSubject" placeholder="Sujet" aria-label="Sujet">
+                    <textarea rows="4" data-i18n-placeholder="formMessage" placeholder="Décrivez votre projet..." aria-label="Message"></textarea>
+                    <button type="submit"><i class="fas fa-paper-plane"></i> <span data-i18n="formSend">Envoyer le message</span></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-socials">
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p data-i18n="footer">© 2026 <strong>Uz Code</strong> · Développeur Web Fullstack Tanger · Tous droits réservés</p>
+        </div>
+    </footer>
+
+
+    <!-- CTA flottant WhatsApp -->
+    <a href="https://wa.me/212698765432" class="floating-cta" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        const translations = {
+            fr: {
+                lightMode: 'Mode clair',
+                navHome: 'Accueil', navServices: 'Services', navProjects: 'Projets', navAbout: 'À propos', navContact: 'Devis gratuit',
+                badge: '🟢 Disponible pour missions',
+                heroTitle: 'Développeur Web <span>Fullstack</span> à Tanger',
+                heroDesc: 'Je conçois des sites web et applications sur mesure, rapides, modernes et optimisés SEO. Transformez votre idée en produit digital performant.',
+                ctaDevis: '<i class="fas fa-paper-plane"></i> Demander un devis',
+                ctaProjects: '<i class="fas fa-folder-open"></i> Voir mes projets',
+                servicesTitle: 'Mes Services', servicesSub: 'Des solutions web complètes pour votre activité',
+                service1Title: 'Sites Vitrines', service1Desc: 'Design responsive, moderne, optimisé SEO. Idéal pour présenter votre activité et attirer des clients.',
+                service2Title: 'E-commerce', service2Desc: 'Boutiques en ligne complètes avec paiement sécurisé, gestion des stocks et tableau de bord administrateur.',
+                service3Title: 'Applications Web', service3Desc: 'Outils sur mesure, dashboards, SaaS. Développement front-end et back-end avec les dernières technologies.',
+                service4Title: 'Référencement SEO', service4Desc: 'Audit complet, optimisation technique et contenu. Positionnez votre site en première page Google.',
+                service5Title: 'Optimisation Performance', service5Desc: 'Amélioration de la vitesse de chargement, Core Web Vitals, expérience utilisateur fluide.',
+                service6Title: 'Maintenance & Support', service6Desc: 'Mises à jour régulières, sécurité, sauvegardes. Votre site entre de bonnes mains.',
+                projectsTitle: 'Projets Récents', projectsSub: 'Quelques réalisations récentes',
+                project1Desc: 'Site vitrine avec réservation en ligne',
+                project2Desc: 'Plateforme de coaching sportif en ligne',
+                project3Desc: 'Agence immobilière - catalogue interactif',
+                aboutTitle: 'À propos de moi',
+                aboutP1: 'Développeur fullstack basé à <strong>Tanger</strong>, passionné par le code propre et les interfaces élégantes. Je crée des expériences web qui allient <strong>performance</strong> et <strong>design</strong>.',
+                aboutP2: 'Diplômé en génie logiciel, +5 ans d\'expérience en freelance et agence. J\'accompagne startups, PME et indépendants dans leur transformation digitale.',
+                stat1: 'Projets livrés', stat2: 'Clients satisfaits', stat3: 'Années d\'exp.',
+                testimonialsTitle: 'Ce que disent mes clients', testimonialsSub: 'Ils m\'ont fait confiance',
+                testimonial1: '"Un développeur réactif et créatif. Mon site e-commerce a dépassé mes attentes. Je recommande vivement !"',
+                testimonial2: '"Professionnel, à l\'écoute et techniquement excellent. Il a transformé notre vieux site en une machine de guerre SEO."',
+                testimonial3: '"Très bonne maîtrise technique, délais respectés. Un vrai partenaire pour notre startup."',
+                contactTitle: 'Contactez-moi', contactSub: 'Un projet ? Discutons-en gratuitement',
+                coordinates: 'Mes coordonnées', hours: 'Lun - Ven · 9h00 - 18h00',
+                formSend: 'Envoyer le message', footer: '© 2026 <strong>Uz Code</strong> · Développeur Web Fullstack Tanger · Tous droits réservés',
+                formName: 'Votre nom complet', formEmail: 'Votre email', formSubject: 'Sujet', formMessage: 'Décrivez votre projet...'
+            },
+            en: {
+                lightMode: 'Light Mode',
+                navHome: 'Home', navServices: 'Services', navProjects: 'Projects', navAbout: 'About', navContact: 'Free Quote',
+                badge: '🟢 Available for work',
+                heroTitle: 'Fullstack <span>Web Developer</span> in Tangier',
+                heroDesc: 'I design custom websites and web applications — fast, modern, and SEO optimized. Turn your idea into a high-performance digital product.',
+                ctaDevis: '<i class="fas fa-paper-plane"></i> Request a quote',
+                ctaProjects: '<i class="fas fa-folder-open"></i> View my projects',
+                servicesTitle: 'My Services', servicesSub: 'Complete web solutions for your business',
+                service1Title: 'Showcase Websites', service1Desc: 'Responsive, modern design, SEO optimized. Perfect to present your business and attract clients.',
+                service2Title: 'E-commerce', service2Desc: 'Full online stores with secure payment, inventory management and admin dashboard.',
+                service3Title: 'Web Applications', service3Desc: 'Custom tools, dashboards, SaaS. Front-end and back-end development with latest technologies.',
+                service4Title: 'SEO Optimization', service4Desc: 'Full audit, technical and content optimization. Rank your website on the first page of Google.',
+                service5Title: 'Performance Optimization', service5Desc: 'Improved loading speed, Core Web Vitals, smooth user experience.',
+                service6Title: 'Maintenance & Support', service6Desc: 'Regular updates, security, backups. Your site in good hands.',
+                projectsTitle: 'Recent Projects', projectsSub: 'Some recent work',
+                project1Desc: 'Showcase website with online booking',
+                project2Desc: 'Online fitness coaching platform',
+                project3Desc: 'Real estate agency - interactive catalog',
+                aboutTitle: 'About Me',
+                aboutP1: 'Fullstack developer based in <strong>Tangier</strong>, passionate about clean code and elegant interfaces. I create web experiences that combine <strong>performance</strong> and <strong>design</strong>.',
+                aboutP2: 'Degree in software engineering, 5+ years of freelance and agency experience. I support startups, SMEs, and freelancers in their digital transformation.',
+                stat1: 'Projects delivered', stat2: 'Happy clients', stat3: 'Years exp.',
+                testimonialsTitle: 'What my clients say', testimonialsSub: 'They trusted me',
+                testimonial1: '"A responsive and creative developer. My e-commerce site exceeded my expectations. Highly recommended!"',
+                testimonial2: '"Professional, attentive, and technically excellent. He turned our old website into an SEO machine."',
+                testimonial3: '"Great technical skills, deadlines respected. A true partner for our startup."',
+                contactTitle: 'Contact Me', contactSub: 'Have a project? Let\'s talk for free',
+                coordinates: 'My contact details', hours: 'Mon - Fri · 9:00 AM - 6:00 PM',
+                formSend: 'Send Message', footer: '© 2026 <strong>Uz Code</strong> · Fullstack Web Developer Tangier · All rights reserved',
+                formName: 'Your full name', formEmail: 'Your email', formSubject: 'Subject', formMessage: 'Describe your project...'
+            },
+            es: {
+                lightMode: 'Modo claro',
+                navHome: 'Inicio', navServices: 'Servicios', navProjects: 'Proyectos', navAbout: 'Sobre mí', navContact: 'Presupuesto',
+                badge: '🟢 Disponible para proyectos',
+                heroTitle: 'Desarrollador Web <span>Fullstack</span> en Tánger',
+                heroDesc: 'Diseño sitios web y aplicaciones a medida, rápidos, modernos y optimizados SEO. Convierta su idea en un producto digital de alto rendimiento.',
+                ctaDevis: '<i class="fas fa-paper-plane"></i> Solicitar presupuesto',
+                ctaProjects: '<i class="fas fa-folder-open"></i> Ver proyectos',
+                servicesTitle: 'Mis Servicios', servicesSub: 'Soluciones web completas para su negocio',
+                service1Title: 'Sitios Web Vitrina', service1Desc: 'Diseño responsive, moderno, optimizado SEO. Ideal para presentar su actividad y atraer clientes.',
+                service2Title: 'E-commerce', service2Desc: 'Tiendas online completas con pago seguro, gestión de inventario y panel de administración.',
+                service3Title: 'Aplicaciones Web', service3Desc: 'Herramientas personalizadas, dashboards, SaaS. Desarrollo front-end y back-end con las últimas tecnologías.',
+                service4Title: 'SEO', service4Desc: 'Auditoría completa, optimización técnica y de contenido. Posicione su sitio en la primera página de Google.',
+                service5Title: 'Optimización de Rendimiento', service5Desc: 'Mejora de velocidad de carga, Core Web Vitals, experiencia de usuario fluida.',
+                service6Title: 'Mantenimiento y Soporte', service6Desc: 'Actualizaciones regulares, seguridad, copias de seguridad. Su sitio en buenas manos.',
+                projectsTitle: 'Proyectos Recientes', projectsSub: 'Algunos trabajos recientes',
+                project1Desc: 'Sitio vitrina con reserva en línea',
+                project2Desc: 'Plataforma de coaching deportivo en línea',
+                project3Desc: 'Agencia inmobiliaria - catálogo interactivo',
+                aboutTitle: 'Sobre Mí',
+                aboutP1: 'Desarrollador fullstack en <strong>Tánger</strong>, apasionado por el código limpio y las interfaces elegantes. Creo experiencias web que combinan <strong>rendimiento</strong> y <strong>diseño</strong>.',
+                aboutP2: 'Titulado en ingeniería de software, más de 5 años de experiencia freelance y en agencia. Acompaño a startups, pymes y autónomos en su transformación digital.',
+                stat1: 'Proyectos entregados', stat2: 'Clientes satisfechos', stat3: 'Años exp.',
+                testimonialsTitle: 'Lo que dicen mis clientes', testimonialsSub: 'Confían en mí',
+                testimonial1: '"Un desarrollador reactivo y creativo. Mi sitio e-commerce superó mis expectativas. ¡Lo recomiendo ampliamente!"',
+                testimonial2: '"Profesional, atento y técnicamente excelente. Transformó nuestro viejo sitio en una máquina de SEO."',
+                testimonial3: '"Gran dominio técnico, plazos respetados. Un verdadero socio para nuestra startup."',
+                contactTitle: 'Contácteme', contactSub: '¿Un proyecto? Hablemos gratis',
+                coordinates: 'Mis datos', hours: 'Lun - Vie · 9:00 - 18:00',
+                formSend: 'Enviar mensaje', footer: '© 2026 <strong>Uz Code</strong> · Desarrollador Web Fullstack Tánger · Todos los derechos reservados',
+                formName: 'Su nombre completo', formEmail: 'Su email', formSubject: 'Asunto', formMessage: 'Describa su proyecto...'
+            },
+            ar: {
+                lightMode: 'الوضع النهاري',
+                navHome: 'الرئيسية', navServices: 'الخدمات', navProjects: 'المشاريع', navAbout: 'من أنا', navContact: 'طلب عرض سعر',
+                badge: '🟢 متاح للعمل',
+                heroTitle: 'مطور ويب <span>Fullstack</span> في طنجة',
+                heroDesc: 'أصمم مواقع وتطبيقات ويب مخصصة، سريعة، عصرية ومُحسّنة لمحركات البحث. حوّل فكرتك إلى منتج رقمي عالي الأداء.',
+                ctaDevis: '<i class="fas fa-paper-plane"></i> طلب عرض سعر',
+                ctaProjects: '<i class="fas fa-folder-open"></i> مشاهدة المشاريع',
+                servicesTitle: 'خدماتي', servicesSub: 'حلول ويب متكاملة لنشاطك',
+                service1Title: 'مواقع تعريفية', service1Desc: 'تصميم متجاوب، عصري، مُحسّن لـ SEO. مثالي لتقديم نشاطك وجذب العملاء.',
+                service2Title: 'متاجر إلكترونية', service2Desc: 'متاجر كاملة مع دفع آمن، إدارة المخزون ولوحة تحكم.',
+                service3Title: 'تطبيقات ويب', service3Desc: 'أدوات مخصصة، لوحات بيانات، SaaS. تطوير الواجهة والخلفية بأحدث التقنيات.',
+                service4Title: 'تحسين محركات البحث', service4Desc: 'تدقيق كامل، تحسين تقني ومحتوى. ضع موقعك في الصفحة الأولى من Google.',
+                service5Title: 'تحسين الأداء', service5Desc: 'تحسين سرعة التحميل، Core Web Vitals، تجربة مستخدم سلسة.',
+                service6Title: 'الصيانة والدعم', service6Desc: 'تحديثات منتظمة، أمان، نسخ احتياطية. موقعك في أيدٍ أمينة.',
+                projectsTitle: 'مشاريع حديثة', projectsSub: 'بعض الأعمال الأخيرة',
+                project1Desc: 'موقع تعريفى مع حجز عبر الإنترنت',
+                project2Desc: 'منصة تدريب رياضي عبر الإنترنت',
+                project3Desc: 'وكالة عقارية - كتالوج تفاعلي',
+                aboutTitle: 'من أنا',
+                aboutP1: 'مطور Fullstack مقيم في <strong>طنجة</strong>، شغوف بالكود النظيف والواجهات الأنيقة. أصنع تجارب ويب تجمع بين <strong>الأداء</strong> و<strong>التصميم</strong>.',
+                aboutP2: 'حاصل على دبلوم في هندسة البرمجيات، أكثر من 5 سنوات من الخبرة في العمل الحر والوكالات. أرافق الشركات الناشئة والصغرى والمستقلين في تحولهم الرقمي.',
+                stat1: 'مشروع منجز', stat2: 'عميل راضٍ', stat3: 'سنوات خبرة',
+                testimonialsTitle: 'آراء العملاء', testimonialsSub: 'وضعوا ثقتهم بي',
+                testimonial1: '"مطور سريع الاستجابة ومبدع. موقعي للتجارة الإلكترونية فاق توقعاتي. أوصي به بشدة!"',
+                testimonial2: '"محترف، منصت وممتاز تقنياً. حوّل موقعنا القديم إلى آلة SEO."',
+                testimonial3: '"إتقان تقني كبير، احترام المواعيد. شريك حقيقي لشركتنا الناشئة."',
+                contactTitle: 'اتصل بي', contactSub: 'هل لديك مشروع؟ لنتحدث مجاناً',
+                coordinates: 'معلومات الاتصال', hours: 'الإثنين - الجمعة · 9:00 - 18:00',
+                formSend: 'إرسال الرسالة', footer: '© 2026 <strong>Uz Code</strong> · مطور ويب Fullstack طنجة · جميع الحقوق محفوظة',
+                formName: 'اسمك الكامل', formEmail: 'بريدك الإلكتروني', formSubject: 'الموضوع', formMessage: 'صف مشروعك...'
+            }
+        };
+
+
+        let currentLang = 'fr';
+
+
+        function switchLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-flags button').forEach(b => b.classList.remove('active-lang'));
+            document.getElementById('btn-' + lang).classList.add('active-lang');
+
+
+            if (lang === 'ar') {
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+                document.body.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = 'ltr';
+                document.body.setAttribute('dir', 'ltr');
+            }
+
+
+            const t = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    if (key === 'heroTitle' || key === 'ctaDevis' || key === 'ctaProjects') {
+                        el.innerHTML = t[key];
+                    } else {
+                        el.textContent = t[key];
+                    }
+                }
+            });
+
+
+            const placeholders = ['formName', 'formEmail', 'formSubject', 'formMessage'];
+            const inputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+            placeholders.forEach((key, i) => {
+                if (inputs[i] && t[key]) inputs[i].placeholder = t[key];
+            });
+
+
+            localStorage.setItem('lang', lang);
+        }
+
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            const toggleBtn = document.getElementById('themeToggle');
+            const t = translations[currentLang];
+            if (isLight) {
+                toggleBtn.innerHTML = '<i class="fas fa-moon"></i> ' + (currentLang === 'ar' ? 'الوضع الليلي' : (currentLang === 'es' ? 'Modo oscuro' : (currentLang === 'en' ? 'Dark Mode' : 'Mode sombre')));
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-sun"></i> ' + (t.lightMode || 'Mode clair');
+            }
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('active');
+            document.getElementById('hamburger').classList.remove('active');
+        }
+
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('navLinks');
+            const hamburger = document.getElementById('hamburger');
+            if (!nav.contains(e.target) && !hamburger.contains(e.target) && nav.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+
+        function init() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                const toggleBtn = document.getElementById('themeToggle');
+                const savedLang = localStorage.getItem('lang') || 'fr';
+                const tempT = translations[savedLang];
+                toggleBtn.innerHTML = '<i class="fas fa-moon"></i> ' + (savedLang === 'ar' ? 'الوضع الليلي' : (savedLang === 'es' ? 'Modo oscuro' : (savedLang === 'en' ? 'Dark Mode' : 'Mode sombre')));
+            }
+            const savedLang = localStorage.getItem('lang') || 'fr';
+            switchLang(savedLang);
+        }
+        init();
+    </script>
+</body>
+</html>
