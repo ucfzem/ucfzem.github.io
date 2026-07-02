@@ -376,6 +376,12 @@
         .contact-info h3 { margin-bottom: 16px; font-size: 1.5rem; }
         .contact-info p { color: var(--text-dim); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .contact-info i { color: var(--primary); width: 20px; }
+        .contact-avatar {
+            width: 64px; height: 64px; border-radius: 50%;
+            border: 2px solid var(--primary);
+            object-fit: cover;
+            margin-bottom: 16px;
+        }
         .contact-form { flex: 1 1 300px; display: flex; flex-direction: column; gap: 14px; }
         .contact-form input,
         .contact-form textarea {
@@ -650,6 +656,7 @@
             <p class="section-subtitle fade-in" data-i18n="contactSub">Un projet ? Discutons-en gratuitement</p>
             <div class="contact-grid fade-in">
                 <div class="contact-info">
+                    <img src="assets/avatar-about.png" alt="Photo de profil" class="contact-avatar">
                     <h3 data-i18n="coordinates">Mes coordonnées</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Tanger, Maroc</p>
                     <p><i class="fas fa-envelope"></i> contact@code.ma</p>
