@@ -345,7 +345,9 @@
             flex: 0 0 200px; width: 200px; height: 200px; border-radius: 50%;
             background: var(--surface-light); border: 3px solid var(--primary);
             display: flex; align-items: center; justify-content: center; font-size: 4rem;
+            overflow: hidden;
         }
+        .about-img img { width: 55%; height: 55%; object-fit: contain; border-radius: 0; }
         .about-text { flex: 1 1 350px; }
         .about-text h2 { font-size: 2rem; margin-bottom: 16px; }
         .about-text p { color: var(--text-dim); margin-bottom: 12px; }
@@ -600,7 +602,7 @@
     <!-- ==================== À PROPOS ==================== -->
     <section class="section section-alt" id="about">
         <div class="container about-grid">
-            <div class="about-img fade-in">👨‍💻</div>
+            <div class="about-img fade-in"><img src="assets/avatar-about.png" alt="Photo de profil"></div>
             <div class="about-text fade-in">
                 <h2 data-i18n="aboutTitle">À propos de moi</h2>
                 <p data-i18n="aboutP1">Développeur fullstack basé à <strong>Tanger</strong>, passionné par le code propre et les interfaces élégantes. Je crée des expériences web qui allient <strong>performance</strong> et <strong>design</strong>.</p>
