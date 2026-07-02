@@ -66,4 +66,4 @@
 - Added `r2Api()` helper
 - Preserved all existing Droppy + proxy + auth logic
 
-**Commits:** (pending)
+**Commits:** `b648a45`
