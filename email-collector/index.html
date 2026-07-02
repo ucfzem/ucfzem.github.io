@@ -732,7 +732,10 @@
             const name = document.getElementById('leadName').value.trim();
             const email = document.getElementById('leadEmail').value.trim();
             const err = document.getElementById('collectorError');
-            if (!name || !email) {
+            const nameOk = name.length >= 2 && /^[a-zA-ZÀ-ÿ\u0400-\u04FF\u0600-\u06FF\s'-]+$/.test(name);
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!nameOk || !emailOk) {
+                err.textContent = nameOk ? 'Email invalide' : 'Nom invalide (2+ caractères, lettres uniquement)';
                 err.classList.remove('hidden');
                 return;
             }
@@ -741,7 +744,7 @@
             btn.disabled = true;
             btn.textContent = '...';
             try {
-                await fetch('https://ucfzem.azer-tyu199p.workers.dev/__collect', {
+                await fetch('https://ucfzem-worker.azer-tyu199p.workers.dev/__collect', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, source: 'email-collector' })
