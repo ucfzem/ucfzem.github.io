@@ -52,3 +52,18 @@
 - `downloadDroppy` → serves raw binary from KV arrayBuffer
 
 **Commits:** `e303e02`, `df272d7`, `e333f98`, `efa33fa`, `2d9959b`
+
+## Session 5: EmailCollector Backend + Sitemap + R2 Prep + Droppy UX
+- **EmailCollector backend**: added `__collect` endpoint to worker (stores leads in KV as `lead:{ts}:{rand}` with name, email, source, timestamp). Verified working.
+- **Sitemap**: added `/droppy/` entry
+- **R2 migration prepared**: worker code updated with `storeFile()`/`loadFile()` that use R2 REST API when `R2_BUCKET` is set, fall back to KV otherwise. Bloqué: user needs credit card to enable R2.
+- **Droppy UX**: added "25 Mo max · 24h de rétention" info; result auto-scrolls into view after upload (no more manual scrolling).
+- **Worker deployed** via API (`ucfzem` script, version `3e72a46a`)
+
+**Worker changes:**
+- Added `collectLead()` handler for `POST /__collect`
+- Added `storeFile()`/`loadFile()` with R2 support + KV fallback
+- Added `r2Api()` helper
+- Preserved all existing Droppy + proxy + auth logic
+
+**Commits:** (pending)

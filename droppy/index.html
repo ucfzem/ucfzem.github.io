@@ -82,6 +82,7 @@
             <div class="text-5xl mb-4">📤</div>
             <h2 class="font-display text-3xl font-bold gold-text mb-2">Partage de fichiers</h2>
             <p class="text-sm opacity-70" id="upload-desc">Glissez-déposer vos fichiers ou cliquez pour sélectionner</p>
+            <p class="text-xs opacity-40 mt-2">📦 25 Mo max · 24h de rétention</p>
         </div>
 
         <!-- Drop Zone -->
@@ -239,6 +240,7 @@
                     sharePw.classList.add('hidden');
                 }
                 result.classList.remove('hidden');
+                setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
                 document.getElementById('upload-btn-text').textContent = '✅ Fait !';
                 showToast('✅ Fichiers partagés !');
             } catch (e) {
