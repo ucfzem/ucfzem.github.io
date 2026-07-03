@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ogify — OG Image API</title>
+    <meta name="description" content="Générez des images Open Graph parfaites via une API. Titre, fond, logo → PNG prêt à partager.">
+    <meta property="og:title" content="Ogify — OG Image API">
+    <meta property="og:description" content="Générez des images Open Graph parfaites via une API.">
+    <meta property="og:image" content="https://ucfzem.github.io/ogify/og-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { gold: '#c9a84c', dark: '#0d0d0d', muted: '#8a7a5a' },
+                    fontFamily: { display: ['Cinzel', 'serif'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d0d0d;
+            color: #e8e0d0;
+            min-height: 100vh;
+        }
+        .gold { color: #c9a84c; }
+        .gold-border { border-color: #c9a84c; }
+        .gold-bg { background: #c9a84c; }
+        .muted { color: #8a7a5a; }
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .card:hover { border-color: #c9a84c44; }
+        .btn-primary {
+            background: linear-gradient(135deg, #c9a84c, #a8882e);
+            color: #0d0d0d;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,.25); }
+        .btn-outline {
+            background: transparent;
+            color: #c9a84c;
+            border: 1px solid #c9a84c;
+            padding: 12px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all .2s;
+        }
+        .btn-outline:hover { background: #c9a84c11; }
+        code {
+            background: #2a2a2a;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: .875rem;
+            color: #c9a84c;
+        }
+        pre {
+            background: #111;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: .875rem;
+            line-height: 1.6;
+        }
+        .preview-img {
+            max-width: 100%;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+        }
+        .fade-in { animation: fadeIn .4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 backdrop-blur-md border-b border-[#2a2a2a]" style="background: rgba(13,13,13,.9);">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="https://ucfzem.github.io/works/" class="text-sm muted hover:text-[#e8e0d0] transition-colors">← Works</a>
+            <span class="font-display text-lg gold font-bold">Ogify</span>
+            <span class="text-xs px-3 py-1 rounded-full gold-border border gold">BETA</span>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-12">
+
+        <!-- Hero -->
+        <section class="text-center mb-16 fade-in">
+            <h1 class="font-display text-4xl md:text-5xl font-bold gold mb-4">Ogify</h1>
+            <p class="text-lg muted max-w-2xl mx-auto mb-8">
+                Une API qui transforme un titre, un fond et un logo en image Open Graph parfaite pour Twitter/LinkedIn.
+                <span class="block text-sm mt-2">Zéro interface. Zéro stress. Une URL.</span>
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#demo" class="btn-primary">Tester l'API →</a>
+                <a href="#docs" class="btn-outline">Documentation</a>
+            </div>
+        </section>
+
+        <!-- Demo -->
+        <section id="demo" class="mb-16 fade-in">
+            <h2 class="font-display text-2xl gold font-bold mb-6">🎨 Démo interactive</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card">
+                    <label class="block text-sm font-medium mb-2">Titre</label>
+                    <input id="demo-title" value="Ogify — vos OG images en 1 clic" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Votre titre">
+
+                    <label class="block text-sm font-medium mb-2">Sous-titre <span class="muted text-xs">(optionnel)</span></label>
+                    <input id="demo-subtitle" value="API · Satori · resvg-wasm" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Sous-titre">
+
+                    <label class="block text-sm font-medium mb-2">URL de fond <span class="muted text-xs">(optionnel)</span></label>
+                    <input id="demo-bg" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https:// exemple.com/bg.jpg">
+
+                    <label class="block text-sm font-medium mb-2">URL du logo <span class="muted text-xs">(optionnel)</span></label>
+                    <input id="demo-logo" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https:// exemple.com/logo.png">
+
+                    <div class="flex gap-3">
+                        <input id="demo-key" value="demo" class="flex-1 px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold" placeholder="API key">
+                        <button onclick="generatePreview()" class="btn-primary">Générer</button>
+                    </div>
+                    <p id="demo-error" class="text-red-400 text-sm mt-3 hidden"></p>
+                </div>
+                <div class="card flex items-center justify-center">
+                    <div id="demo-result" class="text-center muted text-sm">
+                        <div class="text-4xl mb-3">🖼️</div>
+                        Cliquez sur Générer pour voir l'image
+                    </div>
+                    <img id="demo-image" class="preview-img hidden" alt="OG preview">
+                </div>
+            </div>
+        </section>
+
+        <!-- Docs -->
+        <section id="docs" class="mb-16 fade-in">
+            <h2 class="font-display text-2xl gold font-bold mb-6">📄 API</h2>
+
+            <div class="card mb-6">
+                <h3 class="font-semibold text-lg mb-2">Endpoint</h3>
+                <code class="text-sm">GET /og?title=...&key=...</code>
+            </div>
+
+            <div class="card mb-6">
+                <h3 class="font-semibold text-lg mb-4">Paramètres</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex gap-4"><code class="w-24 shrink-0">title</code><span>Requis. Texte principal (max 200 car.)</span></div>
+                    <div class="flex gap-4"><code class="w-24 shrink-0">subtitle</code><span>Optionnel. Texte secondaire</span></div>
+                    <div class="flex gap-4"><code class="w-24 shrink-0">bg</code><span>Optionnel. URL image de fond</span></div>
+                    <div class="flex gap-4"><code class="w-24 shrink-0">logo</code><span>Optionnel. URL logo (72×72, arrondi)</span></div>
+                    <div class="flex gap-4"><code class="w-24 shrink-0">key</code><span>Requis. Clé API</span></div>
+                </div>
+            </div>
+
+            <div class="card mb-6">
+                <h3 class="font-semibold text-lg mb-4">Exemple cURL</h3>
+                <pre>curl -o og-image.png "https://ogify.ton-compte.workers.dev/og?title=Ogify+votre+API+OG&subtitle=Généré+en+temps+réel&key=sk_demo"</pre>
+            </div>
+
+            <div class="card">
+                <h3 class="font-semibold text-lg mb-4">Réponse</h3>
+                <div class="space-y-2 text-sm">
+                    <div><code>200</code> → <code>image/png</code> (cache 1 an)</div>
+                    <div><code>400</code> → <code>{ "error": "title is required" }</code></div>
+                    <div><code>429</code> → <code>{ "error": "rate_limit" }</code></div>
+                    <div><code>500</code> → <code>{ "error": "generation_failed" }</code></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section id="pricing" class="mb-16 fade-in">
+            <h2 class="font-display text-2xl gold font-bold mb-6">💰 Tarifs</h2>
+            <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                <div class="card text-center">
+                    <h3 class="font-display text-xl gold font-bold mb-2">Gratuit</h3>
+                    <p class="text-3xl font-bold mb-4">0€<span class="text-sm muted font-normal">/mois</span></p>
+                    <ul class="text-sm space-y-2 muted mb-6">
+                        <li>100 générations/mois</li>
+                        <li>Fond dégradé uniquement</li>
+                        <li>Support communauté</li>
+                    </ul>
+                    <a href="https://ucfzem.github.io/works/" class="btn-outline text-sm">Démarrer</a>
+                </div>
+                <div class="card text-center" style="border-color: #c9a84c;">
+                    <h3 class="font-display text-xl gold font-bold mb-2">Pro</h3>
+                    <p class="text-3xl font-bold mb-4">9€<span class="text-sm muted font-normal">/mois</span></p>
+                    <ul class="text-sm space-y-2 muted mb-6">
+                        <li>5 000 générations/mois</li>
+                        <li>Images de fond personnalisées</li>
+                        <li>Support prioritaire</li>
+                        <li>Cache CDN dédié</li>
+                    </ul>
+                    <button class="btn-primary text-sm">Souscrire</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 border-t border-[#2a2a2a] muted text-sm">
+            <p>Ogify par <a href="https://ucfzem.github.io/" class="gold hover:underline">UcfZem</a> — Propulsé par Satori + resvg-wasm sur Cloudflare Workers</p>
+        </footer>
+
+    </main>
+
+    <script>
+        const API_BASE = 'https://ogify.ton-compte.workers.dev';
+
+        async function generatePreview() {
+            const title = document.getElementById('demo-title').value.trim();
+            const subtitle = document.getElementById('demo-subtitle').value.trim();
+            const bg = document.getElementById('demo-bg').value.trim();
+            const logo = document.getElementById('demo-logo').value.trim();
+            const key = document.getElementById('demo-key').value.trim();
+            const err = document.getElementById('demo-error');
+            const result = document.getElementById('demo-result');
+            const img = document.getElementById('demo-image');
+
+            err.classList.add('hidden');
+
+            if (!title) {
+                err.textContent = 'Le titre est requis';
+                err.classList.remove('hidden');
+                return;
+            }
+            if (!key) {
+                err.textContent = 'Clé API requise';
+                err.classList.remove('hidden');
+                return;
+            }
+
+            const params = new URLSearchParams({ title, key });
+            if (subtitle) params.set('subtitle', subtitle);
+            if (bg) params.set('bg', bg);
+            if (logo) params.set('logo', logo);
+
+            const url = `${API_BASE}/og?${params}`;
+
+            result.classList.add('hidden');
+            img.classList.add('hidden');
+
+            // Pre-set the src to trigger load
+            img.src = url;
+            img.onload = () => {
+                img.classList.remove('hidden');
+                img.classList.add('fade-in');
+            };
+            img.onerror = () => {
+                err.textContent = 'Erreur de génération — vérifiez vos paramètres';
+                err.classList.remove('hidden');
+                result.classList.remove('hidden');
+            };
+        }
+
+        // Load initial preview
+        setTimeout(generatePreview, 500);
+    </script>
+</body>
+</html>
