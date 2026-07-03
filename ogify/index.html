@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ogify — OG Image API</title>
-    <meta name="description" content="Générez des images Open Graph parfaites via une API. Titre, fond, logo → PNG prêt à partager.">
+    <meta name="description" content="Générez des images Open Graph parfaites via une API. Titre, fond, logo → SVG prêt à partager.">
     <meta property="og:title" content="Ogify — OG Image API">
     <meta property="og:description" content="Générez des images Open Graph parfaites via une API.">
-    <meta property="og:image" content="https://ucfzem.github.io/ogify/og-preview.png">
+    <meta property="og:image" content="https://ogify-api.azer-tyu199p.workers.dev/og?title=Ogify%20—%20OG%20Image%20API&subtitle=Satori%20·%20Cloudflare%20Workers&key=demo">
     <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -131,7 +131,7 @@
                     <input id="demo-title" value="Ogify — vos OG images en 1 clic" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Votre titre">
 
                     <label class="block text-sm font-medium mb-2">Sous-titre <span class="muted text-xs">(optionnel)</span></label>
-                    <input id="demo-subtitle" value="API · Satori · resvg-wasm" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Sous-titre">
+                    <input id="demo-subtitle" value="API · Satori · Cloudflare Workers" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Sous-titre">
 
                     <label class="block text-sm font-medium mb-2">URL de fond <span class="muted text-xs">(optionnel)</span></label>
                     <input id="demo-bg" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https://exemple.com/bg.jpg">
@@ -181,13 +181,13 @@
 
             <div class="card mb-6">
                 <h3 class="font-semibold text-lg mb-4">Exemple cURL</h3>
-                <pre>curl -o og-image.png "https://ogify-api.azer-tyu199p.workers.dev/og?title=Ogify+votre+API+OG&subtitle=Généré+en+temps+réel&key=demo"</pre>
+                <pre>curl -o og-image.svg "https://ogify-api.azer-tyu199p.workers.dev/og?title=Ogify+votre+API+OG&subtitle=Généré+en+temps+réel&key=demo"</pre>
             </div>
 
             <div class="card">
                 <h3 class="font-semibold text-lg mb-4">Code response</h3>
                 <div class="space-y-2 text-sm">
-                    <div><code>200</code> → <code>image/png</code> (cache 1 an)</div>
+                    <div><code>200</code> → <code>image/svg+xml</code> (cache 1 an)</div>
                     <div><code>400</code> → <code>{ "error": "title is required" }</code></div>
                     <div><code>429</code> → <code>{ "error": "rate_limit" }</code></div>
                     <div><code>500</code> → <code>{ "error": "generation_failed" }</code></div>
@@ -225,7 +225,7 @@
 
         <!-- Footer -->
         <footer class="text-center py-8 border-t border-[#2a2a2a] muted text-sm">
-            <p>Ogify par <a href="https://ucfzem.github.io/" class="gold hover:underline">UcfZem</a> — Propulsé par Satori + resvg-wasm sur Cloudflare Workers</p>
+            <p>Ogify par <a href="https://ucfzem.github.io/" class="gold hover:underline">UcfZem</a> — Propulsé par Satori sur Cloudflare Workers</p>
         </footer>
 
     </main>
