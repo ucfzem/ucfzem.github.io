@@ -51,6 +51,7 @@
             transition: all .2s;
         }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,.25); }
+        .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-outline {
             background: transparent;
             color: #c9a84c;
@@ -85,6 +86,15 @@
         }
         .fade-in { animation: fadeIn .4s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .spinner {
+            width: 28px; height: 28px;
+            border: 3px solid #2a2a2a;
+            border-top-color: #c9a84c;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="antialiased">
@@ -124,21 +134,25 @@
                     <input id="demo-subtitle" value="API · Satori · resvg-wasm" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="Sous-titre">
 
                     <label class="block text-sm font-medium mb-2">URL de fond <span class="muted text-xs">(optionnel)</span></label>
-                    <input id="demo-bg" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https:// exemple.com/bg.jpg">
+                    <input id="demo-bg" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https://exemple.com/bg.jpg">
 
                     <label class="block text-sm font-medium mb-2">URL du logo <span class="muted text-xs">(optionnel)</span></label>
-                    <input id="demo-logo" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https:// exemple.com/logo.png">
+                    <input id="demo-logo" value="" class="w-full px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold mb-4" placeholder="https://exemple.com/logo.png">
 
                     <div class="flex gap-3">
                         <input id="demo-key" value="demo" class="flex-1 px-4 py-3 rounded-lg bg-[#111] border border-[#2a2a2a] text-[#e8e0d0] outline-none focus:border-gold" placeholder="API key">
-                        <button onclick="generatePreview()" class="btn-primary">Générer</button>
+                        <button id="demo-btn" onclick="generatePreview()" class="btn-primary">Générer</button>
                     </div>
                     <p id="demo-error" class="text-red-400 text-sm mt-3 hidden"></p>
                 </div>
-                <div class="card flex items-center justify-center">
+                <div class="card flex items-center justify-center min-h-[220px]">
                     <div id="demo-result" class="text-center muted text-sm">
                         <div class="text-4xl mb-3">🖼️</div>
                         Cliquez sur Générer pour voir l'image
+                    </div>
+                    <div id="demo-loading" class="text-center muted text-sm hidden">
+                        <div class="spinner"></div>
+                        Génération en cours…
                     </div>
                     <img id="demo-image" class="preview-img hidden" alt="OG preview">
                 </div>
@@ -167,11 +181,11 @@
 
             <div class="card mb-6">
                 <h3 class="font-semibold text-lg mb-4">Exemple cURL</h3>
-                <pre>curl -o og-image.png "https://ogify.ton-compte.workers.dev/og?title=Ogify+votre+API+OG&subtitle=Généré+en+temps+réel&key=sk_demo"</pre>
+                <pre>curl -o og-image.png "https://ogify-api.azer-tyu199p.workers.dev/og?title=Ogify+votre+API+OG&subtitle=Généré+en+temps+réel&key=demo"</pre>
             </div>
 
             <div class="card">
-                <h3 class="font-semibold text-lg mb-4">Réponse</h3>
+                <h3 class="font-semibold text-lg mb-4">Code response</h3>
                 <div class="space-y-2 text-sm">
                     <div><code>200</code> → <code>image/png</code> (cache 1 an)</div>
                     <div><code>400</code> → <code>{ "error": "title is required" }</code></div>
@@ -217,7 +231,11 @@
     </main>
 
     <script>
-        const API_BASE = 'https://ogify.ton-compte.workers.dev';
+        const API_BASE = 'https://ogify-api.azer-tyu199p.workers.dev';
+
+        function isConfigured() {
+            return !API_BASE.includes('ton-compte');
+        }
 
         async function generatePreview() {
             const title = document.getElementById('demo-title').value.trim();
@@ -227,10 +245,17 @@
             const key = document.getElementById('demo-key').value.trim();
             const err = document.getElementById('demo-error');
             const result = document.getElementById('demo-result');
+            const loading = document.getElementById('demo-loading');
             const img = document.getElementById('demo-image');
+            const btn = document.getElementById('demo-btn');
 
             err.classList.add('hidden');
 
+            if (!isConfigured()) {
+                err.textContent = "API_BASE n'est pas encore configuré";
+                err.classList.remove('hidden');
+                return;
+            }
             if (!title) {
                 err.textContent = 'Le titre est requis';
                 err.classList.remove('hidden');
@@ -249,24 +274,31 @@
 
             const url = `${API_BASE}/og?${params}`;
 
+            btn.disabled = true;
             result.classList.add('hidden');
             img.classList.add('hidden');
+            loading.classList.remove('hidden');
 
-            // Pre-set the src to trigger load
-            img.src = url;
             img.onload = () => {
+                loading.classList.add('hidden');
                 img.classList.remove('hidden');
                 img.classList.add('fade-in');
+                btn.disabled = false;
             };
             img.onerror = () => {
+                loading.classList.add('hidden');
+                img.classList.add('hidden');
+                result.classList.remove('hidden');
                 err.textContent = 'Erreur de génération — vérifiez vos paramètres';
                 err.classList.remove('hidden');
-                result.classList.remove('hidden');
+                btn.disabled = false;
             };
+            img.src = url;
         }
 
-        // Load initial preview
-        setTimeout(generatePreview, 500);
+        if (isConfigured()) {
+            setTimeout(generatePreview, 500);
+        }
     </script>
 </body>
 </html>
