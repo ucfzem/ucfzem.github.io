@@ -67,3 +67,12 @@
 - Preserved all existing Droppy + proxy + auth logic
 
 **Commits:** `b648a45`
+
+## Session 6: 2026-07-05 — Added API JobFinder to Works page
+- Added API JobFinder as public project #10 (`https://ucfzem.github.io/api-job-finder/`)
+- Updated subtitle "9 projets publics" → "10 projets publics"
+- Updated JSON-LD schema with position 10
+
+## New Projects Created This Session
+- **api-job-finder** → `https://ucfzem.github.io/api-job-finder/` (Arbeitnow + Freehire APIs)
+- **job-finder** → `https://ucfzem.github.io/job-finder/` (v2: 4 APIs, brown/gold theme, dark/light mode, 5 langs)
