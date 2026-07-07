@@ -26,5 +26,12 @@
 - **Repo:** https://github.com/ucfzem/promptgenius
 - **Live:** https://promptgenius.azer-tyu199p.workers.dev/
 
-## All user repos
+### 5. microinvoice
+- **Fix:** Invoice preview white background (`color-scheme: light only` + `background: #fff !important`)
+- **Fix:** Preview scaled to content height (no more giant A4 empty space)
+- **Moved to own repo:** Extracted from `ucfzem.github.io/microinvoice/` to dedicated repo
+- **Repo:** https://github.com/ucfzem/microinvoice
+- **Live:** https://ucfzem.github.io/microinvoice/
+
+### All repos
 https://github.com/ucfzem?tab=repositories
