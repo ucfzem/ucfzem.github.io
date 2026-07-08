@@ -49,6 +49,14 @@ https://github.com/ucfzem?tab=repositories
 
 ---
 
+### 7. photographer — Site portfolio photo
+- **Carousel:** Ajout d'un carrousel 15 images Unsplash entre Contact et Footer
+- **Design:** Adapté au thème du site (navy/or, Playfair Display, Montserrat)
+- **i18n:** FR/EN/NL/ES/AR — label + titre de section
+- **Autoplay:** 4s, navigation prev/next + dots cliquables
+- **Status:** Modifié dans le code source, pas encore déployé sur Cloudflare
+- **Live:** https://ucfzem.azer-tyu199p.workers.dev/photographer/
+
 ## Session — 08/07/2026
 
 ### 6. ucfzem-ai — Mon Assistant IA
