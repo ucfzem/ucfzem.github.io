@@ -681,6 +681,15 @@
     [dir="rtl"] .apropos-stats { flex-direction: row-reverse; }
     [dir="rtl"] .contact-link { flex-direction: row-reverse; }
     [dir="rtl"] footer { flex-direction: row-reverse; }
+    [dir="rtl"] .carousel-btn.prev { left: auto; right: 16px; }
+    [dir="rtl"] .carousel-btn.next { right: auto; left: 16px; }
+    [dir="rtl"] .carousel-track { transform: scaleX(-1); }
+    [dir="rtl"] .carousel-track img { transform: scaleX(-1); }
+    [dir="rtl"] .carousel-dots { flex-direction: row-reverse; }
+    @media (max-width: 480px) {
+      [dir="rtl"] .carousel-btn.prev { left: auto; right: 8px; }
+      [dir="rtl"] .carousel-btn.next { right: auto; left: 8px; }
+    }
 
 
     @media (min-width: 1921px) {
