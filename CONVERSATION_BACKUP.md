@@ -1,24 +1,24 @@
 # Conversation Backup
 
-## Session 2026-07-08 — Carousel RTL + Deploy
+## Session 2026-07-08 — Carousel RTL + Square + Optimizations
 
-### Objectif
-Ajouter le support RTL (arabe) au carousel photo, mettre à jour KV Cloudflare, push GitHub, déploiement Vercel.
+### Fixes
+1. **RTL arabe** : `isRTL()` JS → direction `translateX` inversée au lieu du CSS `scaleX(-1)` qui cassait l'affichage
+2. **Photos carré** : `aspect-ratio: 1/1` sur desktop/tablet/TV, gardé `height: 220px` sur mobile
+3. **Optimisation** : `loading="lazy"`, `decoding="async"`, `fetchPriority`, `width`/`height`, `background` placeholder
+4. **GitHub Pages** : CDN lent, pushé commit `b3a3cdf` en attente de propagation
 
-### Modifications
-- `photographer/index.html` : CSS RTL pour le carousel (`scaleX(-1)` pour le track, inversion des boutons prev/next)
-- KV Cloudflare mis à jour avec la nouvelle version
-- Commit `4513c80` : "carousel: add RTL support for Arabic mode"
-- `.gitignore` : ajout de `photographer/haspict/`
+### Commits
+- `4513c80` — carousel: add RTL support for Arabic mode
+- `d7a4cf7` — fix: carousel RTL direction via JS (remove scaleX)
+- `4137e75` — perf: fetchPriority, width/height, background
+- `b3a3cdf` — carousel: square aspect-ratio on desktop/tablet, keep height on mobile
 
 ### Liens
 - GitHub Pages : https://ucfzem.github.io/photographer/
 - Cloudflare Worker (protégé) : https://ucfzem.azer-tyu199p.workers.dev/photographer/
-- Vercel (déploiement échoué - DNS bloqué) : `vercel deploy --token <token>`
-- GitHub Repo : https://github.com/ucfzem/ucfzem.github.io
-
-### TODO
-- Retenter déploiement Vercel depuis un autre réseau (DNS api.vercel.com bloqué ici) — 07/07/2026
+- Vercel : https://ucfzem-works.vercel.app/photographer/
+- Repo : https://github.com/ucfzem/ucfzem.github.io
 
 ## Projects worked on
 
