@@ -2011,22 +2011,18 @@ lb.addEventListener('touchend', e => {
   }
 });
 
-const carouselIds = [
-  "1506744038136-46273834b3fb","1470071459604-3b5ec3a7fe05","1447752875215-b2761acb3c5d",
-  "1461896836934-ffe607ba8211","1472214222541-d510753a8707","1537996194471-e657df975ab4",
-  "1507525428034-b723cf961d3e","1454496522488-7a8e488e8606","1433832597046-4f10e10ac764",
-  "1513836279014-a89f7a76ae86","1475924156734-496f6cac6ec1","1500530855697-b586d89ba3ee",
-  "1470240731273-7821a6eeb6bd","1518098268026-4e43a1a009de","1439853949127-fa647821ebd0"
-];
+const carouselImages = Array.from({length:15}, (_,i) =>
+  `carousel/haspict-${String(i+1).padStart(2,'0')}.jpg`
+);
 let carouselIdx = 0;
 let carouselTimer;
 const track = document.getElementById('carouselTrack');
 const dotsEl = document.getElementById('carouselDots');
 
-carouselIds.forEach((id, i) => {
+carouselImages.forEach((src, i) => {
   const img = document.createElement('img');
-  img.src = `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1000&q=80`;
-  img.alt = `Inspiration ${i+1}`;
+  img.src = src;
+  img.alt = `Hassan Zemmouri ${i+1}`;
   img.loading = 'lazy';
   track.appendChild(img);
   const dot = document.createElement('span');
@@ -2040,8 +2036,8 @@ function updateCarousel() {
   dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === carouselIdx));
 }
 
-function nextCarousel() { carouselIdx = (carouselIdx + 1) % carouselIds.length; updateCarousel(); }
-function prevCarousel() { carouselIdx = (carouselIdx - 1 + carouselIds.length) % carouselIds.length; updateCarousel(); }
+function nextCarousel() { carouselIdx = (carouselIdx + 1) % carouselImages.length; updateCarousel(); }
+function prevCarousel() { carouselIdx = (carouselIdx - 1 + carouselImages.length) % carouselImages.length; updateCarousel(); }
 function goCarousel(i) { carouselIdx = i; updateCarousel(); }
 function resetCarousel() { clearInterval(carouselTimer); carouselTimer = setInterval(nextCarousel, 4000); }
 
