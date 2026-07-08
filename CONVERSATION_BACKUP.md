@@ -114,3 +114,28 @@ https://github.com/ucfzem?tab=repositories
 - **Live (Vercel direct):** https://ucfzemgithubio.vercel.app/ucfzem-ai/
 - **Live (GitHub Pages — sans API):** https://ucfzem.github.io/ucfzem-ai/
 - **Domain (en attente):** https://ucfzem.eu.org/ucfzem-ai/
+
+## Session — 08/07/2026 (evening) — Carousel GitHub Pages + Vercel Fix
+
+### Problème
+- **Vercel** : Les photos ne s'affichaient pas à cause du `trailingSlash: false` qui cassait les chemins relatifs (`/photographer/` → 308 → `/photographer`)
+- **GitHub Pages** : Le sous-dossier `carousel/` retournait 404 (les images `haspict` n'étaient pas servies)
+- **Cloudflare Worker** : OK
+
+### Fix Vercel
+- Ajout de `<base href="/photographer/">` dans le `<head>` pour que tous les chemins relatifs soient résolus correctement
+
+### Fix GitHub Pages
+- Les 15 images carousel déplacées de `photographer/carousel/haspict-XX.jpg` → `photographer/carousel-XX.jpg`
+- Le JS mis à jour : `carousel/haspict-${...}.jpg` → `carousel-${...}.jpg`
+
+### Commits
+- `b9cb8363` — photographer: add base href for Vercel trailing slash fix
+- `584f16ee` — photographer: move carousel images to root dir for GitHub Pages compat
+- `dbeefeed` — photographer: add carousel-XX.jpg images to root dir for Pages compatibility
+
+### Liens
+- **GitHub Pages :** https://ucfzem.github.io/photographer/
+- **Vercel :** https://ucfzem-works.vercel.app/photographer/
+- **Cloudflare Worker :** https://ucfzem.azer-tyu199p.workers.dev/photographer/
+- **Repo :** https://github.com/ucfzem/ucfzem.github.io
