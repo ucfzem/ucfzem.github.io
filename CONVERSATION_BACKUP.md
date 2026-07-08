@@ -54,7 +54,9 @@ https://github.com/ucfzem?tab=repositories
 - **Design:** Adapté au thème du site (navy/or, Playfair Display, Montserrat)
 - **i18n:** FR/EN/NL/ES/AR — label + titre de section
 - **Autoplay:** 4s, navigation prev/next + dots cliquables
-- **Status:** Modifié dans le code source, pas encore déployé sur Cloudflare
+- **Carousel fix:** ✅ ajout balise fermante `</div>` pour `.gallery-grid` (manquante)
+- **Carousel images:** Changé Unsplash → 15 photos personnelles (haspict-01 à 15)
+- **Worker:** `/photographer/` sert le HTML depuis KV, les images carousel depuis `raw.githubusercontent.com`
 - **Live:** https://ucfzem.azer-tyu199p.workers.dev/photographer/
 
 ## Session — 08/07/2026
