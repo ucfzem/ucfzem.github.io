@@ -2037,6 +2037,10 @@ carouselImages.forEach((src, i) => {
   img.alt = `Hassan Zemmouri ${i+1}`;
   img.loading = 'lazy';
   img.decoding = 'async';
+  img.fetchPriority = i === 0 ? 'high' : 'low';
+  img.width = 1400;
+  img.height = 450;
+  img.style.background = 'var(--surface)';
   track.appendChild(img);
   const dot = document.createElement('span');
   dot.className = 'dot' + (i === 0 ? ' active' : '');
