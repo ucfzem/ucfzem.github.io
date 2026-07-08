@@ -617,9 +617,7 @@
           </div>
           <button class="clear-btn" id="clear-btn" title="Clear history">🗑</button>
         </div>
-        <div class="chat-body" id="chat-body">
-          <div class="bubble ai demo" data-i18n="chat_demo">Bonjour ! Je suis votre assistant IA. Posez-moi une question pour commencer.</div>
-        </div>
+        <div class="chat-body" id="chat-body"></div>
         <div class="chat-input">
           <input type="text" id="chat-input" data-i18n-placeholder="chat_placeholder" placeholder="Écrivez votre message..." autocomplete="off">
           <div class="send-btn" id="send-btn">➤</div>
@@ -762,6 +760,57 @@
     const chatBody = document.getElementById('chat-body');
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
+    const STORAGE_KEY = 'ucfzem_chat_history';
+
+    function saveMessages() {
+      const bubbles = chatBody.querySelectorAll('.bubble:not(.typing-indicator)');
+      const data = [];
+      bubbles.forEach(b => {
+        if (b.classList.contains('demo')) return;
+        const role = b.classList.contains('user') ? 'user' : 'ai';
+        const text = role === 'ai' ? b.querySelector('span')?.textContent || b.textContent : b.textContent;
+        data.push({ role, text });
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function loadMessages() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          data.forEach(({ role, text }) => {
+            const bubble = document.createElement('div');
+            bubble.className = `bubble ${role}`;
+            if (role === 'ai') {
+              const span = document.createElement('span');
+              span.textContent = text;
+              bubble.appendChild(span);
+              const btn = document.createElement('button');
+              btn.className = 'copy-btn';
+              btn.textContent = '📋';
+              btn.title = 'Copy';
+              btn.addEventListener('click', () => {
+                navigator.clipboard.writeText(text).then(() => {
+                  btn.textContent = '✅';
+                  setTimeout(() => { btn.textContent = '📋'; }, 1500);
+                });
+              });
+              bubble.appendChild(btn);
+            } else {
+              bubble.textContent = text;
+            }
+            chatBody.appendChild(bubble);
+          });
+          return;
+        } catch {}
+      }
+      const demo = document.createElement('div');
+      demo.className = 'bubble ai demo';
+      demo.setAttribute('data-i18n', 'chat_demo');
+      demo.textContent = I18N[currentLang].chat_demo;
+      chatBody.appendChild(demo);
+    }
 
     function addBubble(text, role) {
       const bubble = document.createElement('div');
@@ -786,6 +835,7 @@
       }
       chatBody.appendChild(bubble);
       chatBody.scrollTop = chatBody.scrollHeight;
+      saveMessages();
     }
 
     function showTyping() {
@@ -848,13 +898,21 @@
       }
     }
 
+    loadMessages();
+
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
     });
 
     document.getElementById('clear-btn').addEventListener('click', () => {
-      chatBody.innerHTML = `<div class="bubble ai demo" data-i18n="chat_demo">${I18N[currentLang].chat_demo}</div>`;
+      localStorage.removeItem(STORAGE_KEY);
+      chatBody.innerHTML = '';
+      const demo = document.createElement('div');
+      demo.className = 'bubble ai demo';
+      demo.setAttribute('data-i18n', 'chat_demo');
+      demo.textContent = I18N[currentLang].chat_demo;
+      chatBody.appendChild(demo);
     });
   </script>
 </body>
