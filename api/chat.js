@@ -17,34 +17,38 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' });
   }
 
-  const messages = [
-    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue.' },
-    ...(history || []),
-    { role: 'user', content: message }
+  const contents = [
+    ...(history || []).map(h => ({
+      role: h.role === 'assistant' ? 'model' : h.role,
+      parts: [{ text: h.content }]
+    })),
+    { role: 'user', parts: [{ text: message }] }
   ];
 
   try {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://ucfzem.eu.org',
-        'X-Title': 'Mon Assistant IA'
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-lite-preview-02-05:free',
-        messages,
-        max_tokens: 1024,
-        temperature: 0.7
-      })
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents,
+          generationConfig: {
+            maxOutputTokens: 1024,
+            temperature: 0.7,
+            systemInstruction: {
+              parts: [{ text: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue.' }]
+            }
+          }
+        })
+      }
+    );
 
     const data = await response.json();
 
@@ -52,10 +56,9 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data.error?.message || 'API error' });
     }
 
-    return res.status(200).json({
-      reply: data.choices[0].message.content,
-      usage: data.usage
-    });
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    return res.status(200).json({ reply: text });
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }
