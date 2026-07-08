@@ -952,7 +952,7 @@
     }
     .carousel-track img {
       min-width: 100%;
-      height: 450px;
+      aspect-ratio: 1 / 1;
       object-fit: cover;
       user-select: none;
       background: var(--surface);
@@ -1004,13 +1004,9 @@
       width: 20px;
       border-radius: 4px;
     }
-    @media (max-width: 900px) {
-      .carousel-section { padding: 80px 24px; }
-      .carousel-track img { height: 300px; }
-    }
     @media (max-width: 480px) {
       .carousel-section { padding: 48px 16px; }
-      .carousel-track img { height: 220px; }
+      .carousel-track img { aspect-ratio: auto; height: 220px; }
       .carousel-btn { width: 32px; height: 32px; font-size: 16px; line-height: 30px; }
       .carousel-btn.prev { left: 8px; }
       .carousel-btn.next { right: 8px; }
