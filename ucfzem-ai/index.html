@@ -586,15 +586,12 @@
             <div class="status"><span class="status-dot"></span><span data-i18n="status_active">Actif maintenant</span></div>
           </div>
         </div>
-        <div class="chat-body">
-          <div class="bubble user" data-i18n="chat_q1">Peux-tu résumer ce rapport en 3 points ?</div>
-          <div class="bubble ai" data-i18n="chat_a1">Bien sûr. Voici l'essentiel : croissance +18%, coûts maîtrisés, et un nouveau marché à explorer d'ici Q3.</div>
-          <div class="bubble user2" data-i18n="chat_q2">Parfait, prépare-moi un plan d'action.</div>
-          <div class="typing-indicator"><span></span><span></span><span></span></div>
+        <div class="chat-body" id="chat-body">
+          <div class="bubble ai demo" data-i18n="chat_demo">Bonjour ! Je suis votre assistant IA. Posez-moi une question pour commencer.</div>
         </div>
         <div class="chat-input">
-          <input type="text" data-i18n-placeholder="chat_placeholder" placeholder="Écrivez votre message..." disabled>
-          <div class="send-btn">➤</div>
+          <input type="text" id="chat-input" data-i18n-placeholder="chat_placeholder" placeholder="Écrivez votre message..." autocomplete="off">
+          <div class="send-btn" id="send-btn">➤</div>
         </div>
       </div>
     </div>
@@ -618,10 +615,9 @@
         stat_price: "POUR COMMENCER",
         assistant_name: "Assistant IA",
         status_active: "Actif maintenant",
-        chat_q1: "Peux-tu résumer ce rapport en 3 points ?",
-        chat_a1: "Bien sûr. Voici l'essentiel : croissance +18%, coûts maîtrisés, et un nouveau marché à explorer d'ici Q3.",
-        chat_q2: "Parfait, prépare-moi un plan d'action.",
+        chat_demo: "Bonjour ! Je suis votre assistant IA. Posez-moi une question pour commencer.",
         chat_placeholder: "Écrivez votre message...",
+        sending: "Envoi en cours...",
         footer: "© 2026 Mon Assistant IA — Conçu pour penser vite."
       },
       en: {
@@ -638,10 +634,9 @@
         stat_price: "TO START",
         assistant_name: "AI Assistant",
         status_active: "Online now",
-        chat_q1: "Can you summarize this report in 3 points?",
-        chat_a1: "Sure. Here's the gist: +18% growth, costs under control, and a new market to explore by Q3.",
-        chat_q2: "Perfect, draft me an action plan.",
+        chat_demo: "Hello! I'm your AI assistant. Ask me a question to get started.",
         chat_placeholder: "Type your message...",
+        sending: "Sending...",
         footer: "© 2026 My AI Assistant — Built to think fast."
       },
       es: {
@@ -658,10 +653,9 @@
         stat_price: "PARA EMPEZAR",
         assistant_name: "Asistente IA",
         status_active: "Activo ahora",
-        chat_q1: "¿Puedes resumir este informe en 3 puntos?",
-        chat_a1: "Claro. Lo esencial: crecimiento +18%, costes controlados y un nuevo mercado para explorar en el Q3.",
-        chat_q2: "Perfecto, prepárame un plan de acción.",
+        chat_demo: "¡Hola! Soy tu asistente IA. Hazme una pregunta para empezar.",
         chat_placeholder: "Escribe tu mensaje...",
+        sending: "Enviando...",
         footer: "© 2026 Mi Asistente IA — Diseñado para pensar rápido."
       },
       ar: {
@@ -678,10 +672,9 @@
         stat_price: "للبدء",
         assistant_name: "مساعد ذكي",
         status_active: "نشط الآن",
-        chat_q1: "هل يمكنك تلخيص هذا التقرير في 3 نقاط؟",
-        chat_a1: "بالطبع. الجوهر: نمو +18%، تكاليف مضبوطة، وسوق جديد لاستكشافه بحلول الربع الثالث.",
-        chat_q2: "ممتاز، حضّر لي خطة عمل.",
+        chat_demo: "مرحباً! أنا مساعدك الذكي. اطرح عليّ سؤالاً للبدء.",
         chat_placeholder: "اكتب رسالتك...",
+        sending: "جارٍ الإرسال...",
         footer: "© 2026 مساعدي الذكي — صُمم للتفكير السريع."
       }
     };
@@ -734,6 +727,64 @@
       btn.addEventListener('click', () => applyLang(btn.dataset.lang));
     });
     applyLang(currentLang);
+
+    const chatBody = document.getElementById('chat-body');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    function addBubble(text, role) {
+      const bubble = document.createElement('div');
+      bubble.className = `bubble ${role}`;
+      bubble.textContent = text;
+      chatBody.appendChild(bubble);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function showTyping() {
+      const typing = document.createElement('div');
+      typing.className = 'typing-indicator';
+      typing.id = 'typing';
+      for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('span');
+        typing.appendChild(dot);
+      }
+      chatBody.appendChild(typing);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return typing;
+    }
+
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      document.querySelector('.demo')?.remove();
+      chatInput.value = '';
+      addBubble(message, 'user');
+      const typing = showTyping();
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        typing.remove();
+        if (data.reply) {
+          addBubble(data.reply, 'ai');
+        } else {
+          addBubble(data.error || 'Erreur de connexion', 'ai');
+        }
+      } catch {
+        typing.remove();
+        addBubble('Erreur réseau. Vérifiez votre connexion.', 'ai');
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
   </script>
 </body>
 </html>
