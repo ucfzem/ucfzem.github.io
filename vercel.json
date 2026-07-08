@@ -2,11 +2,8 @@
   "name": "ucfzem-works",
   "buildCommand": null,
   "outputDirectory": ".",
-  "trailingSlash": true,
+  "trailingSlash": false,
   "redirects": [
     { "source": "/works", "destination": "/works/", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/ucfzem-ai/api/(.*)", "destination": "/api/$1" }
   ]
 }
