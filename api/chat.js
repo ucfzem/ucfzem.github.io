@@ -39,12 +39,12 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents,
+          systemInstruction: {
+            parts: [{ text: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue.' }]
+          },
           generationConfig: {
             maxOutputTokens: 1024,
-            temperature: 0.7,
-            systemInstruction: {
-              parts: [{ text: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue.' }]
-            }
+            temperature: 0.7
           }
         })
       }
