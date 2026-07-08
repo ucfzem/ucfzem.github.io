@@ -683,8 +683,6 @@
     [dir="rtl"] footer { flex-direction: row-reverse; }
     [dir="rtl"] .carousel-btn.prev { left: auto; right: 16px; }
     [dir="rtl"] .carousel-btn.next { right: auto; left: 16px; }
-    [dir="rtl"] .carousel-track { transform: scaleX(-1); }
-    [dir="rtl"] .carousel-track img { transform: scaleX(-1); }
     [dir="rtl"] .carousel-dots { flex-direction: row-reverse; }
     @media (max-width: 480px) {
       [dir="rtl"] .carousel-btn.prev { left: auto; right: 8px; }
@@ -957,6 +955,7 @@
       height: 450px;
       object-fit: cover;
       user-select: none;
+      background: var(--surface);
     }
     .carousel-btn {
       position: absolute;
@@ -1818,6 +1817,8 @@ function switchLang(lang) {
   if (successEl.style.display === 'block') {
     successEl.textContent = t.formSuccess;
   }
+
+  if (typeof updateCarousel === 'function') updateCarousel();
 }
 
 
@@ -2028,11 +2029,14 @@ let carouselTimer;
 const track = document.getElementById('carouselTrack');
 const dotsEl = document.getElementById('carouselDots');
 
+function isRTL() { return document.documentElement.dir === 'rtl'; }
+
 carouselImages.forEach((src, i) => {
   const img = document.createElement('img');
   img.src = src;
   img.alt = `Hassan Zemmouri ${i+1}`;
   img.loading = 'lazy';
+  img.decoding = 'async';
   track.appendChild(img);
   const dot = document.createElement('span');
   dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -2041,7 +2045,8 @@ carouselImages.forEach((src, i) => {
 });
 
 function updateCarousel() {
-  track.style.transform = `translateX(-${carouselIdx * 100}%)`;
+  const dir = isRTL() ? 1 : -1;
+  track.style.transform = `translateX(${dir * carouselIdx * 100}%)`;
   dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === carouselIdx));
 }
 
