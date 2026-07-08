@@ -55,10 +55,15 @@ https://github.com/ucfzem?tab=repositories
 - **New page:** Landing page "Mon Assistant IA" with interactive chat
 - **Theme:** Dark mode (brown/gold/yellow) + Light mode (beige/brown/gold) — default dark
 - **i18n:** 4 langues — 🇫🇷 FR, 🇬🇧 EN, 🇪🇸 ES, 🇲🇦 AR (drapeau marocain)
-- **API:** `/api/chat.js` — Vercel serverless function with OpenRouter (modèle: DeepSeek)
-- **Deploy:** Vercel + Cloudflare DNS proxy (ucfzem.eu.org)
-- **Env:** `OPENROUTER_API_KEY` configured on Vercel
+- **API:** `/api/chat.js` — Vercel serverless function
+- **Backend iterations:** OpenRouter (DeepSeek/Llama/Gemma) → Google Gemini direct → Hugging Face → ✅ **GitHub Models** (gpt-4o-mini)
+- **Auth:** GitHub PAT (`GH_TOKEN`) via `models.inference.ai.azure.com` — 200 req/day, free, no région block
+- **Deploy:** Vercel + Cloudflare DNS proxy (ucfzem.eu.org — en attente propagation)
+- **Env:** `GH_TOKEN` configured on Vercel
 - **Chat:** Interactive input + typing indicator + real API responses
+- **Clear button:** 🗑 vidage de l'historique
+- **Works page:** Ajouté dans la section locked (verrouillée), au milieu
 - **Repo:** https://github.com/ucfzem/ucfzem.github.io (path: `ucfzem-ai/` + `api/`)
-- **Live (Vercel):** https://ucfzem.eu.org/ucfzem-ai/
-- **Live (GitHub Pages):** https://ucfzem.github.io/ucfzem-ai/
+- **Live (Vercel direct):** https://ucfzemgithubio.vercel.app/ucfzem-ai/
+- **Live (GitHub Pages — sans API):** https://ucfzem.github.io/ucfzem-ai/
+- **Domain (en attente):** https://ucfzem.eu.org/ucfzem-ai/
