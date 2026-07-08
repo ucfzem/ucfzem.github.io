@@ -1,4 +1,24 @@
-# Conversation Backup — 07/07/2026
+# Conversation Backup
+
+## Session 2026-07-08 — Carousel RTL + Deploy
+
+### Objectif
+Ajouter le support RTL (arabe) au carousel photo, mettre à jour KV Cloudflare, push GitHub, déploiement Vercel.
+
+### Modifications
+- `photographer/index.html` : CSS RTL pour le carousel (`scaleX(-1)` pour le track, inversion des boutons prev/next)
+- KV Cloudflare mis à jour avec la nouvelle version
+- Commit `4513c80` : "carousel: add RTL support for Arabic mode"
+- `.gitignore` : ajout de `photographer/haspict/`
+
+### Liens
+- GitHub Pages : https://ucfzem.github.io/photographer/
+- Cloudflare Worker (protégé) : https://ucfzem.azer-tyu199p.workers.dev/photographer/
+- Vercel (déploiement échoué - DNS bloqué) : `vercel deploy --token <token>`
+- GitHub Repo : https://github.com/ucfzem/ucfzem.github.io
+
+### TODO
+- Retenter déploiement Vercel depuis un autre réseau (DNS api.vercel.com bloqué ici) — 07/07/2026
 
 ## Projects worked on
 
