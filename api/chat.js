@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         'X-Title': 'Mon Assistant IA'
       },
       body: JSON.stringify({
-        model: 'deepseek/deepseek-chat-v3-0324:free',
+        model: 'google/gemini-2.0-flash-lite-preview-02-05:free',
         messages,
         max_tokens: 1024,
         temperature: 0.7
