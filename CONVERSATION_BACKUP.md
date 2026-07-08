@@ -79,6 +79,18 @@ https://github.com/ucfzem?tab=repositories
 - **Worker:** `/photographer/` sert le HTML depuis KV, les images carousel depuis `raw.githubusercontent.com`
 - **Live:** https://ucfzem.azer-tyu199p.workers.dev/photographer/
 
+## Session — 08/07/2026 (afternoon)
+
+### 8. photographer — Carousel RTL + Deploys
+- **Fix:** CSS RTL pour le carousel (`scaleX(-1)` track, boutons prev/next inversés, dots inversés)
+- **KV Cloudflare:** `photographer:index.html` mis à jour avec version RTL
+- **GitHub:** Commit `4513c80` pushé — "carousel: add RTL support for Arabic mode"
+- **Vercel:** Déploiement en attente (CLI non disponible)
+- **Repo:** https://github.com/ucfzem/ucfzem.github.io
+- **Live (Worker):** https://ucfzem.azer-tyu199p.workers.dev/photographer/
+- **Live (GitHub Pages):** https://ucfzem.github.io/photographer/
+- **Live (Vercel):** https://ucfzem-works.vercel.app/photographer/
+
 ## Session — 08/07/2026
 
 ### 6. ucfzem-ai — Mon Assistant IA
