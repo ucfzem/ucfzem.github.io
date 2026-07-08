@@ -62,6 +62,7 @@ https://github.com/ucfzem?tab=repositories
 - **Env:** `GH_TOKEN` configured on Vercel
 - **Chat:** Interactive input + typing indicator + real API responses
 - **Clear button:** 🗑 vidage de l'historique
+- **Copy button:** 📋 copie des réponses de l'IA au survol
 - **Works page:** Ajouté dans la section locked (verrouillée), au milieu
 - **Repo:** https://github.com/ucfzem/ucfzem.github.io (path: `ucfzem-ai/` + `api/`)
 - **Live (Vercel direct):** https://ucfzemgithubio.vercel.app/ucfzem-ai/
