@@ -33,7 +33,14 @@
 - **New repo:** Extracted from `ucfzem.github.io/microinvoice/` to dedicated repo
 - **Fix:** Invoice preview white background (`color-scheme: light only` + `background: #fff !important`)
 - **Fix:** Preview scaled to content height (no giant A4 empty space)
-- **Fix:** PDF download format from fixed A4 to dynamic height based on content (`format: [210, pageHeight]`)
+- **Fix:** PDF download — replaced jsPDF imperative drawing with clean HTML/CSS print layout, then reverted to jsPDF direct download
+- **Fix:** A4 portrait forced via `doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' })`
+- **Fix:** Clean professional layout: gold header borders, gray table header, gold grand total, contacts section
+- **Fix:** `formatCurrency` → `Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })`
+- **Fix:** Total line clearance (increased y padding after gold line to prevent overlap)
+- **Fix:** Removed min page height floor (avoids empty space below content)
+- **Fix:** Lang switcher reordered — fr first, default changed to `'fr'`
+- **Removed:** All print-mode code (`window.print()`, `@page`, `@media print`, `#printInvoice` div)
 - **Repo:** https://github.com/ucfzem/microinvoice
 - **Live:** https://ucfzem.github.io/microinvoice/
 
