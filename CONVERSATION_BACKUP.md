@@ -7,16 +7,19 @@
 2. **Photos carré** : `aspect-ratio: 1/1` sur desktop/tablet/TV, gardé `height: 220px` sur mobile
 3. **Optimisation** : `loading="lazy"`, `decoding="async"`, `fetchPriority`, `width`/`height`, `background` placeholder
 4. **GitHub Pages** : CDN lent, pushé commit `b3a3cdf` en attente de propagation
+5. **Mot de passe retiré** : `/photographer/` ajouté à `PUBLIC_PATHS` dans le worker Cloudflare
+6. **Flèches centrées** : `flexbox` au lieu de `line-height` + petit `padding` pour compenser le décalage des caractères ‹ ›
 
 ### Commits
 - `4513c80` — carousel: add RTL support for Arabic mode
 - `d7a4cf7` — fix: carousel RTL direction via JS (remove scaleX)
 - `4137e75` — perf: fetchPriority, width/height, background
 - `b3a3cdf` — carousel: square aspect-ratio on desktop/tablet, keep height on mobile
+- `8971f64` — fix: center carousel arrow icons with flexbox + padding nudge
 
 ### Liens
 - GitHub Pages : https://ucfzem.github.io/photographer/
-- Cloudflare Worker (protégé) : https://ucfzem.azer-tyu199p.workers.dev/photographer/
+- Cloudflare Worker : https://ucfzem.azer-tyu199p.workers.dev/photographer/
 - Vercel : https://ucfzem-works.vercel.app/photographer/
 - Repo : https://github.com/ucfzem/ucfzem.github.io
 
