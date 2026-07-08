@@ -46,3 +46,19 @@
 
 ### All repos
 https://github.com/ucfzem?tab=repositories
+
+---
+
+## Session — 08/07/2026
+
+### 6. ucfzem-ai — Mon Assistant IA
+- **New page:** Landing page "Mon Assistant IA" with interactive chat
+- **Theme:** Dark mode (brown/gold/yellow) + Light mode (beige/brown/gold) — default dark
+- **i18n:** 4 langues — 🇫🇷 FR, 🇬🇧 EN, 🇪🇸 ES, 🇲🇦 AR (drapeau marocain)
+- **API:** `/api/chat.js` — Vercel serverless function with OpenRouter (modèle: DeepSeek)
+- **Deploy:** Vercel + Cloudflare DNS proxy (ucfzem.eu.org)
+- **Env:** `OPENROUTER_API_KEY` configured on Vercel
+- **Chat:** Interactive input + typing indicator + real API responses
+- **Repo:** https://github.com/ucfzem/ucfzem.github.io (path: `ucfzem-ai/` + `api/`)
+- **Live (Vercel):** https://ucfzem.eu.org/ucfzem-ai/
+- **Live (GitHub Pages):** https://ucfzem.github.io/ucfzem-ai/
