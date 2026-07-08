@@ -370,6 +370,19 @@
     padding:18px 20px;
     border-bottom:1px solid var(--border);
   }
+  .chat-head .clear-btn{
+    margin-left:auto;
+    background:none;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:4px 8px;
+    cursor:pointer;
+    font-size:0.85rem;
+    opacity:0.5;
+    transition:all 0.2s;
+    color:var(--text-muted);
+  }
+  .chat-head .clear-btn:hover{opacity:1;border-color:var(--gold);color:var(--gold);}
 
   .avatar-orb{
     width:34px;height:34px;
@@ -585,6 +598,7 @@
             <div class="name" data-i18n="assistant_name">Assistant IA</div>
             <div class="status"><span class="status-dot"></span><span data-i18n="status_active">Actif maintenant</span></div>
           </div>
+          <button class="clear-btn" id="clear-btn" title="Clear history">🗑</button>
         </div>
         <div class="chat-body" id="chat-body">
           <div class="bubble ai demo" data-i18n="chat_demo">Bonjour ! Je suis votre assistant IA. Posez-moi une question pour commencer.</div>
@@ -803,6 +817,10 @@
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') sendMessage();
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      chatBody.innerHTML = `<div class="bubble ai demo" data-i18n="chat_demo">${I18N[currentLang].chat_demo}</div>`;
     });
   </script>
 </body>
