@@ -2019,9 +2019,26 @@ lb.addEventListener('touchend', e => {
   }
 });
 
-const carouselImages = Array.from({length:15}, (_,i) =>
-  `carousel/haspict-${String(i+1).padStart(2,'0')}.jpg`
-);
+const carouselImages = [
+  'Schermerhorne_copy_793x512.jpg', 'avion-leger-rouge-blanc-piste.jpg',
+  'bateaux-pontons-quai-orange.jpg', 'bethelkerk-clocher-brique-ciel-bleu.jpg',
+  'chevaux-trait-attelage-marron.jpg', 'chevaux-trait-galop-poussiere.jpg',
+  'combi-volkswagen-rue-pavee-rouge.jpg', 'coucher-soleil-boulevard-pasteur.jpg',
+  'cycliste-costume-fleurs-multicolore.jpg', 'cycliste-deguise-grenouille-verte.jpg',
+  'cyclistes-course-route-maillots-colores.jpg', 'dromadaires-zoo-debout-marron.jpg',
+  'eglise-bethelkerk-clocher-brique.jpg', 'famille-velo-electrique-facade-jaune.jpg',
+  'femme-costume-chateau-rouge.jpg', 'fiat-1200-cabriolet-rouge-rue-pavee.jpg',
+  'ford-modele-a-vert-route.jpg', 'ford-taunus-bleu-rue-pavee.jpg',
+  'galets-plage-gros-plan-multicolore.jpg', 'galets-plage-vue-haut-multicolore.jpg',
+  'homme-assis-banc-quai.jpg', 'hudson-berline-jaune-place-pavee.jpg',
+  'moto-garee-terrasse-chrome-rouge.jpg', 'moto-route-circule-bleue.jpg',
+  'moto-route-conducteur-blanche.jpg', 'motocross-saut-air-rouge-bleu.jpg',
+  'moulin-vent-pelouse-rouge.jpg', 'moulin-vent-tour-relais-brique.jpg',
+  'moulin-vent-village-blanc.jpg', 'peloton-cyclistes-route-haie-verte.jpg',
+  'porsche-911-montagne-blanche.jpg', 'port-bateaux-tour-eglise-bleu.jpg',
+  'rue-immeuble-tanger-ciel-bleu.jpg', 'terrasse-cafe-rue-pavee-bleu.jpg',
+  'tigre-couche-rugit-herbe.jpg', 'voilier-navigue-port-bois-rouge.jpg',
+];
 let carouselIdx = 0;
 let carouselTimer;
 const track = document.getElementById('carouselTrack');
