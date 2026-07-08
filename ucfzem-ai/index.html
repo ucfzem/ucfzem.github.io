@@ -772,12 +772,31 @@
         typing.remove();
         if (data.reply) {
           addBubble(data.reply, 'ai');
+        } else if (data.retryAfter) {
+          addBubble('⏳ Je réessaie dans un instant...', 'ai');
+          setTimeout(() => sendMessageWithText(message), data.retryAfter * 1000);
         } else {
           addBubble(data.error || 'Erreur de connexion', 'ai');
         }
       } catch {
         typing.remove();
         addBubble('Erreur réseau. Vérifiez votre connexion.', 'ai');
+      }
+    }
+
+    async function sendMessageWithText(text) {
+      const typing = showTyping();
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        typing.remove();
+        addBubble(data.reply || data.error || 'Erreur', 'ai');
+      } catch {
+        typing.remove();
+        addBubble('Erreur réseau', 'ai');
       }
     }
 
