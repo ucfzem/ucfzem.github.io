@@ -2,8 +2,5 @@
   "name": "ucfzem-works",
   "buildCommand": null,
   "outputDirectory": ".",
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/works", "destination": "/works/", "permanent": true }
-  ]
+  "trailingSlash": false
 }
