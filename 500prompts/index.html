@@ -475,10 +475,8 @@
             .copy-btn { opacity: 1; top: 0.5rem; right: 0.5rem; font-size: 0.65rem; padding: 0.2rem 0.5rem; }
         }
     </style>
-    <style>
-    </style>
     <script>
-        if (sessionStorage.getItem('works_unlocked') !== 'true') {
+        if (localStorage.getItem('works_unlocked') !== 'true') {
             window.location.replace('/works/');
         }
     </script>

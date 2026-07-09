@@ -660,7 +660,7 @@
 
   function saveUnlock() {
     try {
-      sessionStorage.setItem(SS_KEY, 'true');
+      localStorage.setItem(SS_KEY, 'true');
       return true;
     } catch(e) {
       return false;
@@ -681,7 +681,7 @@
   }
 
 
-  if (sessionStorage.getItem(SS_KEY) === 'true') {
+  if (localStorage.getItem(SS_KEY) === 'true') {
     applyUnlock(true);
   }
 
