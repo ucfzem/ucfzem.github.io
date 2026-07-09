@@ -476,68 +476,14 @@
         }
     </style>
     <style>
-        #password-overlay {
-            position: fixed; inset: 0; z-index: 99999;
-            background: var(--bg);
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; gap: 20px;
-            font-family: var(--font-body);
-        }
-        #password-overlay h2 {
-            font-family: var(--font-heading);
-            color: var(--gold);
-            font-size: 1.6rem;
-            margin: 0;
-        }
-        #password-overlay p {
-            color: var(--text-muted);
-            margin: 0;
-        }
-        #password-overlay input {
-            padding: 12px 20px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg-card);
-            color: var(--text);
-            font-size: 1rem;
-            width: 280px;
-            outline: none;
-            text-align: center;
-        }
-        #password-overlay input:focus {
-            border-color: var(--gold);
-        }
-        #password-overlay .error {
-            color: #e74c3c;
-            font-size: 0.85rem;
-            display: none;
-        }
-        #password-overlay .submit-btn {
-            padding: 10px 40px;
-            border: none;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: #1a1410;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: filter 0.3s;
-        }
-        #password-overlay .submit-btn:hover {
-            filter: brightness(1.1);
-        }
-        #main-content { display: none; }
     </style>
+    <script>
+        if (sessionStorage.getItem('works_unlocked') !== 'true') {
+            window.location.replace('/works/');
+        }
+    </script>
 </head>
 <body>
-    <div id="password-overlay">
-        <h2>🔐 Pack 500 Prompts IA</h2>
-        <p>Entrez le mot de passe pour accéder au contenu</p>
-        <input type="password" id="password-input" placeholder="Mot de passe" autofocus>
-        <div class="error" id="password-error">Mot de passe incorrect</div>
-        <button class="submit-btn" id="password-submit">Accéder</button>
-    </div>
-    <div id="main-content">
     <!-- HEADER -->
     <header class="header">
         <div class="header-logo">✦ Pack 500 Prompts IA</div>
@@ -1568,51 +1514,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', init);
-    </script>
-    </div>
-    <script>
-        const VALIDATOR = "https://works-validator.azer-tyu199p.workers.dev";
-        const overlay = document.getElementById('password-overlay');
-        const main = document.getElementById('main-content');
-        const input = document.getElementById('password-input');
-        const error = document.getElementById('password-error');
-        const submit = document.getElementById('password-submit');
-
-        const SS_KEY = '500prompts_unlocked';
-        if (sessionStorage.getItem(SS_KEY) === 'true') {
-            overlay.style.display = 'none';
-            main.style.display = 'block';
-        }
-
-        async function checkPassword() {
-            const pw = input.value.trim();
-            if (!pw) { input.focus(); return; }
-            try {
-                const r = await fetch(VALIDATOR, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: pw })
-                });
-                const d = await r.json();
-                if (d.success) {
-                    try { sessionStorage.setItem(SS_KEY, 'true'); } catch(e) {}
-                    overlay.style.display = 'none';
-                    main.style.display = 'block';
-                } else {
-                    error.style.display = 'block';
-                    input.value = '';
-                    input.focus();
-                    setTimeout(() => error.style.display = 'none', 2000);
-                }
-            } catch(e) {
-                error.textContent = '❌ Erreur de validation';
-                error.style.display = 'block';
-            }
-        }
-
-        submit.addEventListener('click', checkPassword);
-        input.addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
-        input.focus();
     </script>
 </body>
 </html>
