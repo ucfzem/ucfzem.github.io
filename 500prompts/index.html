@@ -1571,25 +1571,42 @@
     </script>
     </div>
     <script>
-        const HASH = "531c5884f6c949ff8719bfa64d6a1342e3c02ee86f2160a5cbb7d76622f606a2";
+        const VALIDATOR = "https://works-validator.azer-tyu199p.workers.dev";
         const overlay = document.getElementById('password-overlay');
         const main = document.getElementById('main-content');
         const input = document.getElementById('password-input');
         const error = document.getElementById('password-error');
         const submit = document.getElementById('password-submit');
 
+        const SS_KEY = '500prompts_unlocked';
+        if (sessionStorage.getItem(SS_KEY) === 'true') {
+            overlay.style.display = 'none';
+            main.style.display = 'block';
+        }
+
         async function checkPassword() {
-            const enc = new TextEncoder();
-            const data = enc.encode(input.value);
-            const hash = await crypto.subtle.digest('SHA-256', data);
-            const hex = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-            if (hex === HASH) {
-                overlay.style.display = 'none';
-                main.style.display = 'block';
-            } else {
+            const pw = input.value.trim();
+            if (!pw) { input.focus(); return; }
+            try {
+                const r = await fetch(VALIDATOR, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pw })
+                });
+                const d = await r.json();
+                if (d.success) {
+                    try { sessionStorage.setItem(SS_KEY, 'true'); } catch(e) {}
+                    overlay.style.display = 'none';
+                    main.style.display = 'block';
+                } else {
+                    error.style.display = 'block';
+                    input.value = '';
+                    input.focus();
+                    setTimeout(() => error.style.display = 'none', 2000);
+                }
+            } catch(e) {
+                error.textContent = '❌ Erreur de validation';
                 error.style.display = 'block';
-                input.value = '';
-                input.focus();
             }
         }
 
