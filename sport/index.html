@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport — Transformez votre corps, votre énergie, votre vie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Roboto,'Helvetica Neue',sans-serif;line-height:1.6;color:#1a1a1a;background:#fff}
+        .container{max-width:1200px;margin:auto;padding:0 20px}
+        h2{font-size:2.2rem;margin-bottom:1.5rem;font-weight:700;color:#111;position:relative;display:inline-block}
+        h2:after{content:'';display:block;width:60px;height:4px;background:linear-gradient(135deg,#c9a84c,#f0c866);margin-top:10px;border-radius:2px}
+        section{padding:80px 0}
+        .hero{background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.7)),url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;color:white;padding:120px 0;text-align:center;position:relative}
+        .hero h1{font-size:3.5rem;font-weight:800;margin-bottom:15px;letter-spacing:-0.5px;text-shadow:2px 2px 8px rgba(0,0,0,0.5)}
+        .hero .subtitle{font-size:1.3rem;margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;text-shadow:1px 1px 5px rgba(0,0,0,0.5)}
+        .hero .proof{font-size:1rem;margin-bottom:30px;background:rgba(255,255,255,0.15);display:inline-block;padding:8px 25px;border-radius:50px;backdrop-filter:blur(5px)}
+        .hero .cta-group{display:flex;justify-content:center;flex-wrap:wrap;gap:20px}
+        .btn{display:inline-block;padding:16px 40px;font-size:1.1rem;font-weight:600;border-radius:50px;text-decoration:none;transition:all .3s ease;cursor:pointer;border:none}
+        .btn-primary{background:linear-gradient(135deg,#c9a84c,#f0c866);color:#111;box-shadow:0 8px 25px rgba(201,168,76,0.4)}
+        .btn-primary:hover{background:#b8962e;transform:translateY(-3px);box-shadow:0 12px 30px rgba(201,168,76,0.6)}
+        .btn-outline{border:2px solid white;color:white;background:transparent}
+        .btn-outline:hover{background:white;color:#111}
+        .btn-dark{border:2px solid #111;color:#111;background:transparent}
+        .btn-dark:hover{background:#111;color:white}
+        .value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:40px;margin-top:30px}
+        .value-card{background:#f9f9f9;padding:40px 25px;border-radius:20px;text-align:center;transition:transform .3s;box-shadow:0 10px 20px rgba(0,0,0,0.05)}
+        .value-card:hover{transform:translateY(-8px)}
+        .value-card i{font-size:3rem;color:#c9a84c;margin-bottom:20px}
+        .value-card h3{font-size:1.5rem;margin-bottom:15px}
+        .plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:30px}
+        .plan{background:white;border:2px solid #eee;border-radius:20px;padding:40px 25px;text-align:center;transition:.3s;position:relative}
+        .plan.recommended{border-color:#c9a84c;box-shadow:0 15px 35px rgba(201,168,76,0.25);transform:scale(1.03)}
+        .plan.recommended::before{content:"Recommandé";position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c9a84c,#f0c866);color:#111;padding:6px 20px;border-radius:30px;font-weight:bold;font-size:.9rem}
+        .plan h3{font-size:1.8rem;margin-bottom:10px}
+        .plan .price{font-size:2.5rem;font-weight:700;margin:15px 0;color:#111}
+        .plan ul{list-style:none;text-align:left;margin:20px 0}
+        .plan ul li{padding:8px 0;border-bottom:1px solid #f0f0f0}
+        .plan ul li i{color:#c9a84c;margin-right:8px}
+        .coaches-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:30px}
+        .coach-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,0.08);text-align:center;padding-bottom:20px}
+        .coach-card img{width:100%;height:300px;object-fit:cover}
+        .coach-card h3{margin-top:15px}
+        .coach-card .specialty{color:#666;font-size:.95rem}
+        .coach-card .btn{margin-top:15px;padding:12px 30px;font-size:.95rem}
+        .support-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:30px}
+        .support-item{background:#fef9f0;padding:30px;border-radius:15px;text-align:center}
+        .support-item i{font-size:2.5rem;color:#c9a84c;margin-bottom:15px}
+        .support-item h4{margin-bottom:10px}
+        .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:30px}
+        .testimonial{background:#111;color:white;padding:30px;border-radius:20px;position:relative}
+        .testimonial .stars{color:#c9a84c;margin-bottom:15px}
+        .testimonial .author{margin-top:20px;font-weight:600;color:#c9a84c}
+        .trust-band{margin-top:40px;text-align:center;font-size:1.1rem}
+        .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:30px}
+        .blog-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.05)}
+        .blog-card img{width:100%;height:200px;object-fit:cover}
+        .blog-card .content{padding:20px}
+        .blog-card .content a{color:#c9a84c;font-weight:600;text-decoration:none}
+        .blog-card .content a:hover{text-decoration:underline}
+        .community-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;margin:40px 0}
+        .stat{text-align:center}
+        .stat strong{display:block;font-size:2.5rem;color:#c9a84c}
+        footer{background:#0a0a0a;color:#ccc;padding:60px 0 30px}
+        footer .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px}
+        footer input[type="email"]{padding:14px 20px;width:100%;border-radius:50px;border:none;margin-top:15px;font-size:1rem}
+        footer .btn{margin-top:10px}
+        footer .legal{border-top:1px solid #333;padding-top:20px;text-align:center;font-size:.9rem}
+        footer a{color:#ccc;text-decoration:none}
+        footer a:hover{color:#c9a84c}
+        @media(max-width:768px){
+            .hero h1{font-size:2.5rem}
+            .hero{padding:80px 0}
+            footer .footer-grid{grid-template-columns:1fr}
+            section{padding:50px 0}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <h1>Transformez votre corps, votre énergie, votre vie.</h1>
+        <p class="subtitle">La première plateforme de fitness qui allie coaching d'élite, nutrition intégrée et suivi personnalisé – pour des résultats visibles et durables.</p>
+        <p class="proof"><i class="fas fa-users"></i> +25 000 membres • <i class="fas fa-star"></i> 4,9/5 sur +3000 avis</p>
+        <div class="cta-group">
+            <a href="https://www.nutrition.gov/" class="btn btn-primary" target="_blank">Commencez votre transformation</a>
+            <a href="#plans" class="btn btn-outline">Voir les offres</a>
+        </div>
+    </div>
+</section>
+
+<!-- Valeurs -->
+<section>
+    <div class="container">
+        <h2>Pourquoi Sport ?</h2>
+        <div class="value-grid">
+            <div class="value-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Résultats visibles</h3>
+                <p>Programmes basés sur la science et optimisés par des coachs diplômés. Chaque minute compte.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-brain"></i>
+                <h3>Corps & esprit</h3>
+                <p>Entraînement, nutrition, sommeil, stress : nous prenons soin de vous dans votre globalité.</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Coach dans la poche</h3>
+                <p>Débutant ou confirmé, votre programme s'adapte à votre niveau, votre matériel et votre emploi du temps.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Plans -->
+<section id="plans" style="background:#f7f7f7;">
+    <div class="container">
+        <h2>Choisissez votre chemin</h2>
+        <div class="plans-grid">
+            <div class="plan">
+                <h3>Débutant</h3>
+                <p>Première transformation</p>
+                <div class="price">19,99€<span style="font-size:1rem;">/mois</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Séances 20-30 min</li>
+                    <li><i class="fas fa-check"></i> Poids du corps</li>
+                    <li><i class="fas fa-check"></i> Rééquilibrage alimentaire</li>
+                    <li><i class="fas fa-check"></i> Communauté</li>
+                </ul>
+                <a href="https://www.who.int/fr/news-room/fact-sheets/detail/physical-activity" class="btn btn-primary" style="display:block;" target="_blank">Essai gratuit 7 jours</a>
+            </div>
+            <div class="plan recommended">
+                <h3>Intermédiaire</h3>
+                <p>Performance & tonicité</p>
+                <div class="price">29,99€<span style="font-size:1rem;">/mois</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Cycles de 6 semaines</li>
+                    <li><i class="fas fa-check"></i> Muscu, HIIT, mobilité</li>
+                    <li><i class="fas fa-check"></i> Plan nutrition complet</li>
+                    <li><i class="fas fa-check"></i> Suivi hebdomadaire</li>
+                </ul>
+                <a href="https://www.muscleandstrength.com/workout-routines" class="btn btn-primary" style="display:block;" target="_blank">Commencer maintenant</a>
+            </div>
+            <div class="plan">
+                <h3>Avancé</h3>
+                <p>Excellence & optimisation</p>
+                <div class="price">49,99€<span style="font-size:1rem;">/mois</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Coach dédié</li>
+                    <li><i class="fas fa-check"></i> Suivi charge / récup</li>
+                    <li><i class="fas fa-check"></i> Analyse composition corporelle</li>
+                    <li><i class="fas fa-check"></i> Programme sur mesure</li>
+                </ul>
+                <a href="https://www.exrx.net/" class="btn btn-primary" style="display:block;" target="_blank">Contacter un expert</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Coachs -->
+<section>
+    <div class="container">
+        <h2>Apprenez auprès des meilleurs</h2>
+        <div class="coaches-grid">
+            <div class="coach-card">
+                <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Coach Sarah">
+                <h3>Sarah</h3>
+                <p class="specialty">Diplômée STAPS • Post-grossesse</p>
+                <a href="https://www.youtube.com/results?search_query=fitnancy+coach+sportif+femme" class="btn btn-dark" target="_blank">RDV découverte</a>
+            </div>
+            <div class="coach-card">
+                <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Coach Julien">
+                <h3>Julien</h3>
+                <p class="specialty">Ancien athlète • Force athlétique</p>
+                <a href="https://www.youtube.com/@thenx" class="btn btn-dark" target="_blank">RDV découverte</a>
+            </div>
+            <div class="coach-card">
+                <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Coach Myriam">
+                <h3>Myriam</h3>
+                <p class="specialty">Yoga • Gestion du stress</p>
+                <a href="https://www.youtube.com/@yogawithadriene" class="btn btn-dark" target="_blank">RDV découverte</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Support -->
+<section style="background:#fefaf2;">
+    <div class="container">
+        <h2>Votre transformation complète</h2>
+        <div class="support-grid">
+            <div class="support-item">
+                <i class="fas fa-apple-alt"></i>
+                <h4>Nutrition</h4>
+                <p>"Les 5 erreurs qui sabotent vos efforts"</p>
+                <a href="https://www.anses.fr/fr/content/nutrition" class="btn btn-primary" style="margin-top:15px;" target="_blank">Lire l'article</a>
+            </div>
+            <div class="support-item">
+                <i class="fas fa-calculator"></i>
+                <h4>Calculateur</h4>
+                <p>Calculez vos macros idéales</p>
+                <a href="https://www.calculator.net/macro-calculator.html" class="btn btn-primary" style="margin-top:15px;" target="_blank">Lancer le calcul</a>
+            </div>
+            <div class="support-item">
+                <i class="fas fa-spa"></i>
+                <h4>Méditation</h4>
+                <p>10 min pour mieux récupérer</p>
+                <a href="https://www.youtube.com/watch?v=inpok4MKVLM" class="btn btn-primary" style="margin-top:15px;" target="_blank">Écouter</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Témoignages -->
+<section>
+    <div class="container">
+        <h2>Ils ont transformé leur vie</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>« J'ai perdu 8 kg en 3 mois sans frustration. J'ai retrouvé confiance et régularité. »</p>
+                <div class="author">Léa, 34 ans, Lyon</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>« Stagnation au bench depuis 2 ans. En 8 semaines : +10 kg sur la barre, +3 kg de muscle. »</p>
+                <div class="author">Karim, 28 ans, Paris</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>« À 52 ans, je pensais que c'était fini. Ventre plat et énergie de mes 30 ans retrouvées. »</p>
+                <div class="author">Sophie, 52 ans, Bordeaux</div>
+            </div>
+        </div>
+        <div class="trust-band">
+            <i class="fas fa-shield-alt"></i> Avis vérifiés Trustpilot & Google • 4,9/5
+        </div>
+    </div>
+</section>
+
+<!-- Blog -->
+<section style="background:#f9f9f9;">
+    <div class="container">
+        <h2>Restez inspiré</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Article">
+                <div class="content">
+                    <h4>Musculation et cycle menstruel</h4>
+                    <p>Adapter son entraînement pour des résultats optimaux.</p>
+                    <a href="https://pubmed.ncbi.nlm.nih.gov/?term=women+strength+training+menstrual+cycle" target="_blank">Lire la suite →</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Article">
+                <div class="content">
+                    <h4>Cardio et masse musculaire</h4>
+                    <p>Ce que dit vraiment la science.</p>
+                    <a href="https://www.acsm.org/" target="_blank">Lire la suite →</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Article">
+                <div class="content">
+                    <h4>Organiser ses repas de la semaine</h4>
+                    <p>Sans y passer le dimanche.</p>
+                    <a href="https://www.choosemyplate.gov/" target="_blank">Lire la suite →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Communauté -->
+<section>
+    <div class="container" style="text-align:center;">
+        <h2>Vous n'êtes jamais seul(e)</h2>
+        <div class="community-stats">
+            <div class="stat"><strong>+50k</strong> posts #Sport</div>
+            <div class="stat"><strong>3</strong> challenges live/mois</div>
+            <div class="stat"><strong>24/7</strong> groupe d'entraide</div>
+        </div>
+        <p style="max-width:600px;margin:auto;">Rejoignez notre communauté sur Instagram, Discord et Facebook pour partager vos progrès.</p>
+        <div style="margin-top:30px;">
+            <a href="https://discord.gg/" class="btn btn-primary" target="_blank"><i class="fab fa-discord"></i> Rejoindre le Crew</a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h3 style="color:white;">Recevez votre premier programme gratuit</h3>
+                <form action="https://docs.google.com/forms/d/e/1FAIpQLSdummy/formResponse" method="POST" target="_blank">
+                    <input type="email" placeholder="Votre email" required>
+                    <button type="submit" class="btn btn-primary" style="margin-top:15px;">Je m'inscris</button>
+                </form>
+            </div>
+            <div>
+                <h3 style="color:white;">Navigation</h3>
+                <ul style="list-style:none;margin-top:15px;">
+                    <li><a href="https://www.who.int/fr/activities/promoting-physical-activity" target="_blank">À propos</a></li>
+                    <li><a href="https://blog.nutrition.gov/" target="_blank">Blog</a></li>
+                    <li><a href="mailto:sport@ucfzem.dev">Contact</a></li>
+                    <li><a href="https://www.who.int/fr/news-room/fact-sheets/detail/physical-activity" target="_blank">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="legal">
+            © 2025 Sport • <a href="https://www.who.int/fr/about/policies" target="_blank">Mentions légales</a> • <a href="#">CGV</a> • <a href="#">Confidentialité</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
