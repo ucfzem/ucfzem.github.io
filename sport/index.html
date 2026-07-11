@@ -1237,14 +1237,17 @@ footer ul li{margin-bottom:8px}
   window.closeSheet = function(id) {
     const el = document.getElementById('overlay-'+id);
     if (el) el.classList.remove('active');
-    if (id === 'meditate') resetMeditation();
+    if (id === 'meditate') {
+      stopMedAudio();
+      resetMeditation();
+    }
   };
   // Close overlay on backdrop click
   document.querySelectorAll('.overlay').forEach(o => {
     o.addEventListener('click', function(e) {
       if (e.target === this) {
         this.classList.remove('active');
-        if (this.id === 'overlay-meditate') resetMeditation();
+        if (this.id === 'overlay-meditate') { stopMedAudio(); resetMeditation(); }
       }
     });
   });
@@ -1268,49 +1271,102 @@ footer ul li{margin-bottom:8px}
     document.getElementById('calc-result').classList.add('show');
   };
 
-  // --- Meditation timer ---
+  // --- Meditation timer with real audio ---
   let medInterval = null, breathInterval = null, medSeconds = 600;
+  let isMuted = false;
+  let audioCtx = null, droneOsc = null, droneGain = null;
+
+  function startDrone() {
+    if (isMuted) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    droneOsc = audioCtx.createOscillator();
+    const osc2 = audioCtx.createOscillator();
+    droneGain = audioCtx.createGain();
+    droneOsc.type = 'sine'; droneOsc.frequency.value = 110;
+    osc2.type = 'sine'; osc2.frequency.value = 113.5;
+    droneGain.gain.value = 0;
+    droneOsc.connect(droneGain); osc2.connect(droneGain);
+    droneGain.connect(audioCtx.destination);
+    droneOsc.start(); osc2.start();
+    droneGain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 2);
+    droneOsc._osc2 = osc2;
+  }
+
+  function stopDrone() {
+    if (droneGain && audioCtx) droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+    setTimeout(() => {
+      try { droneOsc.stop(); droneOsc._osc2.stop(); } catch(e) {}
+      if (audioCtx) { audioCtx.close(); audioCtx = null; }
+      droneOsc = null; droneGain = null;
+    }, 600);
+  }
+
+  function speak(text) {
+    if (isMuted || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ar-SA'; u.rate = 0.85; u.pitch = 1;
+    window.speechSynthesis.speak(u);
+  }
+
+  function stopMedAudio() {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopDrone();
+  }
+
+  window.toggleMute = function() {
+    isMuted = !isMuted;
+    document.getElementById('muteBtn').textContent = isMuted ? '🔇' : '🔊';
+    if (isMuted) { stopMedAudio(); }
+    else if (medInterval) { startDrone(); }
+  };
+
   window.startMeditation = function() {
     const btn = document.getElementById('med-start');
     if (medInterval) return;
     btn.disabled = true;
+    startDrone();
+    speak('لنبدأ. تنفس بعمق واسترخ.');
     medInterval = setInterval(() => {
       medSeconds--;
       updateMedDisplay();
       if (medSeconds <= 0) {
-        stopMeditation();
+        clearInterval(medInterval); clearInterval(breathInterval);
+        medInterval = null; breathInterval = null;
         document.getElementById('breathCircle').innerHTML = '✓';
+        btn.disabled = false;
+        stopDrone();
+        speak('أحسنت. لقد أتممت جلسة التأمل.');
       }
     }, 1000);
     const circle = document.getElementById('breathCircle');
     let inhale = true;
     circle.className = 'breath-circle in';
-    circle.innerHTML = '&#8593;';
+    circle.innerHTML = '↑';
     breathInterval = setInterval(() => {
       inhale = !inhale;
       if (inhale) {
-        circle.className = 'breath-circle in';
-        circle.innerHTML = '&#8593;';
+        circle.className = 'breath-circle in'; circle.innerHTML = '↑';
+        speak('شهيق');
       } else {
-        circle.className = 'breath-circle out';
-        circle.innerHTML = '&#8595;';
+        circle.className = 'breath-circle out'; circle.innerHTML = '↓';
+        speak('زفير');
       }
     }, 4000);
   };
-  function stopMeditation() {
+
+  window.resetMeditation = function() {
     clearInterval(medInterval); clearInterval(breathInterval);
     medInterval = null; breathInterval = null;
-    document.getElementById('med-start').disabled = false;
-  }
-  window.resetMeditation = function() {
-    stopMeditation();
     medSeconds = 600;
     updateMedDisplay();
     const circle = document.getElementById('breathCircle');
     circle.className = 'breath-circle idle';
-    circle.innerHTML = '&#9679;';
+    circle.innerHTML = '●';
     document.getElementById('med-start').disabled = false;
+    stopMedAudio();
   };
+
   function updateMedDisplay() {
     const m = Math.floor(medSeconds/60).toString().padStart(2,'0');
     const s = (medSeconds%60).toString().padStart(2,'0');
@@ -1378,6 +1434,7 @@ footer ul li{margin-bottom:8px}
 <div class="med-controls">
 <button onclick="startMeditation()" id="med-start" data-i18n="med.start">Commencer</button>
 <button onclick="resetMeditation()" data-i18n="med.reset">Recommencer</button>
+<button onclick="toggleMute()" id="muteBtn">🔊</button>
 </div>
 </div></div>
 
