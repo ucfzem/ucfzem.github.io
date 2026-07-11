@@ -216,8 +216,8 @@
     background: var(--locked-bg);
     border-color: rgba(255,255,255,0.06);
     pointer-events: none;
-    opacity: 0.3;
-    filter: grayscale(100%);
+    opacity: 0.5;
+    filter: grayscale(60%);
     transition: opacity 0.6s ease, filter 0.6s ease;
   }
   .locked .card-num {
@@ -225,14 +225,14 @@
     color: var(--locked-text);
   }
   .locked .card-name {
-    color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.4);
   }
   .locked .card-tag {
-    color: rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.06);
   }
-  [data-theme="light"] .locked .card-name { color: rgba(0,0,0,0.15); }
-  [data-theme="light"] .locked .card-tag { color: rgba(0,0,0,0.12); background: rgba(0,0,0,0.04); }
+  [data-theme="light"] .locked .card-name { color: rgba(0,0,0,0.4); }
+  [data-theme="light"] .locked .card-tag { color: rgba(0,0,0,0.35); background: rgba(0,0,0,0.06); }
 
 
   .unlocked .card {
