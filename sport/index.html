@@ -1292,22 +1292,6 @@ footer ul li{margin-bottom:8px}
     droneOsc1.start(now); droneOsc2.start(now);
   }
 
-  function duckDrone() {
-    if (!audioCtx || !droneGain) return;
-    const now = audioCtx.currentTime;
-    droneGain.gain.cancelScheduledValues(now);
-    droneGain.gain.setValueAtTime(droneGain.gain.value, now);
-    droneGain.gain.linearRampToValueAtTime(0.1, now + 0.3);
-  }
-
-  function unduckDrone() {
-    if (!audioCtx || !droneGain) return;
-    const now = audioCtx.currentTime;
-    droneGain.gain.cancelScheduledValues(now);
-    droneGain.gain.setValueAtTime(droneGain.gain.value, now);
-    droneGain.gain.linearRampToValueAtTime(0.3, now + 0.6);
-  }
-
   function stopDrone() {
     if (droneGain && audioCtx) {
       const now = audioCtx.currentTime;
@@ -1323,25 +1307,28 @@ footer ul li{margin-bottom:8px}
     audioCtx = null; droneOsc1 = null; droneOsc2 = null; droneGain = null;
   }
 
-  let arabicVoice = null;
-  function loadArabicVoice() {
-    if (!('speechSynthesis' in window)) return;
-    const voices = window.speechSynthesis.getVoices();
-    arabicVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ar')) || null;
-  }
-  if ('speechSynthesis' in window) {
-    loadArabicVoice();
-    window.speechSynthesis.onvoiceschanged = loadArabicVoice;
+  function playChime(freq, duration, volume) {
+    if (isMuted) return;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(volume || 0.15, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + (duration || 0.8));
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + (duration || 0.8));
+    setTimeout(() => ctx.close(), (duration || 0.8) * 1000 + 100);
   }
 
   function speak(text) {
-    if (isMuted || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ar-SA'; u.rate = 0.85; u.pitch = 1; u.volume = 1;
-    if (arabicVoice) u.voice = arabicVoice;
-    u.onstart = duckDrone; u.onend = unduckDrone; u.onerror = unduckDrone;
-    window.speechSynthesis.speak(u);
+    if (text.includes('شهيق')) playChime(440, 0.6, 0.2);
+    else if (text.includes('زفير')) playChime(220, 0.8, 0.15);
+    else if (text.includes('لنبدأ')) playChime(660, 1.2, 0.25);
+    else if (text.includes('أحسنت')) { playChime(880, 0.4, 0.2); setTimeout(() => playChime(1100, 0.6, 0.2), 500); }
   }
 
   function stopMedAudio() {
