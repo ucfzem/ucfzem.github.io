@@ -1274,38 +1274,73 @@ footer ul li{margin-bottom:8px}
   // --- Meditation timer with real audio ---
   let medInterval = null, breathInterval = null, medSeconds = 600;
   let isMuted = false;
-  let audioCtx = null, droneOsc = null, droneGain = null;
+  let audioCtx = null, droneOsc1 = null, droneOsc2 = null, droneGain = null;
 
   function startDrone() {
-    if (isMuted) return;
+    if (isMuted || audioCtx) return;
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    droneOsc = audioCtx.createOscillator();
-    const osc2 = audioCtx.createOscillator();
+    droneOsc1 = audioCtx.createOscillator();
+    droneOsc2 = audioCtx.createOscillator();
     droneGain = audioCtx.createGain();
-    droneOsc.type = 'sine'; droneOsc.frequency.value = 110;
-    osc2.type = 'sine'; osc2.frequency.value = 113.5;
-    droneGain.gain.value = 0;
-    droneOsc.connect(droneGain); osc2.connect(droneGain);
+    droneOsc1.type = 'sine'; droneOsc1.frequency.value = 220;
+    droneOsc2.type = 'sine'; droneOsc2.frequency.value = 223;
+    const now = audioCtx.currentTime;
+    droneGain.gain.setValueAtTime(0, now);
+    droneGain.gain.linearRampToValueAtTime(0.025, now + 2.5);
+    droneOsc1.connect(droneGain); droneOsc2.connect(droneGain);
     droneGain.connect(audioCtx.destination);
-    droneOsc.start(); osc2.start();
-    droneGain.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 2);
-    droneOsc._osc2 = osc2;
+    droneOsc1.start(now); droneOsc2.start(now);
+  }
+
+  function duckDrone() {
+    if (!audioCtx || !droneGain) return;
+    const now = audioCtx.currentTime;
+    droneGain.gain.cancelScheduledValues(now);
+    droneGain.gain.setValueAtTime(droneGain.gain.value, now);
+    droneGain.gain.linearRampToValueAtTime(0.008, now + 0.3);
+  }
+
+  function unduckDrone() {
+    if (!audioCtx || !droneGain) return;
+    const now = audioCtx.currentTime;
+    droneGain.gain.cancelScheduledValues(now);
+    droneGain.gain.setValueAtTime(droneGain.gain.value, now);
+    droneGain.gain.linearRampToValueAtTime(0.025, now + 0.6);
   }
 
   function stopDrone() {
-    if (droneGain && audioCtx) droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+    if (droneGain && audioCtx) {
+      const now = audioCtx.currentTime;
+      droneGain.gain.cancelScheduledValues(now);
+      droneGain.gain.setValueAtTime(droneGain.gain.value, now);
+      droneGain.gain.linearRampToValueAtTime(0, now + 1);
+    }
+    const ctx = audioCtx, o1 = droneOsc1, o2 = droneOsc2;
     setTimeout(() => {
-      try { droneOsc.stop(); droneOsc._osc2.stop(); } catch(e) {}
-      if (audioCtx) { audioCtx.close(); audioCtx = null; }
-      droneOsc = null; droneGain = null;
-    }, 600);
+      try { o1.stop(); } catch(e) {} try { o2.stop(); } catch(e) {}
+      try { ctx.close(); } catch(e) {}
+    }, 1100);
+    audioCtx = null; droneOsc1 = null; droneOsc2 = null; droneGain = null;
+  }
+
+  let arabicVoice = null;
+  function loadArabicVoice() {
+    if (!('speechSynthesis' in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    arabicVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ar')) || null;
+  }
+  if ('speechSynthesis' in window) {
+    loadArabicVoice();
+    window.speechSynthesis.onvoiceschanged = loadArabicVoice;
   }
 
   function speak(text) {
     if (isMuted || !('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ar-SA'; u.rate = 0.85; u.pitch = 1;
+    u.lang = 'ar-SA'; u.rate = 0.85; u.pitch = 1; u.volume = 1;
+    if (arabicVoice) u.voice = arabicVoice;
+    u.onstart = duckDrone; u.onend = unduckDrone; u.onerror = unduckDrone;
     window.speechSynthesis.speak(u);
   }
 
