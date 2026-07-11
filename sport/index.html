@@ -281,6 +281,33 @@ footer ul li{margin-bottom:8px}
   section p{font-size:1.15rem}
   footer{padding:90px 0 40px}
 }
+
+/* Overlay / Bottom Sheet */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:flex-end;justify-content:center}
+.overlay.active{display:flex}
+.sheet{background:var(--bg-card);border:1px solid var(--border-card);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;padding:24px 20px 30px;animation:slideUp .3s ease-out}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet h3{color:var(--gold);font-size:19px;margin-bottom:16px}
+.close-btn{float:inline-end;background:none;border:none;color:var(--text-sec);font-size:22px;cursor:pointer;padding:4px}
+.sheet p,.sheet li{line-height:1.9;color:var(--text);margin-bottom:12px;font-size:15px}
+.sheet ol{padding-inline-start:24px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;margin-bottom:6px;color:var(--text-sec);font-size:13px}
+.form-group input,.form-group select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border-card);background:var(--input-bg);color:var(--text);font-size:15px;transition:border .2s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--gold)}
+.result-box{margin-top:18px;padding:18px;border-radius:14px;background:var(--input-bg);border:1px solid var(--gold);text-align:center;display:none}
+.result-box.show{display:block}
+.result-box .num{font-size:30px;font-weight:800;color:var(--gold);line-height:1.2}
+.result-box .label{font-size:13px;color:var(--text-sec);margin-top:4px}
+.breath-circle{width:160px;height:160px;border-radius:50%;border:3px solid var(--gold);margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--gold);font-weight:700;transition:transform .6s ease-in-out,background .6s,box-shadow .6s}
+.breath-circle.in{transform:scale(1.25);background:rgba(201,168,76,0.1);box-shadow:0 0 40px rgba(201,168,76,0.2)}
+.breath-circle.out{transform:scale(0.85);background:rgba(201,168,76,0.03);box-shadow:0 0 20px rgba(201,168,76,0.05)}
+.breath-circle.idle{transform:scale(1)}
+.timer-display{font-size:36px;text-align:center;font-weight:800;color:var(--gold);margin:8px 0 4px;letter-spacing:2px;font-variant-numeric:tabular-nums}
+.med-controls{display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.med-controls button{background:var(--input-bg);border:1px solid var(--border-card);color:var(--text);padding:10px 24px;border-radius:50px;font-size:14px;cursor:pointer;transition:all .2s}
+.med-controls button:hover{border-color:var(--gold);color:var(--gold)}
+.med-controls button:disabled{opacity:.4}
 </style>
 </head>
 <body data-theme="dark">
@@ -412,19 +439,19 @@ footer ul li{margin-bottom:8px}
         <i class="fas fa-apple-alt"></i>
         <h4 data-i18n="support.s1.title">Nutrition</h4>
         <p data-i18n="support.s1.desc">"Les 5 erreurs qui sabotent vos efforts"</p>
-        <a href="#blog/nutrition" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s1.cta">Lire l'article</a>
+        <a href="#" onclick="event.preventDefault();openSheet('article')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s1.cta">Lire l'article</a>
       </div>
       <div class="support-item" tabindex="0">
         <i class="fas fa-calculator"></i>
         <h4 data-i18n="support.s2.title">Calculateur</h4>
         <p data-i18n="support.s2.desc">Calculez vos macros idéales</p>
-        <a href="#calculateur-macros" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s2.cta">Lancer le calcul</a>
+        <a href="#" onclick="event.preventDefault();openSheet('calc')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s2.cta">Lancer le calcul</a>
       </div>
       <div class="support-item" tabindex="0">
         <i class="fas fa-spa"></i>
         <h4 data-i18n="support.s3.title">Méditation</h4>
         <p data-i18n="support.s3.desc">10 min pour mieux récupérer</p>
-        <a href="#meditation" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s3.cta">Écouter</a>
+        <a href="#" onclick="event.preventDefault();openSheet('meditate')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s3.cta">Écouter</a>
       </div>
     </div>
   </div>
@@ -601,6 +628,40 @@ footer ul li{margin-bottom:8px}
       'support.s3.title': 'Méditation',
       'support.s3.desc': '10 min pour mieux récupérer',
       'support.s3.cta': 'Écouter',
+      'article.title': 'Les 5 erreurs qui sabotent vos efforts',
+      'article.m1': '1. Négliger les protéines',
+      'article.m1d': 'Ne pas en consommer assez ralentit la récupération musculaire et réduit la satiété.',
+      'article.m2': '2. Manger émotionnellement',
+      'article.m2d': 'Manger sous l\'effet du stress au lieu de la vraie faim sabote tout régime.',
+      'article.m3': '3. Trop réduire les calories',
+      'article.m3d': 'Un régime trop strict ralentit le métabolisme et mène à l\'effet yo-yo.',
+      'article.m4': '4. Négliger le sommeil',
+      'article.m4d': 'Le manque de sommeil augmente les hormones de la faim et réduit la volonté.',
+      'article.m5': '5. Manquer de constance',
+      'article.m5d': 'Les résultats viennent de la régularité, pas de la perfection à chaque repas.',
+      'article.outro': 'Corrigez une erreur à la fois cette semaine au lieu de tout changer d\'un coup.',
+      'calc.title': 'Calculateur de calories idéales',
+      'calc.sex': 'Sexe',
+      'calc.male': 'Homme',
+      'calc.female': 'Femme',
+      'calc.age': 'Âge (ans)',
+      'calc.age_ph': 'ex: 28',
+      'calc.weight': 'Poids (kg)',
+      'calc.weight_ph': 'ex: 75',
+      'calc.height': 'Taille (cm)',
+      'calc.height_ph': 'ex: 175',
+      'calc.activity': 'Niveau d\'activité',
+      'calc.act1': 'Sédentaire (peu ou pas d\'exercice)',
+      'calc.act2': 'Léger (1-3 jours/semaine)',
+      'calc.act3': 'Modéré (3-5 jours/semaine)',
+      'calc.act4': 'Intense (6-7 jours/semaine)',
+      'calc.btn': 'Calculer',
+      'calc.result': 'kcal / jour pour maintenir votre poids',
+      'med.title': 'Méditation guidée',
+      'med.dur': '10 min',
+      'med.idle': 'Prêt',
+      'med.start': 'Commencer',
+      'med.reset': 'Recommencer',
       'testi.title': 'Ils ont transformé leur vie',
       'testi.t1.text': '« J\'ai perdu 8 kg en 3 mois sans frustration. J\'ai retrouvé confiance et régularité. »',
       'testi.t1.author': 'Léa, 34 ans, Lyon',
@@ -700,6 +761,40 @@ footer ul li{margin-bottom:8px}
       'support.s3.title': 'Meditation',
       'support.s3.desc': '10 min for better recovery',
       'support.s3.cta': 'Listen',
+      'article.title': 'The 5 mistakes ruining your efforts',
+      'article.m1': '1. Skipping protein',
+      'article.m1d': 'Not eating enough slows muscle recovery and reduces satiety.',
+      'article.m2': '2. Emotional eating',
+      'article.m2d': 'Eating from stress instead of real hunger sabotages any diet.',
+      'article.m3': '3. Cutting calories too much',
+      'article.m3d': 'An overly strict diet slows metabolism and leads to yo-yo effect.',
+      'article.m4': '4. Neglecting sleep',
+      'article.m4d': 'Lack of sleep increases hunger hormones and reduces willpower.',
+      'article.m5': '5. Lack of consistency',
+      'article.m5d': 'Results come from regularity, not perfection at every meal.',
+      'article.outro': 'Fix one mistake this week instead of changing everything at once.',
+      'calc.title': 'Ideal Calorie Calculator',
+      'calc.sex': 'Sex',
+      'calc.male': 'Male',
+      'calc.female': 'Female',
+      'calc.age': 'Age (years)',
+      'calc.age_ph': 'e.g. 28',
+      'calc.weight': 'Weight (kg)',
+      'calc.weight_ph': 'e.g. 75',
+      'calc.height': 'Height (cm)',
+      'calc.height_ph': 'e.g. 175',
+      'calc.activity': 'Activity level',
+      'calc.act1': 'Sedentary (little or no exercise)',
+      'calc.act2': 'Light (1-3 days/week)',
+      'calc.act3': 'Moderate (3-5 days/week)',
+      'calc.act4': 'Intense (6-7 days/week)',
+      'calc.btn': 'Calculate',
+      'calc.result': 'kcal / day to maintain your weight',
+      'med.title': 'Guided Meditation',
+      'med.dur': '10 min',
+      'med.idle': 'Ready',
+      'med.start': 'Start',
+      'med.reset': 'Reset',
       'testi.title': 'They transformed their lives',
       'testi.t1.text': '"I lost 8 kg in 3 months without frustration. I regained confidence and consistency."',
       'testi.t1.author': 'Léa, 34, Lyon',
@@ -798,7 +893,41 @@ footer ul li{margin-bottom:8px}
       'support.s3.title': 'Meditación',
       'support.s3.desc': '10 min para recuperarte mejor',
       'support.s3.cta': 'Escuchar',
+      'article.title': 'Los 5 errores que arruinan tus esfuerzos',
+      'article.m1': '1. Omitir proteínas',
+      'article.m1d': 'No consumir suficiente ralentiza la recuperación muscular y reduce la saciedad.',
+      'article.m2': '2. Comer emocionalmente',
+      'article.m2d': 'Comer por estrés en lugar de hambre real sabotea cualquier dieta.',
+      'article.m3': '3. Reducir demasiadas calorías',
+      'article.m3d': 'Una dieta demasiado estricta ralentiza el metabolismo y provoca efecto rebote.',
+      'article.m4': '4. Descuidar el sueño',
+      'article.m4d': 'La falta de sueño aumenta las hormonas del hambre y reduce la fuerza de voluntad.',
+      'article.m5': '5. Falta de constancia',
+      'article.m5d': 'Los resultados vienen de la regularidad, no de la perfección en cada comida.',
+      'article.outro': 'Corrige un error a la vez esta semana en lugar de cambiarlo todo de golpe.',
       'testi.title': 'Ellos transformaron su vida',
+      'calc.title': 'Calculadora de calorías ideales',
+      'calc.sex': 'Sexo',
+      'calc.male': 'Hombre',
+      'calc.female': 'Mujer',
+      'calc.age': 'Edad (años)',
+      'calc.age_ph': 'ej: 28',
+      'calc.weight': 'Peso (kg)',
+      'calc.weight_ph': 'ej: 75',
+      'calc.height': 'Altura (cm)',
+      'calc.height_ph': 'ej: 175',
+      'calc.activity': 'Nivel de actividad',
+      'calc.act1': 'Sedentario (poco o ningún ejercicio)',
+      'calc.act2': 'Ligero (1-3 días/semana)',
+      'calc.act3': 'Moderado (3-5 días/semana)',
+      'calc.act4': 'Intenso (6-7 días/semana)',
+      'calc.btn': 'Calcular',
+      'calc.result': 'kcal / día para mantener tu peso',
+      'med.title': 'Meditación guiada',
+      'med.dur': '10 min',
+      'med.idle': 'Listo',
+      'med.start': 'Comenzar',
+      'med.reset': 'Reiniciar',
       'testi.t1.text': '«Perdí 8 kg en 3 meses sin frustración. Recuperé confianza y constancia.»',
       'testi.t1.author': 'Léa, 34, Lyon',
       'testi.t2.text': '«Estancado en banca por 2 años. En 8 semanas: +10 kg en la barra, +3 kg de músculo.»',
@@ -897,7 +1026,40 @@ footer ul li{margin-bottom:8px}
       'support.s3.title': 'تأمل',
       'support.s3.desc': '10 دقائق لتعافي أفضل',
       'support.s3.cta': 'استمع',
-      'testi.title': 'لقد غيروا حياتهم',
+      'article.title': '5 أخطاء تدمر جهودك',
+      'article.m1': '1. تجاهل البروتين',
+      'article.m1d': 'عدم تناول كمية كافية من البروتين يبطئ تعافي العضلات ويقلل الشبع.',
+      'article.m2': '2. الأكل العاطفي',
+      'article.m2d': 'تناول الطعام بسبب التوتر بدلاً من الجوع الحقيقي يخرب أي نظام غذائي.',
+      'article.m3': '3. تقليل السعرات بشكل مبالغ',
+      'article.m3d': 'نظام قاسٍ جداً يبطئ الأيض ويؤدي للانهيار لاحقاً.',
+      'article.m4': '4. إهمال النوم',
+      'article.m4d': 'قلة النوم ترفع هرمونات الجوع وتقلل الالتزام.',
+      'article.m5': '5. عدم الثبات',
+      'article.m5d': 'النتائج تأتي من الاستمرارية، وليس الكمال في كل وجبة.',
+      'article.outro': 'ابدأ بتصحيح خطأ واحد هذا الأسبوع بدل محاولة تغيير كل شيء دفعة واحدة.',
+      'calc.title': 'حاسبة السعرات المثالية',
+      'calc.sex': 'الجنس',
+      'calc.male': 'ذكر',
+      'calc.female': 'أنثى',
+      'calc.age': 'العمر (سنة)',
+      'calc.age_ph': 'مثال: 28',
+      'calc.weight': 'الوزن (كجم)',
+      'calc.weight_ph': 'مثال: 75',
+      'calc.height': 'الطول (سم)',
+      'calc.height_ph': 'مثال: 175',
+      'calc.activity': 'مستوى النشاط',
+      'calc.act1': 'خامل (بدون رياضة)',
+      'calc.act2': 'نشاط خفيف (1-3 أيام/أسبوع)',
+      'calc.act3': 'نشاط متوسط (3-5 أيام/أسبوع)',
+      'calc.act4': 'نشاط عالي (6-7 أيام/أسبوع)',
+      'calc.btn': 'احسب',
+      'calc.result': 'سعرة حرارية / يوم للحفاظ على وزنك',
+      'med.title': 'تأمل موجه',
+      'med.dur': '10 دقائق',
+      'med.idle': 'استعد',
+      'med.start': 'ابدأ',
+      'med.reset': 'إعادة',
       'testi.t1.text': '«فقدت 8 كجم في 3 أشهر بدون إحباط. استعدت ثقتي وانتظامي.»',
       'testi.t1.author': 'ليا، 34 سنة، ليون',
       'testi.t2.text': '«ركود في تمرين الصدر لمدة سنتين. في 8 أسابيع: +10 كجم على البار، +3 كجم عضلات.»',
@@ -1066,7 +1228,158 @@ footer ul li{margin-bottom:8px}
   });
   document.addEventListener('mousedown', () => document.body.classList.remove('nav-using-keyboard'));
   document.addEventListener('touchstart', () => document.body.classList.remove('nav-using-keyboard'));
+
+  // --- Bottom sheet modals ---
+  window.openSheet = function(id) {
+    const el = document.getElementById('overlay-'+id);
+    if (el) el.classList.add('active');
+  };
+  window.closeSheet = function(id) {
+    const el = document.getElementById('overlay-'+id);
+    if (el) el.classList.remove('active');
+    if (id === 'meditate') resetMeditation();
+  };
+  // Close overlay on backdrop click
+  document.querySelectorAll('.overlay').forEach(o => {
+    o.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+        if (this.id === 'overlay-meditate') resetMeditation();
+      }
+    });
+  });
+
+  // --- Calorie calculator (Mifflin-St Jeor) ---
+  window.calculateCalories = function() {
+    const sex = document.getElementById('calc-sex').value;
+    const age = parseFloat(document.getElementById('calc-age').value);
+    const weight = parseFloat(document.getElementById('calc-weight').value);
+    const height = parseFloat(document.getElementById('calc-height').value);
+    const activity = parseFloat(document.getElementById('calc-activity').value);
+    if (!age || !weight || !height) { alert('Veuillez remplir tous les champs'); return; }
+    let bmr;
+    if (sex === 'male') {
+      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+    } else {
+      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+    }
+    const tdee = Math.round(bmr * activity);
+    document.getElementById('calc-num').textContent = tdee;
+    document.getElementById('calc-result').classList.add('show');
+  };
+
+  // --- Meditation timer ---
+  let medInterval = null, breathInterval = null, medSeconds = 600;
+  window.startMeditation = function() {
+    const btn = document.getElementById('med-start');
+    if (medInterval) return;
+    btn.disabled = true;
+    medInterval = setInterval(() => {
+      medSeconds--;
+      updateMedDisplay();
+      if (medSeconds <= 0) {
+        stopMeditation();
+        document.getElementById('breathCircle').innerHTML = '✓';
+      }
+    }, 1000);
+    const circle = document.getElementById('breathCircle');
+    let inhale = true;
+    circle.className = 'breath-circle in';
+    circle.innerHTML = '&#8593;';
+    breathInterval = setInterval(() => {
+      inhale = !inhale;
+      if (inhale) {
+        circle.className = 'breath-circle in';
+        circle.innerHTML = '&#8593;';
+      } else {
+        circle.className = 'breath-circle out';
+        circle.innerHTML = '&#8595;';
+      }
+    }, 4000);
+  };
+  function stopMeditation() {
+    clearInterval(medInterval); clearInterval(breathInterval);
+    medInterval = null; breathInterval = null;
+    document.getElementById('med-start').disabled = false;
+  }
+  window.resetMeditation = function() {
+    stopMeditation();
+    medSeconds = 600;
+    updateMedDisplay();
+    const circle = document.getElementById('breathCircle');
+    circle.className = 'breath-circle idle';
+    circle.innerHTML = '&#9679;';
+    document.getElementById('med-start').disabled = false;
+  };
+  function updateMedDisplay() {
+    const m = Math.floor(medSeconds/60).toString().padStart(2,'0');
+    const s = (medSeconds%60).toString().padStart(2,'0');
+    document.getElementById('timerDisplay').textContent = m+':'+s;
+  }
 })();
 </script>
+
+<!-- ARTICLE MODAL -->
+<div class="overlay" id="overlay-article"><div class="sheet">
+<button class="close-btn" onclick="closeSheet('article')">✕</button>
+<h3 data-i18n="article.title">Les 5 erreurs qui sabotent vos efforts</h3>
+<ol>
+<li><b data-i18n="article.m1">1. Négliger les protéines</b> <span data-i18n="article.m1d">Ne pas en consommer assez ralentit la récupération musculaire et réduit la satiété.</span></li>
+<li><b data-i18n="article.m2">2. Manger émotionnellement</b> <span data-i18n="article.m2d">Manger sous l'effet du stress au lieu de la vraie faim sabote tout régime.</span></li>
+<li><b data-i18n="article.m3">3. Trop réduire les calories</b> <span data-i18n="article.m3d">Un régime trop strict ralentit le métabolisme et mène à l'effet yo-yo.</span></li>
+<li><b data-i18n="article.m4">4. Négliger le sommeil</b> <span data-i18n="article.m4d">Le manque de sommeil augmente les hormones de la faim et réduit la volonté.</span></li>
+<li><b data-i18n="article.m5">5. Manquer de constance</b> <span data-i18n="article.m5d">Les résultats viennent de la régularité, pas de la perfection à chaque repas.</span></li>
+</ol>
+<p data-i18n="article.outro">Corrigez une erreur à la fois cette semaine au lieu de tout changer d'un coup.</p>
+</div></div>
+
+<!-- CALCULATOR MODAL -->
+<div class="overlay" id="overlay-calc"><div class="sheet">
+<button class="close-btn" onclick="closeSheet('calc')">✕</button>
+<h3 data-i18n="calc.title">Calculateur de calories idéales</h3>
+<div class="form-group">
+<label data-i18n="calc.sex">Sexe</label>
+<select id="calc-sex"><option value="male" data-i18n="calc.male">Homme</option><option value="female" data-i18n="calc.female">Femme</option></select>
+</div>
+<div class="form-group">
+<label data-i18n="calc.age">Âge (ans)</label>
+<input type="number" id="calc-age" data-i18n-placeholder="calc.age_ph" placeholder="ex: 28">
+</div>
+<div class="form-group">
+<label data-i18n="calc.weight">Poids (kg)</label>
+<input type="number" id="calc-weight" data-i18n-placeholder="calc.weight_ph" placeholder="ex: 75">
+</div>
+<div class="form-group">
+<label data-i18n="calc.height">Taille (cm)</label>
+<input type="number" id="calc-height" data-i18n-placeholder="calc.height_ph" placeholder="ex: 175">
+</div>
+<div class="form-group">
+<label data-i18n="calc.activity">Niveau d'activité</label>
+<select id="calc-activity">
+<option value="1.2" data-i18n="calc.act1">Sédentaire (peu ou pas d'exercice)</option>
+<option value="1.375" data-i18n="calc.act2">Léger (1-3 jours/semaine)</option>
+<option value="1.55" data-i18n="calc.act3">Modéré (3-5 jours/semaine)</option>
+<option value="1.725" data-i18n="calc.act4">Intense (6-7 jours/semaine)</option>
+</select>
+</div>
+<button class="btn btn-primary" style="width:100%" onclick="calculateCalories()" data-i18n="calc.btn">Calculer</button>
+<div class="result-box" id="calc-result">
+<div class="num" id="calc-num">0</div>
+<div class="label" data-i18n="calc.result">kcal / jour pour maintenir votre poids</div>
+</div>
+</div></div>
+
+<!-- MEDITATION MODAL -->
+<div class="overlay" id="overlay-meditate"><div class="sheet">
+<button class="close-btn" onclick="closeSheet('meditate')">✕</button>
+<h3><span data-i18n="med.title">Méditation guidée</span> — <span data-i18n="med.dur">10 min</span></h3>
+<div class="breath-circle" id="breathCircle"><span data-i18n="med.idle">Prêt</span></div>
+<div class="timer-display" id="timerDisplay">10:00</div>
+<div class="med-controls">
+<button onclick="startMeditation()" id="med-start" data-i18n="med.start">Commencer</button>
+<button onclick="resetMeditation()" data-i18n="med.reset">Recommencer</button>
+</div>
+</div></div>
+
 </body>
 </html>
