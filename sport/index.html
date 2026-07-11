@@ -1286,7 +1286,7 @@ footer ul li{margin-bottom:8px}
     droneOsc2.type = 'sine'; droneOsc2.frequency.value = 223;
     const now = audioCtx.currentTime;
     droneGain.gain.setValueAtTime(0, now);
-    droneGain.gain.linearRampToValueAtTime(0.025, now + 2.5);
+    droneGain.gain.linearRampToValueAtTime(0.08, now + 2.5);
     droneOsc1.connect(droneGain); droneOsc2.connect(droneGain);
     droneGain.connect(audioCtx.destination);
     droneOsc1.start(now); droneOsc2.start(now);
@@ -1297,7 +1297,7 @@ footer ul li{margin-bottom:8px}
     const now = audioCtx.currentTime;
     droneGain.gain.cancelScheduledValues(now);
     droneGain.gain.setValueAtTime(droneGain.gain.value, now);
-    droneGain.gain.linearRampToValueAtTime(0.008, now + 0.3);
+    droneGain.gain.linearRampToValueAtTime(0.025, now + 0.3);
   }
 
   function unduckDrone() {
@@ -1305,7 +1305,7 @@ footer ul li{margin-bottom:8px}
     const now = audioCtx.currentTime;
     droneGain.gain.cancelScheduledValues(now);
     droneGain.gain.setValueAtTime(droneGain.gain.value, now);
-    droneGain.gain.linearRampToValueAtTime(0.025, now + 0.6);
+    droneGain.gain.linearRampToValueAtTime(0.08, now + 0.6);
   }
 
   function stopDrone() {
