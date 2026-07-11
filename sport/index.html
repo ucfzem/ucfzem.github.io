@@ -156,7 +156,8 @@ section{padding:var(--section-pad) 0}
   background:var(--bg-card);border:1px solid var(--border-card);
   padding:30px 20px;border-radius:15px;text-align:center;min-height:var(--card-min-h)
 }
-.support-item i{font-size:2.4rem;color:var(--gold);margin-bottom:14px}
+.support-item i, .support-icon{font-size:2.4rem;color:var(--gold);margin-bottom:14px}
+.support-icon{width:2.4rem;height:auto;display:block;margin:0 auto 14px}
 .support-item h4{margin-bottom:8px;color:var(--text)}
 .support-item p{color:var(--text-sec);font-size:.9rem;margin-bottom:10px}
 
@@ -436,19 +437,19 @@ footer ul li{margin-bottom:8px}
     <h2 data-i18n="support.title">Votre transformation complète</h2>
     <div class="support-grid">
       <div class="support-item" tabindex="0">
-        <i class="fas fa-apple-alt"></i>
+        <img src="/sport/assets/icon-nutrition.png" alt="Nutrition" class="support-icon">
         <h4 data-i18n="support.s1.title">Nutrition</h4>
         <p data-i18n="support.s1.desc">"Les 5 erreurs qui sabotent vos efforts"</p>
         <a href="#" onclick="event.preventDefault();openSheet('article')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s1.cta">Lire l'article</a>
       </div>
       <div class="support-item" tabindex="0">
-        <i class="fas fa-calculator"></i>
+        <img src="/sport/assets/icon-calc.png" alt="Calculateur" class="support-icon">
         <h4 data-i18n="support.s2.title">Calculateur</h4>
         <p data-i18n="support.s2.desc">Calculez vos macros idéales</p>
         <a href="#" onclick="event.preventDefault();openSheet('calc')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s2.cta">Lancer le calcul</a>
       </div>
       <div class="support-item" tabindex="0">
-        <i class="fas fa-spa"></i>
+        <img src="/sport/assets/icon-meditate.png" alt="Méditation" class="support-icon">
         <h4 data-i18n="support.s3.title">Méditation</h4>
         <p data-i18n="support.s3.desc">10 min pour mieux récupérer</p>
         <a href="#" onclick="event.preventDefault();openSheet('meditate')" class="btn btn-primary" style="margin-top:12px" data-i18n="support.s3.cta">Écouter</a>
