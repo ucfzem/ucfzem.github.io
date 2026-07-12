@@ -3,13 +3,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>TmpDrop — Partage de fichiers temporaires gratuit</title>
-<meta name="description" content="Partagez des fichiers jusqu'à 50 Mo gratuitement. Hébergement temporaire, lien de téléchargement, suppression automatique après 24h. Simple, rapide, sans inscription.">
+<meta name="description" content="Partagez des fichiers jusqu'à 25 Mo gratuitement. Hébergement temporaire, lien de téléchargement, suppression automatique après 24h. Simple, rapide, sans inscription.">
 <meta name="keywords" content="partage fichiers, transfert fichiers, temporaire, gratuit, WeTransfer gratuit, envoyer fichier">
 <link rel="canonical" href="https://ucfzem.github.io/tmpdrop/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ucfzem.github.io/tmpdrop/">
 <meta property="og:title" content="TmpDrop — Partage de fichiers temporaires">
-<meta property="og:description" content="Partagez des fichiers jusqu'à 50 Mo. Lien de téléchargement, auto-suppression 24h. Gratuit, sans inscription.">
+<meta property="og:description" content="Partagez des fichiers jusqu'à 25 Mo. Lien de téléchargement, auto-suppression 24h. Gratuit, sans inscription.">
 <meta property="og:image" content="https://ucfzem.github.io/tmpdrop/og-image.png">
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
@@ -150,7 +150,7 @@ function showUploadPage() {
     '<button class="btn btn-primary" id="newUploadBtn" style="margin-top:1rem;">📤 Nouvel upload</button>' +
     '</div></div>' +
     '<div class="card" style="text-align:center;font-size:0.85rem;color:var(--text-dim);">' +
-    '<div style="margin-bottom:0.3rem;">📤 Fichiers jusqu\'à 50 Mo · Gratuit</div>' +
+    '<div style="margin-bottom:0.3rem;">📤 Fichiers jusqu\'à 25 Mo · Gratuit · Auto-suppression 24h</div>' +
     '<div>⏳ Supprimés automatiquement après 24h</div></div>' +
     '<div class="footer">TmpDrop · <a href="https://ucfzem.github.io/liens/" style="color:var(--text-dim);">ucfzem</a> · Propulsé par Cloudflare</div>';
   setupUpload();
@@ -175,8 +175,8 @@ function setupUpload() {
 
   function selectFile(f) {
     if (!f) return;
-    if (f.size > 50 * 1024 * 1024) {
-      setStatus('Fichier trop volumineux. Maximum : 50 Mo.', true);
+    if (f.size > 25 * 1024 * 1024) {
+      setStatus('Fichier trop volumineux. Maximum : 25 Mo.', true);
       return;
     }
     selectedFile = f;

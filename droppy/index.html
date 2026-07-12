@@ -182,6 +182,7 @@
             dropZone.classList.add('has-files');
             fileCount.textContent = `${selectedFiles.length} fichier${selectedFiles.length > 1 ? 's' : ''}`;
             fileList.innerHTML = selectedFiles.map((f, i) => {
+                if (f.size > 25*1024*1024) { showToast('❌ ' + f.name + ' dépasse 25 Mo'); removeFile(i); return; }
                 const size = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(1)+' KB';
                 const icon = f.type.startsWith('image/') ? '🖼️' : f.type.startsWith('video/') ? '🎬' : f.type.startsWith('audio/') ? '🎵' : f.type.startsWith('text/') ? '📄' : '📦';
                 return `<div class="file-item flex items-center gap-3 p-3 rounded-xl bg-[var(--bg)]">
