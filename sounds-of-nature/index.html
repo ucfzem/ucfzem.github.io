@@ -89,7 +89,7 @@
         playing[s.id].pause(); playing[s.id].currentTime = 0;
         playing[s.id] = null; btn.classList.remove('active-loop');
       } else {
-        const audio = new Audio('assets/' + s.file);
+        const audio = new Audio('/sounds-of-nature/assets/' + s.file);
         audio.loop = true;
         audio.play().then(() => {
           playing[s.id] = audio;
