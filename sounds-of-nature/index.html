@@ -49,19 +49,14 @@
 <p class="subtitle">Ambiances naturelles · sons authentiques</p>
 
 <div class="sound-section">
-  <div class="section-title"><i class="fas fa-leaf"></i> Ambiances (boucle infinie)</div>
+  <div class="section-title"><i class="fas fa-leaf"></i> Ambiances &amp; Sons (boucle infinie)</div>
   <div class="button-grid" id="ambienceGrid"></div>
-</div>
-
-<div class="sound-section">
-  <div class="section-title"><i class="fas fa-bolt"></i> Événements &amp; Animaux</div>
-  <div class="button-grid" id="triggerGrid"></div>
 </div>
 
 <button class="stop-all-btn" onclick="stopAll()"><i class="fas fa-stop-circle"></i> Stop tout</button>
 
 <footer>
-  Sons naturels — lecture en boucle pour les ambiances, déclenchement unique pour les événements
+  Sons naturels — appuyez pour lancer, re-appuyez pour arrêter
 </footer>
 
 <script>
@@ -70,66 +65,49 @@
     { id:'birds',   label:'Oiseaux',        icon:'fa-dove',       file:'freesound_community-birds-19624.mp3' },
     { id:'storm',   label:'Pluie & Orage',  icon:'fa-cloud-rain', file:'jci-21-rain-and-thunder-sfx-12820.mp3' },
     { id:'rain',    label:'Pluie douce',    icon:'fa-tint',       file:'liecio-calming-rain-257596.mp3' },
+    { id:'rain2',   label:'Pluie continue', icon:'fa-cloud-rain', file:'dinamakan-rain-sound-272604.mp3' },
     { id:'river',   label:'Rivière',        icon:'fa-water',      file:'oxidvideos-river-307903.mp3' },
+    { id:'river2',  label:'Rivière forte',  icon:'fa-water',      file:'soundreality-big-river-392040.mp3' },
     { id:'jungle',  label:'Jungle',         icon:'fa-tree',       file:'placidplace-nature-soundstropicaljunglebirds-108380.mp3' },
     { id:'drops',   label:'Gouttes d\'eau', icon:'fa-tint',       file:'freesound_community-water-drops-26638.mp3' },
-    { id:'cicada',  label:'Cigales',        icon:'fa-bug',        file:'blendertimer-cicada-419563.mp3' }
-  ];
-
-  const triggers = [
-    { id:'children', label:'Enfants cour',  icon:'fa-child',         file:'freesound_community-children-entering-school-23756.mp3' },
-    { id:'rooster',  label:'Coq',           icon:'fa-drumstick-bite',file:'dragon-studio-rooster-crowing-364473.mp3' },
-    { id:'frog',     label:'Grenouille',    icon:'fa-frog',          file:'dragon-studio-frog-croaking-sound-effect-322956.mp3' }
+    { id:'cicada',  label:'Cigales',        icon:'fa-bug',        file:'blendertimer-cicada-419563.mp3' },
+    { id:'cicada2', label:'Cigales 2',      icon:'fa-bug',        file:'herkesicinbisikletpodcast-cicada-126650.mp3' },
+    { id:'birds2',  label:'Oiseaux 2',      icon:'fa-dove',       file:'wr-sound-library-bird-soundchirping-light-no-copyright-550314.mp3' },
+    { id:'children',label:'Enfants cour',   icon:'fa-child',      file:'freesound_community-children-entering-school-23756.mp3' },
+    { id:'rooster', label:'Coq',            icon:'fa-drumstick-bite',file:'dragon-studio-rooster-crowing-364473.mp3' },
+    { id:'rooster2',label:'Coq 2',          icon:'fa-drumstick-bite',file:'nematoki-rooster-cry-chicken-rooster-305576.mp3' },
+    { id:'frog',    label:'Grenouille',     icon:'fa-frog',       file:'dragon-studio-frog-croaking-sound-effect-322956.mp3' }
   ];
 
   const loopAudios = {};
 
-  function createButton(sound, type) {
+  function createButton(sound) {
     const btn = document.createElement('button');
     btn.className = 'sound-btn';
     btn.innerHTML = `<i class="fas ${sound.icon}"></i> ${sound.label}`;
     btn.dataset.id = sound.id;
-    btn.dataset.type = type;
-
-    if (type === 'ambience') {
-      const audio = new Audio('assets/' + sound.file);
-      audio.loop = true;
-      audio.preload = 'auto';
-      loopAudios[sound.id] = audio;
-      btn.addEventListener('click', () => toggleAmbient(sound.id, btn));
-    } else {
-      btn.addEventListener('click', () => playOneShot('assets/' + sound.file, btn));
-    }
+    const audio = new Audio('assets/' + sound.file);
+    audio.loop = true;
+    audio.preload = 'auto';
+    loopAudios[sound.id] = audio;
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => btn.classList.add('active-loop')).catch(() => {});
+      } else {
+        audio.pause(); audio.currentTime = 0;
+        btn.classList.remove('active-loop');
+      }
+    });
     return btn;
-  }
-
-  function toggleAmbient(id, btn) {
-    const audio = loopAudios[id];
-    if (!audio) return;
-    if (audio.paused) {
-      audio.play().then(() => btn.classList.add('active-loop')).catch(() => {});
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-      btn.classList.remove('active-loop');
-    }
-  }
-
-  function playOneShot(url, btn) {
-    const audio = new Audio(url);
-    audio.play().catch(() => {});
-    btn.style.transform = 'scale(0.94)';
-    setTimeout(() => btn.style.transform = '', 120);
   }
 
   function stopAll() {
     Object.values(loopAudios).forEach(a => { a.pause(); a.currentTime = 0; });
-    document.querySelectorAll('.sound-btn[data-type="ambience"]').forEach(b => b.classList.remove('active-loop'));
+    document.querySelectorAll('.sound-btn').forEach(b => b.classList.remove('active-loop'));
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('ambienceGrid').append(...ambiences.map(s => createButton(s, 'ambience')));
-    document.getElementById('triggerGrid').append(...triggers.map(s => createButton(s, 'trigger')));
+    document.getElementById('ambienceGrid').append(...ambiences.map(s => createButton(s)));
   });
 </script>
 </body>
