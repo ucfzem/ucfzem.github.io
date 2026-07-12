@@ -147,7 +147,7 @@ function showUploadPage() {
     '<div id="statusMsg" style="display:none;font-size:0.85rem;margin-bottom:0.8rem;text-align:center;"></div>' +
     '<div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>' +
     '<button class="btn btn-primary" id="uploadBtn" disabled>Choisissez un fichier</button>' +
-    '<div class="result show" id="result">' +
+    '<div class="result" id="result">' +
     '<div id="successMsg" style="display:none;margin-bottom:0.8rem;color:var(--gold);font-weight:600;">✅ Fichier partagé !</div>' +
     '<div class="copy-row"><a class="link-box" id="shareLink" target="_blank"></a><button class="copy-btn" id="copyBtn">Copier</button></div>' +
     '<div id="uploadShareTiles"></div>' +
@@ -176,18 +176,6 @@ function setupUpload() {
   var statusEl = document.getElementById('statusMsg');
   var selectedFile = null;
   var appUrl = window.location.origin + BASE;
-
-  shareLink.textContent = appUrl;
-  shareLink.href = appUrl;
-  document.getElementById('uploadShareTiles').innerHTML = shareTilesHTML(encodeURIComponent(appUrl), appUrl);
-  copyBtn.onclick = function() {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(appUrl).then(function() {
-        copyBtn.textContent = '✅';
-        setTimeout(function(){ copyBtn.textContent = 'Copier'; }, 2000);
-      });
-    }
-  };
 
   function selectFile(f) {
     if (!f) return;
@@ -269,6 +257,7 @@ function setupUpload() {
       this.style.display = 'none';
       fileInfo.classList.remove('show');
       fileInfo.style.display = 'none';
+      document.getElementById('result').classList.add('show');
       document.getElementById('successMsg').style.display = 'block';
       setStatus('');
 
