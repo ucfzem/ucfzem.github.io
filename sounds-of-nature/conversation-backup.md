@@ -14,6 +14,9 @@ Created and deployed a nature soundboard with 16 loopable MP3 sounds, dark green
 8. User upgraded design: Google Fonts (Cinzel, Playfair Display, Plus Jakarta Sans), SVG logo, brand-header
 9. **i18n 4 languages** (FR/EN/ES/AR): full translation of UI + 16 sound labels, RTL Arabic, flag switcher 🇫🇷🇬🇧🇪🇸🇲🇦
 10. **Responsive/TV**: `clamp()` fluid layout, 6 breakpoints (mobile→4K), container queries, D-pad spatial nav, `:focus-visible` rings, 10-foot TV UI, overscan safe areas, GPU-friendly animations
+11. **Bug fix — bird logo truncated**: The 85KB base64 PNG mask was truncated when rewriting the file via read tool (2000 char limit). Restored from git history.
+12. **Lang persistence**: Language saved to `localStorage('sn-lang')`, restored on refresh.
+13. **AR font**: Cairo font for Arabic title/subtitle/section. Translated titles: FR "Sons de la Nature", ES "Sonidos de la Naturaleza", AR "أصوات الطبيعة"
 
 ## Current State
 - **Vercel**: https://ucfzem-works.vercel.app/sounds-of-nature/ — production
