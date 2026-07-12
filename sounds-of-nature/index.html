@@ -133,10 +133,11 @@
       } else {
         const audio = new Audio('/sounds-of-nature/assets/' + s.file);
         audio.loop = true;
+        playing[s.id] = audio;
         audio.play().then(() => {
-          playing[s.id] = audio;
           btn.classList.add('active-loop');
         }).catch(e => {
+          playing[s.id] = null;
           console.error('Playback failed:', e);
           btn.textContent = '❌ ' + s.label;
           setTimeout(() => btn.textContent = s.label, 2000);
