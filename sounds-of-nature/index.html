@@ -63,6 +63,8 @@
       display:flex;align-items:center;gap:0.4rem
     }
     .sound-btn:hover{background:#2c4f3b;border-color:#7aa382}
+    .sound-btn.loading{opacity:0.6;animation:pulse 1s infinite}
+    @keyframes pulse{50%{opacity:0.3}}
     .sound-btn.active-loop{background:#3c6e52;border-color:#8fc9a3;color:white;box-shadow:0 0 12px rgba(130,200,130,0.5)}
     .stop-all-btn{
       background:transparent;border:1px solid #957e69;color:#ddc9b8;
@@ -129,15 +131,20 @@
     btn.addEventListener('click', () => {
       if (playing[s.id]) {
         playing[s.id].pause(); playing[s.id].currentTime = 0;
-        playing[s.id] = null; btn.classList.remove('active-loop');
+        playing[s.id] = null; btn.classList.remove('active-loop', 'loading');
       } else {
         const audio = new Audio('/sounds-of-nature/assets/' + s.file);
         audio.loop = true;
         playing[s.id] = audio;
+        btn.classList.add('loading');
+        btn.textContent = '⏳ ' + s.label;
         audio.play().then(() => {
+          btn.textContent = s.label;
+          btn.classList.remove('loading');
           btn.classList.add('active-loop');
         }).catch(e => {
           playing[s.id] = null;
+          btn.classList.remove('loading');
           console.error('Playback failed:', e);
           btn.textContent = '❌ ' + s.label;
           setTimeout(() => btn.textContent = s.label, 2000);
