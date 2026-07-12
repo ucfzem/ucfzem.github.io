@@ -13,6 +13,7 @@ Fixed **tmpdrop** (from dead Supabase to Cloudflare KV), fixed **droppy** (merge
 7. Added 25 MB size limit, 24h KV TTL on all file + meta keys
 8. Tmpdrop page served from raw GitHub (bypass Pages CDN cache)
 9. File limit UI text updated (50→25 MB), auto-delete note added
+10. **Sport**: Fixed duplicate `.btn` CSS rule (line 73 overrode line 67 with `display:inline-block`), fixed TV mode button visibility for support-section CTAs ("Lire l'article", "Lancer le calcul", "Écouter")
 
 ## Current State
 - **Droppy**: Upload→KV, 25 MB limit, 24h TTL auto-delete
