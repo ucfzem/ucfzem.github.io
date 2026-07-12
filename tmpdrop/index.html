@@ -95,7 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <body>
 <div class="container" id="app"></div>
 <script>
-const WORKER = 'https://ucfzem.azer-tyu199p.workers.dev';
+var WORKER = location.hostname === 'ucfzem.github.io' ? 'https://ucfzem.azer-tyu199p.workers.dev' : '';
 
 const params = new URLSearchParams(window.location.search);
 const shareId = params.get('d');
