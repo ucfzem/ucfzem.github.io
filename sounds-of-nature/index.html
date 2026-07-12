@@ -1,145 +1,136 @@
-<!DOCTYPE html><html lang="fr">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Sounds of Nature — Ambiance sonore</title>
-<style>
-  :root{
-    --gold:#c9a84c;--gold-light:#f0c866;--bg:#0a0805;--card-bg:#141008;
-    --card-border:#2a2214;--text:#f5e9c9;--text-dim:#a89a78;--green:#4caf50;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding:20px}
-  h1{text-align:center;font-size:24px;margin-bottom:6px;color:var(--gold-light)}
-  .sub{text-align:center;color:var(--text-dim);font-size:14px;margin-bottom:30px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;max-width:800px;margin:auto}
-  .card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;user-select:none}
-  .card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 25px rgba(201,168,76,0.15)}
-  .card.playing{border-color:var(--green);box-shadow:0 0 20px rgba(76,175,80,0.2)}
-  .icon{font-size:40px;margin-bottom:10px}
-  .card h3{font-size:15px;margin-bottom:4px}
-  .card .status{font-size:12px;color:var(--text-dim);margin-top:8px}
-  .card .status.playing{color:var(--green)}
-  .controls{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap;max-width:400px;margin-left:auto;margin-right:auto}
-  .controls button{background:var(--card-bg);border:1px solid var(--card-border);color:var(--text);padding:10px 20px;border-radius:30px;font-size:13px;cursor:pointer;transition:all .2s}
-  .controls button:hover{border-color:var(--gold);color:var(--gold)}
-  .controls button:disabled{opacity:.4}
-  footer{text-align:center;margin-top:40px;color:var(--text-dim);font-size:12px}
-  /* Player bar */
-  .player-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card-bg);border-top:1px solid var(--gold);padding:12px 20px;z-index:100;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .player-bar.show{display:flex}
-  .player-bar .info{font-size:14px;font-weight:600}
-  .player-bar .info small{color:var(--text-dim);font-weight:400;font-size:12px}
-  .player-bar input[type=range]{width:120px;accent-color:var(--gold)}
-  .player-bar .btn{background:var(--gold);color:#111;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sounds of Nature — Ambiance sonore</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      background:#0a1a1c;color:#cfdfcf;
+      font-family:'Segoe UI',system-ui,sans-serif;
+      min-height:100vh;padding:2rem 1rem;
+      background-image:radial-gradient(ellipse at 20% 20%,#1e3a34,#0a1a1c 80%);
+      display:flex;flex-direction:column;align-items:center
+    }
+    h1{font-weight:300;font-size:2.2rem;letter-spacing:3px;margin-bottom:0.2rem;color:#b3d9c3}
+    .subtitle{color:#6b8b7a;margin-bottom:2rem;font-style:italic;font-size:0.95rem}
+    .sound-section{
+      width:100%;max-width:900px;margin-bottom:2rem;
+      background:rgba(20,35,30,0.55);backdrop-filter:blur(14px);
+      border-radius:2rem;padding:1.5rem 1.2rem;
+      border:1px solid rgba(130,180,130,0.2)
+    }
+    .section-title{
+      font-size:1.2rem;text-transform:uppercase;letter-spacing:2px;
+      margin-bottom:1rem;color:#a3c9b6;display:flex;align-items:center;gap:0.5rem
+    }
+    .button-grid{display:flex;flex-wrap:wrap;gap:0.7rem}
+    .sound-btn{
+      background:rgba(30,50,40,0.7);border:1px solid #4c7359;
+      color:#d4ebd4;padding:0.7rem 1.3rem;border-radius:2.5rem;
+      font-size:0.9rem;cursor:pointer;transition:0.2s;backdrop-filter:blur(6px);
+      display:flex;align-items:center;gap:0.4rem
+    }
+    .sound-btn:hover{background:#2c4f3b;border-color:#7aa382}
+    .sound-btn.active-loop{background:#3c6e52;border-color:#8fc9a3;color:white;box-shadow:0 0 12px rgba(130,200,130,0.5)}
+    .stop-all-btn{
+      background:transparent;border:1px solid #957e69;color:#ddc9b8;
+      margin-top:0.5rem;padding:0.6rem 2rem;border-radius:2rem;
+      font-size:0.9rem;letter-spacing:1px;cursor:pointer
+    }
+    .stop-all-btn:hover{background:rgba(200,150,120,0.2);border-color:#c9aa8a}
+    footer{margin-top:2rem;color:#4b6355;font-size:0.8rem;text-align:center;max-width:600px}
+    footer a{color:#7aa382}
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
 <h1>🌿 Sounds of Nature</h1>
-<p class="sub">Appuyez sur un son pour lancer · 10 min de détente</p>
+<p class="subtitle">Ambiances naturelles · sons authentiques</p>
 
-<div class="grid" id="soundGrid"></div>
-
-<div class="controls">
-  <button onclick="stopAll()">⏹️ Stop tout</button>
-  <button onclick="toggleMute()" id="muteBtnGlobal">🔊 Muet</button>
+<div class="sound-section">
+  <div class="section-title"><i class="fas fa-leaf"></i> Ambiances (boucle infinie)</div>
+  <div class="button-grid" id="ambienceGrid"></div>
 </div>
 
-<div class="player-bar" id="playerBar">
-  <div><button class="btn" onclick="stopAll()">⏹</button></div>
-  <div class="info"><span id="trackName">—</span> <small id="trackTime">0:00</small></div>
-  <div><input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.5"> <span id="volLabel">50%</span></div>
+<div class="sound-section">
+  <div class="section-title"><i class="fas fa-bolt"></i> Événements &amp; Animaux</div>
+  <div class="button-grid" id="triggerGrid"></div>
 </div>
 
-<footer>appuyez sur un son pour le lancer, re-appuyez pour l'arrêter</footer>
+<button class="stop-all-btn" onclick="stopAll()"><i class="fas fa-stop-circle"></i> Stop tout</button>
+
+<footer>
+  Sons naturels — lecture en boucle pour les ambiances, déclenchement unique pour les événements
+</footer>
 
 <script>
-  // Sound definitions — remplacez les URLs par vos fichiers audio
-  const sounds = [
-    { id:'rain',    icon:'🌧️', labelFR:'Pluie',        labelEN:'Rain',         file:'assets/rain.mp3' },
-    { id:'ocean',   icon:'🌊', labelFR:'Océan',        labelEN:'Ocean waves',  file:'assets/ocean.mp3' },
-    { id:'forest',  icon:'🌲', labelFR:'Forêt',        labelEN:'Forest',       file:'assets/forest.mp3' },
-    { id:'birds',   icon:'🐦', labelFR:'Oiseaux',      labelEN:'Birds',        file:'assets/birds.mp3' },
-    { id:'fire',    icon:'🔥', labelFR:'Feu de camp',  labelEN:'Campfire',     file:'assets/fire.mp3' },
-    { id:'wind',    icon:'🌬️', labelFR:'Vent',         labelEN:'Wind',         file:'assets/wind.mp3' },
-    { id:'thunder', icon:'⛈️', labelFR:'Orage',        labelEN:'Thunder',      file:'assets/thunder.mp3' },
-    { id:'river',   icon:'🏞️', labelFR:'Rivière',      labelEN:'Stream',       file:'assets/river.mp3' }
+  const ambiences = [
+    { id:'waves',   label:'Vagues',         icon:'fa-water',      file:'freesound_community-waves-53479.mp3' },
+    { id:'birds',   label:'Oiseaux',        icon:'fa-dove',       file:'freesound_community-birds-19624.mp3' },
+    { id:'storm',   label:'Pluie & Orage',  icon:'fa-cloud-rain', file:'jci-21-rain-and-thunder-sfx-12820.mp3' },
+    { id:'rain',    label:'Pluie douce',    icon:'fa-tint',       file:'liecio-calming-rain-257596.mp3' },
+    { id:'river',   label:'Rivière',        icon:'fa-water',      file:'oxidvideos-river-307903.mp3' },
+    { id:'jungle',  label:'Jungle',         icon:'fa-tree',       file:'placidplace-nature-soundstropicaljunglebirds-108380.mp3' },
+    { id:'drops',   label:'Gouttes d\'eau', icon:'fa-tint',       file:'freesound_community-water-drops-26638.mp3' },
+    { id:'cicada',  label:'Cigales',        icon:'fa-bug',        file:'blendertimer-cicada-419563.mp3' }
   ];
 
-  const grid = document.getElementById('soundGrid');
-  const playerBar = document.getElementById('playerBar');
-  const trackName = document.getElementById('trackName');
-  const trackTime = document.getElementById('trackTime');
-  const volSlider = document.getElementById('volSlider');
-  const volLabel = document.getElementById('volLabel');
-  const muteBtn = document.getElementById('muteBtnGlobal');
+  const triggers = [
+    { id:'children', label:'Enfants cour',  icon:'fa-child',         file:'freesound_community-children-entering-school-23756.mp3' },
+    { id:'rooster',  label:'Coq',           icon:'fa-drumstick-bite',file:'dragon-studio-rooster-crowing-364473.mp3' },
+    { id:'frog',     label:'Grenouille',    icon:'fa-frog',          file:'dragon-studio-frog-croaking-sound-effect-322956.mp3' }
+  ];
 
-  let currentAudio = null;
-  let currentId = null;
-  let isMuted = false;
+  const loopAudios = {};
 
-  sounds.forEach(s => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.id = s.id;
-    card.innerHTML = `<div class="icon">${s.icon}</div><h3>${s.labelFR}</h3><div class="status">🔇</div>`;
-    card.addEventListener('click', () => toggleSound(s.id));
-    grid.appendChild(card);
-  });
+  function createButton(sound, type) {
+    const btn = document.createElement('button');
+    btn.className = 'sound-btn';
+    btn.innerHTML = `<i class="fas ${sound.icon}"></i> ${sound.label}`;
+    btn.dataset.id = sound.id;
+    btn.dataset.type = type;
 
-  function toggleSound(id) {
-    if (currentId === id && currentAudio) {
-      stopAll();
-      return;
+    if (type === 'ambience') {
+      const audio = new Audio('assets/' + sound.file);
+      audio.loop = true;
+      audio.preload = 'auto';
+      loopAudios[sound.id] = audio;
+      btn.addEventListener('click', () => toggleAmbient(sound.id, btn));
+    } else {
+      btn.addEventListener('click', () => playOneShot('assets/' + sound.file, btn));
     }
-    stopAll();
-    const s = sounds.find(s => s.id === id);
-    if (!s) return;
-    currentAudio = new Audio(s.file);
-    currentAudio.loop = true;
-    currentAudio.volume = parseFloat(volSlider.value);
-    currentAudio.play().then(() => {
-      currentId = id;
-      playerBar.classList.add('show');
-      trackName.textContent = s.icon + ' ' + s.labelFR;
-      document.querySelector(`.card[data-id="${id}"]`).classList.add('playing');
-      document.querySelector(`.card[data-id="${id}"] .status`).textContent = '▶️ En cours';
-      document.querySelector(`.card[data-id="${id}"] .status`).classList.add('playing');
-      updateTime();
-    }).catch(() => {
-      alert('Fichier audio non trouvé. Ajoutez les fichiers dans sounds-of-nature/assets/');
-    });
+    return btn;
   }
 
-  function updateTime() {
-    if (!currentAudio) return;
-    const m = Math.floor(currentAudio.currentTime / 60);
-    const s = Math.floor(currentAudio.currentTime % 60).toString().padStart(2,'0');
-    trackTime.textContent = `${m}:${s}`;
-    requestAnimationFrame(updateTime);
+  function toggleAmbient(id, btn) {
+    const audio = loopAudios[id];
+    if (!audio) return;
+    if (audio.paused) {
+      audio.play().then(() => btn.classList.add('active-loop')).catch(() => {});
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      btn.classList.remove('active-loop');
+    }
+  }
+
+  function playOneShot(url, btn) {
+    const audio = new Audio(url);
+    audio.play().catch(() => {});
+    btn.style.transform = 'scale(0.94)';
+    setTimeout(() => btn.style.transform = '', 120);
   }
 
   function stopAll() {
-    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-    if (currentId) {
-      document.querySelectorAll('.card').forEach(c => { c.classList.remove('playing'); c.querySelector('.status').textContent = '🔇'; c.querySelector('.status').classList.remove('playing'); });
-    }
-    playerBar.classList.remove('show');
-    currentId = null;
+    Object.values(loopAudios).forEach(a => { a.pause(); a.currentTime = 0; });
+    document.querySelectorAll('.sound-btn[data-type="ambience"]').forEach(b => b.classList.remove('active-loop'));
   }
 
-  volSlider.addEventListener('input', () => {
-    const v = parseFloat(volSlider.value);
-    volLabel.textContent = Math.round(v*100) + '%';
-    if (currentAudio && !isMuted) currentAudio.volume = v;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('ambienceGrid').append(...ambiences.map(s => createButton(s, 'ambience')));
+    document.getElementById('triggerGrid').append(...triggers.map(s => createButton(s, 'trigger')));
   });
-
-  function toggleMute() {
-    isMuted = !isMuted;
-    muteBtn.textContent = isMuted ? '🔇 Muet' : '🔊 Muet';
-    if (currentAudio) currentAudio.volume = isMuted ? 0 : parseFloat(volSlider.value);
-  }
 </script>
 </body>
 </html>
