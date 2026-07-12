@@ -17,6 +17,7 @@ Created and deployed a nature soundboard with 16 loopable MP3 sounds, dark green
 11. **Bug fix — bird logo truncated**: The 85KB base64 PNG mask was truncated when rewriting the file via read tool (2000 char limit). Restored from git history.
 12. **Lang persistence**: Language saved to `localStorage('sn-lang')`, restored on refresh.
 13. **AR font**: Cairo font for Arabic title/subtitle/section. Translated titles: FR "Sons de la Nature", ES "Sonidos de la Naturaleza", AR "أصوات الطبيعة"
+14. **h1→subtitle gap reduced**: `margin-bottom:clamp(0.05rem,0.1vw + 0.05rem,0.25rem)` — tighter spacing between Arabic title and subtitle
 
 ## Current State
 - **Vercel**: https://ucfzem-works.vercel.app/sounds-of-nature/ — production
