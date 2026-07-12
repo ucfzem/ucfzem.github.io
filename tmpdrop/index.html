@@ -223,7 +223,9 @@ function setupUpload() {
 
     try {
       var f = selectedFile;
-      var uploadRes = await fetch(WORKER + '/tmpdrop/upload', {
+      var url = WORKER + '/tmpdrop/upload';
+      setStatus('Envoi vers ' + url + '...');
+      var uploadRes = await fetch(url, {
         method: 'POST',
         headers: { 'X-Filename': encodeURIComponent(f.name) },
         body: f,
