@@ -12,6 +12,8 @@ Created and deployed a nature soundboard with 16 loopable MP3 sounds, dark green
 6. **Bug 2 — Coq2 unstoppable**: `playing[id] = audio` was set inside `.then()` of `audio.play()`. On slow connections, the promise resolves asynchronously, creating a window where a second click creates a duplicate audio that can never be stopped. Fix: store `playing[id] = audio` before `play()`
 7. **UX — 10-15s load time**: Added `.loading` class (opacity pulse) + ⏳ prefix while audio buffers
 8. User upgraded design: Google Fonts (Cinzel, Playfair Display, Plus Jakarta Sans), SVG logo, brand-header
+9. **i18n 4 languages** (FR/EN/ES/AR): full translation of UI + 16 sound labels, RTL Arabic, flag switcher 🇫🇷🇬🇧🇪🇸🇲🇦
+10. **Responsive/TV**: `clamp()` fluid layout, 6 breakpoints (mobile→4K), container queries, D-pad spatial nav, `:focus-visible` rings, 10-foot TV UI, overscan safe areas, GPU-friendly animations
 
 ## Current State
 - **Vercel**: https://ucfzem-works.vercel.app/sounds-of-nature/ — production
@@ -19,6 +21,8 @@ Created and deployed a nature soundboard with 16 loopable MP3 sounds, dark green
 - Loading state: ⏳ while buffering, then green glow when playing
 - All 16 sounds loopable, stop-all button works
 - CSS: `.sound-btn.loading` with pulse animation
+- i18n: 4 languages with flag switcher, RTL Arabic
+- Responsive: mobile→4K TV, D-pad remote navigation, focus rings
 
 ## Files
 - `sounds-of-nature/index.html` — single-file app
