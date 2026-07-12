@@ -5,7 +5,7 @@
   <title>Sounds of Nature</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&family=Noto+Naskh+Arabic:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Plus+Jakarta+Sans:wght@300;400;500&family=Cairo:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -34,7 +34,7 @@
       gap:var(--space-md);
       -webkit-tap-highlight-color:transparent
     }
-    body.rtl{font-family:'Noto Naskh Arabic','Plus Jakarta Sans',system-ui,sans-serif;direction:rtl}
+    body.rtl{font-family:'Cairo','Plus Jakarta Sans',system-ui,sans-serif;direction:rtl}
 
     a,button{font:inherit;color:inherit}
 
@@ -66,7 +66,7 @@
       color:#C7EFCF;
       letter-spacing:clamp(1px,0.2vw + 0.5px,4px);
       text-transform:uppercase;
-      font-size:clamp(0.6rem,0.8vw + 0.2rem,1rem)
+      font-size:clamp(0.75rem,1vw + 0.3rem,1.3rem)
     }
     body.rtl .subtitle{letter-spacing:0}
 
@@ -210,7 +210,7 @@
 <script>
   const LANG = {
     fr: {
-      title: 'Sounds of Nature',
+      title: 'Sons de la Nature',
       subtitle: 'Ambiances naturelles · sons authentiques',
       section: '🎵 Ambiances & Sons',
       stop: '⏹️ Stop tout',
@@ -240,7 +240,7 @@
       }
     },
     es: {
-      title: 'Sounds of Nature',
+      title: 'Sonidos de la Naturaleza',
       subtitle: 'Ambientes Naturales · Sonidos Auténticos',
       section: '🎵 Ambientes & Sonidos',
       stop: '⏹️ Parar todo',
@@ -255,8 +255,8 @@
       }
     },
     ar: {
-      title: 'Sounds of Nature',
-      subtitle: 'أصوات الطبيعة · نغمات أصيلة',
+      title: 'أصوات الطبيعة',
+      subtitle: 'هدير الطبيعة · نغمات أصلية',
       section: '🎵 الأجواء والأصوات',
       stop: '⏹️ إيقاف الكل',
       footer: 'أصوات الطبيعة — اضغط للتشغيل، اضغط مرة أخرى للإيقاف',
