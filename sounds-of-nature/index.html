@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Sounds of Nature — Ambiance sonore</title>
+<style>
+  :root{
+    --gold:#c9a84c;--gold-light:#f0c866;--bg:#0a0805;--card-bg:#141008;
+    --card-border:#2a2214;--text:#f5e9c9;--text-dim:#a89a78;--green:#4caf50;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;min-height:100vh;padding:20px}
+  h1{text-align:center;font-size:24px;margin-bottom:6px;color:var(--gold-light)}
+  .sub{text-align:center;color:var(--text-dim);font-size:14px;margin-bottom:30px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;max-width:800px;margin:auto}
+  .card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .3s;user-select:none}
+  .card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 25px rgba(201,168,76,0.15)}
+  .card.playing{border-color:var(--green);box-shadow:0 0 20px rgba(76,175,80,0.2)}
+  .icon{font-size:40px;margin-bottom:10px}
+  .card h3{font-size:15px;margin-bottom:4px}
+  .card .status{font-size:12px;color:var(--text-dim);margin-top:8px}
+  .card .status.playing{color:var(--green)}
+  .controls{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap;max-width:400px;margin-left:auto;margin-right:auto}
+  .controls button{background:var(--card-bg);border:1px solid var(--card-border);color:var(--text);padding:10px 20px;border-radius:30px;font-size:13px;cursor:pointer;transition:all .2s}
+  .controls button:hover{border-color:var(--gold);color:var(--gold)}
+  .controls button:disabled{opacity:.4}
+  footer{text-align:center;margin-top:40px;color:var(--text-dim);font-size:12px}
+  /* Player bar */
+  .player-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card-bg);border-top:1px solid var(--gold);padding:12px 20px;z-index:100;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .player-bar.show{display:flex}
+  .player-bar .info{font-size:14px;font-weight:600}
+  .player-bar .info small{color:var(--text-dim);font-weight:400;font-size:12px}
+  .player-bar input[type=range]{width:120px;accent-color:var(--gold)}
+  .player-bar .btn{background:var(--gold);color:#111;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<h1>🌿 Sounds of Nature</h1>
+<p class="sub">Appuyez sur un son pour lancer · 10 min de détente</p>
+
+<div class="grid" id="soundGrid"></div>
+
+<div class="controls">
+  <button onclick="stopAll()">⏹️ Stop tout</button>
+  <button onclick="toggleMute()" id="muteBtnGlobal">🔊 Muet</button>
+</div>
+
+<div class="player-bar" id="playerBar">
+  <div><button class="btn" onclick="stopAll()">⏹</button></div>
+  <div class="info"><span id="trackName">—</span> <small id="trackTime">0:00</small></div>
+  <div><input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.5"> <span id="volLabel">50%</span></div>
+</div>
+
+<footer>appuyez sur un son pour le lancer, re-appuyez pour l'arrêter</footer>
+
+<script>
+  // Sound definitions — remplacez les URLs par vos fichiers audio
+  const sounds = [
+    { id:'rain',    icon:'🌧️', labelFR:'Pluie',        labelEN:'Rain',         file:'assets/rain.mp3' },
+    { id:'ocean',   icon:'🌊', labelFR:'Océan',        labelEN:'Ocean waves',  file:'assets/ocean.mp3' },
+    { id:'forest',  icon:'🌲', labelFR:'Forêt',        labelEN:'Forest',       file:'assets/forest.mp3' },
+    { id:'birds',   icon:'🐦', labelFR:'Oiseaux',      labelEN:'Birds',        file:'assets/birds.mp3' },
+    { id:'fire',    icon:'🔥', labelFR:'Feu de camp',  labelEN:'Campfire',     file:'assets/fire.mp3' },
+    { id:'wind',    icon:'🌬️', labelFR:'Vent',         labelEN:'Wind',         file:'assets/wind.mp3' },
+    { id:'thunder', icon:'⛈️', labelFR:'Orage',        labelEN:'Thunder',      file:'assets/thunder.mp3' },
+    { id:'river',   icon:'🏞️', labelFR:'Rivière',      labelEN:'Stream',       file:'assets/river.mp3' }
+  ];
+
+  const grid = document.getElementById('soundGrid');
+  const playerBar = document.getElementById('playerBar');
+  const trackName = document.getElementById('trackName');
+  const trackTime = document.getElementById('trackTime');
+  const volSlider = document.getElementById('volSlider');
+  const volLabel = document.getElementById('volLabel');
+  const muteBtn = document.getElementById('muteBtnGlobal');
+
+  let currentAudio = null;
+  let currentId = null;
+  let isMuted = false;
+
+  sounds.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = s.id;
+    card.innerHTML = `<div class="icon">${s.icon}</div><h3>${s.labelFR}</h3><div class="status">🔇</div>`;
+    card.addEventListener('click', () => toggleSound(s.id));
+    grid.appendChild(card);
+  });
+
+  function toggleSound(id) {
+    if (currentId === id && currentAudio) {
+      stopAll();
+      return;
+    }
+    stopAll();
+    const s = sounds.find(s => s.id === id);
+    if (!s) return;
+    currentAudio = new Audio(s.file);
+    currentAudio.loop = true;
+    currentAudio.volume = parseFloat(volSlider.value);
+    currentAudio.play().then(() => {
+      currentId = id;
+      playerBar.classList.add('show');
+      trackName.textContent = s.icon + ' ' + s.labelFR;
+      document.querySelector(`.card[data-id="${id}"]`).classList.add('playing');
+      document.querySelector(`.card[data-id="${id}"] .status`).textContent = '▶️ En cours';
+      document.querySelector(`.card[data-id="${id}"] .status`).classList.add('playing');
+      updateTime();
+    }).catch(() => {
+      alert('Fichier audio non trouvé. Ajoutez les fichiers dans sounds-of-nature/assets/');
+    });
+  }
+
+  function updateTime() {
+    if (!currentAudio) return;
+    const m = Math.floor(currentAudio.currentTime / 60);
+    const s = Math.floor(currentAudio.currentTime % 60).toString().padStart(2,'0');
+    trackTime.textContent = `${m}:${s}`;
+    requestAnimationFrame(updateTime);
+  }
+
+  function stopAll() {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    if (currentId) {
+      document.querySelectorAll('.card').forEach(c => { c.classList.remove('playing'); c.querySelector('.status').textContent = '🔇'; c.querySelector('.status').classList.remove('playing'); });
+    }
+    playerBar.classList.remove('show');
+    currentId = null;
+  }
+
+  volSlider.addEventListener('input', () => {
+    const v = parseFloat(volSlider.value);
+    volLabel.textContent = Math.round(v*100) + '%';
+    if (currentAudio && !isMuted) currentAudio.volume = v;
+  });
+
+  function toggleMute() {
+    isMuted = !isMuted;
+    muteBtn.textContent = isMuted ? '🔇 Muet' : '🔊 Muet';
+    if (currentAudio) currentAudio.volume = isMuted ? 0 : parseFloat(volSlider.value);
+  }
+</script>
+</body>
+</html>
