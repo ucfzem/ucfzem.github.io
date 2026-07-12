@@ -95,11 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <body>
 <div class="container" id="app"></div>
 <script>
-const SUPABASE_URL = 'https://vjhcfbwuyebiesxslwhe.supabase.co';
-const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqaGNmYnd1eWViaWVzeHNsd2hlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTY5NTcsImV4cCI6MjA5NTczMjk1N30.UaXpJKBVxUslGYOdkXJF-vg_QJC0cCArzlDYPVQVHN4';
-const SUPABASE_PROXY = '/supabase-proxy';
-
-var SUPABASE = location.hostname === 'ucfzem.github.io' ? SUPABASE_URL : SUPABASE_PROXY;
+const WORKER = 'https://ucfzem.azer-tyu199p.workers.dev';
 
 const params = new URLSearchParams(window.location.search);
 const shareId = params.get('d');
@@ -156,7 +152,7 @@ function showUploadPage() {
     '<div class="card" style="text-align:center;font-size:0.85rem;color:var(--text-dim);">' +
     '<div style="margin-bottom:0.3rem;">📤 Fichiers jusqu\'à 50 Mo · Gratuit</div>' +
     '<div>⏳ Supprimés automatiquement après 24h</div></div>' +
-    '<div class="footer">TmpDrop · <a href="https://ucfzem.github.io/liens/" style="color:var(--text-dim);">ucfzem</a></div>';
+    '<div class="footer">TmpDrop · <a href="https://ucfzem.github.io/liens/" style="color:var(--text-dim);">ucfzem</a> · Propulsé par Cloudflare</div>';
   setupUpload();
 }
 
@@ -227,31 +223,19 @@ function setupUpload() {
 
     try {
       var f = selectedFile;
-      var ext = f.name.split('.').pop();
-      var storagePath = String(Date.now()) + '_' + Math.random().toString(36).slice(2) + '.' + ext;
-
-      var uploadRes = await fetch(SUPABASE + '/storage/v1/object/tmp-files/' + storagePath, {
+      var uploadRes = await fetch(WORKER + '/tmpdrop/upload', {
         method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': f.type || 'application/octet-stream' },
+        headers: { 'X-Filename': encodeURIComponent(f.name) },
         body: f,
       });
-      if (!uploadRes.ok) throw new Error('Upload échoué (code ' + uploadRes.status + ')');
-      progressFill.style.width = '60%';
-
-      var sid = Math.random().toString(36).slice(2,10) + Math.random().toString(36).slice(2,10);
-      var fileUrl = SUPABASE_URL + '/storage/v1/object/public/tmp-files/' + storagePath;
-      var recordRes = await fetch(SUPABASE + '/rest/v1/uploads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
-        body: JSON.stringify({ file_url: fileUrl, file_name: f.name, file_size: f.size, mime_type: f.type || null, share_id: sid }),
-      });
-      if (!recordRes.ok) {
-        var errText = await recordRes.text().catch(function(){ return ''; });
-        throw new Error('Enregistrement échoué: ' + errText);
+      if (!uploadRes.ok) {
+        var errBody = await uploadRes.text().catch(function(){ return ''; });
+        throw new Error('Upload échoué: ' + errBody);
       }
       progressFill.style.width = '100%';
+      var data = await uploadRes.json();
 
-      var link = window.location.origin + BASE + '?d=' + sid;
+      var link = window.location.origin + BASE + '?d=' + data.id;
       shareLink.textContent = link;
       shareLink.href = link;
       this.style.display = 'none';
@@ -307,46 +291,29 @@ async function showDownloadPage(id) {
   app.innerHTML = '<div class="logo">Tmp<span>Drop</span></div><p class="tagline" style="text-align:center;">Récupération...</p>';
 
   try {
-    var res = await fetch(SUPABASE + '/rest/v1/uploads?share_id=eq.' + encodeURIComponent(id) + '&select=*', {
-      headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY },
-    });
-    if (!res.ok) throw new Error('Erreur serveur');
-    var data = await res.json();
+    var res = await fetch(WORKER + '/tmpdrop/list/' + encodeURIComponent(id));
+    if (!res.ok) throw new Error('Fichier introuvable');
+    var file = await res.json();
 
-    if (!data || data.length === 0) {
-      app.innerHTML = '<div class="logo">Tmp<span>Drop</span></div>' +
-        '<div class="card error-msg">' +
-        '<div style="font-size:3rem;margin-bottom:1rem;">🔗</div>' +
-        '<div style="font-weight:600;margin-bottom:0.5rem;">Lien invalide ou expiré</div>' +
-        '<div style="font-size:0.85rem;color:var(--text-dim);">Les fichiers sont supprimés après 24h.</div>' +
-        '<a href="' + BASE + '" class="btn btn-primary" style="margin-top:1.5rem;">Nouvel upload</a></div>' +
-        '<div class="footer">TmpDrop · Propulsé par Supabase</div>';
-      return;
-    }
-
-    var file = data[0];
-    var expires = new Date(file.expires_at);
-    var now = new Date();
-    var hoursLeft = Math.max(0, Math.floor((expires - now) / 3600000));
-    var minutesLeft = Math.max(0, Math.floor(((expires - now) % 3600000) / 60000));
     var pageLink = window.location.href;
     var encodedUrl = encodeURIComponent(pageLink);
+    var dlUrl = WORKER + '/tmpdrop/dl/' + encodeURIComponent(id);
 
     app.innerHTML = '<div class="logo">Tmp<span>Drop</span></div>' +
       '<p class="tagline" style="text-align:center;">Fichier disponible</p>' +
       '<div class="card file-card">' +
       '<div class="icon">📄</div>' +
-      '<div class="fname">' + esc(file.file_name) + '</div>' +
-      '<div class="finfo">' + formatSize(file.file_size) + (file.mime_type ? ' · ' + esc(file.mime_type) : '') + '</div>' +
-      '<a href="' + esc(file.file_url) + '" download="' + esc(file.file_name) + '" class="btn btn-primary">⬇ Télécharger</a>' +
-      '<div class="expires">⏳ Expire dans ' + hoursLeft + 'h ' + minutesLeft + 'min</div></div>' +
+      '<div class="fname">' + esc(file.filename) + '</div>' +
+      '<div class="finfo">' + formatSize(file.size) + '</div>' +
+      '<a href="' + esc(dlUrl) + '" class="btn btn-primary">⬇ Télécharger</a>' +
+      '<div class="expires">⏳ Supprimé après 24h</div></div>' +
       '<div class="card">' +
       '<div style="font-size:0.85rem;color:var(--text-dim);margin-bottom:0.6rem;text-align:center;">Partager ce fichier</div>' +
       '<div class="copy-row"><a class="link-box" id="dlShareLink" href="' + esc(pageLink) + '" target="_blank">' + esc(pageLink) + '</a>' +
       '<button class="copy-btn" id="dlCopyBtn">Copier</button></div>' +
       '<div id="dlShareTiles"></div></div>' +
       '<div class="card" style="text-align:center;"><a href="' + BASE + '" class="btn btn-outline">📤 Partager un fichier</a></div>' +
-      '<div class="footer">TmpDrop · Propulsé par Supabase</div>';
+      '<div class="footer">TmpDrop · Propulsé par Cloudflare</div>';
 
     document.getElementById('dlShareTiles').innerHTML = shareTilesHTML(encodedUrl, pageLink);
 
@@ -355,7 +322,7 @@ async function showDownloadPage(id) {
       nativeBtn.style.display = 'flex';
       nativeBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        navigator.share({ title: 'TmpDrop — ' + file.file_name, text: 'Télécharge ce fichier sur TmpDrop', url: pageLink });
+        navigator.share({ title: 'TmpDrop — ' + file.filename, text: 'Télécharge ce fichier sur TmpDrop', url: pageLink });
       });
     }
 
@@ -380,10 +347,11 @@ async function showDownloadPage(id) {
   } catch (err) {
     app.innerHTML = '<div class="logo">Tmp<span>Drop</span></div>' +
       '<div class="card error-msg">' +
-      '<div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>' +
-      '<div style="font-weight:600;">Erreur de chargement</div>' +
-      '<a href="' + BASE + '" class="btn btn-primary" style="margin-top:1.5rem;">Réessayer</a></div>' +
-      '<div class="footer">TmpDrop · Propulsé par Supabase</div>';
+      '<div style="font-size:3rem;margin-bottom:1rem;">🔗</div>' +
+      '<div style="font-weight:600;margin-bottom:0.5rem;">Lien invalide ou expiré</div>' +
+      '<div style="font-size:0.85rem;color:var(--text-dim);">Les fichiers sont supprimés après 24h.</div>' +
+      '<a href="' + BASE + '" class="btn btn-primary" style="margin-top:1.5rem;">Nouvel upload</a></div>' +
+      '<div class="footer">TmpDrop · Propulsé par Cloudflare</div>';
   }
 }
 
