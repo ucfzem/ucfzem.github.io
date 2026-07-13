@@ -204,3 +204,17 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 8 — Speak TTS immediately inside click gesture
+
+### Changes
+1. **Lecture still dead** after try/catch fix — `speechSynthesis.speak()` was being deferred to `onvoiceschanged` callback, which runs outside the original click gesture. Mobile Chrome silently blocks `speak()` outside user-gesture context.
+2. **Fix**: Removed the `onvoiceschanged` wait entirely. `speak()` is now called synchronously inside the click handler. Voice selection is best-effort (uses already-loaded voices, falls back to browser default). On subsequent clicks voices are cached anyway.
+3. Pushed to GitHub (Vercel deploy blocked — hit 100 deploys/day limit).
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
