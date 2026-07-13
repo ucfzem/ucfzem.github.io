@@ -44,10 +44,11 @@ Created **image2prompt** tool — image upload, style/medium/detail/mood control
 
 ## Key Events
 1. Created `image2prompt/index.html` — dark-themed UI with drag-drop upload, preview, style & medium selectors, detail slider, mood input, copy/download buttons
-2. Created `api/groq-vision.js` — Vercel serverless function calling Groq `llama-3.2-11b-vision-preview` with image analysis
+2. Created `api/groq-vision.js` — Vercel serverless function calling Groq `meta-llama/llama-4-scout-17b-16e-instruct` with image analysis
 3. Updated frontend generate button to send image+settings to backend API instead of simulating prompts
 4. Set `GROQ_API_KEY` environment variable in Vercel project
-5. Deployed to Vercel production
+5. Fixed deprecated model — switched from `llama-3.2-11b-vision-preview` to `meta-llama/llama-4-scout-17b-16e-instruct`
+6. Deployed to Vercel production
 
 ## Links
 - **Live site**: https://ucfzem.eu.org/image2prompt
