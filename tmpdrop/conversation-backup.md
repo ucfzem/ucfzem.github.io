@@ -176,3 +176,17 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 6 — TTS timeout fallback + error protection
+
+### Changes
+1. **Play button silently hangs** when `onvoiceschanged` never fires (known Android Chrome): Added 500ms `setTimeout` fallback + `addEventListener` instead of assignment.
+2. **Clear button breaks** if `speechSynthesis.cancel()` throws: wrapped in `try/catch`. Entire `doSpeak()` also try/catch protected.
+3. Pushed + deployed.
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
