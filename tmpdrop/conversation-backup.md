@@ -34,3 +34,28 @@ Added 28 new sounds to **Sounds of Nature** (44 total), implemented **Service Wo
 - `droppy/get.html` — download page
 
 Tokens stored in worker script (not committed to this repo).
+
+---
+
+# Session 2 — Jul 13 2026
+
+## Summary
+Created **image2prompt** tool — image upload, style/medium/detail/mood controls, Groq vision API integration for real AI prompt generation. Deployed on Vercel with serverless function.
+
+## Key Events
+1. Created `image2prompt/index.html` — dark-themed UI with drag-drop upload, preview, style & medium selectors, detail slider, mood input, copy/download buttons
+2. Created `api/groq-vision.js` — Vercel serverless function calling Groq `llama-3.2-11b-vision-preview` with image analysis
+3. Updated frontend generate button to send image+settings to backend API instead of simulating prompts
+4. Set `GROQ_API_KEY` environment variable in Vercel project
+5. Deployed to Vercel production
+
+## Links
+- **Live site**: https://ucfzem.eu.org/image2prompt
+- **GitHub repo**: https://github.com/ucfzem/ucfzem.github.io
+- **Source file**: https://github.com/ucfzem/ucfzem.github.io/blob/main/image2prompt/index.html
+- **API function**: https://github.com/ucfzem/ucfzem.github.io/blob/main/api/groq-vision.js
+- **Vercel project**: https://vercel.com/ucfzem-s-projects/ucfzem.github.io
+
+## Files
+- `image2prompt/index.html` — Full UI for Image to Prompt tool
+- `api/groq-vision.js` — Vercel serverless function for Groq vision API
