@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Prompt – Clone</title>
+  <!-- Tailwind CSS via CDN + custom theme -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'dark': '#0f0f1a',
+            'surface': '#1a1a2e',
+            'surface-light': '#252542',
+            'accent-cyan': '#06d6f0',
+            'accent-purple': '#b983ff',
+            'text-primary': '#e0e0ff',
+            'text-secondary': '#9d9dbb',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar & glass effect */
+    body {
+      background-color: #0f0f1a;
+      color: #e0e0ff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .glass {
+      background: rgba(26, 26, 46, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #06d6f0, #b983ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-border {
+      position: relative;
+      background: linear-gradient(135deg, #06d6f0, #b983ff);
+      padding: 1px;
+      border-radius: 16px;
+    }
+    .gradient-border > * {
+      background: #1a1a2e;
+      border-radius: 15px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #06d6f0, #b983ff);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      filter: brightness(1.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(6, 214, 240, 0.3);
+    }
+    .upload-area {
+      border: 2px dashed rgba(6, 214, 240, 0.4);
+      transition: all 0.2s;
+    }
+    .upload-area:hover {
+      border-color: #b983ff;
+      background: rgba(185, 131, 255, 0.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col">
+
+
+  <!-- Header / Logo -->
+  <header class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl md:text-4xl font-bold gradient-text">
+      Image → Prompt
+    </h1>
+    <span class="text-sm text-text-secondary">AI Structured Prompt Generator</span>
+  </header>
+
+
+  <!-- Main layout: rearranged slices -->
+  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+
+    <!-- LEFT COLUMN: Upload & Preview (slice moved to a card) -->
+    <div class="lg:col-span-7 space-y-6">
+      <!-- Upload Card -->
+      <div class="glass rounded-2xl p-6">
+        <h2 class="text-xl font-semibold mb-4 text-accent-cyan">Upload Image</h2>
+        <div id="dropZone" class="upload-area rounded-xl p-10 text-center cursor-pointer">
+          <div class="flex flex-col items-center gap-2">
+            <svg class="w-10 h-10 text-accent-cyan/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="text-text-secondary">Drag & drop or <span class="text-accent-purple font-medium">browse</span></p>
+            <p class="text-xs text-text-secondary/60">PNG, JPG, WEBP up to 10MB</p>
+          </div>
+          <input type="file" id="fileInput" accept="image/*" class="hidden">
+        </div>
+      </div>
+
+
+      <!-- Preview Card (appears after upload) -->
+      <div id="previewCard" class="glass rounded-2xl p-4 hidden">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-medium text-text-secondary">Preview</h3>
+          <button id="removeImageBtn" class="text-xs text-red-400 hover:text-red-300">Remove</button>
+        </div>
+        <img id="previewImage" src="" alt="Preview" class="w-full h-auto max-h-80 object-contain rounded-lg border border-white/5">
+      </div>
+    </div>
+
+
+    <!-- RIGHT COLUMN: Controls & Settings (slices tweaked: merged some options) -->
+    <div class="lg:col-span-5 space-y-6">
+      <!-- Style & Medium Card -->
+      <div class="glass rounded-2xl p-5">
+        <h3 class="text-sm font-semibold text-accent-purple mb-3 uppercase tracking-wide">Style & Medium</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs text-text-secondary mb-1">Art Style</label>
+            <select id="styleSelect" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
+              <option>Digital Painting</option>
+              <option>Photorealistic</option>
+              <option>Anime</option>
+              <option>Oil Painting</option>
+              <option>Sketch</option>
+              <option>3D Render</option>
+              <option>Watercolor</option>
+              <option>Pixel Art</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-text-secondary mb-1">Medium</label>
+            <select id="mediumSelect" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
+              <option>Digital Art</option>
+              <option>Oil on Canvas</option>
+              <option>Pencil Drawing</option>
+              <option>Ink</option>
+              <option>Charcoal</option>
+              <option>Photography</option>
+              <option>Vector</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Detail & Mood Card -->
+      <div class="glass rounded-2xl p-5">
+        <h3 class="text-sm font-semibold text-accent-purple mb-3 uppercase tracking-wide">Detail & Mood</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="flex justify-between text-xs text-text-secondary mb-1">
+              <span>Level of Detail</span>
+              <span id="detailValue" class="text-accent-cyan">High</span>
+            </label>
+            <input type="range" id="detailSlider" min="1" max="3" value="3" class="w-full h-1.5 bg-surface-light rounded-full appearance-none cursor-pointer accent-accent-cyan">
+            <div class="flex justify-between text-xs text-text-secondary/50 mt-1">
+              <span>Low</span><span>Medium</span><span>High</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-text-secondary mb-1">Mood / Atmosphere</label>
+            <input type="text" id="moodInput" placeholder="e.g., serene, dramatic, futuristic" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Generate Button -->
+      <button id="generateBtn" class="btn-primary w-full py-3 rounded-xl font-semibold text-dark flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none" disabled>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        Generate Prompt
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Sticky Bottom Prompt Output (slice moved to be always visible) -->
+  <div id="outputSection" class="mt-8 sticky bottom-4 z-10">
+    <div class="glass rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
+      <div class="flex-1 w-full">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-semibold text-accent-cyan uppercase tracking-wide">Generated Prompt</h3>
+          <div class="flex gap-2">
+            <button id="copyBtn" class="text-xs bg-surface-light px-3 py-1 rounded-md text-text-secondary hover:text-accent-cyan transition">Copy</button>
+            <button id="downloadBtn" class="text-xs bg-surface-light px-3 py-1 rounded-md text-text-secondary hover:text-accent-cyan transition">Download</button>
+          </div>
+        </div>
+        <div id="promptDisplay" class="bg-surface-light rounded-lg p-4 text-sm min-h-[60px] text-text-primary border border-white/5 max-h-32 overflow-y-auto">
+          <span class="text-text-secondary/50">Your AI prompt will appear here...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // DOM elements
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const previewCard = document.getElementById('previewCard');
+    const previewImage = document.getElementById('previewImage');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    const detailSlider = document.getElementById('detailSlider');
+    const detailValue = document.getElementById('detailValue');
+    const styleSelect = document.getElementById('styleSelect');
+    const mediumSelect = document.getElementById('mediumSelect');
+    const moodInput = document.getElementById('moodInput');
+    const promptDisplay = document.getElementById('promptDisplay');
+    const copyBtn = document.getElementById('copyBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+
+    let uploadedFile = null;
+
+
+    // Detail slider label
+    const detailLabels = ['Low', 'Medium', 'High'];
+    detailSlider.addEventListener('input', () => {
+      detailValue.textContent = detailLabels[detailSlider.value - 1];
+    });
+
+
+    // Drag & drop + click upload
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-accent-purple');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-accent-purple');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-accent-purple');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) handleFile(files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) handleFile(e.target.files[0]);
+    });
+
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file.');
+        return;
+      }
+      uploadedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImage.src = e.target.result;
+        previewCard.classList.remove('hidden');
+        generateBtn.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    }
+
+
+    removeImageBtn.addEventListener('click', () => {
+      uploadedFile = null;
+      previewCard.classList.add('hidden');
+      previewImage.src = '';
+      fileInput.value = '';
+      generateBtn.disabled = true;
+      promptDisplay.innerHTML = '<span class="text-text-secondary/50">Your AI prompt will appear here...</span>';
+    });
+
+
+    // Simulate AI prompt generation (structure mimics the real tool)
+    generateBtn.addEventListener('click', () => {
+      if (!uploadedFile) return;
+      const style = styleSelect.value;
+      const medium = mediumSelect.value;
+      const detailLevel = detailLabels[detailSlider.value - 1];
+      const mood = moodInput.value.trim() || 'neutral';
+
+
+      // Simulate a structured prompt based on image name and settings
+      const imageName = uploadedFile.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g, ' ');
+      const prompt = `A ${detailLevel.toLowerCase()} detail ${style.toLowerCase()} ${medium.toLowerCase()} depiction of "${imageName}", ${mood} atmosphere, masterpiece, sharp focus, trending on ArtStation, 8k resolution.`;
+
+
+      promptDisplay.textContent = prompt;
+    });
+
+
+    // Copy to clipboard
+    copyBtn.addEventListener('click', async () => {
+      const text = promptDisplay.textContent.trim();
+      if (!text || text.includes('Your AI prompt')) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+      } catch (err) {
+        alert('Failed to copy');
+      }
+    });
+
+
+    // Download as .txt
+    downloadBtn.addEventListener('click', () => {
+      const text = promptDisplay.textContent.trim();
+      if (!text || text.includes('Your AI prompt')) return;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'prompt.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
