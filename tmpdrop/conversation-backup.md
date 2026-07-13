@@ -113,3 +113,23 @@ Fixed upload issues in image2prompt — moved file input outside dropzone to avo
 
 ## Files
 - `image2prompt/index.html` — All fixes above
+
+---
+
+# Session 6 — Jul 13 2026
+
+## Summary
+Added **Play ▶️ button** to **VoiceForge** — reads the generated article/story aloud using browser TTS (SpeechSynthesis API) in all 4 languages (EN/FR/ES/AR). Auto-stops on language switch, clean play/stop toggle.
+
+## Changes
+1. Added Play button with play/stop icon toggle next to Copy/Download/Clear
+2. Added `play`/`stop` translations to all 4 languages (EN/FR/ES/AR)
+3. Added TTS JavaScript: `SpeechSynthesisUtterance` with language-matched voice selection
+4. Play button toggles to Stop square icon while speaking
+5. TTS auto-cancels when language is switched or content is cleared
+6. Deployed to Vercel + pushed to GitHub
+
+## Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
