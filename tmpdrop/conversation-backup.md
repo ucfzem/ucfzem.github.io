@@ -149,3 +149,17 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 4 — Toolbar overflow wrap + async TTS voice guard
+
+### Changes
+1. **Toolbar buttons (Play/Copy/.md/Clear) overflowing off right edge**: Added `flex-wrap` to the button row container so buttons drop to next line on narrow screens.
+2. **Play button inactive on Android Chrome (async voice loading)**: `speechSynthesis.getVoices()` returns empty on first call. Added guard: if no voices available, defer `speak()` to the `onvoiceschanged` callback. Also now explicitly picks a matching voice by language (or falls back to first available).
+3. Both fixes pushed + deployed.
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
