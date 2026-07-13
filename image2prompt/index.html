@@ -2,212 +2,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image to Prompt – Clone</title>
-  <!-- Tailwind CSS via CDN + custom theme -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'dark': '#0f0f1a',
-            'surface': '#1a1a2e',
-            'surface-light': '#252542',
-            'accent-cyan': '#06d6f0',
-            'accent-purple': '#b983ff',
-            'text-primary': '#e0e0ff',
-            'text-secondary': '#9d9dbb',
-          }
-        }
-      }
-    }
-  </script>
+  <title>Aurionary Arts - AI Prompt Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* Custom scrollbar & glass effect */
-    body {
-      background-color: #0f0f1a;
-      color: #e0e0ff;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    :root {
+      --bg: #0b1116;
+      --card: rgba(20, 31, 39, 0.9);
+      --text: #f2f6f8;
+      --text-muted: #909ea9;
+      --cyan: #3bbfce;
+      --red: #ef5350;
+      --border: #4a5a67;
     }
-    .glass {
-      background: rgba(26, 26, 46, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      background:var(--bg);color:var(--text);
+      font-family:'Open Sans','Helvetica Neue',sans-serif;
+      -webkit-font-smoothing:antialiased;
+      min-height:100vh;padding:20px;
+      display:flex;flex-direction:column;align-items:center
     }
-    .gradient-text {
-      background: linear-gradient(135deg, #06d6f0, #b983ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .container{max-width:800px;width:100%;display:flex;flex-direction:column;gap:30px}
+    .glass{background:var(--card);border-radius:12px;padding:24px;border:1px solid rgba(255,255,255,0.05);box-shadow:0 4px 15px rgba(0,0,0,0.4)}
+    h2{font-size:1.1rem;font-weight:400;color:var(--cyan);margin-bottom:20px}
+
+    /* Header */
+    .header{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+    .logo-area{display:flex;align-items:center;gap:12px}
+    .logo-icon{
+      width:48px;height:48px;border-radius:12px;
+      background:linear-gradient(135deg,#3bbfce,#2a8a99);
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;font-weight:600;color:#0b1116
     }
-    .gradient-border {
-      position: relative;
-      background: linear-gradient(135deg, #06d6f0, #b983ff);
-      padding: 1px;
-      border-radius: 16px;
+    .logo-text{font-size:1.1rem;font-weight:400;letter-spacing:0.5px;color:var(--text)}
+    .header-title h1{font-size:1.25rem;font-weight:300;line-height:1.3;text-align:right}
+
+    /* Upload */
+    .upload-area{
+      border:2px dashed var(--border);border-radius:10px;
+      text-align:center;padding:40px 20px;cursor:pointer;
+      transition:background 0.3s
     }
-    .gradient-border > * {
-      background: #1a1a2e;
-      border-radius: 15px;
+    .upload-area:hover{background:rgba(255,255,255,0.02)}
+    .upload-icon{display:block;margin:0 auto 15px;width:60px;height:60px;color:var(--text-muted)}
+    .upload-instruction{font-size:1.1rem;margin-bottom:5px}
+    .browse-link{color:var(--cyan);text-decoration:none;font-weight:600}
+    .upload-limit{font-size:0.9rem;color:var(--text-muted)}
+
+    /* Preview Section */
+    .preview-area{position:relative;display:flex;flex-direction:column;gap:30px}
+    .preview-area .glass{min-height:200px}
+    .card-header{display:flex;justify-content:space-between;align-items:center}
+    .remove-btn{background:none;border:none;color:var(--red);font-size:1rem;cursor:pointer;text-decoration:underline}
+    .remove-btn:hover{filter:brightness(1.2)}
+    .image-frame{
+      display:inline-block;background:white;padding:5px 5px 15px;margin-top:-10px
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #06d6f0, #b983ff);
-      transition: all 0.3s ease;
+    .preview-image{display:block;max-width:150px;height:auto}
+    .preview-empty{
+      display:flex;align-items:center;justify-content:center;
+      min-height:150px;color:var(--text-muted);font-size:0.95rem
     }
-    .btn-primary:hover {
-      filter: brightness(1.2);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(6, 214, 240, 0.3);
+
+    /* Controls */
+    .controls-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px}
+    .control-group{flex:1;min-width:180px}
+    .control-group label{display:block;font-size:0.85rem;color:var(--text-muted);margin-bottom:6px}
+    .control-group select,.control-group input{
+      width:100%;padding:10px 12px;border-radius:8px;
+      background:rgba(255,255,255,0.03);border:1px solid var(--border);
+      color:var(--text);font-size:0.9rem;outline:none;
+      transition:border-color 0.2s
     }
-    .upload-area {
-      border: 2px dashed rgba(6, 214, 240, 0.4);
-      transition: all 0.2s;
+    .control-group select:focus,.control-group input:focus{border-color:var(--cyan)}
+    .control-group select option{background:var(--bg);color:var(--text)}
+    .range-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:4px}
+
+    /* Generate button */
+    .generate-btn{
+      width:100%;padding:14px;border:none;border-radius:10px;
+      background:linear-gradient(135deg,var(--cyan),#2a8a99);
+      color:#0b1116;font-size:1rem;font-weight:600;cursor:pointer;
+      transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:8px
     }
-    .upload-area:hover {
-      border-color: #b983ff;
-      background: rgba(185, 131, 255, 0.05);
+    .generate-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
+    .generate-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+    /* Floating prompt overlay */
+    .prompt-overlay{
+      position:relative;margin-top:0;
+      background:rgba(14,21,26,0.97);border-radius:12px;padding:20px 24px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.05)
+    }
+    .prompt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .prompt-header h3{color:var(--cyan);font-size:0.85rem;font-weight:600;letter-spacing:0.05em}
+    .header-actions{display:flex;gap:8px}
+    .icon-btn{
+      background:rgba(255,255,255,0.02);color:var(--text-muted);
+      border:1px solid var(--border);border-radius:6px;
+      padding:6px 14px;font-size:0.8rem;cursor:pointer;
+      transition:all 0.3s
+    }
+    .icon-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(59,191,206,0.05)}
+    .prompt-text{font-size:0.9rem;line-height:1.6;max-height:100px;overflow-y:auto;color:var(--text)}
+    .prompt-placeholder{color:var(--text-muted);font-style:italic}
+    .prompt-error{color:#ef5350}
+
+    @keyframes spin{to{transform:rotate(360deg)}}.spin{animation:spin 1s linear infinite}
+    @media(max-width:600px){
+      .header{flex-direction:column;gap:12px;align-items:flex-start}
+      .header-title h1{text-align:left}
+      .controls-row{flex-direction:column}
+      .control-group{min-width:100%}
     }
   </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 flex flex-col">
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">AA</div>
+        <span class="logo-text">Aurionary Arts</span>
+      </div>
+      <div class="header-title">
+        <h1>AI Structured Prompt<br>Generator</h1>
+      </div>
+    </header>
 
+    <!-- UPLOAD -->
+    <section class="glass">
+      <h2>Upload Image</h2>
+      <div id="dropZone" class="upload-area">
+        <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <p class="upload-instruction">Drag & drop or <a href="#" class="browse-link" id="browseLink">browse</a></p>
+        <p class="upload-limit">PNG, JPG, WEBP up to 10MB</p>
+        <input type="file" id="fileInput" accept="image/*" style="display:none">
+      </div>
+    </section>
 
-  <!-- Header / Logo -->
-  <header class="flex items-center justify-between mb-8">
-    <h1 class="text-3xl md:text-4xl font-bold gradient-text">
-      Image → Prompt
-    </h1>
-    <span class="text-sm text-text-secondary">AI Structured Prompt Generator</span>
-  </header>
-
-
-  <!-- Main layout: rearranged slices -->
-  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-
-    <!-- LEFT COLUMN: Upload & Preview (slice moved to a card) -->
-    <div class="lg:col-span-7 space-y-6">
-      <!-- Upload Card -->
-      <div class="glass rounded-2xl p-6">
-        <h2 class="text-xl font-semibold mb-4 text-accent-cyan">Upload Image</h2>
-        <div id="dropZone" class="upload-area rounded-xl p-10 text-center cursor-pointer">
-          <div class="flex flex-col items-center gap-2">
-            <svg class="w-10 h-10 text-accent-cyan/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <p class="text-text-secondary">Drag & drop or <span class="text-accent-purple font-medium">browse</span></p>
-            <p class="text-xs text-text-secondary/60">PNG, JPG, WEBP up to 10MB</p>
-          </div>
-          <input type="file" id="fileInput" accept="image/*" class="hidden">
+    <!-- CONTROLS -->
+    <section class="glass">
+      <h2>Settings</h2>
+      <div class="controls-row">
+        <div class="control-group">
+          <label>Art Style</label>
+          <select id="styleSelect">
+            <option>Digital Painting</option><option>Photorealistic</option>
+            <option>Anime</option><option>Oil Painting</option>
+            <option>Sketch</option><option>3D Render</option>
+            <option>Watercolor</option><option>Pixel Art</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>Medium</label>
+          <select id="mediumSelect">
+            <option>Digital Art</option><option>Oil on Canvas</option>
+            <option>Pencil Drawing</option><option>Ink</option>
+            <option>Charcoal</option><option>Photography</option><option>Vector</option>
+          </select>
         </div>
       </div>
-
-
-      <!-- Preview Card (appears after upload) -->
-      <div id="previewCard" class="glass rounded-2xl p-4 hidden">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-medium text-text-secondary">Preview</h3>
-          <button id="removeImageBtn" class="text-xs text-red-400 hover:text-red-300">Remove</button>
+      <div class="controls-row">
+        <div class="control-group">
+          <label>Level of Detail: <span id="detailValue">High</span></label>
+          <input type="range" id="detailSlider" min="1" max="3" value="3" style="width:100%">
+          <div class="range-labels"><span>Low</span><span>Medium</span><span>High</span></div>
         </div>
-        <img id="previewImage" src="" alt="Preview" class="w-full h-auto max-h-80 object-contain rounded-lg border border-white/5">
-      </div>
-    </div>
-
-
-    <!-- RIGHT COLUMN: Controls & Settings (slices tweaked: merged some options) -->
-    <div class="lg:col-span-5 space-y-6">
-      <!-- Style & Medium Card -->
-      <div class="glass rounded-2xl p-5">
-        <h3 class="text-sm font-semibold text-accent-purple mb-3 uppercase tracking-wide">Style & Medium</h3>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-xs text-text-secondary mb-1">Art Style</label>
-            <select id="styleSelect" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
-              <option>Digital Painting</option>
-              <option>Photorealistic</option>
-              <option>Anime</option>
-              <option>Oil Painting</option>
-              <option>Sketch</option>
-              <option>3D Render</option>
-              <option>Watercolor</option>
-              <option>Pixel Art</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-text-secondary mb-1">Medium</label>
-            <select id="mediumSelect" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
-              <option>Digital Art</option>
-              <option>Oil on Canvas</option>
-              <option>Pencil Drawing</option>
-              <option>Ink</option>
-              <option>Charcoal</option>
-              <option>Photography</option>
-              <option>Vector</option>
-            </select>
-          </div>
+        <div class="control-group">
+          <label>Mood / Atmosphere</label>
+          <input type="text" id="moodInput" placeholder="e.g., serene, dramatic, futuristic">
         </div>
       </div>
-
-
-      <!-- Detail & Mood Card -->
-      <div class="glass rounded-2xl p-5">
-        <h3 class="text-sm font-semibold text-accent-purple mb-3 uppercase tracking-wide">Detail & Mood</h3>
-        <div class="space-y-4">
-          <div>
-            <label class="flex justify-between text-xs text-text-secondary mb-1">
-              <span>Level of Detail</span>
-              <span id="detailValue" class="text-accent-cyan">High</span>
-            </label>
-            <input type="range" id="detailSlider" min="1" max="3" value="3" class="w-full h-1.5 bg-surface-light rounded-full appearance-none cursor-pointer accent-accent-cyan">
-            <div class="flex justify-between text-xs text-text-secondary/50 mt-1">
-              <span>Low</span><span>Medium</span><span>High</span>
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs text-text-secondary mb-1">Mood / Atmosphere</label>
-            <input type="text" id="moodInput" placeholder="e.g., serene, dramatic, futuristic" class="w-full bg-surface-light border border-white/10 rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent-cyan">
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Generate Button -->
-      <button id="generateBtn" class="btn-primary w-full py-3 rounded-xl font-semibold text-dark flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none" disabled>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="generateBtn" class="generate-btn" disabled>
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
         </svg>
         Generate Prompt
       </button>
-    </div>
-  </div>
+    </section>
 
-
-  <!-- Sticky Bottom Prompt Output (slice moved to be always visible) -->
-  <div id="outputSection" class="mt-8 sticky bottom-4 z-10">
-    <div class="glass rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
-      <div class="flex-1 w-full">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-semibold text-accent-cyan uppercase tracking-wide">Generated Prompt</h3>
-          <div class="flex gap-2">
-            <button id="copyBtn" class="text-xs bg-surface-light px-3 py-1 rounded-md text-text-secondary hover:text-accent-cyan transition">Copy</button>
-            <button id="downloadBtn" class="text-xs bg-surface-light px-3 py-1 rounded-md text-text-secondary hover:text-accent-cyan transition">Download</button>
-          </div>
+    <!-- PREVIEW + PROMPT -->
+    <section class="preview-area">
+      <div class="glass">
+        <div class="card-header">
+          <h2>Preview</h2>
+          <button id="removeImageBtn" class="remove-btn" style="display:none">Remove</button>
         </div>
-        <div id="promptDisplay" class="bg-surface-light rounded-lg p-4 text-sm min-h-[60px] text-text-primary border border-white/5 max-h-32 overflow-y-auto">
-          <span class="text-text-secondary/50">Your AI prompt will appear here...</span>
+        <div id="previewEmpty" class="preview-empty">No image uploaded</div>
+        <div id="previewContent" class="image-frame" style="display:none">
+          <img id="previewImage" src="" alt="Preview" class="preview-image">
         </div>
       </div>
-    </div>
+
+      <!-- Floating Prompt -->
+      <div class="prompt-overlay">
+        <div class="prompt-header">
+          <h3>GENERATED PROMPT</h3>
+          <div class="header-actions">
+            <button id="copyBtn" class="icon-btn">Copy</button>
+            <button id="downloadBtn" class="icon-btn">Download</button>
+          </div>
+        </div>
+        <div id="promptDisplay" class="prompt-text">
+          <span class="prompt-placeholder">Your AI prompt will appear here...</span>
+        </div>
+      </div>
+    </section>
   </div>
 
-
   <script>
-    // DOM elements
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
-    const previewCard = document.getElementById('previewCard');
+    const browseLink = document.getElementById('browseLink');
+    const previewEmpty = document.getElementById('previewEmpty');
+    const previewContent = document.getElementById('previewContent');
     const previewImage = document.getElementById('previewImage');
-    const removeImageBtn = document.getElementById('removeImageBtn');
+    const removeBtn = document.getElementById('removeImageBtn');
     const generateBtn = document.getElementById('generateBtn');
     const detailSlider = document.getElementById('detailSlider');
     const detailValue = document.getElementById('detailValue');
@@ -218,64 +234,53 @@
     const copyBtn = document.getElementById('copyBtn');
     const downloadBtn = document.getElementById('downloadBtn');
 
-
     let uploadedFile = null;
-
-
-    // Detail slider label
     const detailLabels = ['Low', 'Medium', 'High'];
+
     detailSlider.addEventListener('input', () => {
       detailValue.textContent = detailLabels[detailSlider.value - 1];
     });
 
-
-    // Drag & drop + click upload
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('border-accent-purple');
+    browseLink.addEventListener('click', (e) => { e.preventDefault(); fileInput.click(); });
+    dropZone.addEventListener('click', (e) => {
+      if (e.target === browseLink || browseLink.contains(e.target)) return;
+      fileInput.click();
     });
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('border-accent-purple');
-    });
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--cyan)'; });
+    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('border-accent-purple');
-      const files = e.dataTransfer.files;
-      if (files.length > 0) handleFile(files[0]);
+      e.preventDefault(); dropZone.style.borderColor = '';
+      if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
     fileInput.addEventListener('change', (e) => {
       if (e.target.files.length > 0) handleFile(e.target.files[0]);
     });
 
-
     function handleFile(file) {
-      if (!file.type.startsWith('image/')) {
-        alert('Please upload an image file.');
-        return;
-      }
+      if (!file.type.startsWith('image/')) { alert('Please upload an image file.'); return; }
       uploadedFile = file;
       const reader = new FileReader();
       reader.onload = (e) => {
         previewImage.src = e.target.result;
-        previewCard.classList.remove('hidden');
+        previewEmpty.style.display = 'none';
+        previewContent.style.display = 'inline-block';
+        removeBtn.style.display = '';
         generateBtn.disabled = false;
       };
       reader.readAsDataURL(file);
     }
 
-
-    removeImageBtn.addEventListener('click', () => {
+    removeBtn.addEventListener('click', () => {
       uploadedFile = null;
-      previewCard.classList.add('hidden');
       previewImage.src = '';
+      previewEmpty.style.display = '';
+      previewContent.style.display = 'none';
+      removeBtn.style.display = 'none';
       fileInput.value = '';
       generateBtn.disabled = true;
-      promptDisplay.innerHTML = '<span class="text-text-secondary/50">Your AI prompt will appear here...</span>';
+      promptDisplay.innerHTML = '<span class="prompt-placeholder">Your AI prompt will appear here...</span>';
     });
 
-
-    // Generate prompt via Groq vision API
     generateBtn.addEventListener('click', async () => {
       if (!uploadedFile) return;
       const style = styleSelect.value;
@@ -285,8 +290,7 @@
       const image = previewImage.src;
 
       generateBtn.disabled = true;
-      generateBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Generating...';
-
+      generateBtn.innerHTML = '<svg width="18" height="18" class="spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Generating...';
       promptDisplay.textContent = 'Analyzing image with Groq AI...';
 
       try {
@@ -295,47 +299,33 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image, style, medium, detail: detailLevel, mood })
         });
-
         const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || 'API error');
-        }
-
+        if (!res.ok) throw new Error(data.error || 'API error');
         promptDisplay.textContent = data.prompt;
       } catch (err) {
-        promptDisplay.textContent = `Error: ${err.message}`;
+        promptDisplay.innerHTML = `<span class="prompt-error">Error: ${err.message}</span>`;
       } finally {
         generateBtn.disabled = false;
-        generateBtn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Generate Prompt';
+        generateBtn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Generate Prompt';
       }
     });
 
-
-    // Copy to clipboard
     copyBtn.addEventListener('click', async () => {
       const text = promptDisplay.textContent.trim();
-      if (!text || text.includes('Your AI prompt')) return;
+      if (!text || text.includes('Your AI prompt') || text.includes('Analyzing')) return;
       try {
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = 'Copied!';
         setTimeout(() => copyBtn.textContent = 'Copy', 2000);
-      } catch (err) {
-        alert('Failed to copy');
-      }
+      } catch { alert('Failed to copy'); }
     });
 
-
-    // Download as .txt
     downloadBtn.addEventListener('click', () => {
       const text = promptDisplay.textContent.trim();
-      if (!text || text.includes('Your AI prompt')) return;
+      if (!text || text.includes('Your AI prompt') || text.includes('Analyzing')) return;
       const blob = new Blob([text], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'prompt.txt';
-      a.click();
+      const a = document.createElement('a'); a.href = url; a.download = 'prompt.txt'; a.click();
       URL.revokeObjectURL(url);
     });
   </script>
