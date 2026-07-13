@@ -133,3 +133,19 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 3 — TTS fix + Persistence + Mobile overflow fix
+
+### Changes
+1. **TTS play button not speaking**: Removed `getVoices()` voice lookup (async, empty on first call). Now just sets `utterance.lang` and lets the browser pick the right voice.
+2. **Groq key lost on refresh**: Auto-saves key on page load (shows "Key saved" confirmation).
+3. **Generated article lost on refresh**: Saves title, body, and questions to `localStorage`; restores on page load.
+4. **API key row overflow on mobile**: Added `.groq-key-row` CSS with `flex-wrap: wrap` + min-width on input + column stack at 480px. Global `box-sizing: border-box` and `overflow-x: hidden` added too.
+5. All pushed to GitHub + deployed to Vercel.
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
