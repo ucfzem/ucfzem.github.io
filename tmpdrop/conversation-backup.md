@@ -51,7 +51,8 @@ Created **image2prompt** tool — image upload, style/medium/detail/mood control
 6. Deployed to Vercel production
 
 ## Links
-- **Live site**: https://ucfzem.eu.org/image2prompt
+- **Sounds of Nature**: https://ucfzem.eu.org/sounds-of-nature (or https://ucfzem-works.vercel.app/sounds-of-nature)
+- **Image to Prompt**: https://ucfzem.eu.org/image2prompt
 - **GitHub repo**: https://github.com/ucfzem/ucfzem.github.io
 - **Source file**: https://github.com/ucfzem/ucfzem.github.io/blob/main/image2prompt/index.html
 - **API function**: https://github.com/ucfzem/ucfzem.github.io/blob/main/api/groq-vision.js
@@ -60,3 +61,20 @@ Created **image2prompt** tool — image upload, style/medium/detail/mood control
 ## Files
 - `image2prompt/index.html` — Full UI for Image to Prompt tool
 - `api/groq-vision.js` — Vercel serverless function for Groq vision API
+
+---
+
+# Session 3 — Jul 13 2026
+
+## Summary
+Refactored **Sounds of Nature** button layout from flexbox to CSS Grid — clean 2-column grid on mobile, scaling up to 5 columns on ultrawide screens.
+
+## Changes
+1. Changed `.button-grid` from `display:flex;flex-wrap:wrap` to `display:grid;grid-template-columns:repeat(2,minmax(0,1fr))`
+2. Removed all flex-based `flex:0 1 calc(...)` responsive rules
+3. Added container query breakpoints: 2 cols → 3 at 600px → 4 at 900px
+4. Updated media queries for all viewport ranges
+5. Added `overflow:hidden;text-overflow:ellipsis;white-space:nowrap` to buttons for clean text clipping
+
+## Files
+- `sounds-of-nature/index.html` — Grid layout refactor
