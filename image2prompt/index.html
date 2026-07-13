@@ -262,6 +262,7 @@
         previewContent.style.display = 'inline-block';
         removeBtn.style.display = '';
         generateBtn.disabled = false;
+        previewImage.closest('.glass').scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
       reader.readAsDataURL(file);
     }
