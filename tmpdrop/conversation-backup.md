@@ -95,6 +95,21 @@ Replaced **image2prompt** UI with **Aurionary Arts** design — dark teal theme,
 
 ## Links
 - **Cloudflare**: https://ucfzem-github-io.pages.dev/image2prompt
-- **Vercel**: https://ucfzem.eu.org/image2prompt (DNS pending) or https://ucfzem-works.vercel.app
+- **Vercel**: https://ucfzem.eu.org/image2prompt (DNS pending) or https://ucfzemgithub-2x63wtmx2-ucfzem-s-projects.vercel.app/image2prompt
 - **GitHub**: https://github.com/ucfzem/ucfzem.github.io/blob/main/image2prompt/index.html
 - **Sounds of Nature**: https://ucfzem-works.vercel.app/sounds-of-nature
+
+# Session 5 — Jul 13 2026
+
+## Summary
+Fixed upload issues in image2prompt — moved file input outside dropzone to avoid event conflicts, fixed preview image sizing (removed 150px cap, full-width with max-height), replaced cheap "AA" box logo with proper SVG brand mark.
+
+## Changes
+1. Moved `<input type="file">` outside the dropZone container to prevent click event conflicts
+2. Removed redundant browseLink check in dropZone click handler
+3. Increased preview image from 150px max-width to full-width with `max-height:50vh`
+4. Replaced the "AA" div logo with an inline SVG: gradient teal box with serif "A" + "Aurionary ARTS" text
+5. Cleaned up unused CSS classes
+
+## Files
+- `image2prompt/index.html` — All fixes above
