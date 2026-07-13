@@ -28,7 +28,6 @@
     .glass{background:var(--card);border-radius:12px;padding:24px;border:1px solid rgba(255,255,255,0.05);box-shadow:0 4px 15px rgba(0,0,0,0.4)}
     h2{font-size:1.1rem;font-weight:400;color:var(--cyan);margin-bottom:20px}
 
-    /* Header */
     .header{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
     .logo-area{display:flex;align-items:center;gap:12px}
     .logo-icon{
@@ -40,48 +39,40 @@
     .logo-text{font-size:1.1rem;font-weight:400;letter-spacing:0.5px;color:var(--text)}
     .header-title h1{font-size:1.25rem;font-weight:300;line-height:1.3;text-align:right}
 
-    /* Upload */
     .upload-area{
       border:2px dashed var(--border);border-radius:10px;
       text-align:center;padding:40px 20px;cursor:pointer;
-      transition:background 0.3s
+      transition:background 0.3s, border-color 0.3s
     }
+    .upload-area.drag-over{border-color:var(--cyan);background:rgba(59,191,206,0.05)}
     .upload-area:hover{background:rgba(255,255,255,0.02)}
     .upload-icon{display:block;margin:0 auto 15px;width:60px;height:60px;color:var(--text-muted)}
-    .upload-instruction{font-size:1.1rem;margin-bottom:5px}
-    .browse-link{color:var(--cyan);text-decoration:none;font-weight:600}
-    .upload-limit{font-size:0.9rem;color:var(--text-muted)}
+    .upload-instruction{font-size:1.1rem;margin-bottom:5px;pointer-events:none}
+    .browse-link{color:var(--cyan);text-decoration:none;font-weight:600;cursor:pointer}
+    .upload-limit{font-size:0.9rem;color:var(--text-muted);pointer-events:none}
 
-    /* Preview Section */
     .preview-area{position:relative;display:flex;flex-direction:column;gap:30px}
     .preview-area .glass{min-height:200px}
     .card-header{display:flex;justify-content:space-between;align-items:center}
     .remove-btn{background:none;border:none;color:var(--red);font-size:1rem;cursor:pointer;text-decoration:underline}
     .remove-btn:hover{filter:brightness(1.2)}
-    .image-frame{
-      display:inline-block;background:white;padding:5px 5px 15px;margin-top:-10px
-    }
-    .preview-image{display:block;max-width:150px;height:auto}
-    .preview-empty{
-      display:flex;align-items:center;justify-content:center;
-      min-height:150px;color:var(--text-muted);font-size:0.95rem
-    }
+    .image-frame{display:block;background:rgba(255,255,255,0.05);border-radius:8px;padding:8px;margin-top:0}
+    .preview-image{display:block;width:100%;max-height:50vh;object-fit:contain;border-radius:4px}
+    .preview-empty{display:flex;align-items:center;justify-content:center;min-height:200px;color:var(--text-muted);font-size:0.95rem}
 
-    /* Controls */
     .controls-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px}
     .control-group{flex:1;min-width:180px}
     .control-group label{display:block;font-size:0.85rem;color:var(--text-muted);margin-bottom:6px}
     .control-group select,.control-group input{
       width:100%;padding:10px 12px;border-radius:8px;
       background:rgba(255,255,255,0.03);border:1px solid var(--border);
-      color:var(--text);font-size:0.9rem;outline:none;
-      transition:border-color 0.2s
+      color:var(--text);font-size:0.9rem;outline:none;transition:border-color 0.2s
     }
     .control-group select:focus,.control-group input:focus{border-color:var(--cyan)}
     .control-group select option{background:var(--bg);color:var(--text)}
+    .control-group input[type=range]{padding:0;border:none;background:none}
     .range-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:4px}
 
-    /* Generate button */
     .generate-btn{
       width:100%;padding:14px;border:none;border-radius:10px;
       background:linear-gradient(135deg,var(--cyan),#2a8a99);
@@ -91,7 +82,6 @@
     .generate-btn:hover{filter:brightness(1.15);transform:translateY(-1px)}
     .generate-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
 
-    /* Floating prompt overlay */
     .prompt-overlay{
       position:relative;margin-top:0;
       background:rgba(14,21,26,0.97);border-radius:12px;padding:20px 24px;
@@ -103,15 +93,16 @@
     .icon-btn{
       background:rgba(255,255,255,0.02);color:var(--text-muted);
       border:1px solid var(--border);border-radius:6px;
-      padding:6px 14px;font-size:0.8rem;cursor:pointer;
-      transition:all 0.3s
+      padding:6px 14px;font-size:0.8rem;cursor:pointer;transition:all 0.3s
     }
     .icon-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(59,191,206,0.05)}
     .prompt-text{font-size:0.9rem;line-height:1.6;max-height:100px;overflow-y:auto;color:var(--text)}
     .prompt-placeholder{color:var(--text-muted);font-style:italic}
     .prompt-error{color:#ef5350}
 
-    @keyframes spin{to{transform:rotate(360deg)}}.spin{animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spin{animation:spin 1s linear infinite}
+
     @media(max-width:600px){
       .header{flex-direction:column;gap:12px;align-items:flex-start}
       .header-title h1{text-align:left}
@@ -122,7 +113,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- HEADER -->
     <header class="header">
       <div class="logo-area">
         <div class="logo-icon">AA</div>
@@ -133,20 +123,19 @@
       </div>
     </header>
 
-    <!-- UPLOAD -->
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
+
     <section class="glass">
       <h2>Upload Image</h2>
       <div id="dropZone" class="upload-area">
         <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
         </svg>
-        <p class="upload-instruction">Drag & drop or <a href="#" class="browse-link" id="browseLink">browse</a></p>
+        <p class="upload-instruction">Drag & drop or <span class="browse-link" id="browseLink">browse</span></p>
         <p class="upload-limit">PNG, JPG, WEBP up to 10MB</p>
-        <input type="file" id="fileInput" accept="image/*" style="display:none">
       </div>
     </section>
 
-    <!-- CONTROLS -->
     <section class="glass">
       <h2>Settings</h2>
       <div class="controls-row">
@@ -187,7 +176,6 @@
       </button>
     </section>
 
-    <!-- PREVIEW + PROMPT -->
     <section class="preview-area">
       <div class="glass">
         <div class="card-header">
@@ -200,7 +188,6 @@
         </div>
       </div>
 
-      <!-- Floating Prompt -->
       <div class="prompt-overlay">
         <div class="prompt-header">
           <h3>GENERATED PROMPT</h3>
@@ -217,8 +204,8 @@
   </div>
 
   <script>
-    const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
     const browseLink = document.getElementById('browseLink');
     const previewEmpty = document.getElementById('previewEmpty');
     const previewContent = document.getElementById('previewContent');
@@ -241,23 +228,34 @@
       detailValue.textContent = detailLabels[detailSlider.value - 1];
     });
 
-    browseLink.addEventListener('click', (e) => { e.preventDefault(); fileInput.click(); });
-    dropZone.addEventListener('click', (e) => {
-      if (e.target === browseLink || browseLink.contains(e.target)) return;
-      fileInput.click();
+    browseLink.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
     });
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = 'var(--cyan)'; });
-    dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = ''; });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault(); dropZone.style.borderColor = '';
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
       if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length > 0) handleFile(e.target.files[0]);
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) handleFile(fileInput.files[0]);
     });
 
     function handleFile(file) {
-      if (!file.type.startsWith('image/')) { alert('Please upload an image file.'); return; }
+      if (!file.type.startsWith('image/')) {
+        alert('Only image files are supported (PNG, JPG, WEBP).');
+        return;
+      }
       uploadedFile = file;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -312,7 +310,7 @@
 
     copyBtn.addEventListener('click', async () => {
       const text = promptDisplay.textContent.trim();
-      if (!text || text.includes('Your AI prompt') || text.includes('Analyzing')) return;
+      if (!text || text.startsWith('Your AI prompt') || text.startsWith('Analyzing')) return;
       try {
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = 'Copied!';
@@ -322,11 +320,12 @@
 
     downloadBtn.addEventListener('click', () => {
       const text = promptDisplay.textContent.trim();
-      if (!text || text.includes('Your AI prompt') || text.includes('Analyzing')) return;
+      if (!text || text.startsWith('Your AI prompt') || text.startsWith('Analyzing')) return;
       const blob = new Blob([text], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'prompt.txt'; a.click();
-      URL.revokeObjectURL(url);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'prompt.txt';
+      a.click();
     });
   </script>
 </body>
