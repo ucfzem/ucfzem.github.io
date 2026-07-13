@@ -33,36 +33,33 @@
         .toggle-switch { position: relative; width: 48px; height: 26px; background-color: var(--brown); border-radius: 13px; cursor: pointer; transition: background-color 0.3s; }
         .toggle-switch::after { content: ''; position: absolute; width: 22px; height: 22px; background-color: var(--gold); border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; }
         .dark .toggle-switch::after { transform: translateX(22px); }
-
         #dropZone { transition: all 0.3s ease; }
         #dropZone.dragover { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); transform: scale(1.01); }
         #dropZone.has-files { border-style: solid; }
-
         .file-item { animation: slideIn 0.3s ease; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner { animation: spin 0.8s linear infinite; }
-
         .btn-main { background: linear-gradient(135deg, var(--gold), var(--accent)); color: var(--bg); font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; transition: all 0.3s; }
         .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(184,134,11,0.3); }
         .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-outline { background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 600; padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
-
         .progress-bar { height: 4px; background: rgba(212, 175, 55, 0.2); border-radius: 2px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--accent)); border-radius: 2px; transition: width 0.3s ease; width: 0%; }
-
+        .progress-fill.indeterminate { width: 40%; animation: indeterminateBar 1.5s ease-in-out infinite; }
+        @keyframes indeterminateBar { 0% { margin-left: -40%; } 50% { margin-left: 60%; } 100% { margin-left: -40%; } }
         input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.95rem; outline: none; transition: all 0.3s; font-family: inherit; }
         input:focus { border-color: var(--gold); box-shadow: 0 0 12px rgba(212,175,55,0.2); }
         input::placeholder { color: var(--brown); opacity: 0.6; }
         .dark input::placeholder { color: var(--gold); opacity: 0.4; }
-
         .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 24px; border-radius: 12px; font-weight: 600; z-index: 100; opacity: 0; transition: all 0.4s ease; pointer-events: none; }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .avatar-logo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; border: 2px solid var(--gold); }
+        .bg-notice { background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); border-radius: 12px; padding: 16px; text-align: center; }
     </style>
 </head>
 <body class="min-h-screen antialiased">
-    <header class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)]" style="background-color: rgba(var(--bg), 0.9);">
+    <header class="sticky top-0 z-50 backdrop-blur-md border-b border-[var(--border)]" style="background-color: rgba(245, 245, 220, 0.9);">
         <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="https://ucfzem.github.io/works/" class="text-xs opacity-60 hover:opacity-100 transition-opacity">← Works</a>
             <div class="flex items-center gap-3">
@@ -82,10 +79,9 @@
             <div class="text-5xl mb-4">📤</div>
             <h2 class="font-display text-3xl font-bold gold-text mb-2">Partage de fichiers</h2>
             <p class="text-sm opacity-70" id="upload-desc">Glissez-déposer vos fichiers ou cliquez pour sélectionner</p>
-            <p class="text-xs opacity-40 mt-2">📦 25 Mo max · 24h de rétention</p>
+            <p class="text-xs opacity-40 mt-2">📦 25 Mo max · 24h de rétention · ⚡ Upload en arrière-plan</p>
         </div>
 
-        <!-- Drop Zone -->
         <div id="dropZone" class="card rounded-2xl p-12 text-center border-2 border-dashed border-[var(--border)] cursor-pointer mb-6" role="button" tabindex="0">
             <input type="file" id="fileInput" multiple class="hidden" accept="*/*">
             <div id="dropEmpty" class="space-y-3">
@@ -103,7 +99,14 @@
             </div>
         </div>
 
-        <!-- Options -->
+        <div id="bgNotice" class="hidden bg-notice mb-6">
+            <div class="flex items-center justify-center gap-2">
+                <span class="spinner inline-block w-5 h-5 border-2 border-[var(--gold)] border-t-transparent rounded-full"></span>
+                <span id="bgNoticeText" class="text-sm font-semibold gold-text">Upload en arrière-plan...</span>
+            </div>
+            <p class="text-xs opacity-60 mt-2" id="bgProgress">Envoi en cours...</p>
+        </div>
+
         <div class="card rounded-2xl p-6 mb-6 space-y-4">
             <div>
                 <label class="text-sm font-semibold opacity-70 mb-2 block" id="pw-label">Mot de passe (optionnel)</label>
@@ -117,7 +120,6 @@
             </div>
         </div>
 
-        <!-- Result -->
         <div id="result" class="hidden card rounded-2xl p-6 space-y-4">
             <div class="text-center">
                 <div class="text-3xl mb-2">✅</div>
@@ -145,8 +147,11 @@
 
     <script>
         const WORKER = 'https://ucfzem.azer-tyu199p.workers.dev';
-
         let selectedFiles = [];
+        let swRegistration = null;
+        let currentUploadId = null;
+        let filesCompleted = 0;
+        let totalFilesForUpload = 0;
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -158,6 +163,102 @@
         const progressFill = document.getElementById('progressFill');
         const progressBar = document.getElementById('progressBar');
         const result = document.getElementById('result');
+        const bgNotice = document.getElementById('bgNotice');
+        const bgNoticeText = document.getElementById('bgNoticeText');
+        const bgProgress = document.getElementById('bgProgress');
+
+        async function registerSW() {
+            if (!('serviceWorker' in navigator)) {
+                console.warn('Service Workers not supported');
+                return;
+            }
+            try {
+                swRegistration = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+                await navigator.serviceWorker.ready;
+                navigator.serviceWorker.addEventListener('message', handleSWMessage);
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ type: 'GET_PENDING' });
+                }
+            } catch (err) {
+                console.error('SW registration failed:', err);
+            }
+        }
+
+        function handleSWMessage(event) {
+            const msg = event.data;
+            if (!msg || !msg.type) return;
+            switch (msg.type) {
+                case 'UPLOAD_STARTED':
+                    filesCompleted = 0;
+                    totalFilesForUpload = msg.totalFiles;
+                    bgNotice.classList.remove('hidden');
+                    bgNoticeText.textContent = 'Upload en arrière-plan... vous pouvez quitter cette page';
+                    bgProgress.textContent = `Envoi du fichier 1/${msg.totalFiles} : ${msg.filename}`;
+                    progressBar.classList.remove('hidden');
+                    progressFill.classList.add('indeterminate');
+                    progressFill.style.width = '';
+                    uploadBtn.disabled = true;
+                    document.getElementById('upload-btn-text').textContent = '⏳ En arrière-plan...';
+                    break;
+                case 'FILE_COMPLETE':
+                    filesCompleted++;
+                    progressFill.style.width = (filesCompleted / msg.totalFiles * 100) + '%';
+                    progressFill.classList.remove('indeterminate');
+                    bgProgress.textContent = `Fichier ${filesCompleted}/${msg.totalFiles} terminé : ${msg.filename}`;
+                    if (msg.allDone) {
+                        const pw = document.getElementById('password').value.trim();
+                        showResult(msg.result.id, pw);
+                        bgNoticeText.textContent = '✅ Upload terminé !';
+                        bgProgress.textContent = 'Tous les fichiers ont été envoyés.';
+                        document.getElementById('upload-btn-text').textContent = '✅ Fait !';
+                        uploadBtn.disabled = false;
+                        setTimeout(() => { bgNotice.classList.add('hidden'); progressBar.classList.add('hidden'); }, 3000);
+                    }
+                    break;
+                case 'FILE_ERROR':
+                    showToast('❌ Erreur sur ' + msg.filename + ': ' + msg.error);
+                    filesCompleted++;
+                    if (filesCompleted >= msg.totalFiles) {
+                        bgNoticeText.textContent = '⚠️ Upload terminé avec erreurs';
+                        bgProgress.textContent = 'Certains fichiers ont échoué.';
+                        document.getElementById('upload-btn-text').textContent = '🚀 Réessayer';
+                        uploadBtn.disabled = false;
+                    }
+                    break;
+                case 'PENDING_STATUS':
+                    if (msg.pending && msg.pending.length > 0) {
+                        bgNotice.classList.remove('hidden');
+                        bgNoticeText.textContent = '📤 Upload en cours (démarré précédemment)...';
+                        bgProgress.textContent = `${msg.pending.length} fichier(s) en attente`;
+                        progressBar.classList.remove('hidden');
+                        progressFill.classList.add('indeterminate');
+                    }
+                    if (msg.completed && msg.completed.length > 0) {
+                        const last = msg.completed[msg.completed.length - 1];
+                        if (last.id) {
+                            showResult(last.id, last.password);
+                            showToast('📥 Upload précédent récupéré !');
+                        }
+                    }
+                    break;
+            }
+        }
+
+        function showResult(shareId, password) {
+            const pw = password || document.getElementById('password').value.trim();
+            const link = `https://ucfzem.github.io/droppy/get.html?id=${shareId}`;
+            document.getElementById('shareLink').value = link;
+            const sharePw = document.getElementById('sharePw');
+            const sharePwInput = document.getElementById('sharePwInput');
+            if (pw) {
+                sharePw.classList.remove('hidden');
+                sharePwInput.value = pw;
+            } else {
+                sharePw.classList.add('hidden');
+            }
+            result.classList.remove('hidden');
+            setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+        }
 
         dropZone.addEventListener('click', () => fileInput.click());
         dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
@@ -182,7 +283,7 @@
             dropZone.classList.add('has-files');
             fileCount.textContent = `${selectedFiles.length} fichier${selectedFiles.length > 1 ? 's' : ''}`;
             fileList.innerHTML = selectedFiles.map((f, i) => {
-                if (f.size > 25*1024*1024) { showToast('❌ ' + f.name + ' dépasse 25 Mo'); removeFile(i); return; }
+                if (f.size > 25*1024*1024) { showToast('❌ ' + f.name + ' dépasse 25 Mo'); selectedFiles.splice(i, 1); return ''; }
                 const size = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(1)+' KB';
                 const icon = f.type.startsWith('image/') ? '🖼️' : f.type.startsWith('video/') ? '🎬' : f.type.startsWith('audio/') ? '🎵' : f.type.startsWith('text/') ? '📄' : '📦';
                 return `<div class="file-item flex items-center gap-3 p-3 rounded-xl bg-[var(--bg)]">
@@ -193,7 +294,7 @@
                     </div>
                     <button onclick="removeFile(${i})" class="text-xs opacity-50 hover:opacity-100 hover:text-red-400">✕</button>
                 </div>`;
-            }).join('');
+            }).filter(Boolean).join('');
             fileList.scrollTop = fileList.scrollHeight;
         }
 
@@ -202,83 +303,112 @@
 
         async function startUpload() {
             if (selectedFiles.length === 0) { showToast('Ajoutez des fichiers d\'abord'); return; }
-            uploadBtn.disabled = true;
-            document.getElementById('upload-btn-text').textContent = '⏳ Upload...';
-            progressBar.classList.remove('hidden');
-            progressFill.style.width = '0%';
-
             const pw = document.getElementById('password').value.trim();
             const total = selectedFiles.length;
-            let shareId = '';
+            currentUploadId = 'upload-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+
+            if (!swRegistration || !navigator.serviceWorker.controller) {
+                showToast('⚠️ Upload direct (SW indisponible). Restez sur la page.');
+                await directUpload(pw);
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            document.getElementById('upload-btn-text').textContent = '📤 Envoi au worker...';
+            progressBar.classList.remove('hidden');
+            progressFill.classList.add('indeterminate');
+            progressFill.style.width = '';
+            bgNotice.classList.remove('hidden');
+            bgNoticeText.textContent = '⚡ Préparation de l\'upload en arrière-plan...';
+            bgProgress.textContent = `0/${total} fichiers`;
 
             try {
                 for (let i = 0; i < total; i++) {
-                    const f = selectedFiles[i];
-                    const res = await fetch(`${WORKER}/droppy/upload`, {
-                        method: 'POST',
-                        headers: {
-                            'X-Filename': encodeURIComponent(f.name),
-                            'X-Password': pw || '',
-                            'Content-Type': 'application/octet-stream'
+                    const file = selectedFiles[i];
+                    const buffer = await file.arrayBuffer();
+                    navigator.serviceWorker.controller.postMessage(
+                        {
+                            type: 'UPLOAD_FILE',
+                            file: buffer,
+                            filename: file.name,
+                            password: pw,
+                            fileIndex: i,
+                            totalFiles: total,
+                            uploadId: currentUploadId
                         },
-                        body: f
-                    });
-                    if (!res.ok) throw new Error('Upload failed: ' + res.status);
-                    const data = await res.json();
-                    if (!shareId) shareId = data.id;
-                    progressFill.style.width = ((i + 1) / total * 80) + '%';
+                        [buffer]
+                    );
+                    bgProgress.textContent = `Fichier ${i + 1}/${total} envoyé au worker...`;
                 }
-                progressFill.style.width = '100%';
-
-                const link = `https://ucfzem.github.io/droppy/get.html?id=${shareId}`;
-                document.getElementById('shareLink').value = link;
-                const sharePw = document.getElementById('sharePw');
-                const sharePwInput = document.getElementById('sharePwInput');
-                if (pw) {
-                    sharePw.classList.remove('hidden');
-                    sharePwInput.value = pw;
-                } else {
-                    sharePw.classList.add('hidden');
-                }
-                result.classList.remove('hidden');
-                setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-                document.getElementById('upload-btn-text').textContent = '✅ Fait !';
-                showToast('✅ Fichiers partagés !');
-            } catch (e) {
-                showToast('❌ Erreur: ' + e.message);
+                bgNoticeText.textContent = '📡 Upload en arrière-plan - vous pouvez quitter cette page !';
+                bgProgress.textContent = `Envoi du fichier 1/${total}...`;
+                showToast('📡 L\'upload continue en arrière-plan. Vous pouvez fermer cette page.');
+            } catch (err) {
+                showToast('❌ Erreur: ' + err.message);
                 document.getElementById('upload-btn-text').textContent = '🚀 Réessayer';
                 uploadBtn.disabled = false;
+                bgNotice.classList.add('hidden');
             }
+        }
+
+        async function directUpload(pw) {
+            const total = selectedFiles.length;
+            let shareId = '';
+            for (let i = 0; i < total; i++) {
+                const f = selectedFiles[i];
+                const res = await fetch(`${WORKER}/droppy/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Filename': encodeURIComponent(f.name),
+                        'X-Password': pw || '',
+                        'Content-Type': 'application/octet-stream'
+                    },
+                    body: f
+                });
+                if (!res.ok) throw new Error('Upload failed: ' + res.status);
+                const data = await res.json();
+                if (!shareId) shareId = data.id;
+                progressFill.style.width = ((i + 1) / total * 100) + '%';
+            }
+            showResult(shareId);
+            document.getElementById('upload-btn-text').textContent = '✅ Fait !';
+            uploadBtn.disabled = false;
+            showToast('✅ Fichiers partagés !');
         }
 
         function resetUpload() {
             selectedFiles = [];
             document.getElementById('password').value = '';
             progressBar.classList.add('hidden');
+            progressFill.classList.remove('indeterminate');
+            progressFill.style.width = '0%';
             result.classList.add('hidden');
+            bgNotice.classList.add('hidden');
             renderFiles();
             document.getElementById('upload-btn-text').textContent = '🚀 Uploader';
             uploadBtn.disabled = false;
+            currentUploadId = null;
+            filesCompleted = 0;
+            totalFilesForUpload = 0;
         }
 
         function copyLink() { copyToClipboard(document.getElementById('shareLink').value, 'Lien copié !'); }
         function copyPw() { copyToClipboard(document.getElementById('sharePwInput').value, 'Mot de passe copié !'); }
-
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => showToast(msg));
         }
-
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg;
             t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
+            setTimeout(() => t.classList.remove('show'), 3500);
         }
-
         function toggleTheme() { document.documentElement.classList.toggle('dark'); }
 
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
             document.documentElement.classList.add('dark');
+
+        registerSW();
     </script>
 </body>
 </html>

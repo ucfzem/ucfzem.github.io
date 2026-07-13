@@ -58,6 +58,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .progress-bar{width:100%;height:4px;background:rgba(201,168,76,.15);border-radius:2px;margin-top:1rem;overflow:hidden;display:none}
 .progress-bar.show{display:block}
 .progress-fill{height:100%;width:0%;background:var(--gold);border-radius:2px;transition:width .3s}
+.progress-fill.indeterminate{width:35%;animation:indeterminateBar 1.4s ease-in-out infinite}
+@keyframes indeterminateBar{0%{margin-left:-35%}50%{margin-left:65%}100%{margin-left:-35%}}
+.bg-notice{background:rgba(201,168,76,.12);border:1px solid var(--gold);border-radius:8px;padding:.8rem;text-align:center;font-size:clamp(0.75rem,2vw,0.85rem);margin-bottom:1rem;display:none}
+.bg-notice.show{display:block}
+.bg-notice .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--gold);border-top-color:transparent;border-radius:50%;margin-right:.5rem;vertical-align:middle}
 .result{display:none;margin-top:1rem;padding:clamp(0.8rem,2vw,1.2rem);background:rgba(201,168,76,.08);border-radius:8px;text-align:center}
 .result.show{display:block}
 .result .link{display:block;color:var(--gold);font-size:clamp(0.8rem,2vw,0.9rem);word-break:break-all;margin:.5rem 0;padding:.5rem;background:rgba(0,0,0,.3);border-radius:6px;text-decoration:none}
@@ -142,6 +147,7 @@ function showUploadPage() {
     '</div>' +
     '<div id="statusMsg" style="display:none;font-size:0.85rem;margin-bottom:0.8rem;text-align:center;"></div>' +
     '<div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>' +
+    '<div class="bg-notice" id="bgNotice"><span class="spinner"></span><span id="bgNoticeText">Upload en arrière-plan...</span><div style="margin-top:0.3rem;opacity:0.6;font-size:0.75rem;" id="bgProgress"></div></div>' +
     '<button class="btn btn-primary" id="uploadBtn" disabled>Choisissez un fichier</button>' +
     '<div class="result" id="result">' +
     '<div id="successMsg" style="display:none;margin-bottom:0.8rem;color:var(--gold);font-weight:600;">✅ Fichier partagé !</div>' +
@@ -215,6 +221,41 @@ function setupUpload() {
 
   uploadBtn.addEventListener('click', async function() {
     if (!selectedFile) { setStatus('Veuillez sélectionner un fichier.', true); return; }
+
+    var f = selectedFile;
+    var uploadId = 'tmpdrop-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+
+    if (window.__tmpdropSW && navigator.serviceWorker && navigator.serviceWorker.controller) {
+      this.disabled = true;
+      this.textContent = 'Upload...';
+      progressBar.classList.add('show');
+      progressFill.classList.add('indeterminate');
+      setStatus('');
+      var bgNotice = document.getElementById('bgNotice');
+      var bgNoticeText = document.getElementById('bgNoticeText');
+      var bgProgress = document.getElementById('bgProgress');
+      bgNotice.classList.add('show');
+      bgNoticeText.innerHTML = '<span class="spinner"></span> Upload en arrière-plan...';
+      bgProgress.textContent = 'Vous pouvez quitter cette page';
+
+      try {
+        var buffer = await f.arrayBuffer();
+        window.__tmpdropPendingUpload = { uploadId: uploadId, filename: f.name };
+        navigator.serviceWorker.controller.postMessage(
+          { type: 'UPLOAD_FILE', file: buffer, filename: f.name, uploadId: uploadId },
+          [buffer]
+        );
+        setStatus('Upload en arrière-plan - vous pouvez fermer la page');
+      } catch (err) {
+        setStatus('Erreur: ' + err.message, true);
+        this.disabled = false;
+        this.textContent = 'Uploader';
+        progressBar.classList.remove('show');
+        bgNotice.classList.remove('show');
+      }
+      return;
+    }
+
     this.disabled = true;
     this.textContent = 'Upload en cours...';
     progressBar.classList.add('show');
@@ -222,9 +263,7 @@ function setupUpload() {
     setStatus('');
 
     try {
-      var f = selectedFile;
       var url = WORKER + '/tmpdrop/upload';
-      setStatus('Envoi vers ' + url + '...');
       var uploadRes = await fetch(url, {
         method: 'POST',
         headers: { 'X-Filename': encodeURIComponent(f.name) },
@@ -236,48 +275,7 @@ function setupUpload() {
       }
       progressFill.style.width = '100%';
       var data = await uploadRes.json();
-
-      var link = window.location.origin + BASE + '?d=' + data.id;
-      shareLink.textContent = link;
-      shareLink.href = link;
-      this.style.display = 'none';
-      fileInfo.classList.remove('show');
-      fileInfo.style.display = 'none';
-      document.getElementById('result').classList.add('show');
-      document.getElementById('successMsg').style.display = 'block';
-      setStatus('');
-
-      var encodedUrl = encodeURIComponent(link);
-      document.getElementById('uploadShareTiles').innerHTML = shareTilesHTML(encodedUrl, link);
-
-      var nativeBtn = document.getElementById('nativeShareBtn');
-      if (navigator.share) {
-        nativeBtn.style.display = 'flex';
-        nativeBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          navigator.share({ title: 'TmpDrop', text: 'Fichier partagé sur TmpDrop', url: link });
-        });
-      }
-
-      copyBtn.onclick = function() {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(link).then(function() {
-            copyBtn.textContent = '✅';
-            setTimeout(function(){ copyBtn.textContent = 'Copier'; }, 2000);
-          });
-        } else {
-          var r = document.createRange();
-          r.selectNodeContents(shareLink);
-          var s = window.getSelection();
-          s.removeAllRanges(); s.addRange(r);
-          document.execCommand('copy');
-          copyBtn.textContent = '✅';
-          setTimeout(function(){ copyBtn.textContent = 'Copier'; }, 2000);
-        }
-      };
-
-      document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
-
+      showTmpdropResult(data.id, f.name, this);
     } catch (err) {
       setStatus('Erreur : ' + err.message, true);
       this.disabled = false;
@@ -286,6 +284,98 @@ function setupUpload() {
     }
   });
 }
+
+function showTmpdropResult(id, filename, uploadBtn) {
+  var link = window.location.origin + BASE + '?d=' + id;
+  var shareLink = document.getElementById('shareLink');
+  var bgNotice = document.getElementById('bgNotice');
+  var progressFill = document.getElementById('progressFill');
+  var progressBar = document.getElementById('progressBar');
+  progressFill.style.width = '100%';
+  progressFill.classList.remove('indeterminate');
+  shareLink.textContent = link;
+  shareLink.href = link;
+  uploadBtn.style.display = 'none';
+  var fileInfo = document.getElementById('fileInfo');
+  fileInfo.classList.remove('show');
+  fileInfo.style.display = 'none';
+  document.getElementById('result').classList.add('show');
+  document.getElementById('successMsg').style.display = 'block';
+  if (bgNotice) bgNotice.classList.remove('show');
+
+  var encodedUrl = encodeURIComponent(link);
+  document.getElementById('uploadShareTiles').innerHTML = shareTilesHTML(encodedUrl, link);
+
+  var nativeBtn = document.getElementById('nativeShareBtn');
+  if (navigator.share) {
+    nativeBtn.style.display = 'flex';
+    nativeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigator.share({ title: 'TmpDrop', text: 'Fichier partagé sur TmpDrop', url: link });
+    });
+  }
+
+  document.getElementById('copyBtn').onclick = function() {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).then(function() {
+        this.textContent = '✅';
+        setTimeout(function(){ this.textContent = 'Copier'; }.bind(this), 2000);
+      }.bind(this));
+    } else {
+      var r = document.createRange();
+      r.selectNodeContents(shareLink);
+      var s = window.getSelection();
+      s.removeAllRanges(); s.addRange(r);
+      document.execCommand('copy');
+      this.textContent = '✅';
+      setTimeout(function(){ this.textContent = 'Copier'; }.bind(this), 2000);
+    }
+  };
+
+  document.getElementById('newUploadBtn').onclick = function() { showUploadPage(); };
+}
+
+function handleSWMessage(event) {
+  var msg = event.data;
+  if (!msg || !msg.type) return;
+  if (msg.type === 'UPLOAD_COMPLETE') {
+    var pending = window.__tmpdropPendingUpload;
+    if (pending && pending.uploadId === msg.uploadId) {
+      window.__tmpdropPendingUpload = null;
+      var uploadBtn = document.getElementById('uploadBtn');
+      if (uploadBtn) showTmpdropResult(msg.result.id, msg.filename, uploadBtn);
+    }
+  }
+  if (msg.type === 'UPLOAD_ERROR') {
+    var statusEl = document.getElementById('statusMsg');
+    if (statusEl) {
+      statusEl.textContent = 'Erreur: ' + msg.error;
+      statusEl.style.display = 'block';
+      statusEl.style.color = '#e74c3c';
+    }
+    var bgNotice = document.getElementById('bgNotice');
+    if (bgNotice) bgNotice.classList.remove('show');
+    var uploadBtn = document.getElementById('uploadBtn');
+    if (uploadBtn) { uploadBtn.disabled = false; uploadBtn.textContent = 'Réessayer'; }
+  }
+}
+
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./sw.js', { scope: './' }).then(function(reg) {
+    window.__tmpdropSW = reg;
+    return navigator.serviceWorker.ready;
+  }).then(function() {
+    navigator.serviceWorker.addEventListener('message', handleSWMessage);
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: 'GET_PENDING' });
+    }
+  }).catch(function(err) {
+    console.error('SW failed:', err);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', registerSW);
 
 
 async function showDownloadPage(id) {
