@@ -190,3 +190,17 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 7 — Defensive TTS: guard every speechSynthesis call
+
+### Changes
+1. Both **Lecture** and **Effacer** silently dead because they call `speechSynthesis.cancel()`/`.speak()` which can throw in embedded webviews that lack full Web Speech API support.
+2. Every `speechSynthesis` call now guarded by `try/catch` + `console.error`. `stopTTS` checks `window.speechSynthesis` exists before calling `.cancel()`. `speakText` alerts the user if TTS is unsupported.
+3. Pushed + deployed.
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
