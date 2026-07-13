@@ -311,6 +311,7 @@
   };
 
   const playing = {};
+  let playOrder = [];
   let currentLang = 'fr';
   let sounds = [];
   let focusedIndex = -1;
@@ -394,6 +395,7 @@
       { id:'dove2',   file:'dragon-studio-mourning-dove-coo-335480.mp3' }
     ];
     sounds = soundsData;
+    playOrder = [];
     const grid = document.getElementById('ambienceGrid');
     soundsData.forEach((s, idx) => {
       const btn = document.createElement('button');
@@ -411,7 +413,18 @@
           playing[s.id].pause(); playing[s.id].currentTime = 0;
           playing[s.id] = null; btn.classList.remove('active-loop', 'loading');
           btn.setAttribute('aria-pressed', 'false');
+          playOrder = playOrder.filter(id => id !== s.id);
         } else {
+          const activeCount = Object.values(playing).filter(a => a !== null).length;
+          if (activeCount >= 7) {
+            const oldest = playOrder.shift();
+            if (oldest && playing[oldest]) {
+              playing[oldest].pause(); playing[oldest].currentTime = 0;
+              playing[oldest] = null;
+              const oldBtn = document.getElementById('sound-' + oldest);
+              if (oldBtn) { oldBtn.classList.remove('active-loop', 'loading'); oldBtn.setAttribute('aria-pressed', 'false'); }
+            }
+          }
           const audio = new Audio('/sounds-of-nature/assets/' + s.file);
           audio.loop = true;
           playing[s.id] = audio;
@@ -422,6 +435,7 @@
             btn.classList.remove('loading');
             btn.classList.add('active-loop');
             btn.setAttribute('aria-pressed', 'true');
+            playOrder.push(s.id);
           }).catch(e => {
             playing[s.id] = null;
             btn.classList.remove('loading');
@@ -440,6 +454,7 @@
     Object.keys(playing).forEach(id => {
       if (playing[id]) { playing[id].pause(); playing[id].currentTime = 0; playing[id] = null; }
     });
+    playOrder = [];
     document.querySelectorAll('.sound-btn').forEach(b => {
       b.classList.remove('active-loop');
       b.setAttribute('aria-pressed', 'false');
