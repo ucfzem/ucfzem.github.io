@@ -152,6 +152,19 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 
 ---
 
+## Session 5 — Fixed oversized API key input (password-manager bar)
+
+### Changes
+1. **API key `<input>` showing oversized box with dotted line** — caused by browser password-manager injecting UI into the password field. Fixed with `autocomplete="new-password"` to prevent injection, plus fixed `height: 44px; line-height: 44px` on `.groq-key-row input` and removed conflicting `py-2` Tailwind padding.
+2. Pushed + deployed.
+
+### Links
+- **VoiceForge live**: https://voiceforge-delta.vercel.app
+- **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
+- **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
 ## Session 4 — Toolbar overflow wrap + async TTS voice guard
 
 ### Changes
