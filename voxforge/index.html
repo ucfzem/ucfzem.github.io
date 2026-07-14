@@ -262,7 +262,7 @@ input[type="range"]{accent-color:var(--gold)}
     es: { name:'Español',  flag:'🇪🇸', bcp47:'es' },
     de: { name:'Deutsch',  flag:'🇩🇪', bcp47:'de' },
     it: { name:'Italiano', flag:'🇮🇹', bcp47:'it' },
-    ar: { name:'العربية',  flag:'🇲🇦', bcp47:'ar-SA' }
+    ar: { name:'العربية',  flag:'🇲🇦', bcp47:'ar' }
   };
   function detectLanguage(text) {
     const clean = text.trim(); if (!clean) return null;
@@ -668,16 +668,14 @@ No extra text outside JSON.`;
     const text = genBody.textContent;
     if (!text||!text.trim()) return;
     if (genSpeaking) { if (window.speechSynthesis) window.speechSynthesis.cancel(); genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; return; }
-    if (!window.speechSynthesis) { genStatus.textContent = '❌ TTS not supported'; return; }
+    if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    const lm = { en:'en-US', fr:'fr-FR', es:'es-ES', ar:'ar-SA' };
-    u.lang = lm[genRecLang.value]||'en-US'; u.rate = 0.9;
-    const v = availableVoices.length ? availableVoices.filter(v => v.lang.toLowerCase().startsWith(genRecLang.value)) : window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith(genRecLang.value));
-    if (v.length) u.voice = v[0];
-    u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; genStatus.textContent = '🔊 Speaking...'; };
-    u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; genStatus.textContent = '✅ Done'; };
-    u.onerror = (e) => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; genStatus.textContent = '❌ TTS error: '+e.error+'. Try a different browser.'; };
+    const lm = { en:'en', fr:'fr', es:'es', ar:'ar' };
+    u.lang = lm[genRecLang.value]||'en'; u.rate = 0.9;
+    u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; };
+    u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; };
+    u.onerror = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; };
     window.speechSynthesis.speak(u);
   });
 
