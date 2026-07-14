@@ -181,7 +181,6 @@ input[type="range"]{accent-color:var(--gold)}
         <select id="genTransLang" class="rounded-lg px-3 py-1.5 text-xs" style="background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--text)">
           <option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option>
           <option value="es">🇪🇸 Español</option><option value="ar">🇲🇦 العربية</option>
-          <option value="de">🇩🇪 Deutsch</option><option value="it">🇮🇹 Italiano</option>
         </select>
         <button id="genTransBtn" class="btn-ghost rounded-lg px-3 py-1.5 text-xs">🔄 Translate</button>
         <span id="genTransStatus" class="text-xs" style="color:var(--text-dim)"></span>
@@ -595,7 +594,7 @@ No extra text outside JSON.`;
     if (!body || !body.trim()) return;
     const target = document.getElementById('genTransLang').value;
     const st = document.getElementById('genTransStatus');
-    const langNames = {en:'English',fr:'French',es:'Spanish',ar:'Arabic',de:'German',it:'Italian'};
+    const langNames = {en:'English',fr:'French',es:'Spanish',ar:'Arabic'};
     st.textContent = '⏳ Translating...';
     try {
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
