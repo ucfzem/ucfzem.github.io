@@ -273,3 +273,22 @@ VoxForge Generate tab: 🎤 mic → speak story idea → Groq writes story → �
 ### Links
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **GitHub commit f5a63a0**: https://github.com/ucfzem/ucfzem.github.io/commit/f5a63a0
+
+## Session 12 — Jul 14 2026
+
+### Summary
+Sounds of Nature: added 38 new sounds from zip, created 🔧 Urban & Sounds section (motorcycles, glass, vacuum, clock, dice, balloon, wood, school, hammer, etc.) separate from nature section. VoxForge: fixed Arabic TTS language code to ar-SA with voice matching.
+
+### Changes
+1. Added urban section HTML + grid below nature section in sounds-of-nature
+2. 38 new sounds added: snake, lion×3, duck, turkey×2, splash×4, stonewater, dive×2, children2, school, hammer×2, stone, glass×4, vacuum×2, clock×2, cuckoo, dice×2, balloon×3, wood, motorcycle×4
+3. All 4 languages (FR/EN/ES/AR) translated for all new sounds
+4. setupSounds refactored: renders natureData to ambienceGrid, urbanData to urbanGrid
+5. applyLang updated to handle urbanSection title
+6. VoxForge: changed Arabic TTS lang from 'ar' to 'ar-SA' (BCP 47)
+7. VoxForge: Listen button now tries to find a matching voice for the language
+
+### Links
+- **Sounds of Nature live**: https://ucfzem.github.io/sounds-of-nature/
+- **VoxForge live**: https://ucfzem.github.io/voxforge/
+- **GitHub commit 1a503a5**: https://github.com/ucfzem/ucfzem.github.io/commit/1a503a5
