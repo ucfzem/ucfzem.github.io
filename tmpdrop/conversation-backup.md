@@ -257,3 +257,22 @@ Merged **Voxcell** (voice reader) and **VoiceForge** (AI generation) into a sing
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **VoxForge GitHub**: https://github.com/ucfzem/ucfzem.github.io/tree/main/voxforge
 - **Works page**: https://ucfzem.github.io/works/
+
+## Session 11 — Jul 14 2026
+
+### Summary
+Simplified VoxForge Generate tab: replaced speech-to-article (mic recording) with text-based story generation. Write a prompt → Groq creates story → loaded into Voice tab for manual TTS reading. Added Translate feature (EN/FR/ES/AR).
+
+### Changes
+1. Removed SpeechRecognition mic/recording flow from Generate tab
+2. Added text prompt + language selector + Generate Story button
+3. Story appears in Generate result AND silently copied to Voice tab textarea
+4. User manually clicks "Détecter et Lire" in Voice tab to hear the story
+5. Added Translate section in Generate result: select target language → Groq translates
+6. Translated text updates both Generate result and Voice tab textarea
+7. Removed auto-read on tab switch (manual only)
+8. Translate limited to 4 languages: EN/FR/ES/AR
+
+### Links
+- **VoxForge live**: https://ucfzem.github.io/voxforge/
+- **GitHub commit 00f3d88**: https://github.com/ucfzem/ucfzem.github.io/commit/00f3d88
