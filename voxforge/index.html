@@ -668,15 +668,16 @@ No extra text outside JSON.`;
     const text = genBody.textContent;
     if (!text||!text.trim()) return;
     if (genSpeaking) { if (window.speechSynthesis) window.speechSynthesis.cancel(); genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; return; }
-    if (!window.speechSynthesis) return; window.speechSynthesis.cancel();
+    if (!window.speechSynthesis) { genStatus.textContent = '❌ TTS not supported'; return; }
+    window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     const lm = { en:'en-US', fr:'fr-FR', es:'es-ES', ar:'ar-SA' };
     u.lang = lm[genRecLang.value]||'en-US'; u.rate = 0.9;
-    const voices = window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith(genRecLang.value));
-    if (voices.length) u.voice = voices[0];
-    u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; };
-    u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; };
-    u.onerror = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; };
+    const v = availableVoices.length ? availableVoices.filter(v => v.lang.toLowerCase().startsWith(genRecLang.value)) : window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith(genRecLang.value));
+    if (v.length) u.voice = v[0];
+    u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; genStatus.textContent = '🔊 Speaking...'; };
+    u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; genStatus.textContent = '✅ Done'; };
+    u.onerror = (e) => { genSpeaking = false; genPlayBtn.textContent = '▶ Listen'; genStatus.textContent = '❌ TTS error: '+e.error+'. Try a different browser.'; };
     window.speechSynthesis.speak(u);
   });
 
