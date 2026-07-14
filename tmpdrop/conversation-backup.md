@@ -292,3 +292,17 @@ Sounds of Nature: added 38 new sounds from zip, created 🔧 Urban & Sounds sect
 - **Sounds of Nature live**: https://ucfzem.github.io/sounds-of-nature/
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **GitHub commit 1a503a5**: https://github.com/ucfzem/ucfzem.github.io/commit/1a503a5
+
+## Session 13 — Jul 14 2026
+
+### Summary
+VoxForge: improved Arabic TTS — uses global `availableVoices` array (populated via `onvoiceschanged`), better error handling with user-visible messages, fallback to direct `getVoices()`.
+
+### Changes
+1. Listen button now uses global `availableVoices` (avoids empty array on first call)
+2. Added `genStatus` feedback: "🔊 Speaking...", "✅ Done", "❌ TTS error: ..."
+3. Arabic uses `ar-SA` locale with automatic voice matching
+
+### Links
+- **VoxForge live**: https://ucfzem.github.io/voxforge/
+- **GitHub commit 0186032**: https://github.com/ucfzem/ucfzem.github.io/commit/0186032
