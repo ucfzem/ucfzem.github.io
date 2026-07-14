@@ -238,3 +238,22 @@ Created **Voxcell** (lecteur vocal intelligent) and **Voxcell-offline** (version
 - **Voxcell GitHub**: https://github.com/ucfzem/Voxcell
 - **Voxcell-offline GitHub**: https://github.com/ucfzem/Voxcell-offline
 - **Works page**: https://ucfzem.github.io/works/
+
+---
+
+## Session 10 — Jul 14 2026 — VoxForge merged app
+
+### Summary
+Merged **Voxcell** (voice reader) and **VoiceForge** (AI generation) into a single unified app **VoxForge** with 3 tabs. Uses Voxcell's dark gold theme, chunked TTS, language detection (6 languages), file reader (.txt/.docx/.pdf), and VoiceForge's Groq API integration with article generation, copy/download, and TTS playback.
+
+### Changes
+1. Built `voxforge/index.html` with 3-tab layout: **Voice** (TTS reader), **Generate** (Groq AI article), **Files** (document reader)
+2. Shared TTS engine with chunking (200 chars), `speechCanceled` flag, click-gesture speaking
+3. Language detection from Voxcell (FR/EN/ES/DE/IT/AR), UI from VoiceForge (EN/FR/ES/AR)
+4. Added to `works/index.html` locked projects with icon 🔮
+5. Deployed on Cloudflare Pages + Vercel
+
+### Links
+- **VoxForge live**: https://ucfzem.github.io/voxforge/
+- **VoxForge GitHub**: https://github.com/ucfzem/ucfzem.github.io/tree/main/voxforge
+- **Works page**: https://ucfzem.github.io/works/

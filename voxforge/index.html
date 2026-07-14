@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoxForge — Voice & AI Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0b0906;--card:#15110b;--card-2:#1c160d;--border:#2a2113;--gold:#c9a84c;--gold-bright:#f0c866;--text:#ece4d3;--text-dim:#a99d84;--success:#65a30d}
+*{scrollbar-color:var(--gold) var(--card);box-sizing:border-box}
+body{background-color:var(--ink);background-image:radial-gradient(circle at 15% 0%,rgba(201,168,76,0.08),transparent 40%),radial-gradient(circle at 85% 100%,rgba(201,168,76,0.06),transparent 45%);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+.font-display{font-family:'Cinzel',serif}
+.card{background:linear-gradient(180deg,var(--card-2),var(--card));border:1px solid var(--border)}
+.gold-text{color:var(--gold-bright)}
+.gold-line{background:linear-gradient(90deg,transparent,var(--gold),transparent);height:1px}
+textarea{background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif}
+textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.15)}
+select,input{background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--text);font-family:'Inter',sans-serif}
+select:focus,input:focus{outline:none;border-color:var(--gold)}
+.btn-gold{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1408;font-weight:700}
+.btn-gold:hover{filter:brightness(1.08)}
+.btn-gold:disabled{opacity:.4;filter:none;cursor:not-allowed}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright)}
+.btn-ghost:disabled{opacity:.35;cursor:not-allowed}
+
+.tab-btn{background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:10px 20px;font-size:0.9rem;cursor:pointer;transition:all 0.3s;border-radius:10px 10px 0 0;font-family:'Inter',sans-serif}
+.tab-btn:hover{border-color:var(--gold);color:var(--gold-bright)}
+.tab-btn.active{background:var(--card);border-color:var(--gold) var(--gold) var(--card) var(--gold);color:var(--gold-bright);font-weight:600}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.dropzone{border:1.5px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s,background-color .2s}
+.dropzone.drag-over{border-color:var(--gold);background:rgba(201,168,76,0.06)}
+.seal{width:72px;height:72px;border-radius:999px;border:2px solid var(--gold);background:radial-gradient(circle at 35% 30%,rgba(240,200,102,0.18),rgba(0,0,0,0.2));display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 0 0 3px rgba(201,168,76,0.12),0 0 18px rgba(201,168,76,0.15)}
+.seal::before{content:"";position:absolute;inset:-8px;border-radius:999px;border:1px dashed rgba(201,168,76,0.35)}
+.seal.stamped{animation:stamp .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes stamp{0%{transform:scale(1.6)rotate(-8deg);opacity:0}60%{transform:scale(0.95)rotate(2deg);opacity:1}100%{transform:scale(1)rotate(0deg)}}
+.wave{display:flex;align-items:flex-end;gap:3px;height:22px}
+.wave span{width:3px;background:var(--gold);border-radius:2px;animation:bounce 1s ease-in-out infinite;opacity:.85}
+.wave span:nth-child(1){animation-delay:-0.9s}
+.wave span:nth-child(2){animation-delay:-0.7s}
+.wave span:nth-child(3){animation-delay:-0.5s}
+.wave span:nth-child(4){animation-delay:-0.3s}
+.wave span:nth-child(5){animation-delay:-0.1s}
+@keyframes bounce{0%,100%{height:4px}50%{height:22px}}
+.wave.paused span,.wave.idle span{animation-play-state:paused;height:4px}
+input[type="range"]{accent-color:var(--gold)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+@media(prefers-reduced-motion:reduce){.wave span,.seal.stamped{animation:none!important}}
+[dir="rtl"] textarea{text-align:right}
+
+.fade-in{animation:fadeIn .35s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite}
+
+@media(max-width:768px){.tab-btn{padding:8px 12px;font-size:0.8rem}}
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="max-w-6xl mx-auto px-4 py-6 md:py-10">
+
+  <header class="text-center mb-6">
+    <div class="flex items-center justify-center gap-3 mb-2">
+      <span class="text-3xl">🎙️</span>
+      <h1 class="font-display text-3xl md:text-4xl gold-text">VoxForge</h1>
+      <span class="text-3xl">⚡</span>
+    </div>
+    <div class="gold-line max-w-xs mx-auto mb-2"></div>
+    <p class="text-sm" style="color:var(--text-dim)">Voice reading &bull; AI generation &bull; Document reader</p>
+  </header>
+
+  <div class="flex gap-1 mb-0 overflow-x-auto" id="tabBar">
+    <button class="tab-btn active" data-tab="voice">🎤 Voice</button>
+    <button class="tab-btn" data-tab="generate">✍️ Generate</button>
+    <button class="tab-btn" data-tab="files">📁 Files</button>
+  </div>
+
+  <!-- VOICE TAB -->
+  <div class="tab-content active" id="tab-voice">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+      <section class="lg:col-span-3 card rounded-2xl p-5">
+        <label class="block text-sm mb-2" style="color:var(--text-dim)">Votre texte</label>
+        <textarea id="voiceText" rows="8" class="w-full rounded-xl p-4 text-[15px] leading-relaxed resize-y" placeholder="Écrivez ou collez votre texte ici…"></textarea>
+        <div class="flex items-center justify-between mt-2 mb-4">
+          <span id="voiceCharCount" class="text-xs" style="color:var(--text-dim)">0 caractère</span>
+          <button id="voiceClearBtn" class="text-xs underline" style="color:var(--text-dim)">Effacer</button>
+        </div>
+        <button id="voiceDetectBtn" class="btn-gold w-full rounded-xl py-3 text-[15px]">Détecter et Lire</button>
+      </section>
+      <section class="lg:col-span-2 card rounded-2xl p-5 flex flex-col gap-5">
+        <div class="flex items-center gap-4">
+          <div class="seal"><span id="voiceSealFlag" class="text-2xl">🌐</span></div>
+          <div>
+            <p class="text-xs" style="color:var(--text-dim)">Langue détectée</p>
+            <p id="voiceLangLabel" class="font-display text-lg gold-text">En attente…</p>
+          </div>
+        </div>
+        <div class="gold-line"></div>
+        <div>
+          <label class="flex items-center justify-between text-sm mb-2"><span style="color:var(--text-dim)">Vitesse</span><span id="voiceRateValue" class="gold-text">1.0×</span></label>
+          <input id="voiceRate" type="range" min="0.5" max="2" step="0.1" value="1" class="w-full">
+        </div>
+        <div>
+          <label class="block text-sm mb-2" style="color:var(--text-dim)">Voix</label>
+          <select id="voiceSelect" class="w-full rounded-lg p-2.5 text-sm"></select>
+        </div>
+        <div class="gold-line"></div>
+        <div class="flex items-center justify-center gap-3">
+          <div class="wave idle" id="voiceWave"><span></span><span></span><span></span><span></span><span></span></div>
+          <span id="voiceStatus" class="text-xs" style="color:var(--text-dim)">Silencieux</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="voicePlayBtn" disabled>▶ Lecture</button>
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="voicePauseBtn" disabled>⏸ Pause</button>
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="voiceStopBtn" disabled>⏹ Stop</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- GENERATE TAB -->
+  <div class="tab-content" id="tab-generate">
+    <div class="card rounded-2xl p-5 mb-5">
+      <details open>
+        <summary class="list-none flex items-center justify-between cursor-pointer font-semibold text-sm" style="color:var(--text-dim)">
+          <span>🔑 Groq API Key</span>
+          <span class="text-xs gold-text" id="groqToggleLabel">Click to collapse</span>
+        </summary>
+        <div class="mt-4 pt-4 border-t" style="border-color:var(--border)">
+          <div class="flex flex-wrap gap-3 items-center">
+            <input type="password" id="groqKey" class="flex-1 min-w-[200px] rounded-lg px-3 py-2.5 text-sm" placeholder="gsk_... get one free at console.groq.com" autocomplete="new-password">
+            <button id="groqSaveBtn" class="btn-gold rounded-lg px-4 py-2.5 text-sm">💾 Save</button>
+            <a href="https://console.groq.com/keys" target="_blank" class="btn-ghost rounded-lg px-4 py-2.5 text-sm">🔗 Get Key</a>
+          </div>
+          <p id="groqKeySaved" class="text-xs mt-2 hidden" style="color:var(--success)">✅ Key saved to browser.</p>
+          <p class="text-xs mt-2" style="color:var(--text-dim)">Free tier: 30 req/min, 6000 req/day.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+      <div class="card rounded-2xl p-5">
+        <label class="block text-sm mb-3" style="color:var(--text-dim)">🎨 Settings</label>
+        <div class="flex flex-col gap-4">
+          <div>
+            <label class="text-xs" style="color:var(--text-dim)">Art Style</label>
+            <select id="genStyle" class="w-full rounded-lg p-2.5 text-sm mt-1">
+              <option>Digital Painting</option><option>Photorealistic</option><option>Anime</option>
+              <option>Oil Painting</option><option>Sketch</option><option>3D Render</option><option>Watercolor</option><option>Pixel Art</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs" style="color:var(--text-dim)">Medium</label>
+            <select id="genMedium" class="w-full rounded-lg p-2.5 text-sm mt-1">
+              <option>Digital Art</option><option>Oil on Canvas</option><option>Pencil Drawing</option>
+              <option>Ink</option><option>Charcoal</option><option>Photography</option><option>Vector</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs" style="color:var(--text-dim)">Level of Detail</label>
+            <input type="range" id="genDetail" min="1" max="3" value="3" class="w-full mt-1">
+            <div class="flex justify-between text-xs mt-1" style="color:var(--text-dim)"><span>Low</span><span>Medium</span><span id="genDetailLabel">High</span></div>
+          </div>
+          <div>
+            <label class="text-xs" style="color:var(--text-dim)">Mood / Atmosphere</label>
+            <input type="text" id="genMood" class="w-full rounded-lg p-2.5 text-sm mt-1" placeholder="e.g. serene, dramatic, futuristic">
+          </div>
+          <div>
+            <label class="text-xs" style="color:var(--text-dim)">Language</label>
+            <select id="genLang" class="w-full rounded-lg p-2.5 text-sm mt-1">
+              <option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option>
+              <option value="es">🇪🇸 Español</option><option value="ar">🇲🇦 العربية</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="card rounded-2xl p-5 flex-1">
+          <label class="block text-sm mb-2" style="color:var(--text-dim)">📝 Your Idea</label>
+          <textarea id="genInput" rows="5" class="w-full rounded-xl p-4 text-[15px] leading-relaxed resize-y" placeholder="Describe what you want to generate…"></textarea>
+          <button id="genSubmitBtn" class="btn-gold w-full rounded-xl py-3 mt-3 text-[15px] disabled:opacity-40" disabled>🚀 Generate</button>
+        </div>
+        <div id="genLoader" class="hidden card rounded-2xl p-5 text-center">
+          <div class="w-8 h-8 border-4 rounded-full spin mx-auto mb-3" style="border-color:var(--border);border-top-color:var(--gold)"></div>
+          <p class="text-sm" style="color:var(--text-dim)">Generating with Groq AI…</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="genResult" class="hidden card rounded-2xl p-5 fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h2 id="genTitle" class="font-display text-xl gold-text"></h2>
+        <div class="flex gap-2">
+          <button id="genPlayBtn" class="btn-ghost rounded-lg px-3 py-1.5 text-xs">▶ Play</button>
+          <button id="genCopyBtn" class="btn-ghost rounded-lg px-3 py-1.5 text-xs">📋 Copy</button>
+          <button id="genDownloadBtn" class="btn-ghost rounded-lg px-3 py-1.5 text-xs">⬇ .md</button>
+          <button id="genClearBtn" class="btn-ghost rounded-lg px-3 py-1.5 text-xs">🗑 Clear</button>
+        </div>
+      </div>
+      <div id="genBody" class="text-sm leading-relaxed whitespace-pre-wrap"></div>
+    </div>
+  </div>
+
+  <!-- FILES TAB -->
+  <div class="tab-content" id="tab-files">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+      <section class="lg:col-span-3 card rounded-2xl p-5">
+        <div id="fileDropzone" class="dropzone">
+          <p class="text-sm mb-1">📂 Glissez-déposez un fichier ici</p>
+          <p class="text-xs mb-3" style="color:var(--text-dim)">.txt &bull; .docx &bull; .pdf</p>
+          <button id="fileBrowseBtn" class="btn-ghost rounded-lg px-4 py-2 text-sm">Parcourir</button>
+          <input id="fileInput" type="file" accept=".txt,.docx,.pdf" class="hidden">
+          <p id="fileStatus" class="text-xs mt-3 gold-text hidden"></p>
+        </div>
+        <label class="block text-sm mt-4 mb-2" style="color:var(--text-dim)">Texte extrait</label>
+        <textarea id="fileText" rows="10" class="w-full rounded-xl p-4 text-[15px] leading-relaxed resize-y" placeholder="Le contenu du fichier apparaîtra ici…" readonly></textarea>
+      </section>
+      <section class="lg:col-span-2 card rounded-2xl p-5 flex flex-col gap-5">
+        <div class="flex items-center gap-4">
+          <div class="seal"><span id="fileSealFlag" class="text-2xl">🌐</span></div>
+          <div>
+            <p class="text-xs" style="color:var(--text-dim)">Langue détectée</p>
+            <p id="fileLangLabel" class="font-display text-lg gold-text">En attente…</p>
+          </div>
+        </div>
+        <div class="gold-line"></div>
+        <div class="flex items-center justify-center gap-3">
+          <div class="wave idle" id="fileWave"><span></span><span></span><span></span><span></span><span></span></div>
+          <span id="fileStatusLabel" class="text-xs" style="color:var(--text-dim)">Silencieux</span>
+        </div>
+        <button id="fileReadBtn" class="btn-gold w-full rounded-xl py-3 text-[15px]">🔊 Lire le fichier</button>
+        <div class="grid grid-cols-3 gap-2">
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="filePlayBtn" disabled>▶ Lecture</button>
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="filePauseBtn" disabled>⏸ Pause</button>
+          <button class="btn-ghost rounded-xl py-2.5 text-sm" id="fileStopBtn" disabled>⏹ Stop</button>
+        </div>
+        <button id="fileTestSound" class="btn-ghost rounded-xl py-2.5 text-sm">🔊 Test sonore</button>
+      </section>
+    </div>
+  </div>
+
+  <footer class="text-center mt-8 text-xs" style="color:var(--text-dim)">
+    100% local — TTS via Web Speech API &bull; AI via Groq &bull; Aucune donnée serveur
+  </footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ============== LANG DETECTION ============== */
+  const STOPWORDS = {
+    fr: ['le','la','les','de','des','un','une','et','est','que','qui','pour','dans','ce','pas','vous','nous','il','elle','avec','sur','au','aux','du','se','ne','en'],
+    en: ['the','is','are','and','of','to','in','it','that','for','you','with','on','as','was','this','but','have','be','at','not','they'],
+    es: ['el','la','los','las','de','que','es','un','una','en','por','para','con','no','se','su','del','al','como','pero','más'],
+    de: ['der','die','das','und','ist','ein','eine','zu','den','mit','nicht','sich','auf','für','von','im','dass','ich','sie','es'],
+    it: ['il','lo','la','le','di','che','è','un','una','in','per','con','non','si','del','al','come','ma','più','sono']
+  };
+  const LANG_META = {
+    fr: { name:'Français', flag:'🇫🇷', bcp47:'fr' },
+    en: { name:'English',  flag:'🇬🇧', bcp47:'en' },
+    es: { name:'Español',  flag:'🇪🇸', bcp47:'es' },
+    de: { name:'Deutsch',  flag:'🇩🇪', bcp47:'de' },
+    it: { name:'Italiano', flag:'🇮🇹', bcp47:'it' },
+    ar: { name:'العربية',  flag:'🇲🇦', bcp47:'ar' }
+  };
+  function detectLanguage(text) {
+    const clean = text.trim(); if (!clean) return null;
+    const arabicChars = (clean.match(/[\u0600-\u06FF]/g) || []).length;
+    if (arabicChars / clean.length > 0.15) return 'ar';
+    const words = clean.toLowerCase().replace(/[^\p{L}\s']/gu,' ').split(/\s+/).filter(Boolean);
+    if (words.length === 0) return null;
+    const scores = {};
+    for (const lang in STOPWORDS) {
+      const set = new Set(STOPWORDS[lang]); let hits = 0;
+      for (const w of words) if (set.has(w)) hits++;
+      scores[lang] = hits / words.length;
+    }
+    let best = 'en', bestScore = -1;
+    for (const lang in scores) { if (scores[lang] > bestScore) { bestScore = scores[lang]; best = lang; } }
+    return bestScore > 0 ? best : 'en';
+  }
+
+  /* ============== VOICES ============== */
+  let availableVoices = [];
+  function loadVoices() { if (window.speechSynthesis) availableVoices = window.speechSynthesis.getVoices(); }
+  loadVoices();
+  if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = loadVoices;
+
+  function populateVoiceSelect(sel, langCode) {
+    const matching = availableVoices.filter(v => v.lang.toLowerCase().startsWith(langCode));
+    const list = matching.length ? matching : availableVoices;
+    sel.innerHTML = '';
+    if (list.length === 0) { sel.innerHTML = '<option>Aucune voix</option>'; return; }
+    list.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.voiceURI; opt.textContent = `${v.name} (${v.lang})`;
+      sel.appendChild(opt);
+    });
+  }
+  function getSelectedVoice(sel) {
+    return availableVoices.find(v => v.voiceURI === sel.value) || null;
+  }
+
+  /* ============== TTS ENGINE ============== */
+  function makeTTS(textarea, waveEl, statusEl, playBtn, pauseBtn, stopBtn, sealFlag, langLabel, rateRange, rateDisplay, voiceSelect) {
+    let utterance = null, speechCanceled = false;
+
+    function setState(state) {
+      waveEl.classList.remove('idle','paused');
+      if (state === 'playing') {
+        statusEl.textContent = '🔊 Lecture…';
+        playBtn.disabled = true; pauseBtn.disabled = false; stopBtn.disabled = false;
+      } else if (state === 'paused') {
+        waveEl.classList.add('paused');
+        statusEl.textContent = '⏸ Pause';
+        playBtn.disabled = false; pauseBtn.disabled = true; stopBtn.disabled = false;
+      } else {
+        waveEl.classList.add('idle');
+        statusEl.textContent = '🔇 Silencieux';
+        playBtn.disabled = !textarea.value.trim() || !window.speechSynthesis;
+        pauseBtn.disabled = true; stopBtn.disabled = true;
+      }
+    }
+
+    function splitText(text) {
+      const maxLen = 200, parts = []; let start = 0;
+      while (start < text.length) {
+        let end = start + maxLen;
+        if (end >= text.length) { parts.push(text.slice(start).trim()); break; }
+        const slice = text.slice(start, end);
+        const p = Math.max(slice.lastIndexOf('. '), slice.lastIndexOf('! '), slice.lastIndexOf('? '),
+          slice.lastIndexOf('.\n'), slice.lastIndexOf('!\n'), slice.lastIndexOf('?\n'),
+          slice.lastIndexOf('.\u201C'), slice.lastIndexOf('.\u00AB'), slice.lastIndexOf('\n'));
+        if (p > maxLen * 0.3) end = start + p + 1;
+        parts.push(text.slice(start, end).trim()); start = end;
+      }
+      return parts.filter(Boolean);
+    }
+
+    function speak(text, langCode) {
+      if (!window.speechSynthesis) { alert('TTS non disponible.'); return; }
+      speechCanceled = true; window.speechSynthesis.cancel(); speechCanceled = false;
+      const chunks = splitText(text);
+      for (let i = 0; i < chunks.length; i++) {
+        const u = new SpeechSynthesisUtterance(chunks[i]);
+        u.lang = LANG_META[langCode] ? LANG_META[langCode].bcp47 : 'en';
+        const cv = getSelectedVoice(voiceSelect); if (cv) u.voice = cv;
+        u.rate = parseFloat(rateRange.value);
+        u.onstart = () => setState('playing');
+        u.onpause = () => setState('paused');
+        u.onresume = () => setState('playing');
+        u.onend = () => { if (i === chunks.length - 1) setState('idle'); };
+        u.onerror = () => { if (i === chunks.length - 1) setState('idle'); };
+        if (i === 0) utterance = u;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function stop() { speechCanceled = true; if (window.speechSynthesis) window.speechSynthesis.cancel(); setState('idle'); }
+
+    function detectAndSpeak() {
+      const text = textarea.value.trim();
+      if (!text) { if (langLabel) langLabel.textContent = 'Aucun texte'; return; }
+      const lang = detectLanguage(text);
+      if (sealFlag) sealFlag.textContent = LANG_META[lang] ? LANG_META[lang].flag : '🌐';
+      if (langLabel) langLabel.textContent = LANG_META[lang] ? LANG_META[lang].name : 'Inconnue';
+      if (sealFlag) { const s = sealFlag.closest('.seal'); if (s) { s.classList.remove('stamped'); void s.offsetWidth; s.classList.add('stamped'); } }
+      document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      populateVoiceSelect(voiceSelect, LANG_META[lang] ? LANG_META[lang].bcp47 : 'en');
+      playBtn.disabled = false;
+      speak(text, lang);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (!window.speechSynthesis) return;
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      else if (!window.speechSynthesis.speaking && textarea.value.trim()) detectAndSpeak();
+    });
+    pauseBtn.addEventListener('click', () => { if (window.speechSynthesis) window.speechSynthesis.pause(); });
+    stopBtn.addEventListener('click', stop);
+
+    rateRange.addEventListener('input', () => {
+      if (rateDisplay) rateDisplay.textContent = `${parseFloat(rateRange.value).toFixed(1)}×`;
+    });
+
+    setState('idle');
+    return { detectAndSpeak, stop, setState };
+  }
+
+  /* ============== TABS ============== */
+  const tabBar = document.getElementById('tabBar');
+  tabBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    localStorage.setItem('voxforge_tab', btn.dataset.tab);
+  });
+  const savedTab = localStorage.getItem('voxforge_tab') || 'voice';
+  const tabBtn = document.querySelector(`.tab-btn[data-tab="${savedTab}"]`);
+  if (tabBtn) tabBtn.click();
+
+  /* ============== VOICE TAB ============== */
+  const vText = document.getElementById('voiceText');
+  const vChar = document.getElementById('voiceCharCount');
+  const vClear = document.getElementById('voiceClearBtn');
+  vText.addEventListener('input', () => { vChar.textContent = `${vText.value.length} caractère${vText.value.length > 1 ? 's' : ''}`; localStorage.setItem('voxforge_voice', vText.value); });
+  vClear.addEventListener('click', () => { vText.value = ''; vChar.textContent = '0 caractère'; localStorage.removeItem('voxforge_voice'); ttsVoice.stop(); });
+  const savedVoice = localStorage.getItem('voxforge_voice');
+  if (savedVoice) { vText.value = savedVoice; vChar.textContent = `${savedVoice.length} caractère${savedVoice.length > 1 ? 's' : ''}`; }
+
+  const ttsVoice = makeTTS(
+    vText, document.getElementById('voiceWave'), document.getElementById('voiceStatus'),
+    document.getElementById('voicePlayBtn'), document.getElementById('voicePauseBtn'), document.getElementById('voiceStopBtn'),
+    document.getElementById('voiceSealFlag'), document.getElementById('voiceLangLabel'),
+    document.getElementById('voiceRate'), document.getElementById('voiceRateValue'),
+    document.getElementById('voiceSelect')
+  );
+  document.getElementById('voiceDetectBtn').addEventListener('click', ttsVoice.detectAndSpeak);
+
+  /* ============== FILES TAB ============== */
+  if (window['pdfjsLib']) pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  const fText = document.getElementById('fileText');
+  const fDrop = document.getElementById('fileDropzone');
+  const fBrowse = document.getElementById('fileBrowseBtn');
+  const fInput = document.getElementById('fileInput');
+  const fStatus = document.getElementById('fileStatus');
+
+  async function readTxt(file) { return await file.text(); }
+  async function readDocx(file) { const ab = await file.arrayBuffer(); const r = await mammoth.extractRawText({ arrayBuffer: ab }); return r.value; }
+  async function readPdf(file) {
+    const ab = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+    let t = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const c = await page.getTextContent();
+      t += c.items.map(item => item.str).join(' ') + '\n\n';
+    }
+    return t;
+  }
+  async function handleFile(file) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    fStatus.classList.remove('hidden'); fStatus.textContent = `Lecture de « ${file.name} »…`;
+    try {
+      let text = '';
+      if (ext === 'txt') text = await readTxt(file);
+      else if (ext === 'docx') text = await readDocx(file);
+      else if (ext === 'pdf') text = await readPdf(file);
+      else { fStatus.textContent = 'Format non supporté.'; return; }
+      fText.value = text.trim();
+      fStatus.textContent = `✓ « ${file.name} » chargé.`;
+    } catch (err) { fStatus.textContent = 'Erreur: ' + err.message; }
+  }
+  fBrowse.addEventListener('click', () => fInput.click());
+  fInput.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+  ['dragenter','dragover'].forEach(evt => fDrop.addEventListener(evt, (e) => { e.preventDefault(); fDrop.classList.add('drag-over'); }));
+  ['dragleave','drop'].forEach(evt => fDrop.addEventListener(evt, (e) => { e.preventDefault(); fDrop.classList.remove('drag-over'); }));
+  fDrop.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if (f) handleFile(f); });
+  fDrop.addEventListener('click', (e) => { if (e.target !== fBrowse) fInput.click(); });
+
+  // File TTS uses a separate voice select - reuse the same one but with file context
+  const ttsFile = makeTTS(
+    fText, document.getElementById('fileWave'), document.getElementById('fileStatusLabel'),
+    document.getElementById('filePlayBtn'), document.getElementById('filePauseBtn'), document.getElementById('fileStopBtn'),
+    document.getElementById('fileSealFlag'), document.getElementById('fileLangLabel'),
+    document.getElementById('voiceRate'), document.getElementById('voiceRateValue'), // share rate with voice tab
+    document.getElementById('voiceSelect') // share voice select
+  );
+  document.getElementById('fileReadBtn').addEventListener('click', () => {
+    if (fText.value.trim()) ttsFile.detectAndSpeak();
+  });
+  document.getElementById('fileTestSound').addEventListener('click', () => {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance('Ceci est un test sonore. Bonjour !');
+    u.lang = 'fr'; u.rate = 0.9;
+    u.onstart = () => { document.getElementById('fileWave').classList.remove('idle'); document.getElementById('fileStatusLabel').textContent = '🔊 Test…'; };
+    u.onend = () => { document.getElementById('fileWave').classList.add('idle'); document.getElementById('fileStatusLabel').textContent = '🔇 Silencieux'; };
+    window.speechSynthesis.speak(u);
+  });
+
+  /* ============== GENERATE TAB ============== */
+  const groqKey = document.getElementById('groqKey');
+  const groqSaveBtn = document.getElementById('groqSaveBtn');
+  const groqSaved = document.getElementById('groqKeySaved');
+  const genInput = document.getElementById('genInput');
+  const genSubmit = document.getElementById('genSubmitBtn');
+  const genLoader = document.getElementById('genLoader');
+  const genResult = document.getElementById('genResult');
+  const genTitle = document.getElementById('genTitle');
+  const genBody = document.getElementById('genBody');
+  const genDetail = document.getElementById('genDetail');
+  const genDetailLabel = document.getElementById('genDetailLabel');
+  const genLang = document.getElementById('genLang');
+
+  const savedKey = localStorage.getItem('voxforge_groq_key');
+  if (savedKey) { groqKey.value = savedKey; groqSaved.classList.remove('hidden'); }
+
+  groqSaveBtn.addEventListener('click', () => {
+    const key = groqKey.value.trim();
+    if (key.startsWith('gsk_')) {
+      localStorage.setItem('voxforge_groq_key', key);
+      groqSaved.classList.remove('hidden');
+      setTimeout(() => groqSaved.classList.add('hidden'), 3000);
+    } else { alert('Invalid key — must start with gsk_'); }
+  });
+
+  genDetail.addEventListener('input', () => {
+    const labels = ['Low', 'Medium', 'High'];
+    genDetailLabel.textContent = labels[genDetail.value - 1];
+  });
+  genInput.addEventListener('input', () => {
+    genSubmit.disabled = !genInput.value.trim();
+  });
+
+  let isGenerating = false;
+
+  genSubmit.addEventListener('click', async () => {
+    const key = groqKey.value.trim();
+    if (!key.startsWith('gsk_')) { alert('Set a valid Groq key first.'); return; }
+    const text = genInput.value.trim();
+    if (!text) return;
+
+    isGenerating = true;
+    genSubmit.disabled = true;
+    genLoader.classList.remove('hidden');
+    genResult.classList.add('hidden');
+
+    const detailMap = { '1': 'brief overview', '2': 'moderate detail', '3': 'very detailed, high-resolution' };
+    const sysPrompt = `You are a precise knowledge-base synthesizer. Turn the user's description into a clean, well-structured article.
+
+CRITICAL RULES:
+1. Preserve the speaker's exact thoughts, data points, and viewpoints.
+2. Correct grammar, fix errors, add structure.
+3. Do NOT invent new information.
+4. Write in ${genLang.value === 'fr' ? 'French' : genLang.value === 'es' ? 'Spanish' : genLang.value === 'ar' ? 'Arabic' : 'English'}.
+
+Return ONLY valid JSON:
+{"title": "Clean title", "cleanArticle": "Full article text in markdown"}
+No extra text outside JSON.`;
+
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: sysPrompt },
+            { role: 'user', content: `Style: ${document.getElementById('genStyle').value}, Medium: ${document.getElementById('genMedium').value}, Detail: ${detailMap[genDetail.value]}, Mood: ${document.getElementById('genMood').value || 'neutral'}\n\nTopic: ${text}` }
+          ],
+          temperature: 0.7,
+          response_format: { type: 'json_object' }
+        })
+      });
+      if (!res.ok) throw new Error(`Groq API ${res.status}`);
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content;
+      if (!content) throw new Error('Empty response');
+      const payload = JSON.parse(content);
+      genTitle.textContent = payload.title || 'Generated';
+      genBody.textContent = payload.cleanArticle || payload.cleanArticle === undefined ? 'No content generated.' : payload.cleanArticle;
+      genResult.classList.remove('hidden');
+      const state = JSON.stringify({ title: genTitle.textContent, body: genBody.textContent, lang: genLang.value });
+      localStorage.setItem('voxforge_generated', state);
+    } catch (err) {
+      alert('Error: ' + err.message);
+    } finally {
+      isGenerating = false;
+      genSubmit.disabled = false;
+      genLoader.classList.add('hidden');
+    }
+  });
+
+  // Generate tab TTS
+  let genSpeaking = false;
+  const genPlayBtn = document.getElementById('genPlayBtn');
+  genPlayBtn.addEventListener('click', () => {
+    const text = genBody.textContent;
+    if (!text || !text.trim()) return;
+    if (genSpeaking) {
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      genSpeaking = false;
+      genPlayBtn.textContent = '▶ Play';
+      return;
+    }
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const langMap = { en: 'en', fr: 'fr', es: 'es', ar: 'ar' };
+    u.lang = langMap[genLang.value] || 'en';
+    u.rate = 0.9;
+    u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; };
+    u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Play'; };
+    u.onerror = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Play'; };
+    window.speechSynthesis.speak(u);
+  });
+
+  document.getElementById('genCopyBtn').addEventListener('click', async () => {
+    const text = genBody.textContent; if (!text) return;
+    await navigator.clipboard.writeText(text);
+    const b = document.getElementById('genCopyBtn'); b.textContent = '✅ Copied!';
+    setTimeout(() => b.textContent = '📋 Copy', 2000);
+  });
+  document.getElementById('genDownloadBtn').addEventListener('click', () => {
+    const text = genBody.textContent; if (!text) return;
+    const blob = new Blob([text], { type: 'text/markdown' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = (genTitle.textContent || 'voxforge').replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '-') + '.md';
+    a.click(); URL.revokeObjectURL(a.url);
+  });
+  document.getElementById('genClearBtn').addEventListener('click', () => {
+    if (genSpeaking) { if (window.speechSynthesis) window.speechSynthesis.cancel(); genSpeaking = false; genPlayBtn.textContent = '▶ Play'; }
+    genResult.classList.add('hidden');
+    genTitle.textContent = ''; genBody.textContent = '';
+    localStorage.removeItem('voxforge_generated');
+  });
+
+  // Restore generated
+  const savedGen = localStorage.getItem('voxforge_generated');
+  if (savedGen) {
+    try {
+      const s = JSON.parse(savedGen);
+      if (s.title || s.body) {
+        genTitle.textContent = s.title || ''; genBody.textContent = s.body || '';
+        genResult.classList.remove('hidden');
+      }
+    } catch(e) {}
+  }
+
+  /* ============== INIT ============== */
+  loadVoices();
+  populateVoiceSelect(document.getElementById('voiceSelect'), 'fr');
+})();
+</script>
+</body>
+</html>
