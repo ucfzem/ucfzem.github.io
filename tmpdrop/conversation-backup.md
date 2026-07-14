@@ -218,3 +218,23 @@ Added **Play ▶️ button** to **VoiceForge** — reads the generated article/s
 - **VoiceForge live**: https://voiceforge-delta.vercel.app
 - **VoiceForge GitHub**: https://github.com/ucfzem/VoiceForge
 - **VoiceForge source**: https://github.com/ucfzem/VoiceForge/blob/main/index.html
+
+---
+
+## Session 9 — Jul 14 2026 — Voxcell deployment + works page
+
+### Summary
+Created **Voxcell** (lecteur vocal intelligent) and **Voxcell-offline** (version hors-ligne avec mammoth.js + pdf.js + Service Worker). Fixed TTS chunking, speechCanceled flag, localStorage persistence. Deployed both on Vercel. Added both to `works/index.html` locked projects in the middle section.
+
+### Changes
+1. **Voxcell** (online): Queue tous les chunks TTS en une fois, flag `speechCanceled`, chunking 200 car., persistance localStorage, restauration au chargement.
+2. **Voxcell-offline**: Version hors-ligne embarquant mammoth.js + pdf.js localement + Service Worker + bouton test sonore + panneau diagnostic.
+3. Added both to `works/index.html` locked projects (after Image2Prompt, middle position).
+4. Icons: 🔊 Voxcell, 💾 Voxcell Offline.
+
+### Links
+- **Voxcell live**: https://voxcell.vercel.app
+- **Voxcell-offline live**: https://voxcell-offline.vercel.app
+- **Voxcell GitHub**: https://github.com/ucfzem/Voxcell
+- **Voxcell-offline GitHub**: https://github.com/ucfzem/Voxcell-offline
+- **Works page**: https://ucfzem.github.io/works/
