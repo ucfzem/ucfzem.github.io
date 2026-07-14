@@ -59,6 +59,7 @@ input[type="range"]{accent-color:var(--gold)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{animation:spin 1s linear infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
 @media(max-width:768px){.tab-btn{padding:8px 12px;font-size:0.8rem}}
 </style>
@@ -132,66 +133,38 @@ input[type="range"]{accent-color:var(--gold)}
       <details open>
         <summary class="list-none flex items-center justify-between cursor-pointer font-semibold text-sm" style="color:var(--text-dim)">
           <span>🔑 Groq API Key</span>
-          <span class="text-xs gold-text" id="groqToggleLabel">Click to collapse</span>
+          <span class="text-xs gold-text" id="genGroqToggle">Click to collapse</span>
         </summary>
         <div class="mt-4 pt-4 border-t" style="border-color:var(--border)">
           <div class="flex flex-wrap gap-3 items-center">
-            <input type="password" id="groqKey" class="flex-1 min-w-[200px] rounded-lg px-3 py-2.5 text-sm" placeholder="gsk_... get one free at console.groq.com" autocomplete="new-password">
-            <button id="groqSaveBtn" class="btn-gold rounded-lg px-4 py-2.5 text-sm">💾 Save</button>
+            <input type="password" id="genGroqKey" class="flex-1 min-w-[200px] rounded-lg px-3 py-2.5 text-sm" placeholder="gsk_... get one free at console.groq.com" autocomplete="new-password">
+            <button id="genGroqSave" class="btn-gold rounded-lg px-4 py-2.5 text-sm">💾 Save</button>
             <a href="https://console.groq.com/keys" target="_blank" class="btn-ghost rounded-lg px-4 py-2.5 text-sm">🔗 Get Key</a>
           </div>
-          <p id="groqKeySaved" class="text-xs mt-2 hidden" style="color:var(--success)">✅ Key saved to browser.</p>
+          <p id="genGroqSaved" class="text-xs mt-2 hidden" style="color:var(--success)">✅ Key saved to browser.</p>
           <p class="text-xs mt-2" style="color:var(--text-dim)">Free tier: 30 req/min, 6000 req/day.</p>
         </div>
       </details>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-      <div class="card rounded-2xl p-5">
-        <label class="block text-sm mb-3" style="color:var(--text-dim)">🎨 Settings</label>
-        <div class="flex flex-col gap-4">
-          <div>
-            <label class="text-xs" style="color:var(--text-dim)">Art Style</label>
-            <select id="genStyle" class="w-full rounded-lg p-2.5 text-sm mt-1">
-              <option>Digital Painting</option><option>Photorealistic</option><option>Anime</option>
-              <option>Oil Painting</option><option>Sketch</option><option>3D Render</option><option>Watercolor</option><option>Pixel Art</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-xs" style="color:var(--text-dim)">Medium</label>
-            <select id="genMedium" class="w-full rounded-lg p-2.5 text-sm mt-1">
-              <option>Digital Art</option><option>Oil on Canvas</option><option>Pencil Drawing</option>
-              <option>Ink</option><option>Charcoal</option><option>Photography</option><option>Vector</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-xs" style="color:var(--text-dim)">Level of Detail</label>
-            <input type="range" id="genDetail" min="1" max="3" value="3" class="w-full mt-1">
-            <div class="flex justify-between text-xs mt-1" style="color:var(--text-dim)"><span>Low</span><span>Medium</span><span id="genDetailLabel">High</span></div>
-          </div>
-          <div>
-            <label class="text-xs" style="color:var(--text-dim)">Mood / Atmosphere</label>
-            <input type="text" id="genMood" class="w-full rounded-lg p-2.5 text-sm mt-1" placeholder="e.g. serene, dramatic, futuristic">
-          </div>
-          <div>
-            <label class="text-xs" style="color:var(--text-dim)">Language</label>
-            <select id="genLang" class="w-full rounded-lg p-2.5 text-sm mt-1">
-              <option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option>
-              <option value="es">🇪🇸 Español</option><option value="ar">🇲🇦 العربية</option>
-            </select>
-          </div>
-        </div>
+    <div class="text-center py-6 card rounded-2xl p-8 mb-5">
+      <p id="genStatus" class="text-sm mb-4" style="color:var(--text-dim)">Set your Groq key, choose language, then speak.</p>
+      <div class="flex items-center justify-center gap-4 mb-4">
+        <select id="genRecLang" class="rounded-lg px-3 py-2 text-sm" style="background:rgba(0,0,0,0.25);border:1px solid var(--border);color:var(--text)">
+          <option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option>
+          <option value="es">🇪🇸 Español</option><option value="ar">🇲🇦 العربية</option>
+        </select>
+        <button id="genRecordBtn" type="button" class="w-16 h-16 rounded-full btn-gold flex items-center justify-center text-2xl shadow-lg transition-all duration-300 active:scale-95 disabled:opacity-50" disabled>
+          🎤
+        </button>
       </div>
-      <div class="flex flex-col gap-4">
-        <div class="card rounded-2xl p-5 flex-1">
-          <label class="block text-sm mb-2" style="color:var(--text-dim)">📝 Your Idea</label>
-          <textarea id="genInput" rows="5" class="w-full rounded-xl p-4 text-[15px] leading-relaxed resize-y" placeholder="Describe what you want to generate…"></textarea>
-          <button id="genSubmitBtn" class="btn-gold w-full rounded-xl py-3 mt-3 text-[15px] disabled:opacity-40" disabled>🚀 Generate</button>
-        </div>
-        <div id="genLoader" class="hidden card rounded-2xl p-5 text-center">
-          <div class="w-8 h-8 border-4 rounded-full spin mx-auto mb-3" style="border-color:var(--border);border-top-color:var(--gold)"></div>
-          <p class="text-sm" style="color:var(--text-dim)">Generating with Groq AI…</p>
-        </div>
+      <div id="genRecordingBadge" class="hidden flex items-center justify-center gap-2 text-sm mb-3" style="color:#ef5350">
+        <span class="w-3 h-3 rounded-full" style="background:#ef5350;animation:pulse 1s infinite"></span> REC
+      </div>
+      <div id="genTranscript" class="hidden card rounded-xl p-4 text-left text-sm leading-relaxed max-h-32 overflow-y-auto mb-3" style="color:var(--text-dim)"></div>
+      <div id="genLoader" class="hidden flex items-center justify-center gap-3 py-4">
+        <div class="w-6 h-6 border-4 rounded-full spin" style="border-color:var(--border);border-top-color:var(--gold)"></div>
+        <span class="text-sm" style="color:var(--text-dim)">Structuring with Groq AI…</span>
       </div>
     </div>
 
@@ -492,64 +465,124 @@ input[type="range"]{accent-color:var(--gold)}
     window.speechSynthesis.speak(u);
   });
 
-  /* ============== GENERATE TAB ============== */
-  const groqKey = document.getElementById('groqKey');
-  const groqSaveBtn = document.getElementById('groqSaveBtn');
-  const groqSaved = document.getElementById('groqKeySaved');
-  const genInput = document.getElementById('genInput');
-  const genSubmit = document.getElementById('genSubmitBtn');
+  /* ============== GENERATE TAB (VoiceForge Speech-to-Article) ============== */
+  const genGroqKey = document.getElementById('genGroqKey');
+  const genGroqSave = document.getElementById('genGroqSave');
+  const genGroqSaved = document.getElementById('genGroqSaved');
+  const genStatus = document.getElementById('genStatus');
+  const genRecordBtn = document.getElementById('genRecordBtn');
+  const genRecLang = document.getElementById('genRecLang');
+  const genTranscript = document.getElementById('genTranscript');
+  const genRecordingBadge = document.getElementById('genRecordingBadge');
   const genLoader = document.getElementById('genLoader');
   const genResult = document.getElementById('genResult');
   const genTitle = document.getElementById('genTitle');
   const genBody = document.getElementById('genBody');
-  const genDetail = document.getElementById('genDetail');
-  const genDetailLabel = document.getElementById('genDetailLabel');
-  const genLang = document.getElementById('genLang');
 
-  const savedKey = localStorage.getItem('voxforge_groq_key');
-  if (savedKey) { groqKey.value = savedKey; groqSaved.classList.remove('hidden'); }
-
-  groqSaveBtn.addEventListener('click', () => {
-    const key = groqKey.value.trim();
+  const savedGroq = localStorage.getItem('voxforge_groq_key');
+  if (savedGroq) { genGroqKey.value = savedGroq; genGroqSaved.classList.remove('hidden'); genRecordBtn.disabled = false; }
+  genGroqSave.addEventListener('click', () => {
+    const key = genGroqKey.value.trim();
     if (key.startsWith('gsk_')) {
       localStorage.setItem('voxforge_groq_key', key);
-      groqSaved.classList.remove('hidden');
-      setTimeout(() => groqSaved.classList.add('hidden'), 3000);
+      genGroqSaved.classList.remove('hidden');
+      genRecordBtn.disabled = false;
+      setTimeout(() => genGroqSaved.classList.add('hidden'), 3000);
     } else { alert('Invalid key — must start with gsk_'); }
   });
 
-  genDetail.addEventListener('input', () => {
-    const labels = ['Low', 'Medium', 'High'];
-    genDetailLabel.textContent = labels[genDetail.value - 1];
-  });
-  genInput.addEventListener('input', () => {
-    genSubmit.disabled = !genInput.value.trim();
-  });
+  let recognition = null, isRecording = false, finalTranscript = '', committedSegments = [], processedResultsCount = 0, restartTimer = null, engineRunning = false;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) genStatus.textContent = '❌ Speech recognition not supported. Use Chrome, Edge, or Safari.';
 
-  let isGenerating = false;
+  function createRecognition() {
+    const rec = new SpeechRecognition();
+    rec.continuous = true; rec.interimResults = true;
+    rec.lang = genRecLang.value === 'ar' ? 'ar-SA' : genRecLang.value === 'fr' ? 'fr-FR' : genRecLang.value === 'es' ? 'es-ES' : 'en-US';
+    rec.onstart = () => { engineRunning = true; processedResultsCount = 0; };
+    rec.onresult = (e) => {
+      let interim = '';
+      for (let i = 0; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (r.isFinal) {
+          if (i >= processedResultsCount) {
+            const clean = r[0].transcript.trim();
+            if (clean) {
+              const last = committedSegments[committedSegments.length - 1];
+              if (!last || last !== clean) committedSegments.push(clean);
+              finalTranscript = committedSegments.join(' ') + ' ';
+            }
+            processedResultsCount = i + 1;
+          }
+        } else interim += r[0].transcript;
+      }
+      genTranscript.textContent = finalTranscript + interim;
+    };
+    rec.onerror = (e) => { if (e.error === 'not-allowed') { stopRecording(); alert('Microphone access denied.'); } };
+    rec.onend = () => {
+      engineRunning = false;
+      if (!isRecording) return;
+      clearTimeout(restartTimer);
+      restartTimer = setTimeout(() => {
+        if (!isRecording || engineRunning) return;
+        try { const r = createRecognition(); r.start(); recognition = r; } catch(e) {}
+      }, 50);
+    };
+    return rec;
+  }
 
-  genSubmit.addEventListener('click', async () => {
-    const key = groqKey.value.trim();
+  function startRecording() {
+    const key = genGroqKey.value.trim();
     if (!key.startsWith('gsk_')) { alert('Set a valid Groq key first.'); return; }
-    const text = genInput.value.trim();
-    if (!text) return;
+    if (!SpeechRecognition) { alert('Speech recognition not supported.'); return; }
+    finalTranscript = ''; processedResultsCount = 0; committedSegments = [];
+    recognition = createRecognition();
+    try {
+      recognition.start();
+      isRecording = true;
+      genRecordingBadge.classList.remove('hidden');
+      genTranscript.classList.remove('hidden');
+      genTranscript.textContent = '🎤 Listening...';
+      genRecordBtn.classList.remove('btn-gold');
+      genRecordBtn.style.background = '#ef5350';
+      genRecordBtn.textContent = '⏹';
+      genStatus.textContent = '🎤 Speak freely — your words are being transcribed in real time.';
+    } catch (err) { alert('Mic error: ' + err.message); }
+  }
 
-    isGenerating = true;
-    genSubmit.disabled = true;
+  function stopRecording() {
+    isRecording = false;
+    clearTimeout(restartTimer);
+    if (recognition) { try { recognition.stop(); } catch(e) {} }
+    genRecordingBadge.classList.add('hidden');
+    genRecordBtn.style.background = '';
+    genRecordBtn.classList.add('btn-gold');
+    genRecordBtn.textContent = '🎤';
+    if (finalTranscript.trim().length < 10) {
+      genStatus.textContent = 'Not enough speech detected. Try again.';
+      return;
+    }
+    callGroq(finalTranscript.trim());
+  }
+
+  genRecordBtn.addEventListener('click', () => { isRecording ? stopRecording() : startRecording(); });
+
+  async function callGroq(text) {
+    const key = genGroqKey.value.trim();
     genLoader.classList.remove('hidden');
     genResult.classList.add('hidden');
+    genStatus.textContent = '⏳ Structuring your ideas into a polished article...';
 
-    const detailMap = { '1': 'brief overview', '2': 'moderate detail', '3': 'very detailed, high-resolution' };
-    const sysPrompt = `You are a precise knowledge-base synthesizer. Turn the user's description into a clean, well-structured article.
+    const sysPrompt = `You are a precise knowledge-base synthesizer. Turn the transcript into a clean, well-structured article.
 
 CRITICAL RULES:
 1. Preserve the speaker's exact thoughts, data points, and viewpoints.
 2. Correct grammar, fix errors, add structure.
 3. Do NOT invent new information.
-4. Write in ${genLang.value === 'fr' ? 'French' : genLang.value === 'es' ? 'Spanish' : genLang.value === 'ar' ? 'Arabic' : 'English'}.
+4. Write in ${genRecLang.value === 'fr' ? 'French' : genRecLang.value === 'es' ? 'Spanish' : genRecLang.value === 'ar' ? 'Arabic' : 'English'}.
 
 Return ONLY valid JSON:
-{"title": "Clean title", "cleanArticle": "Full article text in markdown"}
+{"title": "Clean concise title", "cleanArticle": "Full article text"}
 No extra text outside JSON.`;
 
     try {
@@ -558,11 +591,8 @@ No extra text outside JSON.`;
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: sysPrompt },
-            { role: 'user', content: `Style: ${document.getElementById('genStyle').value}, Medium: ${document.getElementById('genMedium').value}, Detail: ${detailMap[genDetail.value]}, Mood: ${document.getElementById('genMood').value || 'neutral'}\n\nTopic: ${text}` }
-          ],
-          temperature: 0.7,
+          messages: [{ role: 'system', content: sysPrompt }, { role: 'user', content: text }],
+          temperature: 0.2,
           response_format: { type: 'json_object' }
         })
       });
@@ -572,37 +602,29 @@ No extra text outside JSON.`;
       if (!content) throw new Error('Empty response');
       const payload = JSON.parse(content);
       genTitle.textContent = payload.title || 'Generated';
-      genBody.textContent = payload.cleanArticle || payload.cleanArticle === undefined ? 'No content generated.' : payload.cleanArticle;
+      genBody.textContent = payload.cleanArticle || 'No content generated.';
       genResult.classList.remove('hidden');
-      const state = JSON.stringify({ title: genTitle.textContent, body: genBody.textContent, lang: genLang.value });
-      localStorage.setItem('voxforge_generated', state);
+      localStorage.setItem('voxforge_generated', JSON.stringify({ title: genTitle.textContent, body: genBody.textContent, lang: genRecLang.value }));
+      genStatus.textContent = '✅ Article generated successfully.';
     } catch (err) {
-      alert('Error: ' + err.message);
+      genStatus.textContent = '❌ Error: ' + err.message;
     } finally {
-      isGenerating = false;
-      genSubmit.disabled = false;
       genLoader.classList.add('hidden');
     }
-  });
+  }
 
-  // Generate tab TTS
+  // Generate TTS + actions
   let genSpeaking = false;
   const genPlayBtn = document.getElementById('genPlayBtn');
   genPlayBtn.addEventListener('click', () => {
     const text = genBody.textContent;
     if (!text || !text.trim()) return;
-    if (genSpeaking) {
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
-      genSpeaking = false;
-      genPlayBtn.textContent = '▶ Play';
-      return;
-    }
+    if (genSpeaking) { if (window.speechSynthesis) window.speechSynthesis.cancel(); genSpeaking = false; genPlayBtn.textContent = '▶ Play'; return; }
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    const langMap = { en: 'en', fr: 'fr', es: 'es', ar: 'ar' };
-    u.lang = langMap[genLang.value] || 'en';
-    u.rate = 0.9;
+    const lm = { en:'en', fr:'fr', es:'es', ar:'ar' };
+    u.lang = lm[genRecLang.value] || 'en'; u.rate = 0.9;
     u.onstart = () => { genSpeaking = true; genPlayBtn.textContent = '⏹ Stop'; };
     u.onend = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Play'; };
     u.onerror = () => { genSpeaking = false; genPlayBtn.textContent = '▶ Play'; };
@@ -610,23 +632,25 @@ No extra text outside JSON.`;
   });
 
   document.getElementById('genCopyBtn').addEventListener('click', async () => {
-    const text = genBody.textContent; if (!text) return;
-    await navigator.clipboard.writeText(text);
+    const t = genBody.textContent; if (!t) return;
+    await navigator.clipboard.writeText(t);
     const b = document.getElementById('genCopyBtn'); b.textContent = '✅ Copied!';
     setTimeout(() => b.textContent = '📋 Copy', 2000);
   });
   document.getElementById('genDownloadBtn').addEventListener('click', () => {
-    const text = genBody.textContent; if (!text) return;
-    const blob = new Blob([text], { type: 'text/markdown' });
+    const t = genBody.textContent; if (!t) return;
+    const blob = new Blob([t], { type:'text/markdown' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = (genTitle.textContent || 'voxforge').replace(/[^a-zA-Z0-9\u0600-\u06FF]/g, '-') + '.md';
+    a.download = (genTitle.textContent || 'voxforge').replace(/[^a-zA-Z0-9\u0600-\u06FF]/g,'-') + '.md';
     a.click(); URL.revokeObjectURL(a.url);
   });
   document.getElementById('genClearBtn').addEventListener('click', () => {
     if (genSpeaking) { if (window.speechSynthesis) window.speechSynthesis.cancel(); genSpeaking = false; genPlayBtn.textContent = '▶ Play'; }
-    genResult.classList.add('hidden');
-    genTitle.textContent = ''; genBody.textContent = '';
+    genResult.classList.add('hidden'); genTitle.textContent = ''; genBody.textContent = '';
+    genTranscript.classList.add('hidden'); genTranscript.textContent = '';
+    finalTranscript = ''; committedSegments = [];
     localStorage.removeItem('voxforge_generated');
+    genStatus.textContent = '🧹 Cleared.';
   });
 
   // Restore generated
@@ -634,10 +658,7 @@ No extra text outside JSON.`;
   if (savedGen) {
     try {
       const s = JSON.parse(savedGen);
-      if (s.title || s.body) {
-        genTitle.textContent = s.title || ''; genBody.textContent = s.body || '';
-        genResult.classList.remove('hidden');
-      }
+      if (s.title || s.body) { genTitle.textContent = s.title || ''; genBody.textContent = s.body || ''; genResult.classList.remove('hidden'); genStatus.textContent = '✅ Restored from last session.'; }
     } catch(e) {}
   }
 
