@@ -267,7 +267,7 @@ function resize(){
 }
 function render(){
   c.width=W; c.height=H;
-  cx.fillStyle=typeof bg==='string'?bg:'#1a1410'; cx.fillRect(0,0,W,H);
+  cx.fillStyle='#1a1410'; cx.fillRect(0,0,W,H);
   if(!ly.some(l=>l.t==='bg'&&l.im)){
     cx.fillStyle='#221a14'; for(let y=0;y<H;y+=20){for(let x=0;x<W;x+=20){if((x/20+y/20)%2)cx.fillRect(x,y,20,20)}}
   }
@@ -422,7 +422,8 @@ function fillTextSheet(l){
 }
 function addText(){
   saveUndo();
-  const l=new L('text',{tx:'Texte',fs:36,ff:document.getElementById('sFnt').value,tc:document.getElementById('sCol').value,sd:document.getElementById('sSh').value,x:W/2-60,y:H/2-20,w:120,h:40});
+  const txt=document.getElementById('sTxt').value||'Texte';
+  const l=new L('text',{tx:txt,fs:36,ff:document.getElementById('sFnt').value,tc:document.getElementById('sCol').value,sd:document.getElementById('sSh').value,x:W/2-80,y:H/2-24,w:160,h:48});
   ly.push(l);ai=ly.length-1;
   clSh('txtSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
   upPr();render();
@@ -437,6 +438,8 @@ function addShape(){
   saveUndo();
   const sh=document.querySelector('#shpCh .act')?.dataset.sh||'rect';
   const l=new L('shape',{sh,x:W/2-60,y:H/2-60,w:120,h:120,fl:document.getElementById('sFl').value,sk:document.getElementById('sSk').value,lw:+document.getElementById('sLw').value});
+  ly.push(l);ai=ly.length-1;
+  clSh('shpSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
   ly.push(l);ai=ly.length-1;
   clSh('shpSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
   upPr();render();
