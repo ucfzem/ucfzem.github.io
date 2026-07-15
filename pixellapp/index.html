@@ -77,10 +77,10 @@
   <span class="logo">✦ PX</span>
   <span id="zoomLbl">100%</span>
   <div class="sp"></div>
-  <button class="tb" onclick="undo()" title="Annuler">↩</button>
-  <button class="tb" onclick="redo()" title="Rétablir">↪</button>
-  <button class="tb" onclick="fit()" title="Ajuster">⊡</button>
-  <button class="ebtn" onclick="showExport()">Exporter</button>
+  <button class="tb" data-cmd="undo" title="Annuler">↩</button>
+  <button class="tb" data-cmd="redo" title="Rétablir">↪</button>
+  <button class="tb" data-cmd="fit" title="Ajuster">⊡</button>
+  <button class="ebtn" data-cmd="showExport">Exporter</button>
 </div>
 
 <div class="cw" id="cw">
@@ -96,8 +96,8 @@
   <button class="bb" data-t="shp"><span>◇</span><span class="l">Forme</span></button>
   <span class="sep"></span>
   <button class="bb" data-t="lyr"><span>☰</span><span class="l">Calques</span></button>
-  <button class="bb" data-t="dup" onclick="dupLayer()"><span>⧉</span><span class="l">Dupliq.</span></button>
-  <button class="bb" data-t="del" onclick="delLayer()"><span>🗑</span><span class="l">Suppr</span></button>
+  <button class="bb" data-t="dup"><span>⧉</span><span class="l">Dupliq.</span></button>
+  <button class="bb" data-t="del"><span>🗑</span><span class="l">Suppr</span></button>
   <span class="sep"></span>
   <button class="bb" data-t="pan"><span>✋</span><span class="l">Main</span></button>
 </div>
@@ -185,16 +185,15 @@ class L {
       const fs = Math.round(this.fs);
       ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
       ctx.textAlign = this.al; ctx.textBaseline = 'top';
-      ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
-      ctx.textAlign = this.al; ctx.textBaseline = 'top';
       const lines = this.tx.split('\n'), lineH = fs*1.3, totalH = lines.length*lineH;
       let startY = this.y + (this.h - totalH)/2;
       lines.forEach((t,i)=>{
         const lx = this.al==='center'?this.cx:this.al==='right'?this.x+this.w:this.x;
+        ctx.save();
+        if(this.sb>0&&this.sd!=='transparent'){ ctx.shadowColor=this.sd; ctx.shadowBlur=this.sb; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0; }
         if(this.sw>0){ ctx.strokeStyle=this.so; ctx.lineWidth=this.sw; ctx.lineJoin='round'; ctx.strokeText(t,lx,startY+i*lineH); }
-        if(this.sb>0&&this.sd!=='transparent'){ ctx.shadowColor=this.sd; ctx.shadowBlur=this.sb; ctx.shadowOffsetX=1; ctx.shadowOffsetY=1; }
         ctx.fillStyle=this.tc; ctx.fillText(t,lx,startY+i*lineH);
-        ctx.shadowColor='transparent'; ctx.shadowBlur=0;
+        ctx.restore();
       });
     } else if(this.t==='shape'){
       ctx.fillStyle=this.fl; ctx.strokeStyle=this.sk; ctx.lineWidth=this.lw;
@@ -327,7 +326,8 @@ function fit(){
 
 let curT='sel';
 document.querySelectorAll('.bb[data-t]').forEach(b=>{
-  b.addEventListener('click',()=>{
+  b.addEventListener('click',e=>{
+    e.stopPropagation();
     const t=b.dataset.t;
     if(t==='bg'){document.getElementById('bgInp').click(); return;}
     if(t==='img'){document.getElementById('imgInp').click(); return;}
@@ -340,9 +340,13 @@ document.querySelectorAll('.bb[data-t]').forEach(b=>{
   });
 });
 
-document.getElementById('txtBtn').addEventListener('click',addOrUpdateText);
-document.getElementById('shpBtn').addEventListener('click',addOrUpdateShape);
-document.getElementById('txtCancelBtn').addEventListener('click',cancelTextEdit);
+document.getElementById('txtBtn').addEventListener('click',e=>{e.stopPropagation();addOrUpdateText()});
+document.getElementById('shpBtn').addEventListener('click',e=>{e.stopPropagation();addOrUpdateShape()});
+document.getElementById('txtCancelBtn').addEventListener('click',e=>{e.stopPropagation();cancelTextEdit()});
+document.querySelectorAll('.sh').forEach(el=>el.addEventListener('click',e=>e.stopPropagation()));
+document.querySelectorAll('[data-cmd]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();({undo,redo,fit,showExport}[el.dataset.cmd])();}));
+document.getElementById('sB').addEventListener('click',e=>{e.stopPropagation();e.currentTarget.classList.toggle('act')});
+document.getElementById('sI').addEventListener('click',e=>{e.stopPropagation();e.currentTarget.classList.toggle('act')});
 
 function opSh(id){ document.getElementById(id).classList.add('open'); document.getElementById('ovl').classList.add('on'); }
 function clSh(id){ document.getElementById(id).classList.remove('open'); if(!document.querySelector('.sh.open')) document.getElementById('ovl').classList.remove('on'); }
