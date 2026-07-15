@@ -526,10 +526,11 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){ai=-1;upPr();render();closeAllSheets();}
 });
 
-let barPos='bottom', barDrag=false, barOff={x:0,y:0};
-const grip=document.querySelector('.br .grip');
+let barPos='bottom', barDrag=false, barStart={x:0,y:0}, barCur={x:0,y:0}, barMoved=false;
+const bar=document.getElementById('bar'), grip=document.querySelector('.br .grip');
+const POS_CYCLE=['bottom','left','top','right'];
 function setBarPos(pos){
-  barPos=pos; const bar=document.getElementById('bar'), zb=document.getElementById('zBadge');
+  barPos=pos; const zb=document.getElementById('zBadge');
   bar.style.top=''; bar.style.bottom=''; bar.style.left=''; bar.style.right=''; bar.style.width=''; bar.style.flexDirection=''; bar.classList.toggle('v',pos==='left'||pos==='right');
   document.getElementById('cw').style.paddingTop=''; document.getElementById('cw').style.paddingBottom=''; document.getElementById('cw').style.paddingLeft=''; document.getElementById('cw').style.paddingRight='';
   zb.style.bottom='';
@@ -538,12 +539,19 @@ function setBarPos(pos){
   else if(pos==='left'){bar.style.top='var(--top-h)';bar.style.left='0';bar.style.bottom='0';bar.style.width='var(--bar-h)';document.getElementById('cw').style.paddingLeft='var(--bar-h)';zb.style.bottom='10px';}
   else if(pos==='right'){bar.style.top='var(--top-h)';bar.style.right='0';bar.style.bottom='0';bar.style.width='var(--bar-h)';document.getElementById('cw').style.paddingRight='var(--bar-h)';zb.style.bottom='10px';}
 }
-grip.addEventListener('mousedown',e=>{e.stopPropagation();barDrag=true;barOff={x:e.clientX,y:e.clientY};document.getElementById('bar').classList.add('dragging');});
-grip.addEventListener('touchstart',e=>{if(e.touches.length===1){e.stopPropagation();barDrag=true;barOff={x:e.touches[0].clientX,y:e.touches[0].clientY};document.getElementById('bar').classList.add('dragging');}},{passive:true});
-document.addEventListener('mousemove',e=>{if(!barDrag)return;barOff={x:e.clientX,y:e.clientY};});
-document.addEventListener('touchmove',e=>{if(!barDrag||e.touches.length!==1)return;barOff={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
-document.addEventListener('mouseup',()=>{if(!barDrag)return;barDrag=false;document.getElementById('bar').classList.remove('dragging');const vh=window.innerHeight,vw=window.innerWidth,ry=barOff.y/vh,rx=barOff.x/vw;setBarPos(ry<.25?'top':ry>.7?'bottom':rx<.33?'left':rx>.66?'right':'bottom');});
-document.addEventListener('touchend',()=>{if(!barDrag)return;barDrag=false;document.getElementById('bar').classList.remove('dragging');const vh=window.innerHeight,vw=window.innerWidth,ry=barOff.y/vh,rx=barOff.x/vw;setBarPos(ry<.25?'top':ry>.7?'bottom':rx<.33?'left':rx>.66?'right':'bottom');});
+grip.addEventListener('mousedown',e=>{e.stopPropagation();barDrag=true;barMoved=false;barStart={x:e.clientX,y:e.clientY};barCur={x:e.clientX,y:e.clientY};bar.classList.add('dragging');});
+grip.addEventListener('touchstart',e=>{if(e.touches.length===1){e.stopPropagation();barDrag=true;barMoved=false;barStart={x:e.touches[0].clientX,y:e.touches[0].clientY};barCur={x:e.touches[0].clientX,y:e.touches[0].clientY};bar.classList.add('dragging');}},{passive:true});
+document.addEventListener('mousemove',e=>{if(!barDrag)return;barMoved=true;barCur={x:e.clientX,y:e.clientY};const dx=e.clientX-barStart.x,dy=e.clientY-barStart.y;bar.style.transform='translate('+dx+'px,'+dy+'px)';});
+document.addEventListener('touchmove',e=>{if(!barDrag||e.touches.length!==1)return;barMoved=true;barCur={x:e.touches[0].clientX,y:e.touches[0].clientY};const dx=e.touches[0].clientX-barStart.x,dy=e.touches[0].clientY-barStart.y;bar.style.transform='translate('+dx+'px,'+dy+'px)';},{passive:true});
+function endBarDrag(){
+  if(!barDrag)return; barDrag=false; bar.classList.remove('dragging'); bar.style.transform='';
+  if(!barMoved){const i=POS_CYCLE.indexOf(barPos);setBarPos(POS_CYCLE[(i+1)%4]);return;}
+  const vh=window.innerHeight,vw=window.innerWidth,ry=barCur.y/vh,rx=barCur.x/vw;
+  setBarPos(ry<.25?'top':ry>.7?'bottom':rx<.33?'left':rx>.66?'right':'bottom');
+}
+document.addEventListener('mouseup',endBarDrag);
+document.addEventListener('touchend',endBarDrag);
+document.addEventListener('touchcancel',endBarDrag);
 
 window.addEventListener('resize',()=>{resize();saveProject()});
 if(!loadProject()) setTimeout(resize,60);
