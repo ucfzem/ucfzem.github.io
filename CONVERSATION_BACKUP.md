@@ -139,3 +139,46 @@ https://github.com/ucfzem?tab=repositories
 - **Vercel :** https://ucfzem-works.vercel.app/photographer/
 - **Cloudflare Worker :** https://ucfzem.azer-tyu199p.workers.dev/photographer/
 - **Repo :** https://github.com/ucfzem/ucfzem.github.io
+
+## Session 2026-07-15 — PixellApp: Text visibility, stopPropagation, localStorage
+
+### Root Cause
+- Canvas `onDown` (mousedown/touchstart) resets `ai=-1` at line 282 before checking hits
+- Clicks on toolbar/topbar/sheet buttons propagated to canvas, deselecting the active layer
+- Debug code (red bg, green TEST text) left in text rendering further broke the canvas state
+
+### User Rewrite Integrated
+- Text stroke (`sw`/`so`) + shadow (`sb`/`sd`) + alignment (`al`)
+- Layer reorder (▲/▼ buttons), duplicate layer
+- `deepCloneLayers` + `reviveLayer` for proper Image undo serialization
+- Overlay (`#ovl`) for sheet backdrop
+- Shift-constrain resize for images
+- metaKey+z/y for undo/redo
+
+### Fixes Applied
+1. **stopPropagation()** — `.bb[data-t]`, `.tb`/`.ebtn` (via `data-cmd` delegation), `.sh` containers, sheet buttons — prevents canvas `onDown` from firing on toolbar/sheet clicks
+2. **Toolbar buttons** — changed from `onclick="func()"` to `addEventListener` with stopPropagation; removed duplicate onclick from dup/del buttons
+3. **Text rendering** — removed duplicated `font`/`textAlign`; each line wrapped in `ctx.save/restore` for shadow isolation; shadow offsets zeroed; stroke+fill in proper order
+4. **Bold/Italic** — added click handlers to toggle `.act` class on B/I buttons
+5. **Checkerboard** — fixed missing braces on second `fillRect`
+6. **wPos** — fixed parenthesis placement in touch clientX/clientY
+7. **Cancelable guards** — `if(e.cancelable) e.preventDefault()`
+8. **Compact sheets** — `max-height: 70dvh → 40dvh`; compact form elements (padding, fonts, inputs, color swatches, sliders)
+9. **localStorage persistence** — `saveProject()` called after every mutation (add/delete/reorder/edit/drag/import/undo/redo); `loadProject()` on init restores layers, dimensions, selection
+
+### Commits
+- `e63c472` — PixellApp: fix text visibility — use textarea value, larger size, fix render bg
+- `20e6455` — PixellApp: merge undo serialization, mobile buttons, event guard, fix addShape duplicates
+- `eeea82d` — Debug: add console logs, red border on text, larger default font
+- `2fa3a1b` — Save user's full rewrite: text stroke/align, layer reorder, dup, deepClone undo, plus bugfixes
+- `7edcbec` — Debug: red bg on text, console logs in render/addText/dr
+- `2fb7ae7` — Add alert+try/catch to debug addOrUpdateText not firing
+- `e9633f5` — Fix text button using addEventListener, fix Delete key with closest() guard+Backspace, remove debug code
+- `9153136` — fix: stopPropagation on toolbar/sheets, text rendering cleanup, B/I toggles
+- `d160f8f` — fix: compact sheet height and form elements so text is visible during editing
+- `d3fc146` — feat: localStorage persistence across page refresh
+
+### Liens
+- **GitHub Pages :** https://ucfzem.github.io/pixellapp/
+- **Repo :** https://github.com/ucfzem/ucfzem.github.io
+- **Backup :** https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION_BACKUP.md
