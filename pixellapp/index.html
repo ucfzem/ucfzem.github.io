@@ -290,8 +290,6 @@ function drawSel(l){
   cx.beginPath(); cx.moveTo(l.cx,l.y); cx.lineTo(l.cx,l.y-14/zoom); cx.strokeStyle='#c9a84c'; cx.lineWidth=1.5/zoom; cx.stroke();
   cx.restore();
 }
-function bg(){return document.querySelector('meta[name=theme-color]')?.content||'#1a1410'}
-
 // ======================== INPUT ========================
 function wPos(e){
   const r=c.getBoundingClientRect();
@@ -300,9 +298,9 @@ function wPos(e){
 }
 function onDown(e){
   e.preventDefault(); const wp=wPos(e);
-  if(curT==='pan'){pan=!0;dragOff={x:e.touches?e.touches[0].clientX:e.clientX-px,y:e.touches?e.touches[0].clientY:e.clientY-py};return}
+  if(curT==='pan'){pan=!0;const t=e.touches?e.touches[0]:e;dragOff={x:t.clientX-px,y:t.clientY-py};return}
   ai=-1;
-  for(let i=ly.length-1;i>=0;i--){if(ly[i].hit(wp.x,wp.y)&&ly[i].v){ai=i;break}}
+  for(let i=ly.length-1;i>=0;i--){if(ly[i].t!=='bg'&&ly[i].hit(wp.x,wp.y)&&ly[i].v){ai=i;break}}
   if(ai>=0){drag=!0;dragOff={x:wp.x-ly[ai].x,y:wp.y-ly[ai].y};saveUndo();upPr();render();return}
   pan=!0;const t=e.touches?e.touches[0]:e;dragOff={x:t.clientX-px,y:t.clientY-py};
 }
@@ -413,7 +411,9 @@ document.getElementById('bgInp').onchange=e=>{
     const l=new L('bg',{im,x:0,y:0,w:W,h:H});
     const r=Math.min(W/im.width,H/im.height);
     l.w=im.width*r;l.h=im.height*r;l.x=(W-l.w)/2;l.y=(H-l.h)/2;
-    l.n='Fond';ly.unshift(l);render();
+    l.n='Fond';ly.unshift(l);ai=-1;
+    curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
+    render();
   };
   im.src=URL.createObjectURL(f);e.target.value='';
 };
@@ -424,7 +424,9 @@ document.getElementById('imgInp').onchange=e=>{
     saveUndo();
     const r=Math.min(W*0.6/im.width,H*0.6/im.height);
     const l=new L('image',{im,x:(W-im.width*r)/2,y:(H-im.height*r)/2,w:im.width*r,h:im.height*r});
-    l.n=f.name.substring(0,20);ly.push(l);ai=ly.length-1;upPr();render();
+    l.n=f.name.substring(0,20);ly.push(l);ai=ly.length-1;
+    curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
+    upPr();render();
   };
   im.src=URL.createObjectURL(f);e.target.value='';
 };
