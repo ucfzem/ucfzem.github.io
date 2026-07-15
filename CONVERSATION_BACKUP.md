@@ -165,6 +165,10 @@ https://github.com/ucfzem?tab=repositories
 7. **Cancelable guards** — `if(e.cancelable) e.preventDefault()`
 8. **Compact sheets** — `max-height: 70dvh → 40dvh`; compact form elements (padding, fonts, inputs, color swatches, sliders)
 9. **localStorage persistence** — `saveProject()` called after every mutation (add/delete/reorder/edit/drag/import/undo/redo); `loadProject()` on init restores layers, dimensions, selection
+10. **Text font scaling** — resizing text layer selection handles now scales `l.fs` proportionally
+11. **Image aspect ratio** — auto-constrained by default on resize; hold Shift to freely deform
+12. **Gaussian blur shadow** — shadow color + blur controls added to layer properties panel, works for image/bg layers
+13. **Draggable toolbar** — grab the `⠿` grip to reposition toolbar; snaps to top/bottom/left/right edges; tap grip to cycle positions (mobile-friendly)
 
 ### Commits
 - `e63c472` — PixellApp: fix text visibility — use textarea value, larger size, fix render bg
