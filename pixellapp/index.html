@@ -21,7 +21,7 @@ body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,
 .topbar .logo{font-weight:800;font-size:14px;color:var(--gold);letter-spacing:1px;margin-right:2px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .tb{width:32px;height:32px;border:none;background:0 0;color:var(--text2);border-radius:6px;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
 .tb:active{background:var(--gold3);color:var(--gold);transform:scale(.92)}
-.tb.hm{display:none}
+.tb.hm{display:flex}
 .topbar .sp{flex:1}
 .ebtn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0d0a07;border:none;padding:5px 14px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s}
 .ebtn:active{transform:scale(.95);opacity:.9}
@@ -215,7 +215,7 @@ const FONTS=['Arial','Georgia','Times New Roman','Courier New','Verdana','Trebuc
 // ======================== LAYER ========================
 class L{
   constructor(t,o={}){
-    this.id=Date.now()+Math.random(); this.t=t;
+    this.id=o.id||(Date.now()+Math.random()); this.t=t;
     this.n=o.n||t; this.x=o.x||0; this.y=o.y||0; this.w=o.w||80; this.h=o.h||80;
     this.r=o.r||0; this.op=o.op??1; this.v=!0;
     // shape
@@ -302,7 +302,7 @@ function getHandles(l){
 }
 let resizing=!1,rotating=!1,rsHdl=-1;
 function onDown(e){
-  e.preventDefault();const wp=wPos(e);
+  if(e.cancelable) e.preventDefault();const wp=wPos(e);
   if(curT==='pan'){pan=!0;const t=e.touches?e.touches[0]:e;dragOff={x:t.clientX-px,y:t.clientY-py};return}
   // check resize/rotate handles on selected layer
   if(ai>=0&&ly[ai]&&ly[ai].t!=='bg'){
@@ -440,8 +440,6 @@ function addShape(){
   const l=new L('shape',{sh,x:W/2-60,y:H/2-60,w:120,h:120,fl:document.getElementById('sFl').value,sk:document.getElementById('sSk').value,lw:+document.getElementById('sLw').value});
   ly.push(l);ai=ly.length-1;
   clSh('shpSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
-  ly.push(l);ai=ly.length-1;
-  clSh('shpSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
   upPr();render();
 }
 
@@ -517,9 +515,28 @@ function upPr(){
 }
 
 // ======================== UNDO ========================
-function saveUndo(){undoSt.push(JSON.parse(JSON.stringify(ly)));if(undoSt.length>40)undoSt.shift();redoSt=[]}
-function undo(){if(undoSt.length){redoSt.push(JSON.parse(JSON.stringify(ly)));ly=undoSt.pop();render();upLy();upPr()}}
-function redo(){if(redoSt.length){undoSt.push(JSON.parse(JSON.stringify(ly)));ly=redoSt.pop();render();upLy();upPr()}}
+function serializeState(layers){
+  return layers.map(l=>({
+    t:l.t,data:{
+      id:l.id,n:l.n,x:l.x,y:l.y,w:l.w,h:l.h,r:l.r,
+      op:l.op,v:l.v,sh:l.sh,fl:l.fl,sk:l.sk,lw:l.lw,
+      tx:l.tx,fs:l.fs,ff:l.ff,b:l.b,i:l.i,tc:l.tc,sd:l.sd
+    },
+    hasImage:!!l.im,imageSrc:l.im?l.im.src:null
+  }));
+}
+function deserializeState(state){
+  return state.map(item=>{
+    const l=new L(item.t,item.data);
+    if(item.hasImage&&item.imageSrc){
+      const im=new Image();im.src=item.imageSrc;
+      l.im=im;im.onload=()=>render()
+    } return l;
+  });
+}
+function saveUndo(){undoSt.push(serializeState(ly));if(undoSt.length>40)undoSt.shift();redoSt=[]}
+function undo(){if(undoSt.length){redoSt.push(serializeState(ly));ly=deserializeState(undoSt.pop());render();upLy();upPr()}}
+function redo(){if(redoSt.length){undoSt.push(serializeState(ly));ly=deserializeState(redoSt.pop());render();upLy();upPr()}}
 
 // ======================== EXPORT ========================
 function showExport(){document.getElementById('expSh').classList.add('open')}
