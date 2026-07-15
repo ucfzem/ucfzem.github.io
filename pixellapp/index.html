@@ -115,7 +115,7 @@
     <div class="grp"><div class="gl">Style</div><div class="r"><input type="color" id="sCol" value="#e8e0d0" style="flex:none"><button class="c" id="sB" style="font-weight:800;width:34px">B</button><button class="c" id="sI" style="font-style:italic;width:34px">I</button><select id="sAl" style="flex:1;min-height:34px"><option value="center">Centre</option><option value="left">Gauche</option><option value="right">Droite</option></select></div></div>
     <div class="grp"><div class="gl">Contour</div><div class="r"><input type="color" id="sSo" value="#000000" style="flex:none"><span class="lb">Ép.</span><input type="range" id="sSw" min="0" max="12" value="0"><span class="vl" id="sSwV">0</span></div></div>
     <div class="grp"><div class="gl">Ombre</div><div class="r"><input type="color" id="sSh" value="#000000" style="flex:none"><span class="lb">Flou</span><input type="range" id="sBl" min="0" max="20" value="3"><span class="vl" id="sBlV">3</span></div></div>
-    <button class="cprim" id="txtBtn" onclick="alert('clicked');addOrUpdateText()">+ Ajouter le texte</button>
+    <button class="cprim" id="txtBtn">+ Ajouter le texte</button>
     <button class="csec" style="width:100%;margin-top:6px;display:none" id="txtCancelBtn" onclick="cancelTextEdit()">Annuler édition</button>
   </div>
 </div>
@@ -125,7 +125,7 @@
   <div class="bd">
     <div class="grp"><div class="gl">Type</div><div class="ch" id="shpCh"><button class="c act" data-sh="rect">▬ Rect</button><button class="c" data-sh="circle">⬤ Cercle</button><button class="c" data-sh="triangle">△ Tri.</button><button class="c" data-sh="star">★ Étoile</button><button class="c" data-sh="line">╱ Ligne</button></div></div>
     <div class="grp"><div class="gl">Apparence</div><div class="r"><span class="lb">Remplir</span><input type="color" id="sFl" value="#c9a84c"></div><div class="r"><span class="lb">Contour</span><input type="color" id="sSk" value="#e8e0d0"></div><div class="r"><span class="lb">Épaisseur</span><input type="range" id="sLw" min="0" max="20" value="2"><span class="vl" id="sLwV">2</span></div></div>
-    <button class="cprim" id="shpBtn" onclick="addOrUpdateShape()">+ Ajouter la forme</button>
+    <button class="cprim" id="shpBtn">+ Ajouter la forme</button>
   </div>
 </div>
 
@@ -185,10 +185,6 @@ class L {
       const fs = Math.round(this.fs);
       ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
       ctx.textAlign = this.al; ctx.textBaseline = 'top';
-      // debug: red background to confirm rendering
-      ctx.fillStyle='#ff0000'; ctx.fillRect(this.x,this.y,this.w,this.h);
-      ctx.fillStyle='#00ff00'; ctx.font='bold 20px Arial'; ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillText('TEST',this.x,this.y);
-      console.log('TEXT DEBUG:',this.tx,'fs='+fs,'ff='+this.ff,'tc='+this.tc,'x='+this.x,'y='+this.y,'w='+this.w,'h='+this.h);
       ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
       ctx.textAlign = this.al; ctx.textBaseline = 'top';
       const lines = this.tx.split('\n'), lineH = fs*1.3, totalH = lines.length*lineH;
@@ -236,7 +232,6 @@ function resize(){
   fit(); render();
 }
 function render(){
-  console.log('RENDER called: W='+W+' H='+H+' zoom='+zoom+' layers='+ly.length);
   c.width=W; c.height=H;
   cx.fillStyle='#1a1410'; cx.fillRect(0,0,W,H);
   const sz=16; for(let y=0;y<H;y+=sz) for(let x=0;x<W;x+=sz){(x/sz+y/sz)%2?cx.fillStyle='#1f1812':cx.fillStyle='#17120e';cx.fillRect(x,y,sz,sz)}
@@ -345,6 +340,10 @@ document.querySelectorAll('.bb[data-t]').forEach(b=>{
   });
 });
 
+document.getElementById('txtBtn').addEventListener('click',addOrUpdateText);
+document.getElementById('shpBtn').addEventListener('click',addOrUpdateShape);
+document.getElementById('txtCancelBtn').addEventListener('click',cancelTextEdit);
+
 function opSh(id){ document.getElementById(id).classList.add('open'); document.getElementById('ovl').classList.add('on'); }
 function clSh(id){ document.getElementById(id).classList.remove('open'); if(!document.querySelector('.sh.open')) document.getElementById('ovl').classList.remove('on'); }
 function closeAllSheets(){ document.querySelectorAll('.sh').forEach(s=>s.classList.remove('open')); document.getElementById('ovl').classList.remove('on'); _editingTextLayer=null; _editingShapeLayer=null; updateTextBtn(); updateShapeBtn(); }
@@ -369,7 +368,6 @@ function updateTextBtn(){ const btn=document.getElementById('txtBtn'); const can
 function commitText(){ clSh('txtSh'); _editingTextLayer=null; updateTextBtn(); }
 function cancelTextEdit(){ _editingTextLayer=null; resetTextSheet(); updateTextBtn(); clSh('txtSh'); render(); }
 function addOrUpdateText(){
-  console.log('addOrUpdateText called');
   try {
   if(_editingTextLayer!==null&&ly[_editingTextLayer]?.t==='text'){
     saveUndo(); const l=ly[_editingTextLayer];
@@ -386,7 +384,6 @@ function addOrUpdateText(){
   const l=new L('text',{tx,fs,ff:document.getElementById('sFnt').value,tc:document.getElementById('sCol').value,sd:document.getElementById('sSh').value,sb:+document.getElementById('sBl').value,so:document.getElementById('sSo').value,sw:+document.getElementById('sSw').value,al:document.getElementById('sAl').value,b:document.getElementById('sB').classList.contains('act'),i:document.getElementById('sI').classList.contains('act'),x:(W-estW)/2,y:(H-estH)/2,w:estW,h:estH,n:tx.substring(0,20)});
   ly.push(l); ai=ly.length-1; _editingTextLayer=null; updateTextBtn(); clSh('txtSh');
   curT='sel'; document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel')); upPr(); render();
-  console.log('TEXT ADDED:',l,'total layers:',ly.length);
   } catch(e){ console.error('addOrUpdateText ERROR:',e); }
 }
 document.getElementById('sSz').addEventListener('input',function(){document.getElementById('sSzV').textContent=this.value;});
@@ -492,10 +489,10 @@ function doExp(){
 }
 
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  if(e.target.closest('input,textarea,select'))return;
   if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();undo();}
   if((e.ctrlKey||e.metaKey)&&e.key==='y'){e.preventDefault();redo();}
-  if(e.key==='Delete'){if(ai>=0&&ly[ai]?.t!=='bg')delLayer();}
+  if(e.key==='Delete'||e.key==='Backspace'){if(ai>=0&&ly[ai]&&ly[ai].t!=='bg')delLayer();e.preventDefault();}
   if(e.key==='Escape'){ai=-1;upPr();render();closeAllSheets();}
 });
 
