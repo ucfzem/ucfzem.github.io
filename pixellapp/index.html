@@ -294,7 +294,7 @@ function onMove(e){
     else if(rsHdl===3){l.w=wp.x-l.x;}
     else if(rsHdl===5){l.h=wp.y-l.y;}
     else if(rsHdl===7){l.w+=l.x-wp.x;l.x=wp.x;}
-    if(shiftKey && (l.t==='image'||l.t==='bg')){ const ratio=prevW/prevH; if(rsHdl===0||rsHdl===2||rsHdl===4||rsHdl===6){ if(Math.abs(l.w-prevW)>Math.abs(l.h-prevH)) l.h=l.w/ratio; else l.w=l.h*ratio; } }
+    if((l.t==='image'||l.t==='bg')&&!shiftKey){ const ratio=prevW/prevH; if(rsHdl===0||rsHdl===2||rsHdl===4||rsHdl===6){ if(Math.abs(l.w-prevW)>Math.abs(l.h-prevH)) l.h=l.w/ratio; else l.w=l.h*ratio; } }
     if(l.w<5){l.w=5; l.x=prevX+(prevW>0?prevW-5:0);} if(l.h<5){l.h=5; l.y=prevY+(prevH>0?prevH-5:0);}
     if(l.t==='text'&&resizeInitFs){ const sc=Math.abs(l.w-resizeInitW)>Math.abs(l.h-resizeInitH)?l.w/resizeInitW:l.h/resizeInitH; l.fs=Math.max(8,Math.round(resizeInitFs*sc)); }
     upPr(); render(); return;
