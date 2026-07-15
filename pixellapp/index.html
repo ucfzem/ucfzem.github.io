@@ -34,21 +34,21 @@
     .bb.act::after{content:'';position:absolute;bottom:3px;left:25%;right:25%;height:2px;background:var(--gold);border-radius:2px}
     .bb .l{font-size:7px;color:var(--text3);margin-top:1px;letter-spacing:.4px;text-transform:uppercase;font-weight:600}
     .sep{width:1px;height:26px;background:var(--border);flex-shrink:0;margin:0 4px;border-radius:1px}
-    .sh{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--panel);border-top:1px solid var(--border);transform:translateY(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);max-height:70dvh;overflow-y:auto;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px 16px 0 0}
+    .sh{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--panel);border-top:1px solid var(--border);transform:translateY(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);max-height:40dvh;overflow-y:auto;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px 16px 0 0}
     .sh.open{transform:translateY(0)}
-    .sh .hd{padding:14px 16px 10px;font-size:12px;font-weight:700;color:var(--text2);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:2;text-transform:uppercase;letter-spacing:.8px}
-    .sh .hd button{background:0 0;border:none;color:var(--gold);font-size:13px;cursor:pointer;padding:6px 12px;border-radius:6px;font-weight:600}
+    .sh .hd{padding:10px 14px 8px;font-size:11px;font-weight:700;color:var(--text2);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:2;text-transform:uppercase;letter-spacing:.8px}
+    .sh .hd button{background:0 0;border:none;color:var(--gold);font-size:12px;cursor:pointer;padding:4px 10px;border-radius:5px;font-weight:600}
     .sh .hd button:active{background:var(--gold3)}
-    .sh .bd{padding:14px 16px calc(14px + env(safe-area-inset-bottom,0))}
-    .grp{margin-bottom:14px}
+    .sh .bd{padding:10px 14px calc(10px + env(safe-area-inset-bottom,0))}
+    .grp{margin-bottom:8px}
     .gl{font-size:9px;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.7px;font-weight:600}
-    .r{display:flex;gap:6px;align-items:center;margin-bottom:7px;flex-wrap:wrap}
+    .r{display:flex;gap:5px;align-items:center;margin-bottom:5px;flex-wrap:wrap}
     .r .lb{font-size:10px;color:var(--text2);min-width:32px}
-    .r input,.r select,.r textarea{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:7px 8px;border-radius:5px;font-size:12px;outline:0;flex:1;min-height:36px;font-family:inherit}
+    .r input,.r select,.r textarea{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:5px 7px;border-radius:5px;font-size:11px;outline:0;flex:1;min-height:30px;font-family:inherit}
     .r input:focus,.r select:focus,.r textarea:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold3)}
-    .r input[type=color]{width:38px;flex:none;padding:2px;height:34px;border-radius:5px;cursor:pointer}
+    .r input[type=color]{width:32px;flex:none;padding:1px;height:26px;border-radius:4px;cursor:pointer}
     .r input[type=range]{flex:1;padding:0;height:24px;-webkit-appearance:none;appearance:none;background:0 0}
-    .r input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--gold);border-radius:50%;cursor:pointer;margin-top:-7px;border:2px solid #0d0a07}
+    .r input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--gold);border-radius:50%;cursor:pointer;margin-top:-5px;border:2px solid #0d0a07}
     .r input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--border);border-radius:2px}
     .r .vl{font-size:10px;color:var(--text2);min-width:26px;text-align:right}
     .ch{display:flex;gap:5px;flex-wrap:wrap}
@@ -110,7 +110,7 @@
 <div class="sh" id="txtSh">
   <div class="hd">Texte <button onclick="commitText()">✓</button></div>
   <div class="bd">
-    <div class="grp"><div class="gl">Contenu</div><div class="r"><textarea id="sTxt" style="flex:1;min-height:55px;resize:none;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px;border-radius:5px;font-size:14px;outline:0" placeholder="Ton texte...">Texte</textarea></div></div>
+    <div class="grp"><div class="gl">Contenu</div><div class="r"><textarea id="sTxt" style="flex:1;min-height:40px;resize:none;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:5px 7px;border-radius:5px;font-size:13px;outline:0" placeholder="Ton texte...">Texte</textarea></div></div>
     <div class="grp"><div class="gl">Police</div><div class="r"><select id="sFnt" style="flex:1"><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Courier New</option><option>Verdana</option><option>Trebuchet MS</option><option>Impact</option><option>Palatino Linotype</option></select></div><div class="r"><span class="lb">Taille</span><input type="range" id="sSz" min="8" max="200" value="36"><span class="vl" id="sSzV">36</span></div></div>
     <div class="grp"><div class="gl">Style</div><div class="r"><input type="color" id="sCol" value="#e8e0d0" style="flex:none"><button class="c" id="sB" style="font-weight:800;width:34px">B</button><button class="c" id="sI" style="font-style:italic;width:34px">I</button><select id="sAl" style="flex:1;min-height:34px"><option value="center">Centre</option><option value="left">Gauche</option><option value="right">Droite</option></select></div></div>
     <div class="grp"><div class="gl">Contour</div><div class="r"><input type="color" id="sSo" value="#000000" style="flex:none"><span class="lb">Ép.</span><input type="range" id="sSw" min="0" max="12" value="0"><span class="vl" id="sSwV">0</span></div></div>
