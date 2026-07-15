@@ -306,3 +306,28 @@ VoxForge: improved Arabic TTS — uses global `availableVoices` array (populated
 ### Links
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **GitHub commit 0186032**: https://github.com/ucfzem/ucfzem.github.io/commit/0186032
+
+## Session 14 — Jul 15 2026
+
+### Summary
+PixellApp — professional graphic editor built with vanilla HTML5 Canvas. Canvas resizing, zoom/pan, 10 tools (select, hand, text, rect, ellipse, triangle, star, line, pen, eraser), layer manager with visibility toggle, undo/redo, full properties panel, image import, rotation handles, curved text, right-click context menu, export to PNG/JPEG/WebP.
+
+### Changes
+1. Created `pixellapp/index.html` — single-file vanilla JS graphic editor
+2. Canvas: zoomable/pannable (scroll wheel, hand tool), resizable
+3. 10 tools: Select, Hand, Text, Rectangle, Ellipse, Triangle, Star, Line, Pen (freehand), Eraser
+4. Text tool: Google Fonts, bold, alignment, line height, letter spacing, curved text mode
+5. Shapes: fill/stroke color, stroke width, rotation
+6. Layers panel: reorder, visibility toggle, delete, add
+7. Properties panel: live editing of position, size, rotation, opacity, colors, text
+8. Undo/redo (Ctrl+Z/Y), right-click context menu (duplicate, bring front, send back, delete)
+9. Image import from device
+10. Export dialog: PNG/JPEG/WebP with quality slider
+11. Added PixellApp to works/index.html lockedProjects with VoxForge & Sounds of Nature
+
+### Links
+- **PixellApp live**: https://ucfzem.github.io/pixellapp/
+- **Sounds of Nature live**: https://ucfzem.github.io/sounds-of-nature/
+- **VoxForge live**: https://ucfzem.github.io/voxforge/
+- **Works page**: https://ucfzem.github.io/works/
+- **GitHub commit**:
