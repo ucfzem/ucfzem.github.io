@@ -115,7 +115,7 @@
     <div class="grp"><div class="gl">Style</div><div class="r"><input type="color" id="sCol" value="#e8e0d0" style="flex:none"><button class="c" id="sB" style="font-weight:800;width:34px">B</button><button class="c" id="sI" style="font-style:italic;width:34px">I</button><select id="sAl" style="flex:1;min-height:34px"><option value="center">Centre</option><option value="left">Gauche</option><option value="right">Droite</option></select></div></div>
     <div class="grp"><div class="gl">Contour</div><div class="r"><input type="color" id="sSo" value="#000000" style="flex:none"><span class="lb">Ép.</span><input type="range" id="sSw" min="0" max="12" value="0"><span class="vl" id="sSwV">0</span></div></div>
     <div class="grp"><div class="gl">Ombre</div><div class="r"><input type="color" id="sSh" value="#000000" style="flex:none"><span class="lb">Flou</span><input type="range" id="sBl" min="0" max="20" value="3"><span class="vl" id="sBlV">3</span></div></div>
-    <button class="cprim" id="txtBtn" onclick="addOrUpdateText()">+ Ajouter le texte</button>
+    <button class="cprim" id="txtBtn" onclick="alert('clicked');addOrUpdateText()">+ Ajouter le texte</button>
     <button class="csec" style="width:100%;margin-top:6px;display:none" id="txtCancelBtn" onclick="cancelTextEdit()">Annuler édition</button>
   </div>
 </div>
@@ -369,6 +369,8 @@ function updateTextBtn(){ const btn=document.getElementById('txtBtn'); const can
 function commitText(){ clSh('txtSh'); _editingTextLayer=null; updateTextBtn(); }
 function cancelTextEdit(){ _editingTextLayer=null; resetTextSheet(); updateTextBtn(); clSh('txtSh'); render(); }
 function addOrUpdateText(){
+  console.log('addOrUpdateText called');
+  try {
   if(_editingTextLayer!==null&&ly[_editingTextLayer]?.t==='text'){
     saveUndo(); const l=ly[_editingTextLayer];
     l.tx=document.getElementById('sTxt').value||'Texte'; l.ff=document.getElementById('sFnt').value; l.fs=+document.getElementById('sSz').value;
@@ -385,6 +387,7 @@ function addOrUpdateText(){
   ly.push(l); ai=ly.length-1; _editingTextLayer=null; updateTextBtn(); clSh('txtSh');
   curT='sel'; document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel')); upPr(); render();
   console.log('TEXT ADDED:',l,'total layers:',ly.length);
+  } catch(e){ console.error('addOrUpdateText ERROR:',e); }
 }
 document.getElementById('sSz').addEventListener('input',function(){document.getElementById('sSzV').textContent=this.value;});
 document.getElementById('sBl').addEventListener('input',function(){document.getElementById('sBlV').textContent=this.value;});
