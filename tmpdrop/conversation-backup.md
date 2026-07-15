@@ -376,3 +376,87 @@ PixellApp: complete mobile-first rewrite with bottom toolbar, sheet-based tools,
 - **PixellApp live**: https://ucfzem.github.io/pixellapp/
 - **GitHub commit 43bbb5f**: https://github.com/ucfzem/ucfzem.github.io/commit/43bbb5f
 - **GitHub commit 3739f7d**: https://github.com/ucfzem/ucfzem.github.io/commit/3739f7d
+
+## Session 17 — Jul 15 2026
+
+### Summary
+PixellApp: fixed text visibility (addText used hardcoded 'Texte' instead of sTxt.value, render() referenced undefined bg), fixed addShape duplicate lines (layer pushed twice). Merged user improvements: undo serialization with Image objects (serializeState/deserializeState), larger touch zones, if(e.cancelable) guard, undo/redo buttons visible on mobile.
+
+### Changes
+1. Fixed addText(): uses sTxt.value with fallback 'Texte', wider box (160×48)
+2. Fixed render(): removed typeof bg (undefined variable)
+3. Fixed addShape(): removed duplicate ly.push/clSh lines
+4. Added serializeState/deserializeState — proper undo for Image objects (stores im.src)
+5. Added o.id preservation in L constructor for deserialization
+6. Added if(e.cancelable) e.preventDefault() in onDown
+7. Changed .tb.hm from display:none to display:flex
+
+### Links
+- **PixellApp live**: https://ucfzem.github.io/pixellapp/
+
+## Session 18 — Jul 15 2026
+
+### Summary
+PixellApp: major rewrite by user — added text stroke/align/shadow-blur, layer reorder (up/down arrows), duplicate layer, deepClone/reviveLayer undo system (proper image serialization), overlay for sheets, shift-constrain resize for images, metaKey keyboard shortcuts. Fixed 3 bugs: checkerboard fillRect outside for loop (only 1 rect drawn), wPos parenthesis for touch (missing r.left+px), cancelable guards on all touch handlers.
+
+### Changes
+1. Text: stroke color/width, shadow blur, text alignment (left/center/right)
+2. Layer list: reorder up/down arrows, type icons
+3. Toolbar: duplicate (⧉), delete (🗑), separators
+4. Overlay div for sheet backdrop
+5. Undo: deepCloneLayers serializes images to data URLs, reviveLayer restores them
+6. Layer ordering: up/down arrows in layer list
+7. Shift-key constrain proportions on image resize
+8. MetaKey support for keyboard shortcuts (Ctrl/Meta+Z/Y)
+9. **Bugs fixed in this version**:
+   - Checkerboard: fillRect was outside the for loop (missed braces), only 1 rect ever drawn at (W, H, 16, 16) — off-screen
+   - wPos(): missing parens around touch coords caused x=(clientX)/zoom with no canvas offset subtraction
+   - cancelable guard added to onMove and onUp
+
+### Links
+- **PixellApp live**: https://ucfzem.github.io/pixellapp/
+
+---
+
+## All Project Links
+
+### PixellApp
+- **Live**: https://ucfzem.github.io/pixellapp/
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/blob/main/pixellapp/index.html
+
+### VoxForge
+- **Live**: https://ucfzem.github.io/voxforge/
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/tree/main/voxforge
+- **Vercel**: https://voiceforge-delta.vercel.app (older standalone version)
+
+### Sounds of Nature
+- **Live**: https://ucfzem.github.io/sounds-of-nature/
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/tree/main/sounds-of-nature
+- **Vercel**: https://ucfzem-works.vercel.app/sounds-of-nature
+
+### Works Page
+- **Live**: https://ucfzem.github.io/works/
+
+### Image2Prompt
+- **Live**: https://ucfzem.eu.org/image2prompt
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/blob/main/image2prompt/index.html
+
+### TmpDrop (file upload)
+- **Live**: https://ucfzem.github.io/tmpdrop/
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/tree/main/tmpdrop
+
+### Droppy (multi-file upload)
+- **Live**: https://ucfzem.github.io/droppy/
+- **Source**: https://github.com/ucfzem/ucfzem.github.io/tree/main/droppy
+
+### Voxcell (standalone reader)
+- **Live**: https://voxcell.vercel.app
+- **Source**: https://github.com/ucfzem/Voxcell
+
+### Voxcell Offline
+- **Live**: https://voxcell-offline.vercel.app
+- **Source**: https://github.com/ucfzem/Voxcell-offline
+
+### GitHub
+- **Profile**: https://github.com/ucfzem
+- **Main repo**: https://github.com/ucfzem/ucfzem.github.io
