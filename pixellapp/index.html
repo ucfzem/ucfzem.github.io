@@ -240,6 +240,8 @@ class L{
     if(this.t!=='bg'){ctx.translate(this.cx,this.cy);ctx.rotate(this.r*Math.PI/180);ctx.translate(-this.cx,-this.cy)}
     if((this.t==='bg'||this.t==='image')&&this.im) ctx.drawImage(this.im,this.x,this.y,this.w,this.h);
     else if(this.t==='text'){
+      console.log('dr text:',this.tx,'at',this.cx,this.y+this.fs/2,'size',this.w,this.h,'color',this.tc,'font-size',this.fs,'zm',zoom);
+      ctx.strokeStyle='#ff0000';ctx.lineWidth=2/zoom;ctx.strokeRect(this.x,this.y,this.w,this.h);
       ctx.font=(this.b?'bold ':'')+(this.i?'italic ':'')+Math.round(this.fs)+'px '+this.ff;
       ctx.fillStyle=this.tc; ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.shadowColor=this.sd; ctx.shadowBlur=3; ctx.shadowOffsetX=1; ctx.shadowOffsetY=1;
@@ -423,10 +425,12 @@ function fillTextSheet(l){
 function addText(){
   saveUndo();
   const txt=document.getElementById('sTxt').value||'Texte';
-  const l=new L('text',{tx:txt,fs:36,ff:document.getElementById('sFnt').value,tc:document.getElementById('sCol').value,sd:document.getElementById('sSh').value,x:W/2-80,y:H/2-24,w:160,h:48});
+  const tc=document.getElementById('sCol').value||'#e8e0d0';
+  const l=new L('text',{tx:txt,fs:48,ff:document.getElementById('sFnt').value||'Arial',tc, sd:'transparent',x:W/2-100,y:H/2-32,w:200,h:64});
   ly.push(l);ai=ly.length-1;
   clSh('txtSh');curT='sel';document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel'));
   upPr();render();
+  console.log('addText: layer added',l,', ly.length=',ly.length,', W=',W,', H=',H,', zoom=',zoom);
 }
 
 // ======================== SHAPE ========================
@@ -563,7 +567,7 @@ document.addEventListener('keydown',e=>{
 
 // ======================== INIT ========================
 window.addEventListener('resize',resize);
-setTimeout(resize,50);
+setTimeout(()=>{resize();console.log('init: W='+W+' H='+H+' zoom='+zoom)},50);
 render();
 </script>
 </body>
