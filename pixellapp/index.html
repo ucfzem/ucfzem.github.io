@@ -296,9 +296,30 @@ function wPos(e){
   const x=e.touches?e.touches[0].clientX:e.clientX, y=e.touches?e.touches[0].clientY:e.clientY;
   return{x:(x-r.left-px)/zoom,y:(y-r.top-py)/zoom};
 }
+function getHandles(l){
+  if(l.t==='bg')return[];const s=6/zoom;
+  return[{x:l.x-s,y:l.y-s,h:0},{x:l.cx,y:l.y-s,h:1},{x:l.x+l.w+s,y:l.y-s,h:2},{x:l.x+l.w+s,y:l.cy,h:3},{x:l.x+l.w+s,y:l.y+l.h+s,h:4},{x:l.cx,y:l.y+l.h+s,h:5},{x:l.x-s,y:l.y+l.h+s,h:6},{x:l.x-s,y:l.cy,h:7}];
+}
+let resizing=!1,rotating=!1,rsHdl=-1;
 function onDown(e){
-  e.preventDefault(); const wp=wPos(e);
+  e.preventDefault();const wp=wPos(e);
   if(curT==='pan'){pan=!0;const t=e.touches?e.touches[0]:e;dragOff={x:t.clientX-px,y:t.clientY-py};return}
+  // check resize/rotate handles on selected layer
+  if(ai>=0&&ly[ai]&&ly[ai].t!=='bg'){
+    const r=c.getBoundingClientRect();
+    const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;
+    const l=ly[ai];
+    // rotation handle
+    const rhx=l.cx*zoom+px+r.left,rhy=(l.y-18/zoom)*zoom+py+r.top;
+    if(Math.hypot(cx-rhx,cy-rhy)<20){rotating=!0;saveUndo();return}
+    // resize handles
+    const hs=getHandles(l);
+    for(const h of hs){
+      const sx=h.x*zoom+px+r.left,sy=h.y*zoom+py+r.top;
+      if(Math.hypot(cx-sx,cy-sy)<16){resizing=!0;rsHdl=h.h;saveUndo();return}
+    }
+  }
+  // layer hit test (skip bg)
   ai=-1;
   for(let i=ly.length-1;i>=0;i--){if(ly[i].t!=='bg'&&ly[i].hit(wp.x,wp.y)&&ly[i].v){ai=i;break}}
   if(ai>=0){drag=!0;dragOff={x:wp.x-ly[ai].x,y:wp.y-ly[ai].y};saveUndo();upPr();render();return}
@@ -306,10 +327,30 @@ function onDown(e){
 }
 function onMove(e){
   e.preventDefault();const wp=wPos(e);
-  if(drag&&ai>=0){ly[ai].x=wp.x-dragOff.x;ly[ai].y=wp.y-dragOff.y;render();return}
+  if(resizing&&ai>=0&&ly[ai]){
+    const l=ly[ai];
+    if(rsHdl===0){l.w+=l.x-wp.x;l.h+=l.y-wp.y;l.x=wp.x;l.y=wp.y}
+    else if(rsHdl===2){l.w=wp.x-l.x;l.h+=l.y-wp.y;l.y=wp.y}
+    else if(rsHdl===4){l.w=wp.x-l.x;l.h=wp.y-l.y}
+    else if(rsHdl===6){l.w+=l.x-wp.x;l.h=wp.y-l.y;l.x=wp.x}
+    else if(rsHdl===1){l.h+=l.y-wp.y;l.y=wp.y}
+    else if(rsHdl===3){l.w=wp.x-l.x}
+    else if(rsHdl===5){l.h=wp.y-l.y}
+    else if(rsHdl===7){l.w+=l.x-wp.x;l.x=wp.x}
+    if(l.w<5){l.w=5}if(l.h<5){l.h=5}
+    upPr();render();return;
+  }
+  if(rotating&&ai>=0&&ly[ai]){
+    const l=ly[ai],r=c.getBoundingClientRect();
+    const cx=e.touches?e.touches[0].clientX:e.clientX,cy=e.touches?e.touches[0].clientY:e.clientY;
+    l.r=Math.round(Math.atan2(cy-(l.cy*zoom+py+r.top),cx-(l.cx*zoom+px+r.left))*180/Math.PI+90)%360;
+    if(l.r<0)l.r+=360;
+    upPr();render();return;
+  }
+  if(drag&&ai>=0){ly[ai].x=wp.x-dragOff.x;ly[ai].y=wp.y-dragOff.y;upPr();render();return}
   if(pan){const t=e.touches?e.touches[0]:e;px=t.clientX-dragOff.x;py=t.clientY-dragOff.y;document.getElementById('zoomLbl').textContent=Math.round(zoom*100)+'%';render()}
 }
-function onUp(e){e.preventDefault();drag=!1;pan=!1}
+function onUp(e){e.preventDefault();drag=!1;pan=!1;resizing=!1;rotating=!1;rsHdl=-1}
 
 c.addEventListener('mousedown',onDown); c.addEventListener('mousemove',onMove);
 c.addEventListener('mouseup',onUp); c.addEventListener('mouseleave',onUp);
