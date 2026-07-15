@@ -169,6 +169,7 @@ https://github.com/ucfzem?tab=repositories
 11. **Image aspect ratio** — auto-constrained by default on resize; hold Shift to freely deform
 12. **Gaussian blur shadow** — shadow color + blur controls added to layer properties panel, works for image/bg layers
 13. **Draggable toolbar** — grab the `⠿` grip to reposition toolbar; snaps to top/bottom/left/right edges; tap grip to cycle positions (mobile-friendly)
+14. **Added to Works page** — PixellApp added to locked projects with ✦ icon, placed in middle of list; duplicate VoxForge/Sounds of Nature entries cleaned up
 
 ### Commits
 - `e63c472` — PixellApp: fix text visibility — use textarea value, larger size, fix render bg
@@ -186,8 +187,11 @@ https://github.com/ucfzem?tab=repositories
 - `1362c2e` — feat: Gaussian blur shadow for image/bg layers
 - `cdf68d2` — feat: draggable toolbar — snap to top/bottom/left/right
 - `194d984` — fix: bar drag follows finger with transform, add tap-to-cycle on grip
+- `1fa5bd3` — feat: add PixellApp to locked projects with ✦ icon, middle placement
+- `6cc57a6` — fix: remove duplicate VoxForge and Sounds of Nature entries
 
 ### Liens
-- **GitHub Pages :** https://ucfzem.github.io/pixellapp/
+- **GitHub Pages PixellApp :** https://ucfzem.github.io/pixellapp/
+- **Works page :** https://ucfzem.github.io/works/
 - **Repo :** https://github.com/ucfzem/ucfzem.github.io
 - **Backup :** https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION_BACKUP.md
