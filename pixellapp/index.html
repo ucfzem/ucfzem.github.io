@@ -38,14 +38,15 @@
 
   /* LEFT PANEL - TOOLS */
   .tools-panel { width:48px; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; align-items:center; padding:8px 0; gap:2px; }
-  .tool-btn-v { width:38px; height:38px; border:none; background:transparent; color:var(--text2); border-radius:6px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:.15s; }
+  .tool-btn-v { width:38px; height:38px; border:none; background:transparent; color:var(--text2); border-radius:6px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; transition:.15s; -webkit-tap-highlight-color:transparent; }
   .tool-btn-v:hover { background:var(--panel2); color:var(--text); }
+  .tool-btn-v:active { background:var(--accent); color:#fff; transform:scale(0.92); }
   .tool-btn-v.active { background:var(--accent); color:#fff; }
 
   /* CANVAS AREA */
   .canvas-area { flex:1; position:relative; overflow:hidden; background:#18181c; }
   .canvas-wrapper { position:absolute; top:0; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; }
-  canvas#mainCanvas { box-shadow:0 4px 24px rgba(0,0,0,.5); cursor:crosshair; image-rendering:auto; }
+  canvas#mainCanvas { box-shadow:0 4px 24px rgba(0,0,0,.5); cursor:crosshair; image-rendering:auto; touch-action:none; }
   .canvas-info { position:absolute; bottom:8px; left:8px; font-size:11px; color:var(--text2); background:rgba(0,0,0,.6); padding:3px 8px; border-radius:4px; }
 
   /* RIGHT PANEL */
@@ -83,17 +84,36 @@
   /* MOBILE */
   .panel-toggle { display:none; }
   @media (max-width:768px) {
-    .tools-panel { width:40px; padding:4px 0; gap:1px; }
-    .tool-btn-v { width:32px; height:32px; font-size:15px; }
-    .right-panel { position:fixed; top:44px; right:-280px; width:260px; bottom:0; z-index:200; transition:right .25s; box-shadow:-4px 0 20px rgba(0,0,0,.5); }
-    .right-panel.open { right:0; }
+    .main { flex-direction:column; }
+    .tools-panel {
+      position:fixed; bottom:0; left:0; right:0;
+      width:100%; height:48px;
+      flex-direction:row; overflow-x:auto; overflow-y:hidden;
+      padding:0 4px; gap:0; z-index:100;
+      border-right:none; border-top:1px solid var(--border);
+      background:rgba(26,26,30,.95); backdrop-filter:blur(10px);
+      justify-content:flex-start; align-items:center;
+      -webkit-overflow-scrolling:touch;
+    }
+    .tools-panel::-webkit-scrollbar { display:none; }
+    .tool-btn-v { min-width:40px; width:40px; height:40px; font-size:18px; flex-shrink:0; }
+    .right-panel {
+      position:fixed; top:44px; left:0; right:0; bottom:48px;
+      width:auto; z-index:90;
+      transform:translateY(100%); transition:transform .25s;
+      box-shadow:0 -4px 20px rgba(0,0,0,.5);
+      border-left:none; border-top:1px solid var(--border);
+    }
+    .right-panel.open { transform:translateY(0); }
     .panel-toggle { display:flex; width:34px; height:34px; border:none; background:transparent; color:var(--text2); border-radius:6px; cursor:pointer; font-size:16px; align-items:center; justify-content:center; }
     .panel-toggle:hover { background:var(--panel2); color:var(--text); }
     .topbar .hide-mobile { display:none; }
     .export-btn { padding:4px 10px; font-size:10px; white-space:nowrap; }
     .topbar .logo { font-size:12px; margin-right:6px; }
     .topbar { gap:4px; padding:0 6px; }
+    .canvas-area { flex:1; }
     .canvas-info { display:none; }
+    .zoom-ctrl { bottom:56px; }
   }
 
   /* SELECTION BOX */
@@ -874,25 +894,20 @@ canvas.addEventListener('mouseleave',onMouseUp);
 
 // TOUCH EVENTS
 let lastTouchDist=0;
-function touchToMouse(touchEvent, handler) {
-  touchEvent.preventDefault();
-  const t=touchEvent.changedTouches[0];
-  handler(t.clientX, t.clientY);
-}
 function onTouchStart(e) {
+  if(!e.target.closest('#mainCanvas')&&!e.target.closest('.canvas-area')) return;
   e.preventDefault();
   if(e.touches.length===2) {
     lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
     return;
   }
   const t=e.changedTouches[0];
-  // Simulate mousedown
   const me = {button:0, preventDefault:()=>{}, clientX:t.clientX, clientY:t.clientY, target:canvas, closest:()=>null};
   onMouseDown(me);
 }
 function onTouchMove(e) {
+  if(!e.target.closest('#mainCanvas')&&!e.target.closest('.canvas-area')) return;
   e.preventDefault();
-  // Pinch zoom
   if(e.touches.length===2) {
     const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX, e.touches[0].clientY-e.touches[1].clientY);
     if(lastTouchDist>0) {
@@ -915,6 +930,7 @@ function onTouchMove(e) {
   onMouseMove(me);
 }
 function onTouchEnd(e) {
+  if(!e.target.closest('#mainCanvas')&&!e.target.closest('.canvas-area')) return;
   e.preventDefault();
   lastTouchDist=0;
   onMouseUp();
@@ -944,11 +960,16 @@ document.querySelectorAll('.tool-btn-v[data-tool]').forEach(btn=>{
 
 // INIT
 loadFonts();
+// Set canvas size based on viewport
+const isMobile=window.innerWidth<768;
+if(isMobile){W=Math.min(800,window.innerWidth-16);H=Math.round(W*0.75);}
+document.getElementById('canvasW').value=W;
+document.getElementById('canvasH').value=H;
 render();
 // Center canvas
 setTimeout(()=>{
   const ca=document.getElementById('canvasArea');
-  zoom=Math.min((ca.clientWidth-40)/W,(ca.clientHeight-40)/H)*0.8;
+  zoom=Math.min((ca.clientWidth-16)/W,(ca.clientHeight-16)/H)*0.9;
   panX=(ca.clientWidth-W*zoom)/2;
   panY=(ca.clientHeight-H*zoom)/2;
   render();
