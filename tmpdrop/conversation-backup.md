@@ -331,3 +331,23 @@ PixellApp — professional graphic editor built with vanilla HTML5 Canvas. Canva
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **Works page**: https://ucfzem.github.io/works/
 - **GitHub commit 67c119c**: https://github.com/ucfzem/ucfzem.github.io/commit/67c119c
+
+## Session 15 — Jul 15 2026
+
+### Summary
+PixellApp bug fixes: paren syntax error (missing `)` in undo handler), tool buttons not working (no click handlers), shape tools not creating layers, `fillColor` typo. Added touch events (touchstart/touchmove/touchend mapped to mouse handlers, pinch-to-zoom with 2 fingers), mobile responsive layout (collapsible right panel overlay, compact top bar with hide-mobile classes).
+
+### Changes
+1. Fixed JS syntax error: missing `)` in `redoStack.push(JSON.parse(JSON.stringify(layers.map(l=>({...l})))))`
+2. Fixed tool buttons: added click handlers on `.tool-btn-v[data-tool]` to set `currentTool`
+3. Fixed shape creation: mousedown now creates layer immediately, mousemove updates dimensions
+4. Fixed `fillColor` → `fillStyle` in addLayer button
+5. Added touch events: touchstart→mousedown, touchmove→mousemove, touchend→mouseup
+6. Added pinch-to-zoom with 2-finger gesture on canvas
+7. Added responsive CSS (media query <768px): right panel slides in/out as overlay, `hide-mobile` class for secondary topbar buttons, compact tool buttons
+8. Added panel toggle button (⚙) in topbar to show/hide properties panel on mobile
+
+### Links
+- **PixellApp live**: https://ucfzem.github.io/pixellapp/
+- **GitHub commit 9a11451**: https://github.com/ucfzem/ucfzem.github.io/commit/9a11451
+- **GitHub commit 3afa8db**: https://github.com/ucfzem/ucfzem.github.io/commit/3afa8db
