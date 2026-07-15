@@ -177,6 +177,11 @@ https://github.com/ucfzem?tab=repositories
 - `9153136` — fix: stopPropagation on toolbar/sheets, text rendering cleanup, B/I toggles
 - `d160f8f` — fix: compact sheet height and form elements so text is visible during editing
 - `d3fc146` — feat: localStorage persistence across page refresh
+- `0aaac49` — fix: scale text font size when resizing selection handles
+- `4f84a4c` — fix: auto-constrain image aspect ratio on resize (shift=free deform)
+- `1362c2e` — feat: Gaussian blur shadow for image/bg layers
+- `cdf68d2` — feat: draggable toolbar — snap to top/bottom/left/right
+- `194d984` — fix: bar drag follows finger with transform, add tap-to-cycle on grip
 
 ### Liens
 - **GitHub Pages :** https://ucfzem.github.io/pixellapp/
