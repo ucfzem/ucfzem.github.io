@@ -351,3 +351,28 @@ PixellApp bug fixes: paren syntax error (missing `)` in undo handler), tool butt
 - **PixellApp live**: https://ucfzem.github.io/pixellapp/
 - **GitHub commit 9a11451**: https://github.com/ucfzem/ucfzem.github.io/commit/9a11451
 - **GitHub commit 3afa8db**: https://github.com/ucfzem/ucfzem.github.io/commit/3afa8db
+
+## Session 16 — Jul 15 2026
+
+### Summary
+PixellApp: complete mobile-first rewrite with bottom toolbar, sheet-based tools, dark brown + gold theme. Fixed background layer selection issue (tap skips bg, only selectable from layers panel). Added image background, foreground image import, text tool with font/shadow/style, 5 shape types, layer list, undo/redo, export.
+
+### Changes
+1. Complete rewrite: mobile-first layout with bottom toolbar (Sélection, Fond, Image, Texte, Forme, Calques, Main)
+2. Dark brown + gold theme: `#0d0a07` bg, `#c9a84c` gold accents, `#e8e0d0` beige text
+3. Canvas auto-sizing to viewport with fit() on load/resize
+4. Bottom sheets for text editing (font, size, color, shadow, bold, italic), shapes (5 types with fill/stroke/width), layers/properties, and export
+5. Background image import (auto-fits, replaces existing bg, locked from tap-selection)
+6. Foreground image import (auto-selects, switches to select tool)
+7. Layer list with visibility toggle, add/delete
+8. Selection hit test: bg layer skipped (tap only selects non-bg layers)
+9. Background layer only selectable from the layers panel
+10. Proper rotation handle on selection, 8 resize handles per selection
+11. Pinch-to-zoom, scroll-wheel zoom, single-finger pan
+12. Undo/redo (bounded at 40), Ctrl+Z/Y, Delete key
+13. Export with PNG/JPEG/WebP + quality slider
+
+### Links
+- **PixellApp live**: https://ucfzem.github.io/pixellapp/
+- **GitHub commit 43bbb5f**: https://github.com/ucfzem/ucfzem.github.io/commit/43bbb5f
+- **GitHub commit 3739f7d**: https://github.com/ucfzem/ucfzem.github.io/commit/3739f7d
