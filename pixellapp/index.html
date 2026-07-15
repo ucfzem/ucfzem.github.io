@@ -185,6 +185,12 @@ class L {
       const fs = Math.round(this.fs);
       ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
       ctx.textAlign = this.al; ctx.textBaseline = 'top';
+      // debug: red background to confirm rendering
+      ctx.fillStyle='#ff0000'; ctx.fillRect(this.x,this.y,this.w,this.h);
+      ctx.fillStyle='#00ff00'; ctx.font='bold 20px Arial'; ctx.textAlign='left'; ctx.textBaseline='top'; ctx.fillText('TEST',this.x,this.y);
+      console.log('TEXT DEBUG:',this.tx,'fs='+fs,'ff='+this.ff,'tc='+this.tc,'x='+this.x,'y='+this.y,'w='+this.w,'h='+this.h);
+      ctx.font = (this.b?'bold ':'')+(this.i?'italic ':'')+fs+'px '+this.ff;
+      ctx.textAlign = this.al; ctx.textBaseline = 'top';
       const lines = this.tx.split('\n'), lineH = fs*1.3, totalH = lines.length*lineH;
       let startY = this.y + (this.h - totalH)/2;
       lines.forEach((t,i)=>{
@@ -230,6 +236,7 @@ function resize(){
   fit(); render();
 }
 function render(){
+  console.log('RENDER called: W='+W+' H='+H+' zoom='+zoom+' layers='+ly.length);
   c.width=W; c.height=H;
   cx.fillStyle='#1a1410'; cx.fillRect(0,0,W,H);
   const sz=16; for(let y=0;y<H;y+=sz) for(let x=0;x<W;x+=sz){(x/sz+y/sz)%2?cx.fillStyle='#1f1812':cx.fillStyle='#17120e';cx.fillRect(x,y,sz,sz)}
@@ -377,6 +384,7 @@ function addOrUpdateText(){
   const l=new L('text',{tx,fs,ff:document.getElementById('sFnt').value,tc:document.getElementById('sCol').value,sd:document.getElementById('sSh').value,sb:+document.getElementById('sBl').value,so:document.getElementById('sSo').value,sw:+document.getElementById('sSw').value,al:document.getElementById('sAl').value,b:document.getElementById('sB').classList.contains('act'),i:document.getElementById('sI').classList.contains('act'),x:(W-estW)/2,y:(H-estH)/2,w:estW,h:estH,n:tx.substring(0,20)});
   ly.push(l); ai=ly.length-1; _editingTextLayer=null; updateTextBtn(); clSh('txtSh');
   curT='sel'; document.querySelectorAll('.bb').forEach(x=>x.classList.toggle('act',x.dataset.t==='sel')); upPr(); render();
+  console.log('TEXT ADDED:',l,'total layers:',ly.length);
 }
 document.getElementById('sSz').addEventListener('input',function(){document.getElementById('sSzV').textContent=this.value;});
 document.getElementById('sBl').addEventListener('input',function(){document.getElementById('sBlV').textContent=this.value;});
