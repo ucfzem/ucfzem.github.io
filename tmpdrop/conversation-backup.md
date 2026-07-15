@@ -330,4 +330,4 @@ PixellApp — professional graphic editor built with vanilla HTML5 Canvas. Canva
 - **Sounds of Nature live**: https://ucfzem.github.io/sounds-of-nature/
 - **VoxForge live**: https://ucfzem.github.io/voxforge/
 - **Works page**: https://ucfzem.github.io/works/
-- **GitHub commit**:
+- **GitHub commit 67c119c**: https://github.com/ucfzem/ucfzem.github.io/commit/67c119c
