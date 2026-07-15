@@ -26,8 +26,15 @@
     .cw{flex:1;position:relative;overflow:hidden;background:#13100c;touch-action:none}
     canvas#c{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 4px 30px rgba(0,0,0,.55);border-radius:2px;touch-action:none}
     #zBadge{position:absolute;bottom:calc(var(--bar-h) + 10px);left:8px;font-size:9px;color:var(--text3);background:rgba(0,0,0,.55);padding:3px 8px;border-radius:4px;pointer-events:none;backdrop-filter:blur(4px)}
-    .br{display:flex;background:var(--panel);border-top:1px solid var(--border);padding:2px 4px;gap:2px;overflow-x:auto;overflow-y:hidden;flex-shrink:0;height:var(--bar-h);align-items:center;-webkit-overflow-scrolling:touch;backdrop-filter:blur(12px)}
+    .br{position:fixed;z-index:40;display:flex;background:var(--panel);border-top:1px solid var(--border);padding:2px 4px;gap:2px;overflow-x:auto;overflow-y:hidden;height:var(--bar-h);align-items:center;-webkit-overflow-scrolling:touch;backdrop-filter:blur(12px);transition:top .2s,left .2s,right .2s,bottom .2s,width .2s}
+    .br.v{flex-direction:column;width:var(--bar-h);height:auto;padding:4px 2px;overflow-x:hidden;overflow-y:auto}
+    .br.v .l{display:none}
+    .br.v .sep{width:26px;height:1px;margin:4px 0}
+    .br.v .bb.act::after{bottom:auto;left:3px;top:25%;right:auto;width:2px;height:50%}
     .br::-webkit-scrollbar{display:none}
+    .br .grip{flex-shrink:0;width:20px;text-align:center;color:var(--text3);font-size:10px;cursor:grab;opacity:.5;transition:opacity .15s;line-height:1;user-select:none;touch-action:none}
+    .br .grip:active{cursor:grabbing;opacity:1}
+    .br.dragging .grip{cursor:grabbing;opacity:1}
     .bb{min-width:44px;height:44px;border:none;background:0 0;color:var(--text2);font-size:16px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0 6px;position:relative;transition:all .12s}
     .bb:active{background:var(--gold3);transform:scale(.92)}
     .bb.act{color:var(--gold)}
@@ -89,6 +96,7 @@
 </div>
 
 <div class="br" id="bar">
+  <span class="grip">⠿</span>
   <button class="bb act" data-t="sel"><span>➤</span><span class="l">Sélect</span></button>
   <button class="bb" data-t="bg"><span>🖼</span><span class="l">Fond</span></button>
   <button class="bb" data-t="img"><span>🏞</span><span class="l">Image</span></button>
@@ -517,6 +525,25 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Delete'||e.key==='Backspace'){if(ai>=0&&ly[ai]&&ly[ai].t!=='bg')delLayer();e.preventDefault();}
   if(e.key==='Escape'){ai=-1;upPr();render();closeAllSheets();}
 });
+
+let barPos='bottom', barDrag=false, barOff={x:0,y:0};
+const grip=document.querySelector('.br .grip');
+function setBarPos(pos){
+  barPos=pos; const bar=document.getElementById('bar'), zb=document.getElementById('zBadge');
+  bar.style.top=''; bar.style.bottom=''; bar.style.left=''; bar.style.right=''; bar.style.width=''; bar.style.flexDirection=''; bar.classList.toggle('v',pos==='left'||pos==='right');
+  document.getElementById('cw').style.paddingTop=''; document.getElementById('cw').style.paddingBottom=''; document.getElementById('cw').style.paddingLeft=''; document.getElementById('cw').style.paddingRight='';
+  zb.style.bottom='';
+  if(pos==='bottom'){bar.style.bottom='0';bar.style.left='0';bar.style.right='0';document.getElementById('cw').style.paddingBottom='var(--bar-h)';zb.style.bottom='calc(var(--bar-h) + 10px)';}
+  else if(pos==='top'){bar.style.top='var(--top-h)';bar.style.left='0';bar.style.right='0';document.getElementById('cw').style.paddingTop='var(--bar-h)';zb.style.bottom='10px';}
+  else if(pos==='left'){bar.style.top='var(--top-h)';bar.style.left='0';bar.style.bottom='0';bar.style.width='var(--bar-h)';document.getElementById('cw').style.paddingLeft='var(--bar-h)';zb.style.bottom='10px';}
+  else if(pos==='right'){bar.style.top='var(--top-h)';bar.style.right='0';bar.style.bottom='0';bar.style.width='var(--bar-h)';document.getElementById('cw').style.paddingRight='var(--bar-h)';zb.style.bottom='10px';}
+}
+grip.addEventListener('mousedown',e=>{e.stopPropagation();barDrag=true;barOff={x:e.clientX,y:e.clientY};document.getElementById('bar').classList.add('dragging');});
+grip.addEventListener('touchstart',e=>{if(e.touches.length===1){e.stopPropagation();barDrag=true;barOff={x:e.touches[0].clientX,y:e.touches[0].clientY};document.getElementById('bar').classList.add('dragging');}},{passive:true});
+document.addEventListener('mousemove',e=>{if(!barDrag)return;barOff={x:e.clientX,y:e.clientY};});
+document.addEventListener('touchmove',e=>{if(!barDrag||e.touches.length!==1)return;barOff={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
+document.addEventListener('mouseup',()=>{if(!barDrag)return;barDrag=false;document.getElementById('bar').classList.remove('dragging');const vh=window.innerHeight,vw=window.innerWidth,ry=barOff.y/vh,rx=barOff.x/vw;setBarPos(ry<.25?'top':ry>.7?'bottom':rx<.33?'left':rx>.66?'right':'bottom');});
+document.addEventListener('touchend',()=>{if(!barDrag)return;barDrag=false;document.getElementById('bar').classList.remove('dragging');const vh=window.innerHeight,vw=window.innerWidth,ry=barOff.y/vh,rx=barOff.x/vw;setBarPos(ry<.25?'top':ry>.7?'bottom':rx<.33?'left':rx>.66?'right':'bottom');});
 
 window.addEventListener('resize',()=>{resize();saveProject()});
 if(!loadProject()) setTimeout(resize,60);
