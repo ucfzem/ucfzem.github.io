@@ -164,7 +164,7 @@ class L {
     this.sh = o.sh||'rect'; this.fl = o.fl||'#c9a84c'; this.sk = o.sk||'transparent'; this.lw = o.lw||0;
     this.tx = o.tx||'Texte'; this.fs = o.fs||36; this.ff = o.ff||'Arial';
     this.b = o.b||false; this.i = o.i||false; this.tc = o.tc||'#e8e0d0';
-    this.sd = o.sd||'#000000'; this.sb = o.sb||3; this.so = o.so||'#000000'; this.sw = o.sw||0;
+    this.sd = o.sd||'#000000'; this.sb = o.sb??0; this.so = o.so||'#000000'; this.sw = o.sw||0;
     this.al = o.al||'center'; this.im = o.im||null; this.imSrc = o.imSrc||null;
   }
   get cx(){return this.x+this.w/2}
@@ -180,6 +180,7 @@ class L {
     ctx.save(); ctx.globalAlpha = this.op;
     if(this.t!=='bg'){ ctx.translate(this.cx,this.cy); ctx.rotate(this.r*Math.PI/180); ctx.translate(-this.cx,-this.cy); }
     if((this.t==='bg'||this.t==='image')&&this.im){
+      if(this.sb>0&&this.sd!=='transparent'){ ctx.shadowColor=this.sd; ctx.shadowBlur=this.sb; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0; }
       ctx.drawImage(this.im, this.x, this.y, this.w, this.h);
     } else if(this.t==='text'){
       const fs = Math.round(this.fs);
@@ -470,6 +471,7 @@ function upPr(){
   h+=`<div class="r"><span class="lb">L</span><input type="number" id="pW" value="${Math.round(l.w)}"><span class="lb">H</span><input type="number" id="pH" value="${Math.round(l.h)}"></div>`;
   h+=`<div class="r"><span class="lb">Rot.</span><input type="range" id="pR" min="0" max="360" value="${l.r}"><span class="vl">${l.r}°</span></div>`;
   h+=`<div class="r"><span class="lb">Opacité</span><input type="range" id="pO" min="0" max="100" value="${Math.round(l.op*100)}"><span class="vl">${Math.round(l.op*100)}%</span></div>`;
+  h+=`<div class="r"><span class="lb">Ombre</span><input type="color" id="pSd" value="${l.sd||'#000000'}" style="flex:none"><span class="lb">Flou</span><input type="range" id="pSb" min="0" max="30" value="${l.sb||0}"><span class="vl" id="pSbV">${l.sb||0}</span></div>`;
   el.innerHTML=h;
   document.getElementById('pX').oninput=function(){l.x=+this.value;render();};
   document.getElementById('pY').oninput=function(){l.y=+this.value;render();};
@@ -477,6 +479,8 @@ function upPr(){
   document.getElementById('pH').oninput=function(){l.h=Math.max(5,+this.value);render();};
   document.getElementById('pR').oninput=function(){l.r=+this.value;this.nextElementSibling.textContent=l.r+'°';render();};
   document.getElementById('pO').oninput=function(){l.op=+this.value/100;this.nextElementSibling.textContent=this.value+'%';render();};
+  document.getElementById('pSd').oninput=function(){l.sd=this.value;render();};
+  document.getElementById('pSb').oninput=function(){l.sb=+this.value;document.getElementById('pSbV').textContent=this.value;render();};
 }
 
 function saveUndo(){undoSt.push(deepCloneLayers(ly));if(undoSt.length>40)undoSt.shift();redoSt=[];}
