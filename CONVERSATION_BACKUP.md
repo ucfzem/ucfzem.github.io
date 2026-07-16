@@ -224,6 +224,8 @@ https://github.com/ucfzem?tab=repositories
 - `b4fcfb2` — fix: CTA em contrast (white on terracotta) + footer language flexbox wrap
 - `2dca30a` — refactor: footer — structured classes, flexbox column, onerror hide broken img
 - `39d658b` — fix: footer inline styles bypass cache — flags kept, onerror, flex column
+- `e0a3b51` — fix: footer stripped to minimal — removed placeholders + dead CSS classes
+- `9882daa` — fix: add laobi badge in gold pill, remove dead footer CSS
 
 ### Fix contraste
 - `.cta-section .section-title em` : `color: #fff` (était `var(--terracotta)` = invisible sur fond terracotta)
