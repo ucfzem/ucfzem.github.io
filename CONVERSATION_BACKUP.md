@@ -190,9 +190,15 @@ https://github.com/ucfzem?tab=repositories
 - `1fa5bd3` — feat: add PixellApp to locked projects with ✦ icon, middle placement
 - `6cc57a6` — fix: remove duplicate VoxForge and Sounds of Nature entries
 - `181e5a6` — feat: organize locked projects into collapsible folders (IA & Vision, Audio & Voix, Design & Créatif, Carrière & Finance, Apprentissage, Partage & Média, Premium, Autres)
+- `fc134ff` — docs: update conversation backup with latest commits
+- `6601edc` — docs: update fixes section with latest features
+- `1fa5bd3` — feat: add PixellApp to locked projects with ✦ icon, middle placement
+- `6cc57a6` — fix: remove duplicate VoxForge and Sounds of Nature entries
+- `181e5a6` — feat: organize locked projects into collapsible folders
+- `[new]` — feat: complete DrawingSand rewrite — 3D sand carving, organic wave, ASMR audio, zen UI
 
 ### Liens
-- **GitHub Pages PixellApp :** https://ucfzem.github.io/pixellapp/
-- **Works page :** https://ucfzem.github.io/works/
+- **PixellApp :** https://ucfzem.github.io/pixellapp/
+- **DrawingSand :** https://ucfzem.github.io/drawingsand/
 - **Repo :** https://github.com/ucfzem/ucfzem.github.io
 - **Backup :** https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION_BACKUP.md
