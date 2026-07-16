@@ -119,13 +119,15 @@
             min-height: 60px;
             white-space: pre-wrap;
         }
-        .copy-btn {
-            background: none;
+        .sec-btn {
+            background: #e8f0ef;
             border: none;
-            color: #0b7a75;
-            font-weight: bold;
-            margin-top: 0.5rem;
+            color: #0b5e5a;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
             font-size: 0.9rem;
         }
         .error {
@@ -171,17 +173,22 @@
 
 
     <div style="font-weight:600;color:#0b5e5a;margin-bottom:0.3rem;">📝 النص الأصلي (بدون تشكيل)</div>
-    <textarea id="inputText" rows="5" placeholder="أدخل النص هنا...">كان معاذ يلعب مع الاطفال</textarea>
-
+    <textarea id="inputText" rows="5" placeholder="أدخل النص العربي غير المشكول..."></textarea>
+    <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+        <button class="sec-btn" onclick="clearAll()">🗑️ مسح</button>
+        <button class="sec-btn" onclick="copyInput()">📋 نسخ</button>
+    </div>
 
     <button class="action-btn" id="tashkeelBtn" onclick="doTashkeel()">
         <span id="btnText">شَكِّل</span>
     </button>
 
-
     <div style="font-weight:600;color:#0b5e5a;margin:0.5rem 0 0.3rem;">✨ النص المشكول</div>
     <div class="result-box" id="resultBox"></div>
-    <button class="copy-btn" onclick="copyResult()">📋 نسخ الناتج</button>
+    <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+        <button class="sec-btn" onclick="clearResult()">🗑️ مسح</button>
+        <button class="sec-btn" onclick="copyResult()">📋 نسخ</button>
+    </div>
     <div id="errorBox"></div>
 </div>
 
@@ -268,7 +275,23 @@
     function copyResult() {
         const text = document.getElementById('resultBox').textContent;
         if (!text) return;
-        navigator.clipboard.writeText(text).then(() => alert('تم النسخ'));
+        navigator.clipboard.writeText(text).then(() => { try { navigator.vibrate(50); } catch(_) {} });
+    }
+
+    function copyInput() {
+        const text = document.getElementById('inputText').value;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => { try { navigator.vibrate(50); } catch(_) {} });
+    }
+
+    function clearAll() {
+        document.getElementById('inputText').value = '';
+        document.getElementById('resultBox').textContent = '';
+        document.getElementById('errorBox').innerHTML = '';
+    }
+
+    function clearResult() {
+        document.getElementById('resultBox').textContent = '';
     }
 </script>
 </body>
