@@ -709,16 +709,60 @@
 
 
   /* ── FOOTER ── */
-  footer {
-    background: var(--ink); color: rgba(245,240,232,0.5);
-    padding: 3rem;
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 1rem;
+  .site-footer {
+    background: var(--ink); color: var(--muted);
+    padding: 24px 16px; text-align: center;
     transition: background .3s, color .3s;
+    font-family: system-ui, -apple-system, sans-serif;
   }
-  body.dark footer { background: var(--cream); }
-  footer .logo { color: var(--paper); }
-  footer p { font-size: 0.8rem; }
+  body.dark .site-footer { background: var(--cream); }
+  .footer-languages {
+    font-size: 14px; display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 8px; margin-bottom: 16px;
+    color: var(--muted);
+  }
+  .footer-languages span {
+    display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+  }
+  .footer-divider {
+    border: 0; border-top: 1px solid var(--border);
+    margin: 16px auto; width: 90%; max-width: 600px;
+  }
+  .footer-bottom-group {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 12px;
+    max-width: 600px; margin: 0 auto;
+  }
+  .footer-visites-container {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 24px;
+  }
+  .footer-icon-image { max-height: 24px; object-fit: contain; }
+  .footer-copyright {
+    font-size: 13px; color: var(--muted);
+    margin: 0; line-height: 1.4;
+  }
+  .footer-status-row {
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: center;
+    gap: 16px; width: 100%; margin-top: 4px; flex-wrap: wrap;
+  }
+  .visitor-badge {
+    display: inline-flex; font-family: monospace;
+    font-size: 11px; font-weight: bold;
+    border-radius: 3px; overflow: hidden;
+  }
+  .visitor-badge .badge-label {
+    background: #555; color: #fff; padding: 3px 6px;
+  }
+  .visitor-badge .badge-count {
+    background: #007ec6; color: #fff; padding: 3px 6px;
+  }
+  .footer-domain-link {
+    font-size: 12px; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .footer-domain-link:hover { color: var(--ink); }
 
 
   /* ── SCROLL ANIMATION ── */
@@ -1385,26 +1429,32 @@
 
 
 <!-- FOOTER -->
-<footer style="padding:40px 20px 24px;text-align:center;font-size:0.85rem;border-top:1px solid var(--border);margin-top:40px">
-  <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;font-family:'Fraunces',serif;color:var(--paper)">
-    Ultralengua<span style="color:var(--gold)">·</span>Pro
+<footer class="site-footer">
+  <div class="footer-languages">
+    <span><span class="fi fi-fr"></span> Français</span>
+    <span><span class="fi fi-gb"></span> Anglais</span>
+    <span><span class="fi fi-es"></span> Espagnol</span>
+    <span><span class="fi fi-de"></span> Allemand</span>
+    <span><span class="fi fi-ma"></span> Arabe</span>
+    <span><span class="fi fi-nl"></span> Néerlandais</span>
   </div>
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 14px;max-width:90%;margin:0 auto 12px;opacity:0.7">
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-fr"></span> Français</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-gb"></span> Anglais</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-es"></span> Espagnol</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-de"></span> Allemand</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-ma"></span> Arabe</span>
-    <span style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap"><span class="fi fi-nl"></span> Néerlandais</span>
+
+  <hr class="footer-divider">
+
+  <div class="footer-bottom-group">
+    <div class="footer-visites-container">
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fucfzem.github.io%2Fultralengua-pro%2F&count_bg=%23C9A84C&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visites&edge_flat=false" alt="visites" class="footer-icon-image" onerror="this.style.display='none'">
+    </div>
+
+    <p class="footer-copyright">
+      &copy; 2026 Ultralengua Pro — Apprentissage des langues par l'IA
+    </p>
+
+    <div class="footer-status-row">
+      <img src="https://visitor-badge.laobi.icu/badge?page_id=ucfzem.ultralengua-pro" alt="visiteurs" style="height:20px;border-radius:3px">
+      <a href="https://ucfzem.github.io/ultralengua-pro/" class="footer-domain-link">ultralengua-pro.netlify.app</a>
+    </div>
   </div>
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fucfzem.github.io%2Fultralengua-pro%2F&count_bg=%23C9A84C&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visites&edge_flat=false" alt="visites" style="margin:10px auto;display:block">
-  <p style="opacity:0.5;font-size:0.8rem">
-    &copy; 2026 Ultralengua Pro — Apprentissage des langues par l'IA
-  </p>
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=ucfzem.ultralengua-pro" alt="visiteurs" style="margin:8px auto;display:block;border-radius:4px">
-  <p style="margin-top:12px;font-size:0.75rem;opacity:0.4">
-    <a href="https://ucfzem.github.io/ultralengua-pro/" style="color:inherit;text-decoration:none">ultralengua-pro.netlify.app</a>
-  </p>
 </footer>
 
 
