@@ -227,6 +227,11 @@ https://github.com/ucfzem?tab=repositories
 - `e0a3b51` — fix: footer stripped to minimal — removed placeholders + dead CSS classes
 - `9882daa` — fix: add laobi badge in gold pill, remove dead footer CSS
 - `a5590af` — fix: replace external visitor badge with localStorage counter
+- `6cc6ac9` — docs: add localStorage counter to backup
+
+### Worker Cloudflare
+- Route `/ultralengua-pro/` modifiée pour servir depuis `raw.githubusercontent.com` avec `Cache-Control: no-cache` — contourne le cache CDN de GitHub Pages
+- Le Worker est maintenant la seule URL garantie à jour
 
 ### Fix contraste
 - `.cta-section .section-title em` : `color: #fff` (était `var(--terracotta)` = invisible sur fond terracotta)
