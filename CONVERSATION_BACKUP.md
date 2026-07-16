@@ -222,12 +222,16 @@ https://github.com/ucfzem?tab=repositories
 - `2d8a1c0` — fix: improve Arabic quiz readability — larger font, RTL, high contrast
 - `8577fbf` — fix: BiDi ellipsis in Arabic quiz — add RLM + unicode-bidi plaintext
 - `b4fcfb2` — fix: CTA em contrast (white on terracotta) + footer language flexbox wrap
+- `2dca30a` — refactor: footer — structured classes, flexbox column, onerror hide broken img
 
 ### Fix contraste
 - `.cta-section .section-title em` : `color: #fff` (était `var(--terracotta)` = invisible sur fond terracotta)
 
-### Fix footer langues
-- Langues converties de `<p>` avec séparateur `·` → `<div flex>` avec `flex-wrap`, `justify-content: center`, `gap`, `white-space: nowrap` sur chaque item
+### Refactor footer
+- Footer converti en classes structurées (`.site-footer`, `.footer-languages`, `.footer-bottom-group`, `.footer-status-row`)
+- `flex-direction: column` + `align-items: center` pour un stacking vertical centré
+- `onerror="this.style.display='none'"` sur l'image visites (cache le broken icon si l'image échoue)
+- Toutes les couleurs utilisent les CSS variables (`--ink`, `--muted`, `--border`, `--cream`)
 - `[dir="rtl"] .quiz-prompt` : font-size `1.4rem`, line-height `1.8`, weight `500`, color `var(--ink)`, unicode-bidi plaintext
 - `[dir="rtl"] .quiz-options` : direction rtl + align right
 - `[dir="rtl"] .quiz-option` : font-size `1.1rem`, line-height `1.6`
