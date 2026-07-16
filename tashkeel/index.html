@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مُشَكِّل – تشكيل النصوص العربية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .card {
+            max-width: 580px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+        }
+        h1 {
+            font-family: 'Amiri', serif;
+            color: #0b5e5a;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #5a6a7a;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        .key-section {
+            background: #f0f5f5;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .key-section label {
+            font-weight: 600;
+            color: #0b5e5a;
+            white-space: nowrap;
+        }
+        .key-section input {
+            flex: 1;
+            min-width: 160px;
+            padding: 0.6rem 0.8rem;
+            border: 2px solid #d1dfde;
+            border-radius: 8px;
+            font-family: monospace;
+            direction: ltr;
+        }
+        .key-section button {
+            background: #0b7a75;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+        }
+        .saved-badge {
+            font-size: 0.85rem;
+            color: #2d6a4f;
+            display: none;
+        }
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Amiri', serif;
+            font-size: 1.3rem;
+            line-height: 2.3;
+            border: 2px solid #e0e8e6;
+            border-radius: 14px;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+        textarea:focus {
+            border-color: #0b7a75;
+            outline: none;
+        }
+        .action-btn {
+            width: 100%;
+            background: #0b7a75;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.3rem;
+            transition: background 0.2s;
+        }
+        .action-btn:disabled {
+            background: #a0bebc;
+        }
+        .result-box {
+            background: #f9fbfd;
+            border: 2px solid #dce7e5;
+            border-radius: 14px;
+            padding: 1.2rem;
+            margin-top: 1.2rem;
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            line-height: 2.6;
+            min-height: 60px;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #0b7a75;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .error {
+            color: #c0392b;
+            background: #fdedec;
+            padding: 0.7rem;
+            border-radius: 8px;
+            margin-top: 0.8rem;
+        }
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>📝 مُشَكِّل</h1>
+    <p class="subtitle">تشكيل احترافي – أدخل النص العربي غير المشكول</p>
+
+
+    <!-- API Key section with save button -->
+    <div class="key-section">
+        <label>🔑 مفتاح HF</label>
+        <input type="password" id="apiKeyInput" placeholder="hf_..." dir="ltr">
+        <button onclick="saveKey()">💾 حفظ</button>
+        <span class="saved-badge" id="savedBadge">✓ محفوظ</span>
+    </div>
+
+
+    <textarea id="inputText" rows="5" placeholder="أدخل النص هنا...">كان معاذ يلعب مع الاطفال</textarea>
+
+
+    <button class="action-btn" id="tashkeelBtn" onclick="doTashkeel()">
+        <span id="btnText">شَكِّل</span>
+    </button>
+
+
+    <div class="result-box" id="resultBox"></div>
+    <button class="copy-btn" onclick="copyResult()">📋 نسخ الناتج</button>
+    <div id="errorBox"></div>
+</div>
+
+
+<script>
+    const HF_API = 'https://api-inference.huggingface.co/models/tarteel-ai/aratashkeel';
+    const STORAGE_KEY = 'tashkeel_hf_token';
+
+
+    // Load saved key on page start
+    (function() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            document.getElementById('apiKeyInput').value = saved;
+            document.getElementById('savedBadge').style.display = 'inline';
+        }
+    })();
+
+
+    function saveKey() {
+        const key = document.getElementById('apiKeyInput').value.trim();
+        if (!key) return alert('أدخل المفتاح أولاً');
+        localStorage.setItem(STORAGE_KEY, key);
+        document.getElementById('savedBadge').style.display = 'inline';
+    }
+
+
+    function getKey() {
+        return document.getElementById('apiKeyInput').value.trim() || localStorage.getItem(STORAGE_KEY) || '';
+    }
+
+
+    async function doTashkeel() {
+        const token = getKey();
+        if (!token) {
+            alert('يرجى إدخال مفتاح Hugging Face ثم الضغط على "حفظ"');
+            return;
+        }
+        const text = document.getElementById('inputText').value.trim();
+        if (!text) return;
+
+
+        const btn = document.getElementById('tashkeelBtn');
+        const btnText = document.getElementById('btnText');
+        const resultBox = document.getElementById('resultBox');
+        const errorBox = document.getElementById('errorBox');
+
+
+        btn.disabled = true;
+        btnText.innerHTML = '<span class="spinner"></span> جاري التشكيل...';
+        resultBox.textContent = '';
+        errorBox.innerHTML = '';
+
+
+        try {
+            const response = await fetch(HF_API, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ inputs: text })
+            });
+
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}));
+                throw new Error(err.error || `خطأ ${response.status}`);
+            }
+
+
+            const data = await response.json();
+            let diacritized = data?.[0]?.generated_text || data?.generated_text || '';
+            if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
+            resultBox.textContent = diacritized || '(لا يوجد ناتج)';
+        } catch (error) {
+            errorBox.innerHTML = `<div class="error">❌ ${error.message}</div>`;
+        } finally {
+            btn.disabled = false;
+            btnText.textContent = 'شَكِّل';
+        }
+    }
+
+
+    function copyResult() {
+        const text = document.getElementById('resultBox').textContent;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => alert('تم النسخ'));
+    }
+</script>
+</body>
+</html>
