@@ -197,12 +197,21 @@
     const API_ENDPOINT = 'https://tashkeel-five.vercel.app/api/tashkeel';
     const GROQ_STORAGE = 'tashkeel_groq_token';
     const HF_STORAGE = 'tashkeel_hf_token';
+    const TEXT_STORAGE = 'tashkeel_input_text';
+    const RESULT_STORAGE = 'tashkeel_result';
 
     (function() {
         const g = localStorage.getItem(GROQ_STORAGE);
         const h = localStorage.getItem(HF_STORAGE);
         if (g) { document.getElementById('groqKeyInput').value = g; document.getElementById('groqSavedBadge').style.display = 'inline'; }
         if (h) { document.getElementById('hfKeyInput').value = h; document.getElementById('hfSavedBadge').style.display = 'inline'; }
+        const savedText = localStorage.getItem(TEXT_STORAGE);
+        if (savedText) document.getElementById('inputText').value = savedText;
+        const savedResult = localStorage.getItem(RESULT_STORAGE);
+        if (savedResult) document.getElementById('resultBox').textContent = savedResult;
+        document.getElementById('inputText').addEventListener('input', function() {
+            localStorage.setItem(TEXT_STORAGE, this.value);
+        });
     })();
 
     function saveKey(provider) {
@@ -258,6 +267,7 @@
             let diacritized = data?.result || data?.[0]?.generated_text || data?.generated_text || '';
             if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
             resultBox.textContent = diacritized || '(لا يوجد ناتج)';
+            localStorage.setItem(RESULT_STORAGE, resultBox.textContent);
             try { navigator.vibrate(100); } catch(_) {}
         } catch (error) {
             const isNetworkErr = error instanceof TypeError && error.message === 'Failed to fetch';
@@ -288,10 +298,13 @@
         document.getElementById('inputText').value = '';
         document.getElementById('resultBox').textContent = '';
         document.getElementById('errorBox').innerHTML = '';
+        localStorage.removeItem(TEXT_STORAGE);
+        localStorage.removeItem(RESULT_STORAGE);
     }
 
     function clearResult() {
         document.getElementById('resultBox').textContent = '';
+        localStorage.removeItem(RESULT_STORAGE);
     }
 </script>
 </body>
