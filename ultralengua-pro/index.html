@@ -409,7 +409,7 @@
   }
   .quiz-question { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); }
   .quiz-prompt { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
-  [dir="rtl"] .quiz-prompt { font-size: 1.4rem; line-height: 1.8; font-weight: 500; color: var(--ink); }
+  [dir="rtl"] .quiz-prompt { font-size: 1.4rem; line-height: 1.8; font-weight: 500; color: var(--ink); unicode-bidi: plaintext; }
   [dir="rtl"] .quiz-options { direction: rtl; text-align: right; }
   [dir="rtl"] .quiz-option { font-size: 1.1rem; line-height: 1.6; }
   .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
@@ -1447,9 +1447,9 @@ const QUIZZES = {
   ],
   ar: [
     { q: 'سَافَرَ الطَّالِبُ إِلَى الجَامِعَةِ ... يَطْلُبَ العِلْمَ.', options: ['كَيْ', 'لَمْ', 'عَنْ', 'ثُمَّ'], correct: 0 },
-    { q: 'عَادَ الجُنُودُ مِنَ المَعْرَكَةِ ...', options: ['مُنْتَصِرُونَ', 'مُنْتَصِرِينَ', 'مُنْتَصِرٍ', 'مُنْتَصِرَانِ'], correct: 1 },
+    { q: 'عَادَ الجُنُودُ مِنَ المَعْرَكَةِ ‏...', options: ['مُنْتَصِرُونَ', 'مُنْتَصِرِينَ', 'مُنْتَصِرٍ', 'مُنْتَصِرَانِ'], correct: 1 },
     { q: 'لَمْ ... المَطَرُ بِغَزَارَةٍ البَارِحَةَ.', options: ['يَنْزِلُ', 'يَنْزِلَ', 'يَنْزِلْ', 'نُزُولٌ'], correct: 2 },
-    { q: 'كَانَ الجَوُّ بَارِداً، لَكِنَّ الشَّمْسَ ...', options: ['مُشْرِقَةٌ', 'مُشْرِقَةً', 'مُشْرِقَةٍ', 'مُشْرِقَاتٌ'], correct: 0 },
+    { q: 'كَانَ الجَوُّ بَارِداً، لَكِنَّ الشَّمْسَ ‏...', options: ['مُشْرِقَةٌ', 'مُشْرِقَةً', 'مُشْرِقَةٍ', 'مُشْرِقَاتٌ'], correct: 0 },
     { q: 'اشْتَرَيْتُ كِتَاباً ... جَدِيداً مِنَ المَعْرِضِ.', options: ['قِصَصِيٌّ', 'قِصَصِيّاً', 'قِصَصِيٍّ', 'قِصَصٌ'], correct: 1 },
   ],
   nl: [
