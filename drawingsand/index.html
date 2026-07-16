@@ -1,241 +1,1197 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Sand Draw Professional Edition</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#0d0d14;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;font-family:system-ui,-apple-system,sans-serif}
-canvas#c{display:block;width:100vw;height:100dvh;touch-action:none;cursor:crosshair}
-#ui{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;
-  display:flex;gap:6px;align-items:center;
-  background:rgba(20,18,26,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:8px 14px}
-#ui button{background:0 0;border:none;color:#8a7a5a;width:32px;height:32px;border-radius:10px;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:15px;transition:all .15s;flex-shrink:0}
-#ui button:active{background:rgba(201,168,76,.15);color:#c9a84c;transform:scale(.88)}
-#ui button.active{color:#c9a84c;background:rgba(201,168,76,.12)}
-#ui .d{width:1px;height:20px;background:rgba(255,255,255,.06)}
-#sizeSlider{-webkit-appearance:none;appearance:none;width:60px;height:3px;background:rgba(255,255,255,.08);
-  border-radius:2px;outline:0;cursor:pointer;flex-shrink:0}
-#sizeSlider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
-  background:#c9a84c;cursor:pointer;border:2px solid #0d0d14}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Sand Draw – Professional Beach Edition</title>
+    <style>
+        :root {
+            --toolbar-bg: rgba(18, 18, 24, 0.88);
+            --btn-bg: rgba(255, 255, 255, 0.07);
+            --btn-hover: rgba(255, 255, 255, 0.18);
+            --btn-active: rgba(100, 180, 255, 0.55);
+            --text: #eee;
+            --accent: #8cc8ff;
+            --divider: rgba(255, 255, 255, 0.18);
+            --panel-bg: rgba(10, 10, 16, 0.9);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            z-index: 1;
+        }
+        #hint-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.45);
+            font-size: clamp(15px, 2.4vw, 19px);
+            pointer-events: none;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            transition: opacity 0.6s;
+            line-height: 1.5;
+        }
+
+
+        /* ── TOOLBAR ── */
+        #toolbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            background: var(--toolbar-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 10px));
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.3s;
+        }
+        .tool-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 0 7px;
+            border-right: 1px solid var(--divider);
+        }
+        .tool-group:last-child {
+            border-right: none;
+        }
+        .tool-btn {
+            background: var(--btn-bg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text);
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .tool-btn:hover {
+            background: var(--btn-hover);
+            border-color: #fff;
+        }
+        .tool-btn.active {
+            background: var(--btn-active);
+            border-color: var(--accent);
+            box-shadow: 0 0 14px rgba(100, 180, 255, 0.55);
+        }
+        .tool-btn.wave-active {
+            background: rgba(70, 150, 230, 0.5);
+            border-color: #adf;
+            animation: pulse 1.2s infinite;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(100, 180, 240, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(100, 180, 240, 0);
+            }
+        }
+
+
+        /* ── SAND COLORS ── */
+        .sand-color {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .sand-color.active {
+            border-color: #fff;
+            box-shadow: 0 0 12px white;
+            transform: scale(1.18);
+        }
+
+
+        /* ── STAMPS ── */
+        .stamp-btn {
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+        }
+
+
+        /* ── SLIDERS ── */
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            min-width: 50px;
+        }
+        .slider-group label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 60px;
+            height: 5px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(100, 180, 255, 0.5);
+        }
+
+
+        /* ── BADGE ── */
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
+            color: #fff;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 680px) {
+            .tool-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 15px;
+                border-radius: 7px;
+            }
+            .stamp-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 15px;
+            }
+            #toolbar {
+                gap: 3px;
+                padding: 6px 5px calc(6px + env(safe-area-inset-bottom, 6px));
+            }
+            .tool-group {
+                gap: 3px;
+                padding: 0 4px;
+            }
+            input[type="range"] {
+                width: 40px;
+                height: 4px;
+            }
+            input[type="range"]::-webkit-slider-thumb {
+                width: 14px;
+                height: 14px;
+            }
+            .sand-color {
+                width: 22px;
+                height: 22px;
+            }
+            .slider-group label {
+                font-size: 7px;
+            }
+        }
+    </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-<div id="ui">
-  <button id="waveBtn" title="Vague">🌊</button>
-  <div class="d"></div>
-  <button id="undoBtn" title="Annuler">↩</button>
-  <button id="clearBtn" title="Effacer">✕</button>
-  <div class="d"></div>
-  <input type="range" id="sizeSlider" min="0.5" max="4" value="1" step="0.1">
-  <div class="d"></div>
-  <button id="saveBtn" title="Sauvegarder">⬇</button>
-</div>
-<script>
-var CFG = {
-  brushRad:0.03, brushDepth:0.55, waveFoamW:0.04
-};
+    <canvas id="sandCanvas"></canvas>
+    <div id="hint-text">
+        ✨ Dessinez sur le sable<br>
+        <small style="opacity:0.65;">Glissez votre doigt ou la souris</small>
+    </div>
 
-var c=document.getElementById('c');
-var gl=c.getContext('webgl2',{alpha:false,antialias:true,stencil:false,depth:false,premultipliedAlpha:false});
-if(!gl)throw'no WebGL2';
 
-function S(t,s){var S=gl.createShader(gl[t]);gl.shaderSource(S,s);gl.compileShader(S);if(!gl.getShaderParameter(S,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(S);return S}
-function P(v,f){var p=gl.createProgram();gl.attachShader(p,S('VERTEX_SHADER',v));gl.attachShader(p,S('FRAGMENT_SHADER',f));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw gl.getProgramInfoLog(p);return p}
+    <!-- ── TOOLBAR ── -->
+    <div id="toolbar">
+        <!-- Outils principaux -->
+        <div class="tool-group">
+            <button class="tool-btn active" id="brushTool" title="Pinceau (B)">🖌️</button>
+            <button class="tool-btn" id="stampTool" title="Tampons (S)">🏖️</button>
+            <button class="tool-btn" id="eraserTool" title="Lisser le sable (E)">🫧</button>
+            <button class="tool-btn" id="rakeTool" title="Râteau / Peigne (R)">🪮</button>
+        </div>
 
-var VS = '#version 300 es\nin vec2 a_pos;out vec2 v_uv;void main(){v_uv=a_pos*0.5+0.5;gl_Position=vec4(a_pos,0.0,1.0);}';
 
-var SAND = '#version 300 es\nprecision highp float;in vec2 v_uv;uniform sampler2D u_hm;uniform vec2 u_hmS;uniform float u_wv;uniform float u_t;out vec4 fC;' +
-'float h2(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}' +
-'void main(){' +
-  'vec2 uv=v_uv;' +
-  'float h=texture(u_hm,uv).r;' +
-  'vec2 tx=1.0/u_hmS;' +
-  'float hL=texture(u_hm,uv+vec2(-tx.x,0)).r;float hR=texture(u_hm,uv+vec2(tx.x,0)).r;' +
-  'float hD=texture(u_hm,uv+vec2(0,-tx.y)).r;float hU=texture(u_hm,uv+vec2(0,tx.y)).r;' +
-  'vec3 N=normalize(vec3(hL-hR,hD-hU,0.25));' +
-  'vec3 L=normalize(vec3(0.4,0.2,1.0));' +
-  'float df=max(dot(N,L),0.0);' +
-  'float cA=1.0-(1.0-h)*0.7;' +
-  'float lt=(0.25+df*0.75)*cA;' +
-  'float hn=h2(uv*1200.0);' +
-  'float f1=h2(uv*47.0+u_t*0.005);float f2=h2(uv*91.3+u_t*0.003);' +
-  'float g=hn*0.3+f1*0.15+f2*0.1;' +
-  'vec3 bg=mix(vec3(0.65,0.52,0.30),vec3(0.78,0.65,0.42),f1*0.5+0.5);' +
-  'bg=mix(bg,vec3(0.50,0.38,0.20),(1.0-h)*0.45);' +
-  'bg+=g*0.12;' +
-  'float fd=uv.x-u_wv;float fm=1.0-smoothstep(0.0,0.04,fd);' +
-  'if(fm>0.0){fm*=0.5+0.5*sin(uv.y*80.0+u_wv*30.0+u_t*5.0);bg=mix(bg,vec3(1.0,0.97,0.88),fm*0.9);}' +
-  'if(uv.x<u_wv){bg=mix(bg,bg*0.70,0.4);}' +
-  'fC=vec4(bg*lt,1.0);' +
-'}';
+        <!-- Sliders taille & intensité -->
+        <div class="tool-group">
+            <div class="slider-group">
+                <label>↔️ Taille</label>
+                <input type="range" id="sizeSlider" min="0.3" max="2.5" value="1" step="0.05" title="Taille du pinceau">
+            </div>
+            <div class="slider-group">
+                <label>🔽 Prof.</label>
+                <input type="range" id="depthSlider" min="0.15" max="0.9" value="0.45" step="0.02" title="Profondeur du trait">
+            </div>
+        </div>
 
-var BRUSH = '#version 300 es\nprecision highp float;uniform sampler2D u_pr;uniform vec2 u_ct;uniform float u_rad;uniform float u_dep;uniform vec2 u_hmS;out vec4 fC;' +
-'void main(){' +
-  'vec2 uv=gl_FragCoord.xy/u_hmS;' +
-  'float cur=texture(u_pr,uv).r;' +
-  'float d=distance(uv,u_ct);' +
-  'float f=1.0-smoothstep(0.0,u_rad,d);' +
-  'float nw=cur-u_dep*f;' +
-  'fC=vec4(max(nw,0.0),0.0,0.0,1.0);' +
-'}';
 
-var WAVE = '#version 300 es\nprecision highp float;in vec2 v_uv;uniform sampler2D u_pr;uniform float u_wv;uniform vec2 u_hmS;out vec4 fC;' +
-'void main(){' +
-  'vec2 uv=gl_FragCoord.xy/u_hmS;' +
-  'float h=texture(u_pr,uv).r;' +
-  'float n=sin(uv.y*25.0+u_wv*12.0)*0.025+cos(uv.y*40.0+u_wv*9.0)*0.015;' +
-  'if(uv.x<u_wv+n)h=0.90;' +
-  'fC=vec4(h,0.0,0.0,1.0);' +
-'}';
+        <!-- Couleurs de sable -->
+        <div class="tool-group" id="sandColors">
+            <div class="sand-color active" data-sand="default" style="background:#c8a45c;" title="Doré"></div>
+            <div class="sand-color" data-sand="white" style="background:#f0e6d2;" title="Blanc"></div>
+            <div class="sand-color" data-sand="black" style="background:#3a332b;" title="Volcanique"></div>
+            <div class="sand-color" data-sand="pink" style="background:#f2c4b3;" title="Rose"></div>
+            <div class="sand-color" data-sand="coral" style="background:#e8a87c;" title="Corail"></div>
+            <div class="sand-color" data-sand="olive" style="background:#b5a67c;" title="Olive"></div>
+        </div>
 
-var sandP=P(VS,SAND),brushP=P(VS,BRUSH),waveP=P(VS,WAVE);
-var ul=[{},{},{}],pr=[sandP,brushP,waveP];
-for(var pi=0;pi<3;pi++){var p=pr[pi],n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);for(var i=0;i<n;i++){var inf=gl.getActiveUniform(p,i);ul[pi][inf.name]=gl.getUniformLocation(p,inf.name);if(inf.type==gl.SAMPLER_2D)gl.uniform1i(ul[pi][inf.name],0);}}
 
-var qvao=gl.createVertexArray();gl.bindVertexArray(qvao);
-var qb=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,qb);
-gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,1,1,-1,-1,1,1,-1,1]),gl.STATIC_DRAW);
-gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
-gl.bindVertexArray(null);
+        <!-- Tampons (caché par défaut) -->
+        <div class="tool-group" id="stamps" style="display:none;">
+            <button class="tool-btn stamp-btn active" data-stamp="tree">🌴</button>
+            <button class="tool-btn stamp-btn" data-stamp="flipflops">🩴</button>
+            <button class="tool-btn stamp-btn" data-stamp="umbrella">🏖️</button>
+            <button class="tool-btn stamp-btn" data-stamp="chair">🪑</button>
+            <button class="tool-btn stamp-btn" data-stamp="glasses">🕶️</button>
+            <button class="tool-btn stamp-btn" data-stamp="glass">🥤</button>
+            <button class="tool-btn stamp-btn" data-stamp="bottle">🍾</button>
+            <button class="tool-btn stamp-btn" data-stamp="mask">🤿</button>
+            <button class="tool-btn stamp-btn" data-stamp="harpoon">🔱</button>
+            <button class="tool-btn stamp-btn" data-stamp="shell">🐚</button>
+            <button class="tool-btn stamp-btn" data-stamp="starfish">⭐</button>
+            <button class="tool-btn stamp-btn" data-stamp="castle">🏰</button>
+            <button class="tool-btn stamp-btn" data-stamp="crab">🦀</button>
+            <button class="tool-btn stamp-btn" data-stamp="fish">🐠</button>
+        </div>
 
-var hW,hH,hT=[],hF=[],rI=0,wI=1;
-function initHM(w,h){
-  hW=w;hH=h;
-  for(var i=0;i<2;i++){
-    hT[i]=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,hT[i]);
-    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-    var d=new Uint8Array(w*h*4);
-    for(var j=0;j<d.length;j+=4){d[j]=255;d[j+3]=255;}
-    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,d);
-    hF[i]=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,hF[i]);
-    gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,hT[i],0);
-  }
-  gl.bindFramebuffer(gl.FRAMEBUFFER,null);rI=0;wI=1;
-}
 
-function resize(){
-  var W=innerWidth,H=innerHeight;
-  var dpr=Math.min(devicePixelRatio||1,2);
-  c.width=W*dpr;c.height=H*dpr;
-  c.style.width=W+'px';c.style.height=H+'px';
-  gl.viewport(0,0,W*dpr,H*dpr);
-  initHM(Math.ceil(W/2),Math.ceil(H/2));
-}
+        <!-- Actions -->
+        <div class="tool-group">
+            <button class="tool-btn" id="undoBtn" title="Annuler (Ctrl+Z)">↩️</button>
+            <button class="tool-btn" id="redoBtn" title="Rétablir (Ctrl+Y)">↪️</button>
+            <button class="tool-btn" id="waveBtn" title="Vague d'effacement 🌊">🌊</button>
+            <button class="tool-btn" id="resetBtn" title="Tout effacer">🗑️</button>
+            <button class="tool-btn" id="saveBtn" title="Sauvegarder l'image">📸</button>
+        </div>
+    </div>
 
-var drawing=false,px=0,py=0,szM=1;
-var wvAct=false,wvPr=0;
-function swp(){var t=rI;rI=wI;wI=t;}
 
-function render(t){
-  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
-  gl.viewport(0,0,c.width,c.height);
-  gl.useProgram(sandP);
-  gl.uniform2f(ul[0]['u_hmS'],hW,hH);
-  gl.uniform1f(ul[0]['u_wv'],wvPr);
-  gl.uniform1f(ul[0]['u_t'],t*0.001);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D,hT[rI]);
-  gl.bindVertexArray(qvao);
-  gl.drawArrays(gl.TRIANGLES,0,6);
-}
+    <script>
+        (function() {
+            // ══════════════════════════════════════════
+            // CONFIGURATION
+            // ══════════════════════════════════════════
+            const SAND_CONFIG = {
+                brushRadius: 0.022,
+                brushDepth: 0.45,
+                sandSoftness: 0.18,
+                wetSandContrast: 0.55,
+                waveSpeed: 1.6,
+                waveFrequency: 22.0,
+                waveFoamWidth: 0.06,
+                lightAzimuth: 0.65,
+                lightAltitude: 0.55,
+                lightIntensity: 1.2,
+                ambientLight: 0.35,
+                reliefScale: 7.5,
+                grainStrength: 0.3,
+            };
 
-function tick(t){
-  if(wvAct){
-    var dur=3500,span=t-wvSt;
-    wvPr=Math.min(span/dur,1.1);
-    var es=wvPr<0.5?2*wvPr*wvPr:1-Math.pow(-2*wvPr+2,2)/2;
-    es=Math.min(es,1);
-    gl.bindFramebuffer(gl.FRAMEBUFFER,hF[wI]);
-    gl.viewport(0,0,hW,hH);
-    gl.useProgram(waveP);
-    gl.uniform1f(ul[2]['u_wv'],es);
-    gl.uniform2f(ul[2]['u_hmS'],hW,hH);
-    gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,hT[rI]);
-    gl.bindVertexArray(qvao);gl.drawArrays(gl.TRIANGLES,0,6);
-    swp();gl.bindFramebuffer(gl.FRAMEBUFFER,null);
-    if(wvPr>=1.1){wvAct=false;wvPr=0;document.getElementById('waveBtn').classList.remove('active');}
-  }
-  render(t);
-  if(wvAct||drawing)requestAnimationFrame(tick);
-}
 
-var wvSt=0;
-function startWave(){
-  if(wvAct)return;
-  wvAct=true;wvSt=performance.now();wvPr=0;
-  document.getElementById('waveBtn').classList.add('active');
-  if(!drawing)requestAnimationFrame(tick);
-}
+            const SAND_TYPES = {
+                default: { base1: [0.82, 0.65, 0.38], base2: [0.71, 0.52, 0.28], base3: [0.60, 0.42, 0.20],
+                    grain: 0.08 },
+                white: { base1: [0.95, 0.90, 0.82], base2: [0.88, 0.82, 0.72], base3: [0.78, 0.72, 0.62], grain: 0.05 },
+                black: { base1: [0.28, 0.24, 0.20], base2: [0.20, 0.16, 0.12], base3: [0.12, 0.08, 0.05], grain: 0.12 },
+                pink: { base1: [0.95, 0.78, 0.72], base2: [0.88, 0.68, 0.62], base3: [0.78, 0.55, 0.48], grain: 0.06 },
+                coral: { base1: [0.92, 0.66, 0.50], base2: [0.82, 0.56, 0.40], base3: [0.68, 0.42, 0.30],
+                grain: 0.07 },
+                olive: { base1: [0.72, 0.66, 0.50], base2: [0.62, 0.56, 0.40], base3: [0.50, 0.44, 0.30],
+                grain: 0.09 },
+            };
 
-function brush(cx,cy){
-  gl.bindFramebuffer(gl.FRAMEBUFFER,hF[wI]);
-  gl.viewport(0,0,hW,hH);
-  gl.useProgram(brushP);
-  gl.uniform2f(ul[1]['u_ct'],cx,cy);
-  gl.uniform1f(ul[1]['u_rad'],CFG.brushRad*szM);
-  gl.uniform1f(ul[1]['u_dep'],CFG.brushDepth);
-  gl.uniform2f(ul[1]['u_hmS'],hW,hH);
-  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,hT[rI]);
-  gl.bindVertexArray(qvao);gl.drawArrays(gl.TRIANGLES,0,6);
-  swp();gl.bindFramebuffer(gl.FRAMEBUFFER,null);
-}
 
-var Vp=function(){this.a=[];this.i=0;};
-Vp.prototype.aN=function(n){while(this.a.length<this.i+n)this.a.push({x:0,y:0});var r=[];for(var j=0;j<n;j++)r.push(this.a[this.i++]);return r;};
-Vp.prototype.reset=function(){this.i=0;};
-var pool=new Vp();
+            // ══════════════════════════════════════════
+            // DOM & ÉTAT
+            // ══════════════════════════════════════════
+            const canvas = document.getElementById('sandCanvas');
+            const hintText = document.getElementById('hint-text');
+            let currentTool = 'brush';
+            let currentSand = 'default';
+            let currentStamp = 'tree';
+            let hintHidden = false;
+            let brushSizeMultiplier = 1;
+            let brushDepthValue = 0.45;
+            let undoStack = [];
+            let redoStack = [];
+            const MAX_UNDO = 30;
 
-function lerp(x1,y1,x2,y2){
-  var d=Math.hypot(x2-x1,y2-y1);
-  var step=CFG.brushRad*szM*0.4;
-  var steps=Math.max(1,Math.ceil(d/step));
-  pool.reset();var pts=pool.aN(steps+1);
-  for(var i=0;i<=steps;i++){var t=i/steps;pts[i].x=x1+(x2-x1)*t;pts[i].y=y1+(y2-y1)*t;}
-  return pts;
-}
 
-function pPos(e){
-  var r=c.getBoundingClientRect();
-  var cx=e.touches?e.touches[0].clientX:e.clientX;
-  var cy=e.touches?e.touches[0].clientY:e.clientY;
-  return{x:(cx-r.left)/c.clientWidth,y:(cy-r.top)/c.clientHeight};
-}
+            const brushToolBtn = document.getElementById('brushTool');
+            const stampToolBtn = document.getElementById('stampTool');
+            const eraserToolBtn = document.getElementById('eraserTool');
+            const rakeToolBtn = document.getElementById('rakeTool');
+            const waveBtn = document.getElementById('waveBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const undoBtn = document.getElementById('undoBtn');
+            const redoBtn = document.getElementById('redoBtn');
+            const stampsDiv = document.getElementById('stamps');
+            const sizeSlider = document.getElementById('sizeSlider');
+            const depthSlider = document.getElementById('depthSlider');
+            const sandColorDivs = document.querySelectorAll('.sand-color');
+            const stampButtons = document.querySelectorAll('.stamp-btn');
 
-function onDown(e){e.preventDefault();var p=pPos(e);drawing=true;px=p.x;py=p.y;brush(px,py);if(!wvAct)requestAnimationFrame(tick);}
-function onMove(e){e.preventDefault();if(!drawing)return;var p=pPos(e);var pts=lerp(px,py,p.x,p.y);for(var i=0;i<pts.length;i++)brush(pts[i].x,pts[i].y);px=p.x;py=p.y;pool.reset();}
-function onUp(e){e.preventDefault();drawing=false;}
 
-function clr(){
-  gl.bindFramebuffer(gl.FRAMEBUFFER,hF[wI]);
-  gl.viewport(0,0,hW,hH);
-  gl.clearColor(1.0,0,0,1);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  swp();gl.bindFramebuffer(gl.FRAMEBUFFER,null);
-}
+            function hideHint() {
+                if (!hintHidden) {
+                    hintHidden = true;
+                    hintText.style.opacity = '0';
+                }
+            }
+            function showHint(msg) {
+                hintHidden = false;
+                hintText.innerHTML = msg;
+                hintText.style.opacity = '1';
+                setTimeout(() => { if (!hintHidden) hintText.style.opacity = '0';
+                    hintHidden = true; }, 2000);
+            }
 
-c.addEventListener('pointerdown',onDown);
-c.addEventListener('pointermove',onMove);
-c.addEventListener('pointerup',onUp);
-c.addEventListener('pointerleave',onUp);
 
-document.getElementById('waveBtn').addEventListener('click',startWave);
-document.getElementById('undoBtn').addEventListener('click',function(){clr();requestAnimationFrame(tick);});
-document.getElementById('clearBtn').addEventListener('click',function(){clr();requestAnimationFrame(tick);});
-document.getElementById('saveBtn').addEventListener('click',function(){var d=c.toDataURL('image/png');var a=document.createElement('a');a.download='sand.png';a.href=d;a.click();});
-document.getElementById('sizeSlider').addEventListener('input',function(){szM=+this.value;});
+            // ══════════════════════════════════════════
+            // WEBGL
+            // ══════════════════════════════════════════
+            let gl;
+            try {
+                gl = canvas.getContext('webgl2', { alpha: false, antialias: false, powerPreference: 'high-performance',
+                    preserveDrawingBuffer: true });
+            } catch (e) { gl = null; }
+            if (!gl) {
+                hintText.innerHTML = '❌ WebGL 2 non supporté.';
+                return;
+            }
 
-addEventListener('resize',resize);
-resize();
-requestAnimationFrame(tick);
-</script>
+
+            const VERT = `#version 300 es
+                in vec2 a_position;
+                out vec2 v_uv;
+                void main() {
+                    v_uv = a_position * 0.5 + 0.5;
+                    gl_Position = vec4(a_position, 0.0, 1.0);
+                }`;
+
+
+            const FRAG = `#version 300 es
+                precision highp float;
+                in vec2 v_uv;
+                out vec4 fragColor;
+                uniform sampler2D u_heightmap, u_noiseTex;
+                uniform vec2 u_resolution, u_heightmapSize;
+                uniform float u_time, u_waveProgress, u_waveActive;
+                uniform float u_waveFrequency, u_waveFoamWidth, u_wetSandContrast;
+                uniform float u_reliefScale, u_lightIntensity, u_ambientLight, u_grainStrength;
+                uniform vec3 u_lightDir;
+                uniform vec3 u_sandBase1, u_sandBase2, u_sandBase3;
+                uniform float u_grainAdd;
+
+
+                float hash(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123); }
+                float noise(vec2 p) {
+                    vec2 i=floor(p), f=fract(p);
+                    f=f*f*(3.0-2.0*f);
+                    return mix(mix(hash(i),hash(i+vec2(1,0)),f.x), mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
+                }
+                float fbm(vec2 p) {
+                    float v=0.0,a=0.5,f=1.0,t=0.0;
+                    v+=a*noise(p*f);t+=a;a*=0.5;f*=2.0;
+                    v+=a*noise(p*f);t+=a;a*=0.5;f*=2.0;
+                    v+=a*noise(p*f);t+=a;a*=0.5;f*=2.0;
+                    v+=a*noise(p*f);t+=a;
+                    return v/t;
+                }
+
+
+                void main() {
+                    vec2 uv=v_uv;
+                    float height=texture(u_heightmap,uv).r;
+                    vec2 ts=1.0/u_heightmapSize;
+                    float hL=texture(u_heightmap,uv-vec2(ts.x,0)).r;
+                    float hR=texture(u_heightmap,uv+vec2(ts.x,0)).r;
+                    float hD=texture(u_heightmap,uv-vec2(0,ts.y)).r;
+                    float hU=texture(u_heightmap,uv+vec2(0,ts.y)).r;
+                    float dzdx=(hR-hL)*u_reliefScale, dzdy=(hU-hD)*u_reliefScale;
+                    vec3 normal=normalize(vec3(-dzdx,-dzdy,1.0));
+                    float NdotL=max(dot(normal,u_lightDir),0.0);
+                    float diffuse=clamp(u_ambientLight+NdotL*u_lightIntensity,0.0,1.0);
+                    float gL=texture(u_noiseTex,uv*12.0+u_time*0.002).r;
+                    float gF=fbm(uv*180.0+u_time*0.001);
+                    float grain=mix(gL,gF,0.55)*u_grainStrength;
+                    float hf=smoothstep(0.3,0.9,height);
+                    vec3 sand=mix(u_sandBase3,u_sandBase2,hf);
+                    sand=mix(sand,u_sandBase1,grain*0.4);
+                    sand+=grain*u_grainAdd;
+                    float wet=pow(1.0-height,2.8)*u_wetSandContrast;
+                    sand=mix(sand,sand*0.35,wet);
+                    vec3 lit=sand*diffuse;
+                    lit*=0.75+smoothstep(0.2,0.7,height)*0.25;
+                    if(u_waveActive>0.5) {
+                        float wx=u_waveProgress+sin(uv.y*u_waveFrequency+u_time*2.5)*0.04;
+                        float dist=uv.x-wx;
+                        float foam=1.0-smoothstep(-0.024,0.072,dist);
+                        foam*=smoothstep(-0.096,-0.018,dist);
+                        float fn=fbm(uv*60.0+u_time*3.5)*0.5+0.5;
+                        foam*=0.7+fn*0.3;
+                        vec3 foamCol=vec3(0.95,0.93,0.88)*(0.8+fn*0.4);
+                        float behind=smoothstep(-0.036,0.018,-dist);
+                        vec3 resetSand=mix(u_sandBase3,u_sandBase2,0.85);
+                        resetSand=mix(resetSand,u_sandBase1,grain*0.35)+grain*0.07;
+                        float rwet=pow(1.0-1.0,2.8)*u_wetSandContrast;
+                        resetSand=mix(resetSand,resetSand*0.35,rwet);
+                        float rd=clamp(u_ambientLight+max(dot(normal,u_lightDir),0.0)*u_lightIntensity,0.0,1.0);
+                        vec3 rlit=resetSand*rd*(0.75+smoothstep(0.2,0.7,1.0)*0.25);
+                        lit=mix(lit,rlit,behind);
+                        lit=mix(lit,foamCol,foam);
+                        lit=mix(lit,vec3(0.75,0.82,0.9)*0.55+lit*0.45,behind*0.35);
+                    }
+                    float vign=1.0-smoothstep(0.35,1.5,length(uv-0.5)*1.3);
+                    lit*=0.85+vign*0.15;
+                    fragColor=vec4(lit,1.0);
+                }`;
+
+
+            function compileShader(gl, type, src) {
+                const s = gl.createShader(type);
+                gl.shaderSource(s, src);
+                gl.compileShader(s);
+                if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+                return s;
+            }
+
+
+            function createProgram(gl, vs, fs) {
+                const p = gl.createProgram();
+                gl.attachShader(p, compileShader(gl, gl.VERTEX_SHADER, vs));
+                gl.attachShader(p, compileShader(gl, gl.FRAGMENT_SHADER, fs));
+                gl.linkProgram(p);
+                if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+                return p;
+            }
+
+
+            let sandProgram;
+            try { sandProgram = createProgram(gl, VERT, FRAG); } catch (e) {
+                hintText.innerHTML = '⚠️ Erreur shader.';
+                return;
+            }
+
+
+            const vao = gl.createVertexArray();
+            gl.bindVertexArray(vao);
+            const qbuf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, qbuf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+            const aPos = gl.getAttribLocation(sandProgram, 'a_position');
+            gl.enableVertexAttribArray(aPos);
+            gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+            gl.bindVertexArray(null);
+
+
+            function createNoiseTex(gl) {
+                const s = 256;
+                const c = document.createElement('canvas');
+                c.width = c.height = s;
+                const ctx = c.getContext('2d');
+                const id = ctx.createImageData(s, s);
+                for (let i = 0; i < id.data.length; i += 4) {
+                    const v = Math.floor(Math.random() * 256);
+                    id.data[i] = id.data[i + 1] = id.data[i + 2] = v;
+                    id.data[i + 3] = 255;
+                }
+                ctx.putImageData(id, 0, 0);
+                const t = gl.createTexture();
+                gl.bindTexture(gl.TEXTURE_2D, t);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, s, s, 0, gl.RGBA, gl.UNSIGNED_BYTE, c);
+                gl.generateMipmap(gl.TEXTURE_2D);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+                return t;
+            }
+            const noiseTex = createNoiseTex(gl);
+
+
+            const HM_SIZE = 1024;
+            const hmCanvas = document.createElement('canvas');
+            hmCanvas.width = hmCanvas.height = HM_SIZE;
+            const hctx = hmCanvas.getContext('2d');
+
+
+            function resetHeightmap() {
+                hctx.fillStyle = '#FFFFFF';
+                hctx.fillRect(0, 0, HM_SIZE, HM_SIZE);
+            }
+            resetHeightmap();
+
+
+            const hmTex = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, hmTex);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, HM_SIZE, HM_SIZE, 0, gl.RGBA, gl.UNSIGNED_BYTE, hmCanvas);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+
+            function uploadHM() {
+                gl.bindTexture(gl.TEXTURE_2D, hmTex);
+                gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, HM_SIZE, HM_SIZE, gl.RGBA, gl.UNSIGNED_BYTE, hmCanvas);
+            }
+
+
+            function snapshotHM() {
+                return hctx.getImageData(0, 0, HM_SIZE, HM_SIZE);
+            }
+
+
+            function restoreHM(imageData) {
+                hctx.putImageData(imageData, 0, 0);
+                uploadHM();
+            }
+
+
+            function pushUndo() {
+                undoStack.push(snapshotHM());
+                if (undoStack.length > MAX_UNDO) undoStack.shift();
+                redoStack = [];
+                updateUndoRedoButtons();
+            }
+
+
+            function updateUndoRedoButtons() {
+                undoBtn.style.opacity = undoStack.length > 0 ? '1' : '0.4';
+                redoBtn.style.opacity = redoStack.length > 0 ? '1' : '0.4';
+            }
+
+
+            function performUndo() {
+                if (undoStack.length === 0) return;
+                redoStack.push(snapshotHM());
+                const prev = undoStack.pop();
+                restoreHM(prev);
+                updateUndoRedoButtons();
+            }
+
+
+            function performRedo() {
+                if (redoStack.length === 0) return;
+                undoStack.push(snapshotHM());
+                const next = redoStack.pop();
+                restoreHM(next);
+                updateUndoRedoButtons();
+            }
+
+
+            function resize() {
+                const dpr = Math.min(devicePixelRatio || 1, 2);
+                canvas.width = innerWidth * dpr;
+                canvas.height = innerHeight * dpr;
+                canvas.style.width = innerWidth + 'px';
+                canvas.style.height = innerHeight + 'px';
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+
+            // ══════════════════════════════════════════
+            // TAMPONS
+            // ══════════════════════════════════════════
+            const stampCache = {};
+            const STAMP_SIZE = 64;
+
+
+            function createStampDrawer(name) {
+                const c = document.createElement('canvas');
+                c.width = c.height = STAMP_SIZE;
+                const ctx = c.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, STAMP_SIZE, STAMP_SIZE);
+                ctx.fillStyle = '#000000';
+                const s = STAMP_SIZE;
+                const cx = s / 2,
+                    cy = s / 2;
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.scale(s / 100, s / 100);
+                switch (name) {
+                    case 'tree':
+                        ctx.fillRect(-4, 10, 8, 30);
+                        ctx.beginPath();
+                        ctx.arc(0, -5, 18, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(-10, 5, 14, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(10, 5, 14, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    case 'flipflops':
+                        ctx.beginPath();
+                        ctx.ellipse(-12, 5, 14, 7, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.ellipse(12, 5, 14, 7, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(-12, 5);
+                        ctx.lineTo(-12, -10);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(12, 5);
+                        ctx.lineTo(12, -10);
+                        ctx.stroke();
+                        break;
+                    case 'umbrella':
+                        ctx.beginPath();
+                        ctx.arc(0, -5, 25, Math.PI, 0);
+                        ctx.fill();
+                        ctx.fillRect(-2, -5, 4, 30);
+                        break;
+                    case 'chair':
+                        ctx.fillRect(-10, -5, 20, 4);
+                        ctx.fillRect(-10, 15, 4, 15);
+                        ctx.fillRect(6, 15, 4, 15);
+                        ctx.fillRect(-10, -5, 4, 20);
+                        break;
+                    case 'glasses':
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.ellipse(-12, 0, 12, 8, 0, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.ellipse(12, 0, 12, 8, 0, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(0, 0, 3, 0, Math.PI * 2);
+                        ctx.stroke();
+                        break;
+                    case 'glass':
+                        ctx.fillRect(-10, -15, 20, 25);
+                        ctx.clearRect(-6, -11, 12, 17);
+                        ctx.fillRect(-12, -15, 4, 25);
+                        break;
+                    case 'bottle':
+                        ctx.fillRect(-6, -20, 12, 35);
+                        ctx.fillRect(-10, -22, 20, 6);
+                        ctx.fillRect(-4, -30, 8, 10);
+                        break;
+                    case 'mask':
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, 18, 12, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.clearRect(-18, -6, 10, 12);
+                        ctx.clearRect(8, -6, 10, 12);
+                        ctx.fillRect(-2, -8, 4, 16);
+                        break;
+                    case 'harpoon':
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(0, 25);
+                        ctx.lineTo(0, -25);
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(-10, -15);
+                        ctx.lineTo(10, -15);
+                        ctx.lineTo(0, -25);
+                        ctx.fill();
+                        break;
+                    case 'shell':
+                        ctx.fillStyle = '#000';
+                        ctx.beginPath();
+                        ctx.ellipse(0, 5, 16, 20, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.fillStyle = '#fff';
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, 6, 14, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                    case 'starfish':
+                        ctx.fillStyle = '#000';
+                        ctx.beginPath();
+                        for (let i = 0; i < 5; i++) {
+                            const a = (i * Math.PI * 2) / 5 - Math.PI / 2;
+                            const ax = Math.cos(a) * 20;
+                            const ay = Math.sin(a) * 20;
+                            if (i === 0) ctx.moveTo(ax, ay);
+                            else ctx.lineTo(ax, ay);
+                            const ba = a + Math.PI / 5;
+                            ctx.lineTo(Math.cos(ba) * 8, Math.sin(ba) * 8);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    case 'castle':
+                        ctx.fillRect(-18, 5, 36, 20);
+                        ctx.fillRect(-14, -10, 10, 20);
+                        ctx.fillRect(4, -10, 10, 20);
+                        ctx.fillRect(-6, -18, 12, 14);
+                        break;
+                    case 'crab':
+                        ctx.fillStyle = '#000';
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, 18, 12, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 3;
+                        for (let s = -1; s <= 1; s += 2) {
+                            ctx.beginPath();
+                            ctx.moveTo(s * 12, -8);
+                            ctx.lineTo(s * 20, -18);
+                            ctx.stroke();
+                            ctx.beginPath();
+                            ctx.moveTo(s * 10, 6);
+                            ctx.lineTo(s * 22, 12);
+                            ctx.stroke();
+                        }
+                        break;
+                    case 'fish':
+                        ctx.fillStyle = '#000';
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, 18, 10, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.moveTo(18, 0);
+                        ctx.lineTo(28, -12);
+                        ctx.lineTo(28, 12);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    default:
+                        break;
+                }
+                ctx.restore();
+                const blurred = document.createElement('canvas');
+                blurred.width = blurred.height = STAMP_SIZE;
+                const bctx = blurred.getContext('2d');
+                bctx.filter = 'blur(2px)';
+                bctx.drawImage(c, 0, 0);
+                return blurred;
+            }
+
+
+            function getStampCanvas(name) {
+                if (!stampCache[name]) stampCache[name] = createStampDrawer(name);
+                return stampCache[name];
+            }
+
+
+            function applyStampAtUV(uv) {
+                pushUndo();
+                const x = uv.u * HM_SIZE;
+                const y = uv.v * HM_SIZE;
+                const stampCanvas = getStampCanvas(currentStamp);
+                const stampSizeInHM = SAND_CONFIG.brushRadius * brushSizeMultiplier * 3.5 * HM_SIZE;
+                const s = stampSizeInHM;
+                hctx.save();
+                hctx.globalCompositeOperation = 'multiply';
+                hctx.drawImage(stampCanvas, x - s / 2, y - s / 2, s, s);
+                hctx.restore();
+                uploadHM();
+            }
+
+
+            // ══════════════════════════════════════════
+            // DESSIN
+            // ══════════════════════════════════════════
+            function drawBrush(uv, depth) {
+                const cx = uv.u * HM_SIZE;
+                const cy = uv.v * HM_SIZE;
+                const r = SAND_CONFIG.brushRadius * brushSizeMultiplier * HM_SIZE;
+                const alpha = depth;
+                const grad = hctx.createRadialGradient(cx, cy, r * 0.05, cx, cy, r);
+                grad.addColorStop(0, `rgba(0,0,0,${alpha})`);
+                grad.addColorStop(0.35, `rgba(0,0,0,${alpha*0.7})`);
+                grad.addColorStop(0.65, `rgba(0,0,0,${alpha*0.25})`);
+                grad.addColorStop(0.85, `rgba(0,0,0,${alpha*0.04})`);
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
+                hctx.fillStyle = grad;
+                hctx.beginPath();
+                hctx.arc(cx, cy, r, 0, Math.PI * 2);
+                hctx.fill();
+            }
+
+
+            function eraseBrush(uv) {
+                const cx = uv.u * HM_SIZE;
+                const cy = uv.v * HM_SIZE;
+                const r = SAND_CONFIG.brushRadius * brushSizeMultiplier * HM_SIZE * 1.2;
+                const grad = hctx.createRadialGradient(cx, cy, r * 0.1, cx, cy, r);
+                grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+                grad.addColorStop(0.5, 'rgba(255,255,255,0.5)');
+                grad.addColorStop(1, 'rgba(255,255,255,0)');
+                hctx.fillStyle = grad;
+                hctx.beginPath();
+                hctx.arc(cx, cy, r, 0, Math.PI * 2);
+                hctx.fill();
+            }
+
+
+            function rakeBrush(uv) {
+                const cx = uv.u * HM_SIZE;
+                const cy = uv.v * HM_SIZE;
+                const r = SAND_CONFIG.brushRadius * brushSizeMultiplier * HM_SIZE * 1.4;
+                const lines = 7;
+                const spacing = (r * 2) / lines;
+                hctx.save();
+                hctx.beginPath();
+                hctx.rect(cx - r, cy - r, r * 2, r * 2);
+                hctx.clip();
+                for (let i = 0; i < lines; i++) {
+                    const lx = cx - r + spacing * (i + 0.5);
+                    const grad = hctx.createLinearGradient(lx - spacing * 0.3, cy, lx + spacing * 0.3, cy);
+                    grad.addColorStop(0, 'rgba(255,255,255,0.6)');
+                    grad.addColorStop(0.5, 'rgba(0,0,0,0.35)');
+                    grad.addColorStop(1, 'rgba(255,255,255,0.6)');
+                    hctx.fillStyle = grad;
+                    hctx.fillRect(lx - spacing * 0.35, cy - r, spacing * 0.7, r * 2);
+                }
+                hctx.restore();
+            }
+
+
+            function interpolateBrush(fromUV, toUV, depthFunc) {
+                const dx = toUV.u - fromUV.u;
+                const dy = toUV.v - fromUV.v;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const step = SAND_CONFIG.brushRadius * brushSizeMultiplier * 0.35;
+                const steps = Math.max(1, Math.ceil(dist / step));
+                for (let i = 0; i <= steps; i++) {
+                    const t = i / steps;
+                    depthFunc({ u: fromUV.u + dx * t, v: fromUV.v + dy * t });
+                }
+            }
+
+
+            // ══════════════════════════════════════════
+            // ÉVÉNEMENTS POINTER
+            // ══════════════════════════════════════════
+            let isDrawing = false;
+            let lastUV = { u: 0.5, v: 0.5 };
+            let strokeStarted = false;
+
+
+            function getUV(e) {
+                const r = canvas.getBoundingClientRect();
+                return {
+                    u: Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)),
+                    v: Math.max(0, Math.min(1, 1 - (e.clientY - r.top) / r.height)),
+                };
+            }
+
+
+            canvas.addEventListener('pointerdown', function(e) {
+                if (e.pointerType === 'touch' && !e.isPrimary) return;
+                e.preventDefault();
+                hideHint();
+                const uv = getUV(e);
+                if (currentTool === 'stamp') {
+                    applyStampAtUV(uv);
+                    return;
+                }
+                pushUndo();
+                isDrawing = true;
+                strokeStarted = true;
+                lastUV = uv;
+                if (currentTool === 'eraser') eraseBrush(uv);
+                else if (currentTool === 'rake') rakeBrush(uv);
+                else drawBrush(uv, brushDepthValue);
+                uploadHM();
+            });
+
+
+            canvas.addEventListener('pointermove', function(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const uv = getUV(e);
+                if (currentTool === 'eraser') interpolateBrush(lastUV, uv, eraseBrush);
+                else if (currentTool === 'rake') interpolateBrush(lastUV, uv, rakeBrush);
+                else interpolateBrush(lastUV, uv, (p) => drawBrush(p, brushDepthValue));
+                lastUV = uv;
+                uploadHM();
+            });
+
+
+            canvas.addEventListener('pointerup', () => { if (isDrawing) { isDrawing = false;
+                    uploadHM(); } });
+            canvas.addEventListener('pointerleave', () => { if (isDrawing) { isDrawing = false;
+                    uploadHM(); } });
+            canvas.addEventListener('pointercancel', () => { if (isDrawing) { isDrawing = false;
+                    uploadHM(); } });
+
+
+            ['touchstart', 'touchmove', 'touchend'].forEach(ev => canvas.addEventListener(ev, e => e.preventDefault(), {
+                passive: false }));
+
+
+            // ══════════════════════════════════════════
+            // INTERFACE OUTILS
+            // ══════════════════════════════════════════
+            function setActiveTool(tool) {
+                currentTool = tool;
+                brushToolBtn.classList.toggle('active', tool === 'brush');
+                stampToolBtn.classList.toggle('active', tool === 'stamp');
+                eraserToolBtn.classList.toggle('active', tool === 'eraser');
+                rakeToolBtn.classList.toggle('active', tool === 'rake');
+                stampsDiv.style.display = tool === 'stamp' ? 'flex' : 'none';
+                const cursors = { brush: 'crosshair', stamp: 'copy', eraser: 'cell', rake: 'grab' };
+                canvas.style.cursor = cursors[tool] || 'crosshair';
+            }
+
+
+            brushToolBtn.addEventListener('click', () => setActiveTool('brush'));
+            stampToolBtn.addEventListener('click', () => setActiveTool('stamp'));
+            eraserToolBtn.addEventListener('click', () => setActiveTool('eraser'));
+            rakeToolBtn.addEventListener('click', () => setActiveTool('rake'));
+
+
+            stampButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentStamp = this.dataset.stamp;
+                    stampButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    setActiveTool('stamp');
+                });
+            });
+
+
+            sandColorDivs.forEach(div => {
+                div.addEventListener('click', function() {
+                    currentSand = this.dataset.sand;
+                    sandColorDivs.forEach(d => d.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+
+            // Sliders
+            sizeSlider.addEventListener('input', () => {
+                brushSizeMultiplier = parseFloat(sizeSlider.value);
+            });
+            depthSlider.addEventListener('input', () => {
+                brushDepthValue = parseFloat(depthSlider.value);
+                SAND_CONFIG.brushDepth = brushDepthValue;
+            });
+
+
+            // Undo / Redo
+            undoBtn.addEventListener('click', performUndo);
+            redoBtn.addEventListener('click', performRedo);
+            updateUndoRedoButtons();
+
+
+            // Reset
+            resetBtn.addEventListener('click', () => {
+                if (undoStack.length > 0 || redoStack.length > 0) {
+                    pushUndo();
+                }
+                resetHeightmap();
+                uploadHM();
+                showHint('✨ Sable lissé !');
+            });
+
+
+            // Save
+            saveBtn.addEventListener('click', () => {
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'sand-drawing-' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') +
+                    '.png';
+                link.href = dataURL;
+                link.click();
+                showHint('📸 Image sauvegardée !');
+            });
+
+
+            // Vague
+            let waveActive = false;
+            let waveStart = 0;
+            let waveProgress = 0;
+            const WAVE_DURATION = 2.8;
+
+
+            function triggerWave() {
+                if (waveActive) return;
+                pushUndo();
+                waveActive = true;
+                waveStart = performance.now() / 1000;
+                waveProgress = 0;
+                waveBtn.classList.add('wave-active');
+            }
+            waveBtn.addEventListener('click', triggerWave);
+            waveBtn.addEventListener('touchend', (e) => { e.preventDefault();
+                triggerWave(); });
+
+
+            function updateWave(now) {
+                if (!waveActive) return;
+                const elapsed = now - waveStart;
+                waveProgress = Math.min(1, elapsed / WAVE_DURATION * SAND_CONFIG.waveSpeed);
+                if (waveProgress >= 1) {
+                    waveActive = false;
+                    waveProgress = 1;
+                    resetHeightmap();
+                    uploadHM();
+                    waveBtn.classList.remove('wave-active');
+                }
+            }
+
+
+            // Raccourcis clavier
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'z') { e.preventDefault();
+                    performUndo(); }
+                if (e.ctrlKey && e.key === 'y') { e.preventDefault();
+                    performRedo(); }
+                if (e.key === 'b' && !e.ctrlKey && !e.metaKey) setActiveTool('brush');
+                if (e.key === 's' && !e.ctrlKey && !e.metaKey) setActiveTool('stamp');
+                if (e.key === 'e' && !e.ctrlKey && !e.metaKey) setActiveTool('eraser');
+                if (e.key === 'r' && !e.ctrlKey && !e.metaKey) setActiveTool('rake');
+            });
+
+
+            // ══════════════════════════════════════════
+            // RENDU
+            // ══════════════════════════════════════════
+            const uniforms = {
+                u_heightmap: gl.getUniformLocation(sandProgram, 'u_heightmap'),
+                u_noiseTex: gl.getUniformLocation(sandProgram, 'u_noiseTex'),
+                u_resolution: gl.getUniformLocation(sandProgram, 'u_resolution'),
+                u_heightmapSize: gl.getUniformLocation(sandProgram, 'u_heightmapSize'),
+                u_time: gl.getUniformLocation(sandProgram, 'u_time'),
+                u_waveProgress: gl.getUniformLocation(sandProgram, 'u_waveProgress'),
+                u_waveActive: gl.getUniformLocation(sandProgram, 'u_waveActive'),
+                u_waveFrequency: gl.getUniformLocation(sandProgram, 'u_waveFrequency'),
+                u_waveFoamWidth: gl.getUniformLocation(sandProgram, 'u_waveFoamWidth'),
+                u_wetSandContrast: gl.getUniformLocation(sandProgram, 'u_wetSandContrast'),
+                u_reliefScale: gl.getUniformLocation(sandProgram, 'u_reliefScale'),
+                u_lightIntensity: gl.getUniformLocation(sandProgram, 'u_lightIntensity'),
+                u_ambientLight: gl.getUniformLocation(sandProgram, 'u_ambientLight'),
+                u_grainStrength: gl.getUniformLocation(sandProgram, 'u_grainStrength'),
+                u_lightDir: gl.getUniformLocation(sandProgram, 'u_lightDir'),
+                u_sandBase1: gl.getUniformLocation(sandProgram, 'u_sandBase1'),
+                u_sandBase2: gl.getUniformLocation(sandProgram, 'u_sandBase2'),
+                u_sandBase3: gl.getUniformLocation(sandProgram, 'u_sandBase3'),
+                u_grainAdd: gl.getUniformLocation(sandProgram, 'u_grainAdd'),
+            };
+
+
+            function render(ts) {
+                const now = ts / 1000;
+                updateWave(now);
+                gl.useProgram(sandProgram);
+                gl.bindVertexArray(vao);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, hmTex);
+                gl.uniform1i(uniforms.u_heightmap, 0);
+                gl.activeTexture(gl.TEXTURE1);
+                gl.bindTexture(gl.TEXTURE_2D, noiseTex);
+                gl.uniform1i(uniforms.u_noiseTex, 1);
+                gl.uniform2f(uniforms.u_resolution, canvas.width, canvas.height);
+                gl.uniform2f(uniforms.u_heightmapSize, HM_SIZE, HM_SIZE);
+                gl.uniform1f(uniforms.u_time, now);
+                gl.uniform1f(uniforms.u_waveProgress, waveProgress);
+                gl.uniform1f(uniforms.u_waveActive, waveActive ? 1 : 0);
+                gl.uniform1f(uniforms.u_waveFrequency, SAND_CONFIG.waveFrequency);
+                gl.uniform1f(uniforms.u_waveFoamWidth, SAND_CONFIG.waveFoamWidth);
+                gl.uniform1f(uniforms.u_wetSandContrast, SAND_CONFIG.wetSandContrast);
+                gl.uniform1f(uniforms.u_reliefScale, SAND_CONFIG.reliefScale);
+                gl.uniform1f(uniforms.u_lightIntensity, SAND_CONFIG.lightIntensity);
+                gl.uniform1f(uniforms.u_ambientLight, SAND_CONFIG.ambientLight);
+                gl.uniform1f(uniforms.u_grainStrength, SAND_CONFIG.grainStrength);
+                const lx = SAND_CONFIG.lightAzimuth,
+                    ly = SAND_CONFIG.lightAltitude;
+                const lz = Math.sqrt(Math.max(0, 1 - lx * lx - ly * ly));
+                const len = Math.sqrt(lx * lx + ly * ly + lz * lz) || 1;
+                gl.uniform3f(uniforms.u_lightDir, lx / len, ly / len, lz / len);
+                const st = SAND_TYPES[currentSand] || SAND_TYPES.default;
+                gl.uniform3fv(uniforms.u_sandBase1, st.base1);
+                gl.uniform3fv(uniforms.u_sandBase2, st.base2);
+                gl.uniform3fv(uniforms.u_sandBase3, st.base3);
+                gl.uniform1f(uniforms.u_grainAdd, st.grain);
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                requestAnimationFrame(render);
+            }
+
+
+            uploadHM();
+            requestAnimationFrame(render);
+            setActiveTool('brush');
+            stampButtons[0].classList.add('active');
+            updateUndoRedoButtons();
+
+
+            console.log('🏖️ Sand Draw – Professional Beach Edition prêt.');
+            console.log('   Outils : Pinceau | Tampons | Gomme | Râteau');
+            console.log('   ⌨️ Raccourcis : B, S, E, R | Ctrl+Z / Ctrl+Y');
+            window.SAND_CONFIG = SAND_CONFIG;
+            window.resetHeightmap = () => { resetHeightmap();
+                uploadHM(); };
+            window.triggerWave = triggerWave;
+            window.pushUndo = pushUndo;
+        })();
+    </script>
 </body>
 </html>
