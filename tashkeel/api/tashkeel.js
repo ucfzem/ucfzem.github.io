@@ -1,4 +1,21 @@
+const ALLOWED_ORIGINS = [
+  'https://ucfzem.github.io',
+  'https://tashkeel-five.vercel.app',
+];
+
 export default async function handler(req, res) {
+  const origin = req.headers.origin || '';
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Méthode non autorisée — utilisez POST' });
@@ -11,11 +28,14 @@ export default async function handler(req, res) {
 
   try {
     if (provider === 'groq') {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 25000);
       const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
+          'User-Agent': 'tashkeel-vercel/1.0',
         },
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
@@ -29,7 +49,7 @@ export default async function handler(req, res) {
             { role: 'user', content: text },
           ],
         }),
-      });
+      }).finally(() => clearTimeout(timeout));
 
       if (!r.ok) {
         const errData = await r.json().catch(() => ({}));
@@ -44,6 +64,8 @@ export default async function handler(req, res) {
     }
 
     if (provider === 'huggingface') {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 25000);
       const r = await fetch(
         'https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-msa-diacritization',
         {
@@ -51,10 +73,11 @@ export default async function handler(req, res) {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
+            'User-Agent': 'tashkeel-vercel/1.0',
           },
           body: JSON.stringify({ inputs: text }),
         }
-      );
+      ).finally(() => clearTimeout(timeout));
 
       if (!r.ok) {
         const errText = await r.text().catch(() => '');

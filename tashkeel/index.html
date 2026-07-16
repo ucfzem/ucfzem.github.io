@@ -250,7 +250,11 @@
             if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
             resultBox.textContent = diacritized || '(لا يوجد ناتج)';
         } catch (error) {
-            errorBox.innerHTML = `<div class="error">❌ ${error.message}</div>`;
+            const isNetworkErr = error instanceof TypeError && error.message === 'Failed to fetch';
+            const msg = isNetworkErr
+                ? 'فشل الاتصال بالخادم — تحقق من CORS أو الإنترنت'
+                : error.message;
+            errorBox.innerHTML = `<div class="error">❌ ${msg}</div>`;
         } finally {
             btn.disabled = false;
             btnText.textContent = 'شَكِّل';
