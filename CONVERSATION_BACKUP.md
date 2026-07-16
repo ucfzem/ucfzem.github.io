@@ -223,6 +223,7 @@ https://github.com/ucfzem?tab=repositories
 - `8577fbf` — fix: BiDi ellipsis in Arabic quiz — add RLM + unicode-bidi plaintext
 - `b4fcfb2` — fix: CTA em contrast (white on terracotta) + footer language flexbox wrap
 - `2dca30a` — refactor: footer — structured classes, flexbox column, onerror hide broken img
+- `39d658b` — fix: footer inline styles bypass cache — flags kept, onerror, flex column
 
 ### Fix contraste
 - `.cta-section .section-title em` : `color: #fff` (était `var(--terracotta)` = invisible sur fond terracotta)
