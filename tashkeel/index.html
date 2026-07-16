@@ -249,12 +249,15 @@
             let diacritized = data?.result || data?.[0]?.generated_text || data?.generated_text || '';
             if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
             resultBox.textContent = diacritized || '(لا يوجد ناتج)';
+            document.getElementById('inputText').value = diacritized;
+            try { navigator.vibrate(100); } catch(_) {}
         } catch (error) {
             const isNetworkErr = error instanceof TypeError && error.message === 'Failed to fetch';
             const msg = isNetworkErr
                 ? 'فشل الاتصال بالخادم — تحقق من CORS أو الإنترنت'
                 : error.message;
             errorBox.innerHTML = `<div class="error">❌ ${msg}</div>`;
+            try { navigator.vibrate([200, 100, 200]); } catch(_) {}
         } finally {
             btn.disabled = false;
             btnText.textContent = 'شَكِّل';
