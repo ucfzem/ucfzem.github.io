@@ -409,6 +409,9 @@
   }
   .quiz-question { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); }
   .quiz-prompt { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+  [dir="rtl"] .quiz-prompt { font-size: 1.4rem; line-height: 1.8; font-weight: 500; color: var(--ink); }
+  [dir="rtl"] .quiz-options { direction: rtl; text-align: right; }
+  [dir="rtl"] .quiz-option { font-size: 1.1rem; line-height: 1.6; }
   .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
   .quiz-option {
     padding: 0.8rem 1.2rem;
@@ -1593,6 +1596,7 @@ function getBadge(score, total) {
 
 
 function initQuiz() {
+  document.getElementById('quizBox').setAttribute('dir', 'ltr');
   const container = document.getElementById('quizLangBtns');
   container.innerHTML = LANGUAGES.map(l =>
     `<button class="quiz-lang-btn" data-lang="${l.id}" onclick="startQuiz('${l.id}')"><span class="fi fi-${l.fi}"></span> ${l.name}</button>`
@@ -1604,12 +1608,14 @@ function startQuiz(langId) {
   const p = getProgress();
   const qs = QUIZZES[langId] || [];
   if (qs.length === 0) {
+    document.getElementById('quizBox').setAttribute('dir', 'ltr');
     document.getElementById('quizContent').innerHTML = '<div class="quiz-question">Quiz bientôt disponible</div><div class="quiz-prompt">Cette langue aura bientôt ses propres questions. Revenez plus tard !</div>';
     return;
   }
   const shuffled = [...qs].sort(() => Math.random() - 0.5).slice(0, Math.min(5, qs.length));
   quizState = { lang: langId, questions: shuffled, index: 0, score: 0, streak: 0, answered: false };
   document.querySelectorAll('.quiz-lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === langId));
+  document.getElementById('quizBox').setAttribute('dir', langId === 'ar' ? 'rtl' : 'ltr');
   renderQuiz();
 }
 
@@ -1708,7 +1714,7 @@ function finishQuiz() {
     <p>${langName} · ${pct}% de bonnes réponses</p>`;
   if (badge) html += `<p><span class="quiz-badge ${badge.cls}" style="font-size:1rem;padding:0.4rem 1.2rem;">${badge.label} — ${langName}</span></p>`;
   html += `<button class="btn-primary" onclick="startQuiz('${lang}')" style="margin-top:1rem;">🔄 Refaire le quiz</button>
-    <button class="btn-secondary" onclick="initQuiz();document.getElementById('quizContent').innerHTML='<div class=\\'quiz-question\\'>Choisis une langue pour commencer</div><div class=\\'quiz-prompt\\'>Sélectionne une langue ci-dessus pour démarrer un quiz interactif.</div>';document.querySelectorAll('.quiz-lang-btn').forEach(b=>b.classList.remove('active'));" style="margin-left:0.5rem;">⬅️ Autre langue</button>
+    <button class="btn-secondary" onclick="initQuiz();document.getElementById('quizContent').innerHTML='<div class=\\'quiz-question\\'>Choisis une langue pour commencer</div><div class=\\'quiz-prompt\\'>Sélectionne une langue ci-dessus pour démarrer un quiz interactif.</div>';document.querySelectorAll('.quiz-lang-btn').forEach(b=>b.classList.remove('active'));document.getElementById('quizBox').setAttribute('dir','ltr');" style="margin-left:0.5rem;">⬅️ Autre langue</button>
   </div>`;
   document.getElementById('quizContent').innerHTML = html;
   document.getElementById('quizCorrectScore').textContent = score;
