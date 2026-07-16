@@ -235,6 +235,37 @@
   [data-theme="light"] .locked .card-tag { color: rgba(0,0,0,0.35); background: rgba(0,0,0,0.06); }
 
 
+  .folder {
+    margin-bottom: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+  .folder-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer; user-select: none;
+    transition: background 0.2s;
+  }
+  .folder-header:hover { background: rgba(201,168,76,0.08); }
+  .folder-icon { font-size: 1rem; }
+  .folder-title { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; }
+  .folder-count { font-size: 0.7rem; color: var(--text-sec); background: rgba(201,168,76,0.1); padding: 2px 10px; border-radius: 8px; }
+  .folder-arrow { font-size: 0.7rem; color: var(--text-sec); transition: transform 0.25s ease; }
+  .folder.open .folder-arrow { transform: rotate(180deg); }
+  .folder-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .folder.open .folder-content { max-height: 2000px; }
+  .folder-content .card { border-radius: 0; border-left: none; border-right: none; margin: 0; border-top: none; }
+  .folder-content .card:last-child { border-bottom: none; }
+  .locked .folder-content .card { opacity: 0.5; filter: grayscale(60%); pointer-events: none; }
+  .unlocked .folder-content .card { opacity: 1; filter: grayscale(0%); pointer-events: auto; }
+  .unlocked .folder-content .card-name { color: var(--text); }
+  .locked .folder { border-color: rgba(255,255,255,0.06); background: var(--locked-bg); }
+  .locked .folder-title { color: rgba(255,255,255,0.4); }
+  [data-theme="light"] .locked .folder-title { color: rgba(0,0,0,0.4); }
+
+
   .unlocked .card {
     opacity: 1;
     filter: grayscale(0%);
@@ -561,41 +592,53 @@
   ];
 
 
+  const folderMeta = [
+    { id:'ai', icon:'🤖', label:'IA & Vision' },
+    { id:'voice', icon:'🎙️', label:'Audio & Voix' },
+    { id:'creative', icon:'🎨', label:'Design & Créatif' },
+    { id:'career', icon:'💼', label:'Carrière & Finance' },
+    { id:'learning', icon:'📚', label:'Apprentissage' },
+    { id:'media', icon:'📤', label:'Partage & Média' },
+    { id:'premium', icon:'⭐', label:'Premium' },
+    { id:'other', icon:'📎', label:'Autres' }
+  ];
+
   const lockedProjects = [
-    { emoji: "✨", name: "Pristine", tag: "Photo", url: "https://ucfzem.azer-tyu199p.workers.dev/pristine/" },
-    { emoji: "🔗", name: "NanoLink", tag: "URL Shortener", url: "https://ucfzem.azer-tyu199p.workers.dev/urlshort/" },
-    { emoji: "🤚", name: "Brand Landing Page", tag: "Landing", url: "https://ucfzem.azer-tyu199p.workers.dev/Brand-Landig-Page/" },
-    { emoji: "🎨", name: "NanoGen", tag: "AI Images", url: "https://ucfzem.azer-tyu199p.workers.dev/nanogen/" },
-    { emoji: "📓", name: "Guide Freelance", tag: "Career", url: "https://guide-freelance.vercel.app" },
-    { emoji: "📋", name: "CV-Maker", tag: "Career", url: "https://ucfzem.azer-tyu199p.workers.dev/cv-maker/" },
-    { emoji: "🌐", name: "Code", tag: "Web Dev", icon: "https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/web-dev-logo.png", url: "https://ucfzem.github.io/web-dev/" },
-    { emoji: "📦", name: "TmpDrop", tag: "File Share", url: "https://ucfzem.azer-tyu199p.workers.dev/tmpdrop/" },
-    { emoji: "🌐", name: "Sphere Gallery", tag: "360°", url: "https://ucfzem.azer-tyu199p.workers.dev/sphere-gallery/" },
-    { emoji: "🖼️", name: "Snap Describe", tag: "AI Vision", url: "https://ucfzem.azer-tyu199p.workers.dev/snap-describe/" },
-    { emoji: "🤖", name: "Mon Assistant IA", tag: "AI Chat", url: "https://ucfzemgithubio.vercel.app/ucfzem-ai/" },
-    { emoji: "☀️", name: "PicPulse", tag: "AI Vision", url: "https://ucfzem.github.io/PicPulse/app/" },
-    { emoji: "✨", name: "AI Image Enhancer", tag: "Restore", url: "https://ucfzem.azer-tyu199p.workers.dev/ai-image-enhancer/" },
-    { emoji: "🎙️", name: "VoiceForge", tag: "AI Voice", url: "https://voiceforge-delta.vercel.app" },
-    { emoji: "🖼️", name: "Image2Prompt", tag: "AI Prompt", url: "https://ucfzemgithubio.vercel.app/image2prompt/" },
-    { emoji: "🔊", name: "Voxcell", tag: "Voice", url: "https://voxcell.vercel.app" },
-    { emoji: "💾", name: "Voxcell Offline", tag: "Voice", url: "https://voxcell-offline.vercel.app" },
-    { emoji: "🔮", name: "VoxForge", tag: "Voice+AI", url: "https://ucfzem.github.io/voxforge/" },
-    { emoji: "✦", name: "PixellApp", tag: "Design", url: "https://ucfzem.github.io/pixellapp/" },
-    { emoji: "💪", name: "Sport", tag: "Fitness", url: "https://ucfzem.github.io/sport/" },
-    { emoji: "🌿", name: "Sounds of Nature", tag: "Nature", url: "https://ucfzem-works.vercel.app/sounds-of-nature/" },
-    { emoji: "❓", name: "4lang Quiz", tag: "Languages", url: "https://4lang-quiz.vercel.app" },
-    { emoji: "🎨", name: "DrawingSand", tag: "Creative", url: "https://ucfzem.azer-tyu199p.workers.dev/drawingsand/" },
-    { emoji: "✨", name: "XtraMagical", tag: "SaaS AI", url: "https://ucfzem.azer-tyu199p.workers.dev/XtraMagical/" },
-    { emoji: "🧠", name: "MagiMax", tag: "Rename", url: "https://ucfzem.azer-tyu199p.workers.dev/MagiMax/" },
-    { emoji: "📊", name: "ComptaEasy", tag: "Accounting", url: "https://ucfzem.azer-tyu199p.workers.dev/comptaeasy/" },
-    { emoji: "🌍", name: "Ultralengua Pro", tag: "Learning", url: "https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/" },
-    { emoji: "⬇️", name: "TikTok Downloader", tag: "Media", url: "https://downloader-sepia-delta.vercel.app" },
-    { emoji: "🤖", name: "PromptGenius", tag: "AI", url: "https://promptgenius.azer-tyu199p.workers.dev/" },
-    { emoji: "📜", name: "500 Prompts IA", tag: "Premium", url: "https://ucfzem.github.io/500-prompts/" },
-    { emoji: "🏆", name: "30 Best Prompts", tag: "Premium", url: "https://ucfzem.github.io/30-best-prompts/" },
-    { emoji: "🚀", name: "Product Generator", tag: "AI", url: "https://ucf-product-gen.vercel.app/generate" },
-    { emoji: "📄", name: "CV", tag: "Resume", icon: "https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/cv-icon.png", url: "https://ucfzem.github.io/ucf-cv/" },
-    { emoji: "📁", name: "Projets", tag: "Archive", url: "https://ucfzem.azer-tyu199p.workers.dev/projets/" }
+    { folder:'ai', emoji:"🎨", name:"NanoGen", tag:"AI Images", url:"https://ucfzem.azer-tyu199p.workers.dev/nanogen/" },
+    { folder:'ai', emoji:"✨", name:"AI Image Enhancer", tag:"Restore", url:"https://ucfzem.azer-tyu199p.workers.dev/ai-image-enhancer/" },
+    { folder:'ai', emoji:"🖼️", name:"Image2Prompt", tag:"AI Prompt", url:"https://ucfzemgithubio.vercel.app/image2prompt/" },
+    { folder:'ai', emoji:"☀️", name:"PicPulse", tag:"AI Vision", url:"https://ucfzem.github.io/PicPulse/app/" },
+    { folder:'ai', emoji:"🖼️", name:"Snap Describe", tag:"AI Vision", url:"https://ucfzem.azer-tyu199p.workers.dev/snap-describe/" },
+    { folder:'ai', emoji:"🤖", name:"Mon Assistant IA", tag:"AI Chat", url:"https://ucfzemgithubio.vercel.app/ucfzem-ai/" },
+    { folder:'ai', emoji:"🤖", name:"PromptGenius", tag:"AI", url:"https://promptgenius.azer-tyu199p.workers.dev/" },
+    { folder:'ai', emoji:"🚀", name:"Product Generator", tag:"AI", url:"https://ucf-product-gen.vercel.app/generate" },
+    { folder:'ai', emoji:"🧠", name:"MagiMax", tag:"Rename", url:"https://ucfzem.azer-tyu199p.workers.dev/MagiMax/" },
+    { folder:'voice', emoji:"🔊", name:"Voxcell", tag:"Voice", url:"https://voxcell.vercel.app" },
+    { folder:'voice', emoji:"💾", name:"Voxcell Offline", tag:"Voice", url:"https://voxcell-offline.vercel.app" },
+    { folder:'voice', emoji:"🔮", name:"VoxForge", tag:"Voice+AI", url:"https://ucfzem.github.io/voxforge/" },
+    { folder:'voice', emoji:"🎙️", name:"VoiceForge", tag:"AI Voice", url:"https://voiceforge-delta.vercel.app" },
+    { folder:'creative', emoji:"✨", name:"Pristine", tag:"Photo", url:"https://ucfzem.azer-tyu199p.workers.dev/pristine/" },
+    { folder:'creative', emoji:"✦", name:"PixellApp", tag:"Design", url:"https://ucfzem.github.io/pixellapp/" },
+    { folder:'creative', emoji:"🎨", name:"DrawingSand", tag:"Creative", url:"https://ucfzem.azer-tyu199p.workers.dev/drawingsand/" },
+    { folder:'creative', emoji:"✨", name:"XtraMagical", tag:"SaaS AI", url:"https://ucfzem.azer-tyu199p.workers.dev/XtraMagical/" },
+    { folder:'career', emoji:"📓", name:"Guide Freelance", tag:"Career", url:"https://guide-freelance.vercel.app" },
+    { folder:'career', emoji:"📋", name:"CV-Maker", tag:"Career", url:"https://ucfzem.azer-tyu199p.workers.dev/cv-maker/" },
+    { folder:'career', emoji:"📄", name:"CV", tag:"Resume", icon:"https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/cv-icon.png", url:"https://ucfzem.github.io/ucf-cv/" },
+    { folder:'career', emoji:"📊", name:"ComptaEasy", tag:"Accounting", url:"https://ucfzem.azer-tyu199p.workers.dev/comptaeasy/" },
+    { folder:'learning', emoji:"❓", name:"4lang Quiz", tag:"Languages", url:"https://4lang-quiz.vercel.app" },
+    { folder:'learning', emoji:"🌍", name:"Ultralengua Pro", tag:"Learning", url:"https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/" },
+    { folder:'media', emoji:"📤", name:"Droppy", tag:"File Share", url:"https://ucfzem.github.io/droppy/" },
+    { folder:'media', emoji:"📦", name:"TmpDrop", tag:"File Share", url:"https://ucfzem.azer-tyu199p.workers.dev/tmpdrop/" },
+    { folder:'media', emoji:"⬇️", name:"TikTok Downloader", tag:"Media", url:"https://downloader-sepia-delta.vercel.app" },
+    { folder:'media', emoji:"🌐", name:"Sphere Gallery", tag:"360°", url:"https://ucfzem.azer-tyu199p.workers.dev/sphere-gallery/" },
+    { folder:'premium', emoji:"📜", name:"500 Prompts IA", tag:"Premium", url:"https://ucfzem.github.io/500-prompts/" },
+    { folder:'premium', emoji:"🏆", name:"30 Best Prompts", tag:"Premium", url:"https://ucfzem.github.io/30-best-prompts/" },
+    { folder:'other', emoji:"🌐", name:"Code", tag:"Web Dev", icon:"https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/web-dev-logo.png", url:"https://ucfzem.github.io/web-dev/" },
+    { folder:'other', emoji:"💪", name:"Sport", tag:"Fitness", url:"https://ucfzem.github.io/sport/" },
+    { folder:'other', emoji:"🌿", name:"Sounds of Nature", tag:"Nature", url:"https://ucfzem-works.vercel.app/sounds-of-nature/" },
+    { folder:'other', emoji:"🔗", name:"NanoLink", tag:"URL Shortener", url:"https://ucfzem.azer-tyu199p.workers.dev/urlshort/" },
+    { folder:'other', emoji:"🤚", name:"Brand Landing Page", tag:"Landing", url:"https://ucfzem.azer-tyu199p.workers.dev/Brand-Landig-Page/" },
+    { folder:'other', emoji:"📁", name:"Projets", tag:"Archive", url:"https://ucfzem.azer-tyu199p.workers.dev/projets/" }
   ];
 
 
@@ -619,16 +662,33 @@
 
   function renderLocked() {
     const container = document.getElementById('lockedProjects');
-    container.innerHTML = lockedProjects.map((p, i) => `
-      <a href="${p.url}" class="card" data-index="${i}" ${p.sameTab ? '' : 'target="_blank"'}>
-        ${p.hideLock ? '' : '<span class="card-num">🔒</span>'}
-        ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
-        <div class="card-info">
-          <span class="card-name">${p.name}</span>
+    let html = '';
+    folderMeta.forEach(f => {
+      const items = lockedProjects.filter(p => p.folder === f.id);
+      if (!items.length) return;
+      html += `<div class="folder" id="f-${f.id}">
+        <div class="folder-header" onclick="toggleFolder('${f.id}')">
+          <span class="folder-icon">${f.icon}</span>
+          <span class="folder-title">${f.label}</span>
+          <span class="folder-count">${items.length}</span>
+          <span class="folder-arrow">▼</span>
         </div>
-        ${p.tag ? `<span class="card-tag">${p.tag}</span>` : ''}
-      </a>
-    `).join('');
+        <div class="folder-content">`;
+      items.forEach(p => {
+        html += `<a href="${p.url}" class="card" target="_blank">
+          ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+          <div class="card-info"><span class="card-name">${p.name}</span></div>
+          <span class="card-tag">${p.tag||''}</span>
+        </a>`;
+      });
+      html += `</div></div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function toggleFolder(id) {
+    const f = document.getElementById('f-'+id);
+    f.classList.toggle('open');
   }
 
 
