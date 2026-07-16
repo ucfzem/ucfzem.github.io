@@ -1,7 +1,6 @@
 {
   "functions": {
     "api/tashkeel.js": {
-      "runtime": "nodejs20.x",
       "maxDuration": 30
     }
   },
