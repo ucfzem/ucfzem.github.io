@@ -221,8 +221,13 @@ https://github.com/ucfzem?tab=repositories
 - `a280b61` — docs: backup session 2026-07-16 — Ultralengua Pro
 - `2d8a1c0` — fix: improve Arabic quiz readability — larger font, RTL, high contrast
 - `8577fbf` — fix: BiDi ellipsis in Arabic quiz — add RLM + unicode-bidi plaintext
+- `b4fcfb2` — fix: CTA em contrast (white on terracotta) + footer language flexbox wrap
 
-### Améliorations lisibilité arabe
+### Fix contraste
+- `.cta-section .section-title em` : `color: #fff` (était `var(--terracotta)` = invisible sur fond terracotta)
+
+### Fix footer langues
+- Langues converties de `<p>` avec séparateur `·` → `<div flex>` avec `flex-wrap`, `justify-content: center`, `gap`, `white-space: nowrap` sur chaque item
 - `[dir="rtl"] .quiz-prompt` : font-size `1.4rem`, line-height `1.8`, weight `500`, color `var(--ink)`, unicode-bidi plaintext
 - `[dir="rtl"] .quiz-options` : direction rtl + align right
 - `[dir="rtl"] .quiz-option` : font-size `1.1rem`, line-height `1.6`
