@@ -1,0 +1,2086 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultralengua Pro — Maîtrisez les langues avec l'IA</title>
+<meta name="description" content="Apprenez 6 langues (français, anglais, espagnol, arabe, allemand, néerlandais) avec l'IA conversationnelle. Quiz interactifs, histoires bilingues, glossaire intelligent. Commencez gratuitement.">
+<meta name="keywords" content="apprendre langues, IA conversationnelle, cours langues en ligne, apprendre anglais, apprendre espagnol, apprendre arabe, AI language learning">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Ultralengua Pro — Apprentissage des langues par l'IA">
+<meta property="og:description" content="6 langues. Un partenaire IA qui vous corrige, vous challenge et s'adapte à votre niveau. Gratuit.">
+<meta property="og:url" content="https://ucfzem.github.io/ultralengua-pro/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ultralengua Pro — Apprentissage des langues par l'IA">
+<meta name="twitter:description" content="6 langues. Un partenaire IA qui vous corrige, vous challenge et s'adapte à votre niveau.">
+<link rel="canonical" href="https://ucfzem.github.io/ultralengua-pro/">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
+<style>
+  :root {
+    --ink: #0e0c0a;
+    --paper: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a0;
+    --terracotta: #c4583a;
+    --sage: #5a7a5e;
+    --sky: #2d6b8a;
+    --cream: #faf6ee;
+    --muted: #8a8070;
+    --success: #4a9a5e;
+    --error: #c4583a;
+    --text: #0e0c0a;
+    --border: rgba(14,12,10,0.12);
+    --nav-bg: rgba(245,240,232,0.85);
+    --radius: 1.5rem;
+    --radius-sm: 1rem;
+    --radius-pill: 2rem;
+
+    --phone-bg: #ffffff;
+    --chat-ai-bg: #f0ece4;
+    --chat-user-bg: #c9a84c;
+    --chat-user-text: #0e0c0a;
+  }
+  body.dark {
+    --ink: #f0ece4;
+    --paper: #0e0c0a;
+    --gold: #d4b85c;
+    --gold-light: #a08838;
+    --terracotta: #d46a4a;
+    --sage: #6a8a6e;
+    --sky: #3d7b9a;
+    --cream: #1a1814;
+    --muted: #9a9080;
+    --success: #5aaa6e;
+    --error: #d46a4a;
+    --text: #f0ece4;
+    --border: rgba(240,236,228,0.12);
+    --nav-bg: rgba(14,12,10,0.9);
+
+    --phone-bg: #151311;
+    --chat-ai-bg: #26231f;
+    --chat-user-bg: #a08838;
+    --chat-user-text: #ffffff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .logo-dot { color: var(--gold); font-size: 1.8rem; line-height: 0; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.88rem; font-weight: 500; letter-spacing: 0.03em; transition: color .2s; cursor: pointer; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: var(--radius-pill);
+    padding: 0.6rem 1.5rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 500; cursor: pointer;
+    transition: background .2s, transform .15s, color 0.3s ease;
+  }
+  .nav-cta:hover { background: var(--terracotta); transform: scale(1.03); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: .3s; }
+
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 3rem 4rem 3rem;
+    position: relative; overflow: hidden;
+    gap: 3rem;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(90,122,94,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.4);
+    border-radius: var(--radius-pill); padding: 0.35rem 1rem;
+    font-size: 0.78rem; font-weight: 500; color: var(--gold);
+    letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero-tag span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: inline-block; }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 700; line-height: 1.08;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--terracotta); }
+  .hero p {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.75;
+    max-width: 480px; margin-bottom: 2.5rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: var(--radius-pill);
+    padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    transition: background .2s, transform .15s, color .3s ease; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--terracotta); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid var(--border); border-radius: var(--radius-pill);
+    padding: 0.85rem 2rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer;
+    transition: border-color .2s, transform .15s, color .3s ease; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .hero-langs {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-top: 2.5rem; flex-wrap: wrap;
+  }
+  .lang-pill {
+    background: var(--cream); border: 1px solid rgba(201,168,76,0.3);
+    border-radius: var(--radius-pill); padding: 0.3rem 0.9rem;
+    font-size: 0.8rem; font-weight: 500; color: var(--muted);
+    transition: all .2s; cursor: default;
+  }
+  .lang-pill:hover { background: var(--gold-light); color: var(--ink); }
+  .fi { vertical-align: middle; line-height: 1; }
+
+
+  /* ── HERO VISUAL (Fix dark mode) ── */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .float-card {
+    position: absolute;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 5;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .float-card.a { top: 10%; left: 0; }
+  .float-card.b { bottom: 15%; right: 0; }
+  .phone-card {
+    width: 280px;
+    background: var(--phone-bg);
+    border: 4px solid var(--ink);
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .phone-top {
+    background: var(--cream);
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .phone-top .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .phone-top .dot.r { background: #ff5f56; }
+  .phone-top .dot.y { background: #ffbd2e; }
+  .phone-top .dot.g { background: #27c93f; }
+  .phone-title { font-size: 0.75rem; font-weight: 700; margin-left: auto; color: var(--muted); }
+  .phone-body { padding: 1.2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+  .chat-msg {
+    padding: 0.6rem 0.9rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    max-width: 85%;
+  }
+  .chat-msg.ai {
+    background: var(--chat-ai-bg);
+    color: var(--ink);
+    align-self: flex-start;
+    border-bottom-left-radius: 0.25rem;
+  }
+  .chat-msg.user {
+    background: var(--chat-user-bg);
+    color: var(--chat-user-text);
+    align-self: flex-end;
+    border-bottom-right-radius: 0.25rem;
+  }
+  .chat-msg.correction {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--ink);
+    font-size: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  .streak-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--cream);
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--radius-sm);
+    margin-top: 0.5rem;
+    border: 1px solid var(--border);
+  }
+  .streak-fire { font-size: 1.2rem; }
+  .streak-text { font-size: 0.7rem; font-weight: 700; color: var(--ink); }
+  .progress-bar { width: 100px; height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden; margin-top: 2px; }
+  body.dark .progress-bar { background: rgba(255,255,255,0.1); }
+  .progress-fill { width: 70%; height: 100%; background: var(--gold); }
+
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 6rem 3rem;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; color: var(--gold);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700; line-height: 1.15; color: var(--ink); margin-bottom: 1rem;
+  }
+  .section-title em { font-style: italic; color: var(--terracotta); }
+  .section-sub { font-size: 1rem; color: var(--muted); max-width: 600px; margin-bottom: 3rem; line-height: 1.6; }
+
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: transform .2s, box-shadow .2s, background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(201,168,76,0.06));
+    pointer-events: none;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(14,12,10,0.1); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+  }
+  .feature-icon.blue { background: rgba(45,107,138,0.12); }
+  .feature-icon.green { background: rgba(90,122,94,0.12); }
+  .feature-icon.red { background: rgba(196,88,58,0.12); }
+  .feature-icon.gold { background: rgba(201,168,76,0.15); }
+  .feature-icon.purple { background: rgba(120,80,150,0.12); }
+  .feature-icon.dark { background: rgba(14,12,10,0.08); }
+  .feature-card h3 { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+  .feature-tag {
+    display: inline-block; margin-top: 1rem;
+    background: rgba(201,168,76,0.15); color: var(--gold);
+    border-radius: var(--radius-pill); padding: 0.2rem 0.7rem;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.04em;
+  }
+
+
+  /* ── STATS ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .stat {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-num span { color: var(--gold); }
+  .stat-label { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+
+
+  /* ── LANGUAGES ── */
+  .langs-section {
+    background: var(--ink); color: var(--paper);
+    padding: 6rem 3rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  .langs-inner { max-width: 1200px; margin: 0 auto; }
+  .langs-section .section-label { color: var(--gold-light); }
+  .langs-section .section-title { color: var(--paper); }
+  .langs-section .section-sub { color: rgba(245,240,232,0.55); }
+  .langs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); margin-top: 3rem; }
+  .lang-card {
+    background: rgba(255,255,255,0.03); padding: 2rem 2rem;
+    transition: background .2s; cursor: default;
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .lang-card:hover { background: rgba(201,168,76,0.08); }
+  .lang-name { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700; color: var(--paper); }
+  .lang-level { font-size: 0.78rem; color: rgba(245,240,232,0.4); margin-top: 0.15rem; }
+  .lang-users { margin-left: auto; font-size: 0.75rem; color: var(--gold); font-weight: 500; }
+
+
+  /* ── QUIZ ── */
+  .quiz-controls { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .quiz-lang-btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+  }
+  .quiz-lang-btn:hover { border-color: var(--gold); }
+  .quiz-lang-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .quiz-box {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    max-width: 650px;
+    min-height: 300px;
+    display: flex; flex-direction: column;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .quiz-question { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); }
+  .quiz-prompt { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+  .quiz-option {
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer; transition: all .2s;
+    text-align: left;
+  }
+  .quiz-option:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .quiz-option.selected { border-color: var(--sky); background: rgba(45,107,138,0.08); }
+  .quiz-option.correct { border-color: var(--success); background: rgba(74,154,94,0.1); }
+  .quiz-option.wrong { border-color: var(--error); background: rgba(196,88,58,0.1); }
+  .quiz-feedback { padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.9rem; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: rgba(74,154,94,0.1); color: var(--success); border: 1px solid rgba(74,154,94,0.3); }
+  .quiz-feedback.wrong { background: rgba(196,88,58,0.1); color: var(--error); border: 1px solid rgba(196,88,58,0.3); }
+  .quiz-next {
+    align-self: flex-end;
+    padding: 0.6rem 1.5rem;
+    border-radius: var(--radius-pill);
+    background: var(--ink); color: var(--paper);
+    border: none; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: background .2s, color .2s ease;
+    display: none;
+  }
+  .quiz-next:hover { background: var(--terracotta); }
+  .quiz-score {
+    display: flex; gap: 1.5rem; align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .quiz-score-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
+  .quiz-score-item strong { font-size: 1.1rem; }
+  .quiz-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.78rem; font-weight: 600;
+  }
+  .quiz-badge.gold { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .quiz-badge.silver { background: rgba(138,128,112,0.2); color: var(--muted); }
+  .quiz-badge.bronze { background: rgba(196,88,58,0.15); color: var(--terracotta); }
+
+
+  .quiz-result {
+    text-align: center; padding: 2rem;
+  }
+  .quiz-result h3 { font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .quiz-result .score-big { font-size: 3.5rem; font-weight: 700; color: var(--gold); font-family: 'Fraunces', serif; }
+  .quiz-result p { color: var(--muted); margin-bottom: 1.5rem; }
+
+
+  /* ── STORIES ── */
+  .story-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .story-tab {
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+  }
+  .story-tab:hover { border-color: var(--gold); }
+  .story-tab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .story-list { display: none; gap: 1.5rem; }
+  .story-list.active { display: grid; grid-template-columns: 1fr 1fr; }
+  .story-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform .2s, box-shadow .2s, background 0.3s, border-color 0.3s;
+  }
+  .story-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(14,12,10,0.08); }
+  .story-flag { margin-bottom: 0.5rem; }
+  .story-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; margin-bottom: 0.4rem; }
+  .story-card .story-level { font-size: 0.72rem; color: var(--gold); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+  .story-text { font-size: 0.85rem; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
+  .story-translation { font-size: 0.82rem; color: var(--sky); line-height: 1.6; padding: 0.8rem; background: rgba(45,107,138,0.06); border-radius: var(--radius-sm); display: none; }
+  .story-translation.show { display: block; }
+  .story-toggle {
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(45,107,138,0.3);
+    background: transparent; color: var(--sky);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; cursor: pointer; transition: all .2s;
+    margin-top: 0.5rem;
+  }
+  .story-toggle:hover { background: rgba(45,107,138,0.08); }
+
+
+  /* ── GLOSSARY ── */
+  .glossary-search {
+    width: 100%; max-width: 500px;
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--border);
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none; transition: border-color .2s;
+    margin-bottom: 2rem;
+  }
+  .glossary-search:focus { border-color: var(--gold); }
+  .glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+  .glossary-item {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.2rem;
+    transition: transform .15s, background .3s;
+  }
+  .glossary-item:hover { transform: translateY(-2px); }
+  .glossary-word { font-weight: 700; font-size: 1rem; }
+  .glossary-trans { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+  .glossary-lang { font-size: 0.72rem; color: var(--gold); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+
+  /* ── PROGRESS DASHBOARD ── */
+  .progress-dash {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-top: 2rem;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .progress-dash h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; margin-bottom: 1.2rem; }
+  .progress-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+  .progress-stat {
+    text-align: center;
+    padding: 1rem;
+    background: var(--paper);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .progress-stat .num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 700; }
+  .progress-stat .label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+  .progress-stat .num.gold { color: var(--gold); }
+  .progress-stat .num.sky { color: var(--sky); }
+  .progress-stat .num.sage { color: var(--sage); }
+  .progress-stat .num.terra { color: var(--terracotta); }
+  .progress-reset {
+    margin-top: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(196,88,58,0.3);
+    background: transparent; color: var(--terracotta);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; cursor: pointer; transition: all .2s;
+  }
+  .progress-reset:hover { background: rgba(196,88,58,0.08); }
+
+
+  /* ── RESOURCES ── */
+  .resources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .resource-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform .2s, background .3s, border-color 0.3s;
+  }
+  .resource-card:hover { transform: translateY(-2px); }
+  .resource-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; margin-bottom: 0.5rem; }
+  .resource-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .resource-link {
+    display: inline-block; margin-top: 0.8rem;
+    color: var(--sky); font-size: 0.82rem; font-weight: 500;
+    text-decoration: none; border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .resource-link:hover { border-color: var(--sky); }
+
+
+  /* ── ROADMAP ── */
+  .roadmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .phase {
+    padding: 2rem; border: 1px solid var(--border);
+    position: relative; transition: background .2s, border-color .3s;
+  }
+  .phase:hover { background: var(--cream); }
+  .phase-num {
+    font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700;
+    color: rgba(14,12,10,0.06); line-height: 1; margin-bottom: 0.5rem;
+  }
+  body.dark .phase-num { color: rgba(255,255,255,0.05); }
+  .phase-tag {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+  }
+  .phase h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .phase p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+  .phase-status {
+    display: inline-block; margin-top: 1.2rem;
+    border-radius: var(--radius-pill); padding: 0.2rem 0.75rem;
+    font-size: 0.72rem; font-weight: 500;
+  }
+  .phase-status.active { background: rgba(90,122,94,0.15); color: var(--sage); }
+  .phase-status.soon { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .phase-status.future { background: rgba(14,12,10,0.06); color: var(--muted); }
+  body.dark .phase-status.future { background: rgba(255,255,255,0.06); }
+
+
+  /* ── PRICING ── */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 700px; margin-top: 3rem; }
+  .price-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 2.5rem;
+    position: relative; overflow: hidden;
+    background: var(--cream);
+    transition: background .3s, border-color .3s;
+  }
+  .price-card.featured {
+    background: var(--ink); color: var(--paper);
+    border-color: var(--ink);
+  }
+  .price-card.featured .price-label { color: var(--gold); }
+  .price-card.featured .price-desc { color: rgba(245,240,232,0.55); }
+  .price-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: var(--gold); color: var(--ink);
+    border-radius: var(--radius-pill); padding: 0.2rem 0.7rem;
+    font-size: 0.72rem; font-weight: 600;
+  }
+  .price-label { font-size: 0.75rem; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+  .price-amount {
+    font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700;
+    line-height: 1; margin-bottom: 0.3rem;
+  }
+  .price-period { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .price-card.featured .price-period { color: rgba(245,240,232,0.45); }
+  .price-features { list-style: none; }
+  .price-features li { font-size: 0.85rem; padding: 0.4rem 0; display: flex; gap: 0.6rem; align-items: center; }
+  .price-features li::before { content: '✓'; font-weight: 700; }
+  .price-card.featured .price-features li::before { color: var(--gold); }
+  .price-features li.off { opacity: 0.35; }
+  .price-features li.off::before { content: '—'; }
+  .price-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+  .price-btn {
+    width: 100%; border-radius: var(--radius-pill); padding: 0.75rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; border: none; margin-top: 1.5rem;
+    transition: transform .15s, background .2s, color .2s;
+  }
+  .price-btn:hover { transform: translateY(-2px); }
+  .price-btn.dark { background: var(--paper); color: var(--ink); }
+  .price-btn.light { background: var(--ink); color: var(--paper); }
+
+
+  /* ── AD PLACEHOLDER ── */
+  .ad-slot {
+    background: rgba(14,12,10,0.03);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 2rem 0;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  body.dark .ad-slot { background: rgba(255,255,255,0.03); }
+  .ad-slot span { opacity: 0.5; }
+
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--terracotta); padding: 6rem 3rem;
+    text-align: center;
+  }
+  .cta-section .section-title { color: var(--cream); max-width: 600px; margin: 0 auto 1rem; }
+  .cta-section p { color: rgba(245,240,232,0.75); font-size: 1.05rem; margin-bottom: 2.5rem; }
+  .cta-section .btn-primary { background: var(--cream); color: var(--terracotta); }
+  .cta-section .btn-primary:hover { background: var(--paper); }
+
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(245,240,232,0.5);
+    padding: 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    transition: background .3s, color .3s;
+  }
+  footer .logo { color: var(--paper); }
+  footer p { font-size: 0.8rem; }
+
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    .features-grid, .langs-grid, .resources-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .story-list.active { grid-template-columns: 1fr; }
+    .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--paper); padding: 5rem 2rem; gap: 1.5rem; align-items: center; justify-content: center; z-index: 99; }
+    .nav-links.open a { font-size: 1.2rem; }
+  }
+  @media (max-width: 600px) {
+    .section { padding: 4rem 1.5rem; }
+    .langs-section { padding: 4rem 1.5rem; }
+    .lang-card { padding: 1rem; gap: 0.6rem; }
+    .lang-users { margin-left: 0; width: 100%; }
+    .features-grid, .langs-grid, .roadmap-grid, .resources-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats .stat { padding: 1.5rem 1rem; }
+    .stat-num { font-size: 2rem; }
+    .quiz-box { padding: 1.5rem; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    .progress-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+
+  /* ── LEVEL TEST VIRAL ── */
+  .level-test-section {
+    padding: 5rem 3rem;
+    background: linear-gradient(135deg, var(--ink) 0%, #1a1a1a 100%);
+    color: var(--paper);
+    position: relative; overflow: hidden;
+  }
+  .level-test-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .lt-inner { max-width: 1200px; margin: 0 auto; }
+  .level-test-section .section-label { color: var(--gold); }
+  .level-test-section .section-title { color: var(--paper); max-width: 100%; }
+  .level-test-section .section-sub { color: rgba(245,240,232,0.5); }
+  .lt-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    max-width: 560px;
+    margin-top: 2rem;
+    backdrop-filter: blur(8px);
+  }
+  .lt-card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .lt-card h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .lt-card p { color: rgba(245,240,232,0.55); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .lt-card .btn-primary { background: var(--gold); color: var(--ink); }
+  .lt-card .btn-primary:hover { background: var(--gold-light); }
+  .lt-progress { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .lt-progress-bar { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .lt-progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width .3s; width: 20%; }
+  .lt-progress-text { font-size: 0.78rem; color: rgba(245,240,232,0.4); font-weight: 500; min-width: 30px; text-align: right; }
+  .lt-lang-tag {
+    display: inline-block;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius-pill);
+    padding: 0.2rem 0.8rem;
+    font-size: 0.75rem; font-weight: 500; color: var(--gold-light);
+    margin-bottom: 1rem;
+  }
+  .lt-q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem; line-height: 1.5;
+    margin-bottom: 1.2rem;
+  }
+  .lt-options { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+  .lt-option {
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    color: var(--paper);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer; transition: all .2s;
+    text-align: left;
+  }
+  .lt-option:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .lt-option.correct { border-color: var(--success); background: rgba(74,154,94,0.15); }
+  .lt-option.wrong { border-color: var(--error); background: rgba(196,88,58,0.15); }
+  .lt-option.disabled { cursor: default; opacity: 0.7; }
+  .lt-feedback {
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    display: none;
+    margin-bottom: 1rem;
+  }
+  .lt-feedback.show { display: block; }
+  .lt-feedback.ok { background: rgba(74,154,94,0.12); color: #7ad48a; border: 1px solid rgba(74,154,94,0.25); }
+  .lt-feedback.ko { background: rgba(196,88,58,0.12); color: #e88a6a; border: 1px solid rgba(196,88,58,0.25); }
+
+
+  /* Result Card */
+  .lt-result-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2010 100%);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .lt-result-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 20%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .lt-result-badge { font-size: 3rem; margin-bottom: 0.5rem; }
+  .lt-result-label { font-size: 0.7rem; letter-spacing: 0.15em; color: var(--gold); font-weight: 500; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .lt-result-level {
+    font-family: 'Fraunces', serif;
+    font-size: 4rem; font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .lt-result-score { font-size: 1.1rem; color: rgba(245,240,232,0.5); margin-bottom: 0.3rem; }
+  .lt-result-score span { font-size: 2rem; color: var(--gold); font-weight: 700; }
+  .lt-result-desc { font-size: 0.9rem; color: rgba(245,240,232,0.4); margin-bottom: 1rem; }
+  .lt-result-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 0.8rem; color: rgba(201,168,76,0.25);
+    letter-spacing: 0.1em;
+  }
+  .lt-share-section { text-align: center; padding: 1rem 0; }
+  .lt-share-title { font-size: 0.95rem; margin-bottom: 1rem; color: rgba(245,240,232,0.7); }
+  .lt-share-btns { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .lt-share-btn {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: var(--radius-pill);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: transform .15s;
+  }
+  .lt-share-btn:hover { transform: translateY(-2px); }
+  .lt-share-btn.tiktok { background: #000; color: #fff; border: 1px solid #333; }
+  .lt-share-btn.tiktok:hover { background: #1a1a1a; }
+  .lt-share-btn.link { background: rgba(255,255,255,0.08); color: var(--paper); border: 1px solid rgba(255,255,255,0.15); }
+  .lt-share-btn.link:hover { background: rgba(255,255,255,0.12); }
+  .lt-invite, .lt-reveal { margin-top: 1rem; }
+  .lt-invite p { font-size: 0.85rem; color: var(--success); margin-bottom: 0.5rem; }
+  .lt-reveal .btn-secondary { color: var(--paper); border-color: rgba(255,255,255,0.2); }
+  .lt-reveal .btn-secondary:hover { border-color: var(--gold); }
+  .lt-detail-cta { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+  .lt-answer-item {
+    padding: 0.8rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.5rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .lt-answer-item .qa-lang { font-size: 0.72rem; color: var(--gold); font-weight: 500; }
+  .lt-answer-item .qa-q { font-size: 0.88rem; margin: 0.2rem 0; }
+  .lt-answer-item .qa-a { font-size: 0.82rem; }
+  .lt-answer-item .qa-a.good { color: var(--success); }
+  .lt-answer-item .qa-a.bad { color: var(--error); }
+
+
+  @media (max-width: 600px) {
+    .level-test-section { padding: 3rem 1.5rem; }
+    .lt-card { padding: 1.5rem; }
+    .lt-result-level { font-size: 3rem; }
+    .lt-share-btns { flex-direction: column; }
+    .lt-share-btn { justify-content: center; }
+  }
+
+
+  /* ── TOAST NOTIFICATION ── */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--ink); color: var(--paper);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .3s, transform .3s;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+
+<div class="toast" id="toast"></div>
+
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Ultralengua<span class="logo-dot">·</span>Pro</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#features" onclick="closeNav()">Fonctionnalités</a></li>
+    <li><a href="#quiz" onclick="closeNav()">Quiz</a></li>
+    <li><a href="#histoires" onclick="closeNav()">Histoires</a></li>
+    <li><a href="#glossaire" onclick="closeNav()">Glossaire</a></li>
+    <li><a href="#langues" onclick="closeNav()">Langues</a></li>
+    <li><a href="#tarifs" onclick="closeNav()">Tarifs</a></li>
+    <li><a href="#levelTest" onclick="closeNav()">Test</a></li>
+  </ul>
+  <button id="themeToggle" onclick="toggleTheme()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;padding:4px 8px" aria-label="Theme">🌙</button>
+  <button class="nav-cta" onclick="document.getElementById('tarifs').scrollIntoView({behavior:'smooth'})">Commencer gratuitement</button>
+  <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag"><span></span>Propulsé par l'IA avancée</div>
+    <h1>Maîtrisez les langues,<br><em>naturellement.</em></h1>
+    <p>Six langues. Un partenaire IA qui vous corrige, vous challenge, et s'adapte à votre niveau. Immersion totale, progrès réels.</p>
+    <div class="hero-btns">
+      <a href="#tarifs" class="btn-primary">Démarrer l'aventure</a>
+      <a href="#features" class="btn-secondary">Voir les fonctionnalités</a>
+    </div>
+    <div class="hero-langs">
+      <span class="lang-pill"><span class="fi fi-fr"></span> Français</span>
+      <span class="lang-pill"><span class="fi fi-gb"></span> Anglais</span>
+      <span class="lang-pill"><span class="fi fi-es"></span> Espagnol</span>
+      <span class="lang-pill"><span class="fi fi-de"></span> Allemand</span>
+      <span class="lang-pill"><span class="fi fi-sa"></span> Arabe</span>
+      <span class="lang-pill"><span class="fi fi-nl"></span> Néerlandais</span>
+    </div>
+  </div>
+
+
+  <div class="hero-visual">
+    <div class="float-card a">🎯 +94% de rétention</div>
+    <div class="float-card b">⚡ Correction en temps réel</div>
+    <div class="phone-card">
+      <div class="phone-top">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="phone-title">IA Conversationnelle</span>
+      </div>
+      <div class="phone-body">
+        <div class="chat-msg ai">Bonjour ! Parlons espagnol aujourd'hui. Comment était ta journée ?</div>
+        <div class="chat-msg user">Ayer fui al mercado y compré muchas cosas.</div>
+        <div class="chat-msg correction">💡 <strong>Correction :</strong> "muchos cosas" → "muchas cosas". Excellent effort !</div>
+        <div class="streak-bar">
+          <span class="streak-fire">🔥</span>
+          <div>
+            <div class="streak-text">Série de 7 jours</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- LEVEL TEST VIRAL -->
+<section class="level-test-section" id="levelTest">
+  <div class="lt-inner">
+    <div class="lt-content">
+      <div class="section-label">Test de niveau</div>
+      <h2 class="section-title">Quel est ton <em>vrai niveau</em> ?</h2>
+      <p class="section-sub">5 questions en 30 secondes. Découvre ton niveau réel et défie tes amis.</p>
+
+
+      <div id="ltApp">
+        <!-- Start Screen -->
+        <div id="ltStart" class="lt-card">
+          <div class="lt-card-icon">🌍</div>
+          <h3>Prêt à te tester ?</h3>
+          <p>5 questions multilingues. Personne ne fait 5/5 du premier coup.</p>
+          <button class="btn-primary" onclick="startLevelTest()">Commencer le test</button>
+        </div>
+
+
+        <!-- Question Screen -->
+        <div id="ltQuestion" class="lt-card" style="display:none;">
+          <div class="lt-progress">
+            <div class="lt-progress-bar"><div class="lt-progress-fill" id="ltProgressFill"></div></div>
+            <div class="lt-progress-text" id="ltProgressText">1/5</div>
+          </div>
+          <div class="lt-lang-tag" id="ltLangTag"><span class="fi fi-gb"></span> Anglais</div>
+          <div class="lt-q-text" id="ltQText"></div>
+          <div class="lt-options" id="ltOptions"></div>
+          <div class="lt-feedback" id="ltFeedback"></div>
+        </div>
+
+
+        <!-- Result Screen -->
+        <div id="ltResult" class="lt-card" style="display:none;">
+          <div id="ltResultCard" class="lt-result-card">
+            <div class="lt-result-badge" id="ltResultBadge">🌟</div>
+            <div class="lt-result-label">TON NIVEAU</div>
+            <div class="lt-result-level" id="ltResultLevel">A1</div>
+            <div class="lt-result-score">
+              <span id="ltResultNum">0</span>/5
+            </div>
+            <div class="lt-result-desc" id="ltResultDesc">Débutant</div>
+            <div class="lt-result-brand">Ultralengua·Pro</div>
+          </div>
+
+
+          <div class="lt-share-section" id="ltShareSection">
+            <p class="lt-share-title">🎯 <strong>Partage ton résultat</strong> pour débloquer tes erreurs détaillées !</p>
+            <div class="lt-share-btns">
+              <button class="lt-share-btn tiktok" onclick="shareTikTok()">
+                <span>📱</span> Partager sur TikTok
+              </button>
+              <button class="lt-share-btn link" onclick="copyShareLink()">
+                <span>🔗</span> Copier le lien
+              </button>
+            </div>
+            <div class="lt-invite" id="ltInvite" style="display:none;">
+              <p>✅ Lien copié ! Envoie-le à un ami pour débloquer tes résultats.</p>
+            </div>
+            <div class="lt-reveal" id="ltReveal" style="display:none;">
+              <button class="btn-secondary" onclick="revealAnswers()">🔓 Voir mes erreurs</button>
+            </div>
+          </div>
+
+
+          <div id="ltDetailed" style="display:none;">
+            <h4 style="margin-bottom:1rem;">📝 Détail des réponses</h4>
+            <div id="ltAnswerReview"></div>
+            <div class="lt-detail-cta">
+              <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">
+                Prêt à vraiment progresser ? L'IA conversationnelle de Ultralengua Pro s'adapte à ton niveau.
+              </p>
+              <a href="#tarifs" class="btn-primary" style="font-size:0.85rem;">Essayer Ultralengua Pro gratuitement →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stat">
+    <div class="stat-num">6<span>+</span></div>
+    <div class="stat-label">Langues disponibles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">500<span>+</span></div>
+    <div class="stat-label">Leçons structurées</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">94<span>%</span></div>
+    <div class="stat-label">Taux de rétention SRS</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24<span>/7</span></div>
+    <div class="stat-label">Partenaire IA disponible</div>
+  </div>
+</section>
+
+
+<!-- FEATURES -->
+<section class="section reveal" id="features">
+  <div class="section-label">Fonctionnalités</div>
+  <h2 class="section-title">Cinq piliers pour une <em>maîtrise réelle</em></h2>
+  <p class="section-sub">Chaque fonctionnalité a été conçue pour transformer l'apprentissage passif en immersion active et mémorable.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon blue">📚</div>
+      <h3>Parcours Structuré</h3>
+      <p>Modules thématiques par niveau (Débutant → Avancé) avec répétition espacée intelligente. L'IA mémorise vos lacunes.</p>
+      <span class="feature-tag">SRS intégré</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon green">🌐</div>
+      <h3>Traduction Contextuelle</h3>
+      <p>Au-delà du mot-à-mot : l'IA comprend le contexte culturel et propose la formulation la plus naturelle.</p>
+      <span class="feature-tag">Mode immersion</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon red">📝</div>
+      <h3>Simulations d'Examen</h3>
+      <p>TOEFL, DELF, DELE et plus. Feedback immédiat sur chaque erreur avec explication de la règle sous-jacente.</p>
+      <span class="feature-tag">Certifications</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon gold">🤖</div>
+      <h3>Partenaire IA Conversationnel</h3>
+      <p>Un vrai partenaire linguistique : correction contextuelle, adaptation du niveau, anecdotes culturelles et exercices ciblés.</p>
+      <span class="feature-tag">✨ Différenciateur clé</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon purple">🎮</div>
+      <h3>Gamification</h3>
+      <p>Points, badges, séries quotidiennes et défis thématiques. Rester motivé n'a jamais été aussi facile.</p>
+      <span class="feature-tag">Engagement +67%</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon dark">📊</div>
+      <h3>Tableau de Bord Personnel</h3>
+      <p>Visualisez vos progrès, identifiez vos points faibles, et planifiez vos prochaines sessions d'apprentissage.</p>
+      <span class="feature-tag">Analytics</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- QUIZ SECTION -->
+<section class="section reveal" id="quiz">
+  <div class="section-label">Quiz interactifs</div>
+  <h2 class="section-title">Testez vos connaissances, <em>progressons ensemble</em></h2>
+  <p class="section-sub">Quiz de vocabulaire et grammaire dans toutes les langues. Chaque réponse juste vous rapproche de la maîtrise.</p>
+
+
+  <div id="quizApp">
+    <div class="quiz-score" id="quizScore">
+      <div class="quiz-score-item">🎯 Score : <strong id="quizCorrectScore">0</strong>/<span id="quizTotalScore">0</span></div>
+      <div class="quiz-score-item">🔥 Série : <strong id="quizStreak">0</strong></div>
+      <div class="quiz-score-item" id="quizBadgeContainer"></div>
+    </div>
+
+
+    <div class="quiz-controls" id="quizLangBtns"></div>
+
+
+    <div class="quiz-box" id="quizBox">
+      <div id="quizContent">
+        <div class="quiz-question">Choisis une langue pour commencer</div>
+        <div class="quiz-prompt">Sélectionne une langue ci-dessus pour démarrer un quiz interactif.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- STORIES SECTION -->
+<section class="section reveal" id="histoires">
+  <div class="section-label">Histoires & Culture</div>
+  <h2 class="section-title">Apprenez par les <em>histoires</em></h2>
+  <p class="section-sub">Des micro-histoires authentiques dans chaque langue, avec traduction intégrée pour une compréhension totale.</p>
+
+
+  <div class="story-tabs" id="storyTabs"></div>
+  <div id="storyContainer"></div>
+</section>
+
+
+<!-- GLOSSARY SECTION -->
+<section class="section reveal" id="glossaire">
+  <div class="section-label">Glossaire</div>
+  <h2 class="section-title">Cherchez, <em>retenez</em></h2>
+  <p class="section-sub">Un glossaire multilingue en évolution constante. Tapez un mot pour trouver sa traduction et son contexte.</p>
+
+
+  <input type="text" class="glossary-search" id="glossarySearch" placeholder="🔍 Chercher un mot (ex: mer, casa, love, vie...)">
+  <div class="glossary-grid" id="glossaryGrid"></div>
+</section>
+
+
+<!-- LANGUAGES -->
+<section class="langs-section" id="langues">
+  <div class="langs-inner">
+    <div class="section-label">Langues</div>
+    <h2 class="section-title">Six langues,<br><em>un seul écosystème</em></h2>
+    <p class="section-sub">Chaque langue dispose de ses propres données d'entraînement, de ses nuances culturelles et de son parcours dédié.</p>
+    <div class="langs-grid reveal">
+      <div class="lang-card" onclick="startQuiz('fr')" style="cursor:pointer">
+        <span class="fi fi-fr"></span>
+        <div><div class="lang-name">Français</div><div class="lang-level">A1 → C2 · DELF/DALF</div></div>
+        <span class="lang-users">280M locuteurs</span>
+      </div>
+      <div class="lang-card" onclick="startQuiz('en')" style="cursor:pointer">
+        <span class="fi fi-gb"></span>
+        <div><div class="lang-name">Anglais</div><div class="lang-level">A1 → C2 · TOEFL/IELTS</div></div>
+        <span class="lang-users">1.5B locuteurs</span>
+      </div>
+      <div class="lang-card" onclick="startQuiz('es')" style="cursor:pointer">
+        <span class="fi fi-es"></span>
+        <div><div class="lang-name">Espagnol</div><div class="lang-level">A1 → C2 · DELE</div></div>
+        <span class="lang-users">580M locuteurs</span>
+      </div>
+      <div class="lang-card" onclick="startQuiz('de')" style="cursor:pointer">
+        <span class="fi fi-de"></span>
+        <div><div class="lang-name">Allemand</div><div class="lang-level">A1 → C2 · Goethe</div></div>
+        <span class="lang-users">130M locuteurs</span>
+      </div>
+      <div class="lang-card" onclick="startQuiz('ar')" style="cursor:pointer">
+        <span class="fi fi-sa"></span>
+        <div><div class="lang-name">Arabe</div><div class="lang-level">A1 → C2 · Script inclus</div></div>
+        <span class="lang-users">420M locuteurs</span>
+      </div>
+      <div class="lang-card" onclick="startQuiz('nl')" style="cursor:pointer">
+        <span class="fi fi-nl"></span>
+        <div><div class="lang-name">Néerlandais</div><div class="lang-level">A1 → C2 · NT2</div></div>
+        <span class="lang-users">25M locuteurs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- RESOURCES SECTION -->
+<section class="section reveal" id="ressources">
+  <div class="section-label">Ressources</div>
+  <h2 class="section-title">Aller plus loin <em>avec les meilleurs outils</em></h2>
+  <p class="section-sub">Des ressources soigneusement sélectionnées pour compléter votre apprentissage.</p>
+  <div class="resources-grid">
+    <div class="resource-card reveal">
+      <h3>📖 Dictionnaires</h3>
+      <p>WordReference, Larousse, et Linguee pour des traductions contextuelles fiables dans toutes les langues.</p>
+      <a href="https://www.wordreference.com" target="_blank" rel="noopener" class="resource-link">Visiter WordReference →</a>
+    </div>
+    <div class="resource-card reveal">
+      <h3>🎬 Immersion Vidéo</h3>
+      <p>Chaînes YouTube, séries et podcasts pour une immersion auditive dans chaque langue apprise.</p>
+      <a href="https://www.youtube.com" target="_blank" rel="noopener" class="resource-link">Découvrir YouTube →</a>
+    </div>
+    <div class="resource-card reveal">
+      <h3>📱 Applications</h3>
+      <p>Anki, Duolingo, et Memrise pour renforcer votre vocabulaire en complément de Ultralengua.</p>
+      <a href="https://apps.ankiweb.net" target="_blank" rel="noopener" class="resource-link">Voir Anki →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- PROGRESS DASHBOARD -->
+<section class="section reveal" id="progres">
+  <div class="section-label">Progression</div>
+  <h2 class="section-title">Votre <em>tableau de bord</em></h2>
+  <p class="section-sub">Suivez votre évolution en temps réel. Toutes les données sont sauvegardées localement.</p>
+  <div class="progress-dash">
+    <h3>📊 Statistiques d'apprentissage</h3>
+    <div class="progress-grid">
+      <div class="progress-stat">
+        <div class="num gold" id="progQuizzes">0</div>
+        <div class="label">Quiz complétés</div>
+      </div>
+      <div class="progress-stat">
+        <div class="num sky" id="progCorrect">0</div>
+        <div class="label">Bonnes réponses</div>
+      </div>
+      <div class="progress-stat">
+        <div class="num sage" id="progStreak">0</div>
+        <div class="label">Meilleure série</div>
+      </div>
+      <div class="progress-stat">
+        <div class="num terra" id="progBadges">0</div>
+        <div class="label">Badges obtenus</div>
+      </div>
+    </div>
+    <button class="progress-reset" onclick="resetProgress()">Réinitialiser mes données</button>
+  </div>
+</section>
+
+
+<!-- ROADMAP -->
+<section class="section reveal" id="roadmap" style="max-width:100%;padding-left:0;padding-right:0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 3rem 2rem;">
+    <div class="section-label">Feuille de route</div>
+    <h2 class="section-title">Du MVP à l'<em>écosystème complet</em></h2>
+    <p class="section-sub">Une progression rigoureuse en quatre phases pour construire une application solide et différenciante.</p>
+  </div>
+  <div class="roadmap-grid">
+    <div class="phase">
+      <div class="phase-num">01</div>
+      <div class="phase-tag">MVP · Actuel</div>
+      <h3>Produit Minimum Viable</h3>
+      <p>Français & Anglais. Leçons de base, traduction simple, chatbot règles. Validation UX et base de données.</p>
+      <span class="phase-status active">En cours</span>
+    </div>
+    <div class="phase">
+      <div class="phase-num">02</div>
+      <div class="phase-tag">IA Avancée</div>
+      <h3>Intégration LLM</h3>
+      <p>Partenaire conversationnel LLM, feedback contextuel, correction grammaticale en temps réel.</p>
+      <span class="phase-status soon">Q3 2026</span>
+    </div>
+    <div class="phase">
+      <div class="phase-num">03</div>
+      <div class="phase-tag">Expansion</div>
+      <h3>Multilinguisme Complet</h3>
+      <p>Arabe, Espagnol, Allemand, Néerlandais. Adaptation culturelle et données d'entraînement spécifiques.</p>
+      <span class="phase-status future">Q1 2027</span>
+    </div>
+    <div class="phase">
+      <div class="phase-num">04</div>
+      <div class="phase-tag">Optimisation</div>
+      <h3>Gamification & Monétisation</h3>
+      <p>UX premium, système de badges, abonnements, certifications partenaires, B2B entreprises.</p>
+      <span class="phase-status future">Q3 2027</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRICING -->
+<section class="section reveal" id="tarifs">
+  <div class="section-label">Tarifs</div>
+  <h2 class="section-title">Simple, <em>transparent</em>, efficace</h2>
+  <p class="section-sub">Commencez gratuitement. Passez à Pro quand vous voulez aller plus loin.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-label">Gratuit</div>
+      <div class="price-amount">0€</div>
+      <div class="price-desc">Pour découvrir et commencer votre apprentissage sans engagement.</div>
+      <ul class="price-features">
+        <li>Leçons de base (2 langues)</li>
+        <li>Traduction 20 req/jour</li>
+        <li>Chatbot IA limité (10 msg/jour)</li>
+        <li class="off">Simulations d'examen</li>
+        <li class="off">Parcours illimités</li>
+        <li class="off">Toutes les 6 langues</li>
+      </ul>
+      <button class="price-btn light" onclick="showToast('🎉 Compte gratuit créé ! Prêt à apprendre.')">Commencer — c'est gratuit</button>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Populaire</div>
+      <div class="price-label">Ultralengua Pro</div>
+      <div class="price-amount">14€</div>
+      <div class="price-period">par mois · Sans engagement</div>
+      <div class="price-desc">L'expérience complète avec l'IA conversationnelle illimitée.</div>
+      <ul class="price-features">
+        <li>Toutes les 6 langues</li>
+        <li>IA conversationnelle illimitée</li>
+        <li>Simulations d'examen complètes</li>
+        <li>Feedback approfondi & rapports</li>
+        <li>Scénarios avancés & culturels</li>
+        <li>Accès hors-ligne</li>
+      </ul>
+      <button class="price-btn dark" onclick="showToast('🎉 Essai 14 jours activé ! Bienvenue dans Ultralengua Pro.')">Essai 14 jours gratuit</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="section-title">Prêt à parler <em>couramment</em> ?</h2>
+  <p>Rejoignez des milliers d'apprenants qui transforment leur rapport aux langues avec Ultralengua Pro.</p>
+  <a href="#quiz" class="btn-primary">Faire mon premier quiz →</a>
+</section>
+
+
+<!-- FOOTER (harmonised with --ink) -->
+<footer style="padding:40px 20px 24px;text-align:center;font-size:0.85rem;color:var(--ink);border-top:1px solid var(--border);margin-top:40px">
+  <div style="font-size:1.1rem;font-weight:700;margin-bottom:8px;font-family:'Fraunces',serif;color: var(--ink)">
+    Ultralengua<span style="color:var(--gold)">·</span>Pro
+  </div>
+  <p style="opacity:0.7;margin-bottom:12px;line-height:1.6;color: var(--ink)">
+    <span class="fi fi-fr"></span> Français · <span class="fi fi-gb"></span> Anglais · <span class="fi fi-es"></span> Espagnol · <span class="fi fi-de"></span> Allemand · <span class="fi fi-sa"></span> Arabe · <span class="fi fi-nl"></span> Néerlandais
+  </p>
+  <!-- Visitor counter -->
+  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fucfzem.github.io%2Fultralengua-pro%2F&count_bg=%23C9A84C&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visites&edge_flat=false" alt="visites" style="margin:10px auto;display:block">
+  <p style="opacity:0.5;font-size:0.8rem;color: var(--ink)">
+    © 2026 Ultralengua Pro — Apprentissage des langues par l'IA
+  </p>
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=ucfzem.ultralengua-pro" alt="visiteurs" style="margin:8px auto;display:block;border-radius:4px">
+  <p style="margin-top:12px;font-size:0.75rem;opacity:0.4">
+    <a href="https://ucfzem.github.io/ultralengua-pro/" style="color:inherit;text-decoration:none">ultralengua-pro.netlify.app</a>
+  </p>
+</footer>
+
+
+<script>
+// ── DATA ──
+
+
+const LANGUAGES = [
+  { id: 'fr', name: 'Français', fi: 'fr' },
+  { id: 'en', name: 'Anglais', fi: 'gb' },
+  { id: 'es', name: 'Espagnol', fi: 'es' },
+  { id: 'de', name: 'Allemand', fi: 'de' },
+  { id: 'ar', name: 'Arabe', fi: 'sa' },
+  { id: 'nl', name: 'Néerlandais', fi: 'nl' },
+];
+
+
+const QUIZZES = {
+  fr: [
+    { q: 'Que signifie "contemporain" ?', options: ['Ancien', 'Moderne', 'Rapide', 'Lent'], correct: 1 },
+    { q: 'Complétez : "Il ___ parti hier."', options: ['a', 'est', 'as', 'es'], correct: 1 },
+    { q: 'Quel est le pluriel de "cheval" ?', options: ['chevals', 'chevaux', 'chevales', 'chevaus'], correct: 1 },
+    { q: '"Avoir la chair de poule" signifie :', options: ['Avoir faim', 'Avoir peur/froid', 'Être en colère', 'Être fatigué'], correct: 1 },
+    { q: 'Quel mot est un synonyme de "pédagogue" ?', options: ['Médecin', 'Enseignant', 'Ingénieur', 'Artiste'], correct: 1 },
+  ],
+  en: [
+    { q: 'What does "ubiquitous" mean?', options: ['Rare', 'Partout présent', 'Souterrain', 'Ancien'], correct: 1 },
+    { q: 'Fill in: "She ___ to the store yesterday."', options: ['go', 'goes', 'went', 'gone'], correct: 2 },
+    { q: 'Which is the correct spelling?', options: ['Recieve', 'Receive', 'Receeve', 'Reciave'], correct: 1 },
+    { q: '"Break the ice" means:', options: ['Casser de la glace', 'Briser la glace (social)', 'Tomber', 'Se blesser'], correct: 1 },
+    { q: 'What is an antonym of "benevolent"?', options: ['Kind', 'Generous', 'Malevolent', 'Gentle'], correct: 2 },
+  ],
+  es: [
+    { q: '¿Qué significa "cotidiano"?', options: ['Extraño', 'Diario/cotidiano', 'Rápido', 'Lento'], correct: 1 },
+    { q: 'Completa: "Ellos ___ estudiantes."', options: ['son', 'están', 'es', 'está'], correct: 0 },
+    { q: '¿Cuál es el plural de "canción"?', options: ['cancions', 'canciones', 'canciónes', 'cancionas'], correct: 1 },
+    { q: '"Estar en las nubes" significa:', options: ['Estar feliz', 'Estar distraído', 'Volar', 'Dormir'], correct: 1 },
+    { q: 'Sinónimo de "alegría":', options: ['Tristeza', 'Felicidad', 'Enojo', 'Miedo'], correct: 1 },
+  ],
+  de: [
+    { q: 'Was bedeutet "Schadenfreude"?', options: ['Freude am Schaden', 'Traurigkeit', 'Glück', 'Wut'], correct: 0 },
+    { q: 'Ergänze: "Ich ___ ein Buch."', options: ['habe', 'bin', 'lese', 'gehe'], correct: 2 },
+    { q: 'Der Plural von "Kind" ist:', options: ['Kinder', 'Kindern', 'Kindes', 'Kinds'], correct: 0 },
+    { q: '"Da steppt der Bär" bedeutet:', options: ['Es ist langweilig', 'Es ist eine tolle Party', 'Es ist gefährlich', 'Es ist leise'], correct: 1 },
+    { q: 'Was ist ein Synonym für "beginnen"?', options: ['Enden', 'Anfangen', 'Warten', 'Aufhören'], correct: 1 },
+  ],
+  ar: [
+    { q: 'ما معنى "مكتبة" ؟', options: ['مدرسة', 'مكتبة', 'مطبخ', 'غرفة'], correct: 1 },
+    { q: 'أكمل: "هو ___ في المدرسة."', options: ['ذهب', 'يذهب', 'ذاهب', 'اذهب'], correct: 1 },
+    { q: 'جمع كلمة "معلم":', options: ['معلمون', 'معلمات', 'معلمين', 'معالم'], correct: 0 },
+    { q: '"جزاك الله خيراً" تعني:', options: ['شكراً', 'الله يعطيك خيراً', 'مع السلامة', 'عفواً'], correct: 1 },
+    { q: 'مضاد كلمة "كبير":', options: ['ضخم', 'صغير', 'جميل', 'طويل'], correct: 1 },
+  ],
+  nl: [
+    { q: 'Wat betekent "fiets"?', options: ['Auto', 'Fiets', 'Trein', 'Vliegtuig'], correct: 1 },
+    { q: 'Vul aan: "Ik ___ naar school."', options: ['loop', 'loopt', 'lopen', 'liep'], correct: 0 },
+    { q: 'Het meervoud van "boek" is:', options: ['boeken', 'boek', 'boekens', 'boekte'], correct: 0 },
+    { q: '"Het regent pijpenstelen" betekent:', options: ['Het is droog', 'Het regent heel hard', 'Het sneeuwt', 'Het is zonnig'], correct: 1 },
+    { q: 'Synoniem van "mooi":', options: ['lelijk', 'prachtig', 'snel', 'groot'], correct: 1 },
+  ],
+};
+
+
+const STORIES = {
+  es: [
+    { title: 'El Viaje a Madrid', level: 'Débutant', text: 'María viaja a Madrid por primera vez. Camina por la Plaza Mayor y come tapas en un pequeño café. El sol brilla y la ciudad está llena de vida.', translation: 'María voyage à Madrid pour la première fois. Elle se promène sur la Plaza Mayor et mange des tapas dans un petit café. Le soleil brille et la ville est pleine de vie.' },
+    { title: 'La Receta Secreta', level: 'Intermédiaire', text: 'Mi abuela me enseñó su receta de paella. "El secreto está en el azafrán", decía. Ahora cada vez que cocino paella, pienso en ella.', translation: 'Ma grand-mère m\'a appris sa recette de paella. "Le secret est dans le safran", disait-elle. Maintenant chaque fois que je cuisine une paella, je pense à elle.' },
+  ],
+  en: [
+    { title: 'The London Fog', level: 'Débutant', text: 'London is famous for its fog. One morning, Sarah walked across Tower Bridge. The fog was so thick, she could barely see the river below.', translation: 'Londres est célèbre pour son brouillard. Un matin, Sarah a traversé le Tower Bridge. Le brouillard était si épais qu\'elle pouvait à peine voir la rivière en dessous.' },
+    { title: 'The Lost Key', level: 'Intermédiaire', text: 'James found an old key in his grandmother\'s attic. It had a strange symbol carved into it. Little did he know, it would lead him to a hidden treasure.', translation: 'James a trouvé une vieille clé dans le grenier de sa grand-mère. Elle avait un symbole étrange gravé dessus. Il ne savait pas encore qu\'elle le mènerait à un trésor caché.' },
+  ],
+  fr: [
+    { title: 'Le Marché Provençal', level: 'Débutant', text: 'Chaque samedi, le village provençal s\'anime avec son marché coloré. Odette achète des olives, du fromage et des herbes de Provence pour sa tarte.', translation: 'Every Saturday, the Provencal village comes alive with its colorful market. Odette buys olives, cheese and herbs for her tart.' },
+    { title: 'La Nuit Étoilée', level: 'Intermédiaire', text: 'Pierre était passionné d\'astronomie. Chaque nuit claire, il montait sur son toit pour observer les étoiles. Un soir, il aperçut une lumière qui clignotait étrangement.', translation: 'Pierre was passionate about astronomy. Every clear night, he went up to his roof to observe the stars. One evening, he spotted a strangely blinking light.' },
+  ],
+  de: [
+    { title: 'Der Berliner Bär', level: 'Débutant', text: 'In Berlin gibt es viele Bären aus Stein. Anna zählt sie auf ihrem Weg zum Brandenburger Tor. Sie findet insgesamt zwölf bunte Bären.', translation: 'À Berlin, il y a beaucoup d\'ours en pierre. Anna les compte sur le chemin de la Porte de Brandebourg. Elle trouve douze ours colorés au total.' },
+    { title: 'Das Oktoberfest', level: 'Intermédiaire', text: 'Jedes Jahr reist Familie Müller nach München zum Oktoberfest. Die Kinder fahren Karussell, während die Eltern Brezeln essen und Musik hören.', translation: 'Chaque année, la famille Müller se rend à Munich pour l\'Oktoberfest. Les enfants font du manège pendant que les parents mangent des bretzels et écoutent de la musique.' },
+  ],
+  ar: [
+    { title: 'رحلة إلى الصحراء', level: 'Débutant', text: 'سافر خالد مع عائلته إلى الصحراء. رأى الجمال والكثبان الرملية الذهبية. جلسوا حول النار وأكلوا التمر وشربوا الشاي.', translation: 'Khaled a voyagé avec sa famille dans le désert. Il a vu des chameaux et des dunes dorées. Ils se sont assis autour du feu, ont mangé des dattes et bu du thé.' },
+    { title: 'المفتاح القديم', level: 'Intermédiaire', text: 'وجدت ليلى مفتاحاً قديماً في حديقة جدتها. كان المفتاح مصنوعاً من النحاس الأصفر. قررت أن تبحث عن الباب الذي يفتحه.', translation: 'Leila a trouvé une vieille clé dans le jardin de sa grand-mère. La clé était en cuivre jaune. Elle a décidé de chercher la porte qu\'elle ouvrait.' },
+  ],
+  nl: [
+    { title: 'De Fiets van Amsterdam', level: 'Débutant', text: 'Mark fiets elke dag door Amsterdam. Hij gaat langs de grachten et over kleine bruggetjes. De stad is mooi, vooral als de zon schijnt.', translation: 'Mark fait du vélo chaque jour à Amsterdam. Il longe les canaux et traverse des petites ponts. La ville est belle, surtout quand le soleil brille.' },
+    { title: 'Het Geheim van de Molen', level: 'Intermédiaire', text: 'In een klein dorpje staat een oude molen. De kinderen zeggen dat er een geest woont. Lisa is nieuwsgierig en besluit op een nacht te gaan kijken.', translation: 'Dans un petit village se trouve un vieux moulin. Les enfants disent qu\'un fantôme y habite. Lisa est curieuse et décide d\'aller voir une nuit.' },
+  ],
+};
+
+
+const GLOSSARY = [
+  { word: 'Bonjour', trans: 'Hello (FR)', lang: 'fr' },
+  { word: 'Merci', trans: 'Thank you (FR)', lang: 'fr' },
+  { word: 'S\'il vous plaît', trans: 'Please (FR)', lang: 'fr' },
+  { word: 'Au revoir', trans: 'Goodbye (FR)', lang: 'fr' },
+  { word: 'Aujourd\'hui', trans: 'Today (FR)', lang: 'fr' },
+  { word: 'Hello', trans: 'Bonjour (EN)', lang: 'en' },
+  { word: 'Thank you', trans: 'Merci (EN)', lang: 'en' },
+  { word: 'Please', trans: 'S\'il vous plaît (EN)', lang: 'en' },
+  { word: 'Goodbye', trans: 'Au revoir (EN)', lang: 'en' },
+  { word: 'Today', trans: 'Aujourd\'hui (EN)', lang: 'en' },
+  { word: 'Hola', trans: 'Bonjour (ES)', lang: 'es' },
+  { word: 'Gracias', trans: 'Merci (ES)', lang: 'es' },
+  { word: 'Por favor', trans: 'S\'il vous plaît (ES)', lang: 'es' },
+  { word: 'Adiós', trans: 'Au revoir (ES)', lang: 'es' },
+  { word: 'Hoy', trans: 'Aujourd\'hui (ES)', lang: 'es' },
+  { word: 'Casa', trans: 'Maison (ES)', lang: 'es' },
+  { word: 'Guten Tag', trans: 'Bonjour (DE)', lang: 'de' },
+  { word: 'Danke', trans: 'Merci (DE)', lang: 'de' },
+  { word: 'Bitte', trans: 'S\'il vous plaît (DE)', lang: 'de' },
+  { word: 'Auf Wiedersehen', trans: 'Au revoir (DE)', lang: 'de' },
+  { word: 'Heute', trans: 'Aujourd\'hui (DE)', lang: 'de' },
+  { word: 'Haus', trans: 'Maison (DE)', lang: 'de' },
+  { word: 'مرحبا', trans: 'Bonjour (AR)', lang: 'ar' },
+  { word: 'شكراً', trans: 'Merci (AR)', lang: 'ar' },
+  { word: 'من فضلك', trans: 'S\'il vous plaît (AR)', lang: 'ar' },
+  { word: 'مع السلامة', trans: 'Au revoir (AR)', lang: 'ar' },
+  { word: 'اليوم', trans: 'Aujourd\'hui (AR)', lang: 'ar' },
+  { word: 'Hallo', trans: 'Bonjour (NL)', lang: 'nl' },
+  { word: 'Dank je', trans: 'Merci (NL)', lang: 'nl' },
+  { word: 'Alsjeblieft', trans: 'S\'il vous plaît (NL)', lang: 'nl' },
+  { word: 'Tot ziens', trans: 'Au revoir (NL)', lang: 'nl' },
+  { word: 'Vandaag', trans: 'Aujourd\'hui (NL)', lang: 'nl' },
+  { word: 'Huis', trans: 'Maison (NL)', lang: 'nl' },
+  { word: 'Libertad', trans: 'Liberté (ES)', lang: 'es' },
+  { word: 'Amor', trans: 'Amour (ES)', lang: 'es' },
+  { word: 'Freiheit', trans: 'Liberté (DE)', lang: 'de' },
+  { word: 'Liebe', trans: 'Amour (DE)', lang: 'de' },
+  { word: 'حرية', trans: 'Liberté (AR)', lang: 'ar' },
+  { word: 'حب', trans: 'Amour (AR)', lang: 'ar' },
+  { word: 'Vrijheid', trans: 'Liberté (NL)', lang: 'nl' },
+  { word: 'Liefde', trans: 'Amour (NL)', lang: 'nl' },
+  { word: 'Freedom', trans: 'Liberté (EN)', lang: 'en' },
+  { word: 'Love', trans: 'Amour (EN)', lang: 'en' },
+  { word: 'Water', trans: 'Eau (EN/DE/NL)', lang: 'en' },
+  { word: 'Agua', trans: 'Eau (ES)', lang: 'es' },
+  { word: 'ماء', trans: 'Eau (AR)', lang: 'ar' },
+  { word: 'Mangiare', trans: 'Manger (IT)', lang: 'fr' },
+  { word: 'Sun', trans: 'Soleil (EN)', lang: 'en' },
+  { word: 'Soleil', trans: 'Sun (FR)', lang: 'fr' },
+  { word: 'Sol', trans: 'Soleil (ES)', lang: 'es' },
+  { word: 'Sonne', trans: 'Soleil (DE)', lang: 'de' },
+  { word: 'شمس', trans: 'Soleil (AR)', lang: 'ar' },
+  { word: 'Zon', trans: 'Soleil (NL)', lang: 'nl' },
+];
+
+
+// ── PROGRESS (localStorage) ──
+
+
+function getProgress() {
+  try {
+    return JSON.parse(localStorage.getItem('lm_progress')) || { quizzes: 0, correct: 0, streak: 0, bestStreak: 0, badges: [] };
+  } catch { return { quizzes: 0, correct: 0, streak: 0, bestStreak: 0, badges: [] }; }
+}
+
+
+function saveProgress(p) {
+  localStorage.setItem('lm_progress', JSON.stringify(p));
+}
+
+
+function updateProgressDashboard() {
+  const p = getProgress();
+  document.getElementById('progQuizzes').textContent = p.quizzes;
+  document.getElementById('progCorrect').textContent = p.correct;
+  document.getElementById('progStreak').textContent = p.bestStreak;
+  document.getElementById('progBadges').textContent = p.badges.length;
+}
+
+
+function resetProgress() {
+  if (confirm('Réinitialiser toutes vos données de progression ?')) {
+    localStorage.removeItem('lm_progress');
+    updateProgressDashboard();
+    showToast('🗑️ Données réinitialisées.');
+  }
+}
+
+
+// ── QUIZ ENGINE ──
+
+
+let quizState = { lang: null, questions: [], index: 0, score: 0, streak: 0, answered: false };
+
+
+function getBadge(score, total) {
+  const pct = total > 0 ? score / total : 0;
+  if (pct >= 0.9) return { label: '🏅 Or', cls: 'gold' };
+  if (pct >= 0.7) return { label: '🥈 Argent', cls: 'silver' };
+  if (pct >= 0.4) return { label: '🥉 Bronze', cls: 'bronze' };
+  return null;
+}
+
+
+function initQuiz() {
+  const container = document.getElementById('quizLangBtns');
+  container.innerHTML = LANGUAGES.map(l =>
+    `<button class="quiz-lang-btn" data-lang="${l.id}" onclick="startQuiz('${l.id}')"><span class="fi fi-${l.fi}"></span> ${l.name}</button>`
+  ).join('');
+}
+
+
+function startQuiz(langId) {
+  const p = getProgress();
+  const qs = QUIZZES[langId] || [];
+  if (qs.length === 0) {
+    document.getElementById('quizContent').innerHTML = '<div class="quiz-question">Quiz bientôt disponible</div><div class="quiz-prompt">Cette langue aura bientôt ses propres questions. Revenez plus tard !</div>';
+    return;
+  }
+  const shuffled = [...qs].sort(() => Math.random() - 0.5).slice(0, Math.min(5, qs.length));
+  quizState = { lang: langId, questions: shuffled, index: 0, score: 0, streak: 0, answered: false };
+  document.querySelectorAll('.quiz-lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === langId));
+  renderQuiz();
+}
+
+
+function renderQuiz() {
+  const { questions, index, score, streak } = quizState;
+  if (index >= questions.length) {
+    finishQuiz();
+    return;
+  }
+  const q = questions[index];
+  document.getElementById('quizCorrectScore').textContent = score;
+  document.getElementById('quizTotalScore').textContent = questions.length;
+  document.getElementById('quizStreak').textContent = streak;
+  quizState.answered = false;
+  let html = `<div class="quiz-question">Question ${index + 1} / ${questions.length}</div>
+    <div class="quiz-prompt">${q.q}</div>
+    <div class="quiz-options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="quiz-option" data-idx="${i}" onclick="answerQuiz(${i})">${opt}</button>`;
+  });
+  html += '</div><div class="quiz-feedback" id="quizFeedback"></div>';
+  html += `<button class="quiz-next" id="quizNext" onclick="nextQuiz()">Question suivante →</button>`;
+  document.getElementById('quizContent').innerHTML = html;
+}
+
+
+function answerQuiz(selected) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const q = quizState.questions[quizState.index];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach((el, i) => {
+    el.classList.remove('selected');
+    if (i === q.correct) el.classList.add('correct');
+    if (i === selected && i !== q.correct) el.classList.add('wrong');
+    el.style.cursor = 'default';
+    el.onclick = null;
+  });
+  const feedback = document.getElementById('quizFeedback');
+  const p = getProgress();
+  if (selected === q.correct) {
+    quizState.score++;
+    quizState.streak++;
+    p.correct++;
+    feedback.className = 'quiz-feedback correct show';
+    feedback.textContent = '✅ Correct ! Bien joué.';
+    updateBadges(p);
+  } else {
+    quizState.streak = 0;
+    feedback.className = 'quiz-feedback wrong show';
+    feedback.textContent = `❌ Pas tout à fait. La bonne réponse était : "${q.options[q.correct]}"`;
+  }
+  p.quizzes++;
+  if (quizState.streak > p.bestStreak) p.bestStreak = quizState.streak;
+  saveProgress(p);
+  updateProgressDashboard();
+  document.getElementById('quizCorrectScore').textContent = quizState.score;
+  document.getElementById('quizStreak').textContent = quizState.streak;
+  document.getElementById('quizNext').style.display = 'block';
+}
+
+
+function updateBadges(p) {
+  const badge = getBadge(p.correct, Math.max(p.quizzes, 1));
+  const bc = document.getElementById('quizBadgeContainer');
+  if (badge) {
+    bc.innerHTML = `<span class="quiz-badge ${badge.cls}">${badge.label}</span>`;
+  }
+}
+
+
+function nextQuiz() {
+  quizState.index++;
+  renderQuiz();
+}
+
+
+function finishQuiz() {
+  const { questions, score, streak, lang } = quizState;
+  const total = questions.length;
+  const pct = total > 0 ? Math.round(score / total * 100) : 0;
+  const langName = LANGUAGES.find(l => l.id === lang)?.name || '';
+  const badge = getBadge(score, total);
+  if (badge) {
+    const p = getProgress();
+    if (!p.badges.includes(`${lang}-${badge.cls}`)) {
+      p.badges.push(`${lang}-${badge.cls}`);
+      saveProgress(p);
+      updateProgressDashboard();
+    }
+  }
+  let html = `<div class="quiz-result">
+    <h3>🎉 Quiz terminé !</h3>
+    <div class="score-big">${score}/${total}</div>
+    <p>${langName} · ${pct}% de bonnes réponses</p>`;
+  if (badge) html += `<p><span class="quiz-badge ${badge.cls}" style="font-size:1rem;padding:0.4rem 1.2rem;">${badge.label} — ${langName}</span></p>`;
+  html += `<button class="btn-primary" onclick="startQuiz('${lang}')" style="margin-top:1rem;">🔄 Refaire le quiz</button>
+    <button class="btn-secondary" onclick="initQuiz();document.getElementById('quizContent').innerHTML='<div class=\\'quiz-question\\'>Choisis une langue pour commencer</div><div class=\\'quiz-prompt\\'>Sélectionne une langue ci-dessus pour démarrer un quiz interactif.</div>';document.querySelectorAll('.quiz-lang-btn').forEach(b=>b.classList.remove('active'));" style="margin-left:0.5rem;">⬅️ Autre langue</button>
+  </div>`;
+  document.getElementById('quizContent').innerHTML = html;
+  document.getElementById('quizCorrectScore').textContent = score;
+  document.getElementById('quizTotalScore').textContent = total;
+  document.getElementById('quizStreak').textContent = streak;
+}
+
+
+// ── STORIES ──
+
+
+function initStories() {
+  const tabContainer = document.getElementById('storyTabs');
+  const storyContainer = document.getElementById('storyContainer');
+  const langIds = Object.keys(STORIES);
+  tabContainer.innerHTML = langIds.map(id => {
+    const lang = LANGUAGES.find(l => l.id === id);
+    return `<button class="story-tab" data-lang="${id}" onclick="showStories('${id}')">${lang ? '<span class="fi fi-' + lang.fi + '"></span> ' + lang.name : id}</button>`;
+  }).join('');
+  if (langIds.length > 0) showStories(langIds[0]);
+}
+
+
+function showStories(langId) {
+  document.querySelectorAll('.story-tab').forEach(t => t.classList.toggle('active', t.dataset.lang === langId));
+  const stories = STORIES[langId] || [];
+  const lang = LANGUAGES.find(l => l.id === langId);
+  const container = document.getElementById('storyContainer');
+  if (stories.length === 0) {
+    container.innerHTML = '<p style="color:var(--muted)">Histoires à venir pour cette langue.</p>';
+    return;
+  }
+  container.innerHTML = `<div class="story-list active">${stories.map((s, i) => `
+    <div class="story-card reveal">
+      <div class="story-flag"><span class="fi fi-${lang ? lang.fi : 'fr'}"></span></div>
+      <h3>${s.title}</h3>
+      <div class="story-level">${s.level}</div>
+      <div class="story-text">${s.text}</div>
+      <div class="story-translation" id="trans-${langId}-${i}">${s.translation}</div>
+      <button class="story-toggle" onclick="toggleTranslation('${langId}', ${i})">📖 Voir la traduction</button>
+    </div>
+  `).join('')}</div>`;
+  setTimeout(() => {
+    container.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }, 50);
+}
+
+
+function toggleTranslation(langId, idx) {
+  const el = document.getElementById(`trans-${langId}-${idx}`);
+  const btn = el.nextElementSibling;
+  if (el.classList.contains('show')) {
+    el.classList.remove('show');
+    btn.textContent = '📖 Voir la traduction';
+  } else {
+    el.classList.add('show');
+    btn.textContent = '🙈 Masquer la traduction';
+  }
+}
+
+
+// ── GLOSSARY ──
+
+
+function initGlossary() {
+  renderGlossary(GLOSSARY);
+  document.getElementById('glossarySearch').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase();
+    const filtered = GLOSSARY.filter(g =>
+      g.word.toLowerCase().includes(q) || g.trans.toLowerCase().includes(q)
+    );
+    renderGlossary(filtered);
+  });
+}
+
+
+function renderGlossary(items) {
+  const grid = document.getElementById('glossaryGrid');
+  if (items.length === 0) {
+    grid.innerHTML = '<p style="color:var(--muted);grid-column:1/-1;">Aucun mot trouvé.</p>';
+    return;
+  }
+  grid.innerHTML = items.map(g => {
+    const lang = LANGUAGES.find(l => l.id === g.lang);
+    return `<div class="glossary-item">
+      <div class="glossary-lang">${lang ? '<span class="fi fi-' + lang.fi + '"></span>' : '🌐'}</div>
+      <div class="glossary-word">${g.word}</div>
+      <div class="glossary-trans">${g.trans}</div>
+    </div>`;
+  }).join('');
+}
+
+
+// ── HELPERS ──
+
+
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('ultraTheme', isDark ? 'dark' : 'light');
+  document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+}
+
+
+// Restore theme on load
+if (localStorage.getItem('ultraTheme') === 'dark') {
+  document.body.classList.add('dark');
+  document.getElementById('themeToggle').textContent = '☀️';
+}
+
+
+function toggleNav() {
+  const nav = document.getElementById('navLinks');
+  nav.classList.toggle('open');
+}
+
+
+// closeNav defined once (fix duplicate bug)
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+// ── INIT ──
+initQuiz();
+initStories();
+initGlossary();
+updateProgressDashboard();
+
+
+// ── LEVEL TEST VIRAL ──
+
+
+const LEVEL_QUESTIONS = [
+  {
+    q: 'Que signifie le mot anglais "abundant" ?',
+    lang: '<span class="fi fi-gb"></span> Anglais',
+    options: ['Rare', 'Abondant', 'Faible', 'Petit'],
+    correct: 1
+  },
+  {
+    q: 'Complétez la phrase : "Il ___ arrivé hier."',
+    lang: '<span class="fi fi-fr"></span> Français',
+    options: ['a', 'est', 'as', 'es'],
+    correct: 1
+  },
+  {
+    q: '¿Cómo se dice "bonjour" en español?',
+    lang: '<span class="fi fi-es"></span> Espagnol',
+    options: ['Gracias', 'Adiós', 'Hola', 'Buenas noches'],
+    correct: 2
+  },
+  {
+    q: 'Was bedeutet das Wort "Hund" auf Französisch?',
+    lang: '<span class="fi fi-de"></span> Allemand',
+    options: ['Chat', 'Oiseau', 'Poisson', 'Chien'],
+    correct: 3
+  },
+  {
+    q: 'Which sentence is grammatically correct?',
+    lang: '<span class="fi fi-gb"></span> Anglais',
+    options: [
+      'She don\'t like coffee',
+      'She doesn\'t likes coffee',
+      'She doesn\'t like coffee',
+      'She not like coffee'
+    ],
+    correct: 2
+  }
+];
+
+
+const LEVEL_MAP = [
+  { min: 0, level: 'A1', label: 'Débutant', emoji: '🌱', desc: 'Tu commences tout juste l\'aventure multilingue.' },
+  { min: 1, level: 'A2', label: 'Élémentaire', emoji: '🌿', desc: 'Les bases sont là, continue comme ça !' },
+  { min: 2, level: 'B1', label: 'Intermédiaire', emoji: '🌳', desc: 'Tu te débrouilles, mais il reste du chemin.' },
+  { min: 3, level: 'B2', label: 'Intermédiaire+', emoji: '🔥', desc: 'Solide ! Tu as une bonne culture linguistique.' },
+  { min: 4, level: 'C1', label: 'Avancé', emoji: '💪', desc: 'Presque bilingue ! Très impressionnant.' },
+  { min: 5, level: 'C2', label: 'Maîtrise', emoji: '👑', desc: 'Parfait ! Tu es un véritable polyglotte.' },
+];
+
+
+let ltState = { index: 0, score: 0, answers: [], revealed: false };
+let ltShared = false;
+
+
+function startLevelTest() {
+  ltState = { index: 0, score: 0, answers: [], revealed: false };
+  ltShared = false;
+  document.getElementById('ltStart').style.display = 'none';
+  document.getElementById('ltResult').style.display = 'none';
+  document.getElementById('ltQuestion').style.display = 'block';
+  renderLevelQuestion();
+}
+
+
+function renderLevelQuestion() {
+  const q = LEVEL_QUESTIONS[ltState.index];
+  const total = LEVEL_QUESTIONS.length;
+  document.getElementById('ltProgressFill').style.width = ((ltState.index + 1) / total * 100) + '%';
+  document.getElementById('ltProgressText').textContent = `${ltState.index + 1}/${total}`;
+  document.getElementById('ltLangTag').innerHTML = q.lang;
+  document.getElementById('ltQText').textContent = q.q;
+  document.getElementById('ltFeedback').className = 'lt-feedback';
+  document.getElementById('ltFeedback').style.display = 'none';
+
+
+  let html = '';
+  q.options.forEach((opt, i) => {
+    html += `<button class="lt-option" data-idx="${i}" onclick="answerLevelQ(${i})">${opt}</button>`;
+  });
+  document.getElementById('ltOptions').innerHTML = html;
+}
+
+
+function answerLevelQ(selected) {
+  const q = LEVEL_QUESTIONS[ltState.index];
+  const opts = document.querySelectorAll('#ltOptions .lt-option');
+  opts.forEach((el, i) => {
+    el.classList.add('disabled');
+    el.onclick = null;
+    if (i === q.correct) el.classList.add('correct');
+    if (i === selected && i !== q.correct) el.classList.add('wrong');
+  });
+
+
+  const fb = document.getElementById('ltFeedback');
+  const isCorrect = selected === q.correct;
+  ltState.answers.push({ qIndex: ltState.index, selected: selected, correct: isCorrect });
+
+
+  if (isCorrect) {
+    ltState.score++;
+    fb.className = 'lt-feedback show ok';
+    fb.innerHTML = '<strong>Correct !</strong>';
+  } else {
+    fb.className = 'lt-feedback show ko';
+    fb.innerHTML = `<strong>Incorrect.</strong> La bonne réponse était : ${q.options[q.correct]}`;
+  }
+
+
+  setTimeout(() => {
+    ltState.index++;
+    if (ltState.index < LEVEL_QUESTIONS.length) {
+      renderLevelQuestion();
+    } else {
+      finishLevelTest();
+    }
+  }, 1500);
+}
+
+
+function finishLevelTest() {
+  document.getElementById('ltQuestion').style.display = 'none';
+  document.getElementById('ltResult').style.display = 'block';
+
+
+  const score = ltState.score;
+  const total = LEVEL_QUESTIONS.length;
+
+  // Find matching level based on score
+  let matched = LEVEL_MAP[0];
+  for (let i = LEVEL_MAP.length - 1; i >= 0; i--) {
+    if (score >= LEVEL_MAP[i].min) {
+      matched = LEVEL_MAP[i];
+      break;
+    }
+  }
+
+
+  document.getElementById('ltResultBadge').textContent = matched.emoji;
+  document.getElementById('ltResultLevel').textContent = matched.level;
+  document.getElementById('ltResultNum').textContent = score;
+  document.getElementById('ltResultDesc').textContent = matched.label + " — " + matched.desc;
+
+
+  // Visual adjustment of the result card based on success level
+  const card = document.getElementById('ltResultCard');
+  if (score === 5) {
+    card.style.borderColor = 'var(--gold)';
+  } else if (score >= 3) {
+    card.style.borderColor = 'var(--sky)';
+  } else {
+    card.style.borderColor = 'rgba(255,255,255,0.1)';
+  }
+
+
+  // Reset sharing unlock UI
+  document.getElementById('ltReveal').style.display = 'none';
+  document.getElementById('ltInvite').style.display = 'none';
+  document.getElementById('ltDetailed').style.display = 'none';
+}
+
+
+function copyShareLink() {
+  const dummy = document.createElement('input');
+  const text = `J'ai obtenu le niveau ${document.getElementById('ltResultLevel').textContent} sur Ultralengua Pro (${document.getElementById('ltResultNum').textContent}/5) ! Viens te tester : https://ucfzem.github.io/ultralengua-pro/`;
+  document.body.appendChild(dummy);
+  dummy.value = text;
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+
+
+  document.getElementById('ltInvite').style.display = 'block';
+  ltShared = true;
+  document.getElementById('ltReveal').style.display = 'block';
+}
+
+
+function shareTikTok() {
+  const card = document.getElementById('ltResultCard');
+  if (typeof html2canvas !== 'undefined') {
+    html2canvas(card, { backgroundColor: '#111' }).then(canvas => {
+      try {
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'my-ultralengua-level.png';
+        link.href = imgData;
+        link.click();
+        showToast('📸 Image téléchargée ! Partage-la sur TikTok.');
+        ltShared = true;
+        document.getElementById('ltReveal').style.display = 'block';
+      } catch (e) {
+        showToast('Erreur lors du rendu. Utilisez le bouton Copier le lien !');
+      }
+    });
+  } else {
+    showToast('html2canvas non disponible. Copie le lien !');
+  }
+}
+
+
+function revealAnswers() {
+  if (!ltShared) {
+    showToast('Veuillez d\'abord partager votre résultat !');
+    return;
+  }
+  document.getElementById('ltDetailed').style.display = 'block';
+  document.getElementById('ltShareSection').style.display = 'none';
+
+
+  let html = '';
+  ltState.answers.forEach(ans => {
+    const q = LEVEL_QUESTIONS[ans.qIndex];
+    html += `
+      <div class="lt-answer-item">
+        <div class="qa-lang">${q.lang}</div>
+        <div class="qa-q">${q.q}</div>
+        <div class="qa-a ${ans.correct ? 'good' : 'bad'}">
+          ${ans.correct ? '✅' : '❌'} Ton choix : <strong>${q.options[ans.selected]}</strong>
+          ${!ans.correct ? `<br>💡 Bonne réponse : <strong>${q.options[q.correct]}</strong>` : ''}
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('ltAnswerReview').innerHTML = html;
+}
+</script>
+</body>
+</html>
