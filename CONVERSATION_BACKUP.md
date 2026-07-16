@@ -218,9 +218,16 @@ https://github.com/ucfzem?tab=repositories
 - `2ad6763` — fix: dark mode footer background + html bg var(--paper)
 - `5597f19` — fix: change Arabic flag from Saudi Arabia (sa) to Morocco (ma)
 - `4dfc16c` — fix: replace Arabic quiz with classical Arabic grammar questions
+- `a280b61` — docs: backup session 2026-07-16 — Ultralengua Pro
+
+### Déploiement Vercel
+- Projet Vercel `ultralengua-pro` créé sous `ucfzem-s-projects`
+- Déploiement depuis `cf-full/` puis `cf-deploy/` (idempotent)
+- Domaine : `https://ultralengua-pro.vercel.app`
 
 ### Liens
 - **GitHub Pages :** https://ucfzem.github.io/ultralengua-pro/
 - **Cloudflare Worker :** https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/
-- **Vercel :** https://ucfzem-works.vercel.app/ultralengua-pro/
+- **Vercel :** https://ultralengua-pro.vercel.app
+- **Vercel Dashboard :** https://vercel.com/ucfzem-s-projects/ultralengua-pro
 - **Repo :** https://github.com/ucfzem/ucfzem.github.io (path: `ultralengua-pro/`)
