@@ -189,6 +189,7 @@ https://github.com/ucfzem?tab=repositories
 - `194d984` — fix: bar drag follows finger with transform, add tap-to-cycle on grip
 - `1fa5bd3` — feat: add PixellApp to locked projects with ✦ icon, middle placement
 - `6cc57a6` — fix: remove duplicate VoxForge and Sounds of Nature entries
+- `181e5a6` — feat: organize locked projects into collapsible folders (IA & Vision, Audio & Voix, Design & Créatif, Carrière & Finance, Apprentissage, Partage & Média, Premium, Autres)
 
 ### Liens
 - **GitHub Pages PixellApp :** https://ucfzem.github.io/pixellapp/
