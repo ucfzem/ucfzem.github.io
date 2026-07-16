@@ -153,12 +153,20 @@
     <p class="subtitle">تشكيل احترافي – أدخل النص العربي غير المشكول</p>
 
 
-    <!-- API Key section with save button -->
+    <!-- Groq Key -->
     <div class="key-section">
-        <label>🔑 مفتاح Groq</label>
-        <input type="password" id="apiKeyInput" placeholder="gsk_..." dir="ltr">
-        <button onclick="saveKey()">💾 حفظ</button>
-        <span class="saved-badge" id="savedBadge">✓ محفوظ</span>
+        <label>🔑 Groq</label>
+        <input type="password" id="groqKeyInput" placeholder="gsk_..." dir="ltr">
+        <button onclick="saveKey('groq')">💾 حفظ</button>
+        <span class="saved-badge" id="groqSavedBadge">✓ محفوظ</span>
+    </div>
+
+    <!-- HuggingFace Key -->
+    <div class="key-section">
+        <label>🤗 HuggingFace</label>
+        <input type="password" id="hfKeyInput" placeholder="hf_..." dir="ltr">
+        <button onclick="saveKey('hf')">💾 حفظ</button>
+        <span class="saved-badge" id="hfSavedBadge">✓ محفوظ</span>
     </div>
 
 
@@ -177,68 +185,65 @@
 
 
 <script>
-    const HF_API = '/api/tashkeel';
-    const STORAGE_KEY = 'tashkeel_groq_token';
+    const API_ENDPOINT = '/api/tashkeel';
+    const GROQ_STORAGE = 'tashkeel_groq_token';
+    const HF_STORAGE = 'tashkeel_hf_token';
 
-
-    // Load saved key on page start
     (function() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            document.getElementById('apiKeyInput').value = saved;
-            document.getElementById('savedBadge').style.display = 'inline';
-        }
+        const g = localStorage.getItem(GROQ_STORAGE);
+        const h = localStorage.getItem(HF_STORAGE);
+        if (g) { document.getElementById('groqKeyInput').value = g; document.getElementById('groqSavedBadge').style.display = 'inline'; }
+        if (h) { document.getElementById('hfKeyInput').value = h; document.getElementById('hfSavedBadge').style.display = 'inline'; }
     })();
 
-
-    function saveKey() {
-        const key = document.getElementById('apiKeyInput').value.trim();
+    function saveKey(provider) {
+        const id = provider === 'groq' ? 'groqKeyInput' : 'hfKeyInput';
+        const badgeId = provider === 'groq' ? 'groqSavedBadge' : 'hfSavedBadge';
+        const storageKey = provider === 'groq' ? GROQ_STORAGE : HF_STORAGE;
+        const key = document.getElementById(id).value.trim();
         if (!key) return alert('أدخل المفتاح أولاً');
-        localStorage.setItem(STORAGE_KEY, key);
-        document.getElementById('savedBadge').style.display = 'inline';
+        localStorage.setItem(storageKey, key);
+        document.getElementById(badgeId).style.display = 'inline';
     }
 
-
-    function getKey() {
-        return document.getElementById('apiKeyInput').value.trim() || localStorage.getItem(STORAGE_KEY) || '';
+    function getProvider() {
+        const groq = document.getElementById('groqKeyInput').value.trim() || localStorage.getItem(GROQ_STORAGE);
+        if (groq) return { provider: 'groq', token: groq };
+        const hf = document.getElementById('hfKeyInput').value.trim() || localStorage.getItem(HF_STORAGE);
+        if (hf) return { provider: 'huggingface', token: hf };
+        return null;
     }
-
 
     async function doTashkeel() {
-        const token = getKey();
-        if (!token) {
-            alert('يرجى إدخال مفتاح Groq من console.groq.com ثم الضغط على "حفظ"');
+        const auth = getProvider();
+        if (!auth) {
+            alert('أدخل مفتاح Groq أو HuggingFace ثم اضغط "حفظ"');
             return;
         }
         const text = document.getElementById('inputText').value.trim();
         if (!text) return;
-
 
         const btn = document.getElementById('tashkeelBtn');
         const btnText = document.getElementById('btnText');
         const resultBox = document.getElementById('resultBox');
         const errorBox = document.getElementById('errorBox');
 
-
         btn.disabled = true;
         btnText.innerHTML = '<span class="spinner"></span> جاري التشكيل...';
         resultBox.textContent = '';
         errorBox.innerHTML = '';
 
-
         try {
-            const response = await fetch(HF_API, {
+            const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text, token })
+                body: JSON.stringify({ text, token: auth.token, provider: auth.provider })
             });
-
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
                 throw new Error(err.error || `خطأ ${response.status}`);
             }
-
 
             const data = await response.json();
             let diacritized = data?.result || data?.[0]?.generated_text || data?.generated_text || '';
@@ -251,7 +256,6 @@
             btnText.textContent = 'شَكِّل';
         }
     }
-
 
     function copyResult() {
         const text = document.getElementById('resultBox').textContent;
