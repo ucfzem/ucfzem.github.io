@@ -219,6 +219,13 @@ https://github.com/ucfzem?tab=repositories
 - `5597f19` — fix: change Arabic flag from Saudi Arabia (sa) to Morocco (ma)
 - `4dfc16c` — fix: replace Arabic quiz with classical Arabic grammar questions
 - `a280b61` — docs: backup session 2026-07-16 — Ultralengua Pro
+- `2d8a1c0` — fix: improve Arabic quiz readability — larger font, RTL, high contrast
+
+### Améliorations lisibilité arabe
+- `[dir="rtl"] .quiz-prompt` : font-size `1.4rem`, line-height `1.8`, weight `500`, color `var(--ink)`
+- `[dir="rtl"] .quiz-options` : direction rtl + align right
+- `[dir="rtl"] .quiz-option` : font-size `1.1rem`, line-height `1.6`
+- `dir` dynamique : `#quizBox` bascule entre `rtl`/`ltr` selon la langue sélectionnée
 
 ### Déploiement Vercel
 - Projet Vercel `ultralengua-pro` créé sous `ucfzem-s-projects`
