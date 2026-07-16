@@ -1,4 +1,4 @@
-# Session Backup — 2026-07-15
+# Session Backup — 2026-07-16
 
 ## Projects
 
@@ -9,56 +9,44 @@
 - **Status**: ✅ Live on GitHub Pages
 
 ### 2. Tashkeel (Arabic Diacritization)
-- **GitHub Pages**: https://ucfzem.github.io/tashkeel/
-- **Vercel**: https://tashkeel-five.vercel.app/
-- **Vercel (latest)**: https://tashkeel-vzm62dank-ucfzem-s-projects.vercel.app/
+- **Frontend (Vercel)**: https://tashkeel-five.vercel.app/
+- **Frontend (GitHub Pages)**: https://ucfzem.github.io/tashkeel/
+- **API**: https://tashkeel-five.vercel.app/api/tashkeel
 - **Files**:
-  - `tashkeel/index.html` — Arabic RTL frontend, dual Groq + HuggingFace key sections
-  - `tashkeel/api/tashkeel.js` — Vercel serverless function (CORS, Groq + HF proxy)
-  - `tashkeel/vercel.json` — rewrites config
-- **Status**: ✅ Deployed to Vercel (`dpl_2fn1Acrbb4mBF6FxSaeS3ZTQ1U9i`). GitHub Pages build queued.
-- **Link Tree**: Added to `works/index.html` locked AI projects section (🕌 icon, middle of folder)
+  - `tashkeel/index.html` — Arabic RTL frontend, Groq + HuggingFace key sections, clear/copy buttons, vibration
+  - `tashkeel/api/tashkeel.js` — Vercel serverless function (CORS, OPTIONS, Groq/HF proxy, shaddah prompt)
+  - `tashkeel/vercel.json` — functions config (maxDuration: 30)
+  - `tashkeel/package.json` — Node >= 18
+- **Status**: ✅ Deployed & aliased to `tashkeel-five.vercel.app`
 
-## Git Log (ucfzem.github.io)
+## Git Log
 ```
+9c7dd33 tashkeel: clear/copy buttons, remove default text
+9ea8340 tashkeel: keep original text untouched, add labels
+8dfb2c8 tashkeel: demand shaddah in system prompt
+52b21de tashkeel: put result in textarea + vibrate feedback for blind use
+4f5d4fc tashkeel: fix vercel.json runtime format
+ae24886 tashkeel: fix CORS, add Node 20 runtime, improve error handling
+0df231e update session backup
 2e77bab works: add Tashkeel to locked AI projects
-ebc35df update session backup
-b0ae8e2 tashkeel: cleaner serverless function with better prompts
-90eaafc tashkeel: use absolute Vercel API URL for GitHub Pages
-f55d28c tashkeel: add Groq + HuggingFace dual key support
-092d3d8 feat: switch tashkeel from HF to Groq API (Llama 3.3 70B)
-34b67f8 fix: add serverless proxy for CORS + HF token security
-df9d4e9 feat: add tashkeel - Arabic diacritization tool
-0317078 force: redeploy drawingsand WebGL
-4a86126 feat: deploy full WebGL 2.0 sand drawer with brush, stamps, eraser, rake, undo/redo, wave, sand colors
 ```
-
-## Vercel Deployments
-| ID | Status | URL |
-|----|--------|-----|
-| `dpl_2fn1Acrbb4mBF6FxSaeS3ZTQ1U9i` | Ready | tashkeel-vzm62dank-ucfzem-s-projects.vercel.app |
-| `dpl_DoFdKv2U87nvvDR8TFFCUnHi4oz2` | Ready | tashkeel-five.vercel.app |
-
-## API Keys (User: UcfZem7)
-- **GitHub**: `ucfzem/ucfzem.github.io` — PAT in remote URL
-- **Groq**: Get free key at console.groq.com (gsk_...)
-- **HuggingFace**: Get key at huggingface.co/settings/tokens (hf_...)
-- **Vercel**: Token saved in local session (DO NOT COMMIT)
-- **Cloudflare**: Token saved in local session (DO NOT COMMIT)
 
 ## Architecture
-- Frontend (GitHub Pages) → calls absolute Vercel API URL → Serverless function → Groq/HF API
-- GitHub Pages can't run serverless functions, so frontend uses `https://tashkeel-five.vercel.app/api/tashkeel`
-- Serverless function handles CORS and proxies to Groq chat completions or HF inference API
+- Frontend (Vercel / GitHub Pages) → calls absolute Vercel API URL → Serverless function → Groq/HF API
+- Serverless function handles CORS, proxies to Groq chat completions (Llama 3.3 70B)
 
 ## Key Decisions
 - Groq preferred over HuggingFace (faster, no cold-start)
-- Serverless proxy protects API keys (never exposed to frontend)
-- Both Groq and HuggingFace key sections kept in UI for flexibility
-- Cloudflare Pages abandoned (API issues, GitHub integration broken)
-- Vercel chosen for serverless functions
+- Serverless proxy protects API keys
+- System prompt updated to explicitly demand shaddah (ّ)
+
+## Links
+- **Tashkeel app**: https://tashkeel-five.vercel.app/
+- **GitHub Pages mirror**: https://ucfzem.github.io/tashkeel/
+- **GitHub repo**: https://github.com/ucfzem/ucfzem.github.io
+- **Vercel project**: https://vercel.com/ucfzem-s-projects/tashkeel
 
 ## Notes
-- GitHub Pages uses Fastly CDN (not Cloudflare) — cache-control: max-age=600
-- Vercel free tier: 100 deploys/day via API, unlimited from dashboard
-- Cloudflare zone `ucfzem.eu.org` has limited token permissions (can verify, can't purge/modify)
+- Vercel free tier: 100 deploys/day via API
+- Final deploy blocked by rate limit — deploy from dashboard or wait
+- `.vercelignore` is empty
