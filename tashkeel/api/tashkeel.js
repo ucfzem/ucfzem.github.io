@@ -1,75 +1,78 @@
 export default async function handler(req, res) {
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization');
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ error: 'Méthode non autorisée — utilisez POST' });
+  }
 
-    if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
-    }
+  const { text, token, provider } = req.body || {};
+  if (!text || !token) {
+    return res.status(400).json({ error: 'النص أو المفتاح مفقود' });
+  }
 
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const { text, token, provider } = req.body;
-
-    if (!text || !token) {
-        return res.status(400).json({ error: 'Missing text or token' });
-    }
-
-    const systemPrompt = 'أنت متخصص في التشكيل العربي. مهمتك إضافة التشكيل (الحركات: فتحة، ضمة، كسرة، سكون، تنوين) للنصوص العربية. أعد النص المشكّل فقط دون أي شرح أو تعليق إضافي.';
-    const userPrompt = 'شكّل النص التالي:\n\n' + text;
-
-    try {
-        if (provider === 'huggingface') {
-            const response = await fetch('https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-msa-tashkeel', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ inputs: text })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                return res.status(response.status).json({ error: data.error || `Error ${response.status}` });
-            }
-
-            const result = Array.isArray(data) ? data[0]?.generated_text || JSON.stringify(data) : JSON.stringify(data);
-            return res.status(200).json({ result });
-        }
-
-        // Default: Groq
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+  try {
+    if (provider === 'groq') {
+      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          temperature: 0.1,
+          messages: [
+            {
+              role: 'system',
+              content:
+                'أنت أداة تشكيل نصوص عربية دقيقة. أضف التشكيل الكامل (الحركات: الفتحة، الضمة، الكسرة، السكون، الشدة، التنوين) للنص المُدخل دون تغيير أي كلمة أو حرف أو ترتيب. أعد فقط النص المشكول، دون أي مقدمة أو شرح أو علامات اقتباس.',
             },
-            body: JSON.stringify({
-                model: 'llama-3.3-70b-versatile',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userPrompt }
-                ],
-                temperature: 0.1,
-                max_tokens: 2048
-            })
+            { role: 'user', content: text },
+          ],
+        }),
+      });
+
+      if (!r.ok) {
+        const errData = await r.json().catch(() => ({}));
+        return res.status(r.status).json({
+          error: errData.error?.message || `خطأ من Groq (${r.status})`,
         });
+      }
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            return res.status(response.status).json({ error: data.error?.message || `Error ${response.status}` });
-        }
-
-        const result = data.choices?.[0]?.message?.content || '';
-        return res.status(200).json({ result });
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
+      const data = await r.json();
+      const result = data.choices?.[0]?.message?.content?.trim() || '';
+      return res.status(200).json({ result });
     }
+
+    if (provider === 'huggingface') {
+      const r = await fetch(
+        'https://api-inference.huggingface.co/models/CAMeL-Lab/bert-base-arabic-camelbert-msa-diacritization',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inputs: text }),
+        }
+      );
+
+      if (!r.ok) {
+        const errText = await r.text().catch(() => '');
+        return res.status(r.status).json({
+          error: errText || `خطأ من HuggingFace (${r.status})`,
+        });
+      }
+
+      const data = await r.json();
+      const result =
+        data?.[0]?.generated_text ||
+        data?.generated_text ||
+        (typeof data === 'string' ? data : JSON.stringify(data));
+      return res.status(200).json({ result });
+    }
+
+    return res.status(400).json({ error: 'مزود غير مدعوم (استخدم groq أو huggingface)' });
+  } catch (e) {
+    return res.status(500).json({ error: e.message || 'خطأ في الخادم' });
+  }
 }
