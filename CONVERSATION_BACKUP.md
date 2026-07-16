@@ -220,12 +220,14 @@ https://github.com/ucfzem?tab=repositories
 - `4dfc16c` — fix: replace Arabic quiz with classical Arabic grammar questions
 - `a280b61` — docs: backup session 2026-07-16 — Ultralengua Pro
 - `2d8a1c0` — fix: improve Arabic quiz readability — larger font, RTL, high contrast
+- `8577fbf` — fix: BiDi ellipsis in Arabic quiz — add RLM + unicode-bidi plaintext
 
 ### Améliorations lisibilité arabe
-- `[dir="rtl"] .quiz-prompt` : font-size `1.4rem`, line-height `1.8`, weight `500`, color `var(--ink)`
+- `[dir="rtl"] .quiz-prompt` : font-size `1.4rem`, line-height `1.8`, weight `500`, color `var(--ink)`, unicode-bidi plaintext
 - `[dir="rtl"] .quiz-options` : direction rtl + align right
 - `[dir="rtl"] .quiz-option` : font-size `1.1rem`, line-height `1.6`
 - `dir` dynamique : `#quizBox` bascule entre `rtl`/`ltr` selon la langue sélectionnée
+- `&rlm;` (U+200F) ajouté avant `...` dans les questions 2 et 4 pour empêcher l'ellipse de sauter à gauche
 
 ### Déploiement Vercel
 - Projet Vercel `ultralengua-pro` créé sous `ucfzem-s-projects`
