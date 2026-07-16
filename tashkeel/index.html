@@ -170,6 +170,7 @@
     </div>
 
 
+    <div style="font-weight:600;color:#0b5e5a;margin-bottom:0.3rem;">📝 النص الأصلي (بدون تشكيل)</div>
     <textarea id="inputText" rows="5" placeholder="أدخل النص هنا...">كان معاذ يلعب مع الاطفال</textarea>
 
 
@@ -178,6 +179,7 @@
     </button>
 
 
+    <div style="font-weight:600;color:#0b5e5a;margin:0.5rem 0 0.3rem;">✨ النص المشكول</div>
     <div class="result-box" id="resultBox"></div>
     <button class="copy-btn" onclick="copyResult()">📋 نسخ الناتج</button>
     <div id="errorBox"></div>
@@ -249,7 +251,6 @@
             let diacritized = data?.result || data?.[0]?.generated_text || data?.generated_text || '';
             if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
             resultBox.textContent = diacritized || '(لا يوجد ناتج)';
-            document.getElementById('inputText').value = diacritized;
             try { navigator.vibrate(100); } catch(_) {}
         } catch (error) {
             const isNetworkErr = error instanceof TypeError && error.message === 'Failed to fetch';
