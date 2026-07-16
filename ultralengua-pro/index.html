@@ -1385,8 +1385,8 @@
 
   <hr style="border:0;border-top:1px solid #222;margin:16px auto;width:90%;max-width:600px">
 
-  <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:6px 14px;margin:0 auto 12px">
-    <img src="https://visitor-badge.laobi.icu/badge?page_id=ucfzem.ultralengua-pro" alt="visites" style="height:18px">
+  <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:999px;padding:6px 14px;margin:0 auto 12px;font-family:monospace;font-size:12px;color:#a0a0a0">
+    <span>👁️</span> <span id="visitCount">0</span> visites
   </div>
 
   <p style="font-size:13px;color:#707070;margin:0;line-height:1.4">
@@ -1841,6 +1841,21 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
+
+
+// ── VISIT COUNTER (localStorage, no external dep) ──
+(function() {
+  const key = 'ultra_visits';
+  const today = new Date().toDateString();
+  const data = JSON.parse(localStorage.getItem(key) || '{"count":0,"date":""}');
+  if (data.date !== today) {
+    data.count++;
+    data.date = today;
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  const el = document.getElementById('visitCount');
+  if (el) el.textContent = data.count;
+})();
 
 
 // ── SCROLL REVEAL ──
