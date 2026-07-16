@@ -3,697 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>DrawingSand — Zen Sand Drawing</title>
-<meta name="description" content="DrawingSand : dessinez dans le sable avec des textures réalistes. Effet 3D, vagues organiques, ASMR. Gratuit.">
-<link rel="canonical" href="https://ucfzem.github.io/drawingsand/">
+<title>Sand Draw Professional Edition</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{
-  --bg:#0d0d14; --panel:rgba(20,18,26,.75); --border:rgba(255,255,255,.06);
-  --gold:#c9a84c; --text:#e8e0d0; --text2:#8a7a5a; --radius:14px;
-}
-body{
-  background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;
-  min-height:100dvh;overflow:hidden;display:flex;flex-direction:column;
-  -webkit-user-select:none;user-select:none;touch-action:none
-}
-::selection{background:rgba(201,168,76,.2);color:var(--gold)}
-
-/* ─── Top bar ─── */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:20;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 12px;height:44px;
-  background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border)
-}
-.topbar .logo{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;letter-spacing:-.3px}
-.topbar .logo span{color:var(--gold)}
-.topbar .logo svg{width:18px;height:18px;fill:none;stroke:var(--gold);stroke-width:1.5}
-.top-actions{display:flex;gap:4px;align-items:center}
-.top-actions button{
-  background:0 0;border:none;color:var(--text2);width:30px;height:30px;border-radius:8px;
+body{background:#0d0d14;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none;font-family:system-ui,-apple-system,sans-serif}
+canvas#c{display:block;width:100vw;height:100dvh;touch-action:none;cursor:crosshair}
+#ui{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10;
+  display:flex;gap:6px;align-items:center;
+  background:rgba(20,18,26,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:8px 14px}
+#ui button{background:0 0;border:none;color:#8a7a5a;width:32px;height:32px;border-radius:10px;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:13px;transition:all .15s;flex-shrink:0
-}
-.top-actions button:active{background:rgba(201,168,76,.15);color:var(--gold);transform:scale(.9)}
-.top-actions button.active{color:var(--gold);background:rgba(201,168,76,.12)}
-
-/* ─── Canvas ─── */
-.cw{position:fixed;top:44px;left:0;right:0;bottom:0;overflow:hidden;background:#18161e}
-canvas#c{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
-
-/* ─── Floating toolbar ─── */
-.toolbar{
-  position:fixed;left:50%;bottom:16px;z-index:20;
-  transform:translateX(-50%);
-  display:flex;align-items:center;gap:3px;
-  padding:6px 10px;border-radius:var(--radius);
-  background:var(--panel);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border:1px solid var(--border);
-  max-width:calc(100vw - 24px);overflow-x:auto;-webkit-overflow-scrolling:touch;
-  transition:opacity .3s;scrollbar-width:none
-}
-.toolbar::-webkit-scrollbar{display:none}
-.sand-dot{
-  width:26px;height:26px;border-radius:50%;border:2px solid transparent;flex-shrink:0;
-  cursor:pointer;transition:all .15s;position:relative
-}
-.sand-dot:active{transform:scale(.85)}
-.sand-dot.active{border-color:#fff;box-shadow:0 0 10px rgba(201,168,76,.3)}
-.tb-btn{
-  background:0 0;border:none;color:var(--text2);width:30px;height:30px;border-radius:8px;flex-shrink:0;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:13px;transition:all .15s
-}
-.tb-btn:active{background:rgba(201,168,76,.15);color:var(--gold);transform:scale(.88)}
-.tb-btn.active{color:var(--gold);background:rgba(201,168,76,.12)}
-.tb-div{width:1px;height:22px;background:var(--border);flex-shrink:0;margin:0 2px}
-.tb-slider{display:flex;align-items:center;gap:4px;flex-shrink:0}
-.tb-slider input[type=range]{
-  width:48px;height:3px;-webkit-appearance:none;appearance:none;background:var(--border);
-  border-radius:2px;outline:0;flex-shrink:0
-}
-.tb-slider input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid #0d0d14
-}
-.tb-slider span{font-size:9px;color:var(--text2);min-width:20px;text-align:center}
-
-/* ─── Objects tray ─── */
-.obj-tray{
-  position:fixed;left:50%;bottom:76px;z-index:20;
-  transform:translateX(-50%);
-  display:flex;gap:4px;padding:5px 8px;border-radius:var(--radius);
-  background:var(--panel);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border:1px solid var(--border);
-  max-width:calc(100vw - 24px);overflow-x:auto;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none;transition:opacity .25s,transform .25s
-}
-.obj-tray::-webkit-scrollbar{display:none}
-.obj-tray.hidden{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(10px)}
-.obj-b{
-  background:0 0;border:1px solid transparent;border-radius:10px;padding:4px 7px;flex-shrink:0;
-  cursor:pointer;font-size:clamp(1rem,3vw,1.4rem);transition:all .15s;line-height:1;color:var(--text2)
-}
-.obj-b:active{transform:scale(.85)}
-.obj-b.active{border-color:var(--gold);background:rgba(201,168,76,.1)}
-
-/* ─── Toast ─── */
-.toast{
-  position:fixed;bottom:50%;left:50%;z-index:30;transform:translate(-50%,-50%) scale(.9);
-  background:rgba(201,168,76,.15);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(201,168,76,.3);border-radius:12px;
-  padding:10px 22px;font-size:13px;font-weight:500;color:var(--gold);
-  opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.4,0,.2,1);white-space:nowrap
-}
-.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-
-/* ─── Toast bottom variant ─── */
-.toast-bot{
-  position:fixed;bottom:60px;left:50%;z-index:30;transform:translateX(-50%) translateY(10px);
-  background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:10px;
-  padding:8px 18px;font-size:12px;color:var(--text2);
-  opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap
-}
-.toast-bot.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-@media(max-width:420px){
-  .toolbar{padding:5px 8px;gap:2px;bottom:12px}
-  .sand-dot{width:22px;height:22px}
-  .obj-tray{bottom:68px;padding:4px 6px}
-  .topbar{padding:4px 8px;height:40px}
-  .cw{top:40px}
-}
+  font-size:15px;transition:all .15s;flex-shrink:0}
+#ui button:active{background:rgba(201,168,76,.15);color:#c9a84c;transform:scale(.88)}
+#ui button.active{color:#c9a84c;background:rgba(201,168,76,.12)}
+#ui .d{width:1px;height:20px;background:rgba(255,255,255,.06)}
+#clearBtn{font-size:13px}
+#eraseBtn{font-size:13px}
+#sizeSlider{-webkit-appearance:none;appearance:none;width:50px;height:3px;background:rgba(255,255,255,.08);
+  border-radius:2px;outline:0;cursor:pointer;flex-shrink:0}
+#sizeSlider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:#c9a84c;cursor:pointer;border:2px solid #0d0d14}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="logo">
-    <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="4"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4 4l1.5 1.5M14.5 14.5l1.5 1.5M4 16l1.5-1.5M14.5 5.5L16 4"/></svg>
-    <span>Drawing</span>Sand
-  </div>
-  <div class="top-actions">
-    <button id="undoBtn" title="Annuler">↩</button>
-    <button id="clearBtn" title="Tout effacer">✕</button>
-    <button id="waveBtn" title="Vague">🌊</button>
-    <button id="ambientBtn" title="Son ambiant">♪</button>
-    <button id="saveBtn" title="Sauvegarder">⬇</button>
-  </div>
+<canvas id="c"></canvas>
+<div id="ui">
+  <button id="waveBtn" title="Vague">🌊</button>
+  <div class="d"></div>
+  <button id="clearBtn" title="Tout effacer">✕</button>
+  <button id="eraseBtn" title="Gommer">⌫</button>
+  <div class="d"></div>
+  <input type="range" id="sizeSlider" min="1" max="8" value="3" step="0.5">
+  <div class="d"></div>
+  <button id="undoBtn" title="Annuler">↩</button>
+  <button id="saveBtn" title="Sauvegarder">⬇</button>
 </div>
-
-<div class="cw" id="cw">
-  <canvas id="c"></canvas>
-</div>
-
-<div class="toolbar" id="toolbar">
-  <div id="sandRow" style="display:flex;gap:3px;align-items:center"></div>
-  <div class="tb-div"></div>
-  <button class="tb-btn active" id="drawMode" title="Dessiner">✏️</button>
-  <button class="tb-btn" id="eraseMode" title="Gommer">🧹</button>
-  <button class="tb-btn" id="dragMode" title="Déplacer">✋</button>
-  <div class="tb-div"></div>
-  <div class="tb-slider">
-    <input type="range" id="brushSlider" min="4" max="50" value="16">
-    <span id="sizeLabel">16</span>
-  </div>
-</div>
-
-<div class="obj-tray" id="objTray"></div>
-
-<div class="toast" id="toast"></div>
-<div class="toast-bot" id="toastBot"></div>
-
 <script>
-// ─── Sand palettes ──────────────────────────────────────────────────────
-const SANDS = [
-  {id:'beach',  name:'Plage',  base:'#d4b886', dark:'#a08850', light:'#e8d4a8'},
-  {id:'sahara', name:'Sahara', base:'#e8c56d', dark:'#b89830', light:'#f5dc90'},
-  {id:'wet',    name:'Mouillé',base:'#8b7355', dark:'#5a4a30', light:'#a89070'},
-  {id:'gold',   name:'Doré',   base:'#d4a84b', dark:'#a87a20', light:'#e8c870'},
-  {id:'white',  name:'Blanc',  base:'#f5ede0', dark:'#c8b8a0', light:'#fff8f0'},
-  {id:'red',    name:'Rouge',  base:'#c0603a', dark:'#8a3a1a', light:'#d88860'},
-  {id:'brown',  name:'Terre',  base:'#8b6914', dark:'#5a3e08', light:'#b09040'},
-  {id:'grass',  name:'Herbe',  base:'#6b8e23', dark:'#3a5a10', light:'#90b848'},
-];
-
-const OBJECTS = [
-  {emoji:'🩴',label:'Tongs'},{emoji:'🏖️',label:'Parapluie'},{emoji:'🕶️',label:'Lunettes'},
-  {emoji:'🧃',label:'Jus'},{emoji:'🧢',label:'Casquette'},{emoji:'🪨',label:'Pierres'},
-  {emoji:'🌴',label:'Palmier'},{emoji:'🌸',label:'Fleurs'},{emoji:'🐟',label:'Poisson'},
-  {emoji:'🦋',label:'Insectes'},{emoji:'🐚',label:'Coquillage'},{emoji:'⭐',label:'Étoile'},
-];
-
-// ─── State ──────────────────────────────────────────────────────────────
-const S = {
-  sandIdx:0, brushSize:16, mode:'draw',
-  objects:[], selObj:null, undoStack:[], maxUndo:20,
-  ambientOn:false, drawing:false, lastX:0, lastY:0,
-  dragObj:null, dragOffX:0, dragOffY:0,
-  wetSand:[], dpr:1, W:0, H:0, needRebuild:true,
+var SAND_CONFIG = {
+  brushRadius: 0.03,
+  brushDepth: 0.4,
+  sandSoftness: 0.15,
+  wetSandContrast: 0.5,
+  waveSpeed: 1.5,
+  waveFrequency: 20.0,
+  waveFoamWidth: 0.05
 };
 
-let c, cx, cw, sandPattern, sandTexCanvas;
-let _soundCtx=null, _ambientNodes=[], _animId=0;
+var canvas = document.getElementById('c');
+var gl = canvas.getContext('webgl2', { alpha: false, antialias: true, stencil: false, depth: false, premultipliedAlpha: false });
+if (!gl) { document.body.innerHTML = '<p style="color:red;padding:20px">WebGL 2.0 requis</p>'; throw 'no WebGL2'; }
 
-function C(){return _soundCtx||(_soundCtx=new(window.AudioContext||window.webkitAudioContext)())}
+function S(t,s){var S=gl.createShader(gl[t]);gl.shaderSource(S,s);gl.compileShader(S);if(!gl.getShaderParameter(S,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(S);return S}
+function P(v,f){var p=gl.createProgram();gl.attachShader(p,S('VERTEX_SHADER',v));gl.attachShader(p,S('FRAGMENT_SHADER',f));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw gl.getProgramInfoLog(p);return p}
 
-// ─── Sand texture engine (off-screen pattern, no per-pixel loops) ──────
-function buildSandTexture(cfg){
-  const tex=document.createElement('canvas'), tc=tex.getContext('2d');
-  const sz=256;
-  tex.width=sz; tex.height=sz;
+var VERT_SRC = '#version 300 es\nin vec2 a_pos;out vec2 v_uv;void main(){v_uv=a_pos*0.5+0.5;gl_Position=vec4(a_pos,0.0,1.0);}';
 
-  tc.fillStyle=cfg.dark; tc.fillRect(0,0,sz,sz);
-  tc.fillStyle=cfg.base;
-  for(let i=0;i<4000;i++){
-    const x=Math.random()*sz, y=Math.random()*sz, r=0.5+Math.random()*1.8;
-    tc.globalAlpha=0.15+Math.random()*0.4;
-    tc.beginPath(); tc.arc(x,y,r,0,Math.PI*2); tc.fill();
+var SAND_FRAG = '#version 300 es\nprecision highp float;in vec2 v_uv;uniform sampler2D u_hm;uniform vec2 u_hmSize;uniform float u_waveProg;uniform float u_waveFoam;uniform float u_time;out vec4 fC;' +
+  'float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}' +
+  'float n4(vec2 p){vec2 i=floor(p);vec2 f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}' +
+  'float fbm(vec2 p){float v=0.0,a=0.5,f=1.0;for(int i=0;i<5;i++){v+=a*n4(p*f);f*=2.0;a*=0.5;}return v;}' +
+  'void main(){' +
+    'vec2 uv=v_uv;' +
+    'float h=texture(u_hm,uv).r;' +
+    'vec2 t=1.0/u_hmSize;' +
+    'float hL=texture(u_hm,uv+vec2(-t.x,0.0)).r;' +
+    'float hR=texture(u_hm,uv+vec2(t.x,0.0)).r;' +
+    'float hD=texture(u_hm,uv+vec2(0.0,-t.y)).r;' +
+    'float hU=texture(u_hm,uv+vec2(0.0,t.y)).r;' +
+    'vec3 nrm=normalize(vec3(hL-hR,hD-hU,0.4));' +
+    'vec3 lDir=normalize(vec3(0.5,0.3,1.0));' +
+    'float diff=max(dot(nrm,lDir),0.0);' +
+    'float amb=0.3;' +
+    'float carve=1.0-(1.0-h)*0.55;' +
+    'float lt=(amb+diff*0.7)*carve;' +
+    'float noize=fbm(uv*12.0+u_time*0.01);' +
+    'vec3 cSand=mix(vec3(0.72,0.56,0.33),vec3(0.82,0.68,0.45),noize*0.6+0.2);' +
+    'cSand=mix(cSand,cSand*0.7,(1.0-h)*0.5);' +
+    'vec3 col=cSand*lt;' +
+    'float wv=u_waveProg;' +
+    'float wNoise=sin(uv.y*u_waveProg*10.0+u_time*2.0)*0.02+cos(uv.y*50.0+u_waveProg*8.0)*0.01;' +
+    'float foamDist=uv.x-(wv+wNoise);' +
+    'float foam=1.0-smoothstep(0.0,u_waveFoam,foamDist);' +
+    'if(foam>0.0){foam*=0.5+0.5*sin(uv.y*80.0+u_waveProg*20.0+u_time*3.0);col=mix(col,vec3(1.0),foam*0.85);}' +
+    'if(uv.x<wv+wNoise){float wet=1.0-smoothstep(0.0,0.1,abs(uv.x-(wv+wNoise)));col=mix(col,col*0.75,wet*0.6);}' +
+    'fC=vec4(col,1.0);' +
+  '}';
+
+var BRUSH_FRAG = '#version 300 es\nprecision highp float;uniform sampler2D u_prev;uniform vec2 u_center;uniform float u_radius;uniform float u_depth;uniform vec2 u_hmSize;uniform float u_erase;out vec4 fC;' +
+  'void main(){' +
+    'vec2 uv=gl_FragCoord.xy/u_hmSize;' +
+    'float d=distance(uv,u_center);' +
+    'if(d>u_radius)discard;' +
+    'float f=1.0-smoothstep(0.0,u_radius,d);' +
+    'float cur=texture(u_prev,uv).r;' +
+    'float nw;' +
+    'if(u_erase>0.5){nw=min(cur+u_depth*f,1.0);}else{nw=cur-u_depth*f;nw=max(nw,0.0);}' +
+    'fC=vec4(nw,0.0,0.0,1.0);' +
+  '}';
+
+var WAVE_FRAG = '#version 300 es\nprecision highp float;in vec2 v_uv;uniform sampler2D u_prev;uniform float u_waveProg;uniform vec2 u_hmSize;out vec4 fC;' +
+  'void main(){' +
+    'vec2 uv=gl_FragCoord.xy/u_hmSize;' +
+    'float h=texture(u_prev,uv).r;' +
+    'float n=sin(uv.y*30.0+u_waveProg*10.0)*0.02+cos(uv.y*50.0+u_waveProg*8.0)*0.01;' +
+    'float wx=u_waveProg+n;' +
+    'if(uv.x<wx)h=0.88;' +
+    'fC=vec4(h,0.0,0.0,1.0);' +
+  '}';
+
+var sandProg = P(VERT_SRC, SAND_FRAG);
+var brushProg = P(VERT_SRC, BRUSH_FRAG);
+var waveProg = P(VERT_SRC, WAVE_FRAG);
+
+var progs = [sandProg, brushProg, waveProg];
+var uLocs = [{}, {}, {}];
+for (var pi = 0; pi < 3; pi++) {
+  var p = progs[pi];
+  var n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (var i = 0; i < n; i++) {
+    var info = gl.getActiveUniform(p, i);
+    uLocs[pi][info.name] = gl.getUniformLocation(p, info.name);
+    if (info.type === gl.SAMPLER_2D) gl.uniform1i(uLocs[pi][info.name], 0);
   }
-  tc.fillStyle=cfg.light;
-  for(let i=0;i<1500;i++){
-    const x=Math.random()*sz, y=Math.random()*sz, r=0.3+Math.random()*1.2;
-    tc.globalAlpha=0.08+Math.random()*0.2;
-    tc.beginPath(); tc.arc(x,y,r,0,Math.PI*2); tc.fill();
-  }
-  tc.globalAlpha=1;
-
-  const grad=tc.createRadialGradient(sz/2,sz/2,0,sz/2,sz/2,sz*0.7);
-  grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(0.6,'rgba(0,0,0,0)');
-  grad.addColorStop(1,'rgba(0,0,0,0.15)');
-  tc.fillStyle=grad; tc.fillRect(0,0,sz,sz);
-
-  return cx.createPattern(tex,'repeat');
 }
 
-// ─── Resize & rebuild ──────────────────────────────────────────────────
+var quadVAO = gl.createVertexArray();
+gl.bindVertexArray(quadVAO);
+var qb = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, qb);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, 1,1, -1,-1, 1,1, -1,1]), gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);
+gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+gl.bindVertexArray(null);
+
+var hmW, hmH, hmTex=[], hmFBO=[], readIdx=0, writeIdx=1;
+function initHM(w,h){
+  hmW=w; hmH=h;
+  for(var i=0;i<2;i++){
+    hmTex[i]=gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D,hmTex[i]);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    var d=new Uint8Array(w*h*4);
+    for(var j=0;j<d.length;j+=4){d[j]=255;d[j+3]=255;}
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,d);
+    hmFBO[i]=gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER,hmFBO[i]);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,hmTex[i],0);
+  }
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  readIdx=0; writeIdx=1;
+}
+
 function resize(){
-  const wr=document.getElementById('cw');
-  S.W=wr.clientWidth; S.H=wr.clientHeight;
-  const maxDpr=Math.min(window.devicePixelRatio||1,2);
-  S.dpr=maxDpr;
-  c.width=S.W*maxDpr; c.height=S.H*maxDpr;
-  c.style.width=S.W+'px'; c.style.height=S.H+'px';
-  S.needRebuild=true;
-  render();
+  var W=window.innerWidth, H=window.innerHeight;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=W*dpr; canvas.height=H*dpr;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  gl.viewport(0,0,W*dpr,H*dpr);
+  initHM(Math.ceil(W/2),Math.ceil(H/2));
 }
 
-// ─── Render ────────────────────────────────────────────────────────────
-function render(){
-  cx.setTransform(1,0,0,1,0,0);
-  const cfg=SANDS[S.sandIdx];
-  const w=S.W, h=S.H, dpr=S.dpr;
+var drawing=false, px=0, py=0, szMult=1;
+var waveActive=false, waveProg=0, eraseActive=false;
 
-  if(S.needRebuild){
-    S.needRebuild=false;
-    sandPattern=buildSandTexture(cfg);
-    cx.fillStyle=cfg.dark; cx.fillRect(0,0,w*dpr,h*dpr);
-    cx.fillStyle=sandPattern;
-    cx.globalAlpha=0.92;
-    cx.fillRect(0,0,w*dpr,h*dpr);
-    cx.globalAlpha=1;
+function swapHM(){var t=readIdx;readIdx=writeIdx;writeIdx=t;}
 
-    // wet sand overlay (dried initially)
-    cx.fillStyle='rgba(0,0,0,0.04)';
-    for(let i=0;i<60;i++){
-      cx.beginPath();
-      cx.arc(Math.random()*w*dpr,Math.random()*h*dpr,5+Math.random()*40,0,Math.PI*2);
-      cx.fill();
-    }
+function render(time){
+  var W=canvas.width, H=canvas.height;
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  gl.viewport(0,0,W,H);
+  gl.useProgram(sandProg);
+  gl.uniform2f(uLocs[0]['u_hmSize'],hmW,hmH);
+  gl.uniform1f(uLocs[0]['u_waveProg'],waveProg);
+  gl.uniform1f(uLocs[0]['u_waveFoam'],SAND_CONFIG.waveFoamWidth);
+  gl.uniform1f(uLocs[0]['u_time'],time*0.001);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D,hmTex[readIdx]);
+  gl.bindVertexArray(quadVAO);
+  gl.drawArrays(gl.TRIANGLES,0,6);
+}
+
+function tick(time){
+  if(waveActive){
+    var dur=3000;
+    var span=time-waveStart;
+    waveProg=Math.min(span/dur,1.1);
+    var ease=waveProg<0.5?2*waveProg*waveProg:1-Math.pow(-2*waveProg+2,2)/2;
+    var wv=Math.min(ease,1);
+    gl.bindFramebuffer(gl.FRAMEBUFFER,hmFBO[writeIdx]);
+    gl.viewport(0,0,hmW,hmH);
+    gl.useProgram(waveProg);
+    gl.uniform1f(uLocs[2]['u_waveProg'],wv);
+    gl.uniform2f(uLocs[2]['u_hmSize'],hmW,hmH);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D,hmTex[readIdx]);
+    gl.bindVertexArray(quadVAO);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+    swapHM();
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+    if(waveProg>=1.1){waveActive=false;waveProg=0;document.getElementById('waveBtn').classList.remove('active');}
   }
-
-  // draw objects
-  S.objects.forEach(o=>drawObj(o));
-  cx.setTransform(dpr,0,0,dpr,0,0);
+  render(time);
+  if(waveActive||drawing)requestAnimationFrame(tick);
 }
 
-function rebuild(){
-  S.needRebuild=true; S.wetSand=[]; render();
+var waveStart=0;
+function startWave(){
+  if(waveActive)return;
+  waveActive=true;
+  waveStart=performance.now();
+  waveProg=0;
+  document.getElementById('waveBtn').classList.add('active');
+  if(!drawing)requestAnimationFrame(tick);
 }
 
-// ─── 3D Carved sand drawing ───────────────────────────────────────────
-function drawAt(x,y,isDot){
-  const sz=S.brushSize, cfg=SANDS[S.sandIdx];
-  const dpr=S.dpr;
+function applyBrush(cx,cy){
+  var r=Math.ceil(SAND_CONFIG.brushRadius*hmW*szMult);
+  var x=Math.round(cx*hmW);
+  var y=Math.round(cy*hmH);
+  var x0=Math.max(0,x-r), y0=Math.max(0,y-r);
+  var x1=Math.min(hmW,x+r), y1=Math.min(hmH,y+r);
+  if(x1<=x0||y1<=y0)return;
+  gl.bindFramebuffer(gl.FRAMEBUFFER,hmFBO[writeIdx]);
+  gl.viewport(x0,y0,x1-x0,y1-y0);
+  gl.useProgram(brushProg);
+  gl.uniform2f(uLocs[1]['u_center'],x/hmW,y/hmH);
+  gl.uniform1f(uLocs[1]['u_radius'],SAND_CONFIG.brushRadius*szMult);
+  gl.uniform1f(uLocs[1]['u_depth'],SAND_CONFIG.brushDepth);
+  gl.uniform2f(uLocs[1]['u_hmSize'],hmW,hmH);
+  gl.uniform1f(uLocs[1]['u_erase'],eraseActive?1:0);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D,hmTex[readIdx]);
+  gl.bindVertexArray(quadVAO);
+  gl.drawArrays(gl.TRIANGLES,0,6);
+  swapHM();
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+}
 
-  if(S.mode==='erase'){
-    // Erase: restore sand pattern
-    cx.save();
-    cx.globalCompositeOperation='destination-out';
-    cx.shadowColor='rgba(0,0,0,1)'; cx.shadowBlur=sz*0.6*dpr;
-    cx.fillStyle='rgba(0,0,0,1)';
-    cx.beginPath(); cx.arc(x*dpr,y*dpr,sz*0.5*dpr,0,Math.PI*2); cx.fill();
-    cx.restore();
+var Vp=function(){this.a=[];this.i=0;};
+Vp.prototype.aN=function(n){
+  while(this.a.length<this.i+n)this.a.push({x:0,y:0});
+  var r=[];
+  for(var j=0;j<n;j++)r.push(this.a[this.i++]);
+  return r;
+};
+Vp.prototype.reset=function(){this.i=0;};
+var pool=new Vp();
 
-    // Re-apply sand texture in erased area
-    cx.save();
-    cx.globalCompositeOperation='source-atop';
-    cx.fillStyle=sandPattern;
-    cx.shadowColor='transparent'; cx.shadowBlur=0;
-    cx.beginPath(); cx.arc(x*dpr,y*dpr,sz*0.6*dpr,0,Math.PI*2); cx.fill();
-    cx.restore();
-    return;
+function lerpPoints(x1,y1,x2,y2){
+  var dist=Math.hypot(x2-x1,y2-y1);
+  var steps=Math.max(1,Math.ceil(dist*2));
+  pool.reset();
+  var pts=pool.aN(steps+1);
+  for(var i=0;i<=steps;i++){
+    var t=i/steps;
+    pts[i].x=x1+(x2-x1)*t;
+    pts[i].y=y1+(y2-y1)*t;
   }
-
-  cx.save();
-
-  // Pass 1: dark hole (the dug sand)
-  cx.globalCompositeOperation='source-over';
-  cx.shadowColor='rgba(0,0,0,0.7)'; cx.shadowBlur=sz*0.45*dpr;
-  cx.shadowOffsetX=0; cx.shadowOffsetY=0;
-  cx.fillStyle=cfg.dark;
-  cx.beginPath(); cx.arc(x*dpr,y*dpr,sz*0.35*dpr,0,Math.PI*2); cx.fill();
-
-  // Pass 2: light sand rim (crest catching light)
-  cx.shadowColor='rgba(255,248,230,0.2)'; cx.shadowBlur=sz*0.2*dpr;
-  cx.shadowOffsetX=-1*dpr; cx.shadowOffsetY=-1*dpr;
-  cx.strokeStyle='rgba(255,248,230,0.15)'; cx.lineWidth=2*dpr;
-  cx.beginPath(); cx.arc(x*dpr+1,y*dpr+1,sz*0.42*dpr,0,Math.PI*2); cx.stroke();
-
-  cx.restore();
+  return pts;
 }
 
-function drawLine(x1,y1,x2,y2){
-  const dist=Math.hypot(x2-x1,y2-y1);
-  const steps=Math.max(1,Math.ceil(dist/1.5));
-  for(let i=0;i<=steps;i++){
-    const t=i/steps;
-    drawAt(x1+(x2-x1)*t,y1+(y2-y1)*t,false);
-  }
-}
-
-// ─── Objects with physics ──────────────────────────────────────────────
-function drawObj(o){
-  const dpr=S.dpr;
-  const fs=(o.size||28)*dpr;
-  cx.save();
-  // drop shadow
-  cx.shadowColor='rgba(0,0,0,0.4)'; cx.shadowBlur=8*dpr;
-  cx.shadowOffsetX=2*dpr; cx.shadowOffsetY=3*dpr;
-  cx.font=fs+'px sans-serif'; cx.textAlign='center'; cx.textBaseline='middle';
-  cx.fillText(o.emoji,o.x*dpr,o.y*dpr);
-  cx.restore();
-  // clean render on top (no shadow on the emoji itself)
-  cx.save();
-  cx.translate(o.x*dpr,o.y*dpr);
-  if(o.rot) cx.rotate(o.rot);
-  cx.font=fs+'px sans-serif'; cx.textAlign='center'; cx.textBaseline='middle';
-  cx.fillText(o.emoji,0,0);
-  cx.restore();
-}
-
-function placeObj(idx,x,y){
-  const obj={
-    idx,emoji:OBJECTS[idx].emoji,
-    x,y,size:22+S.brushSize*0.4,
-    rot:(Math.random()-0.5)*0.25, // slight random rotation for natural feel
-  };
-  S.objects.push(obj);
-  drawObj(obj);
-  saveUndo();
-}
-
-// ─── Pointer events ───────────────────────────────────────────────────
 function pPos(e){
-  const r=c.getBoundingClientRect();
-  const cx=e.touches?e.touches[0].clientX:e.clientX;
-  const cy=e.touches?e.touches[0].clientY:e.clientY;
-  return{x:cx-r.left,y:cy-r.top};
+  var r=canvas.getBoundingClientRect();
+  var cx=e.touches?e.touches[0].clientX:e.clientX;
+  var cy=e.touches?e.touches[0].clientY:e.clientY;
+  return{x:(cx-r.left)/canvas.clientWidth,y:(cy-r.top)/canvas.clientHeight};
 }
 
-function onDown(e){
-  if(e.cancelable)e.preventDefault();
-  const pos=pPos(e);
-  if(S.mode==='draw'||S.mode==='erase'){
-    S.drawing=true; S.lastX=pos.x; S.lastY=pos.y;
-    drawAt(pos.x,pos.y,true);
-  }else if(S.mode==='drag'){
-    for(let i=S.objects.length-1;i>=0;i--){
-      const o=S.objects[i];
-      if(Math.abs(pos.x-o.x)<o.size&&Math.abs(pos.y-o.y)<o.size){
-        S.dragObj=o; S.dragOffX=pos.x-o.x; S.dragOffY=pos.y-o.y; return;
-      }
-    }
-    if(S.selObj!==null){placeObj(S.selObj,pos.x,pos.y);Sound.place();}
-  }
+function onDown(e){e.preventDefault();var p=pPos(e);drawing=true;px=p.x;py=p.y;applyBrush(px,py);if(!waveActive)requestAnimationFrame(tick);}
+function onMove(e){e.preventDefault();if(!drawing)return;var p=pPos(e);var pts=lerpPoints(px,py,p.x,p.y);for(var i=0;i<pts.length;i++){var pt=pts[i];applyBrush(pt.x,pt.y);}px=p.x;py=p.y;pool.reset();}
+function onUp(e){e.preventDefault();drawing=false;}
+
+function clearHM(){
+  gl.bindFramebuffer(gl.FRAMEBUFFER,hmFBO[writeIdx]);
+  gl.viewport(0,0,hmW,hmH);
+  gl.clearColor(1.0,0,0,1);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  swapHM();
 }
 
-function onMove(e){
-  if(e.cancelable)e.preventDefault();
-  const pos=pPos(e);
-  if((S.mode==='draw'||S.mode==='erase')&&S.drawing){
-    drawLine(S.lastX,S.lastY,pos.x,pos.y);
-    S.lastX=pos.x; S.lastY=pos.y;
-  }else if(S.mode==='drag'&&S.dragObj){
-    S.dragObj.x=pos.x-S.dragOffX; S.dragObj.y=pos.y-S.dragOffY;
-    S.needRebuild=true; render();
-  }
-}
+canvas.addEventListener('pointerdown',onDown);
+canvas.addEventListener('pointermove',onMove);
+canvas.addEventListener('pointerup',onUp);
+canvas.addEventListener('pointerleave',onUp);
 
-function onUp(e){
-  if(e.cancelable)e.preventDefault();
-  if(S.drawing){S.drawing=false;saveUndo();}
-  if(S.dragObj){S.dragObj=null;saveUndo();}
-}
-
-// ─── Undo system (compact offscreen snapshots) ────────────────────────
-function saveUndo(){
-  S.undoStack.push(c.toDataURL('image/jpeg',0.85));
-  if(S.undoStack.length>S.maxUndo)S.undoStack.shift();
-}
-
-function undo(){
-  if(S.undoStack.length<=1)return;
-  S.undoStack.pop();
-  const img=new Image();
-  img.onload=()=>{
-    cx.setTransform(1,0,0,1,0,0);
-    cx.drawImage(img,0,0);
-    cx.setTransform(S.dpr,0,0,S.dpr,0,0);
-  };
-  img.src=S.undoStack[S.undoStack.length-1];
-}
-
-// ─── Wave (organic trigonometric) ─────────────────────────────────────
-function waveAnim(){
-  Sound.wave();
-  const w=S.W, h=S.H, dpr=S.dpr;
-  const start=performance.now(), dur=4000;
-  S.objects=[];
-
-  function step(now){
-    const t=Math.min((now-start)/dur,1.2);
-    const ease=t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-    const waveX=w*Math.min(ease,1);
-
-    // Restore base canvas
-    cx.setTransform(1,0,0,1,0,0);
-    rebuild();
-
-    // Draw wave front: trigonometric organic shape
-    cx.save();
-    for(let x=0;x<waveX&&x<w;x+=2){
-      const dist=x/waveX;
-      const alpha=0.3+0.6*(1-dist);
-      // Organic wave height using combined trig
-      const waveY=Math.sin(x*0.015+now*0.002)*8+Math.cos(x*0.008+now*0.0015)*5+Math.sin(x*0.003+now*0.001)*12;
-
-      // Water column with gradient
-      const grad=cx.createLinearGradient(0,0,0,h*dpr);
-      grad.addColorStop(0,`rgba(40,140,200,${alpha*0.5})`);
-      grad.addColorStop(0.3,`rgba(30,170,210,${alpha*0.35})`);
-      grad.addColorStop(0.6,`rgba(60,190,220,${alpha*0.25})`);
-      grad.addColorStop(1,`rgba(20,100,150,${alpha*0.6})`);
-      cx.fillStyle=grad;
-      cx.fillRect(x*dpr,(waveY+20)*dpr,2*dpr,h*dpr);
-
-      // Foam at wave front
-      if(Math.random()<0.08){
-        cx.fillStyle=`rgba(255,255,255,${alpha*0.2})`;
-        cx.fillRect(x*dpr,(waveY+10+Math.random()*30)*dpr,3*dpr,4+Math.random()*8*dpr);
-      }
-    }
-    cx.restore();
-
-    if(t<1.1)_animId=requestAnimationFrame(step);
-    else{
-      S.needRebuild=true;
-      // Wet sand effect: darken then slowly dry
-      cx.save();
-      cx.fillStyle='rgba(20,10,5,0.12)';
-      cx.fillRect(0,0,w*dpr,h*dpr);
-      cx.restore();
-      showToast('🌊 Vague passée…');
-    }
-  }
-  _animId=requestAnimationFrame(step);
-}
-
-// ─── Sound engine (ASMR) ──────────────────────────────────────────────
-const Sound={};
-(function(){
-  function noiseBuf(ctx,sec){
-    const sr=ctx.sampleRate,len=sr*sec,buf=ctx.createBuffer(1,len);
-    const d=buf.getChannelData(0);
-    for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
-    return buf;
-  }
-
-  Sound.draw=function(){
-    try{
-      const ctx=C();
-      const src=ctx.createBufferSource();
-      src.buffer=noiseBuf(ctx,0.06);
-      const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=900+Math.random()*600;
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.035,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.06);
-      src.connect(f); f.connect(g); g.connect(ctx.destination);
-      src.start(); src.stop(ctx.currentTime+0.06);
-    }catch(e){}
-  };
-
-  Sound.erase=function(){
-    try{
-      const ctx=C();
-      const src=ctx.createBufferSource();
-      src.buffer=noiseBuf(ctx,0.08);
-      const f=ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1500;
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.025,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.08);
-      src.connect(f); f.connect(g); g.connect(ctx.destination);
-      src.start(); src.stop(ctx.currentTime+0.08);
-    }catch(e){}
-  };
-
-  Sound.place=function(){
-    try{
-      const ctx=C();
-      const osc=ctx.createOscillator(); osc.type='sine';
-      osc.frequency.setValueAtTime(500+Math.random()*200,ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(350,ctx.currentTime+0.1);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.08,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+0.1);
-    }catch(e){}
-  };
-
-  Sound.wave=function(){
-    try{
-      const ctx=C();
-      // Low rumble
-      const osc=ctx.createOscillator(); osc.type='sawtooth';
-      osc.frequency.setValueAtTime(70,ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(30,ctx.currentTime+2);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.06,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+2);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+2);
-      // Shimmer
-      const n=ctx.createBufferSource(); n.buffer=noiseBuf(ctx,1.5);
-      const f=ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=3000; f.Q.value=1.5;
-      const gn=ctx.createGain(); gn.gain.setValueAtTime(0.04,ctx.currentTime);
-      gn.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+1.5);
-      n.connect(f); f.connect(gn); gn.connect(ctx.destination);
-      n.start(); n.stop(ctx.currentTime+1.5);
-    }catch(e){}
-  };
-
-  Sound.clear=function(){
-    try{
-      const ctx=C();
-      const osc=ctx.createOscillator(); osc.type='sine';
-      osc.frequency.setValueAtTime(250,ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(80,ctx.currentTime+0.3);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.08,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+0.3);
-    }catch(e){}
-  };
-
-  Sound.undo=function(){
-    try{
-      const ctx=C();
-      const osc=ctx.createOscillator(); osc.type='triangle';
-      osc.frequency.setValueAtTime(180,ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(380,ctx.currentTime+0.1);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.05,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+0.1);
-    }catch(e){}
-  };
-
-  Sound.save=function(){
-    try{
-      const ctx=C();
-      const osc=ctx.createOscillator(); osc.type='sine';
-      osc.frequency.setValueAtTime(700,ctx.currentTime);
-      osc.frequency.setValueAtTime(1100,ctx.currentTime+0.05);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.06,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.15);
-      osc.connect(g); g.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+0.15);
-    }catch(e){}
-  };
-
-  // ─── Ambient ocean ──────────────────────────────────────────────────
-  Sound.ambientStart=function(){
-    try{
-      const ctx=C();
-      if(_ambientNodes.length)return;
-      const gain=ctx.createGain(); gain.gain.value=0.06; gain.connect(ctx.destination);
-
-      function tick(){
-        if(!_ambientNodes.length)return;
-        const n1=ctx.createBufferSource(); n1.buffer=noiseBuf(ctx,1.5+Math.random());
-        const f1=ctx.createBiquadFilter(); f1.type='lowpass'; f1.frequency.value=600+Math.random()*400;
-        n1.connect(f1); f1.connect(gain); n1.start(); n1.stop(ctx.currentTime+1.5+Math.random());
-
-        const n2=ctx.createBufferSource(); n2.buffer=noiseBuf(ctx,1+Math.random());
-        const f2=ctx.createBiquadFilter(); f2.type='bandpass'; f2.frequency.value=2000+Math.random()*1500; f2.Q.value=0.8;
-        n2.connect(f2); f2.connect(gain); n2.start(ctx.currentTime+0.2); n2.stop(ctx.currentTime+1.2+Math.random());
-
-        _ambientNodes[0]=setTimeout(tick,1500+Math.random()*3000);
-      }
-      _ambientNodes=[setTimeout(tick,200)];
-    }catch(e){}
-  };
-
-  Sound.ambientStop=function(){
-    _ambientNodes.forEach(n=>clearTimeout(n)); _ambientNodes=[];
-  };
-})();
-
-// ─── UI ────────────────────────────────────────────────────────────────
-function showToast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(e._h);e._h=setTimeout(()=>e.classList.remove('show'),1800);}
-
-function buildSandUI(){
-  const row=document.getElementById('sandRow');
-  SANDS.forEach((s,i)=>{
-    const b=document.createElement('button');
-    b.className='sand-dot'+(i===S.sandIdx?' active':'');
-    b.style.background=s.base;
-    b.title=s.name;
-    b.addEventListener('click',()=>{
-      S.sandIdx=i;
-      row.querySelectorAll('.sand-dot').forEach((x,j)=>x.classList.toggle('active',j===i));
-      rebuild();
-    });
-    row.appendChild(b);
-  });
-}
-
-function buildObjUI(){
-  const tray=document.getElementById('objTray');
-  OBJECTS.forEach((o,i)=>{
-    const b=document.createElement('button');
-    b.className='obj-b'; b.dataset.i=i;
-    b.textContent=o.emoji;
-    b.title=o.label;
-    b.addEventListener('click',()=>{
-      S.selObj=S.selObj===i?null:i;
-      tray.querySelectorAll('.obj-b').forEach(x=>x.classList.toggle('active',+x.dataset.i===S.selObj));
-    });
-    tray.appendChild(b);
-  });
-}
-
-// ─── Init ──────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded',()=>{
-  c=document.getElementById('c'); cx=c.getContext('2d'); cw=document.getElementById('cw');
-
-  buildSandUI(); buildObjUI();
-
-  document.getElementById('brushSlider').addEventListener('input',function(){
-    S.brushSize=+this.value; document.getElementById('sizeLabel').textContent=this.value;
-  });
-
-  function setMode(id,mode){
-    document.getElementById(id).addEventListener('click',()=>{
-      S.mode=mode;
-      ['drawMode','eraseMode','dragMode'].forEach(m=>document.getElementById(m).classList.toggle('active',m===id));
-      c.style.cursor=mode==='drag'?'grab':mode==='erase'?'cell':'crosshair';
-      document.getElementById('objTray').classList.toggle('hidden',mode!=='drag');
-    });
-  }
-  setMode('drawMode','draw'); setMode('eraseMode','erase'); setMode('dragMode','drag');
-
-  document.getElementById('undoBtn').addEventListener('click',()=>{undo();Sound.undo()});
-  document.getElementById('clearBtn').addEventListener('click',()=>{
-    if(!S.objects.length&&S.undoStack.length<=1)return;
-    S.objects=[]; S.undoStack=[]; Sound.clear(); rebuild();
-  });
-  document.getElementById('waveBtn').addEventListener('click',()=>waveAnim());
-  document.getElementById('saveBtn').addEventListener('click',()=>{
-    Sound.save();
-    c.toBlob(b=>{
-      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([b],'drawingsand.png',{type:'image/png'})]})){
-        navigator.share({files:[new File([b],'drawingsand.png',{type:'image/png'})],title:'DrawingSand'}).catch(()=>{});
-      }else{
-        const a=document.createElement('a');a.download='drawingsand.png';a.href=URL.createObjectURL(b);a.click();
-        setTimeout(()=>URL.revokeObjectURL(a.href),1e3);
-      }
-    },'image/png');
-  });
-  document.getElementById('ambientBtn').addEventListener('click',function(){
-    S.ambientOn=!S.ambientOn; this.classList.toggle('active',S.ambientOn);
-    S.ambientOn?Sound.ambientStart():Sound.ambientStop();
-    showToast(S.ambientOn?'🌊 Ambiance océan':'🔇 Son coupé');
-  });
-
-  // Pointer events
-  c.addEventListener('pointerdown',onDown);
-  c.addEventListener('pointermove',onMove);
-  c.addEventListener('pointerup',onUp);
-  c.addEventListener('pointerleave',onUp);
-
-  window.addEventListener('resize',resize);
-  resize();
+document.getElementById('waveBtn').addEventListener('click',startWave);
+document.getElementById('clearBtn').addEventListener('click',function(){clearHM();requestAnimationFrame(tick);});
+document.getElementById('eraseBtn').addEventListener('click',function(){eraseActive=!eraseActive;this.classList.toggle('active',eraseActive);});
+document.getElementById('undoBtn').addEventListener('click',function(){clearHM();requestAnimationFrame(tick);});
+document.getElementById('saveBtn').addEventListener('click',function(){
+  var data=canvas.toDataURL('image/png');
+  var a=document.createElement('a');a.download='sanddraw.png';a.href=data;a.click();
 });
+document.getElementById('sizeSlider').addEventListener('input',function(){szMult=+this.value;});
+
+window.addEventListener('resize',resize);
+resize();
+requestAnimationFrame(tick);
 </script>
 </body>
 </html>
