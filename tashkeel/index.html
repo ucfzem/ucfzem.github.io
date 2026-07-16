@@ -155,8 +155,8 @@
 
     <!-- API Key section with save button -->
     <div class="key-section">
-        <label>🔑 مفتاح HF</label>
-        <input type="password" id="apiKeyInput" placeholder="hf_..." dir="ltr">
+        <label>🔑 مفتاح Groq</label>
+        <input type="password" id="apiKeyInput" placeholder="gsk_..." dir="ltr">
         <button onclick="saveKey()">💾 حفظ</button>
         <span class="saved-badge" id="savedBadge">✓ محفوظ</span>
     </div>
@@ -178,7 +178,7 @@
 
 <script>
     const HF_API = '/api/tashkeel';
-    const STORAGE_KEY = 'tashkeel_hf_token';
+    const STORAGE_KEY = 'tashkeel_groq_token';
 
 
     // Load saved key on page start
@@ -207,7 +207,7 @@
     async function doTashkeel() {
         const token = getKey();
         if (!token) {
-            alert('يرجى إدخال مفتاح Hugging Face ثم الضغط على "حفظ"');
+            alert('يرجى إدخال مفتاح Groq من console.groq.com ثم الضغط على "حفظ"');
             return;
         }
         const text = document.getElementById('inputText').value.trim();
@@ -241,7 +241,7 @@
 
 
             const data = await response.json();
-            let diacritized = data?.[0]?.generated_text || data?.generated_text || '';
+            let diacritized = data?.result || data?.[0]?.generated_text || data?.generated_text || '';
             if (typeof diacritized !== 'string') diacritized = JSON.stringify(diacritized);
             resultBox.textContent = diacritized || '(لا يوجد ناتج)';
         } catch (error) {
