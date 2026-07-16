@@ -177,7 +177,7 @@
 
 
 <script>
-    const HF_API = 'https://api-inference.huggingface.co/models/tarteel-ai/aratashkeel';
+    const HF_API = '/api/tashkeel';
     const STORAGE_KEY = 'tashkeel_hf_token';
 
 
@@ -229,11 +229,8 @@
         try {
             const response = await fetch(HF_API, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ inputs: text })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text, token })
             });
 
 
