@@ -202,3 +202,25 @@ https://github.com/ucfzem?tab=repositories
 - **DrawingSand :** https://ucfzem.github.io/drawingsand/
 - **Repo :** https://github.com/ucfzem/ucfzem.github.io
 - **Backup :** https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION_BACKUP.md
+
+## Session 2026-07-16 — Ultralengua Pro: Arabic flag + quiz grammar
+
+### Changements
+1. **Drapeau arabe** : `fi-sa` (Arabie Saoudite) → `fi-ma` (Maroc) — dans hero, lang-card, footer, JS `FLAGS`
+2. **Quiz arabe** : remplacé les 5 questions basiques (vocabulaire) par 5 questions de grammaire arabe classique (نحو/صرف) avec réponses expliquées
+3. **Footer dark mode** : `body.dark footer { background: var(--cream); }` + `html { background: var(--paper); }` — élimine le fond blanc résiduel
+4. **External links** : `rel="noopener"` ajouté aux 3 liens (WordReference, YouTube, Anki)
+5. **Déduplication** : `closeNav()` supprimé le doublon
+
+### Commits
+- `4f2ca27` — feat: save ultralengua-pro as single-file complete app
+- `43da2fa` — meta: add AGENTS.md, conversation doc
+- `2ad6763` — fix: dark mode footer background + html bg var(--paper)
+- `5597f19` — fix: change Arabic flag from Saudi Arabia (sa) to Morocco (ma)
+- `4dfc16c` — fix: replace Arabic quiz with classical Arabic grammar questions
+
+### Liens
+- **GitHub Pages :** https://ucfzem.github.io/ultralengua-pro/
+- **Cloudflare Worker :** https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/
+- **Vercel :** https://ucfzem-works.vercel.app/ultralengua-pro/
+- **Repo :** https://github.com/ucfzem/ucfzem.github.io (path: `ultralengua-pro/`)
