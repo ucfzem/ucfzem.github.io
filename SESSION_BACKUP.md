@@ -17,10 +17,12 @@
   - `tashkeel/api/tashkeel.js` — Vercel serverless function (CORS, Groq + HF proxy)
   - `tashkeel/vercel.json` — rewrites config
 - **Status**: ✅ Deployed to Vercel (`dpl_2fn1Acrbb4mBF6FxSaeS3ZTQ1U9i`). GitHub Pages build queued.
+- **Link Tree**: Added to `works/index.html` locked AI projects section (🕌 icon, middle of folder)
 
 ## Git Log (ucfzem.github.io)
 ```
-2bcdcdf add session backup
+2e77bab works: add Tashkeel to locked AI projects
+ebc35df update session backup
 b0ae8e2 tashkeel: cleaner serverless function with better prompts
 90eaafc tashkeel: use absolute Vercel API URL for GitHub Pages
 f55d28c tashkeel: add Groq + HuggingFace dual key support
