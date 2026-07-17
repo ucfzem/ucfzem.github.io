@@ -401,7 +401,8 @@ export default async function handler(req, res) {
         } catch (e) {
           if (e.retry) return res.status(503).json({ error: e.message, retry: true });
           if (isRateLimit(e)) {
-            return res.status(429).json({ error: e.message, retry_after: 15 });
+            errors.push(`${prov}: rate limited`);
+            continue;
           }
           errors.push(`${prov}: ${e.message || e}`);
         }
