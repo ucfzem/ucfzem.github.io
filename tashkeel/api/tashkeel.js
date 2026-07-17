@@ -245,6 +245,52 @@ async function callGroq(text, token) {
   return data.choices?.[0]?.message?.content?.trim() || '';
 }
 
+async function callGitHub(text, token) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  const r = await fetch('https://models.inference.ai.azure.com/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'User-Agent': 'tashkeel-vercel/1.0',
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      temperature: 0,
+      messages: [
+        {
+          role: 'system',
+          content:
+            'أنت خبير تشكيل نصوص عربية متخصص بالمورفولوجيا (الصرف) والقواعد (النحو). مهمتك: إضافة التشكيل الكامل بدقة.' +
+            '\n\n═══════════════════════════════' +
+            '\nالقوانين الصارمة (لا تنتهك أبداً):' +
+            '\n1. ❌ لا تغير أي حرف من الحروف الأصلية — فقط أضف التشكيل فوقها وتحتها' +
+            '\n2. ❌ الأسماء الأعجمية (مثل أليس Alice) تبقى حروفها كما هي: أَلِيس (وليس أَلْيَس)' +
+            '\n3. ❌ لا تحذف ياء أو واو أو ألف أو أي حرف' +
+            '\n4. ❌ لا تغير تاء مربوطة (ة) إلى هاء (ه) والعكس' +
+            '\n5. ❌ لا تغير ترتيب الكلمات' +
+            '\n6. ✅ الشدة (ّ) واجبة على الحروف المضعّفة' +
+            '\n\n【اسم الفاعل】وزن "مُفْعِل": مشمس ← مُشْمِس (وليس مُشَمَّس) | مقمر ← مُقْمِر (وليس مُقَمَّر)' +
+            '\n【اللام الشمسية】الحرف الشمسي يأخذ الشدة: الطَّقْس (وليس الْطَقْس) | الشَّمْس (وليس الْشَمْس)' +
+            '\n【الأسماء الأعجمية】أليس ← أَلِيس | باريس ← بَارِيس | موسى ← مُوسَى' +
+            '\n\nقاعدة ذهبية: الحروف الأصلية أمانة. التشكيل فقط ما يُضاف.' +
+            '\nأعد فقط النص المشكول كاملاً بدون أي شرح.',
+        },
+        { role: 'user', content: text },
+      ],
+    }),
+  }).finally(() => clearTimeout(timeout));
+
+  if (!r.ok) {
+    const errData = await r.json().catch(() => ({}));
+    throw { status: r.status, message: errData.error?.message || `خطأ من GitHub (${r.status})` };
+  }
+
+  const data = await r.json();
+  return data.choices?.[0]?.message?.content?.trim() || '';
+}
+
 async function callHuggingFace(text, token) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 60000);
@@ -307,9 +353,9 @@ export default async function handler(req, res) {
       e.status === 429 || (e.message && e.message.includes('Rate limit'));
 
     try {
-      const providers = provider === 'groq' || provider === 'huggingface'
+      const providers = provider === 'groq' || provider === 'huggingface' || provider === 'github'
         ? [provider]
-        : ['groq', 'huggingface'];
+        : ['groq', 'github', 'huggingface'];
 
       const errors = [];
 
@@ -319,6 +365,8 @@ export default async function handler(req, res) {
 
           if (prov === 'groq') {
             result = await callGroq(text, token);
+          } else if (prov === 'github') {
+            result = await callGitHub(text, token);
           } else {
             result = await callHuggingFace(text, token);
           }

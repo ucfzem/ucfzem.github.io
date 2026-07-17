@@ -154,13 +154,20 @@
     <h1>📝 مُشَكِّل</h1>
     <p class="subtitle">تشكيل احترافي – أدخل النص العربي غير المشكول</p>
 
-
     <!-- Groq Key -->
     <div class="key-section">
         <label>🔑 Groq</label>
         <input type="password" id="groqKeyInput" placeholder="gsk_..." dir="ltr">
         <button onclick="saveKey('groq')">💾 حفظ</button>
         <span class="saved-badge" id="groqSavedBadge">✓ محفوظ</span>
+    </div>
+
+    <!-- GitHub Key -->
+    <div class="key-section">
+        <label>🐙 GitHub</label>
+        <input type="password" id="ghKeyInput" placeholder="ghp_..." dir="ltr">
+        <button onclick="saveKey('github')">💾 حفظ</button>
+        <span class="saved-badge" id="ghSavedBadge">✓ محفوظ</span>
     </div>
 
     <!-- HuggingFace Key -->
@@ -170,7 +177,6 @@
         <button onclick="saveKey('hf')">💾 حفظ</button>
         <span class="saved-badge" id="hfSavedBadge">✓ محفوظ</span>
     </div>
-
 
     <div style="font-weight:600;color:#0b5e5a;margin-bottom:0.3rem;">📝 النص الأصلي (بدون تشكيل)</div>
     <textarea id="inputText" rows="5" placeholder="أدخل النص العربي غير المشكول..."></textarea>
@@ -192,18 +198,20 @@
     <div id="errorBox"></div>
 </div>
 
-
 <script>
     const API_ENDPOINT = 'https://tashkeel-five.vercel.app/api/tashkeel';
     const GROQ_STORAGE = 'tashkeel_groq_token';
+    const GH_STORAGE = 'tashkeel_gh_token';
     const HF_STORAGE = 'tashkeel_hf_token';
     const TEXT_STORAGE = 'tashkeel_input_text';
     const RESULT_STORAGE = 'tashkeel_result';
 
     (function() {
         const g = localStorage.getItem(GROQ_STORAGE);
+        const gh = localStorage.getItem(GH_STORAGE);
         const h = localStorage.getItem(HF_STORAGE);
         if (g) { document.getElementById('groqKeyInput').value = g; document.getElementById('groqSavedBadge').style.display = 'inline'; }
+        if (gh) { document.getElementById('ghKeyInput').value = gh; document.getElementById('ghSavedBadge').style.display = 'inline'; }
         if (h) { document.getElementById('hfKeyInput').value = h; document.getElementById('hfSavedBadge').style.display = 'inline'; }
         const savedText = localStorage.getItem(TEXT_STORAGE);
         if (savedText) document.getElementById('inputText').value = savedText;
@@ -215,18 +223,20 @@
     })();
 
     function saveKey(provider) {
-        const id = provider === 'groq' ? 'groqKeyInput' : 'hfKeyInput';
-        const badgeId = provider === 'groq' ? 'groqSavedBadge' : 'hfSavedBadge';
-        const storageKey = provider === 'groq' ? GROQ_STORAGE : HF_STORAGE;
-        const key = document.getElementById(id).value.trim();
+        const map = { groq: 'groqKeyInput', github: 'ghKeyInput', hf: 'hfKeyInput' };
+        const badgeMap = { groq: 'groqSavedBadge', github: 'ghSavedBadge', hf: 'hfSavedBadge' };
+        const storageMap = { groq: GROQ_STORAGE, github: GH_STORAGE, hf: HF_STORAGE };
+        const key = document.getElementById(map[provider]).value.trim();
         if (!key) return alert('أدخل المفتاح أولاً');
-        localStorage.setItem(storageKey, key);
-        document.getElementById(badgeId).style.display = 'inline';
+        localStorage.setItem(storageMap[provider], key);
+        document.getElementById(badgeMap[provider]).style.display = 'inline';
     }
 
     function getProvider() {
         const groq = document.getElementById('groqKeyInput').value.trim() || localStorage.getItem(GROQ_STORAGE);
         if (groq) return { provider: 'groq', token: groq };
+        const gh = document.getElementById('ghKeyInput').value.trim() || localStorage.getItem(GH_STORAGE);
+        if (gh) return { provider: 'github', token: gh };
         const hf = document.getElementById('hfKeyInput').value.trim() || localStorage.getItem(HF_STORAGE);
         if (hf) return { provider: 'huggingface', token: hf };
         return null;
@@ -235,7 +245,7 @@
     async function doTashkeel() {
         const auth = getProvider();
         if (!auth) {
-            alert('أدخل مفتاح Groq أو HuggingFace ثم اضغط "حفظ"');
+            alert('أدخل مفتاح Groq أو GitHub أو HuggingFace ثم اضغط "حفظ"');
             return;
         }
         const text = document.getElementById('inputText').value.trim();
