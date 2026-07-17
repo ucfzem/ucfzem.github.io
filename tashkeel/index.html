@@ -154,28 +154,33 @@
     <h1>📝 مُشَكِّل</h1>
     <p class="subtitle">تشكيل احترافي – أدخل النص العربي غير المشكول</p>
 
-    <!-- Groq Key -->
-    <div class="key-section">
-        <label>🔑 Groq</label>
-        <input type="password" id="groqKeyInput" placeholder="gsk_..." dir="ltr">
-        <button onclick="saveKey('groq')">💾 حفظ</button>
-        <span class="saved-badge" id="groqSavedBadge">✓ محفوظ</span>
+    <div style="text-align:left;margin-bottom:0.8rem;">
+        <button class="sec-btn" onclick="toggleKeys()" id="keysToggleBtn">🔑 إظهار المفاتيح</button>
     </div>
+    <div id="keysContainer" style="display:none;">
+        <!-- Groq Key -->
+        <div class="key-section">
+            <label>🔑 Groq</label>
+            <input type="password" id="groqKeyInput" placeholder="gsk_..." dir="ltr">
+            <button onclick="saveKey('groq')">💾 حفظ</button>
+            <span class="saved-badge" id="groqSavedBadge">✓ محفوظ</span>
+        </div>
 
-    <!-- GitHub Key -->
-    <div class="key-section">
-        <label>🐙 GitHub</label>
-        <input type="password" id="ghKeyInput" placeholder="ghp_..." dir="ltr">
-        <button onclick="saveKey('github')">💾 حفظ</button>
-        <span class="saved-badge" id="ghSavedBadge">✓ محفوظ</span>
-    </div>
+        <!-- GitHub Key -->
+        <div class="key-section">
+            <label>🐙 GitHub</label>
+            <input type="password" id="ghKeyInput" placeholder="ghp_..." dir="ltr">
+            <button onclick="saveKey('github')">💾 حفظ</button>
+            <span class="saved-badge" id="ghSavedBadge">✓ محفوظ</span>
+        </div>
 
-    <!-- HuggingFace Key -->
-    <div class="key-section">
-        <label>🤗 HuggingFace</label>
-        <input type="password" id="hfKeyInput" placeholder="hf_..." dir="ltr">
-        <button onclick="saveKey('hf')">💾 حفظ</button>
-        <span class="saved-badge" id="hfSavedBadge">✓ محفوظ</span>
+        <!-- HuggingFace Key -->
+        <div class="key-section">
+            <label>🤗 HuggingFace</label>
+            <input type="password" id="hfKeyInput" placeholder="hf_..." dir="ltr">
+            <button onclick="saveKey('hf')">💾 حفظ</button>
+            <span class="saved-badge" id="hfSavedBadge">✓ محفوظ</span>
+        </div>
     </div>
 
     <div style="font-weight:600;color:#0b5e5a;margin-bottom:0.3rem;">📝 النص الأصلي (بدون تشكيل)</div>
@@ -221,6 +226,14 @@
             localStorage.setItem(TEXT_STORAGE, this.value);
         });
     })();
+
+    function toggleKeys() {
+        const container = document.getElementById('keysContainer');
+        const btn = document.getElementById('keysToggleBtn');
+        const hidden = container.style.display === 'none';
+        container.style.display = hidden ? 'block' : 'none';
+        btn.textContent = hidden ? '🔑 إخفاء المفاتيح' : '🔑 إظهار المفاتيح';
+    }
 
     function saveKey(provider) {
         const map = { groq: 'groqKeyInput', github: 'ghKeyInput', hf: 'hfKeyInput' };
