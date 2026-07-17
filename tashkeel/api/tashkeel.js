@@ -362,8 +362,11 @@ export default async function handler(req, res) {
     };
 
     try {
-      const providers = provider === 'groq' || provider === 'huggingface' || provider === 'github'
-        ? [provider]
+      const userProvider = provider === 'groq' || provider === 'huggingface' || provider === 'github'
+        ? provider
+        : null;
+      const providers = userProvider
+        ? [userProvider, ...['groq', 'github', 'huggingface'].filter(p => p !== userProvider)]
         : ['groq', 'github', 'huggingface'];
 
       const errors = [];
