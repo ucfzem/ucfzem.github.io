@@ -296,46 +296,53 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'النص أو المفتاح مفقود' });
   }
 
-  try {
-    const providers = provider === 'groq' || provider === 'huggingface'
-      ? [provider]
-      : ['groq', 'huggingface'];
+    const isRateLimit = (e) =>
+      e.status === 429 || (e.message && e.message.includes('Rate limit'));
 
-    let lastError = '';
+    try {
+      const providers = provider === 'groq' || provider === 'huggingface'
+        ? [provider]
+        : ['groq', 'huggingface'];
 
-    for (const prov of providers) {
-      try {
-        let result = '';
+      const errors = [];
 
-        if (prov === 'groq') {
-          result = await callGroq(text, token);
-        } else {
-          result = await callHuggingFace(text, token);
+      for (const prov of providers) {
+        try {
+          let result = '';
+
+          if (prov === 'groq') {
+            result = await callGroq(text, token);
+          } else {
+            result = await callHuggingFace(text, token);
+          }
+
+          if (!result) {
+            errors.push(`${prov}: returned empty`);
+            continue;
+          }
+
+          const validation = validateLetters(text, result);
+          if (validation.valid) {
+            return res.status(200).json({ result });
+          }
+
+          errors.push(`${prov}: letter mismatch — input "${stripTashkeel(text).trim()}" ≠ output "${stripTashkeel(result).trim()}"`);
+
+        } catch (e) {
+          if (e.retry) return res.status(503).json({ error: e.message, retry: true });
+          if (isRateLimit(e)) {
+            return res.status(429).json({ error: e.message, retry_after: 15 });
+          }
+          errors.push(`${prov}: ${e.message || e}`);
         }
-
-        if (!result) continue;
-
-        const validation = validateLetters(text, result);
-        if (validation.valid) {
-          return res.status(200).json({ result });
-        }
-
-        const bareOutput = stripTashkeel(result).trim();
-        const bareInput = stripTashkeel(text).trim();
-        lastError = `تغيرت الحروف: المدخل="${bareInput}" ≠ الناتج="${bareOutput}" (الموفر: ${prov})`;
-
-      } catch (e) {
-        lastError = e.message || e;
-        if (e.retry) return res.status(503).json({ error: e.message, retry: true });
       }
+
+      return res.status(422).json({
+        error: errors.join(' | '),
+        hint: 'جرب مزوداً آخر أو انتظر قليلاً',
+      });
+
+    } catch (e) {
+      return res.status(500).json({ error: e.message || 'خطأ في الخادم' });
     }
-
-    return res.status(422).json({
-      error: `فشل جميع المزودين: ${lastError}`,
-      hint: 'تأكد من صحة المفاتيح وجرب مزوداً آخر',
-    });
-
-  } catch (e) {
-    return res.status(500).json({ error: e.message || 'خطأ في الخادم' });
-  }
 }
