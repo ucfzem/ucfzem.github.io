@@ -239,15 +239,11 @@
         if (gh) return { provider: 'github', token: gh };
         const hf = document.getElementById('hfKeyInput').value.trim() || localStorage.getItem(HF_STORAGE);
         if (hf) return { provider: 'huggingface', token: hf };
-        return null;
+        return { provider: 'groq', token: '' };
     }
 
     async function doTashkeel() {
         const auth = getProvider();
-        if (!auth) {
-            alert('أدخل مفتاح Groq أو GitHub أو HuggingFace ثم اضغط "حفظ"');
-            return;
-        }
         const text = document.getElementById('inputText').value.trim();
         if (!text) return;
 

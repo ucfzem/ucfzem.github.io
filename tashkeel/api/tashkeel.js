@@ -344,13 +344,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Méthode non autorisée — utilisez POST' });
   }
 
-  const { text, token, provider } = req.body || {};
-  if (!text || !token) {
-    return res.status(400).json({ error: 'النص أو المفتاح مفقود' });
+  const { text, token: userToken, provider } = req.body || {};
+  if (!text) {
+    return res.status(400).json({ error: 'النص مفقود' });
   }
 
     const isRateLimit = (e) =>
       e.status === 429 || (e.message && e.message.includes('Rate limit'));
+
+    const getToken = (prov) => {
+      if (userToken) return userToken;
+      if (prov === 'groq') return process.env.GROQ_KEY || '';
+      if (prov === 'github') return process.env.GITHUB_KEY || '';
+      return '';
+    };
 
     try {
       const providers = provider === 'groq' || provider === 'huggingface' || provider === 'github'
@@ -360,6 +367,12 @@ export default async function handler(req, res) {
       const errors = [];
 
       for (const prov of providers) {
+        const token = getToken(prov);
+        if (!token) {
+          errors.push(`${prov}: no key`);
+          continue;
+        }
+
         try {
           let result = '';
 
