@@ -358,9 +358,8 @@ export default async function handler(req, res) {
       e.status === 429 || (e.message && e.message.includes('Rate limit'));
 
     const getToken = (prov) => {
-      if (userToken) return userToken;
-      if (prov === 'groq') return process.env.GROQ_KEY || '';
-      if (prov === 'github') return process.env.GITHUB_KEY || '';
+      if (prov === 'groq') return req.body.token || req.body.groqKey || process.env.GROQ_KEY || '';
+      if (prov === 'github') return req.body.githubKey || process.env.GITHUB_KEY || '';
       return '';
     };
 
