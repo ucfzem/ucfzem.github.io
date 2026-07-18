@@ -91,8 +91,9 @@
         .cat-btn { padding: 0.5rem 0.9rem; border-radius: 50px; border: 1.5px solid var(--btn-border); background: var(--white); cursor: pointer; font-size: 0.82rem; font-family: var(--font-body); color: var(--text-light); transition: var(--transition); white-space: nowrap; letter-spacing: 0.2px; font-weight: 500; touch-action: manipulation; }
         .cat-btn:hover { border-color: var(--sage-light); color: var(--sage); background: var(--btn-hover-bg); }
         .cat-btn.active { background: var(--sage); color: #fff; border-color: var(--sage); font-weight: 600; box-shadow: 0 2px 8px rgba(112, 130, 56, 0.25); }
-        .counter { text-align: center; font-size: 0.85rem; color: var(--text-light); margin-bottom: 1.2rem; font-style: italic; }
+        .counter { text-align: center; font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.6rem; font-style: italic; }
         .counter strong { color: var(--sage); font-weight: 700; }
+        .orl-note { text-align: center; font-size: 0.78rem; color: var(--sage); margin: 0 auto 1.2rem auto; padding: 0.3rem 0.6rem; background: var(--btn-hover-bg); border-radius: 50px; display: none; width: fit-content; transition: opacity 0.2s; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
         .card { background: var(--white); border-radius: var(--radius); padding: 1.2rem 1.1rem; box-shadow: var(--shadow); cursor: pointer; transition: var(--transition); border: 1.5px solid transparent; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 0.4rem; touch-action: manipulation; }
         .card:hover { box-shadow: var(--shadow-hover); border-color: var(--card-hover-border); transform: translateY(-3px); }
@@ -196,8 +197,9 @@
             </div>
         </div>
         <div class="categories" id="categoriesContainer"></div>
-        <p class="counter" id="counter">Affichage de <strong>90</strong> remèdes</p>
-        <div class="grid" id="gridContainer"></div>
+<p class="counter" id="counter">Affichage de <strong>90</strong> remèdes</p>
+<p class="orl-note" id="orlNote"></p>
+<div class="grid" id="gridContainer"></div>
     </div>
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
@@ -219,8 +221,8 @@ var D=[];var lang=(function(){try{var s=localStorage.getItem('lang');if(s&&/^(fr
 function $(s){return s[lang]||s.fr||'';}
 function rc(){var h='';C.forEach(function(c){h+='<button class="cat-btn'+(c.k===ca?' active':'')+'" data-cat="'+c.k+'"><span class="cat-emoji">'+c.e+'</span>'+c.l[lang]+'</button>';});document.getElementById('categoriesContainer').innerHTML=h;}
 function rg(){var l=D;if(ca!=='all')l=l.filter(function(r){return r.cat===ca;});if(st.trim()){var q=st.trim().toLowerCase();l=l.filter(function(r){return $(r.m).toLowerCase().includes(q)||$(r.rm).toLowerCase().includes(q)||$(r.i).some(function(v){return v.toLowerCase().includes(q);})||r.cat.toLowerCase().includes(q);});}
-var g=document.getElementById('gridContainer');g.innerHTML='';var co=document.getElementById('counter');co.innerHTML=L[lang].w+' <strong>'+l.length+'</strong> '+(l.length>1?L[lang].rs:L[lang].r);if(!l.length){g.innerHTML='<div class="no-result"><span class="no-result-icon">🍂</span><p>'+L[lang].n+'</p></div>';return;}
-l.forEach(function(r){var x=document.createElement('div');x.className='card';x.tabIndex=0;x.dataset.idx=D.indexOf(r);x.innerHTML='<span class="card-badge">'+C.find(function(c){return c.k===r.cat;}).l[lang]+'</span><h3 class="card-title">'+$(r.m)+'</h3><p class="card-remede">🌿 '+$(r.rm)+'</p><span class="card-arrow">→</span>';g.appendChild(x);});document.getElementById('searchClear').classList.toggle('visible',document.getElementById('searchInput').value.trim()!=='');}
+var g=document.getElementById('gridContainer');g.innerHTML='';var co=document.getElementById('counter');co.innerHTML=L[lang].w+' <strong>'+l.length+'</strong> '+(l.length>1?L[lang].rs:L[lang].r);var no=document.getElementById('orlNote');if(ca==='ORL & Respiratoire'){no.textContent=lang==='fr'?'ORL = Oreilles, Nez, Gorge':lang==='en'?'ENT = Ear, Nose, Throat':lang==='es'?'ORL = Oídos, Nariz, Garganta':'الأذن والأنف والحنجرة';no.style.display='block';}else{no.textContent='';no.style.display='none';}if(!l.length){g.innerHTML='<div class="no-result"><span class="no-result-icon">🍂</span><p>'+L[lang].n+'</p></div>';return;}
+l.forEach(function(r){var x=document.createElement('div');x.className='card';x.tabIndex=0;x.dataset.idx=D.indexOf(r);x.innerHTML='<span class="card-badge">'+C.find(function(c){return c.k===r.cat;}).l[lang]+'</span><h3 class="card-title">'+$(r.m)+'</h3><p class="card-remede">🌿 '+$(r.rm)+'</p><span class="card-arrow">→</span>';x.addEventListener('click',function(){var i=parseInt(this.dataset.idx);if(!isNaN(i)&&D[i]){om(D[i]);}});g.appendChild(x);});document.getElementById('searchClear').classList.toggle('visible',document.getElementById('searchInput').value.trim()!=='');}
 function om(r){var h='<span class="modal-badge">'+C.find(function(c){return c.k===r.cat;}).l[lang]+'</span><h2>'+$(r.m)+'</h2><p class="modal-remede-name">🌿 '+$(r.rm)+'</p><h4>'+L[lang].i+'</h4><ul>'+r.i.map(function(v){return '<li>'+$(v)+'</li>';}).join('')+'</ul><h4>'+L[lang].p+'</h4><ul>'+r.p.map(function(v){return '<li>'+$(v)+'</li>';}).join('')+'</ul><h4>'+L[lang].o+'</h4><p>'+$(r.po)+'</p><div class="contre-indications"><strong>'+L[lang].c+'</strong> '+$(r.ci)+'</div><div class="warning-box">'+$(r.wr)+'</div>';document.getElementById('modalInner').innerHTML=h;document.getElementById('modalOverlay').classList.add('active');document.body.style.overflow='hidden';setTimeout(function(){document.getElementById('modalClose').focus();},50);}
 function sl(l){if(!/^(fr|en|es|ar)$/.test(l))l='fr';try{localStorage.setItem('lang',l);}catch(e){}lang=l;var h=document.documentElement;h.lang=l;h.dir=l==='ar'?'rtl':'ltr';document.getElementById('mainTitle').textContent=L[l].t;document.getElementById('subtitleText').textContent=L[l].st;document.getElementById('footerText').innerHTML=L[l].f;document.getElementById('searchInput').placeholder=L[l].s;document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.dataset.lang===l);});rc();rg();}
 function ad(cat,m,rm,i,p,po,ci,wr){D.push({cat:cat,m:m,rm:rm,i:i,p:p,po:po,ci:ci,wr:wr});}ad("ORL & Respiratoire",{"fr":"Rhume & nez bouché","en":"Common cold","es":"Resfriado","ar":"الزكام"},{"fr":"Inhalation eucalyptus","en":"Eucalyptus inhalation","es":"Inhalación eucalipto","ar":"استنشاق الأوكالبتوس"},{"fr":["4 gtes HE eucalyptus","1 bol eau chaude","1 serviette"],"en":["4 drops eucalyptus EO","1 bowl hot water","1 towel"],"es":["4 gotas AE eucalipto","1 bol agua caliente","1 toalla"],"ar":["4 قطرات زيت أوكالبتوس","وعاء ماء ساخن","منشفة"]},{"fr":["Chauffer l'eau.","Verser les gouttes.","Inspirer 5-10 min."],"en":["Heat water.","Add drops.","Inhale 5-10 min."],"es":["Calentar agua.","Añadir gotas.","Inhalar 5-10 min."],"ar":["سخن الماء.","أضف القطرات.","استنشق 5-10 د."]},{"fr":"1-2x/jour max 3 jours.","en":"1-2x/day max 3 days.","es":"1-2x/día máx 3 días.","ar":"1-2 مرات/يوم أقصى 3 أيام."},{"fr":"Asthme, grossesse, enfants <6.","en":"Asthma, pregnancy, children <6.","es":"Asma, embarazo, niños <6.","ar":"ربو، حمل، أطفال <6."},{"fr":"Ne pas mettre HE dans eau bouillante.","en":"Don't put EO in boiling water.","es":"No poner AE en agua hirviendo.","ar":"لا تضع الزيت في ماء مغلي."});
@@ -323,7 +325,6 @@ document.addEventListener('click',function(e){
   if(t.classList.contains('lang-btn')){sl(t.dataset.lang);return;}
   if(t.classList.contains('theme-btn')){var th=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',th);try{localStorage.setItem('theme',th);}catch(e){}t.textContent=th==='dark'?'☀️':'🌙';return;}
   if(t.classList.contains('cat-btn')||t.closest('.cat-btn')){ca=(t.classList.contains('cat-btn')?t:t.closest('.cat-btn')).dataset.cat;rc();rg();return;}
-  var c=t.closest('.card');if(c){var i=parseInt(c.dataset.idx);if(!isNaN(i)&&D[i]){om(D[i]);}}
 });
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){if(document.getElementById('modalOverlay').classList.contains('active')){cm();e.preventDefault();}return;}
