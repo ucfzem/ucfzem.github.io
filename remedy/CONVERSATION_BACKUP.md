@@ -44,6 +44,15 @@ Built a fully i18n'd "Remèdes de Grand-Mère" (Grandma's Remedies) web app with
 - 🇪🇸 Spanish
 - 🇲🇦 Arabic (with RTL + Alexandria font)
 
+## Session 2 Fixes (July 18)
+- **Card click fix**: Replaced event delegation `.closest('.card')` with direct `addEventListener('click', ...)` on each card element — more reliable, no DOM traversal issues
+- **ORL explanation**: Added a visible pill badge below the counter when "ORL & Respiratoire" category is selected, showing the meaning in each language (FR: Oreilles, Nez, Gorge; EN: Ear, Nose, Throat; ES: Oídos, Nariz, Garganta; AR: الأذن والأنف والحنجرة)
+- **Works page entry**: Added Remèdes app (🍵 Remedy) to the locked "Autres" folder at `ucfzem.github.io/works/`
+
+## Live URLs
+- Remedy app: https://remedy-eight.vercel.app
+- Works page: https://ucfzem.github.io/works/
+
 ## Features
 - 90 grandma remedies across 10 categories
 - Full-text search across ailments, ingredients, and remedy names
