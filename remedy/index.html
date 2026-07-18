@@ -1,0 +1,1506 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Remèdes de Grand-Mère — Herboristerie Maison</title>
+    <style>
+        :root {
+            --bg: #fcfbf7;
+            --white: #ffffff;
+            --sage: #708238;
+            --sage-light: #8a9a86;
+            --sage-pale: #e8efe4;
+            --sage-bg: #f4f7f1;
+            --text: #3e3e3b;
+            --text-light: #6b6b66;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.10);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-heading: 'Georgia', 'Times New Roman', serif;
+            --font-body: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+
+        /* Header */
+        .header {
+            background: linear-gradient(170deg, #e8efe4 0%, #f4f7f1 40%, #fcfbf7 100%);
+            text-align: center;
+            padding: 3rem 1.5rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(112, 130, 56, 0.10) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            right: -40px;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(138, 154, 134, 0.10) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .header-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            color: #4a5732;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+        }
+        .header .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        .header .leaf-decor {
+            display: inline-block;
+            font-size: 1.3rem;
+            margin: 0 6px;
+            opacity: 0.6;
+        }
+
+
+        /* Conteneur principal */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+
+        /* Barre de recherche */
+        .search-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: -1.2rem auto 1.8rem;
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.4rem 1rem 3rem;
+            border: 2px solid #e0dcd2;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            background: var(--white);
+            color: var(--text);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--sage);
+            box-shadow: 0 0 0 4px rgba(112, 130, 56, 0.08), var(--shadow);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .search-clear {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: var(--transition);
+            padding: 4px 8px;
+            border-radius: 50%;
+            display: none;
+        }
+        .search-clear:hover {
+            opacity: 1;
+            background: #f0ece2;
+        }
+        .search-clear.visible {
+            display: block;
+        }
+
+
+        /* Filtres catégories */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.55rem;
+            margin-bottom: 2.2rem;
+        }
+        .cat-btn {
+            padding: 0.55rem 1rem;
+            border-radius: 50px;
+            border: 1.5px solid #dcd7c9;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            color: var(--text-light);
+            transition: var(--transition);
+            white-space: nowrap;
+            letter-spacing: 0.2px;
+            font-weight: 500;
+        }
+        .cat-btn:hover {
+            border-color: var(--sage-light);
+            color: var(--sage);
+            background: #fafff6;
+        }
+        .cat-btn.active {
+            background: var(--sage);
+            color: #fff;
+            border-color: var(--sage);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(112, 130, 56, 0.25);
+        }
+        .cat-btn .cat-emoji {
+            margin-right: 4px;
+        }
+
+
+        /* Compteur */
+        .counter {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .counter strong {
+            color: var(--sage);
+            font-weight: 700;
+        }
+
+
+        /* Grille */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem;
+        }
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 0.9rem;
+            }
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            .header {
+                padding: 2rem 1rem 1.8rem;
+            }
+            .cat-btn {
+                font-size: 0.78rem;
+                padding: 0.45rem 0.8rem;
+            }
+        }
+
+
+        /* Carte */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem 1.3rem;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1.5px solid transparent;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: #dce8d3;
+            transform: translateY(-3px);
+        }
+        .card .card-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--sage);
+            background: var(--sage-pale);
+            padding: 3px 10px;
+            border-radius: 50px;
+            width: fit-content;
+        }
+        .card .card-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: #3e4632;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .card .card-remede {
+            font-size: 0.9rem;
+            color: var(--sage-light);
+            font-weight: 600;
+        }
+        .card .card-ingredients {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+        .card .card-ingredients span {
+            background: #faf8f2;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 2px 3px 2px 0;
+            font-size: 0.78rem;
+            border: 1px solid #efe9d9;
+        }
+        .card .card-arrow {
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            font-size: 1.2rem;
+            opacity: 0.35;
+            transition: var(--transition);
+        }
+        .card:hover .card-arrow {
+            opacity: 0.7;
+            right: 12px;
+        }
+
+
+        /* Modale */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 28, 22, 0.55);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem 1.8rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: #f5f2e9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5a5a55;
+            z-index: 5;
+        }
+        .modal-close:hover {
+            background: #e8e0d0;
+            color: #2a2a25;
+        }
+        .modal .modal-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--sage);
+            background: var(--sage-pale);
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-bottom: 0.6rem;
+        }
+        .modal h2 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: #3e4632;
+            margin-bottom: 0.3rem;
+        }
+        .modal .modal-remede-name {
+            font-size: 1.1rem;
+            color: var(--sage-light);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .modal h4 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: #4a5732;
+            margin: 1.2rem 0 0.4rem;
+            border-bottom: 1.5px dotted #e0dcd2;
+            padding-bottom: 0.3rem;
+        }
+        .modal ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .modal ul li {
+            padding: 0.35rem 0;
+            font-size: 0.92rem;
+            color: var(--text);
+            position: relative;
+            padding-left: 1.4rem;
+        }
+        .modal ul li::before {
+            content: '🌱';
+            position: absolute;
+            left: 0;
+            top: 0.35rem;
+            font-size: 0.75rem;
+        }
+        .modal .warning-box {
+            background: #fffdf5;
+            border-left: 4px solid #e0c36a;
+            padding: 0.8rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: #7a6e40;
+            font-style: italic;
+        }
+        .modal .contre-indications {
+            background: #fef5f5;
+            border-left: 4px solid #c97a7a;
+            padding: 0.7rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-top: 0.7rem;
+            font-size: 0.84rem;
+            color: #6b3a3a;
+        }
+
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.8rem;
+            color: #b0aca0;
+            border-top: 1px solid #e8e4d8;
+            margin-top: 2rem;
+        }
+        .footer span {
+            color: var(--sage-light);
+        }
+
+
+        /* Aucun résultat */
+        .no-result {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #b0aca0;
+            grid-column: 1 / -1;
+        }
+        .no-result .no-result-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Header -->
+    <header class="header">
+        <span class="header-icon">🌿</span>
+        <h1>Remèdes de Grand-Mère</h1>
+        <p class="subtitle">
+            <span class="leaf-decor">🍃</span> 90 recettes maison, naturelles & transmises <span class="leaf-decor">🍃</span>
+        </p>
+    </header>
+
+
+    <!-- Conteneur -->
+    <div class="container">
+        <!-- Recherche -->
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un mal, un ingrédient... (ex: toux, miel, gingembre)" autocomplete="off">
+            <button class="search-clear" id="searchClear" title="Effacer">✕</button>
+        </div>
+
+
+        <!-- Catégories -->
+        <div class="categories" id="categoriesContainer">
+            <button class="cat-btn active" data-cat="all"><span class="cat-emoji">📋</span>Tous</button>
+            <button class="cat-btn" data-cat="ORL & Respiratoire"><span class="cat-emoji">🫁</span>ORL</button>
+            <button class="cat-btn" data-cat="Digestion & Transit"><span class="cat-emoji">🍽️</span>Digestion</button>
+            <button class="cat-btn" data-cat="Système nerveux & Sommeil"><span class="cat-emoji">😴</span>Sommeil</button>
+            <button class="cat-btn" data-cat="Peau & Cheveux"><span class="cat-emoji">✨</span>Peau</button>
+            <button class="cat-btn" data-cat="Douleurs & Articulations"><span class="cat-emoji">🦴</span>Douleurs</button>
+            <button class="cat-btn" data-cat="Circulatoire & Jambes"><span class="cat-emoji">🦵</span>Circulatoire</button>
+            <button class="cat-btn" data-cat="Urinaire & Gynécologique"><span class="cat-emoji">🌸</span>Gynéco</button>
+            <button class="cat-btn" data-cat="Bouche & Yeux"><span class="cat-emoji">👄</span>Bouche</button>
+            <button class="cat-btn" data-cat="Coups de fatigue & Immunité"><span class="cat-emoji">⚡</span>Immunité</button>
+        </div>
+
+
+        <!-- Compteur -->
+        <p class="counter" id="counter">Affichage de <strong>90</strong> remèdes</p>
+
+
+        <!-- Grille -->
+        <div class="grid" id="gridContainer"></div>
+    </div>
+
+
+    <!-- Modale -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <button class="modal-close" id="modalClose">✕</button>
+            <div id="modalInner"></div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🌾 Ces remèdes sont issus de traditions populaires et <span>ne remplacent pas un avis médical</span>. En cas de doute, consultez un professionnel de santé. 🌾</p>
+    </footer>
+
+
+    <script>
+        (function() {
+            // ==================== BASE DE DONNÉES : 90 REMÈDES ====================
+            const remedes = [
+                // ---- ORL & Respiratoire (1-10) ----
+                { id: 1, maladie: 'Rhume', categorie: 'ORL & Respiratoire', remede: 'Grog au miel et citron',
+                    ingredients: ['Miel (1 cuillère à soupe)', 'Jus de citron frais (1/2 citron)',
+                        'Eau chaude (200ml)', 'Cannelle (1 pincée)'
+                    ], preparation: [
+                        'Chauffer l\'eau sans la faire bouillir.',
+                        'Verser dans une tasse, ajouter le miel, le jus de citron et la cannelle.',
+                        'Remuer et boire bien chaud.'
+                    ], posologie: '2 à 3 fois par jour dès les premiers symptômes.',
+                    contreIndications: 'Déconseillé aux enfants de moins de 1 an (miel).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 2, maladie: 'Toux grasse', categorie: 'ORL & Respiratoire', remede: 'Sirop de thym maison',
+                    ingredients: ['Thym séché (2 cuillères à soupe)', 'Miel (150g)', 'Eau (200ml)'], preparation: [
+                        'Porter l\'eau à ébullition, ajouter le thym et laisser infuser 15 min.',
+                        'Filtrer, ajouter le miel et mélanger.',
+                        'Conserver au réfrigérateur dans un flacon en verre.'
+                    ], posologie: '1 cuillère à café 3 fois par jour.',
+                    contreIndications: 'Prudence en cas d\'allergie aux plantes de la famille des Lamiacées.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 3, maladie: 'Toux sèche', categorie: 'ORL & Respiratoire', remede: 'Lait chaud au miel et beurre',
+                    ingredients: ['Lait entier (200ml)', 'Miel (1 cuillère à soupe)', 'Beurre doux (1 noisette)'],
+                    preparation: [
+                        'Chauffer doucement le lait sans le faire bouillir.',
+                        'Ajouter le miel et le beurre, remuer jusqu\'à dissolution.',
+                        'Boire tiède avant le coucher.'
+                    ], posologie: '1 fois le soir au coucher.',
+                    contreIndications: 'Intolérance au lactose : remplacer par une boisson végétale.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 4, maladie: 'Mal de gorge', categorie: 'ORL & Respiratoire', remede: 'Gargarisme eau salée tiède',
+                    ingredients: ['Sel de mer (1/2 cuillère à café)', 'Eau tiède (200ml)'], preparation: [
+                        'Dissoudre le sel dans l\'eau tiède.',
+                        'Gargariser pendant 30 secondes puis recracher.',
+                        'Répéter 3 fois.'
+                    ], posologie: 'Jusqu\'à 4 fois par jour.',
+                    contreIndications: 'Ne pas avaler. Déconseillé si hypertension sévère non contrôlée.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 5, maladie: 'Sinusite', categorie: 'ORL & Respiratoire', remede: 'Inhalation vapeur eucalyptus',
+                    ingredients: ['Feuilles d\'eucalyptus (5-6 feuilles) ou huile essentielle (3 gouttes)',
+                        'Eau bouillante (1 litre)'
+                    ], preparation: [
+                        'Verser l\'eau bouillante dans un grand bol.',
+                        'Ajouter l\'eucalyptus.',
+                        'Se pencher au-dessus avec une serviette sur la tête, inhaler 10 min.'
+                    ], posologie: '1 à 2 fois par jour pendant 5 jours max.',
+                    contreIndications: 'Prudence avec les huiles essentielles chez les enfants et femmes enceintes.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 6, maladie: 'Extinction de voix', categorie: 'ORL & Respiratoire', remede: 'Infusion sauge et miel',
+                    ingredients: ['Feuilles de sauge (1 cuillère à soupe)', 'Miel (1 cuillère à café)',
+                        'Eau bouillante (250ml)'
+                    ], preparation: [
+                        'Infuser la sauge 10 min dans l\'eau bouillante.',
+                        'Filtrer, ajouter le miel.',
+                        'Boire tiède par petites gorgées.'
+                    ], posologie: '2 à 3 tasses par jour.',
+                    contreIndications: 'Déconseillé pendant la grossesse et l\'allaitement (sauge).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 7, maladie: 'Nez bouché', categorie: 'ORL & Respiratoire', remede: 'Inhalation menthe poivrée',
+                    ingredients: ['Huile essentielle de menthe poivrée (2 gouttes)', 'Eau chaude (bol)'], preparation: [
+                        'Ajouter l\'huile essentielle à l\'eau chaude.',
+                        'Inhaler doucement la vapeur pendant 5-8 min.',
+                        'Se moucher délicatement après.'
+                    ], posologie: '2 fois par jour maximum.',
+                    contreIndications: 'Déconseillé aux enfants de moins de 7 ans et aux femmes enceintes.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 8, maladie: 'Otite légère', categorie: 'ORL & Respiratoire', remede: 'Gouttes huile d\'olive tiède',
+                    ingredients: ['Huile d\'olive vierge extra (quelques gouttes)'], preparation: [
+                        'Tiédir légèrement l\'huile d\'olive (température du corps).',
+                        'Verser 1 à 2 gouttes dans l\'oreille concernée.',
+                        'Masser doucement le pourtour de l\'oreille.'
+                    ], posologie: '1 à 2 fois par jour, 3 jours max.',
+                    contreIndications: 'Ne jamais utiliser si le tympan est perforé ou en cas de douleur intense.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 9, maladie: 'Bronchite', categorie: 'ORL & Respiratoire', remede: 'Cataplasme à la moutarde',
+                    ingredients: ['Farine de moutarde (2 cuillères à soupe)', 'Eau tiède (un peu)',
+                        'Huile végétale (1 cuillère)'
+                    ], preparation: [
+                        'Mélanger la farine de moutarde avec l\'eau pour obtenir une pâte.',
+                        'Ajouter l\'huile végétale.',
+                        'Étaler sur un linge, poser sur la poitrine 5-10 min max, rincer.'
+                    ], posologie: '1 fois par jour, 3 jours max.',
+                    contreIndications: 'Peau sensible, enfants, ne pas laisser plus de 10 min (risque brûlure).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 10, maladie: 'Grippe', categorie: 'ORL & Respiratoire', remede: 'Tisane sureau et gingembre',
+                    ingredients: ['Fleurs de sureau (1 cuillère à soupe)', 'Gingembre frais râpé (1 cuillère à café)',
+                        'Miel (1 cuillère)', 'Eau (300ml)'
+                    ], preparation: [
+                        'Porter l\'eau à ébullition, ajouter sureau et gingembre.',
+                        'Infuser 10 min, filtrer, ajouter le miel.',
+                        'Boire bien chaud, puis se couvrir.'
+                    ], posologie: '3 tasses par jour pendant 3-4 jours.',
+                    contreIndications: 'Déconseillé en cas d\'allergie au sureau. Femmes enceintes : prudence.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Digestion & Transit (11-20) ----
+                { id: 11, maladie: 'Ballonnements', categorie: 'Digestion & Transit', remede: 'Infusion graines de fenouil',
+                    ingredients: ['Graines de fenouil (1 cuillère à café)', 'Eau bouillante (250ml)'], preparation: [
+                        'Écraser légèrement les graines.',
+                        'Infuser 10 min dans l\'eau bouillante.',
+                        'Filtrer et boire après le repas.'
+                    ], posologie: '1 tasse après chaque repas principal.',
+                    contreIndications: 'Déconseillé en cas d\'allergie aux Apiacées. Prudence grossesse.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 12, maladie: 'Nausées', categorie: 'Digestion & Transit', remede: 'Infusion gingembre frais',
+                    ingredients: ['Gingembre frais (tranche de 2cm)', 'Eau bouillante (250ml)',
+                        'Miel (optionnel)'
+                    ], preparation: [
+                        'Peler et couper le gingembre en fines rondelles.',
+                        'Infuser 10 min dans l\'eau bouillante.',
+                        'Filtrer, ajouter un peu de miel si désiré.'
+                    ], posologie: '1 tasse dès que la nausée apparaît.',
+                    contreIndications: 'Prudence en cas de calculs biliaires ou prise d\'anticoagulants.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 13, maladie: 'Brûlures d\'estomac', categorie: 'Digestion & Transit', remede: 'Jus de pomme de terre crue',
+                    ingredients: ['Pomme de terre bio (1 moyenne)', 'Eau (un peu)'], preparation: [
+                        'Râper finement la pomme de terre crue.',
+                        'Presser à travers un torchon propre pour extraire le jus.',
+                        'Diluer avec un peu d\'eau et boire immédiatement.'
+                    ], posologie: '1 verre le matin à jeun, cure de 7 jours.',
+                    contreIndications: 'Ne pas conserver le jus (oxydation). Déconseillé si insuffisance rénale.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 14, maladie: 'Constipation', categorie: 'Digestion & Transit', remede: 'Compote de pruneaux maison',
+                    ingredients: ['Pruneaux dénoyautés (8-10)', 'Eau (100ml)', 'Jus d\'orange (optionnel)'],
+                    preparation: [
+                        'Faire tremper les pruneaux dans l\'eau 2h.',
+                        'Mixer avec l\'eau de trempage.',
+                        'Consommer frais, éventuellement avec du jus d\'orange.'
+                    ], posologie: '2 à 3 cuillères à soupe le matin.',
+                    contreIndications: 'Excès peut causer des ballonnements. Diabète : modérer.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 15, maladie: 'Diarrhée passagère', categorie: 'Digestion & Transit', remede: 'Eau de riz',
+                    ingredients: ['Riz blanc (50g)', 'Eau (1 litre)'], preparation: [
+                        'Faire bouillir le riz dans l\'eau 30 min sans sel.',
+                        'Filtrer et récupérer l\'eau de cuisson.',
+                        'Boire l\'eau de riz tiède par petites gorgées.'
+                    ], posologie: 'Tout au long de la journée, jusqu\'à amélioration.',
+                    contreIndications: 'Si diarrhée persistante plus de 48h, consulter un médecin.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 16, maladie: 'Digestion lourde', categorie: 'Digestion & Transit', remede: 'Infusion menthe poivrée',
+                    ingredients: ['Feuilles de menthe poivrée (1 cuillère à soupe)', 'Eau bouillante (250ml)'],
+                    preparation: [
+                        'Infuser les feuilles 7-8 min.',
+                        'Filtrer et boire lentement après le repas.',
+                        'Ne pas sucrer.'
+                    ], posologie: '1 tasse après un repas copieux.',
+                    contreIndications: 'Déconseillé en cas de reflux gastro-œsophagien sévère.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 17, maladie: 'Gastro-entérite', categorie: 'Digestion & Transit', remede: 'Tisane cannelle et thym',
+                    ingredients: ['Bâton de cannelle (1)', 'Thym (1 cuillère à café)', 'Eau (300ml)'], preparation: [
+                        'Porter l\'eau à ébullition avec le bâton de cannelle.',
+                        'Ajouter le thym, infuser 10 min.',
+                        'Filtrer et boire tiède.'
+                    ], posologie: '2 à 3 tasses par jour, par petites gorgées.',
+                    contreIndications: 'Prudence en cas d\'allergie à la cannelle. Enfants : dose réduite.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 18, maladie: 'Crampes d\'estomac', categorie: 'Digestion & Transit', remede: 'Infusion camomille romaine',
+                    ingredients: ['Fleurs de camomille (1 cuillère à soupe)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser la camomille 10 min à couvert.',
+                        'Filtrer et boire bien chaud.',
+                        'Respirer profondément en buvant.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Allergie aux Astéracées. Prudence si asthme.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 19, maladie: 'Hoquet', categorie: 'Digestion & Transit', remede: 'Sucre au vinaigre',
+                    ingredients: ['Sucre en poudre (1 cuillère à café)', 'Vinaigre de cidre (quelques gouttes)'],
+                    preparation: [
+                        'Imbiber légèrement le sucre de vinaigre.',
+                        'Croquer le sucre lentement.',
+                        'Attendre quelques secondes.'
+                    ], posologie: '1 fois, à renouveler si besoin après 15 min.',
+                    contreIndications: 'Diabète : utiliser un substitut ou autre méthode.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 20, maladie: 'Mal des transports', categorie: 'Digestion & Transit', remede: 'Gingembre frais à mâcher',
+                    ingredients: ['Gingembre frais (tranche fine)'], preparation: [
+                        'Peler une petite tranche de gingembre frais.',
+                        'Mâcher lentement avant le départ.',
+                        'Conserver un morceau à portée pendant le trajet.'
+                    ], posologie: '30 min avant le départ, puis toutes les 2h si besoin.',
+                    contreIndications: 'Prudence si ulcère gastrique. Goût fort, diluer si nécessaire.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Système nerveux & Sommeil (21-30) ----
+                { id: 21, maladie: 'Insomnie', categorie: 'Système nerveux & Sommeil', remede: 'Infusion verveine et tilleul',
+                    ingredients: ['Verveine (1 cuillère à café)', 'Tilleul (1 cuillère à café)',
+                        'Eau bouillante (300ml)'
+                    ], preparation: [
+                        'Mélanger les plantes.',
+                        'Infuser 10 min à couvert.',
+                        'Filtrer et boire 30 min avant le coucher.'
+                    ], posologie: '1 grande tasse le soir.',
+                    contreIndications: 'Aucune connue à dose modérée. Prudence si hypotension.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 22, maladie: 'Stress', categorie: 'Système nerveux & Sommeil', remede: 'Infusion passiflore',
+                    ingredients: ['Passiflore séchée (1 cuillère à soupe)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser la passiflore 10 min.',
+                        'Filtrer et boire dans un endroit calme.',
+                        'Accompagner de respirations profondes.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Déconseillé en association avec des sédatifs sans avis médical.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 23, maladie: 'Anxiété légère', categorie: 'Système nerveux & Sommeil', remede: 'Infusion mélisse',
+                    ingredients: ['Feuilles de mélisse fraîches (5-6) ou séchées (1 cuillère)', 'Eau bouillante (250ml)'],
+                    preparation: [
+                        'Infuser la mélisse 8-10 min.',
+                        'Filtrer et boire tiède.',
+                        'Répéter en cas de besoin.'
+                    ], posologie: 'Jusqu\'à 3 tasses par jour.',
+                    contreIndications: 'Prudence en cas d\'hypothyroïdie (la mélisse peut interférer).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 24, maladie: 'Fatigue passagère', categorie: 'Système nerveux & Sommeil',
+                    remede: 'Smoothie banane-gingembre', ingredients: ['Banane (1)', 'Gingembre frais (1 petit morceau)',
+                        'Jus d\'orange (150ml)', 'Miel (1 cuillère à café)'
+                    ], preparation: [
+                        'Mixer tous les ingrédients.',
+                        'Boire immédiatement.',
+                        'Idéal le matin ou en coup de boost.'
+                    ], posologie: '1 verre par jour, le matin.',
+                    contreIndications: 'Diabète : modérer le miel et la banane.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 25, maladie: 'Migraine', categorie: 'Système nerveux & Sommeil', remede: 'Compresses froides menthe',
+                    ingredients: ['Huile essentielle menthe poivrée (1 goutte)', 'Eau froide (200ml)',
+                        'Linge propre'
+                    ], preparation: [
+                        'Ajouter la goutte d\'huile essentielle à l\'eau froide.',
+                        'Tremper le linge, essorer.',
+                        'Appliquer sur le front et les tempes 15 min.'
+                    ], posologie: 'Dès les premiers signes, renouveler si besoin.',
+                    contreIndications: 'Ne pas appliquer directement sur les yeux. Peau sensible : diluer davantage.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 26, maladie: 'Céphalée de tension', categorie: 'Système nerveux & Sommeil',
+                    remede: 'Massage huile lavande', ingredients: ['Huile végétale (amande douce, 1 cuillère)',
+                        'Huile essentielle lavande (2 gouttes)'
+                    ], preparation: [
+                        'Mélanger les huiles.',
+                        'Masser doucement les tempes, la nuque et les épaules.',
+                        'Respirer profondément pendant le massage.'
+                    ], posologie: '1 à 2 fois par jour en cas de tension.',
+                    contreIndications: 'Allergie lavande. Prudence grossesse (HE lavande).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 27, maladie: 'Réveil nocturne', categorie: 'Système nerveux & Sommeil',
+                    remede: 'Lait chaud miel muscade', ingredients: ['Lait (200ml)', 'Miel (1 cuillère à café)',
+                        'Noix de muscade râpée (1 pincée)'
+                    ], preparation: [
+                        'Chauffer doucement le lait.',
+                        'Ajouter le miel et la muscade.',
+                        'Boire lentement, puis retourner au lit.'
+                    ], posologie: '1 tasse en cas de réveil nocturne.',
+                    contreIndications: 'Noix de muscade : ne pas dépasser la pincée (toxique à haute dose).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 28, maladie: 'Spasmophilie', categorie: 'Système nerveux & Sommeil', remede: 'Infusion aubépine',
+                    ingredients: ['Fleurs d\'aubépine (1 cuillère à soupe)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser 10 min.',
+                        'Filtrer et boire.',
+                        'Cure de 10 jours recommandée.'
+                    ], posologie: '2 tasses par jour, matin et soir.',
+                    contreIndications: 'Prudence avec les médicaments pour le cœur (bêta-bloquants).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 29, maladie: 'Surmenage', categorie: 'Système nerveux & Sommeil', remede: 'Tisane rhodiola',
+                    ingredients: ['Racine de rhodiola (1 cuillère à café)', 'Eau (300ml)', 'Miel (optionnel)'],
+                    preparation: [
+                        'Porter l\'eau à ébullition, ajouter la rhodiola.',
+                        'Laisser frémir 5 min, puis infuser 10 min.',
+                        'Filtrer, boire le matin.'
+                    ], posologie: '1 tasse le matin, cure de 15 jours.',
+                    contreIndications: 'Prudence si troubles bipolaires ou prise d\'antidépresseurs.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 30, maladie: 'Trac', categorie: 'Système nerveux & Sommeil', remede: 'Infusion fleur d\'oranger',
+                    ingredients: ['Fleurs d\'oranger (1 cuillère à soupe)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser 8 min.',
+                        'Filtrer et boire avant l\'événement.',
+                        'Respirer le parfum apaisant.'
+                    ], posologie: '1 tasse 30 min avant la situation stressante.',
+                    contreIndications: 'Aucune connue à dose modérée.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Peau & Cheveux (31-40) ----
+                { id: 31, maladie: 'Acné', categorie: 'Peau & Cheveux', remede: 'Masque argile verte',
+                    ingredients: ['Argile verte en poudre (2 cuillères à soupe)', 'Eau ou hydrolat (un peu)'], preparation: [
+                        'Mélanger l\'argile avec un peu d\'eau pour obtenir une pâte.',
+                        'Appliquer sur le visage propre en évitant les yeux.',
+                        'Laisser sécher 10 min, rincer à l\'eau tiède.'
+                    ], posologie: '1 à 2 fois par semaine.',
+                    contreIndications: 'Peau très sèche : ajouter 1 goutte d\'huile végétale.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 32, maladie: 'Coup de soleil', categorie: 'Peau & Cheveux', remede: 'Gel d\'aloe vera frais',
+                    ingredients: ['Feuille d\'aloe vera (1)', 'Eau fraîche'], preparation: [
+                        'Couper une feuille d\'aloe vera.',
+                        'Extraire le gel transparent.',
+                        'Appliquer généreusement sur la zone brûlée.'
+                    ], posologie: 'Renouveler toutes les 2h jusqu\'à apaisement.',
+                    contreIndications: 'Allergie à l\'aloe vera (rare). Bien laver la feuille.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 33, maladie: 'Brûlure légère', categorie: 'Peau & Cheveux', remede: 'Compresse eau froide puis miel',
+                    ingredients: ['Eau froide', 'Miel pur'], preparation: [
+                        'Refroidir la brûlure sous l\'eau froide 10 min.',
+                        'Sécher délicatement.',
+                        'Appliquer une fine couche de miel et couvrir d\'un pansement.'
+                    ], posologie: 'Changer le pansement 2 fois par jour.',
+                    contreIndications: 'Brûlure grave : consulter immédiatement. Allergie miel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 34, maladie: 'Piqûre d\'insecte', categorie: 'Peau & Cheveux', remede: 'Cataplasme bicarbonate',
+                    ingredients: ['Bicarbonate de soude (1 cuillère à café)', 'Eau (un peu)'], preparation: [
+                        'Former une pâte avec le bicarbonate et l\'eau.',
+                        'Appliquer sur la piqûre.',
+                        'Laisser agir 15 min puis rincer.'
+                    ], posologie: 'Immédiatement après la piqûre, renouveler si besoin.',
+                    contreIndications: 'Peau lésée : ne pas appliquer.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 35, maladie: 'Eczéma', categorie: 'Peau & Cheveux', remede: 'Huile de calendula',
+                    ingredients: ['Huile de calendula (macérât)', 'Coton doux'], preparation: [
+                        'Appliquer quelques gouttes d\'huile sur la zone.',
+                        'Masser doucement.',
+                        'Laisser pénétrer sans rincer.'
+                    ], posologie: '2 fois par jour, matin et soir.',
+                    contreIndications: 'Allergie aux Astéracées.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 36, maladie: 'Eczéma sec', categorie: 'Peau & Cheveux', remede: 'Masque avocat et miel',
+                    ingredients: ['Avocat mûr (1/2)', 'Miel (1 cuillère à soupe)', 'Huile d\'amande (1 cuillère)'],
+                    preparation: [
+                        'Écraser l\'avocat, mélanger avec le miel et l\'huile.',
+                        'Appliquer sur la zone 20 min.',
+                        'Rincer à l\'eau tiède.'
+                    ], posologie: '2 fois par semaine.',
+                    contreIndications: 'Allergie à l\'avocat ou au miel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 37, maladie: 'Pellicules', categorie: 'Peau & Cheveux', remede: 'Rinçage vinaigre de cidre',
+                    ingredients: ['Vinaigre de cidre (2 cuillères à soupe)', 'Eau (500ml)'], preparation: [
+                        'Diluer le vinaigre dans l\'eau.',
+                        'Après le shampooing, verser sur le cuir chevelu.',
+                        'Masser doucement, ne pas rincer.'
+                    ], posologie: '1 fois par semaine.',
+                    contreIndications: 'Cuir chevelu irrité ou lésé : éviter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 38, maladie: 'Cheveux gras', categorie: 'Peau & Cheveux', remede: 'Masque argile verte cheveux',
+                    ingredients: ['Argile verte (3 cuillères à soupe)', 'Eau tiède'], preparation: [
+                        'Préparer une pâte d\'argile.',
+                        'Appliquer sur le cuir chevelu et les racines.',
+                        'Laisser poser 15 min, rincer abondamment.'
+                    ], posologie: '1 fois par semaine.',
+                    contreIndications: 'Cheveux très secs : éviter les longueurs.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 39, maladie: 'Herpès labial', categorie: 'Peau & Cheveux', remede: 'Glaçon et miel',
+                    ingredients: ['Glaçon (1)', 'Miel pur'], preparation: [
+                        'Appliquer le glaçon sur la zone 5 min (soulage et ralentit).',
+                        'Sécher, puis appliquer une pointe de miel.',
+                        'Laisser agir.'
+                    ], posologie: 'Dès les premiers picotements, répéter 3 fois par jour.',
+                    contreIndications: 'Allergie miel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 40, maladie: 'Ampoule', categorie: 'Peau & Cheveux', remede: 'Bain de pieds au thé noir',
+                    ingredients: ['Sachets de thé noir (3)', 'Eau chaude (2 litres)'], preparation: [
+                        'Faire infuser les sachets dans l\'eau chaude.',
+                        'Laisser tiédir, tremper les pieds 20 min.',
+                        'Sécher soigneusement.'
+                    ], posologie: '1 fois par jour jusqu\'à amélioration.',
+                    contreIndications: 'Ampoule infectée : consulter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Douleurs & Articulations (41-50) ----
+                { id: 41, maladie: 'Arthrose', categorie: 'Douleurs & Articulations', remede: 'Cataplasme feuille de chou',
+                    ingredients: ['Grande feuille de chou vert', 'Rouleau à pâtisserie'], preparation: [
+                        'Écraser les nervures de la feuille avec le rouleau.',
+                        'Chauffer légèrement la feuille (fer à repasser ou radiateur).',
+                        'Appliquer sur l\'articulation, bander, laisser 1h.'
+                    ], posologie: 'Chaque soir pendant 7 jours.',
+                    contreIndications: 'Allergie au chou (très rare).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 42, maladie: 'Courbatures', categorie: 'Douleurs & Articulations', remede: 'Bain chaud sel d\'Epsom',
+                    ingredients: ['Sel d\'Epsom (250g)', 'Eau chaude du bain'], preparation: [
+                        'Verser le sel d\'Epsom dans l\'eau du bain.',
+                        'Se tremper 20 min.',
+                        'Se sécher et s\'étirer doucement.'
+                    ], posologie: '1 bain après l\'effort, 2 fois par semaine max.',
+                    contreIndications: 'Problèmes cardiaques ou tension : éviter bains trop chauds.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 43, maladie: 'Entorse légère', categorie: 'Douleurs & Articulations',
+                    remede: 'Compresse glacée puis arnica', ingredients: ['Glaçons dans un linge', 'Gel arnica'], preparation: [
+                        'Appliquer la compresse glacée 15 min (protéger la peau).',
+                        'Sécher, masser doucement avec le gel arnica.',
+                        'Surélever la zone.'
+                    ], posologie: 'Glace toutes les 2h le premier jour, arnica 3 fois/jour.',
+                    contreIndications: 'Entorse grave : consulter. Allergie arnica.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 44, maladie: 'Mal de dos', categorie: 'Douleurs & Articulations', remede: 'Bouillotte chaude',
+                    ingredients: ['Bouillotte', 'Eau chaude', 'Linge de protection'], preparation: [
+                        'Remplir la bouillotte d\'eau chaude (pas bouillante).',
+                        'Envelopper dans un linge.',
+                        'Placer sur la zone douloureuse 20 min.'
+                    ], posologie: '2 à 3 fois par jour.',
+                    contreIndications: 'Inflammation aiguë : préférer le froid. Peau sensible : protéger.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 45, maladie: 'Sciatique', categorie: 'Douleurs & Articulations', remede: 'Cataplasme piment Cayenne',
+                    ingredients: ['Piment de Cayenne en poudre (1/2 cuillère)', 'Huile d\'olive (2 cuillères)',
+                        'Linge propre'
+                    ], preparation: [
+                        'Mélanger le piment avec l\'huile d\'olive.',
+                        'Imbiber le linge, appliquer 10 min sur la zone.',
+                        'Rincer soigneusement. Se laver les mains après.'
+                    ], posologie: '1 fois par jour, 3 jours max.',
+                    contreIndications: 'Peau sensible, ne pas appliquer sur peau lésée. Brûle légèrement.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 46, maladie: 'Tendinite', categorie: 'Douleurs & Articulations', remede: 'Poche de glace',
+                    ingredients: ['Glaçons', 'Linge fin'], preparation: [
+                        'Placer les glaçons dans le linge.',
+                        'Appliquer sur la zone 15 min.',
+                        'Repos de l\'articulation.'
+                    ], posologie: 'Toutes les 2-3h en phase aiguë.',
+                    contreIndications: 'Ne pas appliquer la glace directement sur la peau.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 47, maladie: 'Crampe musculaire', categorie: 'Douleurs & Articulations',
+                    remede: 'Eau vinaigrée au miel', ingredients: ['Vinaigre de cidre (1 cuillère à soupe)',
+                        'Miel (1 cuillère à café)', 'Eau tiède (200ml)'
+                    ], preparation: [
+                        'Mélanger tous les ingrédients.',
+                        'Boire lentement.',
+                        'Étirer doucement le muscle.'
+                    ], posologie: '1 verre au moment de la crampe.',
+                    contreIndications: 'Ulcère gastrique : prudence avec le vinaigre.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 48, maladie: 'Torticolis', categorie: 'Douleurs & Articulations', remede: 'Huile de millepertuis',
+                    ingredients: ['Huile de millepertuis (macérât)', 'Mains propres'], preparation: [
+                        'Chauffer légèrement l\'huile entre les mains.',
+                        'Masser doucement la nuque en mouvements circulaires.',
+                        'Couvrir d\'un foulard chaud.'
+                    ], posologie: '2 fois par jour.',
+                    contreIndications: 'Photosensibilisant : éviter exposition soleil après application.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 49, maladie: 'Maux de dents', categorie: 'Douleurs & Articulations', remede: 'Clou de girofle',
+                    ingredients: ['Clou de girofle entier (1)', 'Compresse'], preparation: [
+                        'Placer le clou de girofle contre la dent douloureuse.',
+                        'Mordre légèrement pour libérer l\'eugénol.',
+                        'Garder en place 15-20 min.'
+                    ], posologie: 'En attendant le rendez-vous chez le dentiste.',
+                    contreIndications: 'Ne pas avaler. Allergie girofle. Enfants : éviter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 50, maladie: 'Règles douloureuses', categorie: 'Douleurs & Articulations',
+                    remede: 'Bouillotte et infusion framboisier', ingredients: ['Bouillotte chaude',
+                        'Feuilles de framboisier (1 cuillère)', 'Eau (250ml)'
+                    ], preparation: [
+                        'Infuser les feuilles de framboisier 10 min.',
+                        'Boire la tisane.',
+                        'Placer la bouillotte sur le bas-ventre.'
+                    ], posologie: '2 tasses par jour, 2-3 jours avant les règles.',
+                    contreIndications: 'Grossesse (framboisier à éviter au 1er trimestre sans avis).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Circulatoire & Jambes (51-60) ----
+                { id: 51, maladie: 'Jambes lourdes', categorie: 'Circulatoire & Jambes', remede: 'Bain froid pieds cyprès',
+                    ingredients: ['Huile essentielle cyprès (5 gouttes)', 'Eau froide (bassine)'], preparation: [
+                        'Ajouter l\'huile essentielle à l\'eau froide.',
+                        'Tremper les pieds 10 min.',
+                        'Surélever les jambes après.'
+                    ], posologie: '1 fois par jour en fin de journée.',
+                    contreIndications: 'Femmes enceintes et allaitantes (HE cyprès).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 52, maladie: 'Pieds gonflés', categorie: 'Circulatoire & Jambes', remede: 'Bain eau salée tiède',
+                    ingredients: ['Sel de mer (100g)', 'Eau tiède (bassine)'], preparation: [
+                        'Dissoudre le sel dans l\'eau tiède.',
+                        'Tremper les pieds 15-20 min.',
+                        'Sécher et surélever.'
+                    ], posologie: '1 fois par jour.',
+                    contreIndications: 'Plaies ouvertes aux pieds.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 53, maladie: 'Varices', categorie: 'Circulatoire & Jambes', remede: 'Cataplasme vigne rouge',
+                    ingredients: ['Feuilles de vigne rouge (poignée)', 'Eau chaude'], preparation: [
+                        'Faire infuser les feuilles dans l\'eau chaude 10 min.',
+                        'Égoutter, appliquer en cataplasme sur la zone.',
+                        'Laisser 20 min, jambes surélevées.'
+                    ], posologie: '2 fois par semaine.',
+                    contreIndications: 'Phlébite suspectée : ne pas masser ni appliquer.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 54, maladie: 'Hémorroïdes', categorie: 'Circulatoire & Jambes', remede: 'Bain siège écorce chêne',
+                    ingredients: ['Écorce de chêne (2 cuillères à soupe)', 'Eau (1 litre)'], preparation: [
+                        'Faire bouillir l\'écorce 10 min, filtrer.',
+                        'Laisser tiédir, verser dans une bassine.',
+                        'S\'asseoir 10-15 min.'
+                    ], posologie: '1 à 2 fois par jour.',
+                    contreIndications: 'Allergie au chêne. Consulter si douleur intense.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 55, maladie: 'Mains froides', categorie: 'Circulatoire & Jambes', remede: 'Bain mains gingembre',
+                    ingredients: ['Gingembre frais râpé (2 cuillères)', 'Eau chaude (1 litre)'], preparation: [
+                        'Infuser le gingembre dans l\'eau chaude 10 min.',
+                        'Tremper les mains 10-15 min.',
+                        'Sécher et masser.'
+                    ], posologie: '1 à 2 fois par jour par temps froid.',
+                    contreIndications: 'Peau irritée ou gelures : éviter eau trop chaude.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 56, maladie: 'Rétention d\'eau', categorie: 'Circulatoire & Jambes', remede: 'Infusion queues cerises',
+                    ingredients: ['Queues de cerises séchées (1 cuillère à soupe)', 'Eau (300ml)'], preparation: [
+                        'Porter l\'eau à ébullition, ajouter les queues de cerises.',
+                        'Laisser infuser 15 min.',
+                        'Filtrer et boire.'
+                    ], posologie: '1 à 2 tasses par jour, cure de 5 jours.',
+                    contreIndications: 'Insuffisance rénale : consulter avant.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 57, maladie: 'Bleus / ecchymoses', categorie: 'Circulatoire & Jambes', remede: 'Compresse arnica',
+                    ingredients: ['Teinture mère arnica (quelques gouttes)', 'Eau froide', 'Compresse'], preparation: [
+                        'Diluer la teinture dans l\'eau froide.',
+                        'Imbiber la compresse, appliquer sur le bleu.',
+                        'Laisser 15 min.'
+                    ], posologie: '2 à 3 fois par jour.',
+                    contreIndications: 'Ne pas appliquer sur plaie ouverte.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 58, maladie: 'Petite coupure', categorie: 'Circulatoire & Jambes', remede: 'Miel cicatrisant',
+                    ingredients: ['Miel pur (1 pointe)', 'Pansement'], preparation: [
+                        'Nettoyer la coupure à l\'eau claire.',
+                        'Appliquer une fine couche de miel.',
+                        'Couvrir d\'un pansement propre.'
+                    ], posologie: 'Changer 1 à 2 fois par jour.',
+                    contreIndications: 'Allergie miel. Coupure profonde : consulter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 59, maladie: 'Palpitations légères', categorie: 'Circulatoire & Jambes', remede: 'Infusion aubépine',
+                    ingredients: ['Aubépine (1 cuillère à café)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser 10 min.',
+                        'Filtrer, boire lentement.',
+                        'S\'asseoir et respirer calmement.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Traitement cardiaque en cours : avis médical nécessaire.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 60, maladie: 'Tension légère', categorie: 'Circulatoire & Jambes', remede: 'Tisane feuilles olivier',
+                    ingredients: ['Feuilles d\'olivier séchées (1 cuillère à soupe)', 'Eau (300ml)'], preparation: [
+                        'Porter l\'eau à ébullition, ajouter les feuilles.',
+                        'Laisser frémir 5 min, infuser 10 min.',
+                        'Filtrer et boire.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Hypotension. Traitement antihypertenseur : avis médical.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Urinaire & Gynécologique (61-70) ----
+                { id: 61, maladie: 'Cystite passagère', categorie: 'Urinaire & Gynécologique', remede: 'Eau de cuisson orge',
+                    ingredients: ['Orge perlé (50g)', 'Eau (1 litre)', 'Jus de citron'], preparation: [
+                        'Faire bouillir l\'orge dans l\'eau 30 min.',
+                        'Filtrer, ajouter un filet de jus de citron.',
+                        'Boire l\'eau tout au long de la journée.'
+                    ], posologie: '1 litre par jour, 2-3 jours.',
+                    contreIndications: 'Diabète : modérer. Infection urinaire persistante : consulter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 62, maladie: 'Inconfort urinaire', categorie: 'Urinaire & Gynécologique', remede: 'Infusion bruyère',
+                    ingredients: ['Bruyère (1 cuillère à soupe)', 'Eau bouillante (250ml)'], preparation: [
+                        'Infuser 10 min.',
+                        'Filtrer et boire.',
+                        'Boire beaucoup d\'eau en complément.'
+                    ], posologie: '2 à 3 tasses par jour.',
+                    contreIndications: 'Aucune connue à dose normale.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 63, maladie: 'Syndrome prémenstruel (SPM)', categorie: 'Urinaire & Gynécologique',
+                    remede: 'Infusion gattilier', ingredients: ['Baies de gattilier (1 cuillère à café)',
+                        'Eau (250ml)'
+                    ], preparation: [
+                        'Porter l\'eau à ébullition, ajouter le gattilier.',
+                        'Infuser 15 min.',
+                        'Filtrer et boire.'
+                    ], posologie: '1 tasse par jour, en continu sur plusieurs cycles.',
+                    contreIndications: 'Traitement hormonal : avis médical. Grossesse : déconseillé.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 64, maladie: 'Bouffées de chaleur', categorie: 'Urinaire & Gynécologique',
+                    remede: 'Infusion sauge officinale', ingredients: ['Sauge officinale (1 cuillère à café)',
+                        'Eau bouillante (250ml)'
+                    ], preparation: [
+                        'Infuser la sauge 10 min.',
+                        'Filtrer et boire tiède.',
+                        'Cure de 10 jours par mois.'
+                    ], posologie: '1 à 2 tasses par jour pendant 10 jours.',
+                    contreIndications: 'Grossesse, allaitement, antécédents cancer hormonodépendant.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 65, maladie: 'Sécheresse intime', categorie: 'Urinaire & Gynécologique', remede: 'Huile d\'amande douce',
+                    ingredients: ['Huile d\'amande douce bio (quelques gouttes)'], preparation: [
+                        'Appliquer quelques gouttes en externe.',
+                        'Masser doucement.',
+                        'Utiliser quotidiennement si besoin.'
+                    ], posologie: '1 fois par jour, de préférence le soir.',
+                    contreIndications: 'Allergie aux fruits à coque. Irritation : cesser.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 66, maladie: 'Mycose légère', categorie: 'Urinaire & Gynécologique', remede: 'Bain bicarbonate',
+                    ingredients: ['Bicarbonate de soude (3 cuillères à soupe)', 'Eau tiède (bassine)'], preparation: [
+                        'Dissoudre le bicarbonate.',
+                        'Faire un bain de siège 10-15 min.',
+                        'Sécher soigneusement.'
+                    ], posologie: '1 fois par jour, 5-7 jours.',
+                    contreIndications: 'Mycose sévère ou récidivante : consulter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 67, maladie: 'Nausées de grossesse', categorie: 'Urinaire & Gynécologique',
+                    remede: 'Gingembre confit maison', ingredients: ['Gingembre frais (tranches fines)',
+                        'Sucre et eau (sirop)'
+                    ], preparation: [
+                        'Pocher les tranches dans un sirop léger 30 min.',
+                        'Égoutter et laisser sécher.',
+                        'Sucer un morceau en cas de nausée.'
+                    ], posologie: '1 petit morceau dès que la nausée apparaît.',
+                    contreIndications: 'Diabète gestationnel : modérer. Pas plus de 1g gingembre/jour.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 68, maladie: 'Allaitement stimulé', categorie: 'Urinaire & Gynécologique', remede: 'Infusion fenugrec',
+                    ingredients: ['Graines de fenugrec (1 cuillère à café)', 'Eau (250ml)'], preparation: [
+                        'Faire tremper les graines quelques heures.',
+                        'Porter à ébullition, infuser 10 min.',
+                        'Filtrer et boire.'
+                    ], posologie: '2 tasses par jour.',
+                    contreIndications: 'Allergie aux légumineuses. Diabète : surveiller glycémie.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 69, maladie: 'Rétention d\'eau hormonale', categorie: 'Urinaire & Gynécologique',
+                    remede: 'Tisane pissenlit', ingredients: ['Feuilles de pissenlit (1 cuillère à soupe)',
+                        'Eau (300ml)'
+                    ], preparation: [
+                        'Infuser les feuilles 10 min.',
+                        'Filtrer et boire.',
+                        'Cure de 5 jours.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Calculs biliaires. Insuffisance rénale : avis médical.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 70, maladie: 'Fatigue post-partum', categorie: 'Urinaire & Gynécologique',
+                    remede: 'Bouillon légumes et orge', ingredients: ['Légumes (carotte, poireau, céleri)',
+                        'Orge perlé (30g)', 'Eau (1.5L)', 'Gingembre'
+                    ], preparation: [
+                        'Faire mijoter tous les ingrédients 1h.',
+                        'Filtrer, boire le bouillon chaud.',
+                        'Conserver au frais 2 jours.'
+                    ], posologie: '1 à 2 bols par jour.',
+                    contreIndications: 'Allaitement : éviter excès de céleri (peut modifier goût lait).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Bouche & Yeux (71-80) ----
+                { id: 71, maladie: 'Aphtes', categorie: 'Bouche & Yeux', remede: 'Bain de bouche bicarbonate',
+                    ingredients: ['Bicarbonate de soude (1 cuillère à café)', 'Eau tiède (100ml)'], preparation: [
+                        'Dissoudre le bicarbonate.',
+                        'Faire un bain de bouche 1 min.',
+                        'Recracher. Ne pas rincer.'
+                    ], posologie: '3 à 4 fois par jour jusqu\'à guérison.',
+                    contreIndications: 'Ne pas avaler. Enfants : surveiller.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 72, maladie: 'Gencives qui saignent', categorie: 'Bouche & Yeux', remede: 'Bain bouche eau salée',
+                    ingredients: ['Sel de mer fin (1/2 cuillère à café)', 'Eau tiède (100ml)'], preparation: [
+                        'Dissoudre le sel.',
+                        'Rincer la bouche 30 secondes.',
+                        'Recracher.'
+                    ], posologie: '2 fois par jour, après le brossage.',
+                    contreIndications: 'Hypertension sévère : utiliser très peu de sel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 73, maladie: 'Mauvaise haleine', categorie: 'Bouche & Yeux', remede: 'Mâcher du persil frais',
+                    ingredients: ['Persil frais (quelques feuilles)'], preparation: [
+                        'Laver soigneusement le persil.',
+                        'Mâcher lentement quelques feuilles.',
+                        'La chlorophylle neutralise les odeurs.'
+                    ], posologie: 'Après les repas, autant que nécessaire.',
+                    contreIndications: 'Allergie au persil. Prudence si traitement anticoagulant.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 74, maladie: 'Conjonctivite légère', categorie: 'Bouche & Yeux', remede: 'Compresses camomille',
+                    ingredients: ['Camomille (sachet)', 'Eau bouillante', 'Compresses stériles'], preparation: [
+                        'Infuser le sachet 5 min, laisser tiédir.',
+                        'Imbiber une compresse, appliquer sur l\'œil fermé 5 min.',
+                        'Utiliser une compresse par œil.'
+                    ], posologie: '2 à 3 fois par jour.',
+                    contreIndications: 'Allergie Astéracées. Infection sévère : consulter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 75, maladie: 'Yeux fatigués', categorie: 'Bouche & Yeux', remede: 'Compresses eau froide',
+                    ingredients: ['Eau très froide', 'Cotons ou compresses'], preparation: [
+                        'Tremper les cotons dans l\'eau froide.',
+                        'Placer sur les paupières fermées 10 min.',
+                        'Se reposer dans l\'obscurité.'
+                    ], posologie: 'Dès que les yeux fatiguent, 1 à 2 fois par jour.',
+                    contreIndications: 'Aucune.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 76, maladie: 'Orgelet', categorie: 'Bouche & Yeux', remede: 'Compresses thé noir tiède',
+                    ingredients: ['Sachet de thé noir', 'Eau chaude'], preparation: [
+                        'Infuser le sachet 3 min.',
+                        'Laisser tiédir (pas brûlant).',
+                        'Appliquer sur l\'orgelet 10 min.'
+                    ], posologie: '3 fois par jour.',
+                    contreIndications: 'Ne pas percer l\'orgelet. Consulter si aggravation.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 77, maladie: 'Lèvre gercée', categorie: 'Bouche & Yeux', remede: 'Baume miel et karité',
+                    ingredients: ['Miel (1/2 cuillère à café)', 'Beurre de karité (1/2 cuillère à café)'], preparation: [
+                        'Mélanger les deux ingrédients.',
+                        'Appliquer sur les lèvres.',
+                        'Laisser poser, ne pas lécher immédiatement.'
+                    ], posologie: 'Autant que nécessaire dans la journée.',
+                    contreIndications: 'Allergie miel ou karité.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 78, maladie: 'Tartre dentaire', categorie: 'Bouche & Yeux', remede: 'Brossage bicarbonate',
+                    ingredients: ['Bicarbonate de soude (pincée)', 'Dentifrice habituel'], preparation: [
+                        'Saupoudrer une pincée de bicarbonate sur le dentifrice.',
+                        'Brosser doucement 2 min.',
+                        'Rincer. 1 fois par semaine max.'
+                    ], posologie: '1 fois par semaine seulement (abrasif).',
+                    contreIndications: 'Gencives sensibles, émail fragile : éviter.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 79, maladie: 'Mal de gorge (bouche)', categorie: 'Bouche & Yeux', remede: 'Gargarisme miel citron',
+                    ingredients: ['Miel (1 cuillère à soupe)', 'Jus de citron (1 cuillère)', 'Eau tiède (100ml)'],
+                    preparation: [
+                        'Mélanger tous les ingrédients.',
+                        'Gargariser 30 secondes.',
+                        'Recracher ou avaler (selon préférence).'
+                    ], posologie: '3 fois par jour.',
+                    contreIndications: 'Enfants <1 an : pas de miel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 80, maladie: 'Salivation excessive', categorie: 'Bouche & Yeux', remede: 'Infusion sauge',
+                    ingredients: ['Sauge officinale (1 cuillère à café)', 'Eau bouillante (200ml)'], preparation: [
+                        'Infuser 8 min.',
+                        'Filtrer et boire par petites gorgées.',
+                        'Ou utiliser en bain de bouche.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Grossesse, allaitement.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+
+
+                // ---- Coups de fatigue & Immunité (81-90) ----
+                { id: 81, maladie: 'Coup de barre de 16h', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Poignée amandes et eau citronnée', ingredients: ['Amandes non salées (10-12)',
+                        'Eau fraîche (200ml)', 'Jus de citron (1/2)'
+                    ], preparation: [
+                        'Croquer les amandes lentement.',
+                        'Boire l\'eau citronnée.',
+                        'Faire une courte pause.'
+                    ], posologie: '1 fois en milieu d\'après-midi.',
+                    contreIndications: 'Allergie fruits à coque.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 82, maladie: 'Immunité hivernale', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Sirop oignon miel', ingredients: ['Oignon (1)', 'Miel (150g)'], preparation: [
+                        'Couper l\'oignon en fines lamelles.',
+                        'Superposer oignon et miel dans un bocal.',
+                        'Laisser macérer 12h, filtrer. Garder au frais.'
+                    ], posologie: '1 cuillère à café par jour en prévention.',
+                    contreIndications: 'Diabète, enfants <1 an.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 83, maladie: 'Convalescence', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Bouillon poulet gingembre', ingredients: ['Carcasse poulet', 'Gingembre (tranche 3cm)',
+                        'Carottes, céleri', 'Eau (2L)'
+                    ], preparation: [
+                        'Mijoter tous les ingrédients 2h à feu doux.',
+                        'Filtrer, boire le bouillon chaud.',
+                        'Garder au frais 3 jours.'
+                    ], posologie: '1 à 2 bols par jour.',
+                    contreIndications: 'Aucune notable.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 84, maladie: 'Manque de fer / anémie légère', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Infusion ortie', ingredients: ['Feuilles d\'ortie séchées (1 cuillère à soupe)',
+                        'Eau bouillante (250ml)', 'Jus de citron'
+                    ], preparation: [
+                        'Infuser l\'ortie 10 min.',
+                        'Filtrer, ajouter un filet de jus de citron (aide absorption fer).',
+                        'Boire tiède.'
+                    ], posologie: '1 à 2 tasses par jour, cure de 3 semaines.',
+                    contreIndications: 'Insuffisance rénale. Traitement anticoagulant : prudence.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 85, maladie: 'Détox de printemps', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Eau citronnée tiède matin', ingredients: ['Jus de citron frais (1/2)', 'Eau tiède (250ml)'],
+                    preparation: [
+                        'Presser le citron dans l\'eau tiède.',
+                        'Boire à jeun le matin.',
+                        'Attendre 15 min avant le petit-déjeuner.'
+                    ], posologie: 'Chaque matin pendant 10 jours.',
+                    contreIndications: 'Ulcère gastrique, reflux sévère.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 86, maladie: 'Manque de concentration', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Infusion romarin', ingredients: ['Romarin (1 cuillère à café)', 'Eau bouillante (250ml)'],
+                    preparation: [
+                        'Infuser le romarin 7-8 min.',
+                        'Filtrer et boire.',
+                        'Éviter le soir (stimulant).'
+                    ], posologie: '1 tasse le matin ou en début d\'après-midi.',
+                    contreIndications: 'Hypertension, épilepsie, grossesse (HE romarin).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 87, maladie: 'Frissons', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Tisane gingembre cannelle', ingredients: ['Gingembre frais (tranche)', 'Bâton cannelle (1)',
+                        'Miel', 'Eau (300ml)'
+                    ], preparation: [
+                        'Faire bouillir gingembre et cannelle 5 min.',
+                        'Infuser 5 min supplémentaires.',
+                        'Filtrer, ajouter miel, boire brûlant.'
+                    ], posologie: '1 à 2 tasses, puis se couvrir.',
+                    contreIndications: 'Prudence anticoagulants (gingembre).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 88, maladie: 'Gueule de bois', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Eau citronnée miel et sel', ingredients: ['Eau (500ml)', 'Jus de citron (1)', 'Miel (1 cuillère)',
+                        'Sel (pincée)'
+                    ], preparation: [
+                        'Mélanger tous les ingrédients.',
+                        'Boire lentement.',
+                        'Puis boire beaucoup d\'eau pure.'
+                    ], posologie: '1 grand verre au réveil, puis eau toute la journée.',
+                    contreIndications: 'Hypertension : omettre le sel.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 89, maladie: 'Baisse de tonus', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Smoothie épinard banane', ingredients: ['Épinards frais (poignée)', 'Banane (1)',
+                        'Jus d\'orange (200ml)', 'Graines de chia (1 cuillère)'
+                    ], preparation: [
+                        'Mixer tous les ingrédients.',
+                        'Boire immédiatement.',
+                        'Idéal le matin.'
+                    ], posologie: '1 verre par jour.',
+                    contreIndications: 'Traitement anticoagulant (épinards riches en vit K).',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' },
+                { id: 90, maladie: 'Carence en vitamine C', categorie: 'Coups de fatigue & Immunité',
+                    remede: 'Infusion cynorrhodon', ingredients: ['Cynorrhodon (églantier) séché (1 cuillère)',
+                        'Eau bouillante (250ml)', 'Miel'
+                    ], preparation: [
+                        'Infuser le cynorrhodon 15 min à couvert.',
+                        'Filtrer, ajouter du miel.',
+                        'Boire chaud.'
+                    ], posologie: '1 à 2 tasses par jour.',
+                    contreIndications: 'Aucune connue.',
+                    warning: 'Ce remède ne remplace pas l\'avis d\'un médecin.' }
+            ];
+
+
+            // ==================== LOGIQUE ====================
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            const gridContainer = document.getElementById('gridContainer');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalInner = document.getElementById('modalInner');
+            const modalClose = document.getElementById('modalClose');
+            const counterEl = document.getElementById('counter');
+            const catButtons = document.querySelectorAll('.cat-btn');
+
+
+            let categorieActive = 'all';
+            let searchTerm = '';
+
+
+            function filtrer() {
+                let liste = remedes;
+                if (categorieActive !== 'all') {
+                    liste = liste.filter(r => r.categorie === categorieActive);
+                }
+                if (searchTerm.trim() !== '') {
+                    const terme = searchTerm.trim().toLowerCase();
+                    liste = liste.filter(r =>
+                        r.maladie.toLowerCase().includes(terme) ||
+                        r.remede.toLowerCase().includes(terme) ||
+                        r.ingredients.some(ing => ing.toLowerCase().includes(terme)) ||
+                        r.categorie.toLowerCase().includes(terme)
+                    );
+                }
+                return liste;
+            }
+
+
+            function afficher() {
+                const liste = filtrer();
+                gridContainer.innerHTML = '';
+                counterEl.innerHTML = 'Affichage de <strong>' + liste.length + '</strong> remède' + (liste.length !== 1 ?
+                    's' : '');
+
+
+                if (liste.length === 0) {
+                    gridContainer.innerHTML =
+                        '<div class="no-result"><span class="no-result-icon">🍂</span><p>Aucun remède trouvé. Essayez un autre mot-clé.</p></div>';
+                    return;
+                }
+
+
+                liste.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <span class="card-badge">${r.categorie}</span>
+                        <h3 class="card-title">${r.maladie}</h3>
+                        <p class="card-remede">🌿 ${r.remede}</p>
+                        <p class="card-ingredients">
+                            ${r.ingredients.slice(0, 2).map(ing => '<span>' + ing.split('(')[0].trim() + '</span>').join(' ')}
+                            ${r.ingredients.length > 2 ? '<span>+...</span>' : ''}
+                        </p>
+                        <span class="card-arrow">→</span>
+                    `;
+                    card.addEventListener('click', () => ouvrirModale(r));
+                    gridContainer.appendChild(card);
+                });
+
+
+                // Mise à jour visibilité bouton clear
+                if (searchInput.value.trim() !== '') {
+                    searchClear.classList.add('visible');
+                } else {
+                    searchClear.classList.remove('visible');
+                }
+            }
+
+
+            function ouvrirModale(r) {
+                modalInner.innerHTML = `
+                    <span class="modal-badge">${r.categorie}</span>
+                    <h2>${r.maladie}</h2>
+                    <p class="modal-remede-name">🌿 ${r.remede}</p>
+                    <h4>🥄 Ingrédients</h4>
+                    <ul>${r.ingredients.map(ing => '<li>' + ing + '</li>').join('')}</ul>
+                    <h4>📝 Préparation</h4>
+                    <ul>${r.preparation.map(step => '<li>' + step + '</li>').join('')}</ul>
+                    <h4>⏱️ Posologie</h4>
+                    <p>${r.posologie}</p>
+                    <div class="contre-indications"><strong>⚠️ Contre-indications :</strong> ${r.contreIndications}</div>
+                    <div class="warning-box">💡 ${r.warning}</div>
+                `;
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+
+            function fermerModale() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+
+            // Événements
+            searchInput.addEventListener('input', function() {
+                searchTerm = this.value;
+                afficher();
+            });
+
+
+            searchClear.addEventListener('click', function() {
+                searchInput.value = '';
+                searchTerm = '';
+                afficher();
+                searchInput.focus();
+            });
+
+
+            modalClose.addEventListener('click', fermerModale);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) fermerModale();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) fermerModale();
+            });
+
+
+            catButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    catButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    categorieActive = this.getAttribute('data-cat');
+                    afficher();
+                });
+            });
+
+
+            // Initialisation
+            afficher();
+        })();
+    </script>
+</body>
+</html>
