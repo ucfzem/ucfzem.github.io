@@ -37,6 +37,9 @@ Built a fully i18n'd "Remèdes de Grand-Mère" (Grandma's Remedies) web app with
 8. `7e93d34` — fix: Arabic title changed to علاج, Alexandria font active
 9. `cee4bed` — style: Alexandria font on all Arabic elements via --font-heading override
 10. `7a33e4f` — feat: dark mode with toggle, localStorage, system pref detection
+11. `b497fd7` — fix: direct card click handler + ORL explanation badge + works page entry
+12. `98bc133` — fix: om() TypeError — r.i/r.p are i18n objects, not arrays
+13. `8454380` — docs: update conversation backup
 
 ## Languages Supported
 - 🇫🇷 French (default)
@@ -62,5 +65,25 @@ Built a fully i18n'd "Remèdes de Grand-Mère" (Grandma's Remedies) web app with
 - Light/Dark mode with toggle + system preference detection
 - Responsive design (phone → tablet → laptop → TV)
 - Alexandria Google Font for Arabic (all elements)
-- Event delegation for reliable button handling
+- TV remote D-Pad navigation (Arrow keys, Enter, Escape, emerald focus ring)
+- Direct `addEventListener` on each card for reliable click handling
+- ORL explanation pill (Oreilles, Nez, Gorge) when category is selected
 - Centered language selector layout
+
+## Data Model
+Each remedy stored via `ad(cat, m, rm, i, p, po, ci, wr)`:
+- `cat` — category string (e.g. "ORL & Respiratoire")
+- `m` — i18n object `{fr, en, es, ar}` for the ailment name
+- `rm` — i18n object for the remedy name
+- `i` — i18n object where each value is an **array** of ingredients
+- `p` — i18n object where each value is an **array** of preparation steps
+- `po` — i18n object for dosage
+- `ci` — i18n object for contraindications
+- `wr` — i18n object for warnings
+
+**Critical**: `r.i` and `r.p` are objects of arrays, NOT arrays. Access via `r.i[lang]` or `(r.i[lang]||r.i.fr||[])`. Never call `.map()` directly on `r.i` or `r.p`.
+
+## Git Remote
+- Repo: `https://github.com/ucfzem/ucfzem.github.io`
+- Branch: `main`
+- Local path: `/tmp/ucfzem.github.io`
