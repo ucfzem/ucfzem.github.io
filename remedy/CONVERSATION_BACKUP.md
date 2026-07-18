@@ -46,6 +46,7 @@ Built a fully i18n'd "Remèdes de Grand-Mère" (Grandma's Remedies) web app with
 
 ## Session 2 Fixes (July 18)
 - **Card click fix**: Replaced event delegation `.closest('.card')` with direct `addEventListener('click', ...)` on each card element — more reliable, no DOM traversal issues
+- **om() TypeError fix**: `r.i` and `r.p` are i18n objects (`{fr: [...], en: [...], ...}`), not arrays. `om()` was calling `.map()` directly on the object (TypeError). Fixed to use `r.i[lang].map(...)` instead
 - **ORL explanation**: Added a visible pill badge below the counter when "ORL & Respiratoire" category is selected, showing the meaning in each language (FR: Oreilles, Nez, Gorge; EN: Ear, Nose, Throat; ES: Oídos, Nariz, Garganta; AR: الأذن والأنف والحنجرة)
 - **Works page entry**: Added Remèdes app (🍵 Remedy) to the locked "Autres" folder at `ucfzem.github.io/works/`
 
