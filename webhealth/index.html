@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WebHealth — Santé Naturelle</title>
+<title>WebHealth — 10 Remèdes Naturels pour Vous Soigner</title>
+<meta name="description" content="Découvrez dix remèdes naturels simples et efficaces pour soulager les petits maux du quotidien. Guides pratiques, préparations maison, conseils de dosage.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
@@ -17,6 +18,8 @@
   --shadow-lg:0 8px 40px rgba(30,80,40,.1);
   --radius:16px;--radius-sm:10px;
   --hero-grad:linear-gradient(135deg,#1a4a2e 0%,#2d8a4e 50%,#3aa562 100%);
+  --warn-bg:rgba(220,160,60,.08);--warn-border:#dca03c;
+  --step-bg:#f0f7f2;
 }
 [data-theme="dark"]{
   --bg:#0d1a12;--bg2:#142218;--bg3:#1a2e20;
@@ -26,11 +29,12 @@
   --shadow:0 2px 20px rgba(0,0,0,.2);
   --shadow-lg:0 8px 40px rgba(0,0,0,.3);
   --hero-grad:linear-gradient(135deg,#0a1a10 0%,#1a4a2e 50%,#2d6a40 100%);
+  --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
+  --step-bg:#1a2e20;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
@@ -46,60 +50,73 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 /* HERO */
 .hero{margin-top:72px;padding:80px 24px 60px;background:var(--hero-grad);color:#fff;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-30%;right:-10%;width:50%;height:150%;background:radial-gradient(circle,rgba(255,255,255,.03) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px;position:relative;z-index:1}
-.hero p{font-size:1.1rem;opacity:.9;max-width:600px;margin:0 auto 32px;position:relative;z-index:1}
+.hero p{font-size:1.1rem;opacity:.9;max-width:640px;margin:0 auto 32px;position:relative;z-index:1}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 20px;border-radius:40px;font-size:.85rem;font-weight:500;border:1px solid rgba(255,255,255,.2);position:relative;z-index:1}
 
-/* MAIN */
-.container{max-width:900px;margin:0 auto;padding:0 24px}
+/* INTRO */
 .intro{text-align:center;padding:60px 24px 40px;max-width:700px;margin:0 auto}
 .intro h2{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--text);margin-bottom:16px}
 .intro p{color:var(--text2);font-size:1.05rem}
 
 /* REMEDY CARDS */
-.remedies{padding:0 24px 80px}
-.remedy{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:40px;margin-bottom:24px;box-shadow:var(--shadow);transition:all .3s;position:relative;overflow:hidden}
+.remedies{padding:0 24px 80px;max-width:900px;margin:0 auto}
+.remedy{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:40px;margin-bottom:28px;box-shadow:var(--shadow);transition:all .3s;position:relative;overflow:hidden}
 .remedy:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
 .remedy::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent);border-radius:4px 0 0 4px}
-.remedy-num{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--accent);opacity:.15;position:absolute;top:16px;right:24px;line-height:1}
-.remedy h3{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:4px;padding-right:60px}
-.remedy .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
-.remedy p{color:var(--text2);margin-bottom:12px}
-.remedy .section-label{font-weight:600;color:var(--text);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;margin:20px 0 8px;display:flex;align-items:center;gap:6px}
-.remedy .section-label span{font-size:1rem}
-.remedy ul{list-style:none;padding:0}
-.remedy ul li{padding:4px 0 4px 20px;position:relative;color:var(--text2)}
-.remedy ul li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
-.remedy .warning{background:rgba(220,160,60,.08);border-left:3px solid #dca03c;padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:16px;font-size:.9rem;color:var(--text2)}
-[data-theme="dark"] .remedy .warning{background:rgba(220,160,60,.1)}
+.remedy-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:var(--accent);opacity:.1;position:absolute;top:12px;right:24px;line-height:1}
+.remedy h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--text);margin-bottom:6px;padding-right:70px}
+.remedy .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.remedy .intro-text{color:var(--text2);margin-bottom:20px;font-size:1rem}
+
+/* INGREDIENTS */
+.ingredients{background:var(--step-bg);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:16px}
+.ingredients h4{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:8px}
+.ingredients ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ingredients li{background:var(--bg2);border:1px solid var(--card-border);padding:4px 12px;border-radius:20px;font-size:.85rem;color:var(--text2)}
+
+/* STEPS */
+.steps{margin-bottom:16px}
+.steps h4{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:10px}
+.steps ol{padding-left:20px;counter-reset:step}
+.steps li{padding:6px 0;color:var(--text2);font-size:.95rem;line-height:1.6}
+
+/* DOSAGE */
+.dosage{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.dosage-item{flex:1;min-width:140px;background:var(--step-bg);border-radius:var(--radius-sm);padding:12px 16px;text-align:center}
+.dosage-item .label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:4px}
+.dosage-item .value{font-size:.95rem;font-weight:600;color:var(--text)}
+
+/* WARNINGS */
+.warning{background:var(--warn-bg);border-left:3px solid var(--warn-border);padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:16px;font-size:.88rem;color:var(--text2);line-height:1.6}
 
 /* FOOTER */
 footer{background:var(--bg3);border-top:1px solid var(--card-border);padding:40px 24px;text-align:center;color:var(--text3);font-size:.85rem}
-footer a{color:var(--accent)}
+footer p{margin-bottom:8px}
 
 /* RESPONSIVE */
 @media(max-width:640px){
-  nav{padding:12px 16px}
-  .nav-links{gap:12px}
+  nav{padding:12px 16px}.nav-links{gap:12px}
   .hero{padding:60px 20px 40px}
-  .remedy{padding:28px 20px}
-  .remedy h3{font-size:1.2rem}
+  .remedy{padding:28px 20px}.remedy h3{font-size:1.2rem}
+  .dosage{flex-direction:column}
 }
 
 /* ANIMATIONS */
 .remedy{opacity:0;transform:translateY(20px);animation:fadeUp .5s ease forwards}
-.remedy:nth-child(1){animation-delay:.1s}
-.remedy:nth-child(2){animation-delay:.15s}
-.remedy:nth-child(3){animation-delay:.2s}
-.remedy:nth-child(4){animation-delay:.25s}
-.remedy:nth-child(5){animation-delay:.3s}
-.remedy:nth-child(6){animation-delay:.35s}
-.remedy:nth-child(7){animation-delay:.4s}
-.remedy:nth-child(8){animation-delay:.45s}
-.remedy:nth-child(9){animation-delay:.5s}
-.remedy:nth-child(10){animation-delay:.55s}
+.remedy:nth-child(1){animation-delay:.1s}.remedy:nth-child(2){animation-delay:.15s}
+.remedy:nth-child(3){animation-delay:.2s}.remedy:nth-child(4){animation-delay:.25s}
+.remedy:nth-child(5){animation-delay:.3s}.remedy:nth-child(6){animation-delay:.35s}
+.remedy:nth-child(7){animation-delay:.4s}.remedy:nth-child(8){animation-delay:.45s}
+.remedy:nth-child(9){animation-delay:.5s}.remedy:nth-child(10){animation-delay:.55s}
 @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* SEARCH */
+.search{max-width:400px;margin:0 auto 40px;position:relative}
+.search input{width:100%;padding:12px 48px 12px 20px;border:1px solid var(--card-border);border-radius:var(--radius-sm);font-size:1rem;font-family:inherit;background:var(--bg2);color:var(--text);transition:border .2s}
+.search input:focus{outline:none;border-color:var(--accent)}
+.search::after{content:'🔍';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none}
+.search-results{font-size:.85rem;color:var(--text3);text-align:center;margin-top:-24px;margin-bottom:24px}
 </style>
 </head>
 <body>
@@ -115,145 +132,329 @@ footer a{color:var(--accent)}
 
 <section class="hero">
   <div class="hero-badge">🌱 Santé naturelle & bienveillante</div>
-  <h1>10 remèdes de grand-mère<br>à connaître absolument</h1>
-  <p>Oignons, miel, argile… Vos placards sont une véritable pharmacie naturelle. Découvrez ces astuces transmises de génération en génération.</p>
+  <h1>10 remèdes naturels<br>pour soulager vos petits maux</h1>
+  <p>Pas besoin de courir à la pharmacie pour chaque bobo. Plantes, aliments du quotidien, gestes simples… Ces recettes transmises de génération en génération méritent qu'on leur redonne vie.</p>
 </section>
 
 <section class="intro" id="apropos">
-  <h2>La sagesse populaire au service de votre santé</h2>
-  <p>Nul besoin de vous ruer chez le médecin au moindre bobo. Pour la plupart des petits maux du quotidien, il existe un remède naturel simple, efficace et accessible à tous.</p>
+  <h2>Quand la nature devient pharmacie</h2>
+  <p>Ces remèdes s'appuient sur des principes actifs reconnus : anti-inflammatoires, antibactériens, apaisants. Chaque préparation est décrite avec ses ingrédients, sa recette et ses précautions d'emploi.</p>
 </section>
 
-<div class="container" id="remedes">
+<div class="search">
+  <input type="text" id="searchInput" placeholder="Rechercher un remède ou un ingrédient..." autocomplete="off">
+</div>
+<div class="search-results" id="searchResults"></div>
 
+<div class="remedies" id="remedes">
+
+  <!-- REMEDE 1 -->
   <article class="remedy">
     <div class="remedy-num">01</div>
-    <span class="tag">Bouche</span>
-    <h3>L'aloe vera contre les aphtes</h3>
-    <p>L'aloe vera est une plante reconnue pour ses propriétés antibiotiques et analgésiques. Moins connue pour son action contre les aphtes, elle est pourtant redoutablement efficace.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Utilisez-la en bain de bouche, après avoir dilué sa pulpe dans un peu d'eau. Ce sera d'un grand réconfort si votre aphte vous fait souffrir.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Plusieurs fois par jour, en bain de bouche, jusqu'à amélioration.</p>
+    <span class="tag">Bouche & muqueuses</span>
+    <h3>L'aloe vera pour apaiser les aphtes</h3>
+    <p class="intro-text">Les aphtes buccaux sont une affection bénigne mais particulièrement gênante. L'aloe vera, grâce à ses composés anti-inflammatoires et cicatrisants, peut réduire considérablement la durée et l'intensité de la douleur.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>Feuille d'aloe vera fraîche</li>
+        <li>100 ml d'eau filtrée tiède</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Coupez une feuille d'aloe vera et extrayez la pulpe transparente à l'aide d'une cuillère.</li>
+        <li>Mélangez deux cuillères à soupe de pulpe avec l'eau tiède.</li>
+        <li>Utilisez ce mélange en bain de bouche pendant 30 secondes, puis recrachez.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">3 à 4 fois / jour</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">Jusqu'à cicatrisation</div></div>
+    </div>
+    <div class="warning">⚠️ Ne pas avaler le mélange. En cas d'aphte persistant au-delà de 10 jours, consultez un médecin pour écarter une origine infectieuse ou immunitaire.</div>
   </article>
 
+  <!-- REMEDE 2 -->
   <article class="remedy">
     <div class="remedy-num">02</div>
-    <span class="tag">Peau</span>
-    <h3>L'argile contre les piqûres d'insectes</h3>
-    <p>Les bienfaits de l'argile verte n'ont plus à faire leurs preuves. Pour les piqûres d'insectes, la méthode du cataplasme est la plus appropriée.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Utilisez de l'argile verte en pâte (ou mélangez de la poudre avec de l'eau). Ajoutez une à deux gouttes d'huile essentielle de lavande, appliquez sur la piqûre, laissez sécher et rincez doucement.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Répéter dès que la démangeaison revient.</p>
+    <span class="tag">Dermatologie</span>
+    <h3>L'argile verte contre les piqûres d'insectes</h3>
+    <p class="intro-text">L'argile verte est réputée pour ses capacités d'absorption et son action assainissante sur la peau. En cataplasme, elle soulage rapidement les démangeaisons liées aux piqûres de moustiques, d'abeilles ou de taons.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>2 cuillères à soupe d'argile verte en poudre</li>
+        <li>Eau froide (quantité suffisante)</li>
+        <li>2 gouttes d'HE de lavande fine (optionnel)</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Mélangez l'argile avec l'eau froide petit à petit jusqu'à obtenir une pâte lisse et homogène.</li>
+        <li>Ajoutez les gouttes d'huile essentielle de lavande si vous le souhaitez.</li>
+        <li>Appliquez en couche épaisse sur la zone irritée.</li>
+        <li>Laissez sécher complètement (environ 20 minutes), puis rincez à l'eau claire.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">Dès que les démangeaisons reviennent</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">2 à 3 jours max</div></div>
+    </div>
+    <div class="warning">⚠️ Évitez l'argile parfumée ou colorée. En cas de réaction allergique (rougeur étendue, gonflement), rincez immédiatement et consultez.</div>
   </article>
 
+  <!-- REMEDE 3 -->
   <article class="remedy">
     <div class="remedy-num">03</div>
     <span class="tag">Digestion</span>
-    <h3>La badiane contre les troubles digestifs</h3>
-    <p>Également appelée « anis étoilé » et reconnaissable à sa jolie forme de fleur séchée, la badiane est un excellent allié contre les problèmes de digestion.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Préparez une décoction à partir de quatre étoiles de badiane et d'une grande tasse d'eau. Faites bouillir quelques minutes, laissez infuser 10 minutes, puis buvez de préférence avant le coucher.</p>
-    <div class="warning">💡 Bon à savoir : la badiane peut également être utilisée contre les irritations des bronches.</div>
+    <h3>La badiane pour soulager les troubles digestifs</h3>
+    <p class="intro-text">L'anis étoilé, ou badiane, contient de l'anéthol, un composé aux propriétés antispasmodiques et carminatives reconnues. Il aide à relâcher les muscles du tube digestif et à évacuer les gaz accumulés.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>4 étoiles de badiane séchée</li>
+        <li>300 ml d'eau</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Portez l'eau à ébullition dans une casserole.</li>
+        <li>Ajoutez les étoiles de badanine et laissez frémir 5 minutes.</li>
+        <li>Retirez du feu, couvrez et laissez infuser 10 minutes.</li>
+        <li>Filtrez et buvez la préparation tiède.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Quand</div><div class="value">Le soir, avant le coucher</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">2 à 3 jours consécutifs</div></div>
+    </div>
+    <div class="warning">💡 La badiane est également efficace contre les irritations des bronches. En revanche, elle est déconseillée aux femmes enceintes en raison de ses propriétés oestrogen-like.</div>
   </article>
 
+  <!-- REMEDE 4 -->
   <article class="remedy">
     <div class="remedy-num">04</div>
-    <span class="tag">Peau</span>
-    <h3>Le miel contre les brûlures</h3>
-    <p>Le miel est connu pour ses vertus apaisantes en cas d'irritations de la gorge. Son action apaisante contre les brûlures de la peau est moins connue, mais tout aussi efficace.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Sur de petites surfaces et sur une brûlure légère, appliquez le miel en masque et laissez reposer une quinzaine de minutes.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>À volonté, dès que la plaie vous fait de nouveau souffrir.</p>
+    <span class="tag">Dermatologie</span>
+    <h3>Le miel pour calmer les brûlures superficielles</h3>
+    <p class="intro-text">Le miel possède des propriétés antibactériennes, anti-inflammatoires et hygroscopiques qui favorisent la cicatrisation. Il maintient la plaie humide — condition idéale pour la régénération cutanée — tout en freinant la prolifération bactérienne.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>Miel brut de qualité (toutes fleurs ou manuka)</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Rafraîchissez d'abord la brûlure sous l'eau courante tiède pendant 10 minutes.</li>
+        <li>Appliquez une couche fine de miel directement sur la zone touchée.</li>
+        <li>Couvrez avec un pansement stérile ou un tissu propre.</li>
+        <li>Laissez poser 15 à 20 minutes, puis rincez délicatement.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">2 à 3 fois / jour</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">Jusqu'à amélioration visible</div></div>
+    </div>
+    <div class="warning">⚠️ Réservé aux brûlures du 1er degré (rougeur, sans cloques). En cas de brûlure étendue, avec cloques ou atteignant le visage, appelez le 15 ou le 112 immédiatement.</div>
   </article>
 
+  <!-- REMEDE 5 -->
   <article class="remedy">
     <div class="remedy-num">05</div>
-    <span class="tag">Muscles</span>
-    <h3>La camomille contre les courbatures</h3>
-    <p>Reconnue pour son effet apaisant, la camomille est un excellent remède contre les courbatures. Sa vertu relaxante aura exactement le même effet sur vos muscles que sur votre esprit.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Réalisez une décoction de camomille romaine diluée dans un litre d'eau froide. Portez le tout à ébullition, versez la préparation refroidie dans un bon bain chaud.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Un bain le soir après un effort physique intense.</p>
+    <span class="tag">Muscles & articulations</span>
+    <h3>La camomille pour détendre les muscles endoloris</h3>
+    <p class="intro-text">La camomille romaine (Chamaemelum nobile) contient des flavonoïdes et des bisabolol aux propriétés anti-inflammatoires et myorelaxantes. En bain chaud, elle facilite la relaxation musculaire après un effort intense.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>5 cuillères à soupe de camomille séchée</li>
+        <li>1 litre d'eau</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Faites bouillir l'eau, ajoutez la camomille et laissez mijoter 10 minutes.</li>
+        <li>Retirez du feu, filtrez et versez l'infusion dans votre bain déjà préparé.</li>
+        <li>Plongez-vous dans le bain et détendez-vous 15 à 20 minutes.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Quand</div><div class="value">Le soir, après un effort</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">1 bain par séance de sport</div></div>
+    </div>
   </article>
 
+  <!-- REMEDE 6 -->
   <article class="remedy">
     <div class="remedy-num">06</div>
-    <span class="tag">Immunité</span>
-    <h3>La cannelle contre le rhume</h3>
-    <p>La cannelle a le pouvoir de rebooster votre système immunitaire. Tout au long de l'hiver, elle vous sera très utile pour combattre les nombreux rhumes.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Mélangez deux cuillères à café de miel, une pincée de cannelle et le jus d'un demi-citron dans 200 ml d'eau tiède. Mélangez, buvez, respirez !</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>1 à 2 fois par jour pendant la période de rhume.</p>
+    <span class="tag">Immunité & rhume</span>
+    <h3>La cannelle boost pour combattre le rhume</h3>
+    <p class="intro-text">La cannelle est riche en cinnamaldéhyde, un composé aux propriétés antioxydantes et immunostimulantes. Associée au miel (antibactérien naturel) et au citron (riche en vitamine C), elle forme un cocktail redoutable contre les premiers signes du rhume.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>200 ml d'eau tiède</li>
+        <li>2 cc de miel cru</li>
+        <li>1 pincée de cannelle en poudre</li>
+        <li>Jus d'un demi-citron</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Diluez le miel dans l'eau tiède (pas bouillante, pour préserver ses propriétés).</li>
+        <li>Ajoutez la pincée de cannelle et le jus de citron.</li>
+        <li>Mélangez bien et buvez lentement.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">2 tasses / jour</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">Pendant 3 à 5 jours</div></div>
+    </div>
+    <div class="warning">⚠️ La cannelle de Ceylan est préférable à la cannelle de Chine (cassia), qui contient davantage decoumarol, potentiellement hépatotoxique à haute dose.</div>
   </article>
 
+  <!-- REMEDE 7 -->
   <article class="remedy">
     <div class="remedy-num">07</div>
-    <span class="tag">Énergie</span>
-    <h3>L'oignon contre la fatigue</h3>
-    <p>Très riche en vitamines, l'oignon est votre allié santé. Et pour l'utiliser contre la fatigue, il vous suffit de peu de choses.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Faites bouillir pendant 20 minutes un litre d'eau dans lequel vous aurez mis l'équivalent d'un oignon en tranches. Buvez cette préparation régulièrement pendant deux jours.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Pendant 2 jours, renouveler quand la fatigue revient.</p>
+    <span class="tag">Énergie & vitalité</span>
+    <h3>L'oignon pour retrouver de l'énergie</h3>
+    <p class="intro-text">L'oignon contient des fructo-oligosaccharides (prébiotiques), de la quercétine (antioxydant puissant) et des vitamines du groupe B. Sa décoction est utilisée depuis l'Antiquité pour lutter contre la fatigue saisonnière et soutenir les défenses immunitaires.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>1 gros oignon rouge ou blanc</li>
+        <li>1 litre d'eau</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Épluchez l'oignon et coupez-le en rondelles épaisses.</li>
+        <li>Plongez les rondelles dans l'eau froide, puis portez à ébullition.</li>
+        <li>Laissez frémir 20 minutes à couvert.</li>
+        <li>Filtrez et conservez le liquide au réfrigérateur.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">2 à 3 verres / jour</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">2 jours, renouvelable</div></div>
+    </div>
   </article>
 
+  <!-- REMEDE 8 -->
   <article class="remedy">
     <div class="remedy-num">08</div>
-    <span class="tag">Respiration</span>
-    <h3>L'eucalyptus contre les bronchites</h3>
-    <p>L'eucalyptus est reconnu pour ses propriétés antivirales, anti-inflammatoires et antitussives. Les médicaments hivernaux sont régulièrement conçus à partir de cette plante.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Ajoutez trois gouttes d'huile essentielle d'eucalyptus dans un bol d'eau très chaude et respirez la vapeur pendant quelques minutes.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Plusieurs fois par jour, en période de bronchite.</p>
+    <span class="tag">Voies respiratoires</span>
+    <h3>L'eucalyptus pour dégager les bronches</h3>
+    <p class="intro-text">L'eucalyptol, principe actif principal de l'eucalyptus, est un mucolytique naturel qui fluidifie les sécrétions bronchiques. Il possède également des propriétés antiseptiques sur les voies respiratoires supérieures.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>3 à 5 gouttes d'HE d'eucalyptus globulus</li>
+        <li>1 bol d'eau très chaude</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Versez l'eau très chaude (pas bouillante) dans un bol large.</li>
+        <li>Ajoutez les gouttes d'huile essentielle.</li>
+        <li>Penchez-vous au-dessus du bol à 30 cm, couvrez votre tête d'une serviette.</li>
+        <li>Respirez profondément par le nez et la bouche pendant 8 à 10 minutes.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">2 à 3 inhalations / jour</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">Pendant la phase congestive</div></div>
+    </div>
+    <div class="warning">⚠️ Interdit aux enfants de moins de 6 ans (risque de bronchospasme). Les personnes asthmatiques devront consulter leur médecin avant utilisation.</div>
   </article>
 
+  <!-- REMEDE 9 -->
   <article class="remedy">
     <div class="remedy-num">09</div>
-    <span class="tag">Digestion</span>
-    <h3>Les figues contre la constipation</h3>
-    <p>Contre la constipation, les bienfaits de la figue, riche en fibres et en magnésium, sont presque instantanés.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Faites tremper quatre ou cinq figues dans un peu d'eau avant d'aller vous coucher. Mangez-les dès le matin. Associez à quelques pruneaux pour un effet renforcé.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Le soir au coucher, pendant quelques jours.</p>
+    <span class="tag">Digestion & transit</span>
+    <h3>Les figues pour lutter contre la constipation</h3>
+    <p class="intro-text">Les figues fraîches ou séchées sont une source exceptionnelle de fibres insolubles (cellulose, hémicellulose) et de magnésium. Ce duo agit comme un régulateur intestinal naturel, stimulant le péristaltisme et ramollissant le contenu intestinal.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>4 à 5 figues séchées</li>
+        <li>1 petit verre d'eau</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Placez les figues séchées dans un verre d'eau la veille au soir.</li>
+        <li>Laissez tremper toute la nuit à température ambiante.</li>
+        <li>Le matin, mangez les figues et buvez l'eau de trempage.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Quand</div><div class="value">À jeun, le matin</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">3 à 5 jours consécutifs</div></div>
+    </div>
+    <div class="warning">💡 Pour un effet renforcé, associez les figues à quelques pruneaux dénoyautés. L'idéal est de faire tremper les deux ensemble. En cas de constipation chronique (> 2 semaines), un avis médical est recommandé.</div>
   </article>
 
+  <!-- REMEDE 10 -->
   <article class="remedy">
     <div class="remedy-num">10</div>
     <span class="tag">Douleur</span>
-    <h3>La glace contre le mal de tête</h3>
-    <p>Il y a autant de migraines que de migraineux. La glace, chez les uns, provoque des maux de tête tandis qu'elle soulagera d'autres. La cryothérapie reste un remède simple à tenter.</p>
-    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
-    <p>Appliquez une poche de glace sur la zone de votre tête qui vous fait souffrir. Laissez agir et vos douleurs s'évaporeront.</p>
-    <div class="section-label"><span>⏱️</span> Posologie</div>
-    <p>Au besoin, pendant 15 à 20 minutes.</p>
+    <h3>La glace pour apaiser les maux de tête</h3>
+    <p class="intro-text">La cryothérapie locale provoque une vasoconstriction des vaisseaux sanguins du cuir chevelu, réduisant la pression intracrânienne et l'inflammation des nerfs sensitivity. Cette technique est particulièrement efficace contre les céphalées de tension.</p>
+    <div class="ingredients">
+      <h4>Ingrédients</h4>
+      <ul>
+        <li>Glaçons ou poche de glace</li>
+        <li>Tissu fin ou serviette</li>
+      </ul>
+    </div>
+    <div class="steps">
+      <h4>Préparation</h4>
+      <ol>
+        <li>Enveloppez les glaçons dans le tissu (jamais de glace directement sur la peau).</li>
+        <li>Appliquez sur la zone douloureuse : front, tempes ou nuque.</li>
+        <li>Maintenez en place 15 à 20 minutes.</li>
+        <li>Retirez et laissez la peau revenir à température avant de réappliquer si besoin.</li>
+      </ol>
+    </div>
+    <div class="dosage">
+      <div class="dosage-item"><div class="label">Fréquence</div><div class="value">Au besoin</div></div>
+      <div class="dosage-item"><div class="label">Durée</div><div class="value">15 à 20 min / séance</div></div>
+    </div>
+    <div class="warning">⚠️ Ne convient pas aux migraines déclenchées par le froid (allodoxie). Si les maux de tête sont récurrents ou inhabituels, consultez pour en identifier la cause.</div>
   </article>
 
 </div>
 
 <footer>
-  <p>WebHealth — Santé naturelle & bienveillante</p>
-  <p style="margin-top:8px"> Ces remèdes sont issus de traditions populaires et ne remplacent pas un avis médical. En cas de doute, consultez un professionnel de santé. 🌾</p>
-  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth</p>
+  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
+  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
 </footer>
 
 <script>
-function toggleTheme(){
-  var h=document.documentElement;
-  var t=h.getAttribute('data-theme')==='dark'?'light':'dark';
-  h.setAttribute('data-theme',t);
-  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
-  try{localStorage.setItem('wh-theme',t)}catch(e){}
-}
-(function(){
-  try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}
-})();
+function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
+(function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
+const searchInput=document.getElementById('searchInput');
+const searchResults=document.getElementById('searchResults');
+const remedies=document.querySelectorAll('.remedy');
+searchInput.addEventListener('input',function(){
+  const query=this.value.toLowerCase();
+  if(!query){remedies.forEach(r=>r.style.display='');searchResults.textContent='';return;}
+  let count=0;
+  remedies.forEach(r=>{const text=r.textContent.toLowerCase();r.style.display=text.includes(query)?'':'none';if(text.includes(query))count++;});
+  searchResults.textContent=count+' remède(s) trouvé(s)';
+});
 </script>
 </body>
 </html>
