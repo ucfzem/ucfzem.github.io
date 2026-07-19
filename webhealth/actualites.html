@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Actualités — WebHealth</title>
-<meta name="description" content="Tendances santé récentes, conseils saisonniers et actualités bien-être. Restez informé des dernières découvertes et pratiques de santé naturelle.">
+<title data-i18n="page.title">Actualités — WebHealth</title>
+<meta data-i18n="page.description" name="description" content="Tendances santé récentes, conseils saisonniers et actualités bien-être. Restez informé des dernières découvertes et pratiques de santé naturelle.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -32,8 +32,13 @@
   --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
   --step-bg:#1a2e20;
 }
+body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
+body.rtl .sidebar.open{right:0}
+body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
+body.rtl .category-card h3{padding-right:0;padding-left:4.5rem}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
 [data-theme="dark"] nav{background:rgba(13,26,18,.85)}
@@ -44,6 +49,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .nav-links a:hover{color:var(--accent);text-decoration:none}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+.lang-selector{display:flex;gap:4px;align-items:center}
+.lang-pill{display:flex;align-items:center;gap:3px;padding:.25rem .5rem;border-radius:14px;border:1px solid var(--card-border);background:transparent;cursor:pointer;font-size:.7rem;font-weight:500;min-height:36px;justify-content:center;transition:all .2s;color:var(--text3);white-space:nowrap}
+.lang-pill:hover{border-color:var(--accent);color:var(--accent)}
+.lang-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .hamburger{background:none;border:none;cursor:pointer;padding:8px;z-index:110}
 .hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -90,76 +99,161 @@ footer p{margin-bottom:8px}
   </button>
   <a href="index.html" class="nav-logo"><span>🌿</span> WebHealth</a>
   <div class="nav-links">
-    <a href="index.html#remedes">Remèdes</a>
-    <a href="index.html#apropos">À propos</a>
+    <a href="index.html#remedes" data-i18n="nav.remedes">Remèdes</a>
+    <a href="index.html#apropos" data-i18n="nav.apropos">À propos</a>
+    <div class="lang-selector">
+      <button class="lang-pill active" data-lang="fr" aria-label="Français">🇫🇷 FR</button>
+      <button class="lang-pill" data-lang="ar" aria-label="العربية">🇲🇦 AR</button>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="sidebar">
-  <h3>Explorer</h3>
+  <h3 data-i18n="sidebar.explore">Explorer</h3>
   <ul>
-    <li><a href="maladies.html">Maladies</a></li>
-    <li><a href="sante-naturelle.html">Santé naturelle</a></li>
-    <li><a href="nutrition.html">Nutrition</a></li>
-    <li><a href="famille.html">Famille</a></li>
-    <li><a href="sante-mentale.html">Santé mentale</a></li>
-    <li><a href="actualites.html">Actualités</a></li>
-    <li><a href="guide-achat.html">Guide d'achat</a></li>
-    <li><a href="ete.html">Été <span class="season-tag">Saison</span></a></li>
+    <li><a href="maladies.html" data-i18n="sidebar.maladies">Maladies</a></li>
+    <li><a href="sante-naturelle.html" data-i18n="sidebar.sante">Santé naturelle</a></li>
+    <li><a href="nutrition.html" data-i18n="sidebar.nutrition">Nutrition</a></li>
+    <li><a href="famille.html" data-i18n="sidebar.famille">Famille</a></li>
+    <li><a href="sante-mentale.html" data-i18n="sidebar.mentale">Santé mentale</a></li>
+    <li><a href="actualites.html" data-i18n="sidebar.actu">Actualités</a></li>
+    <li><a href="guide-achat.html" data-i18n="sidebar.guide">Guide d'achat</a></li>
+    <li><a href="ete.html" data-i18n="sidebar.ete">Été <span class="season-tag" data-i18n="sidebar.saison">Saison</span></a></li>
   </ul>
 </aside>
 
 <section class="hero">
-  <div class="hero-badge">📰 Informé &amp; acteur de sa santé</div>
-  <h1>Actualités<br>santé &amp; bien-être</h1>
-  <p>Tendances émergentes, conseils saisonniers et découvres récentes en santé naturelle. Restez informé pour faire les meilleurs choix de santé au quotidien.</p>
+  <div class="hero-badge" data-i18n="actu.hero.badge">📰 Informé &amp; acteur de sa santé</div>
+  <h1 data-i18n="actu.hero.title">Actualités<br>santé &amp; bien-être</h1>
+  <p data-i18n="actu.hero.desc">Tendances émergentes, conseils saisonniers et découvres récentes en santé naturelle. Restez informé pour faire les meilleurs choix de santé au quotidien.</p>
 </section>
 
 <div class="category-cards">
 
   <article class="category-card">
-    <span class="tag">Tendance</span>
-    <h3>Le microbiote intestinal au cœur de la recherche 2026</h3>
-    <p>La recherche sur le microbiote intestinal continue de révolutionner notre compréhension de la santé humaine. En 2026, les études les plus récentes établissent des liens directs entre la composition de notre flore intestinale et des pathologies aussi variées que la dépression, les maladies auto-immunes et même certains cancers. Le concept de « psychobiote », l'interaction entre intestin et cerveau, gagne chaque jour du terrain dans la communauté scientifique.</p>
-    <p>Les probiotiques de nouvelle génération, appelés psychobiotiques, ciblent spécifiquement l'axe intestin-cerveau pour améliorer l'humeur et réduire l'anxiété. Des souches comme Lactobacillus rhamnosus et Bifidobacterium longum ont démontré des effets mesurables sur les niveaux de cortisol et sur les neurotransmetteurs produits dans l'intestin. Ces découvertes ouvrent la voie à des approches nutritionnelles personnalisées basées sur l'analyse du microbiote individuel.</p>
+    <span class="tag" data-i18n="actu.card.1.tag">Tendance</span>
+    <h3 data-i18n="actu.card.1.title">Le microbiote intestinal au cœur de la recherche 2026</h3>
+    <p data-i18n="actu.card.1.desc.1">La recherche sur le microbiote intestinal continue de révolutionner notre compréhension de la santé humaine. En 2026, les études les plus récentes établissent des liens directs entre la composition de notre flore intestinale et des pathologies aussi variées que la dépression, les maladies auto-immunes et même certains cancers. Le concept de « psychobiote », l'interaction entre intestin et cerveau, gagne chaque jour du terrain dans la communauté scientifique.</p>
+    <p data-i18n="actu.card.1.desc.2">Les probiotiques de nouvelle génération, appelés psychobiotiques, ciblent spécifiquement l'axe intestin-cerveau pour améliorer l'humeur et réduire l'anxiété. Des souches comme Lactobacillus rhamnosus et Bifidobacterium longum ont démontré des effets mesurables sur les niveaux de cortisol et sur les neurotransmetteurs produits dans l'intestin. Ces découvertes ouvrent la voie à des approches nutritionnelles personnalisées basées sur l'analyse du microbiote individuel.</p>
     <p>Sur le plan pratique, les aliments fermentés artisanaux retrouvent une popularité croissante. Le kéfir maison, le kombucha, la choucroute crue et le tempeh constituent des sources naturelles de probiotiques vivants. Les chercheurs recommandent de diversifier les sources d'aliments fermentés dans l'alimentation quotidienne plutôt que de recourir uniquement à des compléments, car la synergie entre les différents micro-organismes et les fibres prébiotiques amplifie considérablement les bénéfices.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Saisonnier</span>
-    <h3>Préparer son organisme au changement de saison : l'équinoxe de printemps</h3>
-    <p>Les transitions entre les saisons sont des périodes de vulnérabilité pour l'organisme. Le changement de température, la modification de la durée d'ensoleillement et la variation du taux d'humidité perturbent l'équilibre interne et favorisent les baisses d'immunité. Anticiper ce changement par une cure de préparation est un geste de prévention redoutablement efficace.</p>
-    <p>La cure de détox printanière, pratiquée depuis des siècles en médecine naturelle, consiste à accompagner les organes d'élimination — foie, reins, peau — dans leur travail de nettoyage. Le pissenlit, en tisane ou en teinture mère, stimule la fonction hépatique et la diurèse naturelle. Le radis noir, raphanusblois, est un dépuratif hépatique traditionnel dont le jus frais, consommé pendant dix jours, favorise la production de bile et améliore la digestion des graisses.</p>
+    <span class="tag" data-i18n="actu.card.2.tag">Saisonnier</span>
+    <h3 data-i18n="actu.card.2.title">Préparer son organisme au changement de saison : l'équinoxe de printemps</h3>
+    <p data-i18n="actu.card.2.desc.1">Les transitions entre les saisons sont des périodes de vulnérabilité pour l'organisme. Le changement de température, la modification de la durée d'ensoleillement et la variation du taux d'humidité perturbent l'équilibre interne et favorisent les baisses d'immunité. Anticiper ce changement par une cure de préparation est un geste de prévention redoutablement efficace.</p>
+    <p data-i18n="actu.card.2.desc.2">La cure de détox printanière, pratiquée depuis des siècles en médecine naturelle, consiste à accompagner les organes d'élimination — foie, reins, peau — dans leur travail de nettoyage. Le pissenlit, en tisane ou en teinture mère, stimule la fonction hépatique et la diurèse naturelle. Le radis noir, raphanusblois, est un dépuratif hépatique traditionnel dont le jus frais, consommé pendant dix jours, favorise la production de bile et améliore la digestion des graisses.</p>
     <p>L'hydratation doit être intensifiée durant les périodes de transition saisonnière. Les besoins en eau augmentent silencieusement lorsque l'air se réchauffe même si la transpiration n'est pas encore visible. Pensez à intégrer des aliments riches en eau dans votre alimentation — concombre, melon, pastèque — et à boire au minimum un litre et demi d'eau par jour en dehors des repas pour soutenir les fonctions rénales et maintenir un équilibre hydrique optimal.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Découverte</span>
-    <h3>La sophrologie : la méthode de relaxation qui se démocratise</h3>
-    <p>La sophrologie connaît un essor considérable en France ces dernières années, passant d'une technique méconnue à une méthode de gestion du stress reconnue par de nombreux professionnels de santé. Créée par le professeur Alfonso Caycedo dans les années soixante, elle combine respiration, visualisation positive et relaxation musculaire progressive dans des séances de vingt minutes.</p>
-    <p>Les bénéfices documentés de la pratique régulière incluent une réduction significative de l'anxiété préopératoire, une amélioration de la qualité du sommeil et une meilleure gestion de la douleur chronique. Des hôpitaux et des centres médicaux intègrent désormais la sophrologie dans leurs protocoles de soins, notamment en cancérologie et en préparation à l'accouchement. Les séances, accessibles en groupe ou en individuel, nécessitent un minimum de matériel et peuvent être pratiquées à domicile après quelques cours d'initiation.</p>
+    <span class="tag" data-i18n="actu.card.3.tag">Découverte</span>
+    <h3 data-i18n="actu.card.3.title">La sophrologie : la méthode de relaxation qui se démocratise</h3>
+    <p data-i18n="actu.card.3.desc.1">La sophrologie connaît un essor considérable en France ces dernières années, passant d'une technique méconnue à une méthode de gestion du stress reconnue par de nombreux professionnels de santé. Créée par le professeur Alfonso Caycedo dans les années soixante, elle combine respiration, visualisation positive et relaxation musculaire progressive dans des séances de vingt minutes.</p>
+    <p data-i18n="actu.card.3.desc.2">Les bénéfices documentés de la pratique régulière incluent une réduction significative de l'anxiété préopératoire, une amélioration de la qualité du sommeil et une meilleure gestion de la douleur chronique. Des hôpitaux et des centres médicaux intègrent désormais la sophrologie dans leurs protocoles de soins, notamment en cancérologie et en préparation à l'accouchement. Les séances, accessibles en groupe ou en individuel, nécessitent un minimum de matériel et peuvent être pratiquées à domicile après quelques cours d'initiation.</p>
     <p>Pour démarrer, les exercices de respiration diaphragmatique constituent la base. Asseyez-vous confortablement, placez une main sur votre ventre et inspirez lentement par le nez en gonflant l'abdomen. Expirez doucement par la bouche en contractant légèrement les abdominaux. Répétez ce cycle dix minutes et vous observerez déjà une baisse notable du niveau de stress. Les applications mobiles dédiées à la sophrologie offrent des séances guidées complètes pour les débutants souhaitant intégrer cette pratique à leur routine quotidienne.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Alerte santé</span>
-    <h3>Carence en vitamine D : un problème de santé publique sous-estimé</h3>
-    <p>La carence en vitamine D touche désormais un tiers de la population française selon les dernières études épidémiologiques. Cette vitamine essentielle, synthétisée principalement par la peau sous l'effet du rayonnement solaire, joue un rôle crucial dans l'absorption du calcium, le fonctionnement du système immunitaire et la régulation de l'humeur. Les populations du nord de l'Europe sont particulièrement vulnérables en raison de la faible intensité lumineuse pendant plusieurs mois.</p>
-    <p>Les symptômes de la carence sont souvent insidieux : fatigue inexpliquée, douleurs musculaires, humeur morose et baisses d'immunité fréquentes. Les personnes les plus à risque sont les personnes âgées, les femmes enceintes, les personnes à peau mate et celles qui passent la majorité de leur temps en intérieur. Une analyse sanguine simple — le dosage de la 25-OH-vitamine D — permet de déterminer précisément votre statut en vitamine D et d'adapter la supplémentation.</p>
+    <span class="tag" data-i18n="actu.card.4.tag">Alerte santé</span>
+    <h3 data-i18n="actu.card.4.title">Carence en vitamine D : un problème de santé publique sous-estimé</h3>
+    <p data-i18n="actu.card.4.desc.1">La carence en vitamine D touche désormais un tiers de la population française selon les dernières études épidémiologiques. Cette vitamine essentielle, synthétisée principalement par la peau sous l'effet du rayonnement solaire, joue un rôle crucial dans l'absorption du calcium, le fonctionnement du système immunitaire et la régulation de l'humeur. Les populations du nord de l'Europe sont particulièrement vulnérables en raison de la faible intensité lumineuse pendant plusieurs mois.</p>
+    <p data-i18n="actu.card.4.desc.2">Les symptômes de la carence sont souvent insidieux : fatigue inexpliquée, douleurs musculaires, humeur morose et baisses d'immunité fréquentes. Les personnes les plus à risque sont les personnes âgées, les femmes enceintes, les personnes à peau mate et celles qui passent la majorité de leur temps en intérieur. Une analyse sanguine simple — le dosage de la 25-OH-vitamine D — permet de déterminer précisément votre statut en vitamine D et d'adapter la supplémentation.</p>
     <p>En complément de l'exposition solaire raisonnée, les aliments riches en vitamine D doivent être intégrés régulièrement dans l'alimentation. Le saumon, les sardines, les œufs de poules élevées en plein air et les champignons séchés exposés au soleil en sont d'excellentes sources. Les champignons de Paris, lorsqu'ils sont exposés aux UV avant consommation, développent des niveaux de vitamine D comparables à ceux du poisson gras, ce qui en fait une alternative précieuse pour les végétariens.</p>
   </article>
 
 </div>
 
 <footer>
-  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
-  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
-  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
+  <p><strong>WebHealth</strong> — <span data-i18n="footer.line1">Santé naturelle & bienveillante</span></p>
+  <p data-i18n="footer.line2">⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
 <script>
+const translations={
+fr:{
+"nav.remedes":"Remèdes","nav.apropos":"À propos",
+"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
+"actu.hero.badge":"📰 Informé & acteur de sa santé","actu.hero.title":"Actualités<br>santé & bien-être","actu.hero.desc":"Tendances émergentes, conseils saisonniers et découvres récentes en santé naturelle. Restez informé pour faire les meilleurs choix de santé au quotidien.",
+"actu.card.1.tag":"Tendance","actu.card.1.title":"Le microbiote intestinal au cœur de la recherche 2026","actu.card.1.desc.1":"La recherche sur le microbiote intestinal continue de révolutionner notre compréhension de la santé humaine. En 2026, les études les plus récentes établissent des liens directs entre la composition de notre flore intestinale et des pathologies aussi variées que la dépression, les maladies auto-immunes et même certains cancers. Le concept de « psychobiote », l'interaction entre intestin et cerveau, gagne chaque jour du terrain dans la communauté scientifique.","actu.card.1.desc.2":"Les probiotiques de nouvelle génération, appelés psychobiotiques, ciblent spécifiquement l'axe intestin-cerveau pour améliorer l'humeur et réduire l'anxiété. Des souches comme Lactobacillus rhamnosus et Bifidobacterium longum ont démontré des effets mesurables sur les niveaux de cortisol et sur les neurotransmetteurs produits dans l'intestin. Ces découvertes ouvrent la voie à des approches nutritionnelles personnalisées basées sur l'analyse du microbiote individuel.",
+"actu.card.2.tag":"Saisonnier","actu.card.2.title":"Préparer son organisme au changement de saison : l'équinoxe de printemps","actu.card.2.desc.1":"Les transitions entre les saisons sont des périodes de vulnérabilité pour l'organisme. Le changement de température, la modification de la durée d'ensoleillement et la variation du taux d'humidité perturbent l'équilibre interne et favorisent les baisses d'immunité. Anticiper ce changement par une cure de préparation est un geste de prévention redoutablement efficace.","actu.card.2.desc.2":"La cure de détox printanière, pratiquée depuis des siècles en médecine naturelle, consiste à accompagner les organes d'élimination — foie, reins, peau — dans leur travail de nettoyage. Le pissenlit, en tisane ou en teinture mère, stimule la fonction hépatique et la diurèse naturelle. Le radis noir, raphanusblois, est un dépuratif hépatique traditionnel dont le jus frais, consommé pendant dix jours, favorise la production de bile et améliore la digestion des graisses.",
+"actu.card.3.tag":"Découverte","actu.card.3.title":"La sophrologie : la méthode de relaxation qui se démocratise","actu.card.3.desc.1":"La sophrologie connaît un essor considérable en France ces dernières années, passant d'une technique méconnue à une méthode de gestion du stress reconnue par de nombreux professionnels de santé. Créée par le professeur Alfonso Caycedo dans les années soixante, elle combine respiration, visualisation positive et relaxation musculaire progressive dans des séances de vingt minutes.","actu.card.3.desc.2":"Les bénéfices documentés de la pratique régulière incluent une réduction significative de l'anxiété préopératoire, une amélioration de la qualité du sommeil et une meilleure gestion de la douleur chronique. Des hôpitaux et des centres médicaux intègrent désormais la sophrologie dans leurs protocoles de soins, notamment en cancérologie et en préparation à l'accouchement. Les séances, accessibles en groupe ou en individuel, nécessitent un minimum de matériel et peuvent être pratiquées à domicile après quelques cours d'initiation.",
+"actu.card.4.tag":"Alerte santé","actu.card.4.title":"Carence en vitamine D : un problème de santé publique sous-estimé","actu.card.4.desc.1":"La carence en vitamine D touche désormais un tiers de la population française selon les dernières études épidémiologiques. Cette vitamine essentielle, synthétisée principalement par la peau sous l'effet du rayonnement solaire, joue un rôle crucial dans l'absorption du calcium, le fonctionnement du système immunitaire et la régulation de l'humeur. Les populations du nord de l'Europe sont particulièrement vulnérables en raison de la faible intensité lumineuse pendant plusieurs mois.","actu.card.4.desc.2":"Les symptômes de la carence sont souvent insidieux : fatigue inexpliquée, douleurs musculaires, humeur morose et baisses d'immunité fréquentes. Les personnes les plus à risque sont les personnes âgées, les femmes enceintes, les personnes à peau mate et celles qui passent la majorité de leur temps en intérieur. Une analyse sanguine simple — le dosage de la 25-OH-vitamine D — permet de déterminer précisément votre statut en vitamine D et d'adapter la supplémentation.",
+"footer.line1":"Santé naturelle & bienveillante","footer.line2":"⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.","footer.line3":"© 2026 WebHealth — Conception originale",
+"page.title":"Actualités — WebHealth","page.description":"Tendances santé récentes, conseils saisonniers et actualités bien-être. Restez informé des dernières découvertes et pratiques de santé naturelle."
+},
+ar:{
+"nav.remedes":"العلاجات","nav.apropos":"حول",
+"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"موسم",
+"actu.hero.badge":"📰 مطلع وفاعل في صحتك","actu.hero.title":"أخبار<br>الصحة والعافية","actu.hero.desc":"اتجاهات ناشئة، نصائح موسمية واكتشافات حديثة في الصحة الطبيعية. ابق على اطلاع لاتخاذ أفضل خيارات صحية يومياً.",
+"actu.card.1.tag":"اتجاه","actu.card.1.title":"الميكروبيوم المعوي في قلب أبحاث 2026","actu.card.1.desc.1":"تواصل أبحاث الميكروبيوم المعوي إحداث ثورة في فهمنا للصحة البشرية. في 2026، تؤسس أحدث الدراسات روابط مباشرة بين تكوين نباتاتنا المعوية وأمراض متنوعة مثل الاكتئاب وأمراض المناعة الذاتية وحتى بعض السرطانات. مفهوم «السيكوبيوتيك»، التفاعل بين الأمعاء والدماغ، يكتسب زخماً يومياً في المجتمع العلمي.","actu.card.1.desc.2":"البروبيوتيك من الجيل الجديد، المسمى بالسيكوبيوتيك، يستهدف تحديداً محور الأمعاء-الدماغ لتحسين المزاج وتقليل القلق. سلالات مثل Lactobacillus rhamnosus و Bifidobacterium longum أظهرت تأثيرات قابلة للقياس على مستويات الكورتيزول والناقلات العصبية المنتجة في الأمعاء. تفتح هذه الاكتشافات الطريق لأساليب غذائية شخصية مبنية على تحليل الميكروبيوم الفردي.",
+"actu.card.2.tag":"موسمي","actu.card.2.title":"تجهيز الجسم لتغير الفصول: اعتدال الربيع","actu.card.2.desc.1":"الانتقالات بين الفصول هي فترات ضعف للجسم. تغير درجة الحرارة، تعديل مدة سطوع الشمس وتغير نسبة الرطوبة تخل بالتوازن الداخلي وتعزز انخفاض المناعة. توقع هذا التغيير بدورة تحضيرية هو إجراء وقائي فعال للغاية.","actu.card.2.desc.2":"دورة التنظيف الربيعي، الممارسة منذ قرون في الطب الطبيعي، ترافق أعضاء الإخراج — الكبد والكلى والجلد — في عملها التنظيفي. الهندباء، في منقوع أو صبغة، تحفز وظائف الكبد وإدرار البول الطبيعي. الفجل الأسود هو مطهر كبدي تقليدي عصيره الطازج، عند تناوله لمدة عشرة أيام، يعزز إنتاج الصفراء ويحسن هضم الدهون.",
+"actu.card.3.tag":"اكتشاف","actu.card.3.title":"الاسترخاء الواعي: الطريقة التي تزداد شعبية","actu.card.3.desc.1":"يشهد الاسترخاء الواعي (Sophrologie) ازدهاراً كبيراً في السنوات الأخيرة، منتقلاً من تقنية غير معروفة إلى طريقة لإدارة الإجهاد معترف بها من قبل العديد من المهنيين الصحيين. ابتكرها البروفيسور ألفونسو كايسيدو في الستينيات، وهي تجمع بين التنفس والتصور الإيجابي والاسترخاء العضلي التدريجي في جلسات مدتها عشرون دقيقة.","actu.card.3.desc.2":"الفوائد الموثقة للممارسة المنتظمة تشمل انخفاضاً كبيراً في القلق قبل العمليات، تحسين جودة النوم وإدارة أفضل للألم المزمن. مستشفيات ومراكز طبية تدمج الآن الاسترخاء الواعي في بروتوكولات الرعاية، خاصة في علاج الأورام والتحضير للولادة. الجلسات، متاحة في مجموعات أو فردياً، تتطلب الحد الأدنى من المواد ويمكن ممارستها في المنزل بعد بضع جلسات تمهيدية.",
+"actu.card.4.tag":"تنبيه صحي","actu.card.4.title":"نقص فيتامين D: مشكلة صحية عامة underestimated","actu.card.4.desc.1":"يؤثر نقص فيتامين D الآن على ثلث السكان وفقاً لأحدث الدراسات الوبائية. هذا الفيتامين الأساسي، الذي يتم تصنيعه بشكل رئيسي عن طريق الجلد تحت تأثير الأشعة الشمسية، يلعب دوراً حاسماً في امتصاص الكالسيوم، عمل الجهاز المناعي وتنظيم المزاج. سكان شمال أوروبا معرضون بشكل خاص بسبب ضعف شدة الضوء لعدة أشهر.","actu.card.4.desc.2":"أعراض النقص غالباً ما تكون خفية: تعب غير مبرر، آلام عضلية، مزاج كئيب وانخفاض متكرر في المناعة. الأشخاص الأكثر عرضة هم كبار السن، الحوامل، أصحاب البشرة الداكنة ومن يقضون معظم وقتهم في الداخل. فحص دم بسيط — قياس 25-OH-فيتامين D — يسمح بتحديد حالتك بدقة وتعديل الجرعات.",
+"footer.line1":"صحة طبيعية وراعية","footer.line2":"⚠️ هذه المعلومات مقدمة لأغراض إرشادية فقط ولا تحل محل النصيحة الطبية المهنية. في حالة الشك، أو أعراض مستمرة أو متزايدة، استشر طبيباً أو صيدلانياً.","footer.line3":"© 2026 WebHealth — تصميم أصلي",
+"page.title":"الأخبار — WebHealth","page.description":"اتجاهات ناشئة ونصائح موسمية في الصحة الطبيعية. ابق على اطلاع لاتخاذ أفضل الخيارات الصحية."
+}
+};
+let currentLang='fr';
+function t(key){
+  var lang=translations[currentLang];
+  if(!lang)return key;
+  var val=lang[key];
+  if(typeof val==='function')return val;
+  return val||key;
+}
+function setLanguage(lang){
+  currentLang=lang;
+  var html=document.documentElement;
+  var body=document.body;
+  if(lang==='ar'){
+    html.setAttribute('lang','ar');
+    html.setAttribute('dir','rtl');
+    body.classList.add('rtl');
+  }else{
+    html.setAttribute('lang','fr');
+    html.setAttribute('dir','ltr');
+    body.classList.remove('rtl');
+  }
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    var val=t(key);
+    if(typeof val==='string'){
+      if(val.indexOf('<br>')>-1||val.indexOf('>')>-1){
+        el.innerHTML=val;
+      }else{
+        el.textContent=val;
+      }
+    }
+  });
+  document.querySelectorAll('.lang-pill').forEach(function(p){
+    p.classList.toggle('active',p.getAttribute('data-lang')===lang);
+  });
+  if(t('page.title'))document.title=t('page.title');
+  if(t('page.description')){
+    var meta=document.querySelector('meta[name="description"]');
+    if(meta)meta.setAttribute('content',t('page.description'));
+  }
+  try{localStorage.setItem('wh-lang',lang)}catch(e){}
+}
+document.querySelectorAll('.lang-pill').forEach(function(pill){
+  pill.addEventListener('click',function(){
+    setLanguage(this.getAttribute('data-lang'));
+  });
+});
+(function(){
+  try{
+    var saved=localStorage.getItem('wh-lang');
+    if(saved&&translations[saved]){
+      setLanguage(saved);
+    }else{
+      setLanguage('fr');
+    }
+  }catch(e){setLanguage('fr');}
+})();
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
 const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Santé mentale — WebHealth</title>
-<meta name="description" content="Gestion du stress, hygiène du sommeil, méditation et prévention du burn-out. Guides pratiques pour prendre soin de votre santé mentale au quotidien.">
+<title data-i18n="page.title">Santé mentale — WebHealth</title>
+<meta data-i18n="page.description" name="description" content="Gestion du stress, hygiène du sommeil, méditation et prévention du burn-out. Guides pratiques pour prendre soin de votre santé mentale au quotidien.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -32,8 +32,13 @@
   --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
   --step-bg:#1a2e20;
 }
+body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
+body.rtl .sidebar.open{right:0}
+body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
+body.rtl .category-card h3{padding-right:0;padding-left:4.5rem}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
 [data-theme="dark"] nav{background:rgba(13,26,18,.85)}
@@ -44,6 +49,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .nav-links a:hover{color:var(--accent);text-decoration:none}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+.lang-selector{display:flex;gap:4px;align-items:center}
+.lang-pill{display:flex;align-items:center;gap:3px;padding:.25rem .5rem;border-radius:14px;border:1px solid var(--card-border);background:transparent;cursor:pointer;font-size:.7rem;font-weight:500;min-height:36px;justify-content:center;transition:all .2s;color:var(--text3);white-space:nowrap}
+.lang-pill:hover{border-color:var(--accent);color:var(--accent)}
+.lang-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .hamburger{background:none;border:none;cursor:pointer;padding:8px;z-index:110}
 .hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -90,76 +99,161 @@ footer p{margin-bottom:8px}
   </button>
   <a href="index.html" class="nav-logo"><span>🌿</span> WebHealth</a>
   <div class="nav-links">
-    <a href="index.html#remedes">Remèdes</a>
-    <a href="index.html#apropos">À propos</a>
+    <a href="index.html#remedes" data-i18n="nav.remedes">Remèdes</a>
+    <a href="index.html#apropos" data-i18n="nav.apropos">À propos</a>
+    <div class="lang-selector">
+      <button class="lang-pill active" data-lang="fr" aria-label="Français">🇫🇷 FR</button>
+      <button class="lang-pill" data-lang="ar" aria-label="العربية">🇲🇦 AR</button>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="sidebar">
-  <h3>Explorer</h3>
+  <h3 data-i18n="sidebar.explore">Explorer</h3>
   <ul>
-    <li><a href="maladies.html">Maladies</a></li>
-    <li><a href="sante-naturelle.html">Santé naturelle</a></li>
-    <li><a href="nutrition.html">Nutrition</a></li>
-    <li><a href="famille.html">Famille</a></li>
-    <li><a href="sante-mentale.html">Santé mentale</a></li>
-    <li><a href="actualites.html">Actualités</a></li>
-    <li><a href="guide-achat.html">Guide d'achat</a></li>
-    <li><a href="ete.html">Été <span class="season-tag">Saison</span></a></li>
+    <li><a href="maladies.html" data-i18n="sidebar.maladies">Maladies</a></li>
+    <li><a href="sante-naturelle.html" data-i18n="sidebar.sante">Santé naturelle</a></li>
+    <li><a href="nutrition.html" data-i18n="sidebar.nutrition">Nutrition</a></li>
+    <li><a href="famille.html" data-i18n="sidebar.famille">Famille</a></li>
+    <li><a href="sante-mentale.html" data-i18n="sidebar.mentale">Santé mentale</a></li>
+    <li><a href="actualites.html" data-i18n="sidebar.actu">Actualités</a></li>
+    <li><a href="guide-achat.html" data-i18n="sidebar.guide">Guide d'achat</a></li>
+    <li><a href="ete.html" data-i18n="sidebar.ete">Été <span class="season-tag" data-i18n="sidebar.saison">Saison</span></a></li>
   </ul>
 </aside>
 
 <section class="hero">
-  <div class="hero-badge">🧘 Esprit serein, corps apaisé</div>
-  <h1>Santé mentale<br>&amp; équilibre intérieur</h1>
-  <p>Stress chronique, insomnie, surmenage professionnel… Apprenez à cultiver votre résilience intérieure avec des approches concrètes et bienveillantes pour retrouver sérénité et clarté mentale.</p>
+  <div class="hero-badge" data-i18n="sante-mentale.hero.badge">🧘 Esprit serein, corps apaisé</div>
+  <h1 data-i18n="sante-mentale.hero.title">Santé mentale<br>&amp; équilibre intérieur</h1>
+  <p data-i18n="sante-mentale.hero.desc">Stress chronique, insomnie, surmenage professionnel… Apprenez à cultiver votre résilience intérieure avec des approches concrètes et bienveillantes pour retrouver sérénité et clarté mentale.</p>
 </section>
 
 <div class="category-cards">
 
   <article class="category-card">
-    <span class="tag">Gestion du stress</span>
-    <h3>Le stress chronique : le reconnaître et le soulager avec des méthodes naturelles</h3>
-    <p>Le stress chronique se distingue du stress ponctuel par sa durée et son intensité constante. Contrairement au stress aigu qui mobilise nos ressources face à un danger immédiat, le stress durable épuise progressivement les glandes surrénales et altère les fonctions immunitaires, digestives et cognitives. Savoir le reconnaître est la première étape vers son soulagement.</p>
-    <p>Les adaptogènes sont des plantes spécifiques qui aident l'organisme à s'adapter au stress de manière naturelle. L'ashwagandha, plante majeure de la médecine ayurvédique, régule le cortisol et améliore la résistance physique et mentale au stress. Une cure de six semaines avec de la poudre de racine séchée, à raison de deux grammes par jour dans un smoothie ou une boisson tiède, produit des effets mesurables sur la réduction de l'anxiété généralisée.</p>
+    <span class="tag" data-i18n="sante-mentale.card.1.tag">Gestion du stress</span>
+    <h3 data-i18n="sante-mentale.card.1.title">Le stress chronique : le reconnaître et le soulager avec des méthodes naturelles</h3>
+    <p data-i18n="sante-mentale.card.1.desc.1">Le stress chronique se distingue du stress ponctuel par sa durée et son intensité constante. Contrairement au stress aigu qui mobilise nos ressources face à un danger immédiat, le stress durable épuise progressivement les glandes surrénales et altère les fonctions immunitaires, digestives et cognitives. Savoir le reconnaître est la première étape vers son soulagement.</p>
+    <p data-i18n="sante-mentale.card.1.desc.2">Les adaptogènes sont des plantes spécifiques qui aident l'organisme à s'adapter au stress de manière naturelle. L'ashwagandha, plante majeure de la médecine ayurvédique, régule le cortisol et améliore la résistance physique et mentale au stress. Une cure de six semaines avec de la poudre de racine séchée, à raison de deux grammes par jour dans un smoothie ou une boisson tiède, produit des effets mesurables sur la réduction de l'anxiété généralisée.</p>
     <p>La technique de la respiration carrée offre un soulagement instantané lors des pics de stress. Inspirez quatre secondes, retenez quatre secondes, expirez quatre secondes, retenez encore quatre secondes. Répétez ce cycle dix fois et observez le calme qui s'installe. Ce exercice, utilisable partout et à tout moment, active le système nerveux parasympathique et fait chuter la fréquence cardiaque en quelques respirations seulement.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Sommeil</span>
-    <h3>Hygiène du sommeil : les règles d'or pour dormir profondément</h3>
-    <p>Un sommeil de qualité est la pierre angulaire de la santé mentale et physique. Pendant le sommeil profond, le cerveau élimine les déchets métaboliques accumulés pendant la journée, consolide la mémoire et régule les hormones. L'insomnie chronique augmente significativement les risques de maladies cardiovasculaires, de dépression et de prise de poids.</p>
-    <p>La régularité est la règle la plus importante : se coucher et se lever à la même heure, même le week-end, synchronise l'horloge biologique et facilite l'endormissement. La chambre doit être fraîche, sombre et silencieuse. Évitez les écrans au moins une heure avant le coucher car la lumière bleue supprime la production de mélatonine, l'hormone du sommeil.</p>
+    <span class="tag" data-i18n="sante-mentale.card.2.tag">Sommeil</span>
+    <h3 data-i18n="sante-mentale.card.2.title">Hygiène du sommeil : les règles d'or pour dormir profondément</h3>
+    <p data-i18n="sante-mentale.card.2.desc.1">Un sommeil de qualité est la pierre angulaire de la santé mentale et physique. Pendant le sommeil profond, le cerveau élimine les déchets métaboliques accumulés pendant la journée, consolide la mémoire et régule les hormones. L'insomnie chronique augmente significativement les risques de maladies cardiovasculaires, de dépression et de prise de poids.</p>
+    <p data-i18n="sante-mentale.card.2.desc.2">La régularité est la règle la plus importante : se coucher et se lever à la même heure, même le week-end, synchronise l'horloge biologique et facilite l'endormissement. La chambre doit être fraîche, sombre et silencieuse. Évitez les écrans au moins une heure avant le coucher car la lumière bleue supprime la production de mélatonine, l'hormone du sommeil.</p>
     <p>Les plantes somnifères naturelles offrent une alternative sans accoutumance aux somnifères chimiques. La valériane, la passiflore et l'aubépine forment le trio classique des tisanes nocturnes. Préparez un mélange à parts égales de ces trois plantes, une cuillère à soupe du mélange dans une tasse d'eau bouillante, infusez dix minutes à couvert et buvez cette préparation une heure avant le coucher pour préparer progressivement le corps au repos.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Méditation</span>
-    <h3>Méditation de pleine conscience : commencer même cinq minutes par jour</h3>
-    <p>La méditation de pleine conscience, ou mindfulness, consiste à porter son attention sur le moment présent sans jugement. Cette pratique, scientifiquement validée par de nombreuses études, réduit l'anxiété, améliore la concentration et renforce la résolution de problèmes. L'idée reçue selon laquelle il faut méditer longtemps est fausse : cinq minutes quotidiens suffisent pour observer des bénéfices durables.</p>
-    <p>Pour débuter, installez-vous confortablement, fermez les yeux et portez votre attention sur votre respiration. Observez l'air qui entre et qui sort de vos narines, le mouvement de votre ventre, sans essayer de contrôler quoi que ce soit. Quand votre esprit s'égare — ce qui est tout à fait normal — ramenez doucement votre attention à la respiration sans vous juger. Ce retour d'attention est l'exercice lui-même, et chaque retour renforce la capacité de concentration.</p>
+    <span class="tag" data-i18n="sante-mentale.card.3.tag">Méditation</span>
+    <h3 data-i18n="sante-mentale.card.3.title">Méditation de pleine conscience : commencer même cinq minutes par jour</h3>
+    <p data-i18n="sante-mentale.card.3.desc.1">La méditation de pleine conscience, ou mindfulness, consiste à porter son attention sur le moment présent sans jugement. Cette pratique, scientifiquement validée par de nombreuses études, réduit l'anxiété, améliore la concentration et renforce la résolution de problèmes. L'idée reçue selon laquelle il faut méditer longtemps est fausse : cinq minutes quotidiens suffisent pour observer des bénéfices durables.</p>
+    <p data-i18n="sante-mentale.card.3.desc.2">Pour débuter, installez-vous confortablement, fermez les yeux et portez votre attention sur votre respiration. Observez l'air qui entre et qui sort de vos narines, le mouvement de votre ventre, sans essayer de contrôler quoi que ce soit. Quand votre esprit s'égare — ce qui est tout à fait normal — ramenez doucement votre attention à la respiration sans vous juger. Ce retour d'attention est l'exercice lui-même, et chaque retour renforce la capacité de concentration.</p>
     <p>La méditation en pleine nature amplifie considérablement ses bienfaits. La marche consciente, en sentant le sol sous vos pieds, en observant les couleurs et les sons environnants, connecte l'esprit au corps de manière profonde. Les forêts et les espaces verts produisent des phytoncides, des composés organiques volatils qui réduisent le cortisol de manière mesurable. Pratiquez dix minutes de marche consciente dans un parc chaque matin pour démarrer la journée avec un état d'esprit clair et serein.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Burn-out</span>
-    <h3>Prévenir le burn-out : les signaux faibles à ne pas ignorer</h3>
-    <p>Le burn-out, ou syndrome d'épuisement professionnel, se développe progressivement sur plusieurs mois. Les signaux faibles — fatigue persistante malgré le repos, irritabilité accrue, perte de sens au travail, difficultés de concentration — sont souvent minimisés ou attribués à une période difficile. Apprendre à les reconnaître et à y répondre rapidement est essentiel pour éviter l'effondrement complet.</p>
-    <p>La déconnexion numérique est un outil préventif puissant et souvent négligé. Désactivez les notifications professionnelles en dehors des heures de travail, définissez des plages horaires sans écran au quotidien et créez des rituels de transition entre la vie professionnelle et la vie personnelle. Ces limites, établies de manière ferme mais bienveillante, protègent l'esprit de l'hyperconnexion permanente qui est l'un des principaux moteurs du surmenage moderne.</p>
+    <span class="tag" data-i18n="sante-mentale.card.4.tag">Burn-out</span>
+    <h3 data-i18n="sante-mentale.card.4.title">Prévenir le burn-out : les signaux faibles à ne pas ignorer</h3>
+    <p data-i18n="sante-mentale.card.4.desc.1">Le burn-out, ou syndrome d'épuisement professionnel, se développe progressivement sur plusieurs mois. Les signaux faibles — fatigue persistante malgré le repos, irritabilité accrue, perte de sens au travail, difficultés de concentration — sont souvent minimisés ou attribués à une période difficile. Apprendre à les reconnaître et à y répondre rapidement est essentiel pour éviter l'effondrement complet.</p>
+    <p data-i18n="sante-mentale.card.4.desc.2">La déconnexion numérique est un outil préventif puissant et souvent négligé. Désactivez les notifications professionnelles en dehors des heures de travail, définissez des plages horaires sans écran au quotidien et créez des rituels de transition entre la vie professionnelle et la vie personnelle. Ces limites, établies de manière ferme mais bienveillante, protègent l'esprit de l'hyperconnexion permanente qui est l'un des principaux moteurs du surmenage moderne.</p>
     <p>L'activité physique régulière est le meilleur remède préventif contre le burn-out. L'exercice modéré, trente minutes par jour minimum, réduit le cortisol, stimule la production d'endorphines et améliore la qualité du sommeil — trois effets qui forment un rempart naturel contre l'épuisement. Complétez par une alimentation riche en magnésium, zinc et oméga-3 qui soutient les surrénales et prévient les carences liées au stress prolongé.</p>
   </article>
 
 </div>
 
 <footer>
-  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
-  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
-  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
+  <p><strong>WebHealth</strong> — <span data-i18n="footer.line1">Santé naturelle & bienveillante</span></p>
+  <p data-i18n="footer.line2">⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
 <script>
+const translations={
+fr:{
+"nav.remedes":"Remèdes","nav.apropos":"À propos",
+"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
+"sante-mentale.hero.badge":"🧘 Esprit serein, corps apaisé","sante-mentale.hero.title":"Santé mentale<br>& équilibre intérieur","sante-mentale.hero.desc":"Stress chronique, insomnie, surmenage professionnel… Apprenez à cultiver votre résilience intérieure avec des approches concrètes et bienveillantes pour retrouver sérénité et clarté mentale.",
+"sante-mentale.card.1.tag":"Gestion du stress","sante-mentale.card.1.title":"Le stress chronique : le reconnaître et le soulager avec des méthodes naturelles","sante-mentale.card.1.desc.1":"Le stress chronique se distingue du stress ponctuel par sa durée et son intensité constante. Contrairement au stress aigu qui mobilise nos ressources face à un danger immédiat, le stress durable épuise progressivement les glandes surrénales et altère les fonctions immunitaires, digestives et cognitives. Savoir le reconnaître est la première étape vers son soulagement.","sante-mentale.card.1.desc.2":"Les adaptogènes sont des plantes spécifiques qui aident l'organisme à s'adapter au stress de manière naturelle. L'ashwagandha, plante majeure de la médecine ayurvédique, régule le cortisol et améliore la résistance physique et mentale au stress. Une cure de six semaines avec de la poudre de racine séchée, à raison de deux grammes par jour dans un smoothie ou une boisson tiède, produit des effets mesurables sur la réduction de l'anxiété généralisée.",
+"sante-mentale.card.2.tag":"Sommeil","sante-mentale.card.2.title":"Hygiène du sommeil : les règles d'or pour dormir profondément","sante-mentale.card.2.desc.1":"Un sommeil de qualité est la pierre angulaire de la santé mentale et physique. Pendant le sommeil profond, le cerveau élimine les déchets métaboliques accumulés pendant la journée, consolide la mémoire et régule les hormones. L'insomnie chronique augmente significativement les risques de maladies cardiovasculaires, de dépression et de prise de poids.","sante-mentale.card.2.desc.2":"La régularité est la règle la plus importante : se coucher et se lever à la même heure, même le week-end, synchronise l'horloge biologique et facilite l'endormissement. La chambre doit être fraîche, sombre et silencieuse. Évitez les écrans au moins une heure avant le coucher car la lumière bleue supprime la production de mélatonine, l'hormone du sommeil.",
+"sante-mentale.card.3.tag":"Méditation","sante-mentale.card.3.title":"Méditation de pleine conscience : commencer même cinq minutes par jour","sante-mentale.card.3.desc.1":"La méditation de pleine conscience, ou mindfulness, consiste à porter son attention sur le moment présent sans jugement. Cette pratique, scientifiquement validée par de nombreuses études, réduit l'anxiété, améliore la concentration et renforce la résolution de problèmes. L'idée reçue selon laquelle il faut méditer longtemps est fausse : cinq minutes quotidiens suffisent pour observer des bénéfices durables.","sante-mentale.card.3.desc.2":"Pour débuter, installez-vous confortablement, fermez les yeux et portez votre attention sur votre respiration. Observez l'air qui entre et qui sort de vos narines, le mouvement de votre ventre, sans essayer de contrôler quoi que ce soit. Quand votre esprit s'égare — ce qui est tout à fait normal — ramenez doucement votre attention à la respiration sans vous juger. Ce retour d'attention est l'exercice lui-même, et chaque retour renforce la capacité de concentration.",
+"sante-mentale.card.4.tag":"Burn-out","sante-mentale.card.4.title":"Prévenir le burn-out : les signaux faibles à ne pas ignorer","sante-mentale.card.4.desc.1":"Le burn-out, ou syndrome d'épuisement professionnel, se développe progressivement sur plusieurs mois. Les signaux faibles — fatigue persistante malgré le repos, irritabilité accrue, perte de sens au travail, difficultés de concentration — sont souvent minimisés ou attribués à une période difficile. Apprendre à les reconnaître et à y répondre rapidement est essentiel pour éviter l'effondrement complet.","sante-mentale.card.4.desc.2":"La déconnexion numérique est un outil préventif puissant et souvent négligé. Désactivez les notifications professionnelles en dehors des heures de travail, définissez des plages horaires sans écran au quotidien et créez des rituels de transition entre la vie professionnelle et la vie personnelle. Ces limites, établies de manière ferme mais bienveillante, protègent l'esprit de l'hyperconnexion permanente qui est l'un des principaux moteurs du surmenage moderne.",
+"footer.line1":"Santé naturelle & bienveillante","footer.line2":"⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.","footer.line3":"© 2026 WebHealth — Conception originale",
+"page.title":"Santé mentale — WebHealth","page.description":"Gestion du stress, hygiène du sommeil, méditation et prévention du burn-out. Guides pratiques pour prendre soin de votre santé mentale au quotidien."
+},
+ar:{
+"nav.remedes":"العلاجات","nav.apropos":"حول",
+"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"موسم",
+"sante-mentale.hero.badge":"🧘 عقل هادئ، جسد منتعش","sante-mentale.hero.title":"الصحة النفسية<br>والتوازن الداخلي","sante-mentale.hero.desc":"الإجهاد المزمن، الأرق، إرهاق العمل... تعلم كيف تنمي مرونتك الداخلية بأساليب عملية ولطيفة لاستعادة الصفاء والوضوح الذهني.",
+"sante-mentale.card.1.tag":"إدارة الإجهاد","sante-mentale.card.1.title":"الإجهاد المزمن: التعرف عليه وتخفيفه بطرق طبيعية","sante-mentale.card.1.desc.1":"يختلف الإجهاد المزمن عن الإجهاد المؤقت في مدته وشدته المستمرة. على عكس الإجهاد الحاد الذي يحشد مواردنا لمواجهة خطر فوري، يستنزف الإجهاد المزمن الغدد الكظرية تدريجياً ويضعف الوظائف المناعية والهضمية والمعرفية. معرفة كيفية التعرف عليه هي الخطوة الأولى نحو تخفيفه.","sante-mentale.card.1.desc.2":"المُحَوِّلات (Adaptogènes) هي نباتات خاصة تساعد الجسم على التكيف مع الإجهاد بشكل طبيعي. الأشواجندا (Withania somnifera)، النبات الرئيسي في الطب الأيورفيدي، ينظم الكورتيزول ويحسن المقاومة الجسدية والعقلية للإجهاد. دورة مدتها ستة أسابيع من مسحوق الجذر المجفف، بمعدل غرامين يومياً في عصير أو مشروب دافئ، تنتج تأثيرات قابلة للقياس في تقليل القلق العام.",
+"sante-mentale.card.2.tag":"النوم","sante-mentale.card.2.title":"نظافة النوم: القواعد الذهبية لنوم عميق","sante-mentale.card.2.desc.1":"النوم الجيد هو حجر الزاوية للصحة النفسية والجسدية. أثناء النوم العميق، يزيل الدماغ النفايات الأيضية المتراكمة خلال اليوم، ويقوي الذاكرة وينظم الهرمونات. الأرق المزمن يزيد بشكل كبير من مخاطر أمراض القلب والأوعية الدموية والاكتئاب وزيادة الوزن.","sante-mentale.card.2.desc.2":"الانتظام هو أهم قاعدة: النوم والاستيقاظ في نفس الوقت، حتى في عطلة نهاية الأسبوع، يزامن الساعة البيولوجية ويسهل النوم. يجب أن تكون الغرفة باردة ومظلمة وهادئة. تجنب الشاشات قبل النوم بساعة على الأقل لأن الضوء الأزرق يثبط إنتاج الميلاتونين، هرمون النوم.",
+"sante-mentale.card.3.tag":"التأمل","sante-mentale.card.3.title":"التأمل الواعي: ابدأ حتى بخمس دقائق يومياً","sante-mentale.card.3.desc.1":"التأمل الواعي (Mindfulness) هو توجيه الانتباه إلى اللحظة الحاضرة دون إصدار أحكام. هذه الممارسة، المعتمدة علمياً من العديد من الدراسات، تقلل القلق وتحسن التركيز وتعزز حل المشكلات. الفكرة الخاطئة بأن التأمل يحتاج وقتاً طويلاً غير صحيحة: خمس دقائق يومياً تكفي لملاحظة فوائد دائمة.","sante-mentale.card.3.desc.2":"لتبدأ، اجلس براحة وأغمض عينيك ووجه انتباهك إلى تنفسك. لاحظ الهواء الداخل والخارج من أنفك، حركة بطنك، دون محاولة التحكم بأي شيء. عندما يشتت ذهنك — وهذا طبيعي تماماً — أعد انتباهك بلطف إلى التنفس دون أن تحكم على نفسك. هذا العودة بالانتباه هي التمرين نفسه، وكل عودة تقوي قدرة التركيز.",
+"sante-mentale.card.4.tag":"الاحتراق الوظيفي","sante-mentale.card.4.title":"الوقاية من الاحتراق الوظيفي: الإشارات المبكرة التي لا يجب تجاهلها","sante-mentale.card.4.desc.1":"يتطور الاحتراق الوظيفي (Burn-out) تدريجياً على مدى عدة أشهر. الإشارات المبكرة — التعب المستمر رغم الراحة، زيادة التهيج، فقدان المعنى في العمل، صعوبات التركيز — غالباً ما يتم التقليل من شأنها أو نسبها إلى فترة صعبة. تعلم التعرف عليها والاستجابة لها بسرعة أمر ضروري لتجنب الانهيار الكامل.","sante-mentale.card.4.desc.2":"الانفصال الرقمي هو أداة وقائية قوية وغالباً ما يتم إهمالها. أوقف إشعارات العمل خارج ساعات العمل، حدد فترات زمنية بدون شاشة يومياً، وابتكر طقوس انتقال بين الحياة المهنية والشخصية. هذه الحدود، الموضوعة بحزم ولكن بلطف، تحمي العقل من فرط الاتصال الدائم الذي هو أحد المحركات الرئيسية للإرهاق الحديث.",
+"footer.line1":"صحة طبيعية وراعية","footer.line2":"⚠️ هذه المعلومات مقدمة لأغراض إرشادية فقط ولا تحل محل النصيحة الطبية المهنية. في حالة الشك، أو أعراض مستمرة أو متزايدة، استشر طبيباً أو صيدلانياً.","footer.line3":"© 2026 WebHealth — تصميم أصلي",
+"page.title":"الصحة النفسية — WebHealth","page.description":"الإجهاد المزمن، الأرق، إرهاق العمل. تعلم كيفية تنمية المرونة الداخلية واستعادة الصفاء الذهني بأساليب طبيعية."
+}
+};
+let currentLang='fr';
+function t(key){
+  var lang=translations[currentLang];
+  if(!lang)return key;
+  var val=lang[key];
+  if(typeof val==='function')return val;
+  return val||key;
+}
+function setLanguage(lang){
+  currentLang=lang;
+  var html=document.documentElement;
+  var body=document.body;
+  if(lang==='ar'){
+    html.setAttribute('lang','ar');
+    html.setAttribute('dir','rtl');
+    body.classList.add('rtl');
+  }else{
+    html.setAttribute('lang','fr');
+    html.setAttribute('dir','ltr');
+    body.classList.remove('rtl');
+  }
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    var val=t(key);
+    if(typeof val==='string'){
+      if(val.indexOf('<br>')>-1||val.indexOf('>')>-1){
+        el.innerHTML=val;
+      }else{
+        el.textContent=val;
+      }
+    }
+  });
+  document.querySelectorAll('.lang-pill').forEach(function(p){
+    p.classList.toggle('active',p.getAttribute('data-lang')===lang);
+  });
+  if(t('page.title'))document.title=t('page.title');
+  if(t('page.description')){
+    var meta=document.querySelector('meta[name="description"]');
+    if(meta)meta.setAttribute('content',t('page.description'));
+  }
+  try{localStorage.setItem('wh-lang',lang)}catch(e){}
+}
+document.querySelectorAll('.lang-pill').forEach(function(pill){
+  pill.addEventListener('click',function(){
+    setLanguage(this.getAttribute('data-lang'));
+  });
+});
+(function(){
+  try{
+    var saved=localStorage.getItem('wh-lang');
+    if(saved&&translations[saved]){
+      setLanguage(saved);
+    }else{
+      setLanguage('fr');
+    }
+  }catch(e){setLanguage('fr');}
+})();
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
 const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Guide d'achat — WebHealth</title>
-<meta name="description" content="Guide d'achat complet pour huiles essentielles, tisanes bio, cosmétiques naturels et kit pharmacie maison. Conseils pour bien choisir vos produits de santé naturelle.">
+<title data-i18n="page.title">Guide d'achat — WebHealth</title>
+<meta data-i18n="page.description" name="description" content="Guide d'achat complet pour huiles essentielles, tisanes bio, cosmétiques naturels et kit pharmacie maison. Conseils pour bien choisir vos produits de santé naturelle.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -32,8 +32,13 @@
   --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
   --step-bg:#1a2e20;
 }
+body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
+body.rtl .sidebar.open{right:0}
+body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
+body.rtl .category-card h3{padding-right:0;padding-left:4.5rem}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
 [data-theme="dark"] nav{background:rgba(13,26,18,.85)}
@@ -44,6 +49,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .nav-links a:hover{color:var(--accent);text-decoration:none}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+.lang-selector{display:flex;gap:4px;align-items:center}
+.lang-pill{display:flex;align-items:center;gap:3px;padding:.25rem .5rem;border-radius:14px;border:1px solid var(--card-border);background:transparent;cursor:pointer;font-size:.7rem;font-weight:500;min-height:36px;justify-content:center;transition:all .2s;color:var(--text3);white-space:nowrap}
+.lang-pill:hover{border-color:var(--accent);color:var(--accent)}
+.lang-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .hamburger{background:none;border:none;cursor:pointer;padding:8px;z-index:110}
 .hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -90,76 +99,161 @@ footer p{margin-bottom:8px}
   </button>
   <a href="index.html" class="nav-logo"><span>🌿</span> WebHealth</a>
   <div class="nav-links">
-    <a href="index.html#remedes">Remèdes</a>
-    <a href="index.html#apropos">À propos</a>
+    <a href="index.html#remedes" data-i18n="nav.remedes">Remèdes</a>
+    <a href="index.html#apropos" data-i18n="nav.apropos">À propos</a>
+    <div class="lang-selector">
+      <button class="lang-pill active" data-lang="fr" aria-label="Français">🇫🇷 FR</button>
+      <button class="lang-pill" data-lang="ar" aria-label="العربية">🇲🇦 AR</button>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="sidebar">
-  <h3>Explorer</h3>
+  <h3 data-i18n="sidebar.explore">Explorer</h3>
   <ul>
-    <li><a href="maladies.html">Maladies</a></li>
-    <li><a href="sante-naturelle.html">Santé naturelle</a></li>
-    <li><a href="nutrition.html">Nutrition</a></li>
-    <li><a href="famille.html">Famille</a></li>
-    <li><a href="sante-mentale.html">Santé mentale</a></li>
-    <li><a href="actualites.html">Actualités</a></li>
-    <li><a href="guide-achat.html">Guide d'achat</a></li>
-    <li><a href="ete.html">Été <span class="season-tag">Saison</span></a></li>
+    <li><a href="maladies.html" data-i18n="sidebar.maladies">Maladies</a></li>
+    <li><a href="sante-naturelle.html" data-i18n="sidebar.sante">Santé naturelle</a></li>
+    <li><a href="nutrition.html" data-i18n="sidebar.nutrition">Nutrition</a></li>
+    <li><a href="famille.html" data-i18n="sidebar.famille">Famille</a></li>
+    <li><a href="sante-mentale.html" data-i18n="sidebar.mentale">Santé mentale</a></li>
+    <li><a href="actualites.html" data-i18n="sidebar.actu">Actualités</a></li>
+    <li><a href="guide-achat.html" data-i18n="sidebar.guide">Guide d'achat</a></li>
+    <li><a href="ete.html" data-i18n="sidebar.ete">Été <span class="season-tag" data-i18n="sidebar.saison">Saison</span></a></li>
   </ul>
 </aside>
 
 <section class="hero">
-  <div class="hero-badge">🛒 Choisir intelligemment</div>
-  <h1>Guide d'achat<br>santé naturelle</h1>
-  <p>Ne vous fiez pas uniquement au marketing. Apprenez à décrypter les étiquettes, comparer les gammes et investir dans des produits de qualité pour votre santé et votre bien-être.</p>
+  <div class="hero-badge" data-i18n="guide.hero.badge">🛒 Choisir intelligemment</div>
+  <h1 data-i18n="guide.hero.title">Guide d'achat<br>santé naturelle</h1>
+  <p data-i18n="guide.hero.desc">Ne vous fiez pas uniquement au marketing. Apprenez à décrypter les étiquettes, comparer les gammes et investir dans des produits de qualité pour votre santé et votre bien-être.</p>
 </section>
 
 <div class="category-cards">
 
   <article class="category-card">
-    <span class="tag">Huiles essentielles</span>
-    <h3>Huiles essentielles : comment choisir une qualité irréprochable</h3>
-    <p>Le marché des huiles essentielles est en pleine expansion, mais la qualité varie énormément d'une marque à l'autre. Une huile essentielle de qualité doit être 100 % pure et naturelle, botaniquement définie et bio. L'étiquette doit préciser le nom latin de la plante, le mode d'obtention — distillation à la vapeur d'eau pour la majorité — et le pays d'origine. Méfiez-vous des prix excessivement bas qui trahissent souvent des coupures avec des huiles de synthèse ou des dilutions.</p>
-    <p>Pour débuter votre collection, concentrez-vous sur cinq huiles essentielles polyvalentes qui couvrent la majorité des besoins du quotidien. La lavande fine apaise, cicatrise et favorise le sommeil. Le tea tree est un antiseptique puissant pour les petits maux de la peau. L'eucalyptus radiata dégage les voies respiratoires. Le citron purifie et redonne de l'énergie. Le romarin à cinéole soutient la circulation et la concentration. Ces cinq huiles constituent une pharmacie naturelle de base complète et économique.</p>
+    <span class="tag" data-i18n="guide.card.1.tag">Huiles essentielles</span>
+    <h3 data-i18n="guide.card.1.title">Huiles essentielles : comment choisir une qualité irréprochable</h3>
+    <p data-i18n="guide.card.1.desc.1">Le marché des huiles essentielles est en pleine expansion, mais la qualité varie énormément d'une marque à l'autre. Une huile essentielle de qualité doit être 100 % pure et naturelle, botaniquement définie et bio. L'étiquette doit préciser le nom latin de la plante, le mode d'obtention — distillation à la vapeur d'eau pour la majorité — et le pays d'origine. Méfiez-vous des prix excessivement bas qui trahissent souvent des coupures avec des huiles de synthèse ou des dilutions.</p>
+    <p data-i18n="guide.card.1.desc.2">Pour débuter votre collection, concentrez-vous sur cinq huiles essentielles polyvalentes qui couvrent la majorité des besoins du quotidien. La lavande fine apaise, cicatrise et favorise le sommeil. Le tea tree est un antiseptique puissant pour les petits maux de la peau. L'eucalyptus radiata dégage les voies respiratoires. Le citron purifie et redonne de l'énergie. Le romarin à cinéole soutient la circulation et la concentration. Ces cinq huiles constituent une pharmacie naturelle de base complète et économique.</p>
     <p>L'emballage est un indicateur de qualité souvent négligé. Les huiles essentielles de qualité sont conditionnées dans des flacons en verre ambré ou vert foncé qui protègent les molécules fragiles de la dégradation par la lumière. Un bouchon compte-gouttes facilite le dosage et évite les surdosages accidentels. Conservez toujours vos huiles à l'abri de la chaleur et de la lumière, et vérifiez la date de péremption qui est généralement de deux à cinq ans après ouverture selon les espèces.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Tisanes &amp; infusions</span>
-    <h3>Tisanes bio : le guide pour choisir et préparer vos infusions</h3>
-    <p>Les tisanes bio se distinguent des versions conventionnelles par l'absence de pesticides, d'engrais de synthèse et de métaux lourds dans le sol de culture. Ce label garantit que les plantes ont été cultivées dans le respect de l'environnement et de la biodiversité. Pour les tisanes médicinales, la bio est particulièrement importante car les principes actifs des plantes sont plus concentrés et plus purs lorsqu'elles sont cultivées sans produit chimique.</p>
-    <p>Pour obtenir une infusion efficace, le respect du temps d'infusion est crucial. Les plantes à feuilles comme la menthe ou la verveine nécessitent huit à dix minutes pour libérer leurs huiles essentielles et leurs principes actifs. Les racines et écorces comme la réglisse ou le gingembre demandent à être portées à ébullition pendant cinq minutes avant infusion. L'eau doit être frémissante pour les fleurs et feuilles délicates, bouillante pour les parties dures de la plante.</p>
+    <span class="tag" data-i18n="guide.card.2.tag">Tisanes &amp; infusions</span>
+    <h3 data-i18n="guide.card.2.title">Tisanes bio : le guide pour choisir et préparer vos infusions</h3>
+    <p data-i18n="guide.card.2.desc.1">Les tisanes bio se distinguent des versions conventionnelles par l'absence de pesticides, d'engrais de synthèse et de métaux lourds dans le sol de culture. Ce label garantit que les plantes ont été cultivées dans le respect de l'environnement et de la biodiversité. Pour les tisanes médicinales, la bio est particulièrement importante car les principes actifs des plantes sont plus concentrés et plus purs lorsqu'elles sont cultivées sans produit chimique.</p>
+    <p data-i18n="guide.card.2.desc.2">Pour obtenir une infusion efficace, le respect du temps d'infusion est crucial. Les plantes à feuilles comme la menthe ou la verveine nécessitent huit à dix minutes pour libérer leurs huiles essentielles et leurs principes actifs. Les racines et écorces comme la réglisse ou le gingembre demandent à être portées à ébullition pendant cinq minutes avant infusion. L'eau doit être frémissante pour les fleurs et feuilles délicates, bouillante pour les parties dures de la plante.</p>
     <p>Achetez vos tisanes en vrac dans des magasins spécialisés plutôt qu'en sachets industriels. Les sachets contiennent souvent des fragments de plante de moindre qualité, et le papier peut altérer les saveurs. Les tisanes en vrac vous permettent de contrôler la quantité et la qualité des plantes, et de créer vos propres mélanges personnalisés selon vos besoins du moment. Un herboriste compétent peut vous guider vers des associations de plantes adaptées à votre constitution.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Cosmétiques naturels</span>
-    <h3>Cosmétiques naturels : décoder les labels et éviter le greenwashing</h3>
-    <p>Le terme « naturel » sur un produit cosmétique ne garantit pas sa qualité ni son origine biologique. De nombreux fabricants pratiquent le greenwashing en utilisant un packaging vert et des termes trompeurs comme « botanique » ou « à base de plantes » tout en contenant des silicones, parabènes et conservateurs de synthèse. Apprendre à lire les listes d'ingrédients — l'INCI — est la seule façon fiable de distinguer un véritable produit naturel d'une imposture marketing.</p>
-    <p>Les labels européens offrent une garantie fiable : le label COSMOS garantit au minimum 95 % d'ingrédients d'origine naturelle, dont au moins 20 % en bio pour un produit rincé et 10 % pour un produit sans rincage. Le label Ecocert est le plus ancien et le plus reconnu en France. Le label Nature & Progrès va plus loin en exigeant le respect de critères éthiques et environnementaux stricts tout au long de la chaîne de production.</p>
+    <span class="tag" data-i18n="guide.card.3.tag">Cosmétiques naturels</span>
+    <h3 data-i18n="guide.card.3.title">Cosmétiques naturels : décoder les labels et éviter le greenwashing</h3>
+    <p data-i18n="guide.card.3.desc.1">Le terme « naturel » sur un produit cosmétique ne garantit pas sa qualité ni son origine biologique. De nombreux fabricants pratiquent le greenwashing en utilisant un packaging vert et des termes trompeurs comme « botanique » ou « à base de plantes » tout en contenant des silicones, parabènes et conservateurs de synthèse. Apprendre à lire les listes d'ingrédients — l'INCI — est la seule façon fiable de distinguer un véritable produit naturel d'une imposture marketing.</p>
+    <p data-i18n="guide.card.3.desc.2">Les labels européens offrent une garantie fiable : le label COSMOS garantit au minimum 95 % d'ingrédients d'origine naturelle, dont au moins 20 % en bio pour un produit rincé et 10 % pour un produit sans rincage. Le label Ecocert est le plus ancien et le plus reconnu en France. Le label Nature & Progrès va plus loin en exigeant le respect de critères éthiques et environnementaux stricts tout au long de la chaîne de production.</p>
     <p>Pour construire une routine cosmétique naturelle efficace, commencez par les produits essentiels : un nettoyant doux sans tensioactifs agressifs, une huile végétale adaptée à votre type de peau — noisette pour les peaux mixtes, avocat pour les peaux sèches, jojoba pour toutes les peaux — et un baume à lèvres à la cire d'abeille. Ces trois produits couvrent l'essentiel des besoins de la peau tout en minimisant l'exposition aux produits chimiques synthétiques qui peuvent perturber le microbiome cutané.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Pharmacie maison</span>
-    <h3>Kit pharmacie naturelle : les essentiels à toujours avoir chez soi</h3>
-    <p>Avoir une pharmacie naturelle bien garnie permet de réagir rapidement face aux petits maux du quotidien sans recourir systématiquement aux médicaments de synthèse. Cette trousse de premiers secours naturels ne remplace évidemment pas les urgences médicales, mais constitue un premier réflexe efficace et rapide pour les affections bénignes les plus fréquentes.</p>
-    <p>Commencez par les huiles essentielles essentielles : la lavande fine pour les brûlures et les piqûres, le tea tree pour les problèmes de peau, l'eucalyptus pour les voies respiratoires. Ajoutez une argile verte pour les cataplasmes détox et anti-inflammatoires, du miel brut pour les soins de la peau et les maux de gorge, et une solution saline physiologique pour les nettoyages de nez. Ces six produits forment la base de votre pharmacie naturelle et coûtent très peu par rapport à leur polyvalence d'utilisation.</p>
+    <span class="tag" data-i18n="guide.card.4.tag">Pharmacie maison</span>
+    <h3 data-i18n="guide.card.4.title">Kit pharmacie naturelle : les essentiels à toujours avoir chez soi</h3>
+    <p data-i18n="guide.card.4.desc.1">Avoir une pharmacie naturelle bien garnie permet de réagir rapidement face aux petits maux du quotidien sans recourir systématiquement aux médicaments de synthèse. Cette trousse de premiers secours naturels ne remplace évidemment pas les urgences médicales, mais constitue un premier réflexe efficace et rapide pour les affections bénignes les plus fréquentes.</p>
+    <p data-i18n="guide.card.4.desc.2">Commencez par les huiles essentielles essentielles : la lavande fine pour les brûlures et les piqûres, le tea tree pour les problèmes de peau, l'eucalyptus pour les voies respiratoires. Ajoutez une argile verte pour les cataplasmes détox et anti-inflammatoires, du miel brut pour les soins de la peau et les maux de gorge, et une solution saline physiologique pour les nettoyages de nez. Ces six produits forment la base de votre pharmacie naturelle et coûtent très peu par rapport à leur polyvalence d'utilisation.</p>
     <p>Complétez votre trousse avec les plantes médicinales en tisane ou en teinture mère : la camomille pour les troubles digestifs et l'insomnie, le millepertuis pour le moral, la valériane pour le sommeil, et le sureau pour les premiers signes du rhume. Pensez également aux compléments alimentaires de base : magnésium bisglycinate pour le stress et les crampes, oméga-3 pour l'inflammation, et vitamine D pour les périodes de faible ensoleillement. Cette combinaison de plantes et de compléments couvre la grande majorité des besoins courants de santé naturelle.</p>
   </article>
 
 </div>
 
 <footer>
-  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
-  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
-  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
+  <p><strong>WebHealth</strong> — <span data-i18n="footer.line1">Santé naturelle & bienveillante</span></p>
+  <p data-i18n="footer.line2">⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
 <script>
+const translations={
+fr:{
+"nav.remedes":"Remèdes","nav.apropos":"À propos",
+"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
+"guide.hero.badge":"🛒 Choisir intelligemment","guide.hero.title":"Guide d'achat<br>santé naturelle","guide.hero.desc":"Ne vous fiez pas uniquement au marketing. Apprenez à décrypter les étiquettes, comparer les gammes et investir dans des produits de qualité pour votre santé et votre bien-être.",
+"guide.card.1.tag":"Huiles essentielles","guide.card.1.title":"Huiles essentielles : comment choisir une qualité irréprochable","guide.card.1.desc.1":"Le marché des huiles essentielles est en pleine expansion, mais la qualité varie énormément d'une marque à l'autre. Une huile essentielle de qualité doit être 100 % pure et naturelle, botaniquement définie et bio. L'étiquette doit préciser le nom latin de la plante, le mode d'obtention — distillation à la vapeur d'eau pour la majorité — et le pays d'origine. Méfiez-vous des prix excessivement bas qui trahissent souvent des coupures avec des huiles de synthèse ou des dilutions.","guide.card.1.desc.2":"Pour débuter votre collection, concentrez-vous sur cinq huiles essentielles polyvalentes qui couvrent la majorité des besoins du quotidien. La lavande fine apaise, cicatrise et favorise le sommeil. Le tea tree est un antiseptique puissant pour les petits maux de la peau. L'eucalyptus radiata dégage les voies respiratoires. Le citron purifie et redonne de l'énergie. Le romarin à cinéole soutient la circulation et la concentration. Ces cinq huiles constituent une pharmacie naturelle de base complète et économique.",
+"guide.card.2.tag":"Tisanes & infusions","guide.card.2.title":"Tisanes bio : le guide pour choisir et préparer vos infusions","guide.card.2.desc.1":"Les tisanes bio se distinguent des versions conventionnelles par l'absence de pesticides, d'engrais de synthèse et de métaux lourds dans le sol de culture. Ce label garantit que les plantes ont été cultivées dans le respect de l'environnement et de la biodiversité. Pour les tisanes médicinales, la bio est particulièrement importante car les principes actifs des plantes sont plus concentrés et plus purs lorsqu'elles sont cultivées sans produit chimique.","guide.card.2.desc.2":"Pour obtenir une infusion efficace, le respect du temps d'infusion est crucial. Les plantes à feuilles comme la menthe ou la verveine nécessitent huit à dix minutes pour libérer leurs huiles essentielles et leurs principes actifs. Les racines et écorces comme la réglisse ou le gingembre demandent à être portées à ébullition pendant cinq minutes avant infusion. L'eau doit être frémissante pour les fleurs et feuilles délicates, bouillante pour les parties dures de la plante.",
+"guide.card.3.tag":"Cosmétiques naturels","guide.card.3.title":"Cosmétiques naturels : décoder les labels et éviter le greenwashing","guide.card.3.desc.1":"Le terme « naturel » sur un produit cosmétique ne garantit pas sa qualité ni son origine biologique. De nombreux fabricants pratiquent le greenwashing en utilisant un packaging vert et des termes trompeurs comme « botanique » ou « à base de plantes » tout en contenant des silicones, parabènes et conservateurs de synthèse. Apprendre à lire les listes d'ingrédients — l'INCI — est la seule façon fiable de distinguer un véritable produit naturel d'une imposture marketing.","guide.card.3.desc.2":"Les labels européens offrent une garantie fiable : le label COSMOS garantit au minimum 95 % d'ingrédients d'origine naturelle, dont au moins 20 % en bio pour un produit rincé et 10 % pour un produit sans rincage. Le label Ecocert est le plus ancien et le plus reconnu en France. Le label Nature & Progrès va plus loin en exigeant le respect de critères éthiques et environnementaux stricts tout au long de la chaîne de production.",
+"guide.card.4.tag":"Pharmacie maison","guide.card.4.title":"Kit pharmacie naturelle : les essentiels à toujours avoir chez soi","guide.card.4.desc.1":"Avoir une pharmacie naturelle bien garnie permet de réagir rapidement face aux petits maux du quotidien sans recourir systématiquement aux médicaments de synthèse. Cette trousse de premiers secours naturels ne remplace évidemment pas les urgences médicales, mais constitue un premier réflexe efficace et rapide pour les affections bénignes les plus fréquentes.","guide.card.4.desc.2":"Commencez par les huiles essentielles essentielles : la lavande fine pour les brûlures et les piqûres, le tea tree pour les problèmes de peau, l'eucalyptus pour les voies respiratoires. Ajoutez une argile verte pour les cataplasmes détox et anti-inflammatoires, du miel brut pour les soins de la peau et les maux de gorge, et une solution saline physiologique pour les nettoyages de nez. Ces six produits forment la base de votre pharmacie naturelle et coûtent très peu par rapport à leur polyvalence d'utilisation.",
+"footer.line1":"Santé naturelle & bienveillante","footer.line2":"⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.","footer.line3":"© 2026 WebHealth — Conception originale",
+"page.title":"Guide d'achat — WebHealth","page.description":"Guide d'achat complet pour huiles essentielles, tisanes bio, cosmétiques naturels et kit pharmacie maison. Conseils pour bien choisir vos produits de santé naturelle."
+},
+ar:{
+"nav.remedes":"العلاجات","nav.apropos":"حول",
+"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"موسم",
+"guide.hero.badge":"🛒 اختر بذكاء","guide.hero.title":"دليل شراء<br>الصحة الطبيعية","guide.hero.desc":"لا تثق فقط بالتسويق. تعلم كيف تفك رموز الملصقات، تقارن المنتجات وتستثمر في منتجات عالية الجودة لصحتك ورفاهيتك.",
+"guide.card.1.tag":"زيوت أساسية","guide.card.1.title":"الزيوت الأساسية: كيف تختار جودة لا تشوبها شائبة","guide.card.1.desc.1":"سوق الزيوت الأساسية في توسع كبير، لكن الجودة تختلف بشكل هائل من علامة تجارية لأخرى. الزيت الأساسي الجيد يجب أن يكون 100% نقي وطبيعي، محدد نباتياً وعضوياً. يجب أن يوضح الملصق الاسم اللاتيني للنبات، طريقة الاستخلاص — التقطير بالبخار للأغلبية — وبلد المنشأ. احذر من الأسعار المنخفضة جداً التي غالباً ما تخفي تخفيفاً بزيوت اصطناعية.","guide.card.1.desc.2":"لبدء مجموعتك، ركز على خمسة زيوت أساسية متعددة الاستخدامات تغطي معظم احتياجاتك اليومية. اللافندر الناعم يهدئ ويشفي ويعزز النوم. شجرة الشاي مطهر قوي لمشاكل الجلد الصغيرة. الأوكالبتوس radiata يفتح المجاري التنفسية. الليمون ينقي ويعيد الطاقة. إكليل الجبل يدعم الدورة الدموية والتركيز. هذه الزيوت الخمسة تشكل صيدلية طبيعية أساسية كاملة واقتصادية.",
+"guide.card.2.tag":"شاي وأعشاب","guide.card.2.title":"الأعشاب العضوية: دليل لاختيار وتحضير منقوعاتك","guide.card.2.desc.1":"تتميز الأعشاب العضوية عن الإصدارات التقليدية بخلوها من المبيدات والأسمدة الاصطناعية والمعادن الثقيلة في تربة الزراعة. هذه الشهادة تضمن أن النباتات زُرعت مع احترام البيئة والتنوع البيولوجي. للأعشاب الطبية، العضوية مهمة بشكل خاص لأن المبادئ الفعالة للنباتات تكون أكثر تركيزاً ونقاء عندما تزرع بدون مواد كيميائية.","guide.card.2.desc.2":"للحصول على منقوع فعال، احترام وقت النقع أمر حاسم. النباتات الورقية مثل النعناع أو المليسا تحتاج من ثماني إلى عشر دقائق لتحرير زيوتها الأساسية ومبادئها الفعالة. الجذور واللحاء مثل عرق السوس أو الزنجبيل تتطلب غلياناً لمدة خمس دقائق قبل النقع. الماء يجب أن يكون فاتراً للأزهار والأوراق الرقيقة، مغلياً للأجزاء الصلبة من النبات.",
+"guide.card.3.tag":"مستحضرات تجميل طبيعية","guide.card.3.title":"مستحضرات التجميل الطبيعية: فك رموز الملصقات وتجنب التضليل البيئي","guide.card.3.desc.1":"مصطلح «طبيعي» على منتج تجميلي لا يضمن جودته ولا أصله العضوي. العديد من المصنعين يمارسون التضليل البيئي (Greenwashing) باستخدام تغليف أخضر ومصطلحات مضللة مثل «نباتي» أو «مشتق من النباتات» مع احتوائهم على السيليكون والبارابين والمواد الحافظة الاصطناعية. تعلم قراءة قوائم المكونات — INCI — هو الطريقة الوحيدة الموثوقة لتمييز المنتج الطبيعي الحقيقي.","guide.card.3.desc.2":"الملصقات الأوروبية تقدم ضماناً موثوقاً: ملصق COSMOS يضمن 95% من المكونات ذات أصل طبيعي، منها 20% على الأقل عضوية للمنتج المشطوف و10% للمنتج غير المشطوف. ملصق Ecocert هو الأقدم والأكثر اعترافاً في أوروبا. ملصق Nature & Progrès يذهب أبعد باشتراط معايير أخلاقية وبيئية صارمة على طول سلسلة الإنتاج.",
+"guide.card.4.tag":"صيدلية منزلية","guide.card.4.title":"عدة الصيدلية الطبيعية: الأساسيات التي يجب أن تكون دائماً في المنزل","guide.card.4.desc.1":"وجود صيدلية طبيعية مجهزة جيداً يسمح بالرد السريع على الأمراض اليومية دون اللجوء المنهجي للأدوية الاصطناعية. هذه الحقيبة للإسعافات الأولية الطبيعية لا تحل محل الطوارئ الطبية بالطبع، لكنها تشكل رد فعل أول فعال وسريع للأمراض الحميدة الأكثر شيوعاً.","guide.card.4.desc.2":"ابدأ بالزيوت الأساسية: اللافندر الناعم للحروق واللدغات، شجرة الشاي لمشاكل الجلد، الأوكالبتوس للمجاري التنفسية. أضف طيناً أخضر للكمادات المزيلة للسموم والمضادة للالتهابات، عسلاً خاماً للعناية بالبشرة والتهاب الحلق، ومحلولاً ملحياً فسيولوجياً لتنظيف الأنف. هذه المنتجات الستة تشكل قاعدة صيدليتك الطبيعية وتكلف قليلاً مقارنة بتعدد استخداماتها.",
+"footer.line1":"صحة طبيعية وراعية","footer.line2":"⚠️ هذه المعلومات مقدمة لأغراض إرشادية فقط ولا تحل محل النصيحة الطبية المهنية. في حالة الشك، أو أعراض مستمرة أو متزايدة، استشر طبيباً أو صيدلانياً.","footer.line3":"© 2026 WebHealth — تصميم أصلي",
+"page.title":"دليل الشراء — WebHealth","page.description":"تعلم كيف تختار المنتجات الطبيعية عالية الجودة: الزيوت الأساسية، الأعشاب، مستحضرات التجميل والصيدلية المنزلية."
+}
+};
+let currentLang='fr';
+function t(key){
+  var lang=translations[currentLang];
+  if(!lang)return key;
+  var val=lang[key];
+  if(typeof val==='function')return val;
+  return val||key;
+}
+function setLanguage(lang){
+  currentLang=lang;
+  var html=document.documentElement;
+  var body=document.body;
+  if(lang==='ar'){
+    html.setAttribute('lang','ar');
+    html.setAttribute('dir','rtl');
+    body.classList.add('rtl');
+  }else{
+    html.setAttribute('lang','fr');
+    html.setAttribute('dir','ltr');
+    body.classList.remove('rtl');
+  }
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    var val=t(key);
+    if(typeof val==='string'){
+      if(val.indexOf('<br>')>-1||val.indexOf('>')>-1){
+        el.innerHTML=val;
+      }else{
+        el.textContent=val;
+      }
+    }
+  });
+  document.querySelectorAll('.lang-pill').forEach(function(p){
+    p.classList.toggle('active',p.getAttribute('data-lang')===lang);
+  });
+  if(t('page.title'))document.title=t('page.title');
+  if(t('page.description')){
+    var meta=document.querySelector('meta[name="description"]');
+    if(meta)meta.setAttribute('content',t('page.description'));
+  }
+  try{localStorage.setItem('wh-lang',lang)}catch(e){}
+}
+document.querySelectorAll('.lang-pill').forEach(function(pill){
+  pill.addEventListener('click',function(){
+    setLanguage(this.getAttribute('data-lang'));
+  });
+});
+(function(){
+  try{
+    var saved=localStorage.getItem('wh-lang');
+    if(saved&&translations[saved]){
+      setLanguage(saved);
+    }else{
+      setLanguage('fr');
+    }
+  }catch(e){setLanguage('fr');}
+})();
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
 const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});
