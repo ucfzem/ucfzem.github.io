@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebHealth — Santé Naturelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8faf8;--bg2:#ffffff;--bg3:#f0f4f0;
+  --text:#1a2e1a;--text2:#3d5a3d;--text3:#6b8a6b;
+  --accent:#2d8a4e;--accent2:#1f6b3a;--accent-light:#e8f5ec;
+  --card:#ffffff;--card-border:#e2ede5;
+  --shadow:0 2px 20px rgba(30,80,40,.06);
+  --shadow-lg:0 8px 40px rgba(30,80,40,.1);
+  --radius:16px;--radius-sm:10px;
+  --hero-grad:linear-gradient(135deg,#1a4a2e 0%,#2d8a4e 50%,#3aa562 100%);
+}
+[data-theme="dark"]{
+  --bg:#0d1a12;--bg2:#142218;--bg3:#1a2e20;
+  --text:#e0f0e4;--text2:#a8c8b0;--text3:#6b9a78;
+  --accent:#4ec97a;--accent2:#3aa562;--accent-light:#1a3a24;
+  --card:#182a1e;--card-border:#2a4030;
+  --shadow:0 2px 20px rgba(0,0,0,.2);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.3);
+  --hero-grad:linear-gradient(135deg,#0a1a10 0%,#1a4a2e 50%,#2d6a40 100%);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
+[data-theme="dark"] nav{background:rgba(13,26,18,.85)}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent);display:flex;align-items:center;gap:8px}
+.nav-logo span{font-size:1.6rem}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-size:.9rem;font-weight:500;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+
+/* HERO */
+.hero{margin-top:72px;padding:80px 24px 60px;background:var(--hero-grad);color:#fff;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-30%;right:-10%;width:50%;height:150%;background:radial-gradient(circle,rgba(255,255,255,.03) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px;position:relative;z-index:1}
+.hero p{font-size:1.1rem;opacity:.9;max-width:600px;margin:0 auto 32px;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 20px;border-radius:40px;font-size:.85rem;font-weight:500;border:1px solid rgba(255,255,255,.2);position:relative;z-index:1}
+
+/* MAIN */
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+.intro{text-align:center;padding:60px 24px 40px;max-width:700px;margin:0 auto}
+.intro h2{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--text);margin-bottom:16px}
+.intro p{color:var(--text2);font-size:1.05rem}
+
+/* REMEDY CARDS */
+.remedies{padding:0 24px 80px}
+.remedy{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:40px;margin-bottom:24px;box-shadow:var(--shadow);transition:all .3s;position:relative;overflow:hidden}
+.remedy:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.remedy::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent);border-radius:4px 0 0 4px}
+.remedy-num{font-family:'DM Serif Display',serif;font-size:3rem;color:var(--accent);opacity:.15;position:absolute;top:16px;right:24px;line-height:1}
+.remedy h3{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:4px;padding-right:60px}
+.remedy .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.remedy p{color:var(--text2);margin-bottom:12px}
+.remedy .section-label{font-weight:600;color:var(--text);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;margin:20px 0 8px;display:flex;align-items:center;gap:6px}
+.remedy .section-label span{font-size:1rem}
+.remedy ul{list-style:none;padding:0}
+.remedy ul li{padding:4px 0 4px 20px;position:relative;color:var(--text2)}
+.remedy ul li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
+.remedy .warning{background:rgba(220,160,60,.08);border-left:3px solid #dca03c;padding:12px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:16px;font-size:.9rem;color:var(--text2)}
+[data-theme="dark"] .remedy .warning{background:rgba(220,160,60,.1)}
+
+/* FOOTER */
+footer{background:var(--bg3);border-top:1px solid var(--card-border);padding:40px 24px;text-align:center;color:var(--text3);font-size:.85rem}
+footer a{color:var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  nav{padding:12px 16px}
+  .nav-links{gap:12px}
+  .hero{padding:60px 20px 40px}
+  .remedy{padding:28px 20px}
+  .remedy h3{font-size:1.2rem}
+}
+
+/* ANIMATIONS */
+.remedy{opacity:0;transform:translateY(20px);animation:fadeUp .5s ease forwards}
+.remedy:nth-child(1){animation-delay:.1s}
+.remedy:nth-child(2){animation-delay:.15s}
+.remedy:nth-child(3){animation-delay:.2s}
+.remedy:nth-child(4){animation-delay:.25s}
+.remedy:nth-child(5){animation-delay:.3s}
+.remedy:nth-child(6){animation-delay:.35s}
+.remedy:nth-child(7){animation-delay:.4s}
+.remedy:nth-child(8){animation-delay:.45s}
+.remedy:nth-child(9){animation-delay:.5s}
+.remedy:nth-child(10){animation-delay:.55s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>🌿</span> WebHealth</div>
+  <div class="nav-links">
+    <a href="#remedes">Remèdes</a>
+    <a href="#apropos">À propos</a>
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🌱 Santé naturelle & bienveillante</div>
+  <h1>10 remèdes de grand-mère<br>à connaître absolument</h1>
+  <p>Oignons, miel, argile… Vos placards sont une véritable pharmacie naturelle. Découvrez ces astuces transmises de génération en génération.</p>
+</section>
+
+<section class="intro" id="apropos">
+  <h2>La sagesse populaire au service de votre santé</h2>
+  <p>Nul besoin de vous ruer chez le médecin au moindre bobo. Pour la plupart des petits maux du quotidien, il existe un remède naturel simple, efficace et accessible à tous.</p>
+</section>
+
+<div class="container" id="remedes">
+
+  <article class="remedy">
+    <div class="remedy-num">01</div>
+    <span class="tag">Bouche</span>
+    <h3>L'aloe vera contre les aphtes</h3>
+    <p>L'aloe vera est une plante reconnue pour ses propriétés antibiotiques et analgésiques. Moins connue pour son action contre les aphtes, elle est pourtant redoutablement efficace.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Utilisez-la en bain de bouche, après avoir dilué sa pulpe dans un peu d'eau. Ce sera d'un grand réconfort si votre aphte vous fait souffrir.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Plusieurs fois par jour, en bain de bouche, jusqu'à amélioration.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">02</div>
+    <span class="tag">Peau</span>
+    <h3>L'argile contre les piqûres d'insectes</h3>
+    <p>Les bienfaits de l'argile verte n'ont plus à faire leurs preuves. Pour les piqûres d'insectes, la méthode du cataplasme est la plus appropriée.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Utilisez de l'argile verte en pâte (ou mélangez de la poudre avec de l'eau). Ajoutez une à deux gouttes d'huile essentielle de lavande, appliquez sur la piqûre, laissez sécher et rincez doucement.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Répéter dès que la démangeaison revient.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">03</div>
+    <span class="tag">Digestion</span>
+    <h3>La badiane contre les troubles digestifs</h3>
+    <p>Également appelée « anis étoilé » et reconnaissable à sa jolie forme de fleur séchée, la badiane est un excellent allié contre les problèmes de digestion.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Préparez une décoction à partir de quatre étoiles de badiane et d'une grande tasse d'eau. Faites bouillir quelques minutes, laissez infuser 10 minutes, puis buvez de préférence avant le coucher.</p>
+    <div class="warning">💡 Bon à savoir : la badiane peut également être utilisée contre les irritations des bronches.</div>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">04</div>
+    <span class="tag">Peau</span>
+    <h3>Le miel contre les brûlures</h3>
+    <p>Le miel est connu pour ses vertus apaisantes en cas d'irritations de la gorge. Son action apaisante contre les brûlures de la peau est moins connue, mais tout aussi efficace.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Sur de petites surfaces et sur une brûlure légère, appliquez le miel en masque et laissez reposer une quinzaine de minutes.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>À volonté, dès que la plaie vous fait de nouveau souffrir.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">05</div>
+    <span class="tag">Muscles</span>
+    <h3>La camomille contre les courbatures</h3>
+    <p>Reconnue pour son effet apaisant, la camomille est un excellent remède contre les courbatures. Sa vertu relaxante aura exactement le même effet sur vos muscles que sur votre esprit.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Réalisez une décoction de camomille romaine diluée dans un litre d'eau froide. Portez le tout à ébullition, versez la préparation refroidie dans un bon bain chaud.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Un bain le soir après un effort physique intense.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">06</div>
+    <span class="tag">Immunité</span>
+    <h3>La cannelle contre le rhume</h3>
+    <p>La cannelle a le pouvoir de rebooster votre système immunitaire. Tout au long de l'hiver, elle vous sera très utile pour combattre les nombreux rhumes.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Mélangez deux cuillères à café de miel, une pincée de cannelle et le jus d'un demi-citron dans 200 ml d'eau tiède. Mélangez, buvez, respirez !</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>1 à 2 fois par jour pendant la période de rhume.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">07</div>
+    <span class="tag">Énergie</span>
+    <h3>L'oignon contre la fatigue</h3>
+    <p>Très riche en vitamines, l'oignon est votre allié santé. Et pour l'utiliser contre la fatigue, il vous suffit de peu de choses.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Faites bouillir pendant 20 minutes un litre d'eau dans lequel vous aurez mis l'équivalent d'un oignon en tranches. Buvez cette préparation régulièrement pendant deux jours.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Pendant 2 jours, renouveler quand la fatigue revient.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">08</div>
+    <span class="tag">Respiration</span>
+    <h3>L'eucalyptus contre les bronchites</h3>
+    <p>L'eucalyptus est reconnu pour ses propriétés antivirales, anti-inflammatoires et antitussives. Les médicaments hivernaux sont régulièrement conçus à partir de cette plante.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Ajoutez trois gouttes d'huile essentielle d'eucalyptus dans un bol d'eau très chaude et respirez la vapeur pendant quelques minutes.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Plusieurs fois par jour, en période de bronchite.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">09</div>
+    <span class="tag">Digestion</span>
+    <h3>Les figues contre la constipation</h3>
+    <p>Contre la constipation, les bienfaits de la figue, riche en fibres et en magnésium, sont presque instantanés.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Faites tremper quatre ou cinq figues dans un peu d'eau avant d'aller vous coucher. Mangez-les dès le matin. Associez à quelques pruneaux pour un effet renforcé.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Le soir au coucher, pendant quelques jours.</p>
+  </article>
+
+  <article class="remedy">
+    <div class="remedy-num">10</div>
+    <span class="tag">Douleur</span>
+    <h3>La glace contre le mal de tête</h3>
+    <p>Il y a autant de migraines que de migraineux. La glace, chez les uns, provoque des maux de tête tandis qu'elle soulagera d'autres. La cryothérapie reste un remède simple à tenter.</p>
+    <div class="section-label"><span>🔬</span> Comment l'utiliser</div>
+    <p>Appliquez une poche de glace sur la zone de votre tête qui vous fait souffrir. Laissez agir et vos douleurs s'évaporeront.</p>
+    <div class="section-label"><span>⏱️</span> Posologie</div>
+    <p>Au besoin, pendant 15 à 20 minutes.</p>
+  </article>
+
+</div>
+
+<footer>
+  <p>WebHealth — Santé naturelle & bienveillante</p>
+  <p style="margin-top:8px"> Ces remèdes sont issus de traditions populaires et ne remplacent pas un avis médical. En cas de doute, consultez un professionnel de santé. 🌾</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth</p>
+</footer>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement;
+  var t=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('wh-theme',t)}catch(e){}
+}
+(function(){
+  try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}
+})();
+</script>
+</body>
+</html>
