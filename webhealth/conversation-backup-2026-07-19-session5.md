@@ -1,7 +1,7 @@
 # WebHealth — Session 5 Backup (2026-07-19)
 
 ## Summary
-Added category filtering system to WebHealth homepage: sidebar links now filter the 10 remedies by category (maladies, santé naturelle, nutrition) instead of only navigating to separate pages. Also refined hamburger spacing, switched primary font to Alexandria, and replaced Eastern Arabic numerals with Latin numerals in Arabic translations.
+Complete multilingual overhaul: added FR/AR i18n to all 5 category pages (famille, sante-mentale, actualites, guide-achat, ete), removed the category filter system, restored sidebar navigation for all 8 categories, refined language selector pills, switched primary font to Alexandria, and fixed Eastern Arabic numerals.
 
 ## Changes Made
 
@@ -10,80 +10,83 @@ Added category filtering system to WebHealth homepage: sidebar links now filter 
 - `body` font-family changed to `'Alexandria', sans-serif`
 - RTL body: `'Alexandria', 'Noto Sans Arabic', sans-serif`
 - DM Serif Display kept for headings/logo
-- Commit: `a276733`
+- Commits: `a276733`, `183e02a`
 
 ### 2. Eastern Arabic Numerals → Latin Numerals
 - All Arabic translation strings replaced: ٠→0, ١→1, ٢→2, etc.
 - Ensures numbers display in Western format even in Arabic mode
 - Commit: `77a2786`
 
-### 3. Hamburger Refinements
-- Line gap reduced: 6px → 4px (tighter appearance)
-- Line width: 24px → 22px
-- Added `margin-left: 12px` to separate from logo
-- Commit: `c621b73`
+### 3. Language Selector Pills Refined
+- min-height: 48px → 36px
+- min-width: 48px → auto
+- background: var(--bg2) → transparent
+- border-radius: 20px → 14px
+- padding reduced
+- font-weight: 600 → 500
+- Commit: `25aee75`
 
-### 4. Category Filter System (Major Feature)
-**Data attributes added to 10 remedy articles:**
-| # | Category | Tag |
-|---|----------|-----|
-| 01 | maladies | Bouche & muqueuses |
-| 02 | maladies | Dermatologie |
-| 03 | nutrition | Digestion |
-| 04 | maladies | Dermatologie |
-| 05 | maladies | Muscles & articulations |
-| 06 | sante-naturelle | Immunité & rhume |
-| 07 | sante-naturelle | Énergie & vitalité |
-| 08 | maladies | Voies respiratoires |
-| 09 | nutrition | Digestion & transit |
-| 10 | maladies | Douleur |
+### 4. Category Filter System → Removed
+- Added and then removed filter system for sidebar
+- Filter links (Tout afficher, Maladies, Santé naturelle, Nutrition) were blocking navigation
+- User confirmed: all 8 sidebar items should navigate to their pages
+- Commit: `25aee75`
 
-**Sidebar changes:**
-- "Tout afficher" button added at top (data-filter="all", active by default)
-- Maladies, Santé naturelle, Nutrition links converted to filter buttons
-- Famille, Santé mentale, Actualités, Guide d'achat, Été remain as page links
-- All filter links use `href="#remedes"` instead of external pages
+### 5. Full FR/AR i18n on All 5 Category Pages
+Each page now has:
+- Google Fonts import for Alexandria + Noto Sans Arabic
+- RTL CSS (body.rtl with sidebar, card borders reversed)
+- Language selector pills in nav (FR/AR)
+- data-i18n attributes on all text content
+- Full translation dictionary with natural Arabic
+- Language switching JS (localStorage persistence)
+- Theme toggle preserved
 
-**JavaScript:**
-- `applyFilter(cat)` function: shows/hides articles based on data-category
-- `.filter-hidden` class: opacity 0 + max-height 0 + overflow hidden
-- `.filter-active` class on sidebar links for visual feedback
-- Search respects current category filter (combined filtering)
-- Auto-scroll to hero section when filtering
-- Filter count display below search
+**Pages updated:**
+| Page | data-i18n count | Arabic content |
+|------|-----------------|----------------|
+| famille.html | 37 | 4 articles: Santé infantile, Grossesse, Aînés, Bien-être familial |
+| sante-mentale.html | 37 | 4 articles: Stress, Sommeil, Méditation, Burn-out |
+| actualites.html | 37 | 4 articles: Microbiote, Saisonnier, Sophrologie, Vitamine D |
+| guide-achat.html | 37 | 4 articles: Huiles essentielles, Tisanes, Cosmétiques, Pharmacie |
+| ete.html | 41 | 4 articles: Protection solaire, Hydratation, Anti-insectes, Alimentation |
+| Commit: `183e02a` |
 
-**CSS (css/style.css):**
-- `.sidebar a.filter-active` — green highlight
-- `.remedy.filter-hidden` — smooth collapse animation
-- `.filter-count` — centered count text below search
+### 6. Sidebar Navigation Restored
+- All 8 sidebar items navigate to their respective HTML pages
+- "Tout afficher" filter button removed
+- Filter JS code removed entirely
+- Filter CSS classes removed from style.css
+- Search function simplified (no filter integration)
+- Commit: `25aee75`
 
-**i18n translations added:**
-- `sidebar.all`: "Tout afficher" / "Show all" / "Mostrar todo" / "عرض الكل"
-- Commit: `c621b73`
-
-## Commit History (this session)
+## Commit History (Latest → Oldest)
 ```
-c621b73 feat(webhealth): add category filter system
+183e02a feat(webhealth): add Arabic i18n to all 5 category pages
+25aee75 feat: restore sidebar navigation for all 8 categories, remove filter, refine lang pills
+c621b73 feat(webhealth): add category filter system (REMOVED)
 a276733 feat(webhealth): switch primary font to Alexandria
 77a2786 fix(webhealth): replace Eastern Arabic numerals with Latin
-afbbfac feat(webhealth): add i18n multilingual support
+afbbfac feat(webhealth): add i18n multilingual support (FR/EN/ES/AR)
+b913ec5 docs(webhealth): add complete conversation backup
 ```
 
-## Test Results (8/8 PASS)
-1. ✅ data-category on all 10 articles
-2. ✅ Sidebar filter links with data-filter
-3. ✅ "Tout afficher" button exists (data-filter="all")
-4. ✅ applyFilter() JS function with click listeners
-5. ✅ .filter-hidden and .filter-active CSS classes defined
-6. ✅ sidebar.all translation in FR/EN/ES/AR
-7. ✅ filterCount div exists
-8. ✅ No broken href references
-
-## Deployed URLs
-- GitHub Pages: https://ucfzem.github.io/webhealth/
-- GitHub Repo: https://github.com/ucfzem/ucfzem.github.io
+## All WebHealth URLs
+- **Home**: https://ucfzem.github.io/webhealth/
+- **Maladies**: https://ucfzem.github.io/webhealth/maladies.html
+- **Santé naturelle**: https://ucfzem.github.io/webhealth/sante-naturelle.html
+- **Nutrition**: https://ucfzem.github.io/webhealth/nutrition.html
+- **Famille**: https://ucfzem.github.io/webhealth/famille.html
+- **Santé mentale**: https://ucfzem.github.io/webhealth/sante-mentale.html
+- **Actualités**: https://ucfzem.github.io/webhealth/actualites.html
+- **Guide d'achat**: https://ucfzem.github.io/webhealth/guide-achat.html
+- **Été**: https://ucfzem.github.io/webhealth/ete.html
+- **GitHub Repo**: https://github.com/ucfzem/ucfzem.github.io
 
 ## Technical Notes
-- localStorage keys: wh-theme (dark/light), wh-lang (fr/en/es/ar)
+- localStorage keys: wh-theme (dark/light), wh-lang (fr/en/es/ar for index, fr/ar for category pages)
 - Primary font: Alexandria (Google Fonts)
+- Arabic font: Noto Sans Arabic
 - Accent color: #2d8a4e (light) / #4ec97a (dark)
+- Category pages: FR/AR only (simpler nav)
+- Index page: FR/EN/ES/AR (full multilingual)
