@@ -33,6 +33,7 @@
   --step-bg:#1a2e20;
 }
 body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl [data-i18n]{unicode-bidi:plaintext}
 body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
 body.rtl .sidebar.open{right:0}
 body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
@@ -172,88 +173,8 @@ footer p{margin-bottom:8px}
   <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
+<script src="js/i18n.js"></script>
 <script>
-const translations={
-fr:{
-"nav.remedes":"Remèdes","nav.apropos":"À propos",
-"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
-"famille.hero.badge":"👨‍👩‍👧‍👦 Santé de tous les âges","famille.hero.title":"La famille<br>et la santé","famille.hero.desc":"Des conseils adaptés à chaque membre de la famille : les tout-petits, les futures mamans, les adolescents et les aînés. Prenez soin des vôtres avec bienveillance.",
-"famille.card.1.tag":"Santé infantile","famille.card.1.title":"Les remèdes doux pour les enfants : ce qui fonctionne vraiment","famille.card.1.desc.1":"La santé des enfants est une préoccupation permanente pour les parents, et il est tentant de recourir rapidement aux médicaments. Pourtant, de nombreuses affections courantes de l'enfant répondent très bien à des remèdes naturels adaptés, toujours en complément et jamais en remplacement d'un avis médical quand celui-ci est nécessaire.","famille.card.1.desc.2":"Le miel est un excellent antitussif naturel pour les enfants de plus d'un an — attention, il est formellement interdit avant cet âge en raison du risque de botulisme. Un mélange de miel avec du jus de citron chaud aide à calmer la toux sèche et à apaiser les irritations de la gorge. Les inhalations d'eucalyptus dans la salle de bain, en y laissant couler une eau très chaude pendant quelques minutes, dégagent les voies nasales sans nécessiter de produit chimique.",
-"famille.card.2.tag":"Grossesse","famille.card.2.title":"Grossesse et bien-être : les gestes naturels du futur","famille.card.2.desc.1":"La grossesse est une période de grands changements physiologiques où le corps de la femme a des besoins spécifiques en nutriments et en soins. Les approches naturelles, lorsqu'elles sont utilisées avec discernement et en accord avec le médecin, peuvent considérablement améliorer le confort au quotidien pendant ces neuf mois.","famille.card.2.desc.2":"Les nausées du premier trimestre peuvent être soulagées efficacement par la gingembre frais. Un petit morceau de gingembre mâché avant de se lever le matin, ou une infusion de gingembre avec du citron, atténue les sensations de malaise sans risque pour le bébé. Les huiles essentielles de citron et de menthe poivrée en diffusion dans la chambre procurent également un soulagement appréciable lors des crises de nausée.",
-"famille.card.3.tag":"Aînés","famille.card.3.title":"Santé des aînés : préserver l'autonomie avec des solutions naturelles","famille.card.3.desc.1":"Le vieillissement s'accompagne de changements physiologiques qui nécessitent une attention particulière : diminution de la densité osseuse, ralentissement digestif, problèmes articulaires et troubles cognitifs. Les remèdes naturels, utilisés en complément des traitements médicaux, contribuent à préserver la qualité de vie et l'autonomie des personnes âgées.","famille.card.3.desc.2":"L'arthrose, affection dégénérative très répandue chez les seniors, bénéficie de l'action anti-inflammatoire du curcuma et du gingembre. Une cure quotidienne de curcuma associé à du poivre noir, en gélules ou dans les aliments, réduit significativement la douleur et améliore la mobilité articulaire. L'huile de poisson, riche en oméga-3, complète cette action en diminuant l'inflammation chronique des articulations de manière mesurable.",
-"famille.card.4.tag":"Bien-être familial","famille.card.4.title":"Créer une routine santé en famille : des rituels qui rassemblent","famille.card.4.desc.1":"Les bonnes habitudes de santé s'installent en famille et se transmettent par l'exemple. Créer des rituels partagés de bien-être renforce les liens familiaux tout en instaurant un mode de vie sain de manière naturelle et ludique. L'enjeu est de transformer les gestes de santé en moments de convivialité plutôt qu'en contraintes.","famille.card.4.desc.2":"Le petit-déjeuner partagé est le rituel fondamental. Préparez ensemble des smoothies colorés avec des fruits de saison, des flocons d'avoine et des graines de chia. Impliquer les enfants dans la préparation éveille leur curiosité pour les aliments sains et développe leur autonomie culinaire. Les dimanches de cuisson en famille, avec des conserves maison, des pains de légumes et des compotes, créent des souvenirs tout en préparant des repas nutritifs pour la semaine.",
-"footer.line1":"Santé naturelle & bienveillante","footer.line2":"⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.","footer.line3":"© 2026 WebHealth — Conception originale",
-"page.title":"Famille — WebHealth","page.description":"Santé des enfants, conseils de grossesse, accompagnement des aînés et bien-être familial. Guides pratiques pour prendre soin de toute la famille."
-},
-ar:{
-"nav.remedes":"العلاجات","nav.apropos":"حول",
-"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"موسم",
-"famille.hero.badge":"👨‍👩‍👧‍👦 صحة لجميع الأعمار","famille.hero.title":"الأسرة<br>والصحة","famille.hero.desc":"نصائح مكيفة لكل فرد من أفراد الأسرة: الصغار، الأمهات الحوامل، المراهقين والمسنين. اعتني بأحبائك بلطف.",
-"famille.card.1.tag":"صحة الأطفال","famille.card.1.title":"العلاجات اللطيفة للأطفال: ما ينجح حقاً","famille.card.1.desc.1":"صحة الأطفال هي شاغل دائم للآباء، ومن المغري اللجوء بسرعة إلى الأدوية. لكن العديد من الأمراض الشائعة لدى الأطفال تستجيب جيداً للعلاجات الطبيعية المناسبة، دائماً كمكمل وليس كبديل عن الاستشارة الطبية عند الحاجة.","famille.card.1.desc.2":"العسل هو مضاد طبيعي ممتاز للسعال للأطفال فوق سن السنة — يحظر تماماً قبل هذا العمر بسبب خطر التسمم السجقي. يساعد خليط العسل مع عصير الليمون الدافئ في تهدئة السعال الجاف وتخفيف تهيج الحلق. كما أن استنشاق الأوكالبتوس في الحمام، بترك الماء الساخن جداً يتدفق لبضع دقائق، يفتح الممرات الأنفية دون الحاجة إلى منتجات كيميائية.",
-"famille.card.2.tag":"الحمل","famille.card.2.title":"الحمل والرفاهية: اللمسات الطبيعية للمستقبل","famille.card.2.desc.1":"الحمل هو فترة تغييرات فسيولوجية كبيرة حيث يحتاج جسم المرأة إلى عناصر غذائية ورعاية محددة. يمكن للأساليب الطبيعية، عند استخدامها بحكمة وبالتنسيق مع الطبيب، أن تحسن الراحة اليومية بشكل كبير خلال هذه الأشهر التسعة.","famille.card.2.desc.2":"يمكن تخفيف غثيان الثلث الأول من الحمل بشكل فعال بالزنجبيل الطازج. قطعة صغيرة من الزنجبيل تمضغ قبل النهوض من السرير صباحاً، أو منقوع الزنجبيل مع الليمون، يخفف الشعور بالغثيان دون خطر على الجنين. كما أن زيوت الليمون والنعناع الأساسية في غرفة النوم توفر راحة ملحوظة أثناء نوبات الغثيان.",
-"famille.card.3.tag":"المسنين","famille.card.3.title":"صحة المسنين: الحفاظ على الاستقلالية بحلول طبيعية","famille.card.3.desc.1":"تصاحب الشيخوخة تغييرات فسيولوجية تتطلب عناية خاصة: انخفاض كثافة العظام، بطء الهضم، مشاكل المفاصل والاضطرابات المعرفية. العلاجات الطبيعية، المستخدمة كمكمل للعلاجات الطبية، تساهم في الحفاظ على جودة الحياة واستقلالية كبار السن.","famille.card.3.desc.2":"يستفيد التهاب المفاصل التنكسي، المنتشر جداً بين كبار السن، من التأثير المضاد للالتهابات للكركم والزنجبيل. جرعة يومية من الكركم مع الفلفل الأسود، في كبسولات أو في الطعام، تقلل الألم بشكل كبير وتحسن حركة المفاصل. زيت السمك الغني بأوميغا 3 يكمل هذا التأثير بتقليل الالتهاب المزمن في المفاصل.",
-"famille.card.4.tag":"الرفاهية الأسرية","famille.card.4.title":"إنشاء روتين صحي عائلي: طقوس توحد الأحباء","famille.card.4.desc.1":"العادات الصحية الجيدة تُغرس في الأسرة وتنتقل بالقدوة. إنشاء طقوس مشتركة للرفاهية يعزز الروابط الأسرية ويؤسس لنمط حياة صحي بطريقة طبيعية وممتعة. الهدف هو تحويل الإيماءات الصحية إلى لحظات من الألفة بدلاً من الإكراه.","famille.card.4.desc.2":"وجبة الإفطار المشتركة هي الطقس الأساسي. حضروا معاً عصائر ملونة بالفواكه الموسمية والشوفان وبذور الشيا. إشراك الأطفال في التحضير ينمي فضولهم تجاه الأطعمة الصحية ويطور استقلاليتهم في الطهي. أيام الأحد للطهي العائلي، مع المعلبات المنزلية وخبز الخضار والكومبوت، تخلق ذكريات أثناء تحضير وجبات مغذية للأسبوع.",
-"footer.line1":"صحة طبيعية وراعية","footer.line2":"⚠️ هذه المعلومات مقدمة لأغراض إرشادية فقط ولا تحل محل النصيحة الطبية المهنية. في حالة الشك، أو أعراض مستمرة أو متزايدة، استشر طبيباً أو صيدلانياً.","footer.line3":"© 2026 WebHealth — تصميم أصلي",
-"page.title":"الأسرة — WebHealth","page.description":"صحة الأطفال، نصائح الحمل، رعاية المسنين والرفاهية الأسرية. أدلة عملية للعناية بجميع أفراد الأسرة."
-}
-};
-let currentLang='fr';
-function t(key){
-  var lang=translations[currentLang];
-  if(!lang)return key;
-  var val=lang[key];
-  if(typeof val==='function')return val;
-  return val||key;
-}
-function setLanguage(lang){
-  currentLang=lang;
-  var html=document.documentElement;
-  var body=document.body;
-  if(lang==='ar'){
-    html.setAttribute('lang','ar');
-    html.setAttribute('dir','rtl');
-    body.classList.add('rtl');
-  }else{
-    html.setAttribute('lang','fr');
-    html.setAttribute('dir','ltr');
-    body.classList.remove('rtl');
-  }
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var key=el.getAttribute('data-i18n');
-    var val=t(key);
-    if(typeof val==='string'){
-      if(val.indexOf('<br>')>-1||val.indexOf('>')>-1){
-        el.innerHTML=val;
-      }else{
-        el.textContent=val;
-      }
-    }
-  });
-  document.querySelectorAll('.lang-pill').forEach(function(p){
-    p.classList.toggle('active',p.getAttribute('data-lang')===lang);
-  });
-  if(t('page.title'))document.title=t('page.title');
-  if(t('page.description')){
-    var meta=document.querySelector('meta[name="description"]');
-    if(meta)meta.setAttribute('content',t('page.description'));
-  }
-  try{localStorage.setItem('wh-lang',lang)}catch(e){}
-}
-document.querySelectorAll('.lang-pill').forEach(function(pill){
-  pill.addEventListener('click',function(){
-    setLanguage(this.getAttribute('data-lang'));
-  });
-});
-(function(){
-  try{
-    var saved=localStorage.getItem('wh-lang');
-    if(saved&&translations[saved]){
-      setLanguage(saved);
-    }else{
-      setLanguage('fr');
-    }
-  }catch(e){setLanguage('fr');}
-})();
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
 const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});

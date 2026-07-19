@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nutrition — WebHealth</title>
-<meta name="description" content="Nutrition, superaliments, hydratation et lien alimentation-santé. Conseils pratiques pour une alimentation équilibrée et des bienfaits durables.">
+<title data-i18n="nutrition.page.title">Nutrition — WebHealth</title>
+<meta data-i18n="nutrition.page.description" name="description" content="Alimentation équilibrée, superaliments, hydratation et nutrithérapie. Conseils pratiques pour une alimentation saine et des bienfaits durables.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -32,8 +32,13 @@
   --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
   --step-bg:#1a2e20;
 }
+body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl [data-i18n]{unicode-bidi:plaintext}
+body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
+body.rtl .sidebar.open{right:0}
+body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
 [data-theme="dark"] nav{background:rgba(13,26,18,.85)}
@@ -44,6 +49,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .nav-links a:hover{color:var(--accent);text-decoration:none}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+.lang-selector{display:flex;gap:4px;align-items:center}
+.lang-pill{display:flex;align-items:center;gap:3px;padding:.25rem .5rem;border-radius:14px;border:1px solid var(--card-border);background:transparent;cursor:pointer;font-size:.7rem;font-weight:500;min-height:36px;justify-content:center;transition:all .2s;color:var(--text3);white-space:nowrap}
+.lang-pill:hover{border-color:var(--accent);color:var(--accent)}
+.lang-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .hamburger{background:none;border:none;cursor:pointer;padding:8px;z-index:110}
 .hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
@@ -90,75 +99,80 @@ footer p{margin-bottom:8px}
   </button>
   <a href="index.html" class="nav-logo"><span>🌿</span> WebHealth</a>
   <div class="nav-links">
-    <a href="index.html#remedes">Remèdes</a>
-    <a href="index.html#apropos">À propos</a>
+    <a href="index.html#remedes" data-i18n="nav.remedes">Remèdes</a>
+    <a href="index.html#apropos" data-i18n="nav.apropos">À propos</a>
+    <div class="lang-selector">
+      <button class="lang-pill active" data-lang="fr" aria-label="Français">🇫🇷 FR</button>
+      <button class="lang-pill" data-lang="ar" aria-label="العربية">🇲🇦 AR</button>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
   </div>
 </nav>
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="sidebar">
-  <h3>Explorer</h3>
+  <h3 data-i18n="sidebar.explore">Explorer</h3>
   <ul>
-    <li><a href="maladies.html">Maladies</a></li>
-    <li><a href="sante-naturelle.html">Santé naturelle</a></li>
-    <li><a href="nutrition.html">Nutrition</a></li>
-    <li><a href="famille.html">Famille</a></li>
-    <li><a href="sante-mentale.html">Santé mentale</a></li>
-    <li><a href="actualites.html">Actualités</a></li>
-    <li><a href="guide-achat.html">Guide d'achat</a></li>
-    <li><a href="ete.html">Été <span class="season-tag">Saison</span></a></li>
+    <li><a href="maladies.html" data-i18n="sidebar.maladies">Maladies</a></li>
+    <li><a href="sante-naturelle.html" data-i18n="sidebar.sante">Santé naturelle</a></li>
+    <li><a href="nutrition.html" data-i18n="sidebar.nutrition">Nutrition</a></li>
+    <li><a href="famille.html" data-i18n="sidebar.famille">Famille</a></li>
+    <li><a href="sante-mentale.html" data-i18n="sidebar.mentale">Santé mentale</a></li>
+    <li><a href="actualites.html" data-i18n="sidebar.actu">Actualités</a></li>
+    <li><a href="guide-achat.html" data-i18n="sidebar.guide">Guide d'achat</a></li>
+    <li><a href="ete.html" data-i18n="sidebar.ete">Été <span class="season-tag" data-i18n="sidebar.saison">Saison</span></a></li>
   </ul>
 </aside>
 
 <section class="hero">
-  <div class="hero-badge">🍎 Manger mieux pour vivre mieux</div>
-  <h1>Nutrition &amp;<br>alimentation saine</h1>
-  <p>Aliments fonctionnels, superaliments, hydratation et lien entre assiette et santé. Découvrez comment chaque repas peut devenir un acte de prévention.</p>
+  <div class="hero-badge" data-i18n="nutrition.hero.badge">🍎 Manger mieux pour vivre mieux</div>
+  <h1 data-i18n="nutrition.hero.title">Nutrition &amp;<br>alimentation saine</h1>
+  <p data-i18n="nutrition.hero.desc">Aliments fonctionnels, superaliments, hydratation et lien entre assiette et santé. Découvrez comment chaque repas peut devenir un acte de prévention.</p>
 </section>
 
 <div class="category-cards">
 
   <article class="category-card">
-    <span class="tag">Assiette équilibrée</span>
-    <h3>L'assiette de la santé : les bases d'une alimentation équilibrée</h3>
-    <p>Une alimentation équilibrée ne consiste pas à supprimer des catégories d'aliments, mais à les combiner en proportions adaptées aux besoins de l'organisme. L'assiette idéale se compose de la moitié de légumes et fruits colorés, d'un quart de glucides complexes et d'un quart de protéines de qualité, complétée par des bonnes graisses végétales.</p>
-    <p>Les légumes colorés sont les piliers de cette assiette car leur diversité de pigments reflète une variété de phytonutriments essentiels. Les caroténoïdes des tomates cuites et des carottes, les anthocyanes des aubergines et des baies, la chlorophylle des épinards et le soufre du brocoli constituent un véritable arsenal antioxydant. Consommez- crus cuits selon leur saison pour maximiser l'absorption de ces micronutriments.</p>
-    <p>Les oméga-3, présents dans les poissons gras, les noix et les graines de lin, jouent un rôle fondamental dans la réduction de l'inflammation systémique et le bon fonctionnement cérébral. Un repas enrichi en huile de colza pressée à froid couvre les besoins quotidiens en acides gras essentiels. Complétez avec des aliments fermentés comme le kéfir, le choucroute ou le kimchi qui nourrissent le microbiote intestinal, véritable deuxième cerveau de l'organisme.</p>
+    <span class="tag" data-i18n="nutrition.card.1.tag">Assiette équilibrée</span>
+    <h3 data-i18n="nutrition.card.1.title">L'assiette de la santé : les bases d'une alimentation équilibrée</h3>
+    <p data-i18n="nutrition.card.1.desc.1">Une alimentation équilibrée ne consiste pas à supprimer des catégories d'aliments, mais à les combiner en proportions adaptées aux besoins de l'organisme. L'assiette idéale se compose de la moitié de légumes et fruits colorés, d'un quart de glucides complexes et d'un quart de protéines de qualité.</p>
+    <p data-i18n="nutrition.card.1.desc.2">Les légumes colorés sont les piliers de cette assiette car leur diversité de pigments reflète une variété de phytonutriments essentiels. Les caroténoïdes des tomates cuites et des carottes, les anthocyanes des aubergines et des baies, la chlorophylle des épinards constituent un véritable arsenal antioxydant.</p>
+    <p data-i18n="nutrition.card.1.desc.3">Les oméga-3, présents dans les poissons gras, les noix et les graines de lin, jouent un rôle fondamental dans la réduction de l'inflammation systémique et le bon fonctionnement cérébral.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Superaliments</span>
-    <h3>Les superaliments à intégrer dans votre quotidien</h3>
-    <p>Le terme superaliment désigne des aliments particulièrement riches en nutriments et en composés bioactifs qui dépassent les valeurs nutritionnelles moyennes. Bien qu'il ne s'agisse pas d'un terme scientifique officiel, il met en lumière des denrées aux bienfaits santé documentés qui méritent une place de choix dans l'alimentation moderne.</p>
-    <p>Le curcuma, épice dorée issue de la racine de Curcuma longa, contient la curcumine, un puissant anti-inflammatoire qui rivalise avec certains médicaments de synthèse sans leurs effets secondaires. Pour maximiser son absorption, associez-le toujours à une pointe de poivre noir dont la pipérine multiplie sa biodisponibilité par près de deux mille. Incorporez-le dans vos plats cuisinés, vos soupes ou préparez un lait doré réchauffant.</p>
-    <p>Les graines de chia, ces petites graines de la plante Salvia hispanica, sont un concentré exceptionnel d'oméga-3, de fibres et de protéines végétales. Une cuillère à soupe dans votre smoothie matinal, votre yaourt ou vos flocons d'avoine transforme un petit-déjeuner ordinaire en un repas ultra-nutritif. Le cacao cru, quant à lui, est riche en magnésium et en flavonoïdes qui soutiennent la santé cardiovasculaire tout en apportant un plaisir chocolaté sans excès de sucre.</p>
+    <span class="tag" data-i18n="nutrition.card.2.tag">Superaliments</span>
+    <h3 data-i18n="nutrition.card.2.title">Les superaliments à intégrer dans votre quotidien</h3>
+    <p data-i18n="nutrition.card.2.desc.1">Le terme superaliment désigne des aliments particulièrement riches en nutriments et en composés bioactifs qui dépassent les valeurs nutritionnelles moyennes.</p>
+    <p data-i18n="nutrition.card.2.desc.2">Le curcuma, épice dorée issue de la racine de Curcuma longa, contient la curcumine, un puissant anti-inflammatoire. Pour maximiser son absorption, associez-le toujours à une pointe de poivre noir dont la pipérine multiplie sa biodisponibilité par près de deux mille.</p>
+    <p data-i18n="nutrition.card.2.desc.3">Les graines de chia, ces petites graines de la plante Salvia hispanica, sont un concentré exceptionnel d'oméga-3, de fibres et de protéines végétales.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Hydratation</span>
-    <h3>L'hydratation : bien plus que boire de l'eau</h3>
-    <p>L'hydratation est souvent réduite à la simple consommation d'eau, mais elle est en réalité un processus complexe impliquant l'absorption, le transport et la rétention des fluides par les cellules. Un organisme correctement hydraté fonctionne de manière optimale : meilleure concentration, digestion facilitée, élimination des toxines et élasticité cutanée préservée.</p>
-    <p>L'eau de coco est l'une des boissons naturelles les plus complètes pour réhydrater l'organisme. Riche en potassium, magnésium et en electrolytes naturels, elle restitue les minéraux perdus lors de la transpiration bien plus efficacement que l'eau plate seule. Après un effort physique intense ou lors des fortes chaleurs, elle constitue une alternative saine et savoureuse aux boissons sportives industrielles chargées en sucres.</p>
-    <p>Pour maintenir une hydratation optimale tout au long de la journée, intégrez les aliments riches en eau dans votre alimentation. La pastèque, composée à 92 % d'eau, est un hydratant naturel parfait pour l'été. Le concombre, la courgette et la tomate apportent également une contribution hydrique significative. Le secret est de boire régulièrement par petites gorgées plutôt que de grandes quantités ponctuellement, pour une absorption cellulaire progressive et efficace.</p>
+    <span class="tag" data-i18n="nutrition.card.3.tag">Hydratation</span>
+    <h3 data-i18n="nutrition.card.3.title">L'hydratation : bien plus que boire de l'eau</h3>
+    <p data-i18n="nutrition.card.3.desc.1">L'hydratation est souvent réduite à la simple consommation d'eau, mais elle est en réalité un processus complexe impliquant l'absorption, le transport et la rétention des fluides par les cellules.</p>
+    <p data-i18n="nutrition.card.3.desc.2">L'eau de coco est l'une des boissons naturelles les plus complètes pour réhydrater l'organisme. Riche en potassium, magnésium et en électrolytes naturels, elle restitue les minéraux perdus lors de la transpiration bien plus efficacement que l'eau plate seule.</p>
+    <p data-i18n="nutrition.card.3.desc.3">Pour maintenir une hydratation optimale, intégrez les aliments riches en eau dans votre alimentation. La pastèque, composée à 92 % d'eau, est un hydratant naturel parfait pour l'été.</p>
   </article>
 
   <article class="category-card">
-    <span class="tag">Alimentation-médecine</span>
-    <h3>Quand l'alimentation devient médecine : les principes de la nutrithérapie</h3>
-    <p>La nutrithérapie est la discipline qui étudie l'influence de l'alimentation sur la prévention et le traitement de certaines maladies. Elle part du principe que chaque aliment contient des molécules capables d'influencer positivement ou négativement les mécanismes biologiques de l'organisme. Cette approche ne remplace pas la médecine conventionnelle mais la complète de manière complémentaire.</p>
-    <p>Le lien entre le microbiote intestinal et la santé globale est aujourd'hui l'un des domaines de recherche les plus prometteurs. Les fibres prébiotiques présentes dans l'ail, l'oignon, les poireaux et les bananes nourrissent les bactéries bénéfiques du côlon. En retour, ces micro-organismes produisent des acides gras à chaîne courte qui renforcent la barrière intestinale, modulent le système immunitaire et influencent même l'humeur via l'axe intestin-cerveau.</p>
-    <p>Les oméga-3, les antioxydants et le magnésium forment le trio gagnant pour prévenir les maladies chroniques. Les myrtilles, les framboises et les grenade concentrent une quantité remarquable de polyphénols antioxydants qui luttent contre le stress oxydatif responsable du vieillissement cellulaire accéléré. Une poignée de noix et d'amandes par jour, en remplacement de snacks industriels, constitue un geste simple aux effets mesurables sur la réduction du risque cardiovasculaire.</p>
+    <span class="tag" data-i18n="nutrition.card.4.tag">Alimentation-médecine</span>
+    <h3 data-i18n="nutrition.card.4.title">Quand l'alimentation devient médecine : les principes de la nutrithérapie</h3>
+    <p data-i18n="nutrition.card.4.desc.1">La nutrithérapie est la discipline qui étudie l'influence de l'alimentation sur la prévention et le traitement de certaines maladies.</p>
+    <p data-i18n="nutrition.card.4.desc.2">Le lien entre le microbiote intestinal et la santé globale est aujourd'hui l'un des domaines de recherche les plus prometteurs. Les fibres prébiotiques présentes dans l'ail, l'oignon, les poireaux et les bananes nourrissent les bactéries bénéfiques du côlon.</p>
+    <p data-i18n="nutrition.card.4.desc.3">Les oméga-3, les antioxydants et le magnésium forment le trio gagnant pour prévenir les maladies chroniques. Une poignée de noix et d'amandes par jour constitue un geste simple aux effets mesurables sur la réduction du risque cardiovasculaire.</p>
   </article>
 
 </div>
 
 <footer>
-  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
-  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
-  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
+  <p><strong>WebHealth</strong> — <span data-i18n="footer.line1">Santé naturelle & bienveillante</span></p>
+  <p data-i18n="footer.line2">⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
+<script src="js/i18n.js"></script>
 <script>
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();

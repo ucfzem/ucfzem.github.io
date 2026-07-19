@@ -33,6 +33,7 @@
   --step-bg:#1a2e20;
 }
 body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl [data-i18n]{unicode-bidi:plaintext}
 body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
 body.rtl .sidebar.open{right:0}
 body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
@@ -172,88 +173,8 @@ footer p{margin-bottom:8px}
   <p style="margin-top:12px;font-size:.75rem;opacity:.6" data-i18n="footer.line3">© 2026 WebHealth — Conception originale</p>
 </footer>
 
+<script src="js/i18n.js"></script>
 <script>
-const translations={
-fr:{
-"nav.remedes":"Remèdes","nav.apropos":"À propos",
-"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
-"ete.hero.badge":"☀️ Profitez de l'été en toute sérénité","ete.hero.title":"Santé estivale<br>complète","ete.hero.desc":"Soleil, chaleur, voyages et pique-niques : l'été est la saison la plus appréciée mais aussi celle qui expose à des risques spécifiques. Protégez-vous et profitez pleinement.",
-"ete.card.1.tag":"Protection solaire","ete.card.1.title":"Protection solaire naturelle : se protéger sans produits chimiques","ete.card.1.desc.1":"Les crèmes solaires contiennent souvent des filtres chimiques comme l'oxybenzène ou l'octocrylène qui sont soupçonnés de perturber le système endocrinien et d'irriter les récifs coralliens. La alternative naturelle consiste à utiliser des crèmes à base de filtres minéraux — le dioxyde de titane et l'oxyde de zinc — qui forment une barrière physique réfléchissant les rayons UV sans pénétrer dans la peau ni dans la circulation sanguine.","ete.card.1.desc.2":"L'huile de coco, riche en acide laurique, offre une protection solaire naturelle partielle avec un FPS estimé entre 4 et 8. Bien qu'insuffisant pour une exposition prolongée, elle constitue un excellent hydratant pré-solaire qui prépare la peau et prévient la dessiccation. L'huile de carotte, riche en bêtacarotène, prépare progressivement la peau à l'exposition en stimulant la production de mélanine protectrice et en donnant un teint hâlé naturellement sans brûlure.","ete.card.1.desc.3":"La protection solaire commence par l'habillement et le comportement : portez un chapeau à larges bords, des lunettes de soleil certifiées et privilégiez les vêtements en lin ou coton léger qui protègent naturellement la peau. Évitez le soleil entre 12h et 16h, période à laquelle les UV sont les plus intenses. Après l'exposition, appliquez de l'aloe vera fraîche pour calmer les rougeurs et favoriser la réparation cutanée de manière naturelle.",
-"ete.card.2.tag":"Hydratation","ete.card.2.title":"Hydratation estivale : au-delà de l'eau pour rester en forme","ete.card.2.desc.1":"En été, la transpiration accrue entraîne une perte de minéraux essentiels que l'eau plate seule ne suffit pas à compenser. Le potassium, le magnésium, le sodium et le calcium sont éliminés en grande quantité lors des fortes chaleurs, provoquant fatigue, crampes, vertiges et maux de tête. L'hydratation estivale doit être pensée de manière globale pour maintenir l'équilibre électrolytique de l'organisme.","ete.card.2.desc.2":"L'eau de coco, déjà mentionnée, reste la boisson réhydratante naturelle de choix grâce à sa composition quasi identique au plasma sanguin. En complément, préparez une eau pétillante maison avec des fruits de saison : tranches de pastèque, framboises, feuilles de menthe et une pointe de sel rose. Cette boisson rafraîchissante apporte des minéraux, des antioxydants et un goût agréable qui encourage à boire davantage.","ete.card.2.desc.3":"Les aliments riches en eau doivent représenter une part importante de l'alimentation estivale. La pastèque composée à 92 % d'eau, le melon à 90 %, la tomate à 94 % et le concombre à 96 % sont de véritables réservoirs hydriques à consommer en quantité. Les glaces aux fruits faits maison avec des baies mixées et du yaourt grec constituent une collation fraîche et nutritive qui hydrate autant qu'elle nourrit, idéale pour les après-midi de forte chaleur.",
-"ete.card.3.tag":"Anti-insectes","ete.card.3.title":"Éloigner les moustiques naturellement : les alternatives sans DEET","ete.card.3.desc.1":"Le DEET, insectifuge chimique de référence, est efficace mais controversé en raison de ses effets potentiels sur le système nerveux et son impact environnemental. Les alternatives naturelles, lorsqu'elles sont utilisées de manière stratégique, offrent une protection significative contre les piqûres de moustiques, taons et autres insectes piqueurs sans les inconvénients des produits chimiques de synthèse.","ete.card.3.desc.2":"L'huile essentielle de citronnelle de Java est la plus efficace des répulsives naturelles. Son effet protecteur dure environ deux heures et doit être renouvelée régulièrement. Pour une efficacité optimale, diluez quinze gouttes dans trente millilitres d'huile végétale de noisette ou de coco et appliquez sur les zones exposées. L'huile essentielle de géranium rosat, à mélanger avec celle de citronnelle, prolonge l'effet répulsif de manière notable grâce à la synergie de leurs composés actifs.","ete.card.3.desc.3":"Pour une protection prolongée en extérieur, brûlez de la sauge séchée ou du romarin frais dans un porte-incendie à côté de votre chaise de jardin. Les fumées aromatiques créent un nuage répulsif naturel autour de la zone de détente. À l'intérieur, une diffusion d'huiles essentielles de citron, eucalyptus et lavande pendant la soirée éloigne efficacement les insectes tout en parfumant agréablement l'espace de vie.",
-"ete.card.4.tag":"Sécurité alimentaire","ete.card.4.title":"Sécurité alimentaire estivale : pique-niques et voyages sans risque","ete.card.4.desc.1":"La chaleur estivale est le terrain idéal pour la multiplication des bactéries alimentaires. La salmonelle, le staphylococcus aureus et la listeria se développent exponentiellement entre 10°C et 60°C, zone que les professionnels appellent la « zone de danger ». Respecter quelques règles simples de chaîne du froid et de conservation permet de profiter des repas en plein air sans risque d'intoxication alimentaire.","ete.card.4.desc.2":"La règle des deux heures est fondamentale : tout aliment sorti du réfrigérateur ne doit jamais dépasser deux heures à température ambiante. En cas de chaleur extrême — supérieure à 32°C — cette durée est réduite à une heure. Utilisez une glacière avec des packs de glace pour maintenir les aliments à moins de 4°C. Préparez des plats pouvant être consommés froids : salades composées, taboulés, wraps, tartes salées — tous favorables à une consommation sûre et savoureuse.","ete.card.4.desc.3":"Les fruits de mer et les produits laitiers sont les aliments les plus sensibles à la chaleur. En cas de doute sur la fraîcheur, ne consommez jamais ces aliments. Les restes de pique-nique doivent être placés en glacière dès la fin du repas et réfrigérés dès le retour à la maison. Le vinaigre de cidre, utilisé en spray dilué sur les plans de travail et les ustensiles, possède des propriétés désinfectantes naturelles qui complètent les mesures d'hygiène alimentaire estivale de manière efficace.",
-"footer.line1":"Santé naturelle & bienveillante","footer.line2":"⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.","footer.line3":"© 2026 WebHealth — Conception originale",
-"page.title":"Été — WebHealth","page.description":"Santé estivale complète : protection solaire, hydratation, anti-moustiques, sécurité alimentaire et bien-être en voyage. Tous les conseils pour un été serein."
-},
-ar:{
-"nav.remedes":"العلاجات","nav.apropos":"حول",
-"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"موسم",
-"ete.hero.badge":"☀️ استمتع بالصيف براحة بال","ete.hero.title":"صحة صيفية<br>شاملة","ete.hero.desc":"الشمس، الحرارة، السفر والنزهات: الصيف هو أكثر الفصول متعة ولكنه أيضاً الأكثر عرضة لمخاطر محددة. احم نفسك واستمتع بالكامل.",
-"ete.card.1.tag":"حماية شمسية","ete.card.1.title":"حماية شمسية طبيعية: احم نفسك بدون مواد كيميائية","ete.card.1.desc.1":"تحتوي كريمات الشمس غالباً على فلاتر كيميائية مثل الأوكسي بنزون أو الأوكتوكريلين المشتبه في تعطيلها للغدد الصماء وإضرارها بالشعاب المرجانية. البديل الطبيعي هو استخدام كريمات ذات فلاتر معدنية — ثاني أكسيد التيتانيوم وأكسيد الزنك — التي تشكل حاجزاً فيزيائياً يعكس الأشعة فوق البنفسجية دون اختراق الجلد أو الدورة الدموية.","ete.card.1.desc.2":"زيت جوز الهند، الغني بحمض اللوريك، يوفر حماية شمسية طبيعية جزئية بعامل حماية يقدر بين 4 و8. على الرغم من عدم كفايته للتعرض الطويل، إلا أنه يشكل مرطباً ممتازاً قبل التعرض للشمس يحضر البشرة ويمنع الجفاف. زيت الجزر، الغني بالبيتا كاروتين، يحضر البشرة تدريجياً للتعرض للشمس بتحفيز إنتاج الميلانين الواقي وإعطاء بشرة بلون أسمر طبيعي بدون حروق.","ete.card.1.desc.3":"تبدأ الحماية الشمسية بالملبس والسلوك: ارتد قبعة عريضة الحواف، نظارات شمسية معتمدة، وفضل الملابس الكتانية أو القطنية الخفيفة التي تحمي البشرة طبيعياً. تجنب الشمس بين 12 ظهراً و4 عصراً، الفترة التي تكون فيها الأشعة فوق البنفسجية في ذروتها. بعد التعرض، ضع جل الصبار الطازج لتهدئة الاحمرار وتعزيز إصلاح الجلد بطريقة طبيعية.",
-"ete.card.2.tag":"الترطيب","ete.card.2.title":"الترطيب الصيفي: أكثر من مجرد ماء للبقاء بصحة جيدة","ete.card.2.desc.1":"في الصيف، يؤدي التعرق المتزايد إلى فقدان معادن أساسية لا يكفي الماء وحده لتعويضها. البوتاسيوم والمغنيسيوم والصوديوم والكالسيوم تُفقد بكميات كبيرة أثناء الحر الشديد، مسببة التعب والتشنجات والدوخة والصداع. الترطيب الصيفي يجب أن يكون شاملاً للحفاظ على توازن الشوارد في الجسم.","ete.card.2.desc.2":"ماء جوز الهند، المذكور سابقاً، يبقى المشروع المرطب الطبيعي المثالي بفضل تركيبته شبه المتطابقة مع بلازما الدم. كمكمل، حضّر مياهاً فوارة منزلية مع فواكه موسمية: شرائح بطيخ، توت، أوراق نعناع ولمسة من الملح الوردي. هذا الشراب المنعش يوفر معادن ومضادات أكسدة وطعماً لطيفاً يشجع على شرب المزيد.","ete.card.2.desc.3":"يجب أن تشكل الأطعمة الغنية بالماء جزءاً مهماً من التغذية الصيفية. البطيخ الذي يتكون من 92% ماء، الشمام 90%، الطماطم 94% والخيار 96% هي خزانات مائية حقيقية يجب استهلاكها بكميات. المثلجات المنزلية المصنوعة من التوت المهروس والزبادي اليوناني تشكل وجبة خفيفة منعشة ومغذية ترطب بقدر ما تغذي، مثالية لفترات ما بعد الظهر الحارة.",
-"ete.card.3.tag":"طارد الحشرات","ete.card.3.title":"طرد البعوض طبيعياً: البدائل بدون DEET","ete.card.3.desc.1":"DEET، طارد الحشرات الكيميائي المرجعي، فعال لكنه مثير للجدل بسبب آثاره المحتملة على الجهاز العصبي وتأثيره البيئي. البدائل الطبيعية، عند استخدامها بشكل استراتيجي، توفر حماية كبيرة ضد لدغات البعوض والذباب وغيرها من الحشرات اللادغة بدون عيوب المنتجات الكيميائية الاصطناعية.","ete.card.3.desc.2":"زيت السترونيلا العطري هو الأكثر فعالية بين الطاردات الطبيعية. تأثيره الوقائي يدوم حوالي ساعتين ويجب تجديده بانتظام. للحصول على فعالية مثالية، خفف خمس عشرة قطرة في ثلاثين ملليلتراً من زيت نباتي (البندق أو جوز الهند) وضعه على المناطق المكشوفة. زيت إبرة الراعي العطري، الممزوج مع السترونيلا، يطيل التأثير الطارد بشكل ملحوظ بفضل تآزر مركباتهما النشطة.","ete.card.3.desc.3":"للحماية الطويلة في الخارج، احرق الميرمية المجففة أو إكليل الجبل الطازج في مبخرة بجانب كرسي حديقتك. الأدخنة العطرية تخلق سحابة طاردة طبيعية حول منطقة الاسترخاء. في الداخل، نشر الزيوت العطرية من الليمون والأوكالبتوس والخزامى خلال المساء يبعد الحشرات بفعالية ويعطر مساحة المعيشة بشكل لطيف.",
-"ete.card.4.tag":"سلامة غذائية","ete.card.4.title":"السلامة الغذائية الصيفية: نزهات وسفر بدون مخاطر","ete.card.4.desc.1":"الحرارة الصيفية هي الأرضية المثالية لتكاثر البكتيريا الغذائية. السالمونيلا والمكورات العنقودية الذهبية والليستيريا تتضاعف بشكل أسي بين 10°C و60°C، المنطقة التي يسميها المحترفون «منطقة الخطر». احترام بعض القواعد البسيطة لسلسلة التبريد والحفظ يسمح بالاستمتاع بالوجبات في الهواء الطلق دون خطر التسمم الغذائي.","ete.card.4.desc.2":"قاعدة الساعتين أساسية: أي طعام أخرج من الثلاجة يجب ألا يتجاوز ساعتين في درجة حرارة الغرفة. في حالة الحرارة الشديدة — فوق 32°C — تقل هذه المدة إلى ساعة. استخدم مبرداً مع أكياس ثلج للحفاظ على الطعام تحت 4°C. حضّر أطباقاً يمكن تناولها باردة: سلطات متنوعة، تبولة، لفائف، فطائر مالحة — كلها مناسبة للاستهلاك الآمن والشهي.","ete.card.4.desc.3":"المأكولات البحرية ومنتجات الألبان هي الأكثر حساسية للحرارة. في حالة الشك في النضارة، لا تستهلك هذه الأطعمة أبداً. يجب وضع بقايا النزهة في المبرد فور انتهاء الوجبة وتبريدها فور العودة إلى المنزل. خل التفاح، المستخدم كرذاذ مخفف على أسطح العمل والأواني، يمتلك خصائص مطهرة طبيعية تكمل إجراءات النظافة الغذائية الصيفية بفعالية.",
-"footer.line1":"صحة طبيعية وراعية","footer.line2":"⚠️ هذه المعلومات مقدمة لأغراض إرشادية فقط ولا تحل محل النصيحة الطبية المهنية. في حالة الشك، أو أعراض مستمرة أو متزايدة، استشر طبيباً أو صيدلانياً.","footer.line3":"© 2026 WebHealth — تصميم أصلي",
-"page.title":"الصيف — WebHealth","page.description":"حماية شمسية، ترطيب، طاردات حشرات طبيعية وسلامة غذائية للاستمتاع بصيف آمن وصحي."
-}
-};
-let currentLang='fr';
-function t(key){
-  var lang=translations[currentLang];
-  if(!lang)return key;
-  var val=lang[key];
-  if(typeof val==='function')return val;
-  return val||key;
-}
-function setLanguage(lang){
-  currentLang=lang;
-  var html=document.documentElement;
-  var body=document.body;
-  if(lang==='ar'){
-    html.setAttribute('lang','ar');
-    html.setAttribute('dir','rtl');
-    body.classList.add('rtl');
-  }else{
-    html.setAttribute('lang','fr');
-    html.setAttribute('dir','ltr');
-    body.classList.remove('rtl');
-  }
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var key=el.getAttribute('data-i18n');
-    var val=t(key);
-    if(typeof val==='string'){
-      if(val.indexOf('<br>')>-1||val.indexOf('>')>-1){
-        el.innerHTML=val;
-      }else{
-        el.textContent=val;
-      }
-    }
-  });
-  document.querySelectorAll('.lang-pill').forEach(function(p){
-    p.classList.toggle('active',p.getAttribute('data-lang')===lang);
-  });
-  if(t('page.title'))document.title=t('page.title');
-  if(t('page.description')){
-    var meta=document.querySelector('meta[name="description"]');
-    if(meta)meta.setAttribute('content',t('page.description'));
-  }
-  try{localStorage.setItem('wh-lang',lang)}catch(e){}
-}
-document.querySelectorAll('.lang-pill').forEach(function(pill){
-  pill.addEventListener('click',function(){
-    setLanguage(this.getAttribute('data-lang'));
-  });
-});
-(function(){
-  try{
-    var saved=localStorage.getItem('wh-lang');
-    if(saved&&translations[saved]){
-      setLanguage(saved);
-    }else{
-      setLanguage('fr');
-    }
-  }catch(e){setLanguage('fr');}
-})();
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
 const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});
