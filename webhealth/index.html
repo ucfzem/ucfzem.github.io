@@ -47,6 +47,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
 
+/* HAMBURGER */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:110}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:-300px;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--card-border);z-index:105;padding:80px 24px 40px;transition:all .3s ease;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.sidebar.open{left:0}
+.sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:104;opacity:0;visibility:hidden;transition:all .3s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar h3{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--card-border)}
+.sidebar ul{list-style:none;padding:0}
+.sidebar li{margin-bottom:4px}
+.sidebar a{display:block;padding:12px 16px;border-radius:var(--radius-sm);color:var(--text2);font-size:.95rem;font-weight:500;transition:all .2s}
+.sidebar a:hover{background:var(--accent-light);color:var(--accent);text-decoration:none}
+.sidebar .season-tag{display:inline-block;background:var(--warn-bg);color:var(--warn-border);font-size:.7rem;padding:2px 8px;border-radius:12px;margin-left:8px;font-weight:600}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+}
+
+
 /* HERO */
 .hero{margin-top:72px;padding:80px 24px 60px;background:var(--hero-grad);color:#fff;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none}
@@ -122,6 +147,9 @@ footer p{margin-bottom:8px}
 <body>
 
 <nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-logo"><span>🌿</span> WebHealth</div>
   <div class="nav-links">
     <a href="#remedes">Remèdes</a>
@@ -129,6 +157,21 @@ footer p{margin-bottom:8px}
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
   </div>
 </nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <h3>Explorer</h3>
+  <ul>
+    <li><a href="#">Maladies</a></li>
+    <li><a href="#">Santé naturelle</a></li>
+    <li><a href="#">Nutrition</a></li>
+    <li><a href="#">Famille</a></li>
+    <li><a href="#">Santé mentale</a></li>
+    <li><a href="#">Actualités</a></li>
+    <li><a href="#">Guide d'achat</a></li>
+    <li><a href="#">Été <span class="season-tag">Saison</span></a></li>
+  </ul>
+</aside>
 
 <section class="hero">
   <div class="hero-badge">🌱 Santé naturelle & bienveillante</div>
@@ -445,6 +488,14 @@ footer p{margin-bottom:8px}
 <script>
 function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
 (function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
+
+// Hamburger & Sidebar
+const hamburger=document.getElementById('hamburger');
+const sidebar=document.getElementById('sidebar');
+const sidebarOverlay=document.getElementById('sidebarOverlay');
+hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});
+sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});
+
 const searchInput=document.getElementById('searchInput');
 const searchResults=document.getElementById('searchResults');
 const remedies=document.querySelectorAll('.remedy');
