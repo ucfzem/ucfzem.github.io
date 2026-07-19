@@ -143,9 +143,3 @@ footer p{margin-bottom:8px}
 .category-card p{color:var(--text2);font-size:.95rem}
 .category-card .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:12px;margin-bottom:8px;text-transform:uppercase}
 .category-card a{font-weight:600;font-size:.9rem}
-
-/* CATEGORY FILTER */
-.sidebar a.filter-active{background:var(--accent-light);color:var(--accent);font-weight:600}
-.remedy[data-category]{transition:opacity .3s ease-in-out,max-height .3s ease-in-out}
-.remedy.filter-hidden{opacity:0;max-height:0!important;padding:0!important;margin:0!important;border:none!important;overflow:hidden;pointer-events:none}
-.filter-count{text-align:center;font-size:.85rem;color:var(--text3);padding:0 0 1rem;min-height:1.5em}
