@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guide d'achat — WebHealth</title>
+<meta name="description" content="Guide d'achat complet pour huiles essentielles, tisanes bio, cosmétiques naturels et kit pharmacie maison. Conseils pour bien choisir vos produits de santé naturelle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8faf8;--bg2:#ffffff;--bg3:#f0f4f0;
+  --text:#1a2e1a;--text2:#3d5a3d;--text3:#6b8a6b;
+  --accent:#2d8a4e;--accent2:#1f6b3a;--accent-light:#e8f5ec;
+  --card:#ffffff;--card-border:#e2ede5;
+  --shadow:0 2px 20px rgba(30,80,40,.06);
+  --shadow-lg:0 8px 40px rgba(30,80,40,.1);
+  --radius:16px;--radius-sm:10px;
+  --hero-grad:linear-gradient(135deg,#5a4a2e 0%,#8a7040 50%,#b89850 100%);
+  --warn-bg:rgba(220,160,60,.08);--warn-border:#dca03c;
+  --step-bg:#f0f7f2;
+}
+[data-theme="dark"]{
+  --bg:#0d1a12;--bg2:#142218;--bg3:#1a2e20;
+  --text:#e0f0e4;--text2:#a8c8b0;--text3:#6b9a78;
+  --accent:#4ec97a;--accent2:#3aa562;--accent-light:#1a3a24;
+  --card:#182a1e;--card-border:#2a4030;
+  --shadow:0 2px 20px rgba(0,0,0,.2);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.3);
+  --hero-grad:linear-gradient(135deg,#2a2018 0%,#4a3820 50%,#6a5030 100%);
+  --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
+  --step-bg:#1a2e20;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
+[data-theme="dark"] nav{background:rgba(13,26,18,.85)}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--accent);display:flex;align-items:center;gap:8px}
+.nav-logo span{font-size:1.6rem}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-size:.9rem;font-weight:500;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
+.hamburger{background:none;border:none;cursor:pointer;padding:8px;z-index:110}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
+.sidebar{position:fixed;top:0;left:-300px;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--card-border);z-index:105;padding:80px 24px 40px;transition:all .3s ease;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.sidebar.open{left:0}
+.sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:104;opacity:0;visibility:hidden;transition:all .3s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar h3{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--text);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--card-border)}
+.sidebar ul{list-style:none;padding:0}
+.sidebar li{margin-bottom:4px}
+.sidebar a{display:block;padding:12px 16px;border-radius:var(--radius-sm);color:var(--text2);font-size:.95rem;font-weight:500;transition:all .2s}
+.sidebar a:hover{background:var(--accent-light);color:var(--accent);text-decoration:none}
+.sidebar .season-tag{display:inline-block;background:var(--warn-bg);color:var(--warn-border);font-size:.7rem;padding:2px 8px;border-radius:12px;margin-left:8px;font-weight:600}
+@media(max-width:768px){.nav-links{display:none}}
+.hero{margin-top:72px;padding:80px 24px 60px;background:var(--hero-grad);color:#fff;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.2rem);margin-bottom:16px;position:relative;z-index:1}
+.hero p{font-size:1.1rem;opacity:.9;max-width:640px;margin:0 auto 32px;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);padding:8px 20px;border-radius:40px;font-size:.85rem;font-weight:500;border:1px solid rgba(255,255,255,.2);position:relative;z-index:1}
+.category-cards{padding:60px 24px 80px;max-width:900px;margin:0 auto}
+.category-card{background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:40px;margin-bottom:28px;box-shadow:var(--shadow);transition:all .3s;position:relative;overflow:hidden}
+.category-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+.category-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent);border-radius:4px 0 0 4px}
+.category-card .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}
+.category-card h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--text);margin-bottom:16px}
+.category-card p{color:var(--text2);font-size:1rem;margin-bottom:12px;line-height:1.8}
+.category-card p:last-child{margin-bottom:0}
+footer{background:var(--bg3);border-top:1px solid var(--card-border);padding:40px 24px;text-align:center;color:var(--text3);font-size:.85rem}
+footer p{margin-bottom:8px}
+@media(max-width:640px){nav{padding:12px 16px}.hero{padding:60px 20px 40px}.category-card{padding:28px 20px}.category-card h3{font-size:1.2rem}}
+.category-card{opacity:0;transform:translateY(20px);animation:fadeUp .5s ease forwards}
+.category-card:nth-child(1){animation-delay:.1s}.category-card:nth-child(2){animation-delay:.15s}
+.category-card:nth-child(3){animation-delay:.2s}.category-card:nth-child(4){animation-delay:.25s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="index.html" class="nav-logo"><span>🌿</span> WebHealth</a>
+  <div class="nav-links">
+    <a href="index.html#remedes">Remèdes</a>
+    <a href="index.html#apropos">À propos</a>
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Changer de thème" id="themeBtn">🌙</button>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <h3>Explorer</h3>
+  <ul>
+    <li><a href="maladies.html">Maladies</a></li>
+    <li><a href="sante-naturelle.html">Santé naturelle</a></li>
+    <li><a href="nutrition.html">Nutrition</a></li>
+    <li><a href="famille.html">Famille</a></li>
+    <li><a href="sante-mentale.html">Santé mentale</a></li>
+    <li><a href="actualites.html">Actualités</a></li>
+    <li><a href="guide-achat.html">Guide d'achat</a></li>
+    <li><a href="ete.html">Été <span class="season-tag">Saison</span></a></li>
+  </ul>
+</aside>
+
+<section class="hero">
+  <div class="hero-badge">🛒 Choisir intelligemment</div>
+  <h1>Guide d'achat<br>santé naturelle</h1>
+  <p>Ne vous fiez pas uniquement au marketing. Apprenez à décrypter les étiquettes, comparer les gammes et investir dans des produits de qualité pour votre santé et votre bien-être.</p>
+</section>
+
+<div class="category-cards">
+
+  <article class="category-card">
+    <span class="tag">Huiles essentielles</span>
+    <h3>Huiles essentielles : comment choisir une qualité irréprochable</h3>
+    <p>Le marché des huiles essentielles est en pleine expansion, mais la qualité varie énormément d'une marque à l'autre. Une huile essentielle de qualité doit être 100 % pure et naturelle, botaniquement définie et bio. L'étiquette doit préciser le nom latin de la plante, le mode d'obtention — distillation à la vapeur d'eau pour la majorité — et le pays d'origine. Méfiez-vous des prix excessivement bas qui trahissent souvent des coupures avec des huiles de synthèse ou des dilutions.</p>
+    <p>Pour débuter votre collection, concentrez-vous sur cinq huiles essentielles polyvalentes qui couvrent la majorité des besoins du quotidien. La lavande fine apaise, cicatrise et favorise le sommeil. Le tea tree est un antiseptique puissant pour les petits maux de la peau. L'eucalyptus radiata dégage les voies respiratoires. Le citron purifie et redonne de l'énergie. Le romarin à cinéole soutient la circulation et la concentration. Ces cinq huiles constituent une pharmacie naturelle de base complète et économique.</p>
+    <p>L'emballage est un indicateur de qualité souvent négligé. Les huiles essentielles de qualité sont conditionnées dans des flacons en verre ambré ou vert foncé qui protègent les molécules fragiles de la dégradation par la lumière. Un bouchon compte-gouttes facilite le dosage et évite les surdosages accidentels. Conservez toujours vos huiles à l'abri de la chaleur et de la lumière, et vérifiez la date de péremption qui est généralement de deux à cinq ans après ouverture selon les espèces.</p>
+  </article>
+
+  <article class="category-card">
+    <span class="tag">Tisanes &amp; infusions</span>
+    <h3>Tisanes bio : le guide pour choisir et préparer vos infusions</h3>
+    <p>Les tisanes bio se distinguent des versions conventionnelles par l'absence de pesticides, d'engrais de synthèse et de métaux lourds dans le sol de culture. Ce label garantit que les plantes ont été cultivées dans le respect de l'environnement et de la biodiversité. Pour les tisanes médicinales, la bio est particulièrement importante car les principes actifs des plantes sont plus concentrés et plus purs lorsqu'elles sont cultivées sans produit chimique.</p>
+    <p>Pour obtenir une infusion efficace, le respect du temps d'infusion est crucial. Les plantes à feuilles comme la menthe ou la verveine nécessitent huit à dix minutes pour libérer leurs huiles essentielles et leurs principes actifs. Les racines et écorces comme la réglisse ou le gingembre demandent à être portées à ébullition pendant cinq minutes avant infusion. L'eau doit être frémissante pour les fleurs et feuilles délicates, bouillante pour les parties dures de la plante.</p>
+    <p>Achetez vos tisanes en vrac dans des magasins spécialisés plutôt qu'en sachets industriels. Les sachets contiennent souvent des fragments de plante de moindre qualité, et le papier peut altérer les saveurs. Les tisanes en vrac vous permettent de contrôler la quantité et la qualité des plantes, et de créer vos propres mélanges personnalisés selon vos besoins du moment. Un herboriste compétent peut vous guider vers des associations de plantes adaptées à votre constitution.</p>
+  </article>
+
+  <article class="category-card">
+    <span class="tag">Cosmétiques naturels</span>
+    <h3>Cosmétiques naturels : décoder les labels et éviter le greenwashing</h3>
+    <p>Le terme « naturel » sur un produit cosmétique ne garantit pas sa qualité ni son origine biologique. De nombreux fabricants pratiquent le greenwashing en utilisant un packaging vert et des termes trompeurs comme « botanique » ou « à base de plantes » tout en contenant des silicones, parabènes et conservateurs de synthèse. Apprendre à lire les listes d'ingrédients — l'INCI — est la seule façon fiable de distinguer un véritable produit naturel d'une imposture marketing.</p>
+    <p>Les labels européens offrent une garantie fiable : le label COSMOS garantit au minimum 95 % d'ingrédients d'origine naturelle, dont au moins 20 % en bio pour un produit rincé et 10 % pour un produit sans rincage. Le label Ecocert est le plus ancien et le plus reconnu en France. Le label Nature & Progrès va plus loin en exigeant le respect de critères éthiques et environnementaux stricts tout au long de la chaîne de production.</p>
+    <p>Pour construire une routine cosmétique naturelle efficace, commencez par les produits essentiels : un nettoyant doux sans tensioactifs agressifs, une huile végétale adaptée à votre type de peau — noisette pour les peaux mixtes, avocat pour les peaux sèches, jojoba pour toutes les peaux — et un baume à lèvres à la cire d'abeille. Ces trois produits couvrent l'essentiel des besoins de la peau tout en minimisant l'exposition aux produits chimiques synthétiques qui peuvent perturber le microbiome cutané.</p>
+  </article>
+
+  <article class="category-card">
+    <span class="tag">Pharmacie maison</span>
+    <h3>Kit pharmacie naturelle : les essentiels à toujours avoir chez soi</h3>
+    <p>Avoir une pharmacie naturelle bien garnie permet de réagir rapidement face aux petits maux du quotidien sans recourir systématiquement aux médicaments de synthèse. Cette trousse de premiers secours naturels ne remplace évidemment pas les urgences médicales, mais constitue un premier réflexe efficace et rapide pour les affections bénignes les plus fréquentes.</p>
+    <p>Commencez par les huiles essentielles essentielles : la lavande fine pour les brûlures et les piqûres, le tea tree pour les problèmes de peau, l'eucalyptus pour les voies respiratoires. Ajoutez une argile verte pour les cataplasmes détox et anti-inflammatoires, du miel brut pour les soins de la peau et les maux de gorge, et une solution saline physiologique pour les nettoyages de nez. Ces six produits forment la base de votre pharmacie naturelle et coûtent très peu par rapport à leur polyvalence d'utilisation.</p>
+    <p>Complétez votre trousse avec les plantes médicinales en tisane ou en teinture mère : la camomille pour les troubles digestifs et l'insomnie, le millepertuis pour le moral, la valériane pour le sommeil, et le sureau pour les premiers signes du rhume. Pensez également aux compléments alimentaires de base : magnésium bisglycinate pour le stress et les crampes, oméga-3 pour l'inflammation, et vitamine D pour les périodes de faible ensoleillement. Cette combinaison de plantes et de compléments couvre la grande majorité des besoins courants de santé naturelle.</p>
+  </article>
+
+</div>
+
+<footer>
+  <p><strong>WebHealth</strong> — Santé naturelle & bienveillante</p>
+  <p>⚠️ Ces informations sont fournies à titre indicatif et ne remplacent en aucun cas un avis médical professionnel. En cas de doute, de symptômes persistants ou aggravés, consultez un médecin ou un pharmacien.</p>
+  <p style="margin-top:12px;font-size:.75rem;opacity:.6">© 2026 WebHealth — Conception originale</p>
+</footer>
+
+<script>
+function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
+(function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
+const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});
+</script>
+</body>
+</html>
