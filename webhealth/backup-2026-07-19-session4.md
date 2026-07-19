@@ -44,6 +44,20 @@ Créé 8 pages HTML complètes avec contenu original en français :
 - Amélioré le contraste en mode sombre (barres blanches à 55% opacité)
 - Séparé le CSS dans un fichier externe (css/style.css)
 
+### Étape 6 : Responsive & TV Navigation
+- Appliqué les 3 règles du prompt optimisé :
+  1. Fluidité Responsive Totale (6 breakpoints, clamp(), rem)
+  2. Navigation Télécommande TV (D-Pad JS, focus states WCAG)
+  3. Ergonomie Tactile (48x48px touch targets, TV font sizes)
+- Ajouté mode TV auto-detect (>1800px ou landscape <800px)
+- Ajouté prefers-reduced-motion et prefers-contrast:high
+
+### Étape 7 : Intégration Linktree
+- Ajouté WebHealth à la page works dans la section locked
+- Positionné au-dessus de Remèdes dans le dossier "Autres"
+- Emoji 🌱 (seedling) choisi pour représenter la santé naturelle
+- Corrigé le hamburger en vert (couleur accent) pour visibilité
+
 ## Fichiers Créés/Modifiés
 - `webhealth/index.html` — Page principale (10 remèdes)
 - `webhealth/css/style.css` — Styles externes
@@ -55,6 +69,8 @@ Créé 8 pages HTML complètes avec contenu original en français :
 - `webhealth/actualites.html`
 - `webhealth/guide-achat.html`
 - `webhealth/ete.html`
+- `works/index.html` — Ajout WebHealth au linktree
+- `webhealth/backup-2026-07-19-session4.md` — Backup
 
 ## Commits
 1. `f638437` — feat(webhealth): create initial page with 10 natural remedies
@@ -63,6 +79,9 @@ Créé 8 pages HTML complètes avec contenu original en français :
 4. `671850e` — fix(webhealth): hamburger always visible on all screen sizes
 5. `99e8924` — feat(webhealth): add 8 category pages with sidebar navigation
 6. `61fcd5b` — fix(webhealth): improve hamburger contrast in dark mode
+7. `73dcfe9` — fix(webhealth): increase hamburger visibility
+8. `607a76b` — feat(webhealth): responsive fluid total + D-Pad TV navigation + WCAG focus states + 48px touch targets
+9. `6a1952c` — fix(webhealth): hamburger green accent color + add WebHealth to works locked section
 
 ## Liens
 - **Site principal :** https://ucfzem.github.io/webhealth/
@@ -74,17 +93,13 @@ Créé 8 pages HTML complètes avec contenu original en français :
 - **Page Actualités :** https://ucfzem.github.io/webhealth/actualites.html
 - **Page Guide d'achat :** https://ucfzem.github.io/webhealth/guide-achat.html
 - **Page Été :** https://ucfzem.github.io/webhealth/ete.html
+- **Linktree :** https://ucfzem.github.io/works/
 
 ## Notes Techniques
 - Design system : DM Sans (corps) + DM Serif Display (titres)
 - Thème : Vert santé (#2d8a4e) avec mode sombre/clair
-- Navigation : Hamburger + sidebar latérale
+- Navigation : Hamburger vert + sidebar latérale
 - Recherche : Filtrage en direct par mot-clé
-- Responsive : Mobile-first avec breakpoints à 768px et 640px
-
-## Prochaines Étapes Possibles
-- Ajouter plus de remèdes à la page principale
-- Créer des pages individuelles pour chaque remède
-- Ajouter un système de commentaires/avis
-- Implémenter une newsletter
-- Ajouter des images/illustrations
+- Responsive : Mobile-first avec 6 breakpoints
+- TV : D-Pad navigation, focus states WCAG, auto-detect
+- Touch : 48x48px minimum pour tous les boutons
