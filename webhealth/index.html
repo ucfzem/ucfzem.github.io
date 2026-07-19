@@ -270,9 +270,10 @@ footer p{margin-bottom:.5rem}
 <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
   <h3 data-i18n="sidebar.explore">Explorer</h3>
   <ul>
-    <li><a href="maladies.html" data-i18n="sidebar.maladies" tabindex="-1">Maladies</a></li>
-    <li><a href="sante-naturelle.html" data-i18n="sidebar.sante" tabindex="-1">Santé naturelle</a></li>
-    <li><a href="nutrition.html" data-i18n="sidebar.nutrition" tabindex="-1">Nutrition</a></li>
+    <li><a href="#remedes" data-filter="all" class="filter-link active" data-i18n="sidebar.all" tabindex="-1">Tout afficher</a></li>
+    <li><a href="#remedes" data-filter="maladies" class="filter-link" data-i18n="sidebar.maladies" tabindex="-1">Maladies</a></li>
+    <li><a href="#remedes" data-filter="sante-naturelle" class="filter-link" data-i18n="sidebar.sante" tabindex="-1">Santé naturelle</a></li>
+    <li><a href="#remedes" data-filter="nutrition" class="filter-link" data-i18n="sidebar.nutrition" tabindex="-1">Nutrition</a></li>
     <li><a href="famille.html" data-i18n="sidebar.famille" tabindex="-1">Famille</a></li>
     <li><a href="sante-mentale.html" data-i18n="sidebar.mentale" tabindex="-1">Santé mentale</a></li>
     <li><a href="actualites.html" data-i18n="sidebar.actu" tabindex="-1">Actualités</a></li>
@@ -296,10 +297,11 @@ footer p{margin-bottom:.5rem}
   <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder" placeholder="Rechercher un remède ou un ingrédient..." autocomplete="off" tabindex="0">
 </div>
 <div class="search-results" id="searchResults" aria-live="polite"></div>
+<div class="filter-count" id="filterCount"></div>
 
 <div class="remedies" id="remedes">
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">01</div>
     <span class="tag" data-i18n="remedy.1.tag">Bouche & muqueuses</span>
     <h3 data-i18n="remedy.1.title">L'aloe vera pour apaiser les aphtes</h3>
@@ -326,7 +328,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.1.warning">⚠️ Ne pas avaler le mélange. En cas d'aphte persistant au-delà de 10 jours, consultez un médecin pour écarter une origine infectieuse ou immunitaire.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">02</div>
     <span class="tag" data-i18n="remedy.2.tag">Dermatologie</span>
     <h3 data-i18n="remedy.2.title">L'argile verte contre les piqûres d'insectes</h3>
@@ -355,7 +357,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.2.warning">⚠️ Évitez l'argile parfumée ou colorée. En cas de réaction allergique (rougeur étendue, gonflement), rincez immédiatement et consultez.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="nutrition" tabindex="0">
     <div class="remedy-num">03</div>
     <span class="tag" data-i18n="remedy.3.tag">Digestion</span>
     <h3 data-i18n="remedy.3.title">La badiane pour soulager les troubles digestifs</h3>
@@ -383,7 +385,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.3.warning">💡 La badiane est également efficace contre les irritations des bronches. En revanche, elle est déconseillée aux femmes enceintes en raison de ses propriétés oestrogen-like.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">04</div>
     <span class="tag" data-i18n="remedy.4.tag">Dermatologie</span>
     <h3 data-i18n="remedy.4.title">Le miel pour calmer les brûlures superficielles</h3>
@@ -410,7 +412,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.4.warning">⚠️ Réservé aux brûlures du 1er degré (rougeur, sans cloques). En cas de brûlure étendue, avec cloques ou atteignant le visage, appelez le 15 ou le 112 immédiatement.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">05</div>
     <span class="tag" data-i18n="remedy.5.tag">Muscles & articulations</span>
     <h3 data-i18n="remedy.5.title">La camomille pour détendre les muscles endoloris</h3>
@@ -436,7 +438,7 @@ footer p{margin-bottom:.5rem}
     </div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="sante-naturelle" tabindex="0">
     <div class="remedy-num">06</div>
     <span class="tag" data-i18n="remedy.6.tag">Immunité & rhume</span>
     <h3 data-i18n="remedy.6.title">La cannelle boost pour combattre le rhume</h3>
@@ -465,7 +467,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.6.warning">⚠️ La cannelle de Ceylan est préférable à la cannelle de Chine (cassia), qui contient davantage de coumarol, potentiellement hépatotoxique à haute dose.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="sante-naturelle" tabindex="0">
     <div class="remedy-num">07</div>
     <span class="tag" data-i18n="remedy.7.tag">Énergie & vitalité</span>
     <h3 data-i18n="remedy.7.title">L'oignon pour retrouver de l'énergie</h3>
@@ -492,7 +494,7 @@ footer p{margin-bottom:.5rem}
     </div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">08</div>
     <span class="tag" data-i18n="remedy.8.tag">Voies respiratoires</span>
     <h3 data-i18n="remedy.8.title">L'eucalyptus pour dégager les bronches</h3>
@@ -520,7 +522,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.8.warning">⚠️ Interdit aux enfants de moins de 6 ans (risque de bronchospasme). Les personnes asthmatiques devront consulter leur médecin avant utilisation.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="nutrition" tabindex="0">
     <div class="remedy-num">09</div>
     <span class="tag" data-i18n="remedy.9.tag">Digestion & transit</span>
     <h3 data-i18n="remedy.9.title">Les figues pour lutter contre la constipation</h3>
@@ -547,7 +549,7 @@ footer p{margin-bottom:.5rem}
     <div class="warning" data-i18n="remedy.9.warning">💡 Pour un effet renforcé, associez les figues à quelques pruneaux dénoyautés. L'idéal est de faire tremper les deux ensemble. En cas de constipation chronique (&gt; 2 semaines), un avis médical est recommandé.</div>
   </article>
 
-  <article class="remedy" tabindex="0">
+  <article class="remedy" data-category="maladies" tabindex="0">
     <div class="remedy-num">10</div>
     <span class="tag" data-i18n="remedy.10.tag">Douleur</span>
     <h3 data-i18n="remedy.10.title">La glace pour apaiser les maux de tête</h3>
@@ -586,7 +588,7 @@ footer p{margin-bottom:.5rem}
 const translations={
 fr:{
 "nav.remedes":"Remèdes","nav.apropos":"À propos",
-"sidebar.explore":"Explorer","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
+"sidebar.explore":"Explorer","sidebar.all":"Tout afficher","sidebar.maladies":"Maladies","sidebar.sante":"Santé naturelle","sidebar.nutrition":"Nutrition","sidebar.famille":"Famille","sidebar.mentale":"Santé mentale","sidebar.actu":"Actualités","sidebar.guide":"Guide d'achat","sidebar.ete":"Été","sidebar.saison":"Saison",
 "hero.badge":"🌱 Santé naturelle & bienveillante","hero.title":"10 remèdes naturels<br>pour soulager vos petits maux","hero.desc":"Pas besoin de courir à la pharmacie pour chaque bobo. Plantes, aliments du quotidien, gestes simples… Ces recettes transmises de génération en génération méritent qu'on leur redonne vie.",
 "intro.title":"Quand la nature devient pharmacie","intro.desc":"Ces remèdes s'appuient sur des principes actifs reconnus : anti-inflammatoires, antibactériens, apaisants. Chaque préparation est décrite avec ses ingrédients, sa recette et ses précautions d'emploi.",
 "search.placeholder":"Rechercher un remède ou un ingrédient...",
@@ -606,7 +608,7 @@ fr:{
 },
 en:{
 "nav.remedes":"Remedies","nav.apropos":"About",
-"sidebar.explore":"Explore","sidebar.maladies":"Illnesses","sidebar.sante":"Natural health","sidebar.nutrition":"Nutrition","sidebar.famille":"Family","sidebar.mentale":"Mental health","sidebar.actu":"News","sidebar.guide":"Buying guide","sidebar.ete":"Summer","sidebar.saison":"Season",
+"sidebar.explore":"Explore","sidebar.all":"Show all","sidebar.maladies":"Illnesses","sidebar.sante":"Natural health","sidebar.nutrition":"Nutrition","sidebar.famille":"Family","sidebar.mentale":"Mental health","sidebar.actu":"News","sidebar.guide":"Buying guide","sidebar.ete":"Summer","sidebar.saison":"Season",
 "hero.badge":"🌱 Natural & caring health","hero.title":"10 natural remedies<br>to relieve your everyday aches","hero.desc":"No need to rush to the pharmacy for every bump and bruise. Plants, everyday foods, simple gestures… These recipes passed down through generations deserve to be brought back to life.",
 "intro.title":"When nature becomes a pharmacy","intro.desc":"These remedies rely on recognised active ingredients: anti-inflammatories, antibacterials, soothing agents. Each preparation is described with its ingredients, recipe and precautions.",
 "search.placeholder":"Search for a remedy or ingredient...",
@@ -626,7 +628,7 @@ en:{
 },
 es:{
 "nav.remedes":"Remedios","nav.apropos":"Acerca de",
-"sidebar.explore":"Explorar","sidebar.maladies":"Enfermedades","sidebar.sante":"Salud natural","sidebar.nutrition":"Nutrición","sidebar.famille":"Familia","sidebar.mentale":"Salud mental","sidebar.actu":"Noticias","sidebar.guide":"Guía de compra","sidebar.ete":"Verano","sidebar.saison":"Temporada",
+"sidebar.explore":"Explorar","sidebar.all":"Mostrar todo","sidebar.maladies":"Enfermedades","sidebar.sante":"Salud natural","sidebar.nutrition":"Nutrición","sidebar.famille":"Familia","sidebar.mentale":"Salud mental","sidebar.actu":"Noticias","sidebar.guide":"Guía de compra","sidebar.ete":"Verano","sidebar.saison":"Temporada",
 "hero.badge":"🌱 Salud natural y solidaria","hero.title":"10 remedios naturales<br>para aliviar tus pequeños males","hero.desc":"No hace falta correr a la farmacia por cada golpe. Plantas, alimentos cotidianos, gestos sencillos… Estas recetas transmitidas de generación en generación merecen que les devolvamos la vida.",
 "intro.title":"Cuando la naturaleza se vuelve farmacia","intro.desc":"Estos remedios se basan en principios activos reconocidos: antiinflamatorios, antibacterianos, calmantes. Cada preparación se describe con sus ingredientes, su receta y sus precauciones de uso.",
 "search.placeholder":"Buscar un remedio o ingrediente...",
@@ -646,7 +648,7 @@ es:{
 },
 ar:{
 "nav.remedes":"العلاجات","nav.apropos":"حول",
-"sidebar.explore":"استكشف","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"الموسم",
+"sidebar.explore":"استكشف","sidebar.all":"عرض الكل","sidebar.maladies":"الأمراض","sidebar.sante":"الصحة الطبيعية","sidebar.nutrition":"التغذية","sidebar.famille":"الأسرة","sidebar.mentale":"الصحة النفسية","sidebar.actu":"الأخبار","sidebar.guide":"دليل الشراء","sidebar.ete":"الصيف","sidebar.saison":"الموسم",
 "hero.badge":"🌱 صحة طبيعية وراعية","hero.title":"10 علاجات طبيعية<br>لتسكين آلامك اليومية","hero.desc":"لا حاجة للركض إلى الصيدلية مع كل كدمة. الأعشاب، الأطعمة اليومية، الحركات البسيطة... هذه الوصفات التي تناقلتها الأجيال تستحق أن نعيد إليها الحياة.",
 "intro.title":"عندما تصبح الطبيعة صيدلية","intro.desc":"تعتمد هذه العلاجات على مكونات فعالة معروفة: مضادة للالتهابات، مضادة للبكتيريا، مهدئة. كل تحضير موصوف بمكوناته وطريقة تحضيره واحتياطات الاستخدام.",
 "search.placeholder":"ابحث عن علاج أو مكوّن...",
@@ -751,13 +753,42 @@ var searchResults=document.getElementById('searchResults');
 var remedies=document.querySelectorAll('.remedy');
 searchInput.addEventListener('input',function(){
   var query=this.value.toLowerCase();
-  if(!query){remedies.forEach(function(r){r.style.display=''});searchResults.textContent='';return;}
+  if(!query){remedies.forEach(function(r){r.style.display='';r.classList.remove('filter-hidden')});searchResults.textContent='';applyFilter(currentFilter);return;}
   var count=0;
-  remedies.forEach(function(r){var text=r.textContent.toLowerCase();r.style.display=text.includes(query)?'':'none';if(text.includes(query))count++;});
+  remedies.forEach(function(r){var text=r.textContent.toLowerCase();var matchCat=currentFilter==='all'||r.getAttribute('data-category')===currentFilter;r.style.display=(text.includes(query)&&matchCat)?'':'none';if(text.includes(query)&&matchCat)count++;});
   var resultKey='search.results.count';
   var fn=t(resultKey);
   if(typeof fn==='function'){searchResults.textContent=fn(count);}
   else{searchResults.textContent=count+(currentLang==='ar'?' علاج(ات)':' remède(s) trouvé(s)');}
+});
+
+// CATEGORY FILTER
+var currentFilter='all';
+var filterCount=document.getElementById('filterCount');
+var filterLinks=document.querySelectorAll('.filter-link');
+var filterLabels={all:{fr:'Tout afficher',en:'Show all',es:'Mostrar todo',ar:'عرض الكل'},maladies:{fr:'Maladies',en:'Diseases',es:'Enfermedades',ar:'الأمراض'},'sante-naturelle':{fr:'Santé naturelle',en:'Natural health',es:'Salud natural',ar:'الصحة الطبيعية'},nutrition:{fr:'Nutrition',en:'Nutrition',es:'Nutrición',ar:'التغذية'}};
+function applyFilter(cat){
+  currentFilter=cat;
+  var count=0;
+  remedies.forEach(function(r){
+    if(cat==='all'||r.getAttribute('data-category')===cat){r.classList.remove('filter-hidden');r.style.display='';count++;}
+    else{r.classList.add('filter-hidden');r.style.display='none';}
+  });
+  filterLinks.forEach(function(l){
+    l.classList.toggle('filter-active',l.getAttribute('data-filter')===cat);
+  });
+  var lbl=filterLabels[cat]||filterLabels.all;
+  var langLbl=lbl[currentLang]||lbl.fr;
+  if(cat==='all'){filterCount.textContent='';}
+  else{filterCount.textContent=langLbl+' ('+count+')';}
+  var hero=document.querySelector('.hero');if(hero)hero.scrollIntoView({behavior:'smooth',block:'start'});
+}
+filterLinks.forEach(function(link){
+  link.addEventListener('click',function(e){
+    e.preventDefault();
+    applyFilter(this.getAttribute('data-filter'));
+    closeSidebar();
+  });
 });
 
 // D-PAD / TV REMOTE NAVIGATION

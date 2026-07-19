@@ -38,8 +38,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
 
 /* HAMBURGER */
-.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:110}
-.hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;transition:all .3s}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;margin-left:12px;z-index:110}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);margin:4px 0;transition:all .3s}
 .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 .hamburger.active span:nth-child(2){opacity:0}
 .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-6px)}
@@ -143,3 +143,9 @@ footer p{margin-bottom:8px}
 .category-card p{color:var(--text2);font-size:.95rem}
 .category-card .tag{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:12px;margin-bottom:8px;text-transform:uppercase}
 .category-card a{font-weight:600;font-size:.9rem}
+
+/* CATEGORY FILTER */
+.sidebar a.filter-active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.remedy[data-category]{transition:opacity .3s ease-in-out,max-height .3s ease-in-out}
+.remedy.filter-hidden{opacity:0;max-height:0!important;padding:0!important;margin:0!important;border:none!important;overflow:hidden;pointer-events:none}
+.filter-count{text-align:center;font-size:.85rem;color:var(--text3);padding:0 0 1rem;min-height:1.5em}
