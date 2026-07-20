@@ -1,0 +1,10 @@
+{
+  "name": "booking-saas-api",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.13.0",
+    "node-ical": "^0.17.0",
+    "ical-generator": "^7.0.0"
+  }
+}
