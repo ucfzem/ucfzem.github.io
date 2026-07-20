@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-export default function BookingForm({ pool, slot, date, primaryColor, whatsappPhone, onSuccess }) {
+export default function BookingForm({ pool, slot, date, primaryColor, whatsappPhone, demo, onSuccess }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', guests: 1 })
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState(null)
@@ -17,6 +17,20 @@ export default function BookingForm({ pool, slot, date, primaryColor, whatsappPh
     e.preventDefault()
     setSubmitting(true)
     setResult(null)
+
+    // Demo mode: simulate success
+    if (demo) {
+      await new Promise(r => setTimeout(r, 1200))
+      setResult({
+        type: 'success',
+        msg: `[DEMO] Réservation enregistrée ! Acompte : ${deposit} MAD`,
+        bookingId: 'demo-' + Date.now()
+      })
+      setForm({ name: '', phone: '', email: '', guests: 1 })
+      setSubmitting(false)
+      if (onSuccess) setTimeout(onSuccess, 3000)
+      return
+    }
 
     try {
       const { data, error } = await supabase

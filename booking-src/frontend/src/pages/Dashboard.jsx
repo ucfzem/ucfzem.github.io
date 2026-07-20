@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { isDemoMode, DEMO_ESTABLISHMENT, DEMO_POOLS, DEMO_BOOKINGS } from '../lib/demo'
 
 export default function Dashboard() {
   const [view, setView] = useState('overview')
@@ -12,12 +13,22 @@ export default function Dashboard() {
   const [syncUrl, setSyncUrl] = useState('')
   const [syncPoolId, setSyncPoolId] = useState('')
   const [syncing, setSyncing] = useState(false)
+  const demo = isDemoMode()
 
-  // Load demo data
+  // Load data
   useEffect(() => {
+    setLoading(true)
+
+    if (demo) {
+      setEstablishments([DEMO_ESTABLISHMENT])
+      setSelectedEst(DEMO_ESTABLISHMENT)
+      setPools(DEMO_POOLS)
+      setBookings(DEMO_BOOKINGS)
+      setLoading(false)
+      return
+    }
+
     async function load() {
-      setLoading(true)
-      // Demo: load all establishments (in production, filter by auth.uid())
       const { data: est } = await supabase.from('establishments').select('*').order('created_at', { ascending: false })
       setEstablishments(est || [])
 
@@ -39,7 +50,7 @@ export default function Dashboard() {
       setLoading(false)
     }
     load()
-  }, [])
+  }, [demo])
 
   async function handleSync() {
     if (!syncPoolId || !syncUrl) return
@@ -61,6 +72,10 @@ export default function Dashboard() {
   }
 
   async function cancelBooking(id) {
+    if (demo) {
+      setBookings(prev => prev.map(b => b.id === id ? { ...b, booking_status: 'cancelled' } : b))
+      return
+    }
     if (!confirm('Annuler cette réservation ?')) return
     const { error } = await supabase
       .from('bookings')
@@ -104,6 +119,14 @@ export default function Dashboard() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6">
+        {/* Demo banner */}
+        {demo && (
+          <div className="bg-yellow-100 border border-yellow-200 rounded-2xl p-4 mb-6 text-center">
+            <p className="text-sm text-yellow-800 font-medium">
+              🧪 Mode démo avec données fictives — <a href="https://supabase.com" target="_blank" rel="noopener" className="underline">Créez un projet Supabase</a> pour des données réelles
+            </p>
+          </div>
+        )}
         {/* Establishment selector */}
         {establishments.length > 0 && (
           <div className="mb-6">

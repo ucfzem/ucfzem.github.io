@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { isDemoMode, DEMO_ESTABLISHMENT, DEMO_POOLS, DEMO_SLOTS } from '../lib/demo'
 import BookingForm from '../components/BookingForm'
 import SlotPicker from '../components/SlotPicker'
 import DatePicker from '../components/DatePicker'
@@ -15,11 +16,20 @@ export default function BookingPage() {
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const demo = isDemoMode()
 
   // Load establishment + pools
   useEffect(() => {
+    setLoading(true)
+
+    if (demo) {
+      setEstablishment(DEMO_ESTABLISHMENT)
+      setPools(DEMO_POOLS)
+      setLoading(false)
+      return
+    }
+
     async function load() {
-      setLoading(true)
       const { data: est, error: e1 } = await supabase
         .from('establishments')
         .select('*')
@@ -27,7 +37,7 @@ export default function BookingPage() {
         .single()
 
       if (e1 || !est) {
-        setError('Établissement introuvable')
+        setError('Établissement introuvable. Connectez Supabase pour voir les données réelles.')
         setLoading(false)
         return
       }
@@ -44,11 +54,17 @@ export default function BookingPage() {
       setLoading(false)
     }
     load()
-  }, [slug])
+  }, [slug, demo])
 
   // Load slots when pool selected
   useEffect(() => {
     if (!selectedPool) return
+
+    if (demo) {
+      setSlots(DEMO_SLOTS.filter(s => s.pool_id === selectedPool.id))
+      return
+    }
+
     async function loadSlots() {
       const { data } = await supabase
         .from('slot_configs')
@@ -59,11 +75,23 @@ export default function BookingPage() {
       setSlots(data || [])
     }
     loadSlots()
-  }, [selectedPool])
+  }, [selectedPool, demo])
 
   // Check availability when date + pool selected
   useEffect(() => {
     if (!selectedPool || !selectedDate) return
+
+    if (demo) {
+      // Simulate: morning slot busy on today
+      const today = new Date().toISOString().split('T')[0]
+      setSlots(prev => prev.map(s => ({
+        ...s,
+        available: !(selectedDate === today && s.name.includes('Matin'))
+      })))
+      setSelectedSlot(null)
+      return
+    }
+
     async function checkAvailability() {
       const { data: booked } = await supabase
         .from('bookings')
@@ -91,7 +119,7 @@ export default function BookingPage() {
       setSelectedSlot(null)
     }
     checkAvailability()
-  }, [selectedPool, selectedDate])
+  }, [selectedPool, selectedDate, demo])
 
   const primaryColor = establishment?.primary_color || '#3b82f6'
 
@@ -120,6 +148,15 @@ export default function BookingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-12" style={{ '--pc': primaryColor }}>
+      {/* Demo banner */}
+      {demo && (
+        <div className="bg-yellow-100 border-b border-yellow-200 text-center py-2 px-4">
+          <p className="text-xs text-yellow-800 font-medium">
+            🧪 Mode démo — <a href="https://supabase.com" target="_blank" rel="noopener" className="underline">Connectez Supabase</a> pour des données réelles
+          </p>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white shadow-sm border-b sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-3">
@@ -201,6 +238,7 @@ export default function BookingPage() {
               date={selectedDate}
               primaryColor={primaryColor}
               whatsappPhone={establishment?.whatsapp_phone}
+              demo={demo}
               onSuccess={() => {
                 setSelectedSlot(null)
                 setSelectedDate('')
