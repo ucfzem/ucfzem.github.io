@@ -1,4 +1,4 @@
-# Conversation Backup — 20 July 2026
+# Conversation Backup — 20 July 2026 (v2)
 
 ## Project: WebHealth (Multilingual Health Site)
 
@@ -6,86 +6,110 @@
 - **GitHub Repo:** https://github.com/ucfzem/ucfzem.github.io
 - **GitHub Pages:** https://ucfzem.github.io/webhealth/
 - **Vercel:** https://webhealth-phi.vercel.app
-- **Vercel Project:** ucfzem-s-projects/webhealth
+- **Vercel Dashboard:** https://vercel.com/ucfzem-s-projects/webhealth
 
-### Vercel Token
-- Token: [REDACTED — stored in local env only]
-- Previous expired token: VSLS-KVNB
-
----
-
-## Session Summary
-
-### Completed Work
-1. **Remedy app**: Fixed and deployed (DONE)
-2. **WebHealth v1**: 10 remedies, content enriched, responsive, TV/D-Pad nav
-3. **8 Category pages created**: maladies, sante-naturelle, nutrition, famille, sante-mentale, actualites, guide-achat, ete
-4. **Centralized `js/i18n.js`**: All translations for all 9 pages in single shared file (FR/EN/ES/AR)
-5. **All 9 pages load `<script src="js/i18n.js">`** — no inline translation duplication
-6. **All 9 pages have FR/EN/ES/AR lang pills** (category pages upgraded from FR/AR to 4 languages)
-7. **EN/ES translations added** for all 8 category pages in i18n.js
-8. **RTL `unicode-bidi:plaintext`** fix applied to all 9 pages
-9. **Theme-btn moved outside `.nav-links`** in all 9 pages
-10. **`flex-wrap:wrap` + `row-gap:.5rem`** added to `nav` on all 9 pages
-11. **`.lang-selector`**: `flex-shrink:1;min-width:0;overflow-x:auto`
-12. **RTL overrides**: `body.rtl .hamburger{order:-1}` + `body.rtl .theme-btn{order:0}`
-
-### Bugs Fixed (this session)
-1. **Bug 1 — Dark mode init**: `updateThemeButton()` + `DOMContentLoaded` listener for robust icon sync
-2. **Bug 2 — Sidebar ghost click**: `closeSidebar()` on click of each sidebar link
-3. **Bug 3 — RTL flex overlap**: `direction:rtl` on `body.rtl`
-
-### UX Tweaks Applied
-- `scroll-padding-top:80px` (anchor links clear fixed navbar)
-- `-webkit-tap-highlight-color:transparent` (no blue flash on Android)
-- `padding:2px 0` on `.lang-selector` (scroll hint)
-
-### In Progress / Pending
-- **Nav layout restructure**: User wants theme-btn grouped with flags in `.nav-controls` div, centered, hamburger stays on edge
-- Exact specs provided: wrap lang-selector + theme-btn in `.nav-controls` with `justify-content:center`, matching 36px heights, `nav` simplified to `space-between`
+### Credentials
+- **Vercel Token:** [REDACTED — stored in local env only]
+- **GitHub Token:** [REDACTED — stored in local env only]
 
 ---
 
-## Tech Stack
-- GitHub repo: `ucfzem/ucfzem.github.io`, branch `main`
-- Vercel project: `webhealth` (https://webhealth-phi.vercel.app) — auto-deploy from GitHub (token expired, needs re-auth)
-- GitHub Pages: https://ucfzem.github.io/remedy/ + https://ucfzem.github.io/webhealth/
-- Primary font: Alexandria (Google Fonts). Arabic: Noto Sans Arabic fallback.
-- Green health theme (#2d8a4e), dark mode supported
-- Arabic uses Morocco flag specifically
-- User tests on Samsung S23 Ultra (mobile viewport)
-- All sidebar links navigate to category pages (filter system removed)
+## Session Timeline
 
-## Key Decisions
-- **Centralized i18n**: All translations in single `webhealth/js/i18n.js`
-- **Theme-btn positioning**: Currently being restructured to group with lang-selector in `.nav-controls`
-- **RTL order swap**: `body.rtl .hamburger{order:-1}` swaps hamburger right in Arabic
-- **Nav flex-wrap**: `flex-wrap:wrap` (being replaced with cleaner `.nav-controls` grouping)
-- **`unicode-bidi:plaintext`** on `body.rtl [data-i18n]` for correct mixed Arabic+numbers
+### Earlier Sessions (from previous backup)
+- Remedy app fixed and deployed
+- WebHealth v1: 10 remedies, 9 category pages created
+- Centralized `js/i18n.js` with FR/EN/ES/AR translations
+- RTL `unicode-bidi:plaintext` applied
+- Theme-btn moved outside `.nav-links`
+- `flex-wrap:wrap` + `flex-shrink` overflow fixes
+- RTL hamburger/theme-btn order swaps
 
-## localStorage Keys
-- `wh-theme` (dark/light)
-- `wh-lang` (fr/en/es/ar)
+### This Session
 
-## Latest Commits
-- `a288f26` — Fix 3 hidden bugs + UX tweaks across all 9 pages
-- `355cd84` — RTL: swap hamburger and theme-btn positions
-- `f773097` — Fix theme-btn: order:-1 instead of position:absolute
-- `9719230` — Fix nav overflow: flex-wrap:wrap, lang-selector flex-shrink
+#### 1. Bug Fixes (3 hidden bugs)
+- **Bug 1 — Dark mode init:** Replaced direct `document.getElementById('themeBtn').textContent` with `updateThemeButton()` function + `DOMContentLoaded` listener. Prevents race condition where button icon isn't set if script runs before DOM ready.
+- **Bug 2 — Sidebar ghost click:** Added `closeSidebar()` click listener on each `#sidebarLinks a`. Sidebar now auto-closes when navigating.
+- **Bug 3 — RTL flex overlap:** Added `direction:rtl` to `body.rtl` CSS rule. Fixes navbar elements overlapping in Arabic mode.
 
-## Files
-- `/tmp/ucfzem.github.io/webhealth/js/i18n.js` — Centralized translations (all 9 pages, FR/EN/ES/AR)
-- `/tmp/ucfzem.github.io/webhealth/index.html` — Main page
-- `/tmp/ucfzem.github.io/webhealth/famille.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/maladies.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/sante-naturelle.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/nutrition.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/sante-mentale.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/actualites.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/guide-achat.html` — Category page
-- `/tmp/ucfzem.github.io/webhealth/ete.html` — Category page
+#### 2. UX Tweaks
+- `scroll-padding-top:80px` on `html` — anchor links no longer hidden behind fixed navbar
+- `-webkit-tap-highlight-color:transparent` on `body` — removes blue flash on Android tap
+- `padding:2px 0` on `.lang-selector` — visual scroll hint
+
+#### 3. Nav Layout Restructure (major)
+User requested theme-btn be grouped with flags, centered in nav:
+- Created `.nav-controls` wrapper div containing `.lang-selector` + `.theme-btn`
+- `.nav-controls` CSS: `display:flex; align-items:center; gap:12px; flex-grow:1; justify-content:center; max-width:60%`
+- Removed `order:-1` from `.theme-btn` (no longer needed)
+- Removed `flex-wrap:wrap` and `row-gap:.5rem` from `nav`
+- Unified heights: `.theme-btn` 36px, `.lang-pill` height:36px
+- Removed `flex-shrink:1; min-width:0` from `.lang-selector` (no longer needs to shrink)
+- Mobile: `nav{padding:10px 16px}`, `.nav-logo{font-size:1.1rem}`
+
+**Final nav layout (all 9 pages):**
+```
+[hamburger] [🌿 WebHealth] [---- 🇫🇷 🇬🇧 🇪🇸 🇲🇦  🌙 ----] [links]
+```
+
+---
+
+## Commit History
+```
+4b0d2aa Nav restructure: group flags + theme-btn in .nav-controls, centered
+50ef707 Conversation backup 2026-07-20
+a288f26 Fix 3 hidden bugs + UX tweaks across all 9 pages
+355cd84 RTL: swap hamburger and theme-btn positions (order overrides)
+f773097 Fix theme-btn: order:-1 instead of position:absolute
+9719230 Fix nav overflow: flex-wrap:wrap, lang-selector flex-shrink
+```
+
+## Pages (9 total)
+| Page | File |
+|---|---|
+| Accueil | `webhealth/index.html` |
+| Maladies | `webhealth/maladies.html` |
+| Santé naturelle | `webhealth/sante-naturelle.html` |
+| Nutrition | `webhealth/nutrition.html` |
+| Famille | `webhealth/famille.html` |
+| Santé mentale | `webhealth/sante-mentale.html` |
+| Actualités | `webhealth/actualites.html` |
+| Guide d'achat | `webhealth/guide-achat.html` |
+| Été | `webhealth/ete.html` |
+
+## Key Files
+- `webhealth/js/i18n.js` — Centralized translations (FR/EN/ES/AR, all 9 pages)
+- `conversation-backup-2026-07-20.md` — Previous backup
+
+## Tech Notes
+- **localStorage keys:** `wh-theme` (dark/light), `wh-lang` (fr/en/es/ar)
+- **Font:** Alexandria (Google Fonts), Noto Sans Arabic fallback
+- **Theme:** Green health (#2d8a4e), dark mode via CSS variables
+- **Arabic flag:** 🇲🇦 (Morocco specifically)
+- **Testing device:** Samsung S23 Ultra
+- **User language:** French
+
+## Nav CSS Reference (final state)
+```css
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
+[data-theme="dark"] nav{background:rgba(13,26,18,.85)}
+.nav-controls{display:flex;align-items:center;gap:12px;flex-grow:1;justify-content:center;max-width:60%}
+.lang-selector{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.lang-pill{...;height:36px;...}
+.theme-btn{width:36px;height:36px;...;flex-shrink:0}
+@media(max-width:768px){.nav-links{display:none}nav{padding:10px 16px}.nav-logo{font-size:1.1rem}}
+```
+
+## JS Reference (final state)
+```js
+function updateThemeButton(theme){var b=document.getElementById("themeBtn");if(b)b.textContent=theme==="dark"?"☀️":"🌙"}
+function toggleTheme(){var h=document.documentElement;var t=h.getAttribute("data-theme")==="dark"?"light":"dark";h.setAttribute("data-theme",t);updateThemeButton(t);try{localStorage.setItem("wh-theme",t)}catch(e){}}
+(function(){try{var s=localStorage.getItem("wh-theme");var t="light";if(s==="dark"||s==="light")t=s;else if(window.matchMedia("(prefers-color-scheme:dark)").matches)t="dark";document.documentElement.setAttribute("data-theme",t);window.addEventListener("DOMContentLoaded",function(){updateThemeButton(t)})}catch(e){}})();
+// Sidebar close on link click
+document.querySelectorAll("#sidebarLinks a").forEach(function(link){link.addEventListener("click",closeSidebar)});
+```
 
 ## Next Steps
-1. Apply nav restructure (`.nav-controls` grouping) to all 9 pages
-2. Commit, push, deploy
-3. Test on mobile
+- Test nav restructure on mobile (Samsung S23 Ultra)
+- Potential: TV/D-pad navigation updates for new nav structure
+- Potential: PWA / service worker for offline access
