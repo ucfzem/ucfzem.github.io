@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { createBooking } from '../lib/api'
 
 export default function BookingForm({ pool, slot, date, primaryColor, whatsappPhone, demo, onSuccess }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', guests: 1 })
@@ -33,36 +33,18 @@ export default function BookingForm({ pool, slot, date, primaryColor, whatsappPh
     }
 
     try {
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert({
-          pool_id: pool.id,
-          customer_name: form.name,
-          customer_email: form.email,
-          customer_phone: form.phone,
-          booking_date: date,
-          slot_name: slot.name,
-          start_time: slot.start_time,
-          end_time: slot.end_time,
-          guests_count: form.guests,
-          total_price: totalPrice,
-          amount_paid: deposit,
-          payment_status: 'pending',
-          booking_status: 'confirmed',
-          source: 'direct'
-        })
-        .select()
-        .single()
-
-      if (error) {
-        if (error.message?.includes('duplicate') || error.code === '23505') {
-          setResult({ type: 'error', msg: 'Ce créneau vient d\'être réservé. Choisissez un autre.' })
-        } else {
-          setResult({ type: 'error', msg: 'Erreur lors de la réservation. Réessayez.' })
-        }
-        setSubmitting(false)
-        return
-      }
+      const data = await createBooking({
+        pool_id: pool.id,
+        customer_name: form.name,
+        customer_email: form.email,
+        customer_phone: form.phone,
+        booking_date: date,
+        slot_name: slot.name,
+        start_time: slot.start_time,
+        end_time: slot.end_time,
+        guests_count: form.guests,
+        total_price: totalPrice
+      })
 
       setResult({
         type: 'success',
@@ -70,11 +52,14 @@ export default function BookingForm({ pool, slot, date, primaryColor, whatsappPh
         bookingId: data.id
       })
 
-      // Reset form
       setForm({ name: '', phone: '', email: '', guests: 1 })
       if (onSuccess) setTimeout(onSuccess, 3000)
     } catch (err) {
-      setResult({ type: 'error', msg: 'Erreur réseau. Vérifiez votre connexion.' })
+      if (err.message?.includes('duplicate') || err.message?.includes('disponible')) {
+        setResult({ type: 'error', msg: 'Ce créneau vient d\'être réservé. Choisissez un autre.' })
+      } else {
+        setResult({ type: 'error', msg: 'Erreur lors de la réservation. Réessayez.' })
+      }
     }
     setSubmitting(false)
   }

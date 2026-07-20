@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
+import { getEstablishment, getEstablishmentPools, getBookingsByPool, cancelBooking as apiCancelBooking, syncExternal, getIcalUrl } from '../lib/api'
 import { isDemoMode, DEMO_ESTABLISHMENT, DEMO_POOLS, DEMO_BOOKINGS } from '../lib/demo'
 
 export default function Dashboard() {
@@ -29,23 +29,19 @@ export default function Dashboard() {
     }
 
     async function load() {
-      const { data: est } = await supabase.from('establishments').select('*').order('created_at', { ascending: false })
-      setEstablishments(est || [])
-
-      if (est && est.length > 0) {
-        setSelectedEst(est[0])
-        const { data: pl } = await supabase.from('pools').select('*').eq('establishment_id', est[0].id)
+      try {
+        const est = await getEstablishment(selectedEst?.slug || 'villa-hamza')
+        setEstablishments([est])
+        setSelectedEst(est)
+        const pl = await getEstablishmentPools(est.slug)
         setPools(pl || [])
 
         if (pl && pl.length > 0) {
-          const { data: bk } = await supabase
-            .from('bookings')
-            .select('*')
-            .eq('pool_id', pl[0].id)
-            .order('booking_date', { ascending: false })
-            .limit(50)
+          const bk = await getBookingsByPool(pl[0].id)
           setBookings(bk || [])
         }
+      } catch (e) {
+        console.error(e)
       }
       setLoading(false)
     }
@@ -56,13 +52,7 @@ export default function Dashboard() {
     if (!syncPoolId || !syncUrl) return
     setSyncing(true)
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
-      const res = await fetch(`${backendUrl}/api/sync-external`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ poolId: syncPoolId, icalUrl: syncUrl })
-      })
-      const data = await res.json()
+      const data = await syncExternal(syncPoolId, syncUrl)
       alert(data.message || 'Sync terminée')
       setSyncUrl('')
     } catch (err) {
@@ -71,18 +61,17 @@ export default function Dashboard() {
     setSyncing(false)
   }
 
-  async function cancelBooking(id) {
+  async function handleCancelBooking(id) {
     if (demo) {
       setBookings(prev => prev.map(b => b.id === id ? { ...b, booking_status: 'cancelled' } : b))
       return
     }
     if (!confirm('Annuler cette réservation ?')) return
-    const { error } = await supabase
-      .from('bookings')
-      .update({ booking_status: 'cancelled' })
-      .eq('id', id)
-    if (!error) {
+    try {
+      await apiCancelBooking(id)
       setBookings(prev => prev.map(b => b.id === id ? { ...b, booking_status: 'cancelled' } : b))
+    } catch (e) {
+      alert('Erreur lors de l\'annulation')
     }
   }
 
@@ -123,7 +112,7 @@ export default function Dashboard() {
         {demo && (
           <div className="bg-yellow-100 border border-yellow-200 rounded-2xl p-4 mb-6 text-center">
             <p className="text-sm text-yellow-800 font-medium">
-              🧪 Mode démo avec données fictives — <a href="https://supabase.com" target="_blank" rel="noopener" className="underline">Créez un projet Supabase</a> pour des données réelles
+              🧪 Mode démo avec données fictives — Lancez le backend pour des données réelles
             </p>
           </div>
         )}
@@ -209,10 +198,14 @@ export default function Dashboard() {
                 className="text-sm border border-gray-200 rounded-xl px-3 py-1.5"
                 onChange={async (e) => {
                   if (!pools[0]) return
-                  let query = supabase.from('bookings').select('*').eq('pool_id', pools[0].id).order('booking_date', { ascending: false })
-                  if (e.target.value !== 'all') query = query.eq('booking_status', e.target.value)
-                  const { data } = await query.limit(50)
-                  setBookings(data || [])
+                  try {
+                    const params = {}
+                    if (e.target.value !== 'all') params.status = e.target.value
+                    const data = await getBookingsByPool(pools[0].id, params)
+                    setBookings(data || [])
+                  } catch (err) {
+                    console.error(err)
+                  }
                 }}
               >
                 <option value="all">Toutes</option>
@@ -252,7 +245,7 @@ export default function Dashboard() {
                         <td className="px-4 py-3">
                           {b.booking_status === 'confirmed' && (
                             <button
-                              onClick={() => cancelBooking(b.id)}
+                              onClick={() => handleCancelBooking(b.id)}
                               className="text-xs text-red-500 hover:text-red-700 font-medium"
                             >
                               Annuler
@@ -317,7 +310,7 @@ export default function Dashboard() {
                 <div key={pool.id} className="flex items-center gap-2 mb-2">
                   <span className="text-sm text-gray-700 flex-1">{pool.name}</span>
                   <code className="text-xs bg-gray-100 px-2 py-1 rounded-lg text-gray-600 overflow-x-auto max-w-xs">
-                    {window.location.origin}/api/export-ical/{pool.id}
+                    {getIcalUrl(pool.id)}
                   </code>
                 </div>
               ))}

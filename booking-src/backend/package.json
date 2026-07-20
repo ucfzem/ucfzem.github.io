@@ -14,7 +14,7 @@
     "express": "^4.21.0",
     "ical-generator": "^7.0.0",
     "node-ical": "^0.17.0",
-    "@supabase/supabase-js": "^2.45.0"
+    "pg": "^8.13.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

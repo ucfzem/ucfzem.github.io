@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const ical = require('ical-generator').default;
 const icalParser = require('node-ical');
 const axios = require('axios');
-const { createClient } = require('@supabase/supabase-js');
+const db = require('./db');
 
 dotenv.config();
 
@@ -12,16 +12,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
 // ==========================================
 // HEALTH CHECK
 // ==========================================
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res) => {
+  try {
+    await db.query('SELECT 1');
+    res.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() });
+  } catch (err) {
+    res.status(503).json({ status: 'error', db: 'disconnected', error: err.message });
+  }
 });
 
 // ==========================================
@@ -29,14 +29,12 @@ app.get('/api/health', (req, res) => {
 // ==========================================
 app.get('/api/establishments/:slug', async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('establishments')
-      .select('*')
-      .eq('slug', req.params.slug)
-      .single();
-    if (error) throw error;
-    if (!data) return res.status(404).json({ error: 'Establishment not found' });
-    res.json(data);
+    const { rows } = await db.query(
+      'SELECT * FROM establishments WHERE slug = $1',
+      [req.params.slug]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Establishment not found' });
+    res.json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -44,21 +42,17 @@ app.get('/api/establishments/:slug', async (req, res) => {
 
 app.get('/api/establishments/:slug/pools', async (req, res) => {
   try {
-    const { data: est, error: e1 } = await supabase
-      .from('establishments')
-      .select('id')
-      .eq('slug', req.params.slug)
-      .single();
-    if (e1) throw e1;
+    const { rows: est } = await db.query(
+      'SELECT id FROM establishments WHERE slug = $1',
+      [req.params.slug]
+    );
+    if (!est.length) return res.status(404).json({ error: 'Establishment not found' });
 
-    const { data: pools, error: e2 } = await supabase
-      .from('pools')
-      .select('*')
-      .eq('establishment_id', est.id)
-      .eq('is_active', true);
-    if (e2) throw e2;
-
-    res.json(pools);
+    const { rows } = await db.query(
+      'SELECT * FROM pools WHERE establishment_id = $1 AND is_active = true',
+      [est[0].id]
+    );
+    res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -69,14 +63,11 @@ app.get('/api/establishments/:slug/pools', async (req, res) => {
 // ==========================================
 app.get('/api/pools/:poolId/slots', async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('slot_configs')
-      .select('*')
-      .eq('pool_id', req.params.poolId)
-      .eq('is_active', true)
-      .order('start_time');
-    if (error) throw error;
-    res.json(data);
+    const { rows } = await db.query(
+      'SELECT * FROM slot_configs WHERE pool_id = $1 AND is_active = true ORDER BY start_time',
+      [req.params.poolId]
+    );
+    res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -90,25 +81,18 @@ app.get('/api/pools/:poolId/availability', async (req, res) => {
   if (!date) return res.status(400).json({ error: 'date query param required' });
 
   try {
-    const { data: slots, error: e1 } = await supabase
-      .from('slot_configs')
-      .select('*')
-      .eq('pool_id', req.params.poolId)
-      .eq('is_active', true)
-      .order('start_time');
-    if (e1) throw e1;
+    const { rows: slots } = await db.query(
+      'SELECT * FROM slot_configs WHERE pool_id = $1 AND is_active = true ORDER BY start_time',
+      [req.params.poolId]
+    );
 
     const results = [];
     for (const slot of slots) {
-      const { data: available } = await supabase.rpc('check_slot_availability', {
-        p_pool_id: req.params.poolId,
-        p_date: date,
-        p_slot_name: slot.name
-      });
-      results.push({
-        ...slot,
-        available: available
-      });
+      const { rows } = await db.query(
+        'SELECT check_slot_availability($1, $2, $3) AS available',
+        [req.params.poolId, date, slot.name]
+      );
+      results.push({ ...slot, available: rows[0].available });
     }
     res.json(results);
   } catch (err) {
@@ -131,42 +115,29 @@ app.post('/api/bookings', async (req, res) => {
   }
 
   try {
-    // Check availability first
-    const { data: isAvailable } = await supabase.rpc('check_slot_availability', {
-      p_pool_id: pool_id,
-      p_date: booking_date,
-      p_slot_name: slot_name
-    });
+    const { rows: avail } = await db.query(
+      'SELECT check_slot_availability($1, $2, $3) AS available',
+      [pool_id, booking_date, slot_name]
+    );
 
-    if (!isAvailable) {
-      return res.status(409).json({ error: 'Ce créneau n\'est plus disponible' });
+    if (!avail[0].available) {
+      return res.status(409).json({ error: "Ce créneau n'est plus disponible" });
     }
 
     const amount_paid = total_price * 0.5;
 
-    const { data, error } = await supabase
-      .from('bookings')
-      .insert({
-        pool_id,
-        customer_name,
-        customer_email,
-        customer_phone,
-        booking_date,
-        slot_name,
-        start_time,
-        end_time,
-        guests_count: guests_count || 1,
-        total_price,
-        amount_paid,
-        payment_status: 'pending',
-        booking_status: 'confirmed',
-        source: 'direct'
-      })
-      .select()
-      .single();
+    const { rows } = await db.query(
+      `INSERT INTO bookings (pool_id, customer_name, customer_email, customer_phone,
+        booking_date, slot_name, start_time, end_time,
+        guests_count, total_price, amount_paid, payment_status, booking_status, source)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'pending','confirmed','direct')
+       RETURNING *`,
+      [pool_id, customer_name, customer_email, customer_phone,
+       booking_date, slot_name, start_time, end_time,
+       guests_count || 1, total_price, amount_paid]
+    );
 
-    if (error) throw error;
-    res.status(201).json(data);
+    res.status(201).json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -175,19 +146,26 @@ app.post('/api/bookings', async (req, res) => {
 app.get('/api/bookings/:poolId', async (req, res) => {
   const { date_from, date_to, status } = req.query;
   try {
-    let query = supabase
-      .from('bookings')
-      .select('*')
-      .eq('pool_id', req.params.poolId)
-      .order('booking_date', { ascending: true });
+    let sql = 'SELECT * FROM bookings WHERE pool_id = $1';
+    const params = [req.params.poolId];
+    let i = 2;
 
-    if (date_from) query = query.gte('booking_date', date_from);
-    if (date_to) query = query.lte('booking_date', date_to);
-    if (status) query = query.eq('booking_status', status);
+    if (date_from) { sql += ` AND booking_date >= $${i++}`; params.push(date_from); }
+    if (date_to)   { sql += ` AND booking_date <= $${i++}`; params.push(date_to); }
+    if (status)    { sql += ` AND booking_status = $${i++}`; params.push(status); }
 
-    const { data, error } = await query;
-    if (error) throw error;
-    res.json(data);
+    sql += ' ORDER BY booking_date ASC';
+    const { rows } = await db.query(sql, params);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/bookings', async (req, res) => {
+  try {
+    const { rows } = await db.query('SELECT * FROM bookings ORDER BY created_at DESC');
+    res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -195,14 +173,12 @@ app.get('/api/bookings/:poolId', async (req, res) => {
 
 app.patch('/api/bookings/:id/cancel', async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('bookings')
-      .update({ booking_status: 'cancelled' })
-      .eq('id', req.params.id)
-      .select()
-      .single();
-    if (error) throw error;
-    res.json(data);
+    const { rows } = await db.query(
+      "UPDATE bookings SET booking_status = 'cancelled' WHERE id = $1 RETURNING *",
+      [req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Booking not found' });
+    res.json(rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -213,20 +189,13 @@ app.patch('/api/bookings/:id/cancel', async (req, res) => {
 // ==========================================
 app.get('/api/export-ical/:poolId', async (req, res) => {
   try {
-    const { data: bookings, error } = await supabase
-      .from('bookings')
-      .select('id, customer_name, booking_date, start_time, end_time, slot_name')
-      .eq('pool_id', req.params.poolId)
-      .eq('booking_status', 'confirmed');
-    if (error) throw error;
+    const { rows: bookings } = await db.query(
+      "SELECT id, customer_name, booking_date, start_time, end_time, slot_name FROM bookings WHERE pool_id = $1 AND booking_status = 'confirmed'",
+      [req.params.poolId]
+    );
+    const { rows: pool } = await db.query('SELECT name FROM pools WHERE id = $1', [req.params.poolId]);
 
-    const { data: pool } = await supabase
-      .from('pools')
-      .select('name')
-      .eq('id', req.params.poolId)
-      .single();
-
-    const calendar = ical({ name: `Réservations — ${pool?.name || req.params.poolId}` });
+    const calendar = ical({ name: `Réservations — ${pool[0]?.name || req.params.poolId}` });
 
     bookings.forEach(b => {
       calendar.createEvent({
@@ -264,33 +233,20 @@ app.post('/api/sync-external', async (req, res) => {
           const startTime = ev.start.toTimeString().split(' ')[0];
           const endTime = ev.end.toTimeString().split(' ')[0];
 
-          // Check if already synced
-          const { data: existing } = await supabase
-            .from('bookings')
-            .select('id')
-            .eq('pool_id', poolId)
-            .eq('booking_date', bookingDate)
-            .eq('start_time', startTime)
-            .eq('source', 'external')
-            .maybeSingle();
+          const { rows: existing } = await db.query(
+            "SELECT id FROM bookings WHERE pool_id = $1 AND booking_date = $2 AND start_time = $3 AND source = 'external' LIMIT 1",
+            [poolId, bookingDate, startTime]
+          );
 
-          if (!existing) {
-            await supabase.from('bookings').insert({
-              pool_id: poolId,
-              customer_name: 'Blocage Plateforme Externe',
-              customer_email: 'sync@system.local',
-              customer_phone: '0000000000',
-              booking_date: bookingDate,
-              slot_name: 'Bloqué Externe',
-              start_time: startTime,
-              end_time: endTime,
-              guests_count: 0,
-              total_price: 0,
-              amount_paid: 0,
-              payment_status: 'paid',
-              booking_status: 'confirmed',
-              source: 'external'
-            });
+          if (!existing.length) {
+            await db.query(
+              `INSERT INTO bookings (pool_id, customer_name, customer_email, customer_phone,
+                booking_date, slot_name, start_time, end_time,
+                guests_count, total_price, amount_paid, payment_status, booking_status, source)
+               VALUES ($1,'Blocage Plateforme Externe','sync@system.local','0000000000',
+                $2,'Bloqué Externe',$3,$4, 0,0,0,'paid','confirmed','external')`,
+              [poolId, bookingDate, startTime, endTime]
+            );
             synced++;
           }
         }
@@ -345,13 +301,13 @@ app.post('/api/webhook-payment', async (req, res) => {
   const { bookingId, status } = req.body;
 
   try {
-    const { data: booking, error } = await supabase
-      .from('bookings')
-      .update({ payment_status: status || 'paid' })
-      .eq('id', bookingId)
-      .select('*, pools(name)')
-      .single();
-    if (error) throw error;
+    const { rows } = await db.query(
+      'UPDATE bookings SET payment_status = $1 WHERE id = $2 RETURNING *',
+      [status || 'paid', bookingId]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Booking not found' });
+
+    const booking = rows[0];
 
     if (status === 'paid' || !status) {
       await sendWhatsAppNotification(

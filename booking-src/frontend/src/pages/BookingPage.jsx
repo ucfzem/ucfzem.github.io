@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
+import { getEstablishment, getEstablishmentPools, getPoolAvailability } from '../lib/api'
 import { isDemoMode, DEMO_ESTABLISHMENT, DEMO_POOLS, DEMO_SLOTS } from '../lib/demo'
 import BookingForm from '../components/BookingForm'
 import SlotPicker from '../components/SlotPicker'
@@ -30,92 +30,39 @@ export default function BookingPage() {
     }
 
     async function load() {
-      const { data: est, error: e1 } = await supabase
-        .from('establishments')
-        .select('*')
-        .eq('slug', slug)
-        .single()
-
-      if (e1 || !est) {
-        setError('Établissement introuvable. Connectez Supabase pour voir les données réelles.')
-        setLoading(false)
-        return
+      try {
+        const est = await getEstablishment(slug)
+        setEstablishment(est)
+        const pl = await getEstablishmentPools(slug)
+        setPools(pl || [])
+      } catch (e) {
+        setError('Établissement introuvable. Vérifiez l\'URL ou démarrez le backend.')
       }
-
-      setEstablishment(est)
-
-      const { data: pl } = await supabase
-        .from('pools')
-        .select('*')
-        .eq('establishment_id', est.id)
-        .eq('is_active', true)
-
-      setPools(pl || [])
       setLoading(false)
     }
     load()
   }, [slug, demo])
 
-  // Load slots when pool selected
-  useEffect(() => {
-    if (!selectedPool) return
-
-    if (demo) {
-      setSlots(DEMO_SLOTS.filter(s => s.pool_id === selectedPool.id))
-      return
-    }
-
-    async function loadSlots() {
-      const { data } = await supabase
-        .from('slot_configs')
-        .select('*')
-        .eq('pool_id', selectedPool.id)
-        .eq('is_active', true)
-        .order('start_time')
-      setSlots(data || [])
-    }
-    loadSlots()
-  }, [selectedPool, demo])
-
-  // Check availability when date + pool selected
+  // Load availability when pool + date selected
   useEffect(() => {
     if (!selectedPool || !selectedDate) return
 
     if (demo) {
-      // Simulate: morning slot busy on today
-      const today = new Date().toISOString().split('T')[0]
-      setSlots(prev => prev.map(s => ({
+      setSlots(DEMO_SLOTS.filter(s => s.pool_id === selectedPool.id).map(s => ({
         ...s,
-        available: !(selectedDate === today && s.name.includes('Matin'))
+        available: !(selectedDate === new Date().toISOString().split('T')[0] && s.name.includes('Matin'))
       })))
       setSelectedSlot(null)
       return
     }
 
     async function checkAvailability() {
-      const { data: booked } = await supabase
-        .from('bookings')
-        .select('slot_name')
-        .eq('pool_id', selectedPool.id)
-        .eq('booking_date', selectedDate)
-        .eq('booking_status', 'confirmed')
-        .neq('payment_status', 'refunded')
-
-      const { data: blocked } = await supabase
-        .from('blockades')
-        .select('slot_name')
-        .eq('pool_id', selectedPool.id)
-        .eq('block_date', selectedDate)
-
-      const takenSlots = new Set([
-        ...(booked || []).map(b => b.slot_name),
-        ...(blocked || []).map(b => b.slot_name)
-      ])
-
-      setSlots(prev => prev.map(s => ({
-        ...s,
-        available: !takenSlots.has(s.name)
-      })))
+      try {
+        const data = await getPoolAvailability(selectedPool.id, selectedDate)
+        setSlots(data || [])
+      } catch (e) {
+        console.error(e)
+      }
       setSelectedSlot(null)
     }
     checkAvailability()
@@ -152,7 +99,7 @@ export default function BookingPage() {
       {demo && (
         <div className="bg-yellow-100 border-b border-yellow-200 text-center py-2 px-4">
           <p className="text-xs text-yellow-800 font-medium">
-            🧪 Mode démo — <a href="https://supabase.com" target="_blank" rel="noopener" className="underline">Connectez Supabase</a> pour des données réelles
+            🧪 Mode démo — Lancez le backend pour des données réelles
           </p>
         </div>
       )}

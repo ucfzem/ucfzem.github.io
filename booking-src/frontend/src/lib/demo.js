@@ -146,8 +146,8 @@ function getTomorrowStr() {
   return d.toISOString().split('T')[0]
 }
 
-// Check if Supabase is properly configured
+// Check if API backend is available
 export function isDemoMode() {
-  const url = import.meta.env.VITE_SUPABASE_URL || ''
-  return !url || url === 'https://your-project.supabase.co' || url.includes('your-project')
+  const url = import.meta.env.VITE_API_URL || ''
+  return !url || url === 'http://localhost:5000'
 }
