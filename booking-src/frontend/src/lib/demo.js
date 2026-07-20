@@ -3,7 +3,7 @@
 
 export const DEMO_ESTABLISHMENT = {
   id: 'demo-est-1',
-  name: 'Villa Hamza',
+  name: 'Serenity-Villa',
   slug: 'villa-hamza',
   logo_url: null,
   primary_color: '#3b82f6',
