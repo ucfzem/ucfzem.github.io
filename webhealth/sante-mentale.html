@@ -32,7 +32,7 @@
   --warn-bg:rgba(220,160,60,.1);--warn-border:#b8862a;
   --step-bg:#1a2e20;
 }
-body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right}
+body.rtl{font-family:'Alexandria','Noto Sans Arabic',sans-serif;text-align:right;direction:rtl}
 body.rtl [data-i18n]{unicode-bidi:plaintext}
 body.rtl .sidebar{left:auto;right:-300px;border-right:none;border-left:1px solid var(--card-border)}
 body.rtl .sidebar.open{right:0}
@@ -40,8 +40,8 @@ body.rtl .category-card::before{left:auto;right:0;border-radius:0 4px 4px 0}
 body.rtl .category-card h3{padding-right:0;padding-left:4.5rem}
 body.rtl .hamburger{order:-1}
 body.rtl .theme-btn{order:0}
-html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s}
+html{scroll-behavior:smooth;font-size:16px;scroll-padding-top:80px}
+body{font-family:'Alexandria',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;transition:background .3s,color .3s;-webkit-tap-highlight-color:transparent}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;row-gap:.5rem;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(248,250,248,.85);border-bottom:1px solid var(--card-border);transition:all .3s}
 [data-theme="dark"] nav{background:rgba(13,26,18,.85)}
@@ -52,7 +52,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:fl
 .nav-links a:hover{color:var(--accent);text-decoration:none}
 .theme-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--card-border);background:var(--bg2);cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;order:-1}
 .theme-btn:hover{transform:scale(1.1);box-shadow:var(--shadow)}
-.lang-selector{display:flex;gap:4px;align-items:center;flex-shrink:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.lang-selector{display:flex;gap:4px;align-items:center;flex-shrink:1;min-width:0;overflow-x:auto;scrollbar-width:none;padding:2px 0}
 .lang-selector::-webkit-scrollbar{display:none}
 .lang-pill{display:flex;align-items:center;gap:3px;padding:.25rem .5rem;border-radius:14px;border:1px solid var(--card-border);background:transparent;cursor:pointer;font-size:.7rem;font-weight:500;min-height:36px;justify-content:center;transition:all .2s;color:var(--text3);white-space:nowrap}
 .lang-pill:hover{border-color:var(--accent);color:var(--accent)}
@@ -118,7 +118,7 @@ footer p{margin-bottom:8px}
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <aside class="sidebar" id="sidebar">
   <h3 data-i18n="sidebar.explore">Explorer</h3>
-  <ul>
+  <ul id="sidebarLinks">
     <li><a href="maladies.html" data-i18n="sidebar.maladies">Maladies</a></li>
     <li><a href="sante-naturelle.html" data-i18n="sidebar.sante">Santé naturelle</a></li>
     <li><a href="nutrition.html" data-i18n="sidebar.nutrition">Nutrition</a></li>
@@ -179,10 +179,16 @@ footer p{margin-bottom:8px}
 </footer>
 
 <script src="js/i18n.js"></script>
+
 <script>
-function toggleTheme(){var h=document.documentElement;var t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('wh-theme',t)}catch(e){}}
-(function(){try{var s=localStorage.getItem('wh-theme');if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeBtn').textContent=s==='dark'?'☀️':'🌙';}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');document.getElementById('themeBtn').textContent='☀️';}}catch(e){}})();
-const hamburger=document.getElementById('hamburger');const sidebar=document.getElementById('sidebar');const sidebarOverlay=document.getElementById('sidebarOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('open');});sidebarOverlay.addEventListener('click',()=>{hamburger.classList.remove('active');sidebar.classList.remove('open');sidebarOverlay.classList.remove('open');});
+function updateThemeButton(theme){var b=document.getElementById("themeBtn");if(b)b.textContent=theme==="dark"?"☀️":"🌙"}
+function toggleTheme(){var h=document.documentElement;var t=h.getAttribute("data-theme")==="dark"?"light":"dark";h.setAttribute("data-theme",t);updateThemeButton(t);try{localStorage.setItem("wh-theme",t)}catch(e){}}
+(function(){try{var s=localStorage.getItem("wh-theme");var t="light";if(s==="dark"||s==="light")t=s;else if(window.matchMedia("(prefers-color-scheme:dark)").matches)t="dark";document.documentElement.setAttribute("data-theme",t);window.addEventListener("DOMContentLoaded",function(){updateThemeButton(t)})}catch(e){}})();
+var hamburger=document.getElementById("hamburger");var sidebar=document.getElementById("sidebar");var sidebarOverlay=document.getElementById("sidebarOverlay");
+function closeSidebar(){hamburger.classList.remove("active");sidebar.classList.remove("open");sidebarOverlay.classList.remove("open")}
+hamburger.addEventListener("click",function(){hamburger.classList.toggle("active");sidebar.classList.toggle("open");sidebarOverlay.classList.toggle("open")});
+sidebarOverlay.addEventListener("click",closeSidebar);
+document.querySelectorAll("#sidebarLinks a").forEach(function(link){link.addEventListener("click",closeSidebar)});
 </script>
 </body>
 </html>
