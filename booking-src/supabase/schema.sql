@@ -14,6 +14,9 @@ CREATE TABLE establishments (
     address TEXT,
     city VARCHAR(100),
     description TEXT,
+    tagline VARCHAR(255) DEFAULT 'Réservez en quelques clics',
+    cancellation_policy_text TEXT DEFAULT 'Annulation gratuite jusqu''à 24h avant votre réservation.',
+    next_steps_override TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -29,6 +32,14 @@ CREATE TABLE pools (
     currency VARCHAR(3) DEFAULT 'MAD',
     ical_sync_url TEXT,
     is_active BOOLEAN DEFAULT true,
+    -- Dynamic copy fields
+    includes_bullets TEXT[] DEFAULT ARRAY[
+        'Accès privé à la piscine',
+        'Vestiaires & douches inclus',
+        'Confirmation WhatsApp instantanée',
+        'Annulation gratuite 24h avant'
+    ],
+    cancellation_policy_text TEXT DEFAULT 'Annulation gratuite jusqu''à 24h avant. Report possible sans frais.',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

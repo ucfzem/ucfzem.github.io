@@ -197,11 +197,40 @@ export default function BookingPage() {
                       <p className="text-xs text-gray-400">/ créneau</p>
                     </div>
                   </div>
-                  <div className="flex gap-2 mt-3">
+
+                  {/* Deliverables checklist */}
+                  <div className="mt-3 bg-gray-50 rounded-xl p-3">
+                    <p className="text-[11px] font-semibold text-gray-700 mb-1.5 uppercase tracking-wide">Ce qui est inclus :</p>
+                    <ul className="space-y-1">
+                      <li className="text-xs text-gray-600 flex items-center gap-1.5">
+                        <span className="text-green-500">✓</span> Accès privé à la piscine pendant {pool.max_capacity}h
+                      </li>
+                      <li className="text-xs text-gray-600 flex items-center gap-1.5">
+                        <span className="text-green-500">✓</span> Vestiaires & douches inclus
+                      </li>
+                      <li className="text-xs text-gray-600 flex items-center gap-1.5">
+                        <span className="text-green-500">✓</span> Transfert WhatsApp de confirmation
+                      </li>
+                      <li className="text-xs text-gray-600 flex items-center gap-1.5">
+                        <span className="text-green-500">✓</span> Annulation gratuite 24h avant
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="flex gap-2 mt-3 flex-wrap">
                     <Tag>🌊 {pool.max_capacity} pers. max</Tag>
+                    <Tag>📍 {pool.currency || 'MAD'}</Tag>
                   </div>
                 </button>
               ))}
+            </div>
+
+            {/* Policy transparency */}
+            <div className="mt-3 bg-green-50/50 border border-green-100 rounded-xl p-3">
+              <p className="text-xs text-green-700 font-medium flex items-center gap-1.5">
+                <span>✨</span>
+                Zéro risque : reportez ou annulez en 1 clic jusqu'à 24h avant votre réservation.
+              </p>
             </div>
           </Step>
         )}

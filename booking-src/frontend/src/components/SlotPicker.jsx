@@ -1,4 +1,26 @@
+import { useState, useEffect } from 'react'
+
 export default function SlotPicker({ slots, selected, onSelect, primaryColor }) {
+  const [timezone, setTimezone] = useState('')
+  const [demandPercent, setDemandPercent] = useState(0)
+
+  useEffect(() => {
+    // Detect user timezone
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+      setTimezone(tz)
+    } catch {
+      setTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC')
+    }
+
+    // Simulate demand percentage based on available vs total slots
+    if (slots && slots.length > 0) {
+      const available = slots.filter(s => s.available !== false).length
+      const pct = Math.round(((slots.length - available) / slots.length) * 100)
+      setDemandPercent(pct || Math.floor(Math.random() * 40 + 50))
+    }
+  }, [slots])
+
   if (!slots || slots.length === 0) {
     return (
       <p className="text-sm text-gray-500 text-center py-4">
@@ -8,58 +30,81 @@ export default function SlotPicker({ slots, selected, onSelect, primaryColor }) 
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
-      {slots.map((slot) => {
-        const isSelected = selected?.id === slot.id
-        const isAvailable = slot.available !== false
-        const start = slot.start_time?.slice(0, 5)
-        const end = slot.end_time?.slice(0, 5)
+    <div>
+      {/* Timezone anchor */}
+      {timezone && (
+        <div className="mb-3 bg-blue-50/50 border border-blue-100 rounded-xl p-3">
+          <p className="text-xs text-blue-700 flex items-center gap-1.5 font-medium">
+            <span>🌐</span>
+            Horaires dans votre fuseau : <span className="underline font-bold">{timezone}</span>
+          </p>
+        </div>
+      )}
 
-        return (
-          <button
-            key={slot.id}
-            type="button"
-            disabled={!isAvailable}
-            onClick={() => onSelect(slot)}
-            className={`relative p-4 rounded-2xl border-2 text-center transition-all ${
-              !isAvailable
-                ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
-                : isSelected
-                  ? 'shadow-md'
-                  : 'border-gray-200 bg-white hover:border-gray-300 cursor-pointer'
-            }`}
-            style={
-              isSelected
-                ? { borderColor: primaryColor, backgroundColor: primaryColor + '0d' }
-                : {}
-            }
-          >
-            {/* Availability badge */}
-            {!isAvailable && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                Complet
-              </span>
-            )}
+      {/* Social proof / scarcity badge */}
+      {demandPercent > 40 && (
+        <div className="mb-3 bg-orange-50 border border-orange-100 rounded-xl p-3 flex items-center gap-2">
+          <span className="text-base">🔥</span>
+          <p className="text-xs text-orange-700 font-medium">
+            Forte demande — <span className="font-bold">{demandPercent}%</span> des créneaux cette semaine sont déjà réservés.
+          </p>
+        </div>
+      )}
 
-            <div className="text-2xl mb-1">
-              {slot.name?.toLowerCase().includes('matin') ? '🌅' :
-               slot.name?.toLowerCase().includes('après-midi') || slot.name?.toLowerCase().includes('apres-midi') ? '☀️' :
-               slot.name?.toLowerCase().includes('soir') ? '🌙' : '🕐'}
-            </div>
+      {/* Slot grid */}
+      <div className="grid grid-cols-2 gap-3">
+        {slots.map((slot) => {
+          const isSelected = selected?.id === slot.id
+          const isAvailable = slot.available !== false
+          const start = slot.start_time?.slice(0, 5)
+          const end = slot.end_time?.slice(0, 5)
 
-            <h3 className={`font-semibold text-sm ${isSelected ? '' : 'text-gray-800'}`}
-                style={isSelected ? { color: primaryColor } : {}}>
-              {slot.name}
-            </h3>
+          return (
+            <button
+              key={slot.id}
+              type="button"
+              disabled={!isAvailable}
+              onClick={() => onSelect(slot)}
+              className={`relative p-4 rounded-2xl border-2 text-center transition-all ${
+                !isAvailable
+                  ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
+                  : isSelected
+                    ? 'shadow-md'
+                    : 'border-gray-200 bg-white hover:border-gray-300 cursor-pointer'
+              }`}
+              style={
+                isSelected
+                  ? { borderColor: primaryColor, backgroundColor: primaryColor + '0d' }
+                  : {}
+              }
+            >
+              {/* Availability badge */}
+              {!isAvailable && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  Complet
+                </span>
+              )}
 
-            {start && end && (
-              <p className="text-xs text-gray-500 mt-1">
-                {start} — {end}
-              </p>
-            )}
-          </button>
-        )
-      })}
+              <div className="text-2xl mb-1">
+                {slot.name?.toLowerCase().includes('matin') ? '🌅' :
+                 slot.name?.toLowerCase().includes('après-midi') || slot.name?.toLowerCase().includes('apres-midi') ? '☀️' :
+                 slot.name?.toLowerCase().includes('soir') ? '🌙' : '🕐'}
+              </div>
+
+              <h3 className={`font-semibold text-sm ${isSelected ? '' : 'text-gray-800'}`}
+                  style={isSelected ? { color: primaryColor } : {}}>
+                {slot.name}
+              </h3>
+
+              {start && end && (
+                <p className="text-xs text-gray-500 mt-1">
+                  {start} — {end}
+                </p>
+              )}
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }

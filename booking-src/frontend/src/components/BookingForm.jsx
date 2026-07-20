@@ -180,10 +180,31 @@ export default function BookingForm({ pool, slot, date, primaryColor, whatsappPh
         <p className="text-sm text-red-600 bg-red-50 p-3 rounded-xl">{result.msg}</p>
       )}
 
+      {/* Next steps explicit copy */}
+      <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 text-xs text-gray-600 space-y-2">
+        <p className="font-semibold text-gray-800 flex items-center gap-1.5">
+          <span>🚀</span> Que se passe-t-il ensuite ?
+        </p>
+        <ul className="space-y-1.5 pl-1">
+          <li className="flex items-start gap-1.5">
+            <span className="text-green-500 mt-0.5">✓</span>
+            <span>Une confirmation WhatsApp vous est envoyée instantanément.</span>
+          </li>
+          <li className="flex items-start gap-1.5">
+            <span className="text-green-500 mt-0.5">✓</span>
+            <span>Un récapitulatif complet (date, horaire, prix) est envoyé par email.</span>
+          </li>
+          <li className="flex items-start gap-1.5">
+            <span className="text-green-500 mt-0.5">✓</span>
+            <span>Le solde ({totalPrice - deposit} MAD) se paie sur place le jour J.</span>
+          </li>
+        </ul>
+      </div>
+
       <button
         type="submit"
         disabled={submitting}
-        className="w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl"
+        className="w-full py-4 rounded-2xl text-white font-bold text-lg shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-xl active:scale-[0.98]"
         style={{ background: primaryColor }}
       >
         {submitting ? (
@@ -192,13 +213,19 @@ export default function BookingForm({ pool, slot, date, primaryColor, whatsappPh
             Réservation en cours...
           </span>
         ) : (
-          `Payer ${deposit} MAD — Réserver`
+          `🔒 Payer ${deposit} MAD — Confirmer`
         )}
       </button>
 
-      <p className="text-center text-xs text-gray-400 mt-2">
-        🔒 Paiement sécurisé • Annulation gratuite 24h avant
-      </p>
+      {/* Trust anchors */}
+      <div className="space-y-2 pt-1">
+        <p className="text-center text-[11px] text-gray-400 font-medium">
+          🔒 Paiement 100% sécurisé • 🚫 Aucun engagement • ✨ Annulation gratuite 24h
+        </p>
+        <p className="text-center text-[10px] text-gray-300">
+          Données chiffrées et protégées via Supabase Auth + RLS
+        </p>
+      </div>
     </form>
   )
 }
