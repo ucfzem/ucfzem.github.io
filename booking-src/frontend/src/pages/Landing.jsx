@@ -18,7 +18,7 @@ export default function Landing() {
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            to="/booking/villa-hamza"
+            to="/villa-hamza"
             className="px-8 py-4 bg-white text-blue-700 font-bold rounded-2xl shadow-xl hover:shadow-2xl hover:bg-blue-50 transition-all text-lg"
           >
             🧪 Voir la démo

@@ -17,6 +17,26 @@ export const DEMO_POOLS = [
   {
     id: 'demo-pool-1',
     establishment_id: 'demo-est-1',
+    name: 'Piscine VIP',
+    description: 'Piscine privée avec service exclusif, transats et parasols',
+    max_capacity: 6,
+    price_per_slot: 1500,
+    currency: 'MAD',
+    is_active: true
+  },
+  {
+    id: 'demo-pool-2',
+    establishment_id: 'demo-est-1',
+    name: 'Piscine Couverte',
+    description: 'Piscine intérieure chauffée accessible toute l\'année',
+    max_capacity: 10,
+    price_per_slot: 1000,
+    currency: 'MAD',
+    is_active: true
+  },
+  {
+    id: 'demo-pool-3',
+    establishment_id: 'demo-est-1',
     name: 'Piscine Principale',
     description: 'Piscine extérieure 12x6m avec vue sur le détroit',
     max_capacity: 15,
@@ -25,7 +45,17 @@ export const DEMO_POOLS = [
     is_active: true
   },
   {
-    id: 'demo-pool-2',
+    id: 'demo-pool-4',
+    establishment_id: 'demo-est-1',
+    name: 'Jacuzzi',
+    description: 'Jacuzzi extérieur chauffé pour une expérience relaxante',
+    max_capacity: 4,
+    price_per_slot: 600,
+    currency: 'MAD',
+    is_active: true
+  },
+  {
+    id: 'demo-pool-5',
     establishment_id: 'demo-est-1',
     name: 'Espace Kids',
     description: 'Petite piscine chauffée pour enfants (0.8m)',
