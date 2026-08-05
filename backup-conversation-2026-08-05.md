@@ -1,4 +1,4 @@
-# Backup Conversation — Session GIMI (2026-08-05)
+# Backup Conversation — Session UcfZem (2026-08-05)
 
 ## Contexte
 Projet : outils SaaS pour petites structures scolaires au Maroc (crèches, jardins d'enfants, écoles coraniques, cours de soutien, 20–80 enfants).
@@ -12,13 +12,13 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - `ucfzem/scrutin-pro` — Système de vote et dépouillement en direct
 - GitHub Pages activés sur la branche `main`, dossier root.
 
-### 2. Code des outils (version GIMI fournie par l'utilisateur)
+### 2. Code des outils (version UcfZem fournie par l'utilisateur)
 - **bulletin-scolaire/index.html** (22 172 octets) :
   - Logo upload, infos élève (nom, classe, matricule), matières avec coef, calcul auto moyenne + mention + appréciation, semestres, observations, signatures parents/directeur, bilingue FR/AR (RTL), sauvegarde localStorage, export PDF/print.
-  - Signature : « Outil développé par GIMI - Tanger ».
+  - Signature : « Outil développé par UcfZem - Tanger ».
 - **scrutin-pro/index.html** (25 327 octets) :
   - Procès-verbal de dépouillement, titre d'élection, établissement, date, inscrits, votes exprimés, blancs/nuls, participation %, candidats +/-, badges vainqueur, tableau des résultats avec % et barres de progression, signatures bureau de vote (print), bilingue FR/AR, sauvegarde localStorage.
-  - Signature : « Outil développé par GIMI - Tanger ».
+  - Signature : « Outil développé par UcfZem - Tanger ».
 
 ### 3. Mise à jour de la page /works
 - Catégorie ajoutée : **« Outils Pros »** (badge 2) dans la section Projets verrouillés.
