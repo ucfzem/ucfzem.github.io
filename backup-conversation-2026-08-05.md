@@ -89,6 +89,13 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - **VRAI TEST NAVIGATEUR installé** : playwright-core + Chromium headless (rien n'existait avant). Tests : PDF A4 exact (bulletin 2 pages, scrutin 1 page), capture image non vide (228 937 / 172 059 octets, identiques 2 passes + production HTTPS), assertions DOM (RTL, « إجراء », colonne Action masquée, démo arabe), `pdfinfo`/`pdftotext` OK.
 - Commits GH : `f8849f6` (bulletin), `25c5e2c` (scrutin).
 
+### 15. Bulletin sur UNE page A4 (PDF)
+- **Problème** : le bulletin s'exportait sur 2 pages A4 (1re à moitié vide). La carte mesurait 346mm > 297mm.
+- **Fix (compression en mode capture)** : classe `html.pdf-capture` (font-size rem 16→12.5px) + paddings/marges réduits en `body.pdf-mode` (carte `8mm 10mm 6mm 10mm`, cellules tableau 2.5px, sections espacées 0.6-0.7rem). Carte mesurée : **242.7mm**.
+- **Filet de sécurité JS** : plus de découpage multi-pages — `scale = min(1, 297/imgH)` et image centrée → **toujours 1 page A4** (contenu jamais coupé ni étalé).
+- **Mesure en vrai** (headless) : bulletin 183 809 octets, scrutin 172 060 octets, **1 page chacun**, `pdfinfo` A4 exact, tests stables (tailles identiques 2 passes).
+- Commits GH : `a746523` (bulletin), `a4bbfa3` (scrutin).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
