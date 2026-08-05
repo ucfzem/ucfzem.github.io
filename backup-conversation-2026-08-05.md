@@ -66,6 +66,14 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - **Double téléchargement** : garde anti-doublon sur le bouton (« Télécharger PDF ») — `if (btn.disabled) return; btn.disabled = true` + opacité 0.6, réactivé après `.save()`. Un seul appel `.save()`, `e.preventDefault()` non requis (pas de `<form>`).
 - Commits GH : `9ed3da7` (bulletin), `92680a3` (scrutin).
 
+### 12. Fix i18n / RTL / troncature (session locale)
+- **Header « ACTION »** → clé `thAction` ajoutée aux 2 outils : FR « Action » / AR « إجراء » (`id="th-action"`).
+- **Boutons PDF arabisés** : bulletin `طباعة / PDF`→« طباعة المستند », `تحميل PDF`→« تحميل المستند » ; scrutin « طباعة المحضر » / « تحميل المحضر ». (FR inchangé.)
+- **Bouton langue** : déjà correct (affiche la langue de destination — « العربية » en FR, « Français » en AR).
+- **Démo localisée (`fillDemo`)** : en mode arabe, champs arabes — bulletin : « مدرسة عبد الكريم » / « ياسين المنصوري » / « السنة الثالثة إعدادي » ; scrutin : « انتخاب المكتب الطلابي » / « المعهد العالي للتسيير ». FR inchangé.
+- **Troncature noms de matières (الرياضيات→الريا)** : pas de `substring()` dans le code — c'était la colonne matière trop étroite. Fix CSS : colonnes numériques réduites (70/60/70/50px), `th:first-child, td:first-child { min-width: 45%; white-space: normal; }`, `td:first-child input { box-sizing:border-box; text-overflow:clip }`, `table-layout:auto`, `min-width` tableau 600→480px. Même règle `min-width:45%` sur la colonne Candidat du scrutin.
+- Commits GH : `36362dd` (bulletin), `5e4cc50` (scrutin).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
