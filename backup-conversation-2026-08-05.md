@@ -59,6 +59,13 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - **Fix** : capture de l'élément **en place** (`.report-card` / `.card`) avec largeur forcée `210mm`, classe temporaire **`.pdf-mode`** sur body (tableaux `overflow:visible`, inputs sans bordure, boutons masqués, section émargement affichée sur scrutin), thème light forcé, puis restauration. Commits GH : `9bca130` (bulletin), `6a6566c` (scrutin).
 - À tester par l'utilisateur (pas de navigateur headless disponible pour valider le rendu PDF).
 
+### 11. Fix responsive + PDF (session finale)
+- **Tableau coupé sur mobile** : suppression du scroll horizontal (ancien `min-width:600px` bulletin / `380px` scrutin). Colonnes compactées, `table { min-width: 0 }` à tous les écrans ; au scrutin la colonne « Répartition » (barres visuelles) est masquée <640px. Le nom des matières s'affiche en entier.
+- **Texte coupé dans le PDF** : `html2canvas.windowWidth` = largeur réelle de la carte (`captureWidth`) pour capturer les 210mm complets sans tronquer les colonnes. Appliqué aux 2 outils. Commits GH : `6829444` (bulletin), `f38ae2a` (scrutin).
+- **Caractères arabes détachés/inversés dans le PDF** (Disjoined Arabic) : html2canvas/jsPDF n'assemble pas les ligatures arabes ni le RTL. Fix = capture en mode RTL forcé + police arabe **Tajawal** injectée dans la capture `.pdf-mode` (`html[dir="rtl"] body.pdf-mode { direction: rtl; text-align: right }`, `font-family: 'Poppins','Tajawal'`). Tajawal ajouté au `<head>` du scrutin. La solution native fiable reste le bouton « Imprimer / PV PDF » (`window.print()`), le moteur du navigateur gère l'arabe parfaitement.
+- **Double téléchargement** : garde anti-doublon sur le bouton (« Télécharger PDF ») — `if (btn.disabled) return; btn.disabled = true` + opacité 0.6, réactivé après `.save()`. Un seul appel `.save()`, `e.preventDefault()` non requis (pas de `<form>`).
+- Commits GH : `9ed3da7` (bulletin), `92680a3` (scrutin).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
