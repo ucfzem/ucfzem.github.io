@@ -80,6 +80,15 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - **Scrutin** : pas de champ année scolaire (la date du scrutin reste = aujourd'hui).
 - Commit GH : `f0ec5a2`.
 
+### 14. Fix PDF arabe/RTL (changement de moteur)
+- **Problème** (PDF `Bulletin_Scolaire.pdf`) : arabe détaché/inversé (جيد جداً → بي دج دا), marges coupées (مدرسة → سة), chiffres mélangés (15.33/20 → $203/5.3$), colonne Action/× visible, latin inversé (UcfZem → ricfze).
+- **Cause** : html2canvas re-dessine le texte lui-même et ne gère ni l'arabe ni le RTL. Impossible à corriger par options (scale, polices) — c'est structurel.
+- **Fix** : remplacement de html2pdf.js par **html-to-image 1.11.11** (capture SVG `foreignObject` = le **vrai moteur du navigateur**, rendu arabe identique à l'écran) + **jsPDF 2.5.1** (découpage multi-pages A4, `scale:2`, `pixelRatio:2`, `skipFonts:true`, attente `document.fonts.ready`). CDN : jsDelivr + cdnjs.
+- **Bug isolé au test headless** : `<img>` logo à `src=""` faisait échouer html-to-image (404 = URL courante). Fix : data-URI 1×1 pendant la capture, restauration ensuite.
+- **UI masquée dans le PDF** : bulletin → colonne Action (`th/td:last-child`) masquée en `.pdf-mode` ; scrutin → grille candidats (boutons − / +) masquée, colonne Action déjà `no-print`. Marges : padding carte `14mm 12mm 10mm 12mm`.
+- **VRAI TEST NAVIGATEUR installé** : playwright-core + Chromium headless (rien n'existait avant). Tests : PDF A4 exact (bulletin 2 pages, scrutin 1 page), capture image non vide (228 937 / 172 059 octets, identiques 2 passes + production HTTPS), assertions DOM (RTL, « إجراء », colonne Action masquée, démo arabe), `pdfinfo`/`pdftotext` OK.
+- Commits GH : `f8849f6` (bulletin), `25c5e2c` (scrutin).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
