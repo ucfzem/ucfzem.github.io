@@ -35,6 +35,21 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
   - Bulletin : https://bulletin-scolaire.vercel.app (alias automatique)
   - Scrutin : https://scrutin-pro.vercel.app (alias automatique)
 
+### 5. Qualité d'impression (Solution 1)
+- Tableaux à l'impression : `overflow: visible`, `white-space: nowrap` sauf 1ère colonne (matière/candidat), police 11px, padding 4px 6px, `min-width: 0`. Appliqué aux 2 outils (media print).
+
+### 6. Export PDF direct
+- **html2pdf.js** intégré aux 2 outils → bouton **« Télécharger PDF »** génère le PDF et le télécharge directement (sans aperçu d'impression).
+- Capture forcée en mode clair, tableaux sans scrollbar, A4 portrait, section émargement incluse sur le scrutin.
+- `window.print()` conservé pour l'aperçu système.
+
+### 7. Internationalisation
+- Footer traduisible FR/AR : « Outil développé par UcfZem - Tanger » / « أداة مطورة من طرف UcfZem - طنجة » (clé `footer`, id `footer-text`). Les champs élève/établissement restent des données saisies par l'utilisateur.
+- **Correctifs RTL** : `overflow-x: hidden` sur body/container, tableaux dans les limites, alignement header/statistiques correct en arabe.
+
+### 8. Année scolaire
+- Valeur par défaut : **2026-2027** (champ éditable).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
