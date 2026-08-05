@@ -50,6 +50,15 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 ### 8. Année scolaire
 - Valeur par défaut : **2026-2027** (champ éditable).
 
+### 9. Restructuration bulletin (header + toolbar)
+- Toolbar réorganisé : `.actions-main` (grille `repeat(auto-fit, minmax(140px,1fr))` = boutons de largeur égale) + `.actions-utility` (langue + thème séparés).
+- Header centré : `.header-content` (colonne centrée) — logo, titre `.school-title` centré, `.meta-info` (semestre | année) dessous. Anciens `.header`/`.school-info`/`.meta-row` supprimés.
+
+### 10. Fix PDF vide (bug critique)
+- **Problème** : PDF téléchargé quasi vide (3.0 ko). Cause : clone placé hors-écran (`left:-9999px`) dans un `body` flexbox → html2canvas ne le capture pas.
+- **Fix** : capture de l'élément **en place** (`.report-card` / `.card`) avec largeur forcée `210mm`, classe temporaire **`.pdf-mode`** sur body (tableaux `overflow:visible`, inputs sans bordure, boutons masqués, section émargement affichée sur scrutin), thème light forcé, puis restauration. Commits GH : `9bca130` (bulletin), `6a6566c` (scrutin).
+- À tester par l'utilisateur (pas de navigateur headless disponible pour valider le rendu PDF).
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
