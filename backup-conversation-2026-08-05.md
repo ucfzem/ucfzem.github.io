@@ -74,6 +74,12 @@ Positionnement marché : concurrents (SchoolApp, E-Schools, Minassa, Skoolly, Da
 - **Troncature noms de matières (الرياضيات→الريا)** : pas de `substring()` dans le code — c'était la colonne matière trop étroite. Fix CSS : colonnes numériques réduites (70/60/70/50px), `th:first-child, td:first-child { min-width: 45%; white-space: normal; }`, `td:first-child input { box-sizing:border-box; text-overflow:clip }`, `table-layout:auto`, `min-width` tableau 600→480px. Même règle `min-width:45%` sur la colonne Candidat du scrutin.
 - Commits GH : `36362dd` (bulletin), `5e4cc50` (scrutin).
 
+### 13. Année scolaire automatique
+- **Bulletin** : le champ année n'est plus figé. Nouvelle fonction `getSchoolYear()` : bascule au **1er août** (`now.getMonth() >= 7`) → en août 2026 l'année affichée est **2026-2027**, puis 2027-2028 l'an prochain, etc.
+- **Migration** : si une ancienne valeur sauvegardée (`localStorage`) est périmée (ex. 2025-2026), elle est automatiquement remplacée par l'année courante au chargement.
+- **Scrutin** : pas de champ année scolaire (la date du scrutin reste = aujourd'hui).
+- Commit GH : `f0ec5a2`.
+
 ## Liens finaux
 - **Bulletin (Vercel)** : https://bulletin-scolaire.vercel.app
 - **Scrutin (Vercel)** : https://scrutin-pro.vercel.app
