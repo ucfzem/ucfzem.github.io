@@ -18,17 +18,17 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
 
   const messages = [
-    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Sois bref : 1 à 3 phrases sauf si on te demande plus de détails. Termine toujours tes phrases.' },
+    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Réponds DIRECTEMENT à la question, sans jamais dévoiler ton raisonnement interne ni tes hésitations. Sois bref : 1 à 3 phrases sauf si on te demande plus de détails. Termine toujours tes phrases.' },
     ...(history || []),
     { role: 'user', content: message }
   ];
 
-  // Modèles gratuits : les petits répondent vite, le 120B est le plus lent
-  // (gardé en dernier recours). Tous servent de repli mutuel.
+  // Modèles gratuits : le premier est le plus fiable pour suivre les consignes,
+  // les suivants servent de repli en cas d'échec ou de rate-limit.
   const models = [
-    'nvidia/nemotron-3-nano-30b-a3b:free',
     'google/gemma-4-31b-it:free',
     'openai/gpt-oss-20b:free',
+    'nvidia/nemotron-3-nano-30b-a3b:free',
     'nvidia/nemotron-3-super-120b-a12b:free'
   ];
 
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
             model,
             messages,
             max_tokens: 512,
-            temperature: 0.7,
+            temperature: 0.4,
             stream: true
           })
         }
