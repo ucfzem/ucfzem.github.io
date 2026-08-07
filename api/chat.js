@@ -1,7 +1,8 @@
 // Endpoint Serverless Vercel — /api/chat
 // Utilise OpenRouter (GitHub Models retiré le 30/07/2026).
-// Réponses tronquées = max_tokens trop bas (512) → corrigé à 2048,
-// + repli automatique sur d'autres modèles ':free' si l'un échoue.
+// Streaming SSE : les premiers mots arrivent en ~1s au lieu d'attendre toute
+// la réponse (c'était la cause principale de la lenteur perçue).
+// Modèles classés du plus rapide au plus lent : repli automatique en cas d'échec.
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -22,16 +23,18 @@ export default async function handler(req, res) {
     { role: 'user', content: message }
   ];
 
-  // Modèles gratuits : le premier est le principal, les suivants servent de repli.
+  // Modèles gratuits : les petits répondent vite, le 120B est le plus lent
+  // (gardé en dernier recours). Tous servent de repli mutuel.
   const models = [
-    'nvidia/nemotron-3-super-120b-a12b:free',
+    'nvidia/nemotron-3-nano-30b-a3b:free',
     'google/gemma-4-31b-it:free',
     'openai/gpt-oss-20b:free',
-    'nvidia/nemotron-3-nano-30b-a3b:free'
+    'nvidia/nemotron-3-super-120b-a12b:free'
   ];
 
-  let lastError = null;
   for (const model of models) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 60000);
     try {
       const response = await fetch(
         'https://openrouter.ai/api/v1/chat/completions',
@@ -46,32 +49,61 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             model,
             messages,
-            max_tokens: 2048,
+            max_tokens: 512,
             temperature: 0.7,
-            stream: false
+            stream: true
           })
         }
       );
 
-      const data = await response.json();
-
       if (!response.ok) {
-        lastError = data.error?.message || `OpenRouter (${model})`;
+        const data = await response.json().catch(() => ({}));
+        console.error(`OpenRouter (${model})`, data.error?.message);
+        clearTimeout(timer);
         continue; // essaie le modèle suivant
       }
 
-      const reply = data.choices?.[0]?.message?.content;
-      if (!reply || !reply.trim()) {
-        lastError = `Réponse vide (${model})`;
-        continue;
+      res.status(200);
+      res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('X-Accel-Buffering', 'no');
+      res.flushHeaders();
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith('data:')) continue;
+          const payload = trimmed.slice(5).trim();
+          if (payload === '[DONE]') continue;
+          try {
+            const json = JSON.parse(payload);
+            const delta = json.choices?.[0]?.delta?.content;
+            if (delta) res.write(`data: ${JSON.stringify({ delta })}\n\n`);
+          } catch { /* chunk partiel, on ignore */ }
+        }
       }
 
-      return res.status(200).json({ reply, model });
+      res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+      res.end();
+      clearTimeout(timer);
+      return;
     } catch (err) {
-      lastError = err.message || 'Erreur réseau';
+      clearTimeout(timer);
+      console.error(`OpenRouter (${model})`, err.message);
       continue;
     }
   }
 
-  return res.status(502).json({ error: lastError || 'Erreur réseau' });
+  return res.status(502).json({ error: 'Erreur réseau' });
 }

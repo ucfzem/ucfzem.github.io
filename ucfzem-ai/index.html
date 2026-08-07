@@ -866,35 +866,50 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message })
         });
-        const data = await res.json();
-        typing.remove();
-        if (data.reply) {
-          addBubble(data.reply, 'ai');
-        } else if (data.retryAfter) {
-          addBubble('⏳ Je réessaie dans un instant...', 'ai');
-          setTimeout(() => sendMessageWithText(message), data.retryAfter * 1000);
-        } else {
+
+        if (!res.ok) {
+          typing.remove();
+          const data = await res.json().catch(() => ({}));
           addBubble(data.error || 'Erreur de connexion', 'ai');
+          return;
         }
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble ai';
+        const span = document.createElement('span');
+        bubble.appendChild(span);
+        chatBody.appendChild(bubble);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let full = '';
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed.startsWith('data:')) continue;
+            const payload = trimmed.slice(5).trim();
+            if (payload === '[DONE]') continue;
+            try {
+              const json = JSON.parse(payload);
+              if (json.delta) full += json.delta;
+            } catch {}
+          }
+          span.textContent = full;
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        typing.remove();
+        saveMessages();
       } catch {
         typing.remove();
         addBubble('Erreur réseau. Vérifiez votre connexion.', 'ai');
-      }
-    }
-
-    async function sendMessageWithText(text) {
-      const typing = showTyping();
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
-        });
-        const data = await res.json();
-        typing.remove();
-        addBubble(data.reply || data.error || 'Erreur', 'ai');
-      } catch {
-        typing.remove();
-        addBubble('Erreur réseau', 'ai');
       }
     }
 
