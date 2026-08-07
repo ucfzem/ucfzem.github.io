@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   const { message, history } = req.body;
   if (!message) return res.status(400).json({ error: 'Message is required' });
 
-  const ghToken = process.env.GH_TOKEN;
-  if (!ghToken) return res.status(500).json({ error: 'GitHub token not configured' });
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
 
   const messages = [
     { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue.' },
@@ -20,15 +20,17 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      'https://models.inference.ai.azure.com/chat/completions',
+      'https://openrouter.ai/api/v1/chat/completions',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${ghToken}`
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': 'https://ucfzemgithubio.vercel.app',
+          'X-Title': 'UcfZem AI'
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'nvidia/nemotron-3-nano-30b-a3b:free',
           messages,
           max_tokens: 512,
           temperature: 0.7
@@ -40,7 +42,7 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       return res.status(response.status).json({
-        error: data.error?.message || 'GitHub Models error'
+        error: data.error?.message || 'OpenRouter error'
       });
     }
 
