@@ -36,14 +36,14 @@
 - Repo principal : https://github.com/ucfzem/ucfzem.github.io
 - Repo bulletin-test : https://github.com/ucfzem/bulletin-test
 - Bulletin-test (Pages) : https://ucfzem.github.io/bulletin-test/
-- Bulletin-test (Vercel) : https://bulletin-test-2tthlawu6-ucfzem-s-projects.vercel.app
+- Bulletin-test (Vercel) : https://bulletin-test.vercel.app/
 
 ### 4b. Déploiement Vercel de bulletin-test
 
 - Projet Vercel créé : `bulletin-test` (id `prj_hP5wy9NZ9H7rxhlD4qb45prMite2`), lié au repo GitHub `ucfzem/bulletin-test` (branche `main`).
-- Déploiement déclenché via l'API Vercel (aucun déploiement auto après la création du lien) : id `dpl_FHry6m47FU1kfzRpBajAQXVhEkqo` — READY.
+- Déploiement production final via CLI Vercel : **https://bulletin-test.vercel.app** (aliasé sur le domaine du projet).
 - Correctif déployé : **traduction bidirectionnelle FR/AR** (dictionnaire inverse `reverseDict`, bascule de la classe `ar` pour le formatage RTL), commit `2459090`.
-- Projets GitHub Pages et Vercel redéploient automatiquement sur chaque push sur `main`.
+- GitHub Pages et Vercel redéploient automatiquement sur chaque push sur `main`.
 
 ### 5. ⚠️ Sécurité
 
