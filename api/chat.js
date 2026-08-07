@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
 
   const messages = [
-    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Termine toujours tes phrases.' },
+    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Sois bref : 1 à 3 phrases sauf si on te demande plus de détails. Termine toujours tes phrases.' },
     ...(history || []),
     { role: 'user', content: message }
   ];
