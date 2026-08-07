@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   if (!apiKey) return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
 
   const messages = [
-    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Réponds DIRECTEMENT à la question, sans jamais dévoiler ton raisonnement interne ni tes hésitations. Sois bref : 1 à 3 phrases sauf si on te demande plus de détails. Termine toujours tes phrases.' },
+    { role: 'system', content: 'Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l\'utilisateur écrit dans une autre langue. Réponds DIRECTEMENT à la question, sans jamais dévoiler ton raisonnement interne ni tes hésitations. Sois bref : 1 à 3 phrases sauf si on te demande plus de détails. Termine toujours tes phrases. CONNAISSANCES ACTUELLES (aujourd\'hui = 7 août 2026) : la génération Claude 5 d\'Anthropic est sortie en 2026 — Claude Sonnet 5 (30 juin 2026), Claude Opus 5 (24 juillet 2026), Claude Fable 5 / Mythos 5 (juin 2026). Ne cite jamais Claude 3.x comme version récente.' },
     ...(history || []),
     { role: 'user', content: message }
   ];
