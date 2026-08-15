@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SavoirsEnJouant - مغامرة المعرفة</title>
+
+  <meta name="description" content="Jeu éducatif bilingue français-arabe pour enfants : vocabulaire, nombres, construction de phrases et 15 histoires. SavoirsEnJouant.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --text: #1a202c;
+      --text-secondary: #4a5568;
+      --primary: #ff6b6b;
+      --primary-dark: #e74c3c;
+      --secondary: #4ecdc4;
+      --accent: #ffe66d;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --border: #e2e8f0;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,0.15);
+      --radius: 18px;
+      --font-main: 'Poppins', sans-serif;
+      --font-heading: 'Baloo 2', cursive;
+      --font-ar: 'Cairo', sans-serif;
+      --transition: 0.2s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #263445;
+      --text: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --primary: #ff6b6b;
+      --primary-dark: #ef4444;
+      --secondary: #34d399;
+      --accent: #fbbf24;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --border: #334155;
+      --shadow: 0 8px 20px rgba(0,0,0,0.4);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    #app {
+      width: 100%;
+      max-width: 700px;
+      background: var(--surface);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-top: 5px;
+      min-height: calc(100vh - 30px);
+      display: flex;
+      flex-direction: column;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      padding: 10px 18px;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+
+    .theme-toggle:hover {
+      background: var(--surface-hover);
+      border-color: var(--primary);
+    }
+
+    .score-badge {
+      background: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1a202c;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .nav-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      padding: 14px 10px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      outline: none;
+      position: relative;
+    }
+
+    .nav-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .nav-btn:focus-visible,
+    .btn-option:focus-visible,
+    .choice-btn:focus-visible,
+    .action-btn:focus-visible,
+    .cat-btn:focus-visible,
+    .story-chip:focus-visible,
+    .word-chip:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .nav-btn.active {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+      box-shadow: 0 6px 12px rgba(78, 205, 196, 0.4);
+    }
+
+    .nav-btn .icon {
+      font-size: 1.8rem;
+      pointer-events: none;
+    }
+
+    .game-screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .game-screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+
+    .visual-display {
+      font-size: clamp(3rem, 10vw, 5rem);
+      margin: 15px 0;
+      line-height: 1.2;
+      user-select: none;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .btn-option {
+      background: var(--surface-hover);
+      border: 2px solid var(--border);
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      outline: none;
+      text-align: center;
+    }
+
+    .btn-option:hover {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-option.correct {
+      background: var(--success) !important;
+      color: white !important;
+      border-color: var(--success) !important;
+    }
+
+    .btn-option.wrong {
+      background: var(--danger) !important;
+      color: white !important;
+      border-color: var(--danger) !important;
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .cat-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 18px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      outline: none;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .cat-btn:hover {
+      background: var(--surface-hover);
+    }
+
+    .cat-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .sentence-builder {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .target-zone {
+      min-height: 60px;
+      background: var(--surface-hover);
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .words-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .word-chip {
+      background: var(--secondary);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: all var(--transition);
+      font-size: 1rem;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .word-chip:hover {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+
+    .story-selector {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      width: 100%;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) transparent;
+    }
+
+    .story-chip {
+      white-space: nowrap;
+      background: var(--surface);
+      padding: 10px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      color: var(--text);
+      outline: none;
+    }
+
+    .story-chip:hover {
+      background: var(--surface-hover);
+    }
+
+    .story-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .story-box {
+      text-align: left;
+      width: 100%;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 16px;
+      background: var(--surface-hover);
+      border-radius: 14px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+
+    .story-paragraph {
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .story-fr {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .story-ar {
+      font-size: 1.05rem;
+      color: var(--secondary);
+      text-align: right;
+      direction: rtl;
+      font-family: var(--font-ar);
+      margin-top: 4px;
+    }
+
+    .action-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all var(--transition);
+      outline: none;
+    }
+
+    .action-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .star-pop {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 6rem;
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+      z-index: 1000;
+      filter: drop-shadow(0 0 20px rgba(255, 230, 109, 0.8));
+    }
+
+    .star-pop.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @media (min-width: 1200px) {
+      #app {
+        max-width: 900px;
+        padding: 30px;
+      }
+      .nav-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .options-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 700px;
+      }
+      .btn-option {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      #app {
+        padding: 10px;
+      }
+      .logo {
+        font-size: 1.1rem;
+      }
+      .nav-btn {
+        padding: 10px 6px;
+        font-size: 0.8rem;
+      }
+      .nav-btn .icon {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">🌟 SavoirsEnJouant</div>
+    <div class="header-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Basculer le thème">🌓</button>
+      <div class="score-badge">⭐ <span id="score">0</span></div>
+    </div>
+  </header>
+
+  <nav class="nav-grid">
+    <button class="nav-btn active" data-tab="vocab" tabindex="0">
+      <span class="icon">🖼️</span> Mots & Thèmes
+    </button>
+    <button class="nav-btn" data-tab="numbers" tabindex="0">
+      <span class="icon">🔢</span> Nombres 1-10
+    </button>
+    <button class="nav-btn" data-tab="sentences" tabindex="0">
+      <span class="icon">🧩</span> Phrases 2 Langues
+    </button>
+    <button class="nav-btn" data-tab="stories" tabindex="0">
+      <span class="icon">📚</span> 15 Histoires
+    </button>
+  </nav>
+
+  <!-- 1. Vocabulaire -->
+  <section id="screen-vocab" class="game-screen active">
+    <div class="category-filter" id="vocab-cats" style="display: flex; gap: 6px; margin-bottom: 12px; width: 100%; overflow-x: auto;">
+      <button class="cat-btn active" data-cat="all" tabindex="0">Tous</button>
+      <button class="cat-btn" data-cat="animaux" tabindex="0">🐾 Animaux</button>
+      <button class="cat-btn" data-cat="nature" tabindex="0">🌱 Nature</button>
+      <button class="cat-btn" data-cat="pays" tabindex="0">🌍 Pays/Lieux</button>
+      <button class="cat-btn" data-cat="maison" tabindex="0">🏠 Maison</button>
+    </div>
+    <div class="card">
+      <div id="vocab-emoji" class="visual-display">🦁</div>
+      <h3 id="vocab-prompt" style="margin-bottom: 15px;">Que veut dire ce mot en arabe ?</h3>
+      <div class="options-grid" id="vocab-options"></div>
+    </div>
+  </section>
+
+  <!-- 2. Nombres -->
+  <section id="screen-numbers" class="game-screen">
+    <div class="card">
+      <h3>Comptons ensemble ! / كم عدد الأشياء؟</h3>
+      <div id="numbers-emoji" class="visual-display">🍎🍎🍎</div>
+      <div class="options-grid" id="numbers-options"></div>
+    </div>
+  </section>
+
+  <!-- 3. Phrases -->
+  <section id="screen-sentences" class="game-screen">
+    <div class="card">
+      <h3>Trouve le sens / رتّب الجملة</h3>
+      <p id="sentence-translation" style="margin: 10px 0; font-weight: bold; color: var(--secondary);"></p>
+      <div class="sentence-builder">
+        <div class="target-zone" id="target-words"></div>
+        <div class="words-pool" id="source-words"></div>
+      </div>
+      <button class="action-btn" onclick="checkSentence()">Vérifier / تحقق</button>
+    </div>
+  </section>
+
+  <!-- 4. Histoires -->
+  <section id="screen-stories" class="game-screen">
+    <div class="story-selector" id="story-list"></div>
+    <div class="card">
+      <h3 id="story-title" style="margin-bottom: 10px;"></h3>
+      <div class="story-box" id="story-content"></div>
+      <div id="story-quiz" style="width: 100%;">
+        <p id="story-question" style="font-weight: bold; margin-bottom: 10px;"></p>
+        <div class="options-grid" id="story-options"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="star-animation" class="star-pop">⭐</div>
+
+<script>
+/* ==========================================================================
+   DONNÉES DU JEU
+   ========================================================================== */
+
+let audioCtx = null;
+function playSound(type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    if (type === 'correct') {
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+      if (navigator.vibrate) navigator.vibrate(100);
+    } else if (type === 'wrong') {
+      osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(180, audioCtx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+      if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+    }
+  } catch (e) {}
+}
+
+let score = 0;
+function addScore(pts = 10) {
+  score += pts;
+  document.getElementById('score').innerText = score;
+  try { localStorage.setItem('savoirsEnJouant_score', String(score)); } catch (e) {}
+  showStar();
+}
+
+function showStar() {
+  const star = document.getElementById('star-animation');
+  star.classList.add('show');
+  setTimeout(() => star.classList.remove('show'), 600);
+}
+
+/* --- 1. VOCABULAIRE --- */
+const vocabData = [
+  { emoji: "🦁", fr: "Lion", ar: "أسد", cat: "animaux", distractors: ["فيل", "قرد"] },
+  { emoji: "🐘", fr: "Éléphant", ar: "فيل", cat: "animaux", distractors: ["أسد", "زرافة"] },
+  { emoji: "🐱", fr: "Chat", ar: "قطة", cat: "animaux", distractors: ["كلب", "أرنب"] },
+  { emoji: "🦅", fr: "Aigle", ar: "نسر", cat: "animaux", distractors: ["عصفور", "بطة"] },
+  { emoji: "🐬", fr: "Dauphin", ar: "دلفين", cat: "animaux", distractors: ["قرش", "حوت"] },
+  { emoji: "🌲", fr: "Arbre", ar: "شجرة", cat: "nature", distractors: ["زهرة", "جبل"] },
+  { emoji: "🌸", fr: "Fleur", ar: "زهرة", cat: "nature", distractors: ["ورقة", "شمس"] },
+  { emoji: "🏔️", fr: "Montagne", ar: "جبل", cat: "nature", distractors: ["نهر", "بحر"] },
+  { emoji: "☀️", fr: "Soleil", ar: "شمس", cat: "nature", distractors: ["قمر", "نجمة"] },
+  { emoji: "🌧️", fr: "Pluie", ar: "مطر", cat: "nature", distractors: ["ثلج", "ريح"] },
+  { emoji: "🇲🇦", fr: "Maroc", ar: "المغرب", cat: "pays", distractors: ["فرنسا", "مصر"] },
+  { emoji: "🇫🇷", fr: "France", ar: "فرنسا", cat: "pays", distractors: ["إسبانيا", "المغرب"] },
+  { emoji: "🏜️", fr: "Désert", ar: "صحراء", cat: "pays", distractors: ["غابة", "مدينة"] },
+  { emoji: "🏖️", fr: "Plage", ar: "شاطئ", cat: "pays", distractors: ["جبل", "حديقة"] },
+  { emoji: "🏠", fr: "Maison", ar: "منزل", cat: "maison", distractors: ["مدرسة", "مكتب"] },
+  { emoji: "🚪", fr: "Porte", ar: "باب", cat: "maison", distractors: ["نافذة", "سرير"] },
+  { emoji: "🪟", fr: "Fenêtre", ar: "نافذة", cat: "maison", distractors: ["باب", "طاولة"] },
+  { emoji: "🛏️", fr: "Lit", ar: "سرير", cat: "maison", distractors: ["كرسي", "خزانة"] },
+  { emoji: "🍎", fr: "Pomme", ar: "تفاحة", cat: "maison", distractors: ["موزة", "برتقالة"] },
+  { emoji: "📚", fr: "Livre", ar: "كتاب", cat: "maison", distractors: ["قلم", "حقيبة"] }
+];
+
+let currentVocabFilter = 'all';
+let currentVocabIndex = 0;
+let filteredVocab = [...vocabData];
+
+function filterVocab(cat) {
+  currentVocabFilter = cat;
+  document.querySelectorAll('#vocab-cats .cat-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.querySelector('#vocab-cats .cat-btn[data-cat="' + cat + '"]');
+  if (activeBtn) activeBtn.classList.add('active');
+  filteredVocab = cat === 'all' ? [...vocabData] : vocabData.filter(item => item.cat === cat);
+  currentVocabIndex = 0;
+  loadVocabQuestion();
+}
+
+function loadVocabQuestion() {
+  if (filteredVocab.length === 0) return;
+  const item = filteredVocab[currentVocabIndex % filteredVocab.length];
+  document.getElementById('vocab-emoji').innerText = item.emoji;
+  document.getElementById('vocab-prompt').innerText = 'Comment dit-on "' + item.fr + '" en arabe ?';
+
+  const options = [item.ar, ...item.distractors].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('vocab-options');
+  container.innerHTML = '';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = opt;
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => handleVocabAnswer(btn, opt === item.ar);
+    container.appendChild(btn);
+  });
+}
+
+function handleVocabAnswer(btn, isCorrect) {
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playSound('correct');
+    addScore(10);
+    setTimeout(() => {
+      currentVocabIndex++;
+      loadVocabQuestion();
+    }, 1200);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+  }
+}
+
+/* --- 2. NOMBRES --- */
+const numberEmojis = ["🍎", "⭐", "🎈", "🐱", "🚗", "🌸", "🐟", "🐥"];
+let currentNumberTarget = 0;
+
+function loadNumberQuestion() {
+  currentNumberTarget = Math.floor(Math.random() * 10) + 1;
+  const randomEmoji = numberEmojis[Math.floor(Math.random() * numberEmojis.length)];
+  document.getElementById('numbers-emoji').innerText = randomEmoji.repeat(currentNumberTarget);
+
+  let choices = [currentNumberTarget];
+  while (choices.length < 3) {
+    let r = Math.floor(Math.random() * 10) + 1;
+    if (!choices.includes(r)) choices.push(r);
+  }
+  choices.sort(() => Math.random() - 0.5);
+
+  const container = document.getElementById('numbers-options');
+  container.innerHTML = '';
+
+  choices.forEach(num => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = num + ' (' + getNumberAr(num) + ')';
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => handleNumberAnswer(btn, num === currentNumberTarget);
+    container.appendChild(btn);
+  });
+}
+
+function getNumberAr(n) {
+  const arNums = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة"];
+  return arNums[n] || n;
+}
+
+function handleNumberAnswer(btn, isCorrect) {
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playSound('correct');
+    addScore(10);
+    setTimeout(loadNumberQuestion, 1200);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+  }
+}
+
+/* --- 3. PHRASES --- */
+const sentenceData = [
+  { fr: "Le chat mange le poisson", arWords: ["القط", "يأكل", "السمكة"] },
+  { fr: "Le lion vit dans la forêt", arWords: ["الأسد", "يعيش", "في", "الغابة"] },
+  { fr: "La fleur est très belle", arWords: ["الزهرة", "جميلة", "جداً"] },
+  { fr: "L'enfant joue dans le jardin", arWords: ["الطفل", "يلعب", "في", "الحديقة"] },
+  { fr: "Le soleil brille aujourd'hui", arWords: ["الشمس", "تشرق", "اليوم"] }
+];
+
+let currentSentenceIndex = 0;
+let userBuiltWords = [];
+
+function loadSentenceQuestion() {
+  const data = sentenceData[currentSentenceIndex % sentenceData.length];
+  document.getElementById('sentence-translation').innerText = '🇫🇷 "' + data.fr + '"';
+  userBuiltWords = [];
+  updateSentenceUI(data);
+}
+
+function updateSentenceUI(data) {
+  const targetZone = document.getElementById('target-words');
+  const sourceZone = document.getElementById('source-words');
+  targetZone.innerHTML = '';
+  sourceZone.innerHTML = '';
+
+  userBuiltWords.forEach((word, index) => {
+    const chip = document.createElement('span');
+    chip.className = 'word-chip';
+    chip.innerText = word;
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      userBuiltWords.splice(index, 1);
+      updateSentenceUI(data);
+    };
+    targetZone.appendChild(chip);
+  });
+
+  let available = [...data.arWords];
+  userBuiltWords.forEach(w => {
+    let idx = available.indexOf(w);
+    if (idx > -1) available.splice(idx, 1);
+  });
+
+  available.sort(() => Math.random() - 0.5);
+
+  available.forEach(word => {
+    const chip = document.createElement('span');
+    chip.className = 'word-chip';
+    chip.innerText = word;
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      userBuiltWords.push(word);
+      updateSentenceUI(data);
+    };
+    sourceZone.appendChild(chip);
+  });
+}
+
+function checkSentence() {
+  const data = sentenceData[currentSentenceIndex % sentenceData.length];
+  if (JSON.stringify(userBuiltWords) === JSON.stringify(data.arWords)) {
+    playSound('correct');
+    addScore(15);
+    setTimeout(() => {
+      currentSentenceIndex++;
+      loadSentenceQuestion();
+    }, 800);
+  } else {
+    playSound('wrong');
+  }
+}
+
+/* --- 4. HISTOIRES (15 histoires bilingues) --- */
+const stories = [
+  {
+    title: "1. Le Renard et le Corbeau / الثعلب والغراب",
+    content: [
+      { fr: "Un corbeau est assis sur un arbre avec un fromage. 🧀", ar: "غراب يجلس على شجرة ومعه جبن." },
+      { fr: "Un renard affamé arrive et le regarde. 🦊", ar: "جاء ثعلب جائع ونظر إليه." },
+      { fr: "Le renard dit : 'Quelle belle voix tu as !' 🎶", ar: "قال الثعلب: 'ما أجمل صوتك!'" },
+      { fr: "Le corbeau ouvre son bec pour chanter. 🎤", ar: "فتح الغراب نقاره ليغني." },
+      { fr: "Le fromage tombe et le renard le mange ! 😋", ar: "سقط الجبن وأكله الثعلب!" }
+    ],
+    q: "Qui a mangé le fromage ? / من أكل الجبن؟",
+    options: ["Le renard / الثعلب", "Le corbeau / الغراب", "Le chat / القط"],
+    ans: 0
+  },
+  {
+    title: "2. Le Lièvre et la Tortue / الأرنب والسلحفاة",
+    content: [
+      { fr: "Un lièvre se moque de la tortue qui marche lentement. 🐇", ar: "أرنب يسخر من السلحفاة لأنها تمشي ببطء." },
+      { fr: "La tortue propose une course au lièvre. 🐢", ar: "اقترحت السلحفاة على الأرنب سباقاً." },
+      { fr: "Le lièvre s'arrête pour dormir, confiant de gagner. 😴", ar: "توقف الأرنب لينام لأنه واثق من الفوز." },
+      { fr: "La tortue continue sans s'arrêter et gagne la course ! 🏆", ar: "واصلت السلحفاة السير بلا توقف وفازت بالسباق!" }
+    ],
+    q: "Qui a gagné la course ? / من فاز بالسباق؟",
+    options: ["La tortue / السلحفاة", "Le lièvre / الأرنب", "Le cheval / الحصان"],
+    ans: 0
+  },
+  {
+    title: "3. La Cigogne et le Renard / اللقلق والثعلب",
+    content: [
+      { fr: "Un renard invite une cigogne à dîner. 🦊", ar: "دعا ثعلب لقلقاً إلى العشاء." },
+      { fr: "Il sert la soupe dans des assiettes plates. 🍽️", ar: "قدّم الحساء في صحون مسطحة." },
+      { fr: "La cigogne ne peut pas manger avec son long bec. 🦩", ar: "لم تستطع اللقلق أن تأكل بمنقارها الطويل." },
+      { fr: "Le lendemain, la cigogne invite le renard et sert la soupe dans des vases hauts. 🏺", ar: "في اليوم التالي دعا اللقلق الثعلب وقدّم الحساء في أوانٍ طويلة." },
+      { fr: "Le renard rentre affamé. Leçon : ne fais pas aux autres ce que tu ne veux pas pour toi. 😔", ar: "عاد الثعلب جائعاً. العبرة: لا تفعل بالآخرين ما لا تحب لنفسك." }
+    ],
+    q: "Pourquoi le renard n'a pas pu manger ? / لماذا لم يستطع الثعلب أن يأكل؟",
+    options: ["Les vases étaient trop hauts / الأواني كانت طويلة جداً", "Il n'avait pas faim / لم يكن جائعاً", "La soupe était froide / الحساء كان بارداً"],
+    ans: 0
+  },
+  {
+    title: "4. Le Lion et la Souris / الأسد والفأر",
+    content: [
+      { fr: "Un lion dort dans la forêt. 🦁", ar: "أسد نائم في الغابة." },
+      { fr: "Une petite souris court sur son nez. 🐭", ar: "فأر صغير يجري على أنفه." },
+      { fr: "Le lion se réveille et veut la manger, mais elle le supplie de la libérer. 😡", ar: "استيقظ الأسد وأراد أن يأكله، لكن الفأر توسّل إليه أن يتركه." },
+      { fr: "Un jour, le lion tombe dans un filet. La souris coupe les cordes avec ses dents. 🪢", ar: "في يوم من الأيام وقع الأسد في شبكة. قطع الفأر الحبال بأسنانه." },
+      { fr: "Même un petit ami peut sauver une grande vie ! 💚", ar: "حتى الصديق الصغير يستطيع أن ينقذ حياة كبيرة!" }
+    ],
+    q: "Comment la souris a-t-elle sauvé le lion ? / كيف أنقذ الفأر الأسد؟",
+    options: ["Elle a coupé les cordes / قطع الحبال", "Elle a appelé un chien / استدعى كلباً", "Elle a donné à manger au lion / أعطى الأسد طعاماً"],
+    ans: 0
+  },
+  {
+    title: "5. La Fourmi et la Cigale / النملة والجندب",
+    content: [
+      { fr: "En été, la cigale chante toute la journée. 🎵", ar: "في الصيف، يغني الجندب طوال اليوم." },
+      { fr: "La fourmi travaille dur et garde la nourriture pour l'hiver. 🐜", ar: "النملة تعمل بجد وتخزّن الطعام للشتاء." },
+      { fr: "En hiver, la cigale a faim et demande de l'aide. ❄️", ar: "في الشتاء، أصبح الجندب جائعاً وطلب المساعدة." },
+      { fr: "La fourmi partage sa nourriture : il faut se préparer pour demain. 🍞", ar: "شاركته النملة طعامها: يجب أن تستعدّ للغد." }
+    ],
+    q: "Qui a préparé la nourriture pour l'hiver ? / من خزّن الطعام للشتاء؟",
+    options: ["La fourmi / النملة", "La cigale / الجندب", "L'oiseau / العصفور"],
+    ans: 0
+  },
+  {
+    title: "6. Le Loup et le Chien / الذئب والكلب",
+    content: [
+      { fr: "Un loup maigre rencontre un chien bien nourri. 🐺", ar: "ذئب نحيف قابل كلباً سميناً." },
+      { fr: "Le chien dit : 'Viens chez mon maître, tu auras de la nourriture chaque jour.' 🐕", ar: "قال الكلب: 'تعال إلى بيت صاحبي، ستحصل على الطعام كل يوم.'" },
+      { fr: "Le loup voit une marque sur le cou du chien et lui demande pourquoi. 🔗", ar: "رأى الذئب أثراً على رقبة الكلب فسأله عن السبب." },
+      { fr: "C'est le collier qui le retient attaché. Le loup préfère la liberté. 🏞️", ar: "إنه الطوق الذي يقيّده. فضّل الذئب الحرية." },
+      { fr: "La liberté vaut plus que l'aisance. 🕊️", ar: "الحرية أثمن من الراحة." }
+    ],
+    q: "Pourquoi le loup a-t-il refusé ? / لماذا رفض الذئب؟",
+    options: ["Il veut rester libre / يريد أن يبقى حراً", "Il n'aime pas la nourriture / لا يحب الطعام", "Il a peur du chien / يخاف من الكلب"],
+    ans: 0
+  },
+  {
+    title: "7. Le Vent et le Soleil / الريح والشمس",
+    content: [
+      { fr: "Le vent et le soleil se disputent pour savoir qui est le plus fort. 💨", ar: "الريح والشمس يتجادلان حول من هو الأقوى." },
+      { fr: "Un voyageur passe avec son manteau. 🧥", ar: "مرّ مسافر معطفه عليه." },
+      { fr: "Le vent souffle fort pour arracher le manteau, mais le voyageur le serre plus fort. 🌬️", ar: "هبّت الريح بقوة لتخلع المعطف، لكن المسافر ضمّه أكثر." },
+      { fr: "Le soleil brille doucement et le voyageur retire son manteau. ☀️", ar: "أشرقت الشمس بلطف فخلع المسافر معطفه." },
+      { fr: "La douceur gagne plus que la force. 🌈", ar: "اللطف ينتصر على القوة." }
+    ],
+    q: "Qui a réussi à faire retirer le manteau ? / من نجح في خلع المعطف؟",
+    options: ["Le soleil / الشمس", "Le vent / الريح", "La pluie / المطر"],
+    ans: 0
+  },
+  {
+    title: "8. Le Corbeau et la Cruche / الغراب والإبريق",
+    content: [
+      { fr: "Un corbeau a très soif un jour d'été. ☀️", ar: "غراب عطشان جداً في يوم صيفي." },
+      { fr: "Il trouve une cruche avec un peu d'eau au fond. 🏺", ar: "وجد إبريقاً فيه القليل من الماء في القاع." },
+      { fr: "Son bec est trop court pour atteindre l'eau. 😥", ar: "منقاره قصير جداً ولا يصل إلى الماء." },
+      { fr: "Il jette des cailloux dans la cruche, l'eau monte, et il boit ! 🪨", ar: "ألقى حصىً في الإبريق فارتفع الماء فشرب!" },
+      { fr: "La persévérance mène au succès. 💡", ar: "المثابرة تؤدي إلى النجاح." }
+    ],
+    q: "Comment le corbeau a-t-il bu ? / كيف شرب الغراب؟",
+    options: ["Il a mis des cailloux dans la cruche / وضع حصىً في الإبريق", "Il a cassé la cruche / كسر الإبريق", "Il a attendu la pluie / انتظر المطر"],
+    ans: 0
+  },
+  {
+    title: "9. Le Petit Chaperon Rouge / ذات الرداء الأحمر",
+    content: [
+      { fr: "Le petit chaperon rouge porte des gâteaux à sa grand-mère. 🧺", ar: "ذات الرداء الأحمر تحمل كعكات إلى جدتها." },
+      { fr: "En chemin, elle rencontre un loup malin. 🐺", ar: "في الطريق قابلت ذئباً ماكراً." },
+      { fr: "Le loup court chez la grand-mère et l'enferme dans le placard. 🚪", ar: "ركض الذئب إلى بيت الجدة وحبسها في الخزانة." },
+      { fr: "Le loup déguisé demande : 'Pourquoi as-tu de si grandes dents ?' — 'Pour te manger !' 😱", ar: "سأل الذئب المتنكر: 'لماذا أسنانك كبيرة؟' — 'لآكلك!'" },
+      { fr: "Un chasseur arrive et sauve tout le monde. 🦸", ar: "جاء صياد وأنقذ الجميع." }
+    ],
+    q: "Qui a sauvé la grand-mère ? / من أنقذ الجدة؟",
+    options: ["Le chasseur / الصياد", "Le loup / الذئب", "Le chat / القط"],
+    ans: 0
+  },
+  {
+    title: "10. Les Trois Petits Cochons / الخنازير الثلاثة",
+    content: [
+      { fr: "Trois petits cochons construisent leurs maisons. 🐷🐷🐷", ar: "ثلاثة خنازير صغيرة يبنون بيوتهم." },
+      { fr: "Le premier fait une maison de paille. 🌾", ar: "بنى الأول بيتاً من القش." },
+      { fr: "Le deuxième fait une maison de bois. 🪵", ar: "بنى الثاني بيتاً من الخشب." },
+      { fr: "Le troisième fait une maison de briques. 🧱", ar: "بنى الثالث بيتاً من الطوب." },
+      { fr: "Le loup souffle et détruit la paille et le bois, mais pas les briques ! Le travail sérieux protège. 💪", ar: "نفخ الذئب فهدّم القش والخشب لكن ليس الطوب! العمل الجاد يحمي." }
+    ],
+    q: "Quelle maison le loup n'a pas pu détruire ? / أي بيت لم يستطع الذئب هدمه؟",
+    options: ["La maison de briques / بيت الطوب", "La maison de paille / بيت القش", "La maison de bois / بيت الخشب"],
+    ans: 0
+  },
+  {
+    title: "11. Le Bon Bûcheron / الحطاب الصادق",
+    content: [
+      { fr: "Un bûcheron fait tomber sa hache dans la rivière. 🪓", ar: "أوقع حطّابٌ فأسه في النهر." },
+      { fr: "Une fée sort de l'eau avec une hache en or. 🧚", ar: "خرجت حورية من الماء وفي يدها فأس من ذهب." },
+      { fr: "Le bûcheron dit : 'Ce n'est pas ma hache.' 😇", ar: "قال الحطّاب: 'هذه ليست فأسي.'" },
+      { fr: "La fée sort une hache en argent, puis la vraie en fer. Il choisit la sienne. ✨", ar: "أخرجت الحورية فأساً فضية ثم فأسه الحديدية. اختار فأسه." },
+      { fr: "La fée lui donne toutes les haches pour son honnêteté. 🎁", ar: "أعطته الحورية الفؤوس كلها بسبب صدقه." }
+    ],
+    q: "Quelle hache le bûcheron a-t-il choisie ? / أي فأس اختار الحطاب؟",
+    options: ["Sa hache en fer / فأسه الحديدية", "La hache en or / الفأس الذهبية", "La hache en argent / الفأس الفضية"],
+    ans: 0
+  },
+  {
+    title: "12. La Petite Poule Rouge / الدجاجة الصغيرة الحمراء",
+    content: [
+      { fr: "Une petite poule rouge trouve des grains de blé. 🌾", ar: "دجاجة صغيرة حمراء وجدت حبوب قمح." },
+      { fr: "Elle demande aux animaux de l'aider à les planter. Personne ne veut. 🐮", ar: "طلبت من الحيوانات مساعدتها في زراعتها. لم يرد أحد." },
+      { fr: "Elle sème, récolte, et fait du pain toute seule. 🍞", ar: "زرعت وحصدت ووضعت الخبز وحدها." },
+      { fr: "Au moment de manger, les animaux viennent. Elle répond : 'Non, vous n'avez pas aidé !' 😋", ar: "عند الأكل جاءت الحيوانات. قالت: 'لا، أنتم لم تساعدوا!'" },
+      { fr: "Qui travaille, récolte. 🌟", ar: "من يزرع يحصد." }
+    ],
+    q: "Pourquoi la poule n'a pas partagé le pain ? / لماذا لم تشارك الدجاجة الخبز؟",
+    options: ["Personne ne l'a aidée / لم يساعدها أحد", "Elle n'aimait pas les animaux / لا تحب الحيوانات", "Le pain était brûlé / الخبز كان محترقاً"],
+    ans: 0
+  },
+  {
+    title: "13. Le Roi Midas / الملك ميداس",
+    content: [
+      { fr: "Le roi Midas aime beaucoup l'or. 👑", ar: "الملك ميداس يحب الذهب كثيراً." },
+      { fr: "Un jour, un dieu lui accorde un vœu : tout ce qu'il touche devient or. ✨", ar: "في يوم من الأيام حقق له إله أمنية: كل ما يلمسه يتحول إلى ذهب." },
+      { fr: "Il touche une pierre, un arbre, une table... tout devient or ! 😍", ar: "لمس حجراً وشجرة وطاولة... كل شيء صار ذهباً!" },
+      { fr: "Il touche son pain et sa fille... et tout devient or. Il pleure. 😭", ar: "لمس خبزه وابنته... فصار كل شيء ذهباً. بكى." },
+      { fr: "Il supplie de revenir en arrière. La richesse n'est pas tout dans la vie. 🌿", ar: "توسّل أن يعود إلى حالته الأولى. الثروة ليست كل شيء في الحياة." }
+    ],
+    q: "Qu'est-ce qui est devenu or à la fin ? / ماذا صار ذهباً في النهاية؟",
+    options: ["Sa fille et sa nourriture / ابنته وطعامه", "Ses amis / أصدقاؤه", "Ses vêtements / ملابسه"],
+    ans: 0
+  },
+  {
+    title: "14. Le Pêcheur et le Génie / الصياد والعفريت",
+    content: [
+      { fr: "Un pêcheur attrape une bouteille fermée. 🧴", ar: "صياد اصطاد قارورة مغلقة." },
+      { fr: "Il l'ouvre et un génie en sort, furieux. 🧞", ar: "فتحها فخرج منها عفريت غاضب." },
+      { fr: "Le génie dit : 'Je vais te tuer car je suis resté prisonnier trop longtemps !' 😡", ar: "قال العفريت: 'سأقتلك لأنني بقيت سجيناً طويلاً!'" },
+      { fr: "Le pêcheur rusé demande : 'Comment as-tu pu tenir dans cette petite bouteille ?' 🤔", ar: "سأل الصياد الذكي: 'كيف يمكنك أن تسكن في هذه القارورة الصغيرة؟'" },
+      { fr: "Le génie rentre dans la bouteille pour le prouver, et le pêcheur la referme ! L'intelligence bat la force. 🧠", ar: "دخل العفريت إلى القارورة ليثبت ذلك، فأغلقها الصياد! الذكاء يهزم القوة." }
+    ],
+    q: "Comment le pêcheur a-t-il vaincu le génie ? / كيف هزم الصياد العفريت؟",
+    options: ["Avec l'intelligence / بالذكاء", "Avec une épée / بالسيف", "En appelant le roi / باستدعاء الملك"],
+    ans: 0
+  },
+  {
+    title: "15. L'Étoile et l'Enfant / النجمة والطفل",
+    content: [
+      { fr: "Un enfant regarde les étoiles chaque nuit. ✨", ar: "طفل يتأمل النجوم كل ليلة." },
+      { fr: "Un soir, il trouve une petite étoile tombée dans son jardin. ⭐", ar: "ذات ليلة وجد نجمة صغيرة سقطت في حديقته." },
+      { fr: "Il la répare avec de l'amour et du soin. ❤️", ar: "أصلحها بحبه وعنايته." },
+      { fr: "Il la relance vers le ciel pour qu'elle éclaire tous les enfants. 🌠", ar: "أعادها إلى السماء لتضيء لكل الأطفال." },
+      { fr: "Quand on donne, on illumine le monde. 🌍", ar: "عندما تعطي، تنير العالم." }
+    ],
+    q: "Qu'est-ce que l'enfant a fait de l'étoile ? / ماذا فعل الطفل بالنجمة؟",
+    options: ["Il l'a relancée vers le ciel / أعادها إلى السماء", "Il l'a cachée dans sa chambre / أخفاها في غرفته", "Il l'a donnée à un ami / أعطاها لصديق"],
+    ans: 0
+  }
+];
+
+let currentStoryIndex = 0;
+
+function renderStorySelector() {
+  const container = document.getElementById('story-list');
+  container.innerHTML = '';
+  stories.forEach((st, idx) => {
+    const chip = document.createElement('div');
+    chip.className = 'story-chip ' + (idx === currentStoryIndex ? 'active' : '');
+    chip.innerText = 'Histoire ' + (idx + 1);
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      currentStoryIndex = idx;
+      renderStorySelector();
+      loadStory();
+    };
+    container.appendChild(chip);
+  });
+}
+
+function loadStory() {
+  const st = stories[currentStoryIndex];
+  document.getElementById('story-title').innerText = st.title;
+  const box = document.getElementById('story-content');
+  box.innerHTML = '';
+  st.content.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'story-paragraph';
+    div.innerHTML = '<div class="story-fr">' + p.fr + '</div><div class="story-ar">' + p.ar + '</div>';
+    box.appendChild(div);
+  });
+  document.getElementById('story-question').innerText = st.q;
+  const optionsBox = document.getElementById('story-options');
+  optionsBox.innerHTML = '';
+  st.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = opt;
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => {
+      if (idx === st.ans) {
+        btn.classList.add('correct');
+        playSound('correct');
+        addScore(20);
+      } else {
+        btn.classList.add('wrong');
+        playSound('wrong');
+      }
+    };
+    optionsBox.appendChild(btn);
+  });
+}
+
+/* --- GESTION DES ONGLETS --- */
+function switchTab(tabName, clickedBtn) {
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  const screen = document.getElementById('screen-' + tabName);
+  if (screen) screen.classList.add('active');
+  if (clickedBtn) clickedBtn.classList.add('active');
+  else {
+    const navBtn = document.querySelector('.nav-btn[data-tab="' + tabName + '"]');
+    if (navBtn) navBtn.classList.add('active');
+  }
+
+  if (tabName === 'vocab') loadVocabQuestion();
+  if (tabName === 'numbers') loadNumberQuestion();
+  if (tabName === 'sentences') loadSentenceQuestion();
+  if (tabName === 'stories') { renderStorySelector(); loadStory(); }
+}
+
+/* --- THÈME --- */
+function toggleTheme() {
+  const html = document.documentElement;
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    try { localStorage.setItem('theme', 'light'); } catch (e) {}
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+  }
+}
+
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+if (savedTheme === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+}
+
+let savedScore = null;
+try { savedScore = localStorage.getItem('savoirsEnJouant_score'); } catch (e) {}
+if (savedScore) {
+  score = parseInt(savedScore, 10) || 0;
+  document.getElementById('score').innerText = score;
+}
+
+/* --- NAVIGATION CLAVIER (remote friendly) --- */
+function isVisible(el) {
+  return el.offsetParent !== null || el === document.activeElement;
+}
+
+document.addEventListener('keydown', (e) => {
+  const focusable = Array.from(document.querySelectorAll('button, [tabindex="0"]')).filter(isVisible);
+  if (!focusable.length) return;
+  const currentIndex = focusable.indexOf(document.activeElement);
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    const next = currentIndex < 0 ? 0 : (currentIndex + 1) % focusable.length;
+    focusable[next].focus();
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prev = currentIndex < 0 ? focusable.length - 1 : (currentIndex - 1 + focusable.length) % focusable.length;
+    focusable[prev].focus();
+  } else if (e.key === 'Enter' || e.key === 'Select' || e.key === 'OK') {
+    const active = document.activeElement;
+    if (active && active.click) active.click();
+  }
+});
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    switchTab(this.dataset.tab, this);
+  });
+});
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    filterVocab(this.dataset.cat);
+  });
+});
+
+/* --- Initialisation --- */
+window.onload = () => {
+  loadVocabQuestion();
+  loadNumberQuestion();
+  loadSentenceQuestion();
+  renderStorySelector();
+  loadStory();
+};
+</script>
+</body>
+</html>
