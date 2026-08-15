@@ -87,6 +87,60 @@
         .link.primary:hover {
             filter: brightness(1.1);
         }
+        .linktree-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            max-width: 420px;
+            margin: 28px auto 0;
+        }
+        .linktree-container .link-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: rgba(201,168,76,0.07);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .linktree-container .link-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201,168,76,0.2);
+            transform: translateY(-2px);
+        }
+        .linktree-container .link-card.active {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(240,200,102,0.1));
+        }
+        .linktree-container .link-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        .linktree-container .link-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .linktree-container .link-content p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+        .linktree-container .badge {
+            margin-left: auto;
+            background: var(--gold);
+            color: #0d0d0d;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
     </style>
     <script type="application/ld+json">{
       "@context":"https://schema.org",
@@ -106,6 +160,41 @@
         <div class="links">
             <a href="works/" class="link primary">🌳 My Works</a>
             <a href="chat-socketio/public/" class="link">💬 UzChat</a>
+        </div>
+        <div class="linktree-container">
+
+
+            <!-- 1. Retro Quran Reader (Primary / Top Link) -->
+            <a href="https://ucfzem.github.io/quran-reader" class="link-card active" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">📻</div>
+              <div class="link-content">
+                <h3>Retro Quran Reader</h3>
+                <p>Vintage cassette player interface • Auto-fetching reciters API</p>
+              </div>
+              <span class="badge">NEW</span>
+            </a>
+
+
+            <!-- 2. Quran Majeed v3 (Opened right after) -->
+            <a href="https://ucfzem.github.io/quran-majeed-v3" class="link-card" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">📖</div>
+              <div class="link-content">
+                <h3>Quran Majeed v3</h3>
+                <p>Interactive Quran web application</p>
+              </div>
+            </a>
+
+
+            <!-- 3. Works Directory -->
+            <a href="https://ucfzem.github.io/works" class="link-card" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">💼</div>
+              <div class="link-content">
+                <h3>All Works</h3>
+                <p>Explore full project directory</p>
+              </div>
+            </a>
+
+
         </div>
     </div>
 </body>
