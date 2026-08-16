@@ -27,10 +27,16 @@
 7. **Déploiement :**
    - Repo `ucfzem/quran-amp` créé (main) → GitHub Pages `https://ucfzem.github.io/quran-amp/`.
    - Vercel : `https://quran-amp.vercel.app/` (projet `ucfzem-s-projects/quran-amp`).
-   - Cloudflare Workers : `https://quran-amp.azer-tyu199p.workers.dev/` (Version ID `17661281-8339-469b-a3cd-cb20098f60d1`).
-   - Push `works/index.html` sur `ucfzem/ucfzem.github.io` → Pages auto → `https://ucfzem.github.io/works/`.
+    - Cloudflare Workers : `https://quran-amp.azer-tyu199p.workers.dev/` (Version ID `17661281-8339-469b-a3cd-cb20098f60d1`, puis `8aa4cc32-e069-490e-b9d0-0bdec5b4b610` après la mise à jour TV Gold).
+    - Push `works/index.html` sur `ucfzem/ucfzem.github.io` → Pages auto → `https://ucfzem.github.io/works/`.
 8. **Vérification finale :** les 4 URLs (3 plateformes + portail) → HTTP 200. Ordre live du portail vérifié : 3 = Quran Amp, juste sous Quran Reader. Section verrouillée intacte (9 dossiers / 39 cartes).
 9. **Backup :** ce fichier + `github.md` dans le repo `quran-amp`.
+10. **Mise à jour « TV Gold Edition » (suite de session) :** l'utilisateur a fourni une version optimisée Smart TV et demandé 3 correctifs pour anciens téléviseurs (webOS legacy, NetCast, Tizen 2.x, Android TV) :
+    - **Fix 1 — Contrôleur D-Pad global** dans `setupTVNavigation()` : `keydown` sur `window` → `Enter`/`13`/`VK_ENTER`/`Select` déclenche `active.click()` ; flèches gauche/droite sur `input[type=range]` = seek/volume ±5 + `Event('input')` ; scroll `textContainer` ±60px.
+    - **Fix 2 — `<select>` agrandi** : `height: 52px`, `font-size: 18px`, `padding: 8px 16px`, `background-color: var(--panel-bg)`, `color: var(--text-main)`.
+    - **Fix 3 — Typographie 10 ft** : `.ar-text` `clamp(32px,4vw,44px)` + `line-height:1.8`, `.fr-text` `clamp(18px,2vw,24px)`, `.playlist-item` `padding:14px 16px`/`18px`, `.btn-winamp` `height:56px`/`font-size:20px`.
+    - Déploiement v2 : commit `f7ea366`, `worker.js` régénéré (25 031 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `8aa4cc32-e069-490e-b9d0-0bdec5b4b610`**.
+    - Vérifié : les 3 plateformes servent 23 796 o, titre « TV Gold Edition », D-Pad controller + clamp présents, Shuraim corrigé. Portail inchangé (3ᵉ position intacte).
 
 ## Fichiers
 
