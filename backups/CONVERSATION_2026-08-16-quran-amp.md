@@ -79,6 +79,14 @@
     - Déploiement v7 : commit `7a0090b`, `worker.js` régénéré (32 475 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `4748824d-5ec2-45e5-8c4e-23811ed9bbee`**.
     - Vérifié : CF 200 (chronomètre + `{ once: true }` présents), Vercel 200 + v7, Pages 200 + v7, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
 
+17. **Version v8 (fin de session) :** nouvelle version complète fournie par l'utilisateur, testée et déployée :
+    - **Marqueur de verset** dans le texte (`﴿٧﴾` en chiffres arabo-indiens via `ARABIC_INDIC_DIGITS`/`toArabicIndicNumber`), rendu par `arTextEl.innerHTML` + span `.ayah-marker`.
+    - **Compteur LCD** `.lcd-ayah-count` : `آية X / Y`.
+    - **Barre de progression par verset** (décision utilisateur, abandon du seek sur toute la sourate v5/v7) : reset à 0 à chaque verset, `(current / audio.duration) * 100` dans `timeupdate`, seek `currentTime = (value/100)*duration`, garde `if (isBasmalahPlaying) return;`.
+    - **Tailles fixes** : `.ar-text` 26px, `.quran-text-container` hauteur fixe 150px, `gap: 14px`. Chronomètre continu v7 conservé.
+    - Déploiement v8 : commit `8b641e7`, `worker.js` régénéré (31 541 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `98244359-9a23-467c-addd-8d83af0f37db`**.
+    - Vérifié : CF 200 (marqueur + chiffres + par-verset présents), Vercel 200 + v8, Pages 200 + v8, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -94,7 +102,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
