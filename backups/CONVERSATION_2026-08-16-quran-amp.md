@@ -43,6 +43,13 @@
     - **Bug 3 — Focus RTL « derrière » le panneau :** résolu par le picker DOM sous notre contrôle (Up/Down/Enter/Back gérés en JS) ; le handler global D-Pad s'efface si le modal est ouvert ou si le focus est sur `.reciter-item`/`.playlist-item`.
     - Déploiement v3 : commit `828aef7`, `worker.js` régénéré (34 996 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `e1cc620c-cf2c-4110-ab7a-0b6e40075d7d`**.
     - Vérifié : les 3 plateformes servent 33 253 o avec toutes les briques (normalizeDirection, reciter-trigger, select caché, Shuraim). Portail inchangé.
+12. **Version v4 « TV Gold » (fin de session) :** nouvelle version complète fournie par l'utilisateur (3 points d'après l'écran TV) :
+    - **Playlist auto-scroll :** `focus` → `scrollIntoView({ block: 'nearest', behavior: 'smooth' })` sur chaque item ; D-Pad Up/Down (flèche + 38/40) avec scroll et débordement vers `reciterBtn` (haut) / `textContainer` (bas).
+    - **Texte :** couche de traduction française **supprimée** (choix utilisateur, fetch `quran-uthmani` seul), `.ar-text` réduit à `clamp(20px, 2.8vw, 30px)`.
+    - **Boutons transport :** icônes **SVG vectorielles** remplaçant les caractères ASCII, finition or métallique (`fill: var(--accent)`, bevels, focus → `#fff` + `scale(1.1)`, actif → `translateY(2px)`).
+    - **Correctif ré-appliqué :** le `RECITERS` de l'utilisateur réintroduisait le chemin 404 `Saood_Ash-Shuraym_128kbps` → re-corrigé en `Saood bin Ibraaheem Ash-Shuraym_128kbps` (HTTP 200 vérifié).
+    - Déploiement v4 : commit `d5f18fb`, `worker.js` régénéré (31 860 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `8ee8a327-435f-4e7b-9d14-f8fa3d636c54`**.
+    - Vérifié : les 3 plateformes servent 30 348 o (titre TV Gold, clamp arabe, SVG, Shuraim ; chemin cassé absent). Portail inchangé.
 
 ## Fichiers
 
@@ -59,7 +66,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c-cf2c-4110-ab7a-0b6e40075d7d`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
