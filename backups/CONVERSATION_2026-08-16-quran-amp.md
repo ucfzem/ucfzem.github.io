@@ -87,6 +87,14 @@
     - Déploiement v8 : commit `8b641e7`, `worker.js` régénéré (31 541 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `98244359-9a23-467c-addd-8d83af0f37db`**.
     - Vérifié : CF 200 (marqueur + chiffres + par-verset présents), Vercel 200 + v8, Pages 200 + v8, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
 
+18. **Version v9 (fin de session) :** nouvelle version fournie par l'utilisateur, testée et déployée :
+    - **Marqueur de verset en chiffres simples** : `﴿${ayahAr.numberInSurah}﴾` — suppression des chiffres arabo-indiens (`ARABIC_INDIC_DIGITS`/`toArabicIndicNumber` retirés).
+    - **Texte re-clampé** : `.ar-text` `font-size: clamp(18px, 2.5vw, 26px)` (le 26px fixe de v8 est supprimé).
+    - **Conservés de v8 :** hauteur fixe `.quran-text-container` 150px, `gap: 14px`, barre de progression **par verset**, compteur LCD `آية X / Y`, chronomètre continu v7 (Basmalah exclue du temps courant, ajoutée au cumul à la fin). Aucun `basmalaAudio`.
+    - Validation : `node --check` OK, checklist v9 conforme, les **14 chemins de récitateurs re-vérifiés HTTP 200** (Sudais confirmé, Qahtani correct).
+    - Déploiement v9 : commit `faf49e1`, `worker.js` régénéré (33 054 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `7cff0905-620d-4681-9e8c-f840a7090cd4`**.
+    - Vérifié : CF + Vercel + Pages 200 avec v9 dès le 1er poll (marqueur simple + clamp), portail 200, Quran Amp toujours 3ᵉ.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -102,7 +110,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db` → `7cff0905-620d-4681-9e8c-f840a7090cd4`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
