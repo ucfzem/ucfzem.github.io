@@ -26,8 +26,11 @@
 6. **Vérification jsdom :** 15 cartes rendues dans le bon ordre ; carte 3 = Quran Amp (📖, tag Quran, href correct).
 7. **Déploiement :**
    - Repo `ucfzem/quran-amp` créé (main) → GitHub Pages `https://ucfzem.github.io/quran-amp/`.
+   - Vercel : `https://quran-amp.vercel.app/` (projet `ucfzem-s-projects/quran-amp`).
+   - Cloudflare Workers : `https://quran-amp.azer-tyu199p.workers.dev/` (Version ID `17661281-8339-469b-a3cd-cb20098f60d1`).
    - Push `works/index.html` sur `ucfzem/ucfzem.github.io` → Pages auto → `https://ucfzem.github.io/works/`.
-8. **Backup :** ce fichier + `github.md` dans le repo `quran-amp`.
+8. **Vérification finale :** les 4 URLs (3 plateformes + portail) → HTTP 200. Ordre live du portail vérifié : 3 = Quran Amp, juste sous Quran Reader. Section verrouillée intacte (9 dossiers / 39 cartes).
+9. **Backup :** ce fichier + `github.md` dans le repo `quran-amp`.
 
 ## Fichiers
 
@@ -36,12 +39,15 @@
 | `index.html` (lecteur) | repo `ucfzem/quran-amp` |
 | `README.md` | repo `ucfzem/quran-amp` |
 | `github.md` | repo `ucfzem/quran-amp` |
+| `worker.js` + `wrangler.toml` | repo `ucfzem/quran-amp` |
 | `works/index.html` (modifié) | repo `ucfzem/ucfzem.github.io` |
 | Ce backup | `backups/CONVERSATION_2026-08-16-quran-amp.md` |
 
-## Liens de validation
+## Liens de validation (HTTP 200)
 
-- Projet : https://ucfzem.github.io/quran-amp/
+- Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
+- Projet (Vercel) : https://quran-amp.vercel.app/
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
