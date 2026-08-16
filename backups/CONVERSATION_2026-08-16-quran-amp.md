@@ -73,6 +73,12 @@
     - Déploiement v6.1 : commit `d45e4fa`, `worker.js` régénéré (31 320 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `3b03c6b9-6ec2-447a-acc7-303e6f58422a`**.
     - Vérifié : les 3 plateformes servent v6.1 (CF instantané, Vercel/Pages au 1er poll), texte tel quel conservé, `basmalaAudio` absent.
 
+16. **Version v7 — finale (fin de session) :** version finale complète fournie par l'utilisateur + recommandation intégrée :
+    - **Chronomètre continu sur la sourate** : `totalElapsedBeforeCurrentAyah` cumule les durées des versets terminés (`ended`), affichage `totalElapsedBeforeCurrentAyah + audio.currentTime` dans `timeupdate` (Basmala incluse), utilitaire `formatTime(seconds)`, reset à chaque `loadSurah`.
+    - **Seek bar optimisé** : listener `loadedmetadata` en **`{ once: true }`** (`applySeek`) → auto-destruction du listener, pas de fuite mémoire lors d'un défilement rapide ; `applySeek()` immédiat si le verset cible = verset courant.
+    - Déploiement v7 : commit `7a0090b`, `worker.js` régénéré (32 475 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `4748824d-5ec2-45e5-8c4e-23811ed9bbee`**.
+    - Vérifié : CF 200 (chronomètre + `{ once: true }` présents), Vercel 200 + v7, Pages 200 + v7, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -88,7 +94,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
