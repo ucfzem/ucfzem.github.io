@@ -37,6 +37,12 @@
     - **Fix 3 — Typographie 10 ft** : `.ar-text` `clamp(32px,4vw,44px)` + `line-height:1.8`, `.fr-text` `clamp(18px,2vw,24px)`, `.playlist-item` `padding:14px 16px`/`18px`, `.btn-winamp` `height:56px`/`font-size:20px`.
     - Déploiement v2 : commit `f7ea366`, `worker.js` régénéré (25 031 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `8aa4cc32-e069-490e-b9d0-0bdec5b4b610`**.
     - Vérifié : les 3 plateformes servent 23 796 o, titre « TV Gold Edition », D-Pad controller + clamp présents, Shuraim corrigé. Portail inchangé (3ᵉ position intacte).
+11. **Correction 3 bugs TV (fin de session) :** l'utilisateur a fourni une version complète corrigée (pattern modal sombre = app Walkman) :
+    - **Bug 1 — Playlist sans navigation télécommande :** ajout d'un listener `keydown` sur `#playlist` (Up/Down + `keyCode` 38/40) déplaçant le focus item par item avec `scrollIntoView` ; fonction `normalizeDirection(e)` normalise `e.key` + `keyCode` (38/40/37/39/13/32/27/10009/461=Back) pour anciens firmwares.
+    - **Bug 2 — Popup récitateur blanc :** conversion du `<select>` natif en picker modal sombre personnalisé (`.reciter-trigger` + overlay + `<li>`), le `<select id="reciter-select">` caché (`display:none`) garde l'état/valeur (`reciterSelect.value` + `change` inchangés via `selectReciter()`).
+    - **Bug 3 — Focus RTL « derrière » le panneau :** résolu par le picker DOM sous notre contrôle (Up/Down/Enter/Back gérés en JS) ; le handler global D-Pad s'efface si le modal est ouvert ou si le focus est sur `.reciter-item`/`.playlist-item`.
+    - Déploiement v3 : commit `828aef7`, `worker.js` régénéré (34 996 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `e1cc620c-cf2c-4110-ab7a-0b6e40075d7d`**.
+    - Vérifié : les 3 plateformes servent 33 253 o avec toutes les briques (normalizeDirection, reciter-trigger, select caché, Shuraim). Portail inchangé.
 
 ## Fichiers
 
@@ -53,7 +59,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c-cf2c-4110-ab7a-0b6e40075d7d`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
