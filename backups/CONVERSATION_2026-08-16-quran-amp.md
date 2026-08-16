@@ -95,6 +95,14 @@
     - Déploiement v9 : commit `faf49e1`, `worker.js` régénéré (33 054 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `7cff0905-620d-4681-9e8c-f840a7090cd4`**.
     - Vérifié : CF + Vercel + Pages 200 avec v9 dès le 1er poll (marqueur simple + clamp), portail 200, Quran Amp toujours 3ᵉ.
 
+19. **Version v10 — temps écoulé / restant (fin de session) :** nouvelle version fournie par l'utilisateur, testée et déployée :
+    - **`formatTime` étendue au format heures** : `HH:MM:SS` si `h > 0`, sinon `MM:SS` (heure non padée, minutes/secondes padées). Unit tests : `6525 → 1:48:45`, `7 → 0:07`, `3599 → 59:59`, `3600 → 1:00:00`, `-5/NaN → 0:00` — 8/8 OK.
+    - **Affichage « écoulé / restant »** dans `#lcd-time` : temps écoulé cumulé sur la sourate (`totalElapsedBeforeCurrentAyah + (isBasmalahPlaying ? 0 : current)`) à gauche, temps restant du fichier en cours (`Math.max(0, duration - current)`, `audio.duration || 0`) à droite → `lcdTime.textContent = \`${elapsedStr} / ${remainingStr}\`;`.
+    - **Conservés :** barre de progression par verset, marqueur en chiffres simples `﴿${numberInSurah}﴾`, texte clampé, hauteur fixe 150px + `gap: 14px`, compteur LCD, 14 récitateurs.
+    - Validation : `node --check` OK, checklist v10 conforme, les **14 chemins de récitateurs re-vérifiés HTTP 200** (Ghamadi confirmé).
+    - Déploiement v10 : commit `fa30773`, `worker.js` régénéré (33 546 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `00b7206e-05b2-438a-b756-b45405350b60`**.
+    - Vérifié : CF + Vercel instantanés, Pages au 5ᵉ poll (~25 s) — tous 200 avec v10 ; portail 200, Quran Amp toujours 3ᵉ.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -110,7 +118,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db` → `7cff0905-620d-4681-9e8c-f840a7090cd4`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db` → `7cff0905-620d-4681-9e8c-f840a7090cd4` → `00b7206e-05b2-438a-b756-b45405350b60`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
