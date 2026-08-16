@@ -103,6 +103,13 @@
     - Déploiement v10 : commit `fa30773`, `worker.js` régénéré (33 546 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `00b7206e-05b2-438a-b756-b45405350b60`**.
     - Vérifié : CF + Vercel instantanés, Pages au 5ᵉ poll (~25 s) — tous 200 avec v10 ; portail 200, Quran Amp toujours 3ᵉ.
 
+20. **Version v11 — visualiseur idle/actif fusionné (fin de session) :** l'utilisateur a fourni un `index.html` complet avec un nouveau visualiseur (mode actif + mode veille), mais basé sur une lignée ancienne (chiffres arabo-indiens, seek sur toute la sourate, français, 13 récitateurs, suppression du compteur LCD/écoulé-restant). **Décision utilisateur : fusionner** — garder la base v10, intégrer uniquement le visualiseur :
+    - **Visualiseur :** `drawSpectrum()` bascule via `const isActive = analyser && audio.src && !audio.paused;` → `drawActiveSpectrum()` (barres FFT en **dégradé** accent→lcd-text + **peak caps** blancs #fff8dc façon LED meter) sinon `drawIdleWave()` (**vague dorée animée**, `idlePhase += 0.1`, sinusoïde à enveloppe). Boucle lancée une seule fois dans `init()` (plus dans `initAudioContext()`, évite double rAF). `vizMode` + clic canvas supprimés.
+    - **Validation du fichier utilisateur :** syntaxe OK, 24 IDs présents, ses 13 récitateurs HTTP 200 (dont Hudhaify, Hani Rifai, al-Ajamy), logique Basmalah strip/inject testée sur API live (surahs 2/3/5/7/10/29 OK).
+    - **Base v10 conservée :** `formatTime` HH:MM:SS + affichage écoulé/restant, chronomètre continu, seek **par verset**, marqueur en chiffres simples, compteur LCD, texte clampé, tout-arabe, **14 récitateurs** re-vérifiés HTTP 200.
+    - Déploiement v11 : commit `223de3c`, `worker.js` régénéré (34 437 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `c708d58e-fb36-4007-8ed2-da75b42daa06`**.
+    - Vérifié : CF + Vercel instantanés, Pages au 5ᵉ poll — tous 200 avec v11 (isActive + vague idle + écoulé/restant, sans vizMode ni arabo-indiens ni français) ; portail 200, Quran Amp toujours 3ᵉ.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -118,7 +125,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db` → `7cff0905-620d-4681-9e8c-f840a7090cd4` → `00b7206e-05b2-438a-b756-b45405350b60`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a` → `4748824d-5ec2-45e5-8c4e-23811ed9bbee` → `98244359-9a23-467c-addd-8d83af0f37db` → `7cff0905-620d-4681-9e8c-f840a7090cd4` → `00b7206e-05b2-438a-b756-b45405350b60` → `c708d58e-fb36-4007-8ed2-da75b42daa06`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
