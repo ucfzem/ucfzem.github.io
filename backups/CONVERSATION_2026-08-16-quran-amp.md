@@ -61,6 +61,12 @@
     - Déploiement v5 : commits `0c1eca2` (v5) puis `1fbca3c` (Basmalah), `worker.js` régénéré (32 148 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `1a3b988e-41c0-4f44-911d-4046bafbc10c`**.
     - Vérifié : CF 200 (strip Basmalah présent), Vercel 200 + fix, Pages 200 + fix, portail 200.
 
+14. **Version v6 — finale (fin de session) :** nouvelle version complète fournie par l'utilisateur :
+    - **Texte affiché tel quel** : `playAyah()` affiche `ayahAr.text` sans transformation (plus de retrait/préfixe Basmalah). Vérifié côté API `quran-uthmani` : la Basmalah est embarquée dans le verset 1 (ex. Sourate 2 `بِسْمِ ٱللَّهِ ... الٓمٓ`), Sourate 1 = Basmalah seule, Sourate 9 sans → aucune duplication visuelle. La Basmalah **audio** reste en intro (sauf 1 et 9).
+    - **Garde de la barre de progression** : dans `seekBar` `input`, `if (isBasmalahPlaying) { isBasmalahPlaying = false; }` pour éviter un saut audio si l'utilisateur déplace la barre pendant la Basmalah ; le seek sur toute la sourate est conservé.
+    - Déploiement v6 : commit `7b95eef`, `worker.js` régénéré (30 987 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `cf5aa498-40c2-429e-a09b-cfd49d610a84`**.
+    - Vérifié : CF 200 (tel quel + garde présents), Vercel 200 + v6, Pages 200 + v6, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -76,7 +82,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
