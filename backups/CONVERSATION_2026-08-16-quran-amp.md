@@ -67,6 +67,12 @@
     - Déploiement v6 : commit `7b95eef`, `worker.js` régénéré (30 987 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `cf5aa498-40c2-429e-a09b-cfd49d610a84`**.
     - Vérifié : CF 200 (tel quel + garde présents), Vercel 200 + v6, Pages 200 + v6, portail 200. Les 14 chemins de récitateurs re-vérifiés HTTP 200.
 
+15. **Version v6.1 — garde Basmalah corrigée (fin de session) :** l'utilisateur a proposé un snippet `seekBar` input avec 2 bugs corrigés avant déploiement :
+    - `basmalaAudio.pause()` → élément inexistant (un seul `<audio id="audio-player">`) : corrigé par un abandon propre sur `audio` (swap `.../SSS001.mp3` + `load()` + `play()`).
+    - `(seekBar.value/100) * audio.duration` → cassait le seek sur toute la sourate (barre = progression globale 0–100, `audio.duration` = verset courant) : mapping `targetPercentage * totalAyahs` conservé.
+    - Déploiement v6.1 : commit `d45e4fa`, `worker.js` régénéré (31 320 o), push GitHub (Pages + Vercel auto), `wrangler deploy` → **Version ID `3b03c6b9-6ec2-447a-acc7-303e6f58422a`**.
+    - Vérifié : les 3 plateformes servent v6.1 (CF instantané, Vercel/Pages au 1er poll), texte tel quel conservé, `basmalaAudio` absent.
+
 ## Fichiers
 
 | Fichier | Emplacement |
@@ -82,7 +88,7 @@
 
 - Projet (GitHub Pages) : https://ucfzem.github.io/quran-amp/
 - Projet (Vercel) : https://quran-amp.vercel.app/
-- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84`)
+- Projet (Cloudflare) : https://quran-amp.azer-tyu199p.workers.dev/ (Versions : `17661281` → `8aa4cc32` → `e1cc620c` → `8ee8a327-435f-4e7b-9d14-f8fa3d636c54` → `1a3b988e-41c0-4f44-911d-4046bafbc10c` → `cf5aa498-40c2-429e-a09b-cfd49d610a84` → `3b03c6b9-6ec2-447a-acc7-303e6f58422a`)
 - Portail (position 3) : https://ucfzem.github.io/works/
 - Repo projet : https://github.com/ucfzem/quran-amp
 - Source portail : https://github.com/ucfzem/ucfzem.github.io/blob/main/works/index.html
