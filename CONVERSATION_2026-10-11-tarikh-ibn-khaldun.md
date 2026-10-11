@@ -61,3 +61,14 @@ GitHub Pages et l'ajouter au link tree public (`works`).
 ## ملاحظات
 - تم الحفاظ على كل المشاريع السابقة (18) دون أي خسارة؛ الإضافة كانت جراحية
   في ملف واحد عبر fast-forward فقط.
+
+## Update 2026-10-11 (cont.) - Match Al-Adhkiya style + fixes
+- Fixed JS: removed missing themeToggle reference; corrected active row selector in tree.
+- Reskinned to Al-Adhkiya style: green header with title/subtitle + theme toggle; main#content layout; footer; CSS variables aligned.
+- Mobile drawer hardened (z-index, right:-100%→0), overflow-x hidden, sticky offsets adjusted.
+- Deployed v1.0.6 (main + gh-pages); SW v1.0.6 with network-first navigations.
+
+Links:
+- https://ucfzem.github.io/tarikh-ibn-khaldun/
+- https://github.com/ucfzem/tarikh-ibn-khaldun
+- https://ucfzem.github.io/works/
