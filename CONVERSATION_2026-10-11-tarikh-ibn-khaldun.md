@@ -72,3 +72,12 @@ Links:
 - https://ucfzem.github.io/tarikh-ibn-khaldun/
 - https://github.com/ucfzem/tarikh-ibn-khaldun
 - https://ucfzem.github.io/works/
+
+## Update 2026-10-11 (final) - Al-Adhkiya UI + lazy scaffold + SW
+- Reskinned to match al-adhkiya (header, theme toggle, main#content, footer).
+- Fixed JS selectors; added SW registration; prepared manifest/chunks scaffold.
+- Deployed v1.0.8 (main+gh-pages). 
+
+Links:
+- https://ucfzem.github.io/tarikh-ibn-khaldun/ (Al-Adhkiya style UI, v1.0.8)
+- https://github.com/ucfzem/tarikh-ibn-khaldun
