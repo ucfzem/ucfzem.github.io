@@ -89,3 +89,8 @@ Links:
 ## Update 2026-10-11 - Header subtitle extended
 - Updated header subtitle to include "من ذوي السلطان الأكبر"; header kept full width.
 
+
+## Update 2026-10-11 - Index scroll buttons + numbering
+- Added ▲ أعلى / ▼ أسفل in index sidebar to jump to top/bottom quickly.
+- Numbered chapter titles in index (e.g., "1. ...").
+
