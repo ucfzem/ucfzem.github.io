@@ -105,3 +105,14 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
 - `sw.js` : cache passé à `tibb-nabawi-v1.0.2`.
 - Vérifié en ligne : 0 référence TTS, `sw v1.0.2`.
 - Réversible : le code TTS reste dans l'historique Git si besoin de le réactiver.
+
+## Ordre des boutons + offline complet
+- **Boutons de pagination inversés** (`f028c9a`) : « الفصل التالي → » (suivant) à droite,
+  « ← الفصل السابق » (précédent) à gauche (interversion dans l'ordre DOM, `index.html`).
+- **Offline réellement stylé** (`6e789fa`) : le Service Worker ne cachait que le même-origine ;
+  Tailwind (CDN) et Google Fonts (cross-origin) n'étaient pas mis en cache → page non stylée hors-ligne.
+  Ajout d'une stratégie **cache-first cross-origin** (avec stockage des réponses `opaque`).
+  Cache passé à `tibb-nabawi-v1.0.4`.
+- Rappel : le lecteur charge **tous les 131 chapitres au démarrage** → tout le contenu est
+  disponible hors-ligne dès la première visite en ligne (pas de mise en cache par chapitre).
+- Vérifié en ligne : ordre des boutons OK, `sw v1.0.4` avec cache cross-origin.
