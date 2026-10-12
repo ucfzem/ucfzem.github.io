@@ -70,3 +70,13 @@ en déplaçant **Nuzhat al-Mushtaq** de #18 → **#11** (total **20 projets publ
 - Déjà en place : appariement **Cairo (UI) + Amiri (texte)**, mode sombre persisté, recherche/filtrat des chapitres
   dans la barre latérale avec compteur de résultats.
 - Déployé `main` + `gh-pages`, vérifié en ligne (`sw v1.0.1`, `fetchWithTimeout`, garde-fous présents).
+
+## Écoute (Text-to-Speech) — commit `4cdb099`
+- **Web Speech API** (`speechSynthesis`), sans dépendance externe.
+- **Lecture par file de paragraphes** (`h2, h3, p` du chapitre) : chaque bloc est
+  surligné (`.tts-highlight`) puis défilé **au centre** de l'écran pendant la lecture.
+- Voix arabe sélectionnée automatiquement (`ar-SA` par défaut), débit 0,95.
+- Boutons (en-tête) : **🔊 استماع / ⏸️ إيقاف مؤقت / ▶️ استئناف** (toggle) + **⏹️ إيقاف**.
+- La lecture s'arrête automatiquement au **changement de chapitre** (`loadChapter` → `tts.stop()`).
+- Fichiers : `script.js` (module `tts`), `index.html` (boutons + styles `.tts-highlight`).
+- Déployé `main` + `gh-pages`, vérifié en ligne.
