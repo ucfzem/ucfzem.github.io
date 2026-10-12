@@ -156,3 +156,22 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
   - Boutons statiques (`index.html:103-107`), ordre DOM `nextBtn` → `pageIndicator` → `prevBtn` ;
     en flex RTL le 1er élément est à **droite** → Next à droite, Prev à gauche. Correct.
   - Appliquer `row-reverse`/`order` inverserait → régression. **Aucune modification appliquée.**
+
+## Hors-ligne dès la 1re visite (precache à l'install)
+- `skipWaiting()` + `clients.claim()` déjà présents. Nouveau : **precache complet pendant `install`**
+  (`ec3ef87`? non → `58b0484`, cache `tibb-nabawi-v1.0.7`).
+  - `CORE` inclut `./manifest.json` ; l'install lit `manifest.json` et met en cache **les 131 chapitres**.
+  - Les ressources CDN (Tailwind, Google Fonts) sont aussi précachées (`fetch(..., {mode:'no-cors'})` + `cache.put`).
+  - Résultat : contenu disponible hors-ligne dès la première ouverture, sans second rechargement.
+- **Test hors-ligne (Node VM, réseau coupé, sans requête de page préalable)** :
+  install → 139 entrées ; `131/131` chapitres + shell + CDN servis **status 200**, `11/11` contrôles.
+  (Harness : `/tmp/opencode/offline_test.js` ; le SW réel est exécuté, résolution des URL relatives
+  façon navigateur.)
+- Déployé : `sw v1.0.7` en ligne.
+
+## Page `ucfzem.github.io/works` hors-ligne
+- Nouveau `works/sw.js` (`works-v1.0.0`) : precache shell + 7 assets (`assets/*.png|svg`) + Google Fonts CSS.
+- Enregistrement ajouté en fin de `works/index.html` (`navigator.serviceWorker.register('./sw.js')`).
+- **Test hors-ligne : `10/10`** (navigate `/works/`, index, 7 assets, fonts). Harness :
+  `/tmp/opencode/offline_test_works.js`.
+- Portée limitée à `/works/` (scope du SW).
