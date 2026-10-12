@@ -322,3 +322,20 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
   `text-align: justify; text-justify: inter-word; direction: rtl;`. Aucun changement de cache
   (index.html servi en network-first).
 - Commit **`918d68a`** (main + gh-pages).
+
+## tarikh — test du pseudo-élément `::after` (Via/WebView) — REJETÉ (mesures)
+- Workaround proposé : `p::after{content:"";display:inline-block;width:100%}` +
+  `text-align-last: justify`. Testé dans **Chromium réel** (colonne 800px, paragraphe le plus long) :
+  | Variante | lignes | hauteur para | largeur dernière ligne |
+  |---|---|---|---|
+  | actuel (`text-align-last:right`) | 10 | 288px | 49px |
+  | `text-align-last:justify` | 10 | 288px | 49px |
+  | `::after{width:100%}` | 10 | **317px** | 49px |
+- Conclusions : le `::after{width:100%}` **ajoute une ligne vide ~29px sous chaque paragraphe**
+  (pas de gain de justification) ; `text-align-last:justify` est **sans effet** car la dernière ligne
+  n'a qu'un seul mot (word-spacing ne peut pas étirer à l'intérieur d'un mot).
+- La dernière ligne courte est le **comportement typographique correct** (fin de paragraphe).
+  La vraie cause du souci Via était les lignes non fusionnées (corrigé au niveau des données).
+- Décision : conserver la version propre (toutes les lignes justifiées sauf la dernière) ;
+  `::after` non déployé. Fix Via : vider le cache de Via (le SW sert l'HTML en network-first,
+  mais Via cache agressivement).
