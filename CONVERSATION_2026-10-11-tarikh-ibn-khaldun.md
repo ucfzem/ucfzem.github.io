@@ -110,3 +110,7 @@ Links:
 ## Update 2026-10-11 - Improved search highlighting
 - Fixed highlighting to work for all multi-word/any terms; preserves HTML escaping.
 
+
+## Update 2026-10-11 - Search highlight spans
+- Applied green bg-green-200 spans for all matched terms in search results.
+
