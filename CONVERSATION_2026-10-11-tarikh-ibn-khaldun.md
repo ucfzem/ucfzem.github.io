@@ -98,3 +98,7 @@ Links:
 ## Update 2026-10-11 - Search highlighting
 - Added green highlight for matched search terms in content.
 
+
+## Update 2026-10-11 - Search highlight fix
+- Fixed paragraph rendering to apply green highlight to matched terms.
+
