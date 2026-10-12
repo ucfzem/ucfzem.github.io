@@ -114,3 +114,16 @@ Links:
 ## Update 2026-10-11 - Search highlight spans
 - Applied green bg-green-200 spans for all matched terms in search results.
 
+
+## Update 2026-10-11 - Live highlighting + search UX (v1.0.9)
+- Root cause: `q.oninput` only filtered the sidebar list and never re-rendered the chapter content, so typing never updated highlights.
+- Rewrote the reader script (clean, no dead code) against the real single-file `window.__IK__` architecture (not chunked chapters):
+  - `highlightSearchTerm()` DOM TreeWalker highlights ALL whitespace-separated terms live on input (debounced 150ms), green `bg-green-200`.
+  - Global search: `doSearch()` scans every node's title + paragraphs; counts substring occurrences.
+  - `#searchStats`: live "تم العثور على N نتيجة في M فصل".
+  - `#quickJumpResults`: clickable matching-chapter dropdown (top 50, per-chapter match count badge).
+  - Keyboard nav: ArrowUp/ArrowDown/Enter/Escape on the search input.
+  - Sidebar list now filters by title OR body content.
+- sw.js: bumped to `tarikh-cache-v1.0.9`; HTML made network-first with offline cache fallback so updates are not stale.
+- index.html footer/version -> v1.0.9.
+- Commits: c492ab2 (main + gh-pages). Verified live.
