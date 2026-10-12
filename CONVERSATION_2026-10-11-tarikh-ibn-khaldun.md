@@ -102,3 +102,7 @@ Links:
 ## Update 2026-10-11 - Search highlight fix
 - Fixed paragraph rendering to apply green highlight to matched terms.
 
+
+## Update 2026-10-11 - Multi-word search highlighting
+- Highlight all search terms (space-separated) in green.
+
