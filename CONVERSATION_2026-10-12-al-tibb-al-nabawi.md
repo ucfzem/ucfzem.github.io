@@ -175,3 +175,44 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
 - **Test hors-ligne : `10/10`** (navigate `/works/`, index, 7 assets, fonts). Harness :
   `/tmp/opencode/offline_test_works.js`.
 - Portée limitée à `/works/` (scope du SW).
+
+## Déploiement hors-ligne par lots (toutes les apps GitHub Pages)
+Modèle standard appliqué : SW `install` → `skipWaiting()` + precache shell + données + CDN
+(`fetch(...,{mode:'no-cors'})`) ; `activate` → purge anciens caches + `clients.claim()` ;
+`fetch` → navigation réseau-d'abord → `index.html` ; même-origine cache-d'abord (`ignoreSearch`) ;
+cross-origin cache-d'abord. Enregistrement `./sw.js` ajouté avant `</body>`.
+Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en VM Node, réseau coupé).
+
+### Apps dans des dépôts séparés (branche `main`, Pages = main)
+- **tarikh-ibn-khaldun** : `tarikh-cache-v1.1.0` (commit `8150d03`) — shell + `book-data.js` + CDN. Test 7/7.
+- **mujam-al-buldan** : `mujam-cache-v1.0.0` (commit `715cae6`) — shell + 29 `data/*.json` + polices. Test 7/7.
+- **al-adhkiya** : `adhkiya-cache-v1.0.0` (commit `f078161`) — shell + `all-adhkiya.js` + `audio/manifest.js`
+  + `data/adhkiya.json` + polices ; audio (423 fichiers / 33 Mo) **à la demande**. Test 6/6.
+- **livre-al-istibsar** (Next.js) : `scripts/gen-sw.mjs` + `postbuild` génère `out/sw.js`
+  (`istibsar-cache-v1.0.0`, 62 fichiers) et injecte l'enregistrement dans les 18 HTML. gh-pages `ca93b50`, main `dec58a6`. Test 6/6.
+- **quran-reader** : `quran-reader-v1.0.0` (commit `d81e79c`) — shell (app audio, données en ligne). Test 2/2.
+- **quran-amp** : `quran-amp-v1.0.0` (commit `6827e68`) — shell + polices Amiri/VT323/Tajawal. Test 3/3.
+- **api-job-finder** : `api-job-finder-v1.0.0` (commit `bf36f44`) — shell + polices Cinzel/Inter. Test 3/3.
+
+### Sous-dossiers du dépôt `ucfzem.github.io` (Pages = `main`, servis sous `/nom/`)
+- **droppy** : `droppy-v1.0.0` — SW **fusionné** : conservation du worker d'upload en arrière-plan
+  (messages `UPLOAD_FILE`/`GET_RESULTS`/`GET_PENDING`) + ajout du precache/`fetch` hors-ligne
+  (shell + `assets/avatar.png` + Tailwind + polices). Test 6/6. Enregistrement aussi ajouté à `get.html`.
+- **webhealth** : `webhealth-v1.0.0` — 9 pages HTML + `css/style.css` + `js/i18n.js` + polices.
+  Enregistrement injecté dans les 9 pages. Test 7/7.
+- **email-collector** : `email-collector-v1.0.0` — shell + Tailwind + polices. Test 4/4.
+- **childsgame** : `childsgame-v1.0.0` — shell + polices. Test 3/3.
+- Commit unique : **`e217fb9`** « offline: add offline-first precache SW + registration to
+  droppy, webhealth, email-collector, childsgame » (poussé sur `main`).
+
+### Vérification en ligne (CDN Pages propagé)
+- Les 7 `sw.js` répondent avec le bon nom de cache ; balise d'enregistrement `data-sw-reg` présente
+  dans les pages live (`webhealth/*`, `email-collector/`, `childsgame/`, `quran-reader/`, `quran-amp/`,
+  `api-job-finder/`, `droppy/get.html`).
+
+### Rappels d'exécution
+- Jeton PAT (`repo` + `admin:ssh_signing_key`, **pas** `workflow`) → déployer via `main`/`gh-pages`,
+  jamais de push sous `.github/workflows/*`.
+- Pushes volumineux : `git -c http.postBuffer=524288000 -c http.version=HTTP/1.1 push`.
+- Tâches longues en avant-plan (les jobs d'arrière-plan sont tués).
+- Lag CDN Pages ~1–3 min (poll avec `?cb=<random>`).
