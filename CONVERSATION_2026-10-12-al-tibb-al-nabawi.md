@@ -60,3 +60,13 @@ en déplaçant **Nuzhat al-Mushtaq** de #18 → **#11** (total **20 projets publ
 - Dépôt app : https://github.com/ucfzem/al-tibb-al-nabawi
 - Icône : https://ucfzem.github.io/works/assets/al-tibb-al-nabawi.svg
 - Session précédente : CONVERSATION_2026-10-11-tarikh-ibn-khaldun.md
+
+## Mises à jour (durcissement post-déploiement) — commit `3f1b867`
+- **Taille de police persistée** : `localStorage['tibb_fontSize']` (bornes 14–28px), restaurée au chargement.
+- **Fetch robuste** : `fetchWithTimeout()` (AbortController, 12 s) pour le manifeste et chaque chapitre ;
+  en cas d'échec du manifeste → message + **bouton « إعادة المحاولة »** (relance `initReader`).
+- **Anti-débordement** : `overflow-x-hidden` sur `<body>`, `min-w-0` sur `<main>`, `overflow-wrap:break-word` sur le texte.
+- **Service Worker** : cache passé à `tibb-nabawi-v1.0.1` (network-first → mise à jour instantanée).
+- Déjà en place : appariement **Cairo (UI) + Amiri (texte)**, mode sombre persisté, recherche/filtrat des chapitres
+  dans la barre latérale avec compteur de résultats.
+- Déployé `main` + `gh-pages`, vérifié en ligne (`sw v1.0.1`, `fetchWithTimeout`, garde-fous présents).
