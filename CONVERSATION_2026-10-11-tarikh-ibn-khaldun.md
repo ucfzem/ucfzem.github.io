@@ -94,3 +94,7 @@ Links:
 - Added ▲ أعلى / ▼ أسفل in index sidebar to jump to top/bottom quickly.
 - Numbered chapter titles in index (e.g., "1. ...").
 
+
+## Update 2026-10-11 - Search highlighting
+- Added green highlight for matched search terms in content.
+
