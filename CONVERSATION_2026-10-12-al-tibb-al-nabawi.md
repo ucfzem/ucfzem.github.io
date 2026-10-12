@@ -116,3 +116,17 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
 - Rappel : le lecteur charge **tous les 131 chapitres au démarrage** → tout le contenu est
   disponible hors-ligne dès la première visite en ligne (pas de mise en cache par chapitre).
 - Vérifié en ligne : ordre des boutons OK, `sw v1.0.4` avec cache cross-origin.
+
+## Recherche plein-texte : normalisation arabe
+- **Bug réel** : la recherche parcourait bien tout le texte des chapitres (`doSearch`), mais le texte
+  source est entièrement **vocalisé (tashkeel)** → taper `الحلبة` ne correspondait jamais à
+  `الْحُلْبَةِ`. Aucune normalisation des hamzas / ta-marbuta non plus.
+- **Correctif** (`e3ef87a`) :
+  - `normalizeArabic()` : retire le tashkeel (`\u064B-\u0652`, `\u0670`, tatweel `\u0640`),
+    unifie `أإآٱ→ا`, `ة→ه`, `ى→ي`, `ؤ→و`, `ئ→ي`, minuscule.
+  - Index de recherche = texte normalisé (`chapterText`), requête normalisée.
+  - **Surlignage** tolérant aux diacritiques : `termToPattern()` construit une regex avec classes de
+    caractères (`ا`, `ه`, `ي`, `و`) et `DIAC` entre chaque lettre → surligne le mot vocalisé à l'écran.
+  - Cache SW → `tibb-nabawi-v1.0.5` (pour forcer la mise à jour hors-ligne de `script.js`).
+- **Vérifié (Node, 131 chapitres)** : `الحلبة` 4, `الصبر` 29, `القسط` 15, `الريحان` 6 occurrences.
+- En ligne : `normalizeArabic` présent dans `script.js`, `sw v1.0.5`.
