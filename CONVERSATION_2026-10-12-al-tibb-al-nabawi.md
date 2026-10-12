@@ -310,3 +310,15 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
   **9 lignes sur 10 remplissent toute la colonne** (seule la dernière est courte = normal).
   Commit **`2b9e474`** (main + gh-pages).
 - Génération : `python3 /tmp/opencode/split_ik_md.py` (relit `data/0808IbnKhaldun.Tarikh.mARkdown`).
+
+## tarikh — justification défensive pour WebView légers (Via Browser)
+- Symptôme : sur Chrome le texte est justifié pleine largeur, mais sur **Via Browser** (WebView léger /
+  moteur agressif) chaque ligne reste courte. Les WebView légers traitent parfois les sauts de ligne
+  résiduels ou les espaces conservés comme des frontières de bloc → chaque ligne = « dernière ligne ».
+- Vérifié : les chunks régénérés contiennent **0 caractère `\n`/`\r`** dans les paragraphes (fusion
+  déjà faite).
+- Correctif (défensif, sans risque) sur `.text-reading` : ajout de
+  `white-space: normal; display: block; text-align-last: right;` en plus de
+  `text-align: justify; text-justify: inter-word; direction: rtl;`. Aucun changement de cache
+  (index.html servi en network-first).
+- Commit **`918d68a`** (main + gh-pages).
