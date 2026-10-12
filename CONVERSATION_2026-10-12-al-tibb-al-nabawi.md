@@ -350,3 +350,15 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
   text-align:justify; text-justify:inter-word; direction:rtl; line-height:1.6; margin-bottom:1.25rem; }`
   → `text-justify: inter-word`, dernière ligne naturelle (49px), 9/10 lignes pleines, hauteur 288px,
   aucun espacement forcé. Déployé main + gh-pages.
+
+## tarikh — CSS inter-word définitif + assainissement défensif (commit `bf0f1bb`)
+- `.text-reading` aligné sur la spéc. propre : `white-space: normal !important`,
+  `text-align: justify !important`, `text-justify: inter-word !important`,
+  `direction: rtl !important`, `word-break: normal`, `overflow-wrap: break-word`,
+  `line-height: 1.8` (18px → 32,4px), `margin-bottom: 1.25rem`.
+- `renderContent` : assainissement défensif
+  `String(ps[i]).replace(/\r?\n|\r/g,' ').replace(/\s+/g,' ').trim()` (no-op aujourd'hui : les
+  chunks ont 0 `\n`, mais prévient toute régression future / source non fusionnée).
+- Vérifié localement : `justify / inter-word`, lh 32,4px, 9/10 lignes pleines, 0 erreur console.
+- Note : la vraie garantie reste la fusion des lignes **à la source** (commit `2b9e474`) ; le CSS et
+  le sanitize ne sont que des filets de sécurité. Déployé main + gh-pages.
