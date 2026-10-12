@@ -438,3 +438,24 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
   `istibsar-cache-v1.0.2`.
 - `al-adhkiya` : SW précache déjà tout à l'install (pas de données volumineuses).
 
+## Nuzhat al-Mushtaq (`ucfzem/nuzhat-al-mushtaq`) — fusion + offline (nouveau)
+- Source retrouvée : dépôt GitHub `ucfzem/nuzhat-al-mushtaq` (branche `main`, Pages à la racine `/`,
+  également miroité sur `https://nuzhat-al-mushtaq.vercel.app/`). Données dans `all-regions.js`
+  (`IDRISI_META` + `allRegionsData`, 7 أقاليم × 10 أجزاء).
+- Défaut confirmé : le rendu fait `part.fullText.split('\n')` → **3511 lignes**, dont **744 (21 %)**
+  sans ponctuation finale ⇒ mêmes coupures en pleine phrase. De plus l'app n'avait **aucun**
+  `text-align: justify`.
+- Correctif build : `tools/merge-regions.mjs` (fusion *heading-aware* ; les titres `[الجزء …]` et
+  `الجزء|الإقليم|المجلد …` restent des paragraphes à part ; cap 4000). `fullText` passe de
+  **3511 → 2846 paragraphes** ; il ne reste qu'1 fragment final sans ponctuation (fin de partie).
+- PWA/offline ajouté : `sw.js` (`nuzhat-cache-v1.1.0`, `precacheAll` + `cacheCdn`), `site.webmanifest`,
+  `icon.svg` + `icon-192/512.png` (générés sans ImageMagick via `gen_nuzhat_icons.mjs`). Enregistrement
+  de `./sw.js` **et** `/sw.js` (SW racine) dans `index.html`.
+- Ajout de `text-align: justify` sur `.card p` (absent à l'origine).
+- Intégration collection : slug `nuzhat-al-mushtaq` ajouté à l'allowlist `APPS` de `ucfzem.github.io/sw.js` ;
+  la page `works/` pointe désormais vers `https://ucfzem.github.io/nuzhat-al-mushtaq/`.
+- Vérifs : données servies **byte-identiques** (sha256 local = servi), harnais offline **8/8 réseau coupé**,
+  navigateur live : 2 SW actifs (`/nuzhat-al-mushtaq/` + racine `/`), 1er paragraphe = 4 lignes dont
+  **3 pleines (711px)** + dernière ligne courte, 0 erreur JS.
+- Commits : `db1a7a6` (fusion + PWA), `c12f90f` (justify + v1.1.0) ; racine `7995c3c` (works + APPS).
+
