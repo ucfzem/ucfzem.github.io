@@ -130,3 +130,21 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
   - Cache SW → `tibb-nabawi-v1.0.5` (pour forcer la mise à jour hors-ligne de `script.js`).
 - **Vérifié (Node, 131 chapitres)** : `الحلبة` 4, `الصبر` 29, `القسط` 15, `الريحان` 6 occurrences.
 - En ligne : `normalizeArabic` présent dans `script.js`, `sw v1.0.5`.
+
+## Recherche par synonymes (remèdes + organes)
+- **`SYNONYM_GROUPS`** (`546846a`) : dictionnaire de synonymes/noms alternatifs orienté
+  médecine prophétique — remèdes (ex. الحبة السوداء = حبة البركة = الشونيز ; الدباء = القرع = اليقطين ;
+  الصبر = الألوة ; القسط الهندي/البحري = الكست ; السنا = السنامكي ; الزعتر = السعتر = العتر…) et
+  organes/parties du corps (القلب = الفؤاد ; الكلى = الكلية ; الأمعاء = المصارين = المعي ;
+  الكتف = المنكب ; الشرايين = الأوردة = العروق ; الحلق = الحلقوم = البلعوم…).
+- **`expandArabicTerms()`** : développe chaque terme saisi vers tous les synonymes de son groupe.
+- **`queryTerms()`** : si la requête entière (normalisée) est un terme connu, elle est traitée comme
+  une **expression** (ex. `حبة البركة`) et non découpée en mots — sinon découpage en jetons.
+- **`isWholeTerm()` / `countTerm()` / `titleMatches()`** : correspondance **mot entier** (bornes
+  arabes) pour les termes/synonymes connus → `الآس` ne matche plus `الإسلام`, `تين` plus `اثنتين`.
+  La saisie partielle libre reste en sous-chaîne.
+- **Surlignage** : les synonymes connus sont encadrés par des lookarounds `(?<![\u0621-\u064A])…(?![…])`
+  (avec repli try/catch si non supporté).
+- **Vérifié (Node, VM, 131 chapitres)** : حبة البركة = الحبة السوداء = الشونيز → 2 ch/9 ;
+  القلب = الفؤاد → 46/98 ; الدباء = القرع → 6/22 ; الأمعاء = المصارين → 6/8 ; الآس → 1/1 ; تين → 4/7.
+- Cache SW → `tibb-nabawi-v1.0.6`. En ligne : `SYNONYM_GROUPS` présent, `sw v1.0.6`.
