@@ -80,3 +80,16 @@ en déplaçant **Nuzhat al-Mushtaq** de #18 → **#11** (total **20 projets publ
 - La lecture s'arrête automatiquement au **changement de chapitre** (`loadChapter` → `tts.stop()`).
 - Fichiers : `script.js` (module `tts`), `index.html` (boutons + styles `.tts-highlight`).
 - Déployé `main` + `gh-pages`, vérifié en ligne.
+
+## Correctif TTS Chrome/Android — commit `220005f`
+Problèmes signalés : défilement trop rapide (blocs courts) et absence de son sur certains Chrome.
+Corrections :
+- La file ne lit que les **`<p>`** (on ignore les titres `h2/h3` et les blocs très courts `< 5` car.).
+- **Délais tampon** : 150 ms après `cancel()` avant de démarrer ; **320 ms** entre paragraphes
+  (le moteur Chrome a le temps de réinitialiser son flux audio).
+- **Sélection explicite de la voix arabe** (`getVoices()` → `ar*`) relue à chaque démarrage
+  (les voix se chargent parfois tardivement → `voiceschanged`).
+- **Garde d'état** : `playNext()` ne s'exécute que si `state === 'playing'` ; les erreurs
+  `interrupted`/`canceled` (déclenchées par `cancel()`) sont ignorées pour ne pas bloquer la file.
+- `resume()` relance la file si l'on était dans l'intervalle entre deux paragraphes.
+- Fichier : `script.js` (module `tts`). Déployé `main` + `gh-pages`, vérifié en ligne.
