@@ -379,3 +379,29 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - Risque connu : léger sur-mélange possible (ex. Basmala collée à la phrase suivante ; textes sans
   ponctuation → blocs jusqu'à ~1500 car.). Ajustable (regex/régler le plafond) si besoin.
 - Déployé main + gh-pages.
+
+## al-tibb — même correctif (fusion des lignes Shamela coupées) — commit `1eaaa85`
+- Diagnostic : le source Shamela (`/tmp/tibb_pages.json`) met **chaque ligne imprimée dans son propre
+  `<p>`**, d'où des coupures en pleine phrase (ex. ch-003 `«…يُضْعِفُهَا»` → `«وَقَالَ فِي آيَةِ الْحَجِّ…»`,
+  ch-005 `«…تَفْعَلُ مَا لَا تفعل الأدوية»` → `«الْحِسِّيَّةُ…»`). 16 % des `<p>` (341/2091) ne finissaient
+  pas par une ponctuation de fin.
+- Correctif dans `build_tibb.py` : `merge_paras()` **au build** — on colle les lignes de corps dont la
+  précédente n'a pas de ponctuation finale (`. ؟ ! : ۔ … » ”`), **en coupant sur les vrais titres**
+  (classe `c4` ou `head_re` : فصل/باب/ذكر/… et lignes ≤95 car.), plafond 1500 car.
+- Résultat : `<p>` **2091 → 2002** ; non-terminaux **341 → 251**, dont 176 = vrais titres (corrects),
+  62 = dernière ligne de chapitre, 10 = vers de poésie (à garder tels quels), 3 = coupure à la frontière
+  de chapitre (non fusionnée). Les coupures en pleine phrase **à l'intérieur** des chapitres sont recollées
+  (vérifié en direct : `«…يُضْعِفُهَا وَقَالَ…»`). 131 chapitres inchangés. Cache SW `v1.0.8 → v1.0.9`.
+- Hors-ligne : harnais **11/11** (141 entrées précachées) après correction de l'URL de police dans la
+  config (il manquait `&family=Cairo:…`).
+- Note : `mujam-al-buldan` n'a pas ce défaut (une seule entrée texte par entrée) ; `al-adhkiya` est
+  structuré en `stories`, pas en prose découpée.
+- Déployé main + gh-pages.
+
+## État global de la coupure « en pleine phrase » par livre
+- **tarikh-ibn-khaldun** : corrigé (`mergeParas`, v1.3.1). ✅
+- **al-tibb-al-nabawi** : corrigé (heading-aware, v1.0.9). ✅
+- **mujam-al-buldan** : non concerné (entrées en bloc unique).
+- **al-adhkiya** : structure stories, pas de lignes coupées.
+- **Nuzhat al-Mushtaq** : application/ivre **introuvable** dans les dépôts locaux — à confirmer
+  (nouveau livre à ajouter ? fournir la source).
