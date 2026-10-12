@@ -339,3 +339,14 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - Décision : conserver la version propre (toutes les lignes justifiées sauf la dernière) ;
   `::after` non déployé. Fix Via : vider le cache de Via (le SW sert l'HTML en network-first,
   mais Via cache agressivement).
+
+## tarikh — essai `text-justify: distribute` puis REVERT (espacement extrême)
+- Essai (commit **`b3f8410`**) : `text-justify: distribute; text-align-last: justify;`. Dans Chromium,
+  `distribute` est résolu en **`inter-character`** → **toutes** les lignes deviennent pleines (10/10)
+  MAIS la dernière ligne (un seul mot) est étirée sur **718px** via un espacement **entre caractères**
+  → rendu anormal (« bizarre wide word-spacing »), rejeté.
+- Correctif final (commit **`527514d`**) : retour au CSS propre —
+  `.text-reading { display:block; white-space:normal; word-break:normal; overflow-wrap:break-word;
+  text-align:justify; text-justify:inter-word; direction:rtl; line-height:1.6; margin-bottom:1.25rem; }`
+  → `text-justify: inter-word`, dernière ligne naturelle (49px), 9/10 lignes pleines, hauteur 288px,
+  aucun espacement forcé. Déployé main + gh-pages.
