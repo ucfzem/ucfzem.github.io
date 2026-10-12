@@ -290,3 +290,23 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
   classe `text-justify` retirée du `<p>`.
 - Vérifié localement **avec le CDN Tailwind bloqué** → `text-align:justify`, `text-justify:inter-word`,
   `direction:rtl`. Commit **`abcc305`** (main + gh-pages).
+
+## tarikh — vraie cause : lignes OpenITI non fusionnées (correctif définitif)
+- Le problème n'était pas (seulement) le CSS : les données contenaient une entrée par **ligne
+  physique du manuscrit** (~70–80 car.), chaque `<p>` = une seule ligne → `justify` ne peut étirer
+  que les lignes de continuation, donc chaque ligne était une « dernière ligne » → bord droit irrégulier.
+- Origine : mARkdown OpenITI utilise `### ` = titre de section, `# ` = **début de paragraphe**,
+  `~~` = continuation de ligne (retour à la ligne), `PageV…P…` / `ms…` = balises de page en ligne.
+  `book-data.js` avait éclaté chaque ligne en paragraphe distinct (marqueurs déjà retirés).
+- Correctif : nouveau générateur `split_ik_md.py` qui **re-fusionne** depuis le markdown brut
+  (`# ` démarre un paragraphe, `~~` continue avec un espace, `PageV`/`ms` supprimés), régénère
+  `data/chunks/chunk-000..028.json` (29 chunks, **13,92 Mo**) + `data/manifest.json`.
+  Résultat : **2991 sections** (titres identiques, 0 diff), paragraphes de **408 car. en médiane**
+  (contre ~80), soit ~4,7 paragraphes réels par section.
+- Cache bumpé `tarikh-data-v1.2.0` → **`v1.3.0`** (index.html `SW_CACHE` + sw.js `CACHE_NAME`) pour
+  forcer le re-téléchargement des nouveaux chunks.
+- Vérifié **live** (Chromium réel) : paragraphe le plus long = **1061 car.**,
+  `text-align:justify / text-justify:inter-word / direction:rtl`,
+  **9 lignes sur 10 remplissent toute la colonne** (seule la dernière est courte = normal).
+  Commit **`2b9e474`** (main + gh-pages).
+- Génération : `python3 /tmp/opencode/split_ik_md.py` (relit `data/0808IbnKhaldun.Tarikh.mARkdown`).
