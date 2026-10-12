@@ -279,3 +279,14 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - Works : https://ucfzem.github.io/works/
 - Quran-reader : https://ucfzem.github.io/quran-reader/ · Quran-amp : https://ucfzem.github.io/quran-amp/ · API Job Finder : https://ucfzem.github.io/api-job-finder/
 - SW racine : https://ucfzem.github.io/sw.js
+
+## tarikh — justification du texte robuste (correctif)
+- Constat : le paragraphe portait la classe Tailwind `text-justify` ; l'alignement dépendait donc du
+  chargement du CDN Tailwind. Si le CDN est lent/bloqué (fréquent en mobilité/hors-ligne), le texte
+  retombait en alignement « start » (bords irréguliers). (Mesure live : tarikh=`justify`,
+  al-tibb=`start`.)
+- Correctif : alignement inscrit directement dans la feuille de style —
+  `.text-reading { … text-align: justify; text-justify: inter-word; direction: rtl; }` ;
+  classe `text-justify` retirée du `<p>`.
+- Vérifié localement **avec le CDN Tailwind bloqué** → `text-align:justify`, `text-justify:inter-word`,
+  `direction:rtl`. Commit **`abcc305`** (main + gh-pages).
