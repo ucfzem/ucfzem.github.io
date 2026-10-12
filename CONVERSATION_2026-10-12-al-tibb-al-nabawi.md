@@ -362,3 +362,20 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - Vérifié localement : `justify / inter-word`, lh 32,4px, 9/10 lignes pleines, 0 erreur console.
 - Note : la vraie garantie reste la fusion des lignes **à la source** (commit `2b9e474`) ; le CSS et
   le sanitize ne sont que des filets de sécurité. Déployé main + gh-pages.
+
+## tarikh — réunification des paragraphes coupés en pleine phrase (commit `18ed031`)
+- Constat mesuré : **42,3 %** des paragraphes (6011/14198) ne se terminaient pas par une ponctuation
+  de fin (`. ؟ ! : ۔ … » ”`). L'édition OpenITI marque `#` = paragraphe, mais ces marqueurs coupent
+  souvent la phrase (ex. `«…وملئوا»` puis `«أكناف الضواحي…»`). La fusion `~~` (v1.3.0) ne réglait que
+  les retours à la ligne, pas ces coupures `#`.
+- Correctif : `mergeParas(ps)` appliqué **au build** (dans `split_ik_md.py`) — colle le paragraphe
+  suivant tant que le précédent ne finit pas par une ponctuation de fin, avec plafond 1500 car.
+  (Choix build-time plutôt que runtime : données déjà fusionnées, hors-ligne correct, recherche
+  cohérente, charge runtime nulle.)
+- Résultat : paragraphes **14198 → 9030** (médiane 669 car., p90 1728), 29 chunks, 13,91 Mo.
+  Exemple vérifié : `«…لعموم الدولتين صدر الإسلام [1] في الآفاق والممالك…»` continu.
+- Cache bumpé `v1.3.0` → **`v1.3.1`** (`SW_CACHE` index.html + `CACHE_NAME` sw.js) ; pied de page
+  `v1.3.1`. Vérifié localement : 15 paragraphes (section 1), 10/11 lignes pleines, 0 erreur.
+- Risque connu : léger sur-mélange possible (ex. Basmala collée à la phrase suivante ; textes sans
+  ponctuation → blocs jusqu'à ~1500 car.). Ajustable (regex/régler le plafond) si besoin.
+- Déployé main + gh-pages.
