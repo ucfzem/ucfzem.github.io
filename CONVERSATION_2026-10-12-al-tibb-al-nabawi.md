@@ -148,3 +148,11 @@ demande de l'utilisateur : **suppression complète de la fonction Écoute**.
 - **Vérifié (Node, VM, 131 chapitres)** : حبة البركة = الحبة السوداء = الشونيز → 2 ch/9 ;
   القلب = الفؤاد → 46/98 ; الدباء = القرع → 6/22 ; الأمعاء = المصارين → 6/8 ; الآس → 1/1 ; تين → 4/7.
 - Cache SW → `tibb-nabawi-v1.0.6`. En ligne : `SYNONYM_GROUPS` présent, `sw v1.0.6`.
+
+## Boutons RTL : aucun changement requis
+- Suggestion reçue : ajouter `direction: rtl` / `flex-direction: row-reverse` pour placer « الفصل التالي »
+  à droite. **Vérifié : déjà en place.**
+  - `index.html:2` → `<html lang="ar" dir="rtl" …>` (RTL global déjà actif).
+  - Boutons statiques (`index.html:103-107`), ordre DOM `nextBtn` → `pageIndicator` → `prevBtn` ;
+    en flex RTL le 1er élément est à **droite** → Next à droite, Prev à gauche. Correct.
+  - Appliquer `row-reverse`/`order` inverserait → régression. **Aucune modification appliquée.**
