@@ -405,3 +405,36 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - **al-adhkiya** : structure stories, pas de lignes coupées.
 - **Nuzhat al-Mushtaq** : application/ivre **introuvable** dans les dépôts locaux — à confirmer
   (nouveau livre à ajouter ? fournir la source).
+
+## Correction de la ligne précédente : **mujam-al-buldan EST concerné**
+- Vérification fine : **10 066 / 12 292 entrées** contenaient des `\n` et **76 %** des lignes ne se
+  terminaient pas par une ponctuation → coupures en pleine phrase (ex. `«…موضع بين الأجفر وفيد، على\nخمسة
+  أميال من الأجفر…»`). L'appli rend en `white-space: pre-line; text-align: justify` → justification cassée.
+- Correctif dans `tools/build_data.mjs` (`cleanLines`) : fusion au build (colle tant que pas de ponctuation
+  finale, plafond 1500). Résultat : **100 038 → 26 121 paragraphes**, non-terminaux **76 % → 10 %**.
+  Commit `52c0096`, cache `v1.0.2`. Vérifié en direct (`«…وفيد، على خمسة أميال…»` recollé).
+- **al-adhkiya** : confirmé non concerné (le parseur `parse_adhkiya.mjs` fait déjà `.replace(/~~/g,' ')` ;
+  aucune entrée n'a de `\n`).
+- **istibsar** : aussi concerné (Shamela `\n`) — voir ci-dessous.
+
+## istibsar — fusion des lignes + rebuild (commit `183305c` / deploy `195bfa6`)
+- `lib/book-texts.js` : 811 → 630 lignes (non-terminaux 259 → 17) via `scripts/merge-texts.mjs`
+  (titres `[...]` et vers contenant `...` préservés). Rebuild Next avec `GITHUB_PAGES=true` (basePath
+  `/livre-al-istibsar`), redeploy `out/` sur `gh-pages`. SW `v1.0.1 → v1.0.2`.
+
+## Offline complet après **une seule** visite en ligne (todo « go for the rest »)
+- Principe : un SW ne s'installe qu'avec **une visite réseau** ; impossible de démarrer à froid hors-ligne
+  sans l'avoir visité en ligne une fois (ou installé comme PWA depuis le navigateur).
+- tarikh précachait seulement le shell → chunks en cache *à la demande* : offline partiel. Correctif :
+  le SW lit `data/manifest.json` et **précache les 29 chunks à l'install**. Cf. commit `e38245d`, cache
+  `v1.3.2`.
+- Les installs mettaient tout en `Promise.all` (29 à 131 fetch parallèles) → échecs partiels sous
+  charge (vérifié : échecs `fetch failed` en Node). Ajout d'un `precacheAll(cache, urls, 4)` **throttlé
+  + retry** dans tarikh, al-tibb (131 chapitres), mujam (29 fichiers) et istibsar (67 fichiers). Puis
+  `cacheCdn()` (retry x3) pour les polices/tailwind CDN (tarikh, al-tibb, mujam ; istibsar auto-héberge
+  ses polices).
+- Harnais offline **au vert** : tarikh 38 entrées / 12-12, al-tibb 141 / 11-11, mujam 36 / 7-7,
+  istibsar 67 / 6-6. Versions SW live : `tarikh-data-v1.3.2`, `tibb-nabawi-v1.1.0`, `mujam-cache-v1.0.3`,
+  `istibsar-cache-v1.0.2`.
+- `al-adhkiya` : SW précache déjà tout à l'install (pas de données volumineuses).
+
