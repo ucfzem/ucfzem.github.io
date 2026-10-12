@@ -93,3 +93,15 @@ Corrections :
   `interrupted`/`canceled` (déclenchées par `cancel()`) sont ignorées pour ne pas bloquer la file.
 - `resume()` relance la file si l'on était dans l'intervalle entre deux paragraphes.
 - Fichier : `script.js` (module `tts`). Déployé `main` + `gh-pages`, vérifié en ligne.
+
+## Retrait du lecteur audio (TTS) — commits `d4aafd7`, `a7adda6`
+La synthèse vocale ne produisait aucun son sur l'appareil (Chrome : pas de voix arabe
+installée → `onend` instantané → défilement rapide). Après plusieurs correctifs, à la
+demande de l'utilisateur : **suppression complète de la fonction Écoute**.
+- `index.html` : boutons `ttsToggle`/`ttsStop` retirés, styles `.tts-highlight` retirés
+  (l'en-tête garde le thème + la taille de police, avec `flex-wrap`).
+- `script.js` : module `tts` et appel `tts.stop()` supprimés ; plus aucune référence à
+  `speechSynthesis`.
+- `sw.js` : cache passé à `tibb-nabawi-v1.0.2`.
+- Vérifié en ligne : 0 référence TTS, `sw v1.0.2`.
+- Réversible : le code TTS reste dans l'historique Git si besoin de le réactiver.
