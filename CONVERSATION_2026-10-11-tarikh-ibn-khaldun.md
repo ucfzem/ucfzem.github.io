@@ -85,3 +85,7 @@ Links:
 ## Update 2026-10-11 - Header widened to full width
 - Made green header bar full width (removed max-w-7xl), subtitle fits properly.
 
+
+## Update 2026-10-11 - Header subtitle extended
+- Updated header subtitle to include "من ذوي السلطان الأكبر"; header kept full width.
+
