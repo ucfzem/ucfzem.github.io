@@ -216,3 +216,66 @@ Testé avec `/tmp/opencode/offline_test_generic.js <cfg.json>` (vrai `sw.js` en 
 - Pushes volumineux : `git -c http.postBuffer=524288000 -c http.version=HTTP/1.1 push`.
 - Tâches longues en avant-plan (les jobs d'arrière-plan sont tués).
 - Lag CDN Pages ~1–3 min (poll avec `?cb=<random>`).
+
+## Correctif « URL sans slash » + PWA installable (manifests)
+### Problème racine
+- Un SW à `/app/sw.js` a une portée maximale `/app/` : il ne peut **jamais** intercepter `/app`
+  (URL nue, sans slash). Résultat hors-ligne sur URL nue = page dinosaure / `ERR_INTERNET_DISCONNECTED`.
+  C'est le vrai échec observé sur Android (les utilisateurs tapent l'URL nue).
+### SW racine (scope `/`) — commit `6ab76b3`
+- Nouveau `ucfzem.github.io/sw.js` : allowlist `APPS` ; si `mode==='navigate'` + même-origine +
+  chemin à un seul segment dans l'allowlist → renvoie un **HTML 200 synthétique**
+  `<script>location.replace('<origine>/<slug>/')</script>` (aucun accès réseau).
+  (`Response.redirect(302)` depuis le SW bloquait lors des tests → remplacé par la redirection JS.)
+- Enregistrement `register('/sw.js')` (marqueur `data-root-sw`) injecté dans : homepage, works,
+  droppy, webhealth (9 pages), email-collector, childsgame, quran-reader, quran-amp, api-job-finder,
+  tarikh, al-tibb, mujam, al-adhkiya, istibsar. Commit **`e74764f`** (dépôt `ucfzem.github.io`).
+### Manifests PWA + icônes
+- **mujam-al-buldan** (`eb3e9d7`, `mujam-cache-v1.0.1`) et **al-adhkiya** (`0718b49`,
+  `adhkiya-cache-v1.0.1`) : `manifest.json`, `icon.svg`, `icon-192.png`, `icon-512.png`,
+  `<link rel="manifest">` + `data-root-sw` ; precache inclut manifest + icônes. Déployés `main` + `gh-pages`.
+- **livre-al-istibsar** (Next.js, `588d8d7` main / gh-pages) : `public/manifest.webmanifest` + icônes ;
+  `scripts/gen-sw.mjs` injecte `<link manifest>`, `theme-color` et le SW racine dans les 18 HTML ;
+  `out/` reconstruit.
+- **al-tibb** (`9cb8144`, `tibb-nabawi-v1.0.8`) et **tarikh** (`348e222`, `tarikh-cache-v1.1.1`) :
+  ajout d'icônes **PNG 192/512** (maskable) au manifest + precache (SVG seul insuffisant pour l'install Android).
+- Icônes générées via Playwright (rendu SVG → PNG plein cadre). Manifests live vérifiés via CDP
+  `Page.getAppManifest` : **0 erreur**, `display:standalone`, 3 icônes.
+### Vérification live
+- URL nue **hors-ligne OK** : mujam (len 544148), al-adhkiya (26476), istibsar (989), tarikh, al-tibb.
+  `curl` manifests + icônes = `200` pour toutes.
+
+## tarikh-ibn-khaldun — performance de chargement (B+B)
+### Cause mesurée
+- `book-data.js` monolithique **16,2 Mo** (4,2 Mo gzip) chargé en `<script>` **bloquant** → page blanche
+  ~10 s ; GitHub Pages sert à ~400 Ko/s. De plus, double téléchargement à la 1re visite
+  (la page **et** le precache du SW).
+### Correctif
+- **Découpage** : 29 chunks JSON (~500 Ko, 1er = 146 Ko) dans `data/chunks/` + `data/manifest.json`
+  (méta + liste). Champs inutilisés `path`/`level` supprimés → **16,2 → 14,1 Mo**.
+- **Chargement non bloquant / incrémentiel** : `book-data.js` retiré du HTML ; le loader lit
+  `data/manifest.json` puis télécharge les chunks **6 en parallèle** (pool, **ordre préservé**),
+  affiche la 1re section dès le 1er chunk, puis complète en arrière-plan. Les chunks sont stockés
+  côté page dans le cache `tarikh-data-v1.2.0` (API Cache) → hors-ligne garanti même avant contrôle SW.
+- **SW** renommé `tarikh-data-v1.2.0` : precache **shell seul** (plus de `book-data.js`).
+- **Typographie alignée sur al-tibb** : `.text-reading` 18px / `line-height:1.6` / `margin-bottom:1.25rem` ;
+  colonne `main { max-width:800px; margin:auto }` ; police par défaut 18 (plage 14–28) ;
+  h2 `text-2xl sm:text-3xl` + filet.
+- **Résultat live** : plein chargement **35 s → 9,6 s**, 1er contenu **~10 s → ~3,2 s** ;
+  recherche 498 résultats / 187 chapitres ; hors-ligne OK (nue + slash) ; 0 erreur console.
+  Commits **`29a9155`**, **`af6b581`**.
+- Note : `book-data.js` d'origine conservé (désormais non référencé) ; source
+  `data/0808IbnKhaldun.Tarikh.mARkdown` restaurée après un écrasement accidentel du dossier `data/`.
+- Exécution : le push volumineux a échoué une fois (« broken pipe ») puis a réussi avec
+  `http.postBuffer=524288000` + `HTTP/1.1` et un délai long.
+
+## Liens mis à jour
+- Accueil : https://ucfzem.github.io/
+- Tarikh (perf + typo) : https://ucfzem.github.io/tarikh-ibn-khaldun/
+- Al-tibb : https://ucfzem.github.io/al-tibb-al-nabawi/
+- Mujam : https://ucfzem.github.io/mujam-al-buldan/
+- Al-adhkiya : https://ucfzem.github.io/al-adhkiya/
+- Istibsar : https://ucfzem.github.io/livre-al-istibsar/
+- Works : https://ucfzem.github.io/works/
+- Quran-reader : https://ucfzem.github.io/quran-reader/ · Quran-amp : https://ucfzem.github.io/quran-amp/ · API Job Finder : https://ucfzem.github.io/api-job-finder/
+- SW racine : https://ucfzem.github.io/sw.js
