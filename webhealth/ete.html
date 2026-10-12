@@ -193,5 +193,6 @@ sidebarOverlay.addEventListener("click",closeSidebar);
 document.querySelectorAll("#sidebarLinks a").forEach(function(link){link.addEventListener("click",closeSidebar)});
 </script>
 <script data-sw-reg="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>
