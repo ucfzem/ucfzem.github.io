@@ -106,3 +106,7 @@ Links:
 ## Update 2026-10-11 - Multi-word search highlighting
 - Highlight all search terms (space-separated) in green.
 
+
+## Update 2026-10-11 - Improved search highlighting
+- Fixed highlighting to work for all multi-word/any terms; preserves HTML escaping.
+
