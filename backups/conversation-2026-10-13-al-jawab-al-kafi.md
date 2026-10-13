@@ -389,3 +389,22 @@ Note: on Android the cached copy lives only inside the browser's private storage
 directly, download it from the URL above.
 
 Commit: `f80c078`.
+
+---
+
+## Addendum 10 — Mapamundi: offline black-at-deep-zoom fix
+
+- Symptom (user, offline on Android): zooming past a certain level showed a black map.
+- Cause: OpenSeadragon's single-image source (`type:'image'`) pre-renders the picture
+  onto a canvas the size of the full image before slicing tiles. The 12800 px top level
+  exceeded many phones' max canvas/texture size, so shallower levels showed but the
+  deepest level rendered black.
+- Fix: regenerated the offline copy at **4096×4163 (2.72 MB)** — within every phone's
+  canvas limit and cheap to decode (~2.8 MB precache instead of 23 MB). Same aspect
+  ratio, so pins/hotspots still align. Bumped SW cache to `mapamundi-cache-v1.0.4`.
+- Verified locally (offline reload): precached 2 849 478 bytes; OpenSeadragon's map
+  canvas (not the info panel) keeps real content (stdev ≈ 28.4) at home and zooms
+  4/8/16 — no blank frames.
+- Live: `assets/urbano-monte-1587.webp` → HTTP 200, `image/webp`, 2 849 478 bytes.
+
+Commit: `604ef41`.
