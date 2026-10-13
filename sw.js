@@ -77,7 +77,7 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap'
 ];
-const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
+const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
 
 async function precache(cache, urls, concurrency = 4) {
   let i = 0;
@@ -214,8 +214,8 @@ async function prefetchBookData() {
   const shell = await caches.open(SHELL_CACHE);
   const cdn = await caches.open(CDN_CACHE);
   if (await shell.match(DATA_MARKER)) return;
-  for (const s of SHELLS) await cacheAppData(shell, cdn, s);
-  for (const u of CDN) if (u.includes('fonts.googleapis.com')) await cacheFontFiles(cdn, u);
+  await Promise.all(SHELLS.map((s) => cacheAppData(shell, cdn, s)));
+  await Promise.all(CDN.filter((u) => u.includes('fonts.googleapis.com')).map((u) => cacheFontFiles(cdn, u)));
   await shell.put(DATA_MARKER, new Response('1'));
 }
 
