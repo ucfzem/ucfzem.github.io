@@ -104,7 +104,7 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
 - Offline-ready: installable PWA + service worker that caches the app shell and,
   as you browse, the tiles you actually view.
-- **Full offline map**: `assets/urbano-monte-1587.webp` (a 12 800 × 13 008 px
+- **Full offline map**: `assets/urbano-monte-1587.webp` (a 4096 × 4163 px
   downscaled copy of the same planisphere) is precached by the service worker and
   used automatically when the device is offline or the IIIF server is unreachable.
 - Friendly in-page error if a tile source can't be reached.
@@ -115,9 +115,10 @@ The service worker precaches the app shell **and** the local
 `assets/urbano-monte-1587.webp`. On load the viewer uses the streaming IIIF source
 when online (best quality, tiny tiles) and silently swaps to the local WebP
 (`OFFLINE_SRC`) when `navigator.onLine` is false or if the remote source fails to
-open. The local copy is a single ~23 MB image — much lighter than a full 61 000 px
-scan, which no browser can hold — and keeps every interactive feature (pins,
-hotspots, compass, 4 languages) working with no network.
+open. The local copy is a single ~2.7 MB, 4096 px image — small enough that every
+browser (including phones, whose canvas/texture size limits reject a full 61 000 px
+scan) can render it, and keeps every interactive feature (pins, hotspots, compass,
+4 languages) working with no network.
 
 ## Customizing
 
