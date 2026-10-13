@@ -130,3 +130,42 @@ Clarified with the user (they invited questions):
 - Toggle works (close/reopen); locked section unchanged (still locked, folders intact).
 - Inline scripts 2/2 syntax OK; JSON-LD sequential; 0 page errors.
 - No other file touched; app repos unaffected.
+
+---
+
+## Addendum 2 — Maktaba row visual fix (same session, commits `c4b7a2a`, `4a5d27e`)
+
+Reported: the Maktaba row's right badge was a raw count ("10") instead of a category
+tag, and the icon/title were misaligned ("trespassing the left") vs the cards.
+
+Diagnosed by measuring live layout:
+- Cards are responsive (base `padding 14px 16px / gap 12px`, then per breakpoint up to
+  `22px 28px / gap 20px`) and start with a 24px `.card-num` column + gap before the icon.
+- `.folder-header` was fixed `12px 16px / gap 10px`, had no number-column spacer, and
+  `.folder-icon` was only `1rem` with no min-width → folder icon 46px and title 74px too
+  far left at 1280px.
+- Badge was `.folder-count` → "10" (a counter), unlike `.card-tag` category badges.
+
+Fix:
+- `.folder-icon` → `font-size:1.3rem; min-width:28px; text-align:center` (matches
+  `.card-emoji`/`.card-icon`); added `.folder-num { min-width:24px }` spacer.
+- Base `.folder-header` → `padding:14px 16px; gap:12px` (matches `.card` base) and added
+  a matching `.folder-header { … }` rule inside **every** media query that styles `.card`
+  (≤480, 768–1023, 1024–1439, ≥1440, ≥1920).
+- `.folder { margin-bottom: 10px }` (matches `.card`).
+- `renderPublic` Maktaba markup: added `<span class="folder-num"></span>` to the header
+  and to each inner book card, replaced `<span class="folder-count">10</span>` with
+  `<span class="card-tag">Library</span>`.
+- Disclosure arrow floated into the right gutter (scoped `#f-maktaba` only, so the
+  locked folders are untouched): `#f-maktaba .folder-header{position:relative}`,
+  `#f-maktaba .folder-arrow{position:absolute;right:2px;top:50%;transform:translateY(-50%)}`,
+  `#f-maktaba.open .folder-arrow{transform:translateY(-50%) rotate(180deg)}`.
+
+Verified live at widths 1280/1024/900/768/600/400: folder icon, title, and inner-card
+icon/name all align with the grid cards (delta 0px), badge reads **Library** and its right
+edge aligns with the card tags (delta 0px), arrow sits in the gutter with no overlap,
+0 console errors. Locked section unchanged; only `works/index.html` modified.
+
+Safety note: the user asked for care ("lost 26 websites" previously) and suggested a
+branch/backup; we worked on `main` in a git repo (full history → revertable), validated
+inline scripts + JSON-LD before each push, and touched only `works/index.html`.
