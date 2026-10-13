@@ -94,3 +94,39 @@ rgba(12,57,42,.9) = #0c392a, dark body #0a2f23, meta theme-color #0a2920.
   foreground without `timeout`.
 - This conversation continues the al-mudhish/search/offline/gold sessions documented in
   `conversation-2026-10-13-al-mudhish-search-linktree.md` and earlier backups.
+---
+
+## Addendum — Maktaba folder in the link tree (same session)
+
+User request (with check-notes): create an **unlocked** folder in the link tree
+(https://ucfzem.github.io/works) named **Maktaba**, library/book icon, containing all
+Arabic book links.
+
+Clarified with the user (they invited questions):
+- Quran apps (Quran Majeed v3 / Quran Reader / Quran Amp) stay in the main grid.
+- Maktaba folder sits **in the middle of the grid**.
+- Remaining webapps renumbered 1–14.
+
+### What changed (only `works/index.html`, commit `a3b351a`)
+- `publicProjects` = 14 webapps, renumbered 1–14 (Quran apps + Tanger/Blog/Lingotech/
+  MicroInvoice/Droppy/Rafeeq/WebHealth/ElixirTech/EmailCollector/API JobFinder/
+  SavoirsEnJouant).
+- New `maktaba` array = 10 Arabic books, ordered with **المدهش (5) and الداء والدواء (6)
+  at the center**:
+  Al-Istibsar, Al-Adhkiya, الطب النبوي, Nuzhat al-Mushtaq, المدهش, الداء والدواء,
+  أسرار الكون, كتاب العظمة, Tarikh Ibn Khaldun, Mujam al-Buldan.
+- `renderPublic()` renders the folder after card 7 → **7 webapps before, 7 after
+  (Maktaba exactly in the middle)**. Folder markup reuses the existing `.folder` styles
+  (📚 icon, title «Maktaba · المكتبة», count 10, `toggleFolder('maktaba')`), rendered
+  with `class="folder open"` → **visible to everyone, no unlock needed**.
+- JSON-LD itemListElement rebuilt: 24 items, sequential 1–24 (webapps 1–14, books 15–24).
+- Checked after applying: icon present (📚 closed-book/library), access = Public
+  (in `#publicProjects`, outside `.locked`), middle placement confirmed.
+
+### Validation (Playwright, live)
+- 24 total cards, subtitle «24 projets publics», folder open by default.
+- Folder 📚· count 10; books list correct with المدهش/الداء والدواء in the middle.
+- Grid numbers sequential 1–14; folder exactly mid (7 before / 7 after).
+- Toggle works (close/reopen); locked section unchanged (still locked, folders intact).
+- Inline scripts 2/2 syntax OK; JSON-LD sequential; 0 page errors.
+- No other file touched; app repos unaffected.
