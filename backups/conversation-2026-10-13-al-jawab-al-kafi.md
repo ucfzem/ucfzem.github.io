@@ -445,3 +445,42 @@ Commit: `604ef41`.
   alignment).
 - Live: `assets/offline/map.dzi` → 200 (187 B); `assets/offline/map_files/14/5_5.jpg` → 200
   (273 678 B).
+
+## Addendum 12 — Offline library apps on ANY device (root-SW shell cache) + works icons
+
+- Reported: from the works page (card opens a **new tab**), three books — المدهش
+  (al-mudhish), أسرار الكون (asrar-al-kawn), كتاب العظمة (al-adhama) — would not open
+  offline, and **neither would their icons**. User requirement (explicit): they must open
+  offline on **other devices too** (phones, laptops, TVs, tabs), i.e. *without* having to
+  open each app online first on that device.
+- Diagnosis:
+  - Each app is a **separate project-page repo** (`ucfzem/al-mudhish`, `…/al-jawab-al-kafi`,
+    `…/asrar-al-kawn`, `…/al-adhama`, etc.), each with its own `sw.js` scope `/app/`.
+  - The apps themselves are fine: in isolation each installs its SW and then serves offline
+    (verified). But an app only works offline **after that device has visited it online once**
+    — which is exactly what the user is trying to avoid.
+  - The `works` SW **never cached the app icons** (only its own `works/assets/*`), so the
+    library card icons fell back to the browser HTTP cache and broke offline.
+- Fix:
+  1. **`sw.js` (root, scope `/`)** — now precaches, on install, the shell of all 10 library
+     apps (`index.html` + `icon.svg` + `icon-192.png` + manifest) plus the shared CDN assets
+     (Tailwind, Font Awesome CSS/webfonts, Google Fonts) and serves navigations to `/app/`
+     from cache. It keeps the bare-URL (`/app`) redirect. When an app has its own installed
+     SW, that SW takes precedence; the root SW is the fallback. New caches:
+     `ucfzem-shells-v1`, `ucfzem-cdn-v1` (activate only prunes these two).
+     `SHELLS` = al-tibb-al-nabawi, nuzhat-al-mushtaq, asrar-al-kawn, al-adhama,
+     tarikh-ibn-khaldun, mujam-al-buldan, al-adhkiya, al-mudhish, al-jawab-al-kafi,
+     livre-al-istibsar.
+  2. **`works/sw.js`** — `works-v1.0.2`: added the 6 app icon URLs to `CORE` (nuzhat,
+     mapamundi, al-mudhish, al-jawab-al-kafi, asrar-al-kawn, al-adhama) and stopped caching
+     non-OK responses in the same-origin branch.
+- Behaviour: once a device loads any page that registers the root SW (home or `/works`), it
+  precaches ~5 MB and can then open every library app offline, fully styled (Tailwind/FA
+  served from the CDN cache), **even if that app was never opened online**.
+- Verified:
+  - Local scaffold SW test: cold offline open of al-mudhish / asrar-al-kawn / al-adhama
+    succeeded from cache.
+  - **Live** (clean profile, only `/works` online → offline): `ucfzem-shells-v1` = 40 entries,
+    `works-v1.0.2` = 16, `ucfzem-cdn-v1` = 5; all library card icons load offline (w>0); all
+    four apps open cold offline with full content.
+- Commit: `3f0d0be`.
