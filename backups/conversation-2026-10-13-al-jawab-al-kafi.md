@@ -341,3 +341,24 @@ Commits: `37a3318` (pins) · `20d5e71` (info panel + loader) · `897160b` (bio/c
   0 page errors.
 
 Commit: `24c2479`.
+
+---
+
+## Addendum 8 — Mapamundi compass + portfolio credit
+
+- Added an interactive **compass button** to the App controls bar: an SVG needle whose
+  `#compass-needle` span counter-rotates on OpenSeadragon's `rotate` event (`rotate(-deg)`)
+  so it always points true North; a single click resets the view.
+- Enabled rotation (`showRotationControl:false`, `degrees:0`, `gestureSettingsTouch.pinchRotate:true`)
+  and translated the tooltip (new `I18N.<lang>.compass`) in EN/FR/ES/AR.
+- Made the click reset **deterministic**: `viewport.setRotation(0, true)` + `viewport.goHome(true)`
+  + a 60 ms re-assert, so a zoomed/panned/rotated view snaps back to North + home without the
+  concurrent-animation race (previously `setRotation(0)` + `goHome()` could leave it turned).
+- Bumped the service worker cache to `mapamundi-cache-v1.0.2` so the updated shell propagates.
+- Works grid: added an **optional** `p.credit` line to the `card()` template (`.card-credit`),
+  set only on the Mapamundi entry (`name:"Mapamundi · Urbano Monte (1587)"`, `credit:"Made by
+  UcfZem in 2026"`); all other 24 cards unchanged (25 cards total).
+- Live-verified: rotate 55° + zoom 3.5 → click → rotation 0, zoom home 0.65, needle 0°;
+  works page shows exactly 1 credit line, 25 cards, 0 page errors.
+
+Commits: `e3a6521` (compass + credit), `7c43b22` (deterministic reset + SW v1.0.2).
