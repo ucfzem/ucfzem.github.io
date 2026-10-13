@@ -281,3 +281,47 @@ and a 4-language switcher was requested.
   the same path OSD uses (small tiles) → confirmed light.
 
 Commit: `f21cd2f` (mapamundi/default to Monte 1587 + language switcher).
+
+---
+
+## Addendum 6 — Mapamundi: interactive pins, info panel, credit, hotspots
+
+### Interactive translated map pins
+- Added `PINS` array (normalized image coords `x/y` 0..1) → OpenSeadragon overlays
+  (`viewer.addOverlay`) rendered as gold `.map-pin` dots on the `open` event.
+- Clicking a pin opens a translated bottom-sheet card (`.pin-card`) with the note in the
+  current language; pins: North Pole, title & dedication, ocean & sea monsters, Terra Australis.
+- Code: commit `37a3318`.
+
+### Always-visible multilingual info panel (bio + notes)
+- Replaced the modal with a persistent left-side `.info-panel`, **visible by default**, with a
+  header toggle (chevron) and the toolbar **ℹ️** button both collapsing/expanding it.
+- Panel content: `INFO` object (`title/credit/bio/revisions[]`) + a "Map notes" list built from
+  `PINS`; fully re-rendered on language change. RTL-correct (Amiri font, mirrored padding).
+- Loader now reveals on first `tile-loaded` (not on `open`), with a global 18 s fallback so a slow
+  IIIF server or offline mode never leaves an opaque loading screen. Base loader tuning:
+  `immediateRender: true`, `imageLoaderLimit: 10`, `timeout: 60000`, plus
+  `<link rel="preconnect">` to `iiif.archive.org` / `cdn.jsdelivr.net`.
+- SW cache bumped to `mapamundi-cache-v1.0.1`.
+- Code: commit `20d5e71`.
+
+### Expanded content + UcfZem credit + quick-nav hotspots
+- Replaced `ABOUT` with `INFO` using the user's expanded EN/FR/ES/AR copy and the credit line.
+- **"Made by UcfZem in 2026"** shown two ways: a gold `.credit-badge` in the panel and a
+  persistent `.credit` watermark at the bottom of the screen. Both translate with the language
+  (FR «Conçu par UcfZem en 2026», ES «Creado por UcfZem en 2026», AR «صُممت بواسطة UcfZem عام 2026»).
+- **Quick-navigation hotspots** (`.hotspots` bottom-left): 🧭 North Pole, 🗾 Japan, ⛵ Southern
+  Ocean, 🖼️ Sheet 58 → `zoomToRegion(x, y, zoom)` (`HOTSPOTS` block; coordinates approximate,
+  North Pole = image centre). Labels hide to icons on mobile.
+- `manifest.json` name → "Mapamundi — Urbano Monte (1587)".
+- Did NOT touch `works/index.html` (the Mapamundi card already exists as #6, under Maktaba);
+  did not adopt the suggested `work-item` snippet (would duplicate / risk the grid).
+- Code: commit `897160b`.
+
+### Verification (local + live, Playwright)
+- Info panel visible by default; title "Mapamundi · Urbano Monte (1587)"; credit badge + watermark
+  "Made by UcfZem in 2026"; 4 revisions, 4 map notes, 4 hotspots, 4 pins; toggle + toolbar button
+  collapse/expand; ocean hotspot recentres the viewport; AR → `dir=rtl` + translated credit/title;
+  0 page errors; offline app-shell test PASSED (SW v1.0.1).
+
+Commits: `37a3318` (pins) · `20d5e71` (info panel + loader) · `897160b` (bio/credit/hotspots).
