@@ -195,6 +195,7 @@
   .info-panel.collapsed .info-body { display: none; }
   .info-body { flex: 1 1 auto; overflow: auto; padding: 16px 18px 18px; overscroll-behavior: contain; }
   .info-body h2 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 1.06rem; line-height: 1.3; margin-bottom: 4px; }
+  .info-body h3 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 0.92rem; line-height: 1.3; margin: 2px 0 9px; }
   .info-body .credit-badge { display: inline-block; margin-bottom: 14px; padding: 4px 11px; font-size: 0.72rem; letter-spacing: 0.05em; color: #14110c; background: linear-gradient(#f2d98c, #d8b56a); border-radius: 999px; }
   .info-body p.summary { font-size: 0.86rem; line-height: 1.62; color: var(--ink); margin-bottom: 16px; }
   .info-body .subhead { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-dim); margin-bottom: 8px; }
@@ -335,6 +336,8 @@
       <p class="summary" id="about-summary"></p>
       <div class="subhead" data-i18n="aboutMods">Revisions &amp; modifications</div>
       <ul id="about-mods"></ul>
+      <h3 id="prov-heading"></h3>
+      <p class="summary" id="prov-text"></p>
       <div class="subhead" data-i18n="mapNotes">Map notes</div>
       <ul id="note-list"></ul>
     </div>
@@ -410,6 +413,8 @@
     en: {
       title: "Mapamundi \u00b7 Urbano Monte (1587)",
       credit: "Made by UcfZem in 2026",
+      provHeading: "The David Rumsey Digital Restoration",
+      provText: "Saved inside a private atlas for over 400 years, all 60 sheets were digitally scanned and stitched together by David Rumsey and Stanford University in 2017, finally bringing Monte's 10-foot planisphere to life.",
       bio: "Urbano Monte (1544\u20131613) was a Milanese noble scholar who created this massive 60-sheet manuscript planisphere in 1587. Drawing from Ptolemaic geography, voyage logs, and accounts from the Japanese Tensh\u014d Embassy, he mapped the known and unknown world in unprecedented detail.",
       revisions: [
         "Updated self-portrait overlay on sheet 58 from age 43 (1587) to age 45 (1589).",
@@ -421,6 +426,8 @@
     fr: {
       title: "Mapamundi \u00b7 Urbano Monte (1587)",
       credit: "Con\u00e7u par UcfZem en 2026",
+      provHeading: "La restauration num\u00e9rique de David Rumsey",
+      provText: "Conserv\u00e9es dans un atlas pendant plus de 400 ans, les 60 feuilles ont \u00e9t\u00e9 num\u00e9ris\u00e9es et assembl\u00e9es en 2017 par David Rumsey et l'Universit\u00e9 de Stanford, r\u00e9v\u00e9lant enfin le planisph\u00e8re g\u00e9ant de Monte.",
       bio: "Urbano Monte (1544\u20131613), \u00e9rudit milanais, a con\u00e7u ce chef-d'\u0153uvre de 60 feuilles en 1587. En combinant g\u00e9ographie classique et r\u00e9cits d'explorateurs, il a cr\u00e9\u00e9 l'un des planisph\u00e8res les plus d\u00e9taill\u00e9s du XVIe si\u00e8cle.",
       revisions: [
         "Mise \u00e0 jour de son autoportrait passant de 43 ans (1587) \u00e0 45 ans (1589).",
@@ -432,6 +439,8 @@
     es: {
       title: "Mapamundi \u00b7 Urbano Monte (1587)",
       credit: "Creado por UcfZem en 2026",
+      provHeading: "La restauraci\u00f3n digital de David Rumsey",
+      provText: "Guardadas en un atlas durante m\u00e1s de 400 a\u00f1os, las 60 hojas fueron digitalizadas y unidas en 2017 por David Rumsey y la Universidad de Stanford, dando vida al planisferio gigante de Monte.",
       bio: "Urbano Monte (1544\u20131613) fue un erudito milan\u00e9s que cre\u00f3 este planisferio manuscrito de 60 hojas en 1587, combinando tratados cl\u00e1sicos y relatos de expediciones globales.",
       revisions: [
         "Superposici\u00f3n de su autorretrato actualizando su edad de 43 (1587) a 45 a\u00f1os (1589).",
@@ -443,6 +452,8 @@
     ar: {
       title: "\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0639\u0627\u0644\u0645 \u00b7 \u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a (1587)",
       credit: "\u0635\u064f\u0645\u0645\u062a \u0628\u0648\u0627\u0633\u0637\u0629 UcfZem \u0639\u0627\u0645 2026",
+      provHeading: "\u0645\u0634\u0631\u0648\u0639 \u062f\u064a\u0641\u064a\u062f \u0631\u0648\u0645\u0632\u064a \u0644\u0644\u062a\u0631\u0645\u064a\u0645 \u0627\u0644\u0631\u0642\u0645\u064a",
+      provText: "\u0628\u0639\u062f \u062d\u0641\u0638\u0647\u0627 \u062f\u0627\u062e\u0644 \u0623\u0637\u0644\u0633 \u062e\u0627\u0635 \u0644\u0623\u0643\u062b\u0631 \u0645\u0646 400 \u0639\u0627\u0645\u060c \u062a\u0645 \u0645\u0633\u062d \u0648\u062f\u0645\u062c \u062c\u0645\u064a\u0639 \u0627\u0644\u0635\u0641\u062d\u0627\u062a \u0627\u0644\u0633\u062a\u064a\u0646 \u0631\u0642\u0645\u064a\u0627\u064b \u0628\u0648\u0627\u0633\u0637\u0629 \u062f\u064a\u0641\u064a\u062f \u0631\u0648\u0645\u0632\u064a \u0648\u062c\u0627\u0645\u0639\u0629 \u0633\u062a\u0627\u0646\u0641\u0648\u0631\u062f \u0639\u0627\u0645 2017 \u0644\u0625\u062d\u064a\u0627\u0621 \u062e\u0631\u064a\u0637\u0629 \u0645\u0648\u0646\u062a\u064a \u0627\u0644\u0639\u0645\u0644\u0627\u0642\u0629 \u0628\u0627\u0644\u0634\u0643\u0644 \u0627\u0644\u0630\u064a \u062a\u0645\u0646\u0627\u0647.",
       bio: "\u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a (1544\u20131613) \u0647\u0648 \u0639\u0627\u0644\u0645 \u0648\u0637\u0628\u0648\u063a\u0631\u0627\u0641\u064a \u0625\u064a\u0637\u0627\u0644\u064a \u0635\u0645\u0645 \u0647\u0630\u0647 \u0627\u0644\u0645\u062e\u0637\u0648\u0637\u0629 \u0627\u0644\u062c\u063a\u0631\u0627\u0641\u064a\u0629 \u0627\u0644\u0639\u0645\u0644\u0627\u0642\u0629 \u0639\u0627\u0645 1587 \u0627\u0644\u0645\u0643\u0648\u0646\u0629 \u0645\u0646 60 \u0635\u0641\u062d\u0629\u060c \u0645\u062f\u0645\u062c\u0627\u064b \u0623\u062d\u062f\u062b \u0627\u0644\u0627\u0643\u062a\u0634\u0627\u0641\u0627\u062a \u0627\u0644\u0628\u062d\u0631\u064a\u0629 \u0648\u0648\u062b\u0627\u0626\u0642 \u0627\u0644\u0633\u0641\u0627\u0631\u0627\u062a \u0627\u0644\u064a\u0627\u0628\u0627\u0646\u064a\u0629.",
       revisions: [
         "\u062a\u0639\u062f\u064a\u0644 \u0648\u062a\u062d\u062f\u064a\u062b \u0635\u0648\u0631\u062a\u0647 \u0627\u0644\u0634\u062e\u0635\u064a\u0629 \u0627\u0644\u0645\u0644\u062d\u0642\u0629 \u0628\u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0645\u0646 \u0639\u0645\u0631 43 \u0639\u0627\u0645\u0627\u064b \u0625\u0644\u0649 45 \u0639\u0627\u0645\u0627\u064b (1589).",
@@ -527,6 +538,8 @@
     const ul = $('about-mods');
     ul.innerHTML = '';
     a.revisions.forEach((m) => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+    $('prov-heading').textContent = a.provHeading || '';
+    $('prov-text').textContent = a.provText || '';
     renderNotes();
   }
 
