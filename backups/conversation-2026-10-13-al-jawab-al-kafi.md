@@ -514,3 +514,30 @@ Commit: `604ef41`.
 Note: heavy shell preload (`works-v1.0.2` icons, root `ucfzem-shells-v1` + `ucfzem-cdn-v1`)
 plus the book data payload all key off `SHELLS` in `sw.js`; bump `DATA_MARKER` when book data
 changes.
+
+## Addendum 14 — Offline fix for `nuzhat-al-mushtaq` (relative + lazy local assets)
+
+- Reported: `nuzhat-al-mushtaq` "No offline works".
+- Root cause: the works-triggered prefetch only matched **absolute** `src`/`href`
+  (`"/…"`). `nuzhat` loads its map metadata from **`./regions-meta.js`** (relative →
+  skipped) and lazily injects **`./all-regions.js`** (1.7 MB full text) via
+  `document.createElement('script')` at runtime, which is invisible to static tag parsing.
+  Its Google Fonts URL also differed from the single cached superset.
+- Fix (root `sw.js`):
+  - `localRefs()` now resolves **relative and absolute** `src`/`href` (query preserved)
+    and also quoted `".js"`/`".json"` literals inside inline scripts to app-local paths,
+    then caches them.
+  - App-asset cache lookups use `{ ignoreSearch: true }` so `?v=` variants resolve.
+  - Added all four apps' **Google Fonts CSS** variants to the root CDN precache.
+  - Bumped `DATA_MARKER` `v1 → v3` so devices that already prefetched re-run and pick up
+    the newly-discovered files.
+- Also now covered: `al-tibb-al-nabawi/script.js`, `al-adhkiya/all-adhkiya.js` +
+  `audio/manifest.js`, `livre-al-istibsar/_next/**` (already), `mujam`/`tarikh` data.
+- Verified live (offline, clean profile): title renders, **7 regions** metadata present,
+  no data error, lazy `all-regions.js` loads from cache. Only remaining offline 404s are
+  `fonts.gstatic.com` `.woff2` files (cosmetic font fallback; text unaffected).
+- Known gap (not requested): `al-adhkiya` **audio MP3s** are listed in
+  `audio/manifest.js` but are not precached (would add ~tens of MB); audio needs one
+  online play, or ask to add them.
+- Commits: `2e6fe91` (relative refs + ignoreSearch, marker v2), `8cd0cf3` (lazy-script
+  discovery, marker v3), `83f35a1` (font CSS variants).
