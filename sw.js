@@ -13,6 +13,7 @@
 const APPS = [
   'al-tibb-al-nabawi',
   'nuzhat-al-mushtaq',
+  'asrar-al-kawn',
   'tarikh-ibn-khaldun',
   'mujam-al-buldan',
   'al-adhkiya',

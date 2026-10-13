@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.0';
+const CACHE = 'works-v1.0.1';
 const CORE = [
   './',
   './index.html',
@@ -27,7 +27,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('works-')).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });

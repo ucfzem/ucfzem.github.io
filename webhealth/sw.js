@@ -1,4 +1,4 @@
-const CACHE = 'webhealth-v1.0.0';
+const CACHE = 'webhealth-v1.0.1';
 const PRECACHE = [
   './', './index.html',
   './actualites.html', './ete.html', './famille.html', './guide-achat.html',
@@ -22,7 +22,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('webhealth-')).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });

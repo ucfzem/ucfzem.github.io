@@ -1,4 +1,4 @@
-const CACHE = 'childsgame-v1.0.0';
+const CACHE = 'childsgame-v1.0.1';
 const PRECACHE = ['./', './index.html'];
 const CDN = [
   'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap'
@@ -17,7 +17,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('childsgame-')).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
