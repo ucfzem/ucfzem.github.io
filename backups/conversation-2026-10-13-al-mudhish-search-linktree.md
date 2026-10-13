@@ -66,6 +66,26 @@ password). After the JS fix the correct password unlocks again. User confirmed:
 - al-mudhish: `bc84252` → https://ucfzem.github.io/al-mudhish/
 - works link tree: `3952258` → https://ucfzem.github.io/works/ (al-mudhish at #12)
 
+## 6. Offline (PWA) — al-mudhish
+الكتاب works offline already (all book data + search inline). Verified with
+Playwright `context.setOffline(true)`:
+- v1.1.0 test: reload offline → title, chapter text, search (29 فصل / 29 results),
+  0 errors. Only gap: CDN styling (Tailwind runtime + FontAwesome + fonts) did not load.
+
+Improvement (commit `029dcfe`, SW `al-mudhish-cache-v1.2.0`, pushed `main`):
+- SW `CDN` precache now includes: the real Google Fonts css2 URL + its 18 woff2
+  files (extracted from the UA-matched CSS), `cdn.tailwindcss.com` runtime,
+  FontAwesome 6.4.0 `all.min.css` + `fa-solid-900.woff2` + `fa-regular-400.woff2`.
+- Verified offline (fresh context, live site): Tailwind applied (264 CSS rules,
+  header h-16 ≈ 65px), FontAwesome renders (`"Font Awesome 6 Free"`), search
+  22 فصل / 22 results, chapter text renders, 0 page errors.
+
+## 7. How to re-prepare offline assets later
+If Google Fonts changes its woff2 URLs/versions, the self-consistent trick is:
+the SW serves the cached css2 CSS and the cached woff2 URLs together (both taken
+at install time), so they stay in sync. Re-extract URLs if desired with:
+`curl -A <chrome UA> "<css2 url>" | grep -o 'https://[^)]*\.woff2' | sort -u`.
+
 ## Notes for future edits
 - Only edit `works/index.html` in a repo checkout and validate the whole inline
   script (new Function) + JSON-LD (JSON.parse) before pushing; a single missing
