@@ -196,3 +196,49 @@ Deploy note: the push to `main` succeeded immediately (commit `40a31dd`), but th
 Pages CDN stayed stale for several minutes and the first Pages build appeared stuck
 ("building"); a fresh build was requested via `POST /pages/builds`, after which the live
 edge served the new markup. Only `works/index.html` changed; locked section untouched.
+
+---
+
+## Addendum 4 — Mapamundi deep-zoom viewer (new app) + link-tree card + offline PWA
+
+Requested: take the final OpenSeadragon viewer version, add it to the link tree in the
+unlocked section **just under Maktaba**, choose a good icon, then push/deploy/backup/share.
+
+### New app: `mapamundi/`
+- `index.html` — standalone single-file viewer (OpenSeadragon **5.0.1** via jsDelivr CDN).
+  Full-viewport dark antique theme (`#1e1e1e`), bottom-right **navigator**, mouse-wheel +
+  pinch/drag gestures, minimalist overlay toolbar (zoom in/out, Home reset, navigator toggle,
+  fullscreen), responsive, keyboard nav. A `CONFIG` block documents swapping between a `.dzi`
+  tile set, a single image, a IIIF `info.json`, or multiple pages; default is a public
+  CORS-enabled demo so it works out of the box; `open-failed` shows a friendly setup overlay.
+- `icon.svg` (+ `icon-192.png`, `icon-512.png`) — gold globe + navigation route/compass on the
+  dark theme (PNGs rendered from the SVG via Playwright; pixel-checked: gold 20231 / dark 216802).
+- `manifest.json` — name "Mapamundi Viewer", standalone, theme `#1e1e1e`, any/maskable icons.
+- `sw.js` — offline app shell (`CACHE = 'mapamundi-cache-v1.0.0'`): precaches `./`, `index.html`,
+  `manifest.json`, icons + OSD CDN JS/control images (opaque); navigate = network-first→cache,
+  same-origin network-first→cache, cross-origin cache-first→network. Cleans only `mapamundi-*` caches.
+- `index.html` registers the SW on `load`.
+
+### Link tree (`works/index.html`) — only file changed + root `sw.js`
+- Inserted a **Mapamundi** card (🌐 fallback emoji, custom icon `/mapamundi/icon.svg`, tag
+  "Geography", url `/mapamundi/`) into `publicProjects` right after Tanger d'Antan, i.e. directly
+  under the Maktaba folder row. It takes number **6**; the following apps shift: UcfZem Blog 7,
+  Lingotech 8, MicroInvoice 9, Droppy 10, Rafeeq 11, WebHealth 12, ElixirTech 13, EmailCollector 14,
+  API JobFinder 15, SavoirsEnJouant 16.
+- Subtitle `24 projets publics` → `25 projets publics`.
+- JSON-LD: Mapamundi inserted at position 5, all 25 items renumbered sequentially.
+- Root `sw.js`: added `'mapamundi'` to the `APPS` allowlist (offline bare-URL redirect).
+
+### Safety & verification
+- Only additive changes; edited files were `works/index.html` + root `sw.js` (+ the new folder).
+  Every edit done via a script that asserts a single match and re-validates all inline scripts
+  and the JSON-LD (`new Function` per script, `JSON.parse` on ld+json). `git diff` reviewed before commit.
+- Local: `node --check` on both service workers; manifest JSON parsed; offline test with a real
+  service worker PASSED (registered/active, page controlled, offline reload served the shell —
+  viewer+toolbar+OSD present, no error, no page errors).
+- Live (fresh Playwright): works grid = `1 Quran Majeed v3 · 2 Quran Reader · 3 Quran Amp ·
+  4 Tanger d'Antan · [Maktaba #5] · 6 Mapamundi · 7 UcfZem Tech Blog … 16 SavoirsEnJouant`;
+  mapamundi page loads (viewer/canvas/navigator/OSD, manifest linked, SW controlling);
+  `manifest.json`, `sw.js`, `icon.svg`, `icon-192.png`, `icon-512.png` all HTTP 200; 0 page errors.
+
+Commits: `443a3cf` (new mapamundi app), `f8d8e32` (works card + root sw allowlist).
