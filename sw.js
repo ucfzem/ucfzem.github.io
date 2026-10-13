@@ -19,6 +19,7 @@ const APPS = [
   'mujam-al-buldan',
   'al-adhkiya',
   'al-mudhish',
+  'al-jawab-al-kafi',
   'livre-al-istibsar',
   'quran-reader',
   'quran-amp',
