@@ -564,3 +564,27 @@ changes.
   rendered page = 26 cards, `Remèdes` directly followed by `WebHealth`, icon `imgLoaded:true`,
   and `Remèdes` no longer present in the locked list.
 - Commit: `92db367`.
+
+## Addendum 16 — `Remèdes` app hosted at ucfzem.github.io/remedy/ + offline
+
+- User clarified the Remèdes app lives in the repo at **`/remedy/`** (single,
+  self-contained `index.html`, 176 KB; only external dependency is the Google
+  Font **Alexandria**). It was online-only (linked from the card as
+  `remedy-eight.vercel.app`).
+- Changes:
+  - **`remedy/sw.js`** (new, `remedy-v1.0.0`): precaches `./` + `./index.html`,
+    fetches the Alexandria CSS with CORS (readable), parses its `gstatic` `woff2`
+    URLs and caches them too; cache-first for same-origin and font hosts;
+    network-first navigation with cache fallback.
+  - **`remedy/index.html`**: registers `./sw.js` (app scope) and `/sw.js` (root).
+  - **`works/index.html`**: Remèdes card + JSON-LD position 11 now point to
+    **`https://ucfzem.github.io/remedy/`** (same origin → offline-capable).
+  - **root `sw.js`**: added `remedy` to `SHELLS` and `APPS`, and the Alexandria
+    CSS URL to the CDN precache.
+- Verified live (clean profile):
+  - ONLINE `/remedy/`: renders, `remedy-v1.0.0` cache = 7 entries (shell + CSS +
+    4 `woff2`).
+  - **OFFLINE** `/remedy/`: renders fully, font stylesheet served from cache,
+    **no failed requests**.
+  - Works page link + JSON-LD both show `https://ucfzem.github.io/remedy/`.
+- Commit: `65bd2cb`.
