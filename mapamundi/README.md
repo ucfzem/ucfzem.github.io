@@ -91,6 +91,8 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
   `localStorage` persistence.
 - **Interactive annotations** — gold map pins (North Pole, title, ocean, Terra
   Australis) that open a translated note card in the current language.
+- **Compass button** (toolbar) — its needle tracks the map rotation live and a single
+  click resets North (`setRotation(0)`) and animates back home; the tooltip is translated.
 - **Always-visible info panel** — a translated biography of Urbano Monte, the map's
   revisions, a David Rumsey digital-restoration provenance note, and the pin notes,
   shown on load and collapsible via the panel header or the toolbar **ℹ️** button

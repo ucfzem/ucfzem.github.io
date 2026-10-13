@@ -201,6 +201,13 @@
     font-weight: 500;
     color: var(--text);
   }
+  .card-credit {
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: var(--text-sec);
+    opacity: 0.85;
+    margin-top: 1px;
+  }
   .card-tag {
     font-size: 0.7rem;
     color: var(--text-sec);
@@ -633,7 +640,7 @@
     { num: 2, emoji: "🎧", name: "Quran Reader", tag: "Audio", icon: null, url: "https://ucfzem.github.io/quran-reader/" },
     { num: 3, emoji: "📖", name: "Quran Amp", tag: "Quran", icon: null, url: "https://ucfzem.github.io/quran-amp/", newTab: true },
     { num: 4, emoji: "🗺️", name: "Tanger d'Antan", tag: "Heritage", icon: "https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/tanger.png", url: "https://ucfzem.azer-tyu199p.workers.dev/tanger/" },
-    { num: 6, emoji: "🌐", name: "Mapamundi", tag: "Geography", icon: "https://ucfzem.github.io/mapamundi/icon.svg", url: "https://ucfzem.github.io/mapamundi/" },
+    { num: 6, emoji: "🌐", name: "Mapamundi · Urbano Monte (1587)", tag: "Geography", credit: "Made by UcfZem in 2026", icon: "https://ucfzem.github.io/mapamundi/icon.svg", url: "https://ucfzem.github.io/mapamundi/" },
     { num: 7, emoji: "📝", name: "UcfZem Tech Blog", tag: "Tech", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/" },
     { num: 8, emoji: "💙", name: "Lingotech", tag: "English AI", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/lingotech/" },
     { num: 9, emoji: "🧾", name: "MicroInvoice", tag: "Finance", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/microinvoice/" },
@@ -726,6 +733,7 @@
         ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
         <div class="card-info">
           <span class="card-name">${p.name}</span>
+          ${p.credit ? `<span class="card-credit">${p.credit}</span>` : ''}
         </div>
         <span class="card-tag">${p.tag}</span>
       </a>`;
