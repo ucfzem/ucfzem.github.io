@@ -541,3 +541,26 @@ changes.
   online play, or ask to add them.
 - Commits: `2e6fe91` (relative refs + ignoreSearch, marker v2), `8cd0cf3` (lazy-script
   discovery, marker v3), `83f35a1` (font CSS variants).
+
+## Addendum 15 — Move `Remèdes` from locked → public (above WebHealth) + new icon
+
+- Request: take `https://remedy-eight.vercel.app/` out of the **locked** list and put it
+  into the **public/unlocked** list right above **WebHealth**, and change its icon picture.
+- `works/index.html` structure: `publicProjects` ("Projets publics") and `lockedProjects`
+  ("Projets verrouillés", unlocked by password). `renderPublic()` renders `publicProjects`
+  with a `split=4`, then the `maktaba` folder (num 5), then the rest.
+- Changes:
+  - Removed the `Remèdes` entry from `lockedProjects` (was under `folder:'other'`).
+  - Added `Remèdes` to `publicProjects` as **`num: 12`**, immediately above **WebHealth**;
+    renumbered ElixirTech/EmailCollector/API JobFinder/SavoirsEnJouant to 14–17.
+  - New custom icon **`works/assets/remedy.svg`** (green mortar-and-pestle with leaves,
+    512×512, same style as `al-tibb-al-nabawi.svg`); the entry now uses it via
+    `icon: "https://ucfzem.github.io/works/assets/remedy.svg"`.
+  - Subtitle `25 → 26 projets publics`; JSON-LD `itemListElement` updated (Remèdes = 11,
+    rest shifted, 26 items total).
+  - `works/sw.js` bumped `works-v1.0.2 → works-v1.0.3` and `./assets/remedy.svg` added to
+    `CORE` so the icon is precached offline.
+- Verified live: `remedy.svg` 200 `image/svg+xml`; `works/sw.js` = `works-v1.0.3`;
+  rendered page = 26 cards, `Remèdes` directly followed by `WebHealth`, icon `imgLoaded:true`,
+  and `Remèdes` no longer present in the locked list.
+- Commit: `92db367`.
