@@ -648,3 +648,17 @@ changes.
 - Commits: `97fd4ce`, `53a1dec`, `7c3e0fb`, `6bc1d2d`, `3ee4a19`.
 - Live: https://ucfzem.github.io/sw.js · https://ucfzem.github.io/works/
 
+## Addendum 18 — `/works/` offline (root-SW fallback)
+
+- Request: user wants `https://ucfzem.github.io/works/` itself to work offline.
+- `/works/` already had its own SW (`works/sw.js`, `works-v1.0.3`) that precaches
+  the shell + local `assets/*` and serves the cached `index.html` on offline
+  navigation. Verified working on a clean profile: online visit → offline reload
+  renders all 26 cards (`len 2100`, 14 images, 64 links, **no failed requests**).
+- Hardening: added **`'works'` to the root `sw.js` `SHELLS`** so the root SW also
+  precaches `/works/index.html` (+ icons/manifest) and mirrors `works/sw.js`'s
+  CORE list — covering the edge case where only the root SW is active.
+- Verified again after deploy: offline `/works/` clean.
+- Commit: `801ce44`. Live: https://ucfzem.github.io/works/
+
+
