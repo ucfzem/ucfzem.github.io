@@ -89,22 +89,24 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v2';
+const DATA_MARKER = '/__bookdata-v3';
 
 // Resolve every local src/href in an app's index.html (relative or absolute,
-// query string preserved) to an app-local path we can cache.
+// query string preserved) plus quoted ".js"/".json" literals in inline scripts
+// (lazily-injected files) to an app-local path we can cache.
 function localRefs(html, s) {
   const base = 'https://local.invalid/' + s + '/index.html';
   const out = new Set();
-  for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
-    const v = m[1];
-    if (/^(https?:|data:|#|mailto:|javascript:)/i.test(v)) continue;
+  const add = (v) => {
+    if (!v || /^(https?:|data:|#|mailto:|javascript:|\/\/)/i.test(v)) return;
     let u;
-    try { u = new URL(v, base); } catch (e) { continue; }
-    if (u.origin !== 'https://local.invalid') continue;
+    try { u = new URL(v, base); } catch (e) { return; }
+    if (u.origin !== 'https://local.invalid') return;
     const p = u.pathname + u.search;
     if (p.startsWith('/' + s + '/')) out.add(p);
-  }
+  };
+  for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) add(m[1]);
+  for (const m of html.matchAll(/["']([^"'\s]+\.(?:js|json))["']/g)) add(m[1]);
   return [...out];
 }
 
