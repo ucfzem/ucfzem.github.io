@@ -84,6 +84,54 @@ async function cacheOpaque(cache, url) {
   }
 }
 
+// Discover and cache one app's runtime data bundle (the book text). Books like
+// tarikh-ibn-khaldun (data/manifest.json + chunks) and mujam-al-buldan
+// (data/index.json + per-letter files) fetch their text at runtime, so the shell
+// alone is not enough offline. Triggered from the works page to limit the
+// download to library visitors.
+const DATA_MARKER = '/__bookdata-v1';
+
+async function cacheAppData(cache, s) {
+  try {
+    const r = await fetch('/' + s + '/data/manifest.json', { cache: 'no-store' });
+    if (r && r.ok) {
+      const man = await r.clone().json();
+      await cache.put('/' + s + '/data/manifest.json', r);
+      await precache(cache, (man.chunks || []).map((c) => '/' + s + '/' + c.file), 6);
+    }
+  } catch (e) {}
+  try {
+    const r = await fetch('/' + s + '/data/index.json', { cache: 'no-store' });
+    if (r && r.ok) {
+      const list = await r.clone().json();
+      await cache.put('/' + s + '/data/index.json', r);
+      const files = [...new Set((list || []).map((x) => x.file).filter(Boolean))];
+      await precache(cache, files.map((f) => '/' + s + '/data/' + f + '.json'), 6);
+    }
+  } catch (e) {}
+  try {
+    const r = await fetch('/' + s + '/index.html', { cache: 'no-store' });
+    if (r && r.ok) {
+      const html = await r.text();
+      const refs = [...html.matchAll(/(?:src|href)="(\/[^"]+)"/g)]
+        .map((m) => m[1]).filter((u) => u.startsWith('/' + s + '/'));
+      await precache(cache, [...new Set(refs)], 6);
+    }
+  } catch (e) {}
+}
+
+async function prefetchBookData() {
+  const cache = await caches.open(SHELL_CACHE);
+  if (await cache.match(DATA_MARKER)) return;
+  for (const s of SHELLS) await cacheAppData(cache, s);
+  await cache.put(DATA_MARKER, new Response('1'));
+}
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'prefetch-book-data') event.waitUntil(prefetchBookData());
+});
+
+
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil((async () => {
