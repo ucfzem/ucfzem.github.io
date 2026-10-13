@@ -106,13 +106,38 @@
 
   /* ---- Bottom hint ---- */
   .hint {
-    position: fixed; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+    position: fixed; left: 50%; bottom: max(34px, env(safe-area-inset-bottom)); transform: translateX(-50%);
     z-index: 10; max-width: 92vw; padding: 7px 16px; font-size: 0.72rem; letter-spacing: 0.03em;
     color: var(--ink-dim); background: rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(216, 181, 106, 0.18); border-radius: 999px;
     backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); pointer-events: none; transition: opacity 0.6s ease;
   }
   .hint.gone { opacity: 0; }
+
+  /* ---- Persistent credit watermark ---- */
+  .credit {
+    position: fixed; z-index: 11; left: 50%; bottom: max(7px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+    padding: 3px 12px; font-size: 0.68rem; letter-spacing: 0.09em; white-space: nowrap;
+    color: var(--gold-dim); background: rgba(0, 0, 0, 0.34); border: 1px solid rgba(216, 181, 106, 0.16);
+    border-radius: 999px; pointer-events: none; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  }
+
+  /* ---- Quick-navigation hotspots ---- */
+  .hotspots {
+    position: fixed; z-index: 12; left: max(16px, env(safe-area-inset-left));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    display: flex; flex-wrap: wrap; gap: 8px; max-width: calc(100vw - 32px);
+  }
+  .hotspot {
+    display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 13px;
+    font-size: 0.76rem; color: var(--ink); background: var(--gold-soft);
+    border: 1px solid var(--gold-dim); border-radius: 999px; cursor: pointer;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    transition: background 0.16s ease, border-color 0.16s ease, transform 0.08s ease;
+  }
+  .hotspot:hover { background: var(--gold-hover); border-color: var(--gold); }
+  .hotspot:active { transform: scale(0.95); }
+  .hotspot .hs-ico { font-size: 0.95rem; line-height: 1; }
 
   /* ---- Navigator ---- */
   .navigator { border: 1px solid var(--gold-dim) !important; border-radius: 8px !important; box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55) !important; overflow: hidden; }
@@ -170,7 +195,7 @@
   .info-panel.collapsed .info-body { display: none; }
   .info-body { flex: 1 1 auto; overflow: auto; padding: 16px 18px 18px; overscroll-behavior: contain; }
   .info-body h2 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 1.06rem; line-height: 1.3; margin-bottom: 4px; }
-  .info-body .author { color: var(--gold-dim); font-size: 0.78rem; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .info-body .credit-badge { display: inline-block; margin-bottom: 14px; padding: 4px 11px; font-size: 0.72rem; letter-spacing: 0.05em; color: #14110c; background: linear-gradient(#f2d98c, #d8b56a); border-radius: 999px; }
   .info-body p.summary { font-size: 0.86rem; line-height: 1.62; color: var(--ink); margin-bottom: 16px; }
   .info-body .subhead { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-dim); margin-bottom: 8px; }
   .info-body ul { list-style: none; margin-bottom: 16px; }
@@ -225,6 +250,9 @@
     .info-panel { top: 96px; left: 12px; width: calc(100vw - 24px); max-height: calc(100dvh - 230px); }
     .info-body { padding: 14px 15px 16px; }
     .pin-card { bottom: 92px; }
+    .hotspot { padding: 0 10px; }
+    .hotspot .hs-label { display: none; }
+    .hotspots { bottom: max(12px, env(safe-area-inset-bottom)); }
   }
   @media (max-height: 460px) { .hint { display: none; } }
 </style>
@@ -275,6 +303,17 @@
 
   <div class="hint" id="hint" data-i18n="hint">Scroll or pinch to zoom &middot; drag to pan &middot; double-click to zoom in</div>
 
+  <!-- Quick-navigation hotspots (jump to landmarks) -->
+  <nav class="hotspots" id="hotspots" aria-label="Quick navigation">
+    <button class="hotspot" data-hs="pole"><span class="hs-ico" aria-hidden="true">🧭</span><span class="hs-label" data-i18n="hsPole">North Pole</span></button>
+    <button class="hotspot" data-hs="japan"><span class="hs-ico" aria-hidden="true">🗾</span><span class="hs-label" data-i18n="hsJapan">Japan</span></button>
+    <button class="hotspot" data-hs="ocean"><span class="hs-ico" aria-hidden="true">⛵</span><span class="hs-label" data-i18n="hsOcean">Southern Ocean</span></button>
+    <button class="hotspot" data-hs="sheet58"><span class="hs-ico" aria-hidden="true">🖼️</span><span class="hs-label" data-i18n="hsSheet58">Sheet 58</span></button>
+  </nav>
+
+  <!-- Persistent credit -->
+  <div class="credit" id="credit">Made by UcfZem in 2026</div>
+
   <!-- Pin detail card -->
   <div class="pin-card hidden" id="pin-card" role="dialog" aria-live="polite">
     <button class="icon-close" id="pin-close" aria-label="Close">
@@ -292,7 +331,7 @@
     </button>
     <div class="info-body" id="info-body">
       <h2 id="about-title"></h2>
-      <div class="author" id="about-author"></div>
+      <div class="credit-badge" id="about-credit"></div>
       <p class="summary" id="about-summary"></p>
       <div class="subhead" data-i18n="aboutMods">Revisions &amp; modifications</div>
       <ul id="about-mods"></ul>
@@ -343,47 +382,75 @@
       hint: 'Scroll or pinch to zoom \u00b7 drag to pan \u00b7 double-click to zoom in',
       zoomIn: 'Zoom in', zoomOut: 'Zoom out', home: 'Home', nav: 'Toggle overview map',
       fullscreen: 'Toggle fullscreen', about: 'About the map', aboutMods: 'Revisions & modifications', mapNotes: 'Map notes',
+      hsPole: 'North Pole', hsJapan: 'Japan', hsOcean: 'Southern Ocean', hsSheet58: 'Sheet 58',
       loading: 'Loading map\u2026', errTitle: 'Could not load the map tiles', close: 'Close' },
     fr: { title: 'Visionneuse Mapamundi', subtitle: 'Zoom profond \u00b7 Cartographie ancienne',
       hint: 'Molette ou pincement pour zoomer \u00b7 glisser pour naviguer \u00b7 double-clic pour zoomer',
       zoomIn: 'Zoom avant', zoomOut: 'Zoom arri\u00e8re', home: 'Accueil', nav: 'Afficher la vue d\u2019ensemble',
       fullscreen: 'Plein \u00e9cran', about: '\u00c0 propos de la carte', aboutMods: 'R\u00e9visions & modifications', mapNotes: 'Notes sur la carte',
+      hsPole: 'P\u00f4le Nord', hsJapan: 'Japon', hsOcean: 'Oc\u00e9an austral', hsSheet58: 'Feuille 58',
       loading: 'Chargement de la carte\u2026', errTitle: 'Impossible de charger les tuiles de la carte', close: 'Fermer' },
     es: { title: 'Visor Mapamundi', subtitle: 'Zoom profundo \u00b7 Cartograf\u00eda hist\u00f3rica',
       hint: 'Desplaza o pellizca para ampliar \u00b7 arrastra para mover \u00b7 doble clic para acercar',
       zoomIn: 'Acercar', zoomOut: 'Alejar', home: 'Inicio', nav: 'Mostrar vista general',
       fullscreen: 'Pantalla completa', about: 'Acerca del mapa', aboutMods: 'Revisiones y modificaciones', mapNotes: 'Notas del mapa',
+      hsPole: 'Polo Norte', hsJapan: 'Jap\u00f3n', hsOcean: 'Oc\u00e9ano austral', hsSheet58: 'Hoja 58',
       loading: 'Cargando el mapa\u2026', errTitle: 'No se pudieron cargar las teselas del mapa', close: 'Cerrar' },
     ar: { title: '\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0639\u0627\u0644\u0645', subtitle: '\u062a\u0643\u0628\u064a\u0631 \u0639\u0645\u064a\u0642 \u00b7 \u0639\u0644\u0645 \u0627\u0644\u062e\u0631\u0627\u0626\u0637 \u0627\u0644\u062a\u0627\u0631\u064a\u062e\u064a',
       hint: '\u0645\u0631\u0651\u0631 \u0623\u0648 \u0627\u0636\u063a\u0637 \u0628\u0625\u0635\u0628\u0639\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631 \u00b7 \u0627\u0633\u062d\u0628 \u0644\u0644\u062a\u0646\u0642\u0644 \u00b7 \u0627\u0646\u0642\u0631 \u0645\u0631\u062a\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631',
       zoomIn: '\u062a\u0643\u0628\u064a\u0631', zoomOut: '\u062a\u0635\u063a\u064a\u0631', home: '\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629',
       nav: '\u0625\u0638\u0647\u0627\u0631 \u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0645\u0635\u063a\u0651\u0631\u0629', fullscreen: '\u0645\u0644\u0621 \u0627\u0644\u0634\u0627\u0634\u0629',
       about: '\u062d\u0648\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629', aboutMods: '\u0627\u0644\u062a\u0639\u062f\u064a\u0644\u0627\u062a \u0648\u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0627\u062a', mapNotes: '\u0645\u0644\u0627\u062d\u0638\u0627\u062a \u0627\u0644\u062e\u0631\u064a\u0637\u0629',
+      hsPole: '\u0627\u0644\u0642\u0637\u0628 \u0627\u0644\u0634\u0645\u0627\u0644\u064a', hsJapan: '\u0627\u0644\u064a\u0627\u0628\u0627\u0646', hsOcean: '\u0627\u0644\u0645\u062d\u064a\u0637 \u0627\u0644\u062c\u0646\u0648\u0628\u064a', hsSheet58: '\u0627\u0644\u0644\u0648\u062d\u0629 58',
       loading: '\u062c\u0627\u0631\u064d \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629\u2026', errTitle: '\u062a\u0639\u0630\u0651\u0631 \u062a\u062d\u0645\u064a\u0644 \u0628\u0644\u0627\u0637\u0627\u062a \u0627\u0644\u062e\u0631\u064a\u0637\u0629', close: '\u0625\u063a\u0644\u0627\u0642' }
   };
 
-  /* ---- About / history (biography + revisions) ---- */
-  const ABOUT = {
-    en: { title: 'About Urbano Monte & his 1587 map', author: 'Urbano Monte (1544\u20131613)',
-      summary: 'A Milanese nobleman, scholar and cartographer, Monte compiled this map from his private library in Milan using the latest navigation records, Jesuit missionary reports and classical treatises. Created in 1587, the 60-sheet manuscript is one of the largest early maps of the world, designed to be assembled around a central pivot into a ~3 m polar-projection planisphere.',
-      mods: ['Updated his self-portrait on sheet 58 from age 43 (1587) to age 45 (1589).',
-        'Corrected the shapes and place names of the Japanese archipelago after the 1585 Tensh\u014d Embassy visit.',
-        'Expanded the polar regions and Terra Australis Incognita, adding sea monsters, fleets and coats of arms.'] },
-    fr: { title: '\u00c0 propos d\u2019Urbano Monte et de sa carte de 1587', author: 'Urbano Monte (1544\u20131613)',
-      summary: 'Noble, \u00e9rudit et cartographe milanais, Monte composa cette carte depuis sa biblioth\u00e8que priv\u00e9e \u00e0 Milan en s\u2019appuyant sur les r\u00e9cits de navigation les plus r\u00e9cents, les rapports des missions j\u00e9suites et les trait\u00e9s classiques. Cr\u00e9\u00e9e en 1587, cette carte manuscrite de 60 feuilles est l\u2019une des plus grandes cartes anciennes du monde, pr\u00e9vue pour \u00eatre assembl\u00e9e autour d\u2019un pivot central en un planisph\u00e8re d\u2019environ 3 m en projection polaire.',
-      mods: ['Mise \u00e0 jour de l\u2019autoportrait (feuille 58) de 43 ans (1587) \u00e0 45 ans (1589).',
-        'Correction des formes et toponymes de l\u2019archipel japonais apr\u00e8s la visite de l\u2019ambassade Tensh\u014d en 1585.',
-        'Ajout de monstres marins, de flottes et d\u2019armoiries dans les r\u00e9gions polaires et la Terre australe inconnue.'] },
-    es: { title: 'Sobre Urbano Monte y su mapa de 1587', author: 'Urbano Monte (1544\u20131613)',
-      summary: 'Noble, erudito y cart\u00f3grafo milan\u00e9s, Monte compuso este mapa desde su biblioteca privada en Mil\u00e1n usando los relatos de navegaci\u00f3n m\u00e1s recientes, informes de misiones jesuitas y tratados cl\u00e1sicos. Creado en 1587, este mapa manuscrito de 60 hojas es uno de los mayores mapas antiguos del mundo, dise\u00f1ado para ensamblarse alrededor de un pivote central formando un planisferio de unos 3 m en proyecci\u00f3n polar.',
-      mods: ['Autorretrato de la hoja 58 actualizado de 43 a\u00f1os (1587) a 45 a\u00f1os (1589).',
-        'Correcci\u00f3n de formas y top\u00f3nimos del archipi\u00e9lago japon\u00e9s tras la visita de la Embajada Tensh\u014d en 1585.',
-        'Ampliaci\u00f3n de las regiones polares y la Tierra Austral Desconocida con criaturas marinas, flotas y escudos.'] },
-    ar: { title: '\u062d\u0648\u0644 \u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a \u0648\u062e\u0631\u064a\u0637\u062a\u0647 \u0639\u0627\u0645 1587', author: '\u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a (1544\u20131613)',
-      summary: '\u0646\u0628\u064a\u0644 \u0648\u0639\u0627\u0644\u0645 \u0648\u0631\u0633\u0627\u0645 \u062e\u0631\u0627\u0626\u0637 \u0645\u0646 \u0645\u064a\u0644\u0627\u0646\u0648\u060c \u0635\u0645\u0645 \u0645\u0648\u0646\u062a\u064a \u0647\u0630\u0647 \u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0645\u0646 \u0645\u0643\u062a\u0628\u062a\u0647 \u0627\u0644\u062e\u0627\u0635\u0629 \u0641\u064a \u0645\u064a\u0644\u0627\u0646\u0648 \u0627\u0639\u062a\u0645\u0627\u062f\u0627\u064b \u0639\u0644\u0649 \u0623\u062d\u062f\u062b \u062a\u0642\u0627\u0631\u064a\u0631 \u0627\u0644\u0645\u0644\u0627\u062d\u0629 \u0648\u0648\u062b\u0627\u0626\u0642 \u0627\u0644\u0628\u0639\u062b\u0627\u062a \u0627\u0644\u062f\u0628\u0644\u0648\u0645\u0627\u0633\u064a\u0629 \u0648\u0627\u0644\u0645\u0623\u062b\u0648\u0631\u0627\u062a \u0627\u0644\u0643\u0644\u0627\u0633\u064a\u0643\u064a\u0629. \u062a\u064f\u0639\u062f \u0647\u0630\u0647 \u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0645\u062e\u0637\u0648\u0637\u0629 \u0627\u0644\u0645\u0643\u0648\u0651\u0646\u0629 \u0645\u0646 60 \u0635\u0641\u062d\u0629 \u0648\u0627\u0644\u0645\u0635\u0645\u0645\u0629 \u0639\u0627\u0645 1587 \u0648\u0627\u062d\u062f\u0629 \u0645\u0646 \u0623\u0643\u0628\u0631 \u062e\u0631\u0627\u0626\u0637 \u0627\u0644\u0639\u0627\u0644\u0645 \u0627\u0644\u0642\u062f\u064a\u0645\u0629\u060c \u062d\u064a\u062b \u064a\u064f\u062c\u0645\u0639 \u062d\u0648\u0644 \u0645\u062d\u0648\u0631 \u0645\u0631\u0643\u0632\u064a \u0644\u064a\u064f\u0643\u0648\u0651\u0646 \u062e\u0631\u064a\u0637\u0629 \u0642\u0637\u0628\u064a\u0629 \u0639\u0645\u0644\u0627\u0642\u0629 \u0628\u0642\u0637\u0631 \u0646\u062d\u0648 3 \u0623\u0645\u062a\u0627\u0631.',
-      mods: ['\u062a\u062d\u062f\u064a\u062b \u0627\u0644\u0635\u0648\u0631\u0629 \u0627\u0644\u0634\u062e\u0635\u064a\u0629 \u0641\u064a \u0627\u0644\u0635\u0641\u062d\u0629 58 \u0645\u0646 \u0639\u0645\u0631 43 \u0639\u0627\u0645\u0627\u064b (1587) \u0625\u0644\u0649 45 \u0639\u0627\u0645\u0627\u064b (1589).',
-        '\u062a\u0635\u062d\u064a\u062d \u0634\u0643\u0644 \u0648\u0623\u0633\u0645\u0627\u0621 \u062c\u0632\u0631 \u0627\u0644\u064a\u0627\u0628\u0627\u0646 \u0628\u0639\u062f \u0632\u064a\u0627\u0631\u0629 \u0627\u0644\u0633\u0641\u0627\u0631\u0629 \u0627\u0644\u064a\u0627\u0628\u0627\u0646\u064a\u0629 \u0639\u0627\u0645 1585.',
-        '\u0648\u0633\u0651\u0639 \u0627\u0644\u0645\u0646\u0627\u0637\u0642 \u0627\u0644\u0642\u0637\u0628\u064a\u0629 \u0648\u0627\u0644\u0623\u0631\u0636 \u0627\u0644\u062c\u0646\u0648\u0628\u064a\u0629 \u0627\u0644\u0645\u062c\u0647\u0648\u0644\u0629 \u0645\u0636\u064a\u0641\u0627\u064b \u0648\u062d\u0648\u0634\u0627\u064b \u0628\u062d\u0631\u064a\u0629 \u0648\u0623\u0633\u0627\u0637\u064a\u0644 \u0648\u0634\u0639\u0627\u0631\u0627\u062a.'] }
+  /* ---- Info panel content (biography, credit badge + revisions) ---- */
+  const INFO = {
+    en: {
+      title: "Mapamundi \u00b7 Urbano Monte (1587)",
+      credit: "Made by UcfZem in 2026",
+      bio: "Urbano Monte (1544\u20131613) was a Milanese noble scholar who created this massive 60-sheet manuscript planisphere in 1587. Drawing from Ptolemaic geography, voyage logs, and accounts from the Japanese Tensh\u014d Embassy, he mapped the known and unknown world in unprecedented detail.",
+      revisions: [
+        "Updated self-portrait overlay on sheet 58 from age 43 (1587) to age 45 (1589).",
+        "Redrew Japan's islands and place names following firsthand discussions with Japanese envoys.",
+        "Engineered a 10-foot polar azimuthal projection meant to rotate around a central pin.",
+        "Illustrated oceans with mythical sea monsters, sailing ships, and royal heraldic crests."
+      ]
+    },
+    fr: {
+      title: "Mapamundi \u00b7 Urbano Monte (1587)",
+      credit: "Con\u00e7u par UcfZem en 2026",
+      bio: "Urbano Monte (1544\u20131613), \u00e9rudit milanais, a con\u00e7u ce chef-d'\u0153uvre de 60 feuilles en 1587. En combinant g\u00e9ographie classique et r\u00e9cits d'explorateurs, il a cr\u00e9\u00e9 l'un des planisph\u00e8res les plus d\u00e9taill\u00e9s du XVIe si\u00e8cle.",
+      revisions: [
+        "Mise \u00e0 jour de son autoportrait passant de 43 ans (1587) \u00e0 45 ans (1589).",
+        "Correction compl\u00e8te de la forme du Japon apr\u00e8s sa rencontre avec l'ambassade Tensh\u014d.",
+        "Conception d'une projection polaire g\u00e9ante de 3 m\u00e8tres pivotant sur un axe central.",
+        "Inclusion de monstres marins, navires de guerre et blasons royaux sur les oc\u00e9ans."
+      ]
+    },
+    es: {
+      title: "Mapamundi \u00b7 Urbano Monte (1587)",
+      credit: "Creado por UcfZem en 2026",
+      bio: "Urbano Monte (1544\u20131613) fue un erudito milan\u00e9s que cre\u00f3 este planisferio manuscrito de 60 hojas en 1587, combinando tratados cl\u00e1sicos y relatos de expediciones globales.",
+      revisions: [
+        "Superposici\u00f3n de su autorretrato actualizando su edad de 43 (1587) a 45 a\u00f1os (1589).",
+        "Revisi\u00f3n de la geograf\u00eda de Jap\u00f3n tras reunirse con la embajada diplom\u00e1tica de 1585.",
+        "Dise\u00f1o de una proyecci\u00f3n polar de 3 metros pensada para girar sobre un eje central.",
+        "Abundante decoraci\u00f3n con criaturas marinas, galeones y escudos nobiliarios."
+      ]
+    },
+    ar: {
+      title: "\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0639\u0627\u0644\u0645 \u00b7 \u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a (1587)",
+      credit: "\u0635\u064f\u0645\u0645\u062a \u0628\u0648\u0627\u0633\u0637\u0629 UcfZem \u0639\u0627\u0645 2026",
+      bio: "\u0623\u0648\u0631\u0628\u0627\u0646\u0648 \u0645\u0648\u0646\u062a\u064a (1544\u20131613) \u0647\u0648 \u0639\u0627\u0644\u0645 \u0648\u0637\u0628\u0648\u063a\u0631\u0627\u0641\u064a \u0625\u064a\u0637\u0627\u0644\u064a \u0635\u0645\u0645 \u0647\u0630\u0647 \u0627\u0644\u0645\u062e\u0637\u0648\u0637\u0629 \u0627\u0644\u062c\u063a\u0631\u0627\u0641\u064a\u0629 \u0627\u0644\u0639\u0645\u0644\u0627\u0642\u0629 \u0639\u0627\u0645 1587 \u0627\u0644\u0645\u0643\u0648\u0646\u0629 \u0645\u0646 60 \u0635\u0641\u062d\u0629\u060c \u0645\u062f\u0645\u062c\u0627\u064b \u0623\u062d\u062f\u062b \u0627\u0644\u0627\u0643\u062a\u0634\u0627\u0641\u0627\u062a \u0627\u0644\u0628\u062d\u0631\u064a\u0629 \u0648\u0648\u062b\u0627\u0626\u0642 \u0627\u0644\u0633\u0641\u0627\u0631\u0627\u062a \u0627\u0644\u064a\u0627\u0628\u0627\u0646\u064a\u0629.",
+      revisions: [
+        "\u062a\u0639\u062f\u064a\u0644 \u0648\u062a\u062d\u062f\u064a\u062b \u0635\u0648\u0631\u062a\u0647 \u0627\u0644\u0634\u062e\u0635\u064a\u0629 \u0627\u0644\u0645\u0644\u062d\u0642\u0629 \u0628\u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0645\u0646 \u0639\u0645\u0631 43 \u0639\u0627\u0645\u0627\u064b \u0625\u0644\u0649 45 \u0639\u0627\u0645\u0627\u064b (1589).",
+        "\u0625\u0639\u0627\u062f\u0629 \u0631\u0633\u0645 \u0648\u062a\u0639\u062f\u064a\u0644 \u062c\u063a\u0631\u0627\u0641\u064a\u0629 \u0648\u062a\u0636\u0627\u0631\u064a\u0633 \u062c\u0632\u0631 \u0627\u0644\u064a\u0627\u0628\u0627\u0646 \u0628\u062f\u0642\u0629 \u0627\u0633\u062a\u062b\u0646\u0627\u0626\u064a\u0629 \u063a\u064a\u0631 \u0645\u0633\u0628\u0648\u0642\u0629.",
+        "\u0627\u0628\u062a\u0643\u0627\u0631 \u0625\u0633\u0642\u0627\u0637 \u0642\u0637\u0628\u064a \u062f\u0627\u0626\u0631 \u064a\u0628\u0644\u063a \u0639\u0631\u0636\u0647 3 \u0623\u0645\u062a\u0627\u0631 \u064a\u062f\u0648\u0631 \u062d\u0648\u0644 \u0645\u062d\u0648\u0631 \u062e\u0634\u0628\u064a \u0645\u0631\u0643\u0632\u064a.",
+        "\u062a\u0632\u064a\u064a\u0646 \u0627\u0644\u0645\u062d\u064a\u0637\u0627\u062a \u0628\u0631\u0633\u0645 \u0627\u0644\u0648\u062d\u0648\u0634 \u0627\u0644\u0628\u062d\u0631\u064a\u0629 \u0627\u0644\u0639\u062c\u064a\u0628\u0629 \u0648\u0627\u0644\u0633\u0641\u0646 \u0627\u0644\u0634\u0631\u0627\u0639\u064a\u0629 \u0648\u0634\u0639\u0627\u0631\u0627\u062a \u0627\u0644\u0645\u0644\u0648\u0643."
+      ]
+    }
   };
 
   /* ---- Interactive map annotations (pin coordinate = viewport 0..1) ---- */
@@ -409,6 +476,16 @@
         es: 'Tierra Austral Desconocida, habitada por criaturas extra\u00f1as y bestias m\u00edticas.',
         ar: '\u0627\u0644\u0623\u0631\u0636 \u0627\u0644\u062c\u0646\u0648\u0628\u064a\u0629 \u0627\u0644\u0645\u062c\u0647\u0648\u0644\u0629\u060c \u0645\u0648\u0637\u0646 \u0627\u0644\u0645\u062e\u0644\u0648\u0642\u0627\u062a \u0627\u0644\u063a\u0631\u064a\u0628\u0629 \u0648\u0627\u0644\u062d\u064a\u0648\u0627\u0646\u0627\u062a \u0627\u0644\u0639\u062c\u064a\u0628\u0629.' } }
   ];
+
+  /* ---- Quick-nav landmarks (x/y = normalized image coords 0..1, zoom = OSD zoom) ----
+     NOTE: coordinates are approximate for Monte's polar-azimuthal planisphere
+     (the North Pole is the exact centre of the image). Tweak x/y/zoom to taste. */
+  const HOTSPOTS = {
+    pole:    { x: 0.50, y: 0.50, zoom: 4 },
+    japan:   { x: 0.62, y: 0.30, zoom: 8 },
+    ocean:   { x: 0.30, y: 0.62, zoom: 5 },
+    sheet58: { x: 0.42, y: 0.72, zoom: 9 }
+  };
 
   /* ---- State + i18n application ---- */
   let currentLang = 'en';
@@ -443,13 +520,13 @@
   }
 
   function renderAbout() {
-    const a = ABOUT[currentLang] || ABOUT.en;
+    const a = INFO[currentLang] || INFO.en;
     $('about-title').textContent = a.title;
-    $('about-author').textContent = a.author;
-    $('about-summary').textContent = a.summary;
+    $('about-credit').textContent = a.credit;
+    $('about-summary').textContent = a.bio;
     const ul = $('about-mods');
     ul.innerHTML = '';
-    a.mods.forEach((m) => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+    a.revisions.forEach((m) => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
     renderNotes();
   }
 
@@ -472,6 +549,8 @@
     document.querySelectorAll('[data-i18n]').forEach((el) => { const k = el.getAttribute('data-i18n'); if (t[k]) el.textContent = t[k]; });
     document.querySelectorAll('[data-i18n-title]').forEach((el) => { const k = el.getAttribute('data-i18n-title'); if (t[k]) { el.title = t[k]; el.setAttribute('aria-label', t[k]); } });
     document.title = t.title + ' \u2014 Urbano Monte (1587)';
+    const creditEl = $('credit');
+    if (creditEl) creditEl.textContent = (INFO[lang] || INFO.en).credit;
     renderPinCard();
     renderAbout();
   }
@@ -534,10 +613,10 @@
     setTimeout(() => hint.classList.add('gone'), 4200);
   }
   viewer.addHandler('tile-loaded', revealMap);
+  // Global fallback: never leave the app stuck on the loader (e.g. offline or a
+  // very slow IIIF server) even if the 'open' event never fires.
+  setTimeout(revealMap, 18000);
   viewer.addHandler('open', () => {
-    // Reveal as soon as the first tile is drawn; fall back after 15s so a slow
-    // IIIF server never leaves the viewer stuck on an opaque loading screen.
-    setTimeout(revealMap, 15000);
     if (pinsAdded) return;
     pinsAdded = true;
     PINS.forEach((pin) => {
@@ -583,6 +662,20 @@
     }
   }
   fsBtn.addEventListener('click', toggleFullscreen);
+
+  /* ---- Quick-navigation hotspots ---- */
+  function zoomToRegion(x, y, zoom) {
+    hidePin();
+    const target = new OpenSeadragon.Point(x, y);
+    viewer.viewport.panTo(target);
+    viewer.viewport.zoomTo(zoom, target, false);
+  }
+  document.querySelectorAll('.hotspot').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const h = HOTSPOTS[btn.dataset.hs];
+      if (h) zoomToRegion(h.x, h.y, h.zoom);
+    });
+  });
 
   $('pin-close').addEventListener('click', hidePin);
   $('about-btn').addEventListener('click', toggleInfo);

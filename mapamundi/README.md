@@ -93,7 +93,11 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
   Australis) that open a translated note card in the current language.
 - **Always-visible info panel** — a translated biography of Urbano Monte plus the
   map's revisions and the pin notes, shown on load and collapsible via the panel
-  header or the toolbar **ℹ️** button (`ABOUT` block).
+  header or the toolbar **ℹ️** button (`INFO` block).
+- **Quick-navigation hotspots** — buttons that fly to the North Pole, Japan, the
+  Southern Ocean and Sheet 58 (`HOTSPOTS` block; approximate coordinates).
+- **"Made by UcfZem in 2026" credit** — shown as a badge in the panel and as a
+  persistent on-screen watermark (`INFO[...].credit`).
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
 - Offline-ready: installable PWA + service worker that caches the app shell and,
   as you browse, the tiles you actually view.
@@ -111,8 +115,8 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 - **Map pins / annotations:** edit the `PINS` array — each entry is
   `{ id, x, y, t:{en,fr,es,ar}, d:{en,fr,es,ar} }` where `x`/`y` are normalized
   `0..1` image coordinates (top-left = `0,0`). Add or remove entries freely.
-- **About panel text:** edit the `ABOUT` object (`title/author/summary/mods[]`)
-  per language.
+- **Info panel text:** edit the `INFO` object (`title/credit/bio/revisions[]`) per
+  language, and `HOTSPOTS` for the quick-nav coordinate buttons.
 
 ## Credits
 

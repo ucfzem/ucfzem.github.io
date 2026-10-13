@@ -1,7 +1,7 @@
 {
-  "name": "Mapamundi Viewer",
+  "name": "Mapamundi \u2014 Urbano Monte (1587)",
   "short_name": "Mapamundi",
-  "description": "Deep-zoom viewer for high-resolution historical maps, powered by OpenSeadragon.",
+  "description": "Deep-zoom viewer for Urbano Monte's 1587 planisphere, with a multilingual info panel (EN/FR/ES/AR), map pins and offline support.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
