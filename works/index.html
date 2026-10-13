@@ -632,16 +632,16 @@
     { num: 2, emoji: "🎧", name: "Quran Reader", tag: "Audio", icon: null, url: "https://ucfzem.github.io/quran-reader/" },
     { num: 3, emoji: "📖", name: "Quran Amp", tag: "Quran", icon: null, url: "https://ucfzem.github.io/quran-amp/", newTab: true },
     { num: 4, emoji: "🗺️", name: "Tanger d'Antan", tag: "Heritage", icon: "https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/tanger.png", url: "https://ucfzem.azer-tyu199p.workers.dev/tanger/" },
-    { num: 5, emoji: "📝", name: "UcfZem Tech Blog", tag: "Tech", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/" },
-    { num: 6, emoji: "💙", name: "Lingotech", tag: "English AI", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/lingotech/" },
-    { num: 7, emoji: "🧾", name: "MicroInvoice", tag: "Finance", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/microinvoice/" },
-    { num: 8, emoji: "📤", name: "Droppy", tag: "File Share", icon: null, url: "https://ucfzem.github.io/droppy/" },
-    { num: 9, emoji: "💊", name: "Rafeeq", tag: "Health", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/rafeeq/" },
-    { num: 10, emoji: "🌱", name: "WebHealth", tag: "Health", icon: null, url: "https://ucfzem.github.io/webhealth/" },
-    { num: 11, emoji: "⚡", name: "ElixirTech", tag: "Phoenix", icon: null, url: "https://elixir-techx.vercel.app/" },
-    { num: 12, emoji: "💳", name: "EmailCollector", tag: "Lead Gen", icon: null, url: "https://ucfzem.github.io/email-collector/" },
-    { num: 13, emoji: "🔍", name: "API JobFinder", tag: "Jobs", icon: null, url: "https://ucfzem.github.io/api-job-finder/" },
-    { num: 14, emoji: "🎮", name: "SavoirsEnJouant", tag: "Kids Learning", icon: null, url: "https://ucfzem.github.io/childsgame/", newTab: true }
+    { num: 6, emoji: "📝", name: "UcfZem Tech Blog", tag: "Tech", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/" },
+    { num: 7, emoji: "💙", name: "Lingotech", tag: "English AI", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/lingotech/" },
+    { num: 8, emoji: "🧾", name: "MicroInvoice", tag: "Finance", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/microinvoice/" },
+    { num: 9, emoji: "📤", name: "Droppy", tag: "File Share", icon: null, url: "https://ucfzem.github.io/droppy/" },
+    { num: 10, emoji: "💊", name: "Rafeeq", tag: "Health", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/rafeeq/" },
+    { num: 11, emoji: "🌱", name: "WebHealth", tag: "Health", icon: null, url: "https://ucfzem.github.io/webhealth/" },
+    { num: 12, emoji: "⚡", name: "ElixirTech", tag: "Phoenix", icon: null, url: "https://elixir-techx.vercel.app/" },
+    { num: 13, emoji: "💳", name: "EmailCollector", tag: "Lead Gen", icon: null, url: "https://ucfzem.github.io/email-collector/" },
+    { num: 14, emoji: "🔍", name: "API JobFinder", tag: "Jobs", icon: null, url: "https://ucfzem.github.io/api-job-finder/" },
+    { num: 15, emoji: "🎮", name: "SavoirsEnJouant", tag: "Kids Learning", icon: null, url: "https://ucfzem.github.io/childsgame/", newTab: true }
   ];
 
   const maktaba = [
@@ -727,10 +727,11 @@
         </div>
         <span class="card-tag">${p.tag}</span>
       </a>`;
+    const split = 4;
     const folder = `
       <div class="folder open" id="f-maktaba">
         <div class="folder-header" onclick="toggleFolder('maktaba')">
-          <span class="folder-num"></span>
+          <span class="card-num">${split + 1}</span>
           <span class="folder-icon">📚</span>
           <span class="folder-title">Maktaba · المكتبة</span>
           <span class="card-tag">Library</span>
@@ -746,7 +747,6 @@
             </a>`).join('')}
         </div>
       </div>`;
-    const split = 7;
     container.innerHTML = publicProjects.slice(0, split).map(card).join('') + folder + publicProjects.slice(split).map(card).join('');
   }
 
