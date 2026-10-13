@@ -714,8 +714,10 @@
   });
   $('compass-btn').addEventListener('click', () => {
     hidePin();
-    viewer.viewport.setRotation(0);
-    viewer.viewport.goHome();
+    const vp = viewer.viewport;
+    vp.setRotation(0, true);
+    vp.goHome(true);
+    setTimeout(() => vp.setRotation(0, true), 60);
   });
 
   $('pin-close').addEventListener('click', hidePin);
