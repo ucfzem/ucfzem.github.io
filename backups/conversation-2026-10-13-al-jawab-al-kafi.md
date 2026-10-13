@@ -242,3 +242,42 @@ unlocked section **just under Maktaba**, choose a good icon, then push/deploy/ba
   `manifest.json`, `sw.js`, `icon.svg`, `icon-192.png`, `icon-512.png` all HTTP 200; 0 page errors.
 
 Commits: `443a3cf` (new mapamundi app), `f8d8e32` (works card + root sw allowlist).
+
+---
+
+## Addendum 5 — Mapamundi: real Monte 1587 map + 4-language UI
+
+Reported: the viewer showed the OpenSeadragon demo (Florence Cathedral) instead of the map,
+and a 4-language switcher was requested.
+
+### Real tile source (deep zoom, not a 585 MB download)
+- Investigated `iiif.davidrumsey.com/.../303661/info.json` → host does not resolve (invalid).
+- Found the David Rumsey "dr_" items mirrored on the **Internet Archive**, which serves a
+  CORS-enabled IIIF Image API v2 (`access-control-allow-origin: *`).
+- Chose the main composite: id `dr_composite-map-of-tavola-1-60-map-of-the-world-10130085`
+  → IIIF `info.json` reports **61,461 × 62,461 px** (~3.8 gigapixels), tile size 2048,
+  scale factors 1…512, profile level2 with `cors`.
+- `CONFIG.sources` now defaults to:
+  `https://iiif.archive.org/image/iiif/2/dr_composite-map-of-tavola-1-60-map-of-the-world-10130085%2F10130085.jp2/info.json`
+- IMPORTANT clarification: the huge `.jp2` (585 MB) is only the archive master; the viewer
+  never downloads it. OpenSeadragon streams small tiles on demand — measured: 512² ≈ 3.6 KB,
+  1024² ≈ 12.8 KB, 2048² ≈ 49.7 KB, detailed 1024² ≈ 260 KB; info.json ≈ 994 B. So no 585 MB
+  file and nothing heavy to store; offline caching (SW) stores only tiles actually viewed.
+- Fallback CORS-friendly source noted: Wikimedia Commons copy (3000×3004, `Special:FilePath`).
+
+### 4-language switcher (EN 🇬🇧 / FR 🇫🇷 / SP 🇪🇸 / AR 🇲🇦)
+- Added an inline language group to the toolbar (segmented pills; labels hide on mobile, flags remain).
+- `I18N` dictionary translates title, subtitle, hint, and button titles/labels.
+- `setLanguage()` sets `<html lang>` + `dir` (Arabic → `rtl`), updates `[data-i18n]` text and
+  `[data-i18n-title]` titles, and persists choice in `localStorage('mapamundi_lang')`. Arabic
+  title uses an Arabic serif fallback; active pill highlighted in gold.
+- Kept OpenSeadragon 5.0.1 and the existing polished UI (did NOT adopt the pasted snippet that
+  pointed to a non-existent local `./assets/urbano-monte-1587.jpg` and OSD 4.1).
+
+### Verification
+- Local (served) + live (Playwright): Monte IIIF opens (no error), canvas + navigator present,
+  4 language buttons; AR → `dir=rtl`, lang=ar, Arabic title «خريطة العالم», home label «الرئيسية»;
+  FR → "Visionneuse Mapamundi"; EN restores. 0 page errors. Rendered the 3.8 GP source through
+  the same path OSD uses (small tiles) → confirmed light.
+
+Commit: `f21cd2f` (mapamundi/default to Monte 1587 + language switcher).
