@@ -7,9 +7,17 @@ server — it runs from `file://` or any static host (GitHub Pages, Vercel, Netl
 ```
 mapamundi/
 ├── index.html      ← the whole app (HTML + CSS + JS + config)
+├── manifest.json   ← PWA manifest
+├── sw.js           ← offline service worker (app shell + runtime tile caching)
+├── icon.svg        ← icon (+ icon-192.png / icon-512.png)
 ├── README.md       ← this file
 └── assets/         ← put your tiles / images here
 ```
+
+**Default map:** Urbano Monte's **1587 planisphere** (main 60-sheet composite,
+~61,000 × 62,000 px) from the David Rumsey Map Collection, streamed via the
+Internet Archive's public IIIF image API. Only the small tiles you look at are
+downloaded (a typical tile is ~4–50 KB), so nothing heavy is ever fetched or cached.
 
 ## Why tiles instead of one big image?
 
@@ -79,7 +87,11 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 - Mouse-wheel zoom, drag-to-pan, double-click zoom, and touch pinch-zoom/rotate.
 - Mini overview **navigator** (bottom-right) with a draggable viewport box.
 - Clean overlay toolbar: zoom in/out, Home reset, navigator toggle, fullscreen.
+- **4-language UI** (EN 🇬🇧 / FR 🇫🇷 / ES 🇪🇸 / AR 🇲🇦) with Arabic **RTL** and
+  `localStorage` persistence.
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
+- Offline-ready: installable PWA + service worker that caches the app shell and,
+  as you browse, the tiles you actually view.
 - Friendly in-page error if a tile source can't be reached.
 
 ## Customizing
@@ -94,5 +106,6 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 
 ## Credits
 
-Viewer: [OpenSeadragon](https://openseadragon.github.io/) (BSD-3). The default
-demo tileset is OpenSeadragon's public example image — replace it with your own.
+Viewer: [OpenSeadragon](https://openseadragon.github.io/) (BSD-3). The default map is
+Urbano Monte's 1587 planisphere (public domain) from the David Rumsey Map Collection,
+courtesy of Stanford University Libraries, streamed via the Internet Archive's IIIF API.

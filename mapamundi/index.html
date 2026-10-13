@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#1e1e1e">
-<meta name="description" content="Deep-zoom viewer for high-resolution historical maps, powered by OpenSeadragon.">
+<meta name="description" content="Deep-zoom viewer for high-resolution historical maps — Urbano Monte's 1587 planisphere, powered by OpenSeadragon.">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="manifest" href="./manifest.json">
@@ -83,7 +83,7 @@
     margin-top: 2px;
   }
 
-  .controls { display: flex; align-items: center; gap: 6px; pointer-events: auto; }
+  .controls { display: flex; align-items: center; gap: 6px; pointer-events: auto; flex-wrap: wrap; justify-content: flex-end; }
 
   .controls button {
     display: inline-flex;
@@ -108,6 +108,42 @@
   .controls button svg { width: 18px; height: 18px; display: block; }
   .controls .label { display: inline; }
 
+  /* ---- Language switcher ---- */
+  .lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid var(--gold-dim);
+    border-radius: var(--radius);
+    background: var(--gold-soft);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink-dim);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  }
+  .lang-btn .flag { font-size: 0.95rem; line-height: 1; }
+  .lang-btn:hover { color: var(--ink); background: var(--gold-soft); }
+  .lang-btn.active {
+    color: #14110c;
+    background: linear-gradient(#f2d98c, #d8b56a);
+    border-color: var(--gold);
+  }
+
   /* ---- Bottom hint ---- */
   .hint {
     position: fixed;
@@ -115,6 +151,7 @@
     bottom: max(12px, env(safe-area-inset-bottom));
     transform: translateX(-50%);
     z-index: 10;
+    max-width: 92vw;
     padding: 7px 16px;
     font-size: 0.72rem;
     letter-spacing: 0.03em;
@@ -176,15 +213,29 @@
     border-radius: 4px;
   }
 
+  /* ---- RTL (Arabic) : serif Arabic fallback for the title ---- */
+  html[dir="rtl"] .brand-text h1 {
+    font-family: "Amiri", "Segoe UI", system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+
   /* ---- Responsive ---- */
-  @media (max-width: 640px) {
-    .toolbar { padding: 10px 12px; padding-top: max(10px, env(safe-area-inset-top)); }
+  @media (max-width: 760px) {
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      background: linear-gradient(to bottom, rgba(16, 14, 11, 0.92), rgba(16, 14, 11, 0));
+    }
+    .brand { justify-content: center; }
     .brand-text p { display: none; }
-    .brand-text h1 { font-size: 0.92rem; }
-    .controls { gap: 4px; }
-    .controls button { height: 38px; min-width: 38px; padding: 0 9px; }
+    .brand-text h1 { font-size: 0.95rem; }
+    .controls { justify-content: center; }
+    .controls button { height: 38px; min-width: 38px; padding: 0 10px; }
     .controls .label { display: none; }
-    .hint { font-size: 0.66rem; padding: 6px 12px; max-width: 92vw; }
+    .lang-btn .lang-code { display: none; }
+    .lang-btn { padding: 0 7px; }
+    .hint { font-size: 0.66rem; padding: 6px 12px; }
   }
   @media (max-height: 460px) {
     .hint { display: none; }
@@ -200,43 +251,52 @@
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">◈</span>
       <div class="brand-text">
-        <h1>Mapamundi Viewer</h1>
-        <p>Deep-zoom &middot; Historical cartography</p>
+        <h1 data-i18n="title">Mapamundi Viewer</h1>
+        <p data-i18n="subtitle">Deep-zoom &middot; Historical cartography</p>
       </div>
     </div>
+
     <nav class="controls" aria-label="Viewer controls">
-      <button id="zoom-in" title="Zoom in" aria-label="Zoom in">
+      <!-- 4-language switcher -->
+      <div class="lang-switcher" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="en" title="English" aria-label="English"><span class="flag">🇬🇧</span><span class="lang-code">EN</span></button>
+        <button class="lang-btn" data-lang="fr" title="Français" aria-label="Français"><span class="flag">🇫🇷</span><span class="lang-code">FR</span></button>
+        <button class="lang-btn" data-lang="es" title="Español" aria-label="Español"><span class="flag">🇪🇸</span><span class="lang-code">SP</span></button>
+        <button class="lang-btn" data-lang="ar" title="العربية" aria-label="العربية"><span class="flag">🇲🇦</span><span class="lang-code">AR</span></button>
+      </div>
+
+      <button id="zoom-in" data-i18n-title="zoomIn" title="Zoom in" aria-label="Zoom in">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
       </button>
-      <button id="zoom-out" title="Zoom out" aria-label="Zoom out">
+      <button id="zoom-out" data-i18n-title="zoomOut" title="Zoom out" aria-label="Zoom out">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M8 11h6"/></svg>
       </button>
-      <button id="home" title="Reset view" aria-label="Reset view">
+      <button id="home" data-i18n-title="home" title="Reset view" aria-label="Reset view">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
-        <span class="label">Home</span>
+        <span class="label" data-i18n="home">Home</span>
       </button>
-      <button id="nav-toggle" title="Toggle overview map" aria-label="Toggle overview map" aria-pressed="true">
+      <button id="nav-toggle" data-i18n-title="nav" title="Toggle overview map" aria-label="Toggle overview map" aria-pressed="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="13" y="13" width="5" height="5" rx="1" fill="currentColor" stroke="none"/></svg>
       </button>
-      <button id="fullscreen" title="Toggle fullscreen" aria-label="Toggle fullscreen">
+      <button id="fullscreen" data-i18n-title="fullscreen" title="Toggle fullscreen" aria-label="Toggle fullscreen">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M16 21h3a2 2 0 0 0 2-2v-3M8 21H5a2 2 0 0 1-2-2v-3"/></svg>
       </button>
     </nav>
   </header>
 
-  <div class="hint" id="hint">Scroll or pinch to zoom &middot; drag to pan &middot; double-click to zoom in</div>
+  <div class="hint" id="hint" data-i18n="hint">Scroll or pinch to zoom &middot; drag to pan &middot; double-click to zoom in</div>
 
   <!-- Loading state -->
   <div class="overlay" id="loader">
     <div class="spinner" aria-hidden="true"></div>
-    <p style="font-size:.82rem;color:var(--ink-dim);letter-spacing:.08em">Loading map&hellip;</p>
+    <p style="font-size:.82rem;color:var(--ink-dim);letter-spacing:.08em" data-i18n="loading">Loading map&hellip;</p>
   </div>
 
   <!-- Error / not-configured state -->
   <div class="overlay hidden" id="error">
     <div class="err-mark" aria-hidden="true">⚠</div>
-    <h2>Could not load the map tiles</h2>
-    <p id="error-detail">Check that your tile source is correct and reachable (CORS must be allowed for remote sources).</p>
+    <h2 data-i18n="errTitle">Could not load the map tiles</h2>
+    <p id="error-detail"></p>
   </div>
 
   <!-- OpenSeadragon viewer (latest stable) -->
@@ -245,40 +305,98 @@
   /* =====================================================================
      CONFIG — choose ONE tile source.
      ---------------------------------------------------------------------
-     Deep-zoom needs an image pyramid, not a single flat file, so the
+     Deep zoom needs an image pyramid, not a single flat file, so the
      browser only downloads the tiles you are actually looking at.
-     Swap the demo below for your own source:
 
-       (A) Deep Zoom Image (.dzi) generated from your high-res map:
-             sources: ['assets/map.dzi']
+     Default: Urbano Monte's 1587 planisphere (main 60-sheet composite,
+     ~61,000 x 62,000 px) from the David Rumsey Map Collection, served via
+     the Internet Archive's public IIIF image API.
 
-       (B) A single still image (simplest; OSD builds tiles on the fly):
-             sources: [{ type: 'image', url: 'assets/map.jpg' }]
-
-       (C) IIIF image API (used by museums & the David Rumsey viewer):
+     Swap CONFIG.sources for your own source:
+       (A) IIIF image API (museums, David Rumsey, Internet Archive):
              sources: ['https://example.org/iiif/<id>/info.json']
-
-       (D) Multiple pages / images in one session:
+       (B) Deep Zoom Image (.dzi) generated from your high-res map:
+             sources: ['assets/map.dzi']
+       (C) A single still image (OSD tiles it on the fly):
+             sources: [{ type: 'image', url: 'assets/map.jpg' }]
+       (D) Multiple pages / images:
              sources: ['assets/vol1.dzi', 'assets/vol2.dzi']
 
      Generate a DZI from a huge image (no server needed):
        CLI (libvips):  vips dzsave map.tif assets/map --tile-size 256 --overlap 1 --suffix .jpg
-       Python:         pip install pyvips  →  pyvips.Image.new_from_file("map.tif").dzsave("assets/map")
+       Python:         pip install pyvips  ->  pyvips.Image.new_from_file("map.tif").dzsave("assets/map")
      ===================================================================== */
+  const MONTE_1587_IIIF =
+    'https://iiif.archive.org/image/iiif/2/dr_composite-map-of-tavola-1-60-map-of-the-world-10130085%2F10130085.jp2/info.json';
+
   const CONFIG = {
-    // Default is a public CORS-enabled demo so the page works out of the box.
-    // ➜ Replace this with your own tiles (see examples above).
-    sources: ['https://openseadragon.github.io/example-images/duomo/duomo.dzi'],
-
-    // Set true if your tiles live on another origin and need credentialed requests.
-    crossOriginPolicy: false,
-
-    // Mirror the toolbar/navigator accent by styling OSD's own controls (optional).
-    showNavigationControl: false
+    sources: [MONTE_1587_IIIF],
+    crossOriginPolicy: false
   };
 
   const PREFIX = 'https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/';
 
+  /* ---- Internationalisation (EN / FR / ES / AR) ---- */
+  const I18N = {
+    en: {
+      title: 'Mapamundi Viewer', subtitle: 'Deep-zoom \u00b7 Historical cartography',
+      hint: 'Scroll or pinch to zoom \u00b7 drag to pan \u00b7 double-click to zoom in',
+      zoomIn: 'Zoom in', zoomOut: 'Zoom out', home: 'Home', nav: 'Toggle overview map',
+      fullscreen: 'Toggle fullscreen', loading: 'Loading map\u2026',
+      errTitle: 'Could not load the map tiles'
+    },
+    fr: {
+      title: 'Visionneuse Mapamundi', subtitle: 'Zoom profond \u00b7 Cartographie ancienne',
+      hint: 'Molette ou pincement pour zoomer \u00b7 glisser pour naviguer \u00b7 double-clic pour zoomer',
+      zoomIn: 'Zoom avant', zoomOut: 'Zoom arri\u00e8re', home: 'Accueil', nav: 'Afficher la vue d\u2019ensemble',
+      fullscreen: 'Plein \u00e9cran', loading: 'Chargement de la carte\u2026',
+      errTitle: 'Impossible de charger les tuiles de la carte'
+    },
+    es: {
+      title: 'Visor Mapamundi', subtitle: 'Zoom profundo \u00b7 Cartograf\u00eda hist\u00f3rica',
+      hint: 'Desplaza o pellizca para ampliar \u00b7 arrastra para mover \u00b7 doble clic para acercar',
+      zoomIn: 'Acercar', zoomOut: 'Alejar', home: 'Inicio', nav: 'Mostrar vista general',
+      fullscreen: 'Pantalla completa', loading: 'Cargando el mapa\u2026',
+      errTitle: 'No se pudieron cargar las teselas del mapa'
+    },
+    ar: {
+      title: '\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0639\u0627\u0644\u0645',
+      subtitle: '\u062a\u0643\u0628\u064a\u0631 \u0639\u0645\u064a\u0642 \u00b7 \u0639\u0644\u0645 \u0627\u0644\u062e\u0631\u0627\u0626\u0637 \u0627\u0644\u062a\u0627\u0631\u064a\u062e\u064a',
+      hint: '\u0645\u0631\u0651\u0631 \u0623\u0648 \u0627\u0636\u063a\u0637 \u0628\u0625\u0635\u0628\u0639\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631 \u00b7 \u0627\u0633\u062d\u0628 \u0644\u0644\u062a\u0646\u0642\u0644 \u00b7 \u0627\u0646\u0642\u0631 \u0645\u0631\u062a\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631',
+      zoomIn: '\u062a\u0643\u0628\u064a\u0631', zoomOut: '\u062a\u0635\u063a\u064a\u0631', home: '\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629',
+      nav: '\u0625\u0638\u0647\u0627\u0631 \u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0645\u0635\u063a\u0651\u0631\u0629',
+      fullscreen: '\u0645\u0644\u0621 \u0627\u0644\u0634\u0627\u0634\u0629', loading: '\u062c\u0627\u0631\u064d \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629\u2026',
+      errTitle: '\u062a\u0639\u0630\u0651\u0631 \u062a\u062d\u0645\u064a\u0644 \u0628\u0644\u0627\u0637\u0627\u062a \u0627\u0644\u062e\u0631\u064a\u0637\u0629'
+    }
+  };
+
+  function setLanguage(lang) {
+    if (!I18N[lang]) lang = 'en';
+    const t = I18N[lang];
+    const rtl = lang === 'ar';
+    document.documentElement.lang = lang;
+    document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+    try { localStorage.setItem('mapamundi_lang', lang); } catch (e) {}
+    document.querySelectorAll('.lang-btn').forEach((b) =>
+      b.classList.toggle('active', b.dataset.lang === lang));
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const k = el.getAttribute('data-i18n');
+      if (t[k]) el.textContent = t[k];
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+      const k = el.getAttribute('data-i18n-title');
+      if (t[k]) { el.title = t[k]; el.setAttribute('aria-label', t[k]); }
+    });
+    document.title = t.title + ' \u2014 Urbano Monte (1587)';
+  }
+
+  document.querySelectorAll('.lang-btn').forEach((b) =>
+    b.addEventListener('click', () => setLanguage(b.dataset.lang)));
+  let savedLang = 'en';
+  try { savedLang = localStorage.getItem('mapamundi_lang') || 'en'; } catch (e) {}
+  setLanguage(savedLang);
+
+  /* ---- Viewer ---- */
   const loader = document.getElementById('loader');
   const errorBox = document.getElementById('error');
   const errorDetail = document.getElementById('error-detail');
@@ -291,7 +409,7 @@
 
     // Dark antique theme
     backgroundColor: '#1e1e1e',
-    showNavigationControl: CONFIG.showNavigationControl,
+    showNavigationControl: false,
 
     // Mini overview map, bottom-right
     showNavigator: true,
@@ -307,32 +425,18 @@
     immediateRender: false,
     visibilityRatio: 1.0,
     constrainDuringPan: true,
-    minZoomImageRatio: 0.8,
-    maxZoomPixelRatio: 3.0,
+    minZoomImageRatio: 0.85,
+    maxZoomPixelRatio: 2.0,
 
     // Input — mouse + touch/pinch
-    gestureSettingsMouse: {
-      clickToZoom: false,
-      dblClickToZoom: true,
-      scrollToZoom: true,
-      flickEnabled: true,
-      pinchToZoom: true
-    },
-    gestureSettingsTouch: {
-      pinchToZoom: true,
-      pinchRotate: true,
-      flickEnabled: true,
-      flickMomentum: 0.2,
-      dragToPan: true
-    },
+    gestureSettingsMouse: { clickToZoom: false, dblClickToZoom: true, scrollToZoom: true, flickEnabled: true, pinchToZoom: true },
+    gestureSettingsTouch: { pinchToZoom: true, pinchRotate: true, flickEnabled: true, flickMomentum: 0.2, dragToPan: true },
 
-    // Allow remote tiles to be drawn (display only; no pixel reads)
     crossOriginPolicy: CONFIG.crossOriginPolicy
   });
 
   // ---- Overlay control wiring -----------------------------------------
   const $ = (id) => document.getElementById(id);
-
   $('zoom-in').addEventListener('click', () => viewer.viewport.zoomBy(1.5));
   $('zoom-out').addEventListener('click', () => viewer.viewport.zoomBy(1 / 1.5));
   $('home').addEventListener('click', () => viewer.viewport.goHome());
@@ -344,27 +448,25 @@
   });
 
   const fsBtn = $('fullscreen');
-  function isFullscreen() {
-    return !!(document.fullscreenElement || document.webkitFullscreenElement);
-  }
+  const isFullscreen = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
   function toggleFullscreen() {
     const el = document.documentElement;
     if (!isFullscreen()) {
       const req = el.requestFullscreen || el.webkitRequestFullscreen;
-      if (req) { req.call(el).catch(() => viewer.setFullScreen(true)); }
-      else { viewer.setFullScreen(true); }
+      if (req) req.call(el).catch(() => viewer.setFullScreen(true));
+      else viewer.setFullScreen(true);
     } else {
       const exit = document.exitFullscreen || document.webkitExitFullscreen;
-      if (exit) { exit.call(document); }
-      else { viewer.setFullScreen(false); }
+      if (exit) exit.call(document);
+      else viewer.setFullScreen(false);
     }
   }
   fsBtn.addEventListener('click', toggleFullscreen);
   ['fullscreenchange', 'webkitfullscreenchange'].forEach((ev) =>
     document.addEventListener(ev, () => {
       const on = isFullscreen();
-      fsBtn.title = on ? 'Exit fullscreen' : 'Toggle fullscreen';
-      fsBtn.setAttribute('aria-label', fsBtn.title);
+      const k = on ? 'fullscreen' : 'fullscreen';
+      fsBtn.setAttribute('aria-label', I18N[document.documentElement.lang][k] || 'Fullscreen');
     })
   );
 
@@ -378,8 +480,8 @@
     loader.classList.add('hidden');
     errorDetail.innerHTML =
       'Could not load: <code>' + String(e.message || 'unknown source') + '</code><br><br>' +
-      'Edit the <code>CONFIG.sources</code> block in <code>index.html</code> to point at ' +
-      'your own <code>.dzi</code> tile set, a single image, or a IIIF <code>info.json</code>.';
+      'Edit the <code>CONFIG.sources</code> block in <code>index.html</code> to point at your own ' +
+      'IIIF <code>info.json</code>, a <code>.dzi</code> tile set, or a single image.';
     errorBox.classList.remove('hidden');
   });
 
