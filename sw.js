@@ -24,6 +24,7 @@ const APPS = [
   'quran-reader',
   'quran-amp',
   'api-job-finder',
+  'mapamundi',
   'works',
   'droppy',
   'webhealth',
