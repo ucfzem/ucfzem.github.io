@@ -361,5 +361,7 @@ document.addEventListener('keydown',function(e){
 document.getElementById('searchInput').addEventListener('input',function(){st=this.value.toLowerCase();document.getElementById('searchClear').classList.toggle('visible',this.value!=='');rg();});
 })();
 </script>
+<script data-app-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>
