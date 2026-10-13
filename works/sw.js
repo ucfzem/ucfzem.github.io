@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.1';
+const CACHE = 'works-v1.0.2';
 const CORE = [
   './',
   './index.html',
@@ -8,7 +8,13 @@ const CORE = [
   './assets/quran.png',
   './assets/tanger.png',
   './assets/tarikh-ibn-khaldun.svg',
-  './assets/web-dev-logo.png'
+  './assets/web-dev-logo.png',
+  'https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg',
+  'https://ucfzem.github.io/mapamundi/icon.svg',
+  'https://ucfzem.github.io/al-mudhish/icon.svg',
+  'https://ucfzem.github.io/al-jawab-al-kafi/icon.svg',
+  'https://ucfzem.github.io/asrar-al-kawn/icon.svg',
+  'https://ucfzem.github.io/al-adhama/icon.svg'
 ];
 const CDN = [
   'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap'
@@ -50,7 +56,7 @@ self.addEventListener('fetch', (event) => {
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(req).then((res) => {
-        caches.open(CACHE).then((c) => c.put(req, res.clone()));
+        if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
       }).catch(() => caches.match(req))
     );
