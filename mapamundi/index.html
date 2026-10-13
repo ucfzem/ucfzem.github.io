@@ -387,6 +387,11 @@
     'https://iiif.archive.org/image/iiif/2/dr_composite-map-of-tavola-1-60-map-of-the-world-10130085%2F10130085.jp2/info.json';
 
   const CONFIG = { sources: [MONTE_1587_IIIF], crossOriginPolicy: false };
+
+  /* Offline fallback: a downscaled single-image copy of the same planisphere
+     (assets/urbano-monte-1587.webp), precached by the service worker. Used when
+     the device is offline, or when the remote IIIF server cannot be reached. */
+  const OFFLINE_SRC = { type: 'image', url: './assets/urbano-monte-1587.webp' };
   const PREFIX = 'https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/';
 
   /* ---- UI translations ---- */
@@ -593,10 +598,14 @@
   const errorDetail = $('error-detail');
   const hint = $('hint');
 
+  let usingOffline = !navigator.onLine;
+  const initialSource = usingOffline ? OFFLINE_SRC
+    : (CONFIG.sources.length === 1 ? CONFIG.sources[0] : CONFIG.sources);
+
   const viewer = OpenSeadragon({
     id: 'viewer',
     prefixUrl: PREFIX,
-    tileSources: CONFIG.sources.length === 1 ? CONFIG.sources[0] : CONFIG.sources,
+    tileSources: initialSource,
     backgroundColor: '#1e1e1e',
     showNavigationControl: false,
     showNavigator: true,
@@ -662,6 +671,12 @@
   });
 
   viewer.addHandler('open-failed', (e) => {
+    if (!usingOffline) {
+      // Remote IIIF source unreachable — fall back to the precached local copy.
+      usingOffline = true;
+      viewer.open(OFFLINE_SRC);
+      return;
+    }
     loader.classList.add('hidden');
     errorDetail.innerHTML = 'Could not load: <code>' + String(e.message || 'unknown source') + '</code><br><br>' +
       'Edit the <code>CONFIG.sources</code> block in <code>index.html</code> to point at your own IIIF <code>info.json</code>, a <code>.dzi</code> tile set, or a single image.';

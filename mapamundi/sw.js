@@ -1,5 +1,5 @@
 // Service worker for /mapamundi/ — offline app shell + runtime caching.
-const CACHE = 'mapamundi-cache-v1.0.2';
+const CACHE = 'mapamundi-cache-v1.0.3';
 
 // App shell that must be available offline.
 const CORE = [
@@ -8,7 +8,8 @@ const CORE = [
   './manifest.json',
   './icon.svg',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './assets/urbano-monte-1587.webp'
 ];
 
 // Third-party resources fetched cross-origin (stored opaquely, served offline).
