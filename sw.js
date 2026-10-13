@@ -174,7 +174,7 @@ async function cacheFontFiles(cdn, cssUrl) {
     const txt = await r.text();
     const urls = [...new Set((txt.match(/url\((https:\/\/fonts\.gstatic\.com\/[^)]+)\)/g) || [])
       .map((u) => u.slice(4, -1).replace(/["']/g, '')))];
-    await Promise.all(urls.map((u) => cacheCross(cdn, u)));
+    await precache(cdn, urls, 3);
   } catch (e) {}
 }
 
