@@ -169,3 +169,30 @@ edge aligns with the card tags (delta 0px), arrow sits in the gutter with no ove
 Safety note: the user asked for care ("lost 26 websites" previously) and suggested a
 branch/backup; we worked on `main` in a git repo (full history → revertable), validated
 inline scripts + JSON-LD before each push, and touched only `works/index.html`.
+
+---
+
+## Addendum 3 — Maktaba folder repositioned under Tanger d'Antan, numbered 5
+
+Requested: move the Maktaba folder directly beneath **Tanger d'Antan** and give the folder
+the number **5**.
+
+Changes (only `works/index.html`):
+- `renderPublic`: `const split = 4;` so the grid renders apps[0..3] → folder → apps[4..13].
+- Folder header number span: `<span class="folder-num"></span>` → `<span class="card-num">${split + 1}</span>`
+  (reuses the grid's Cinzel `.card-num` style, so it looks identical to the other numbers).
+  Inner book cards keep the empty `.folder-num` spacer.
+- Renumbered `publicProjects` to leave slot 5 for the folder: first four apps keep 1–4,
+  the remaining ten shift to 6–15 (UcfZem Tech Blog 5→6 … SavoirsEnJouant 14→15).
+- JSON-LD unchanged (24 sequential items; webapp relative order and books are unchanged).
+
+Live-verified (fresh Playwright load of https://ucfzem.github.io/works/):
+1 Quran Majeed v3 · 2 Quran Reader · 3 Quran Amp · 4 Tanger d'Antan ·
+**5 Maktaba (folder)** · 6 UcfZem Tech Blog · 7 Lingotech · 8 MicroInvoice · 9 Droppy ·
+10 Rafeeq · 11 WebHealth · 12 ElixirTech · 13 EmailCollector · 14 API JobFinder · 15 SavoirsEnJouant.
+Folder index 4, number "5", preceded by Tanger d'Antan, followed by UcfZem Tech Blog.
+
+Deploy note: the push to `main` succeeded immediately (commit `40a31dd`), but the GitHub
+Pages CDN stayed stale for several minutes and the first Pages build appeared stuck
+("building"); a fresh build was requested via `POST /pages/builds`, after which the live
+edge served the new markup. Only `works/index.html` changed; locked section untouched.
