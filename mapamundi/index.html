@@ -487,7 +487,7 @@
 
   /* ---- Interactive map annotations (pin coordinate = viewport 0..1) ---- */
   const PINS = [
-    { id: 'pole', x: 0.5, y: 0.5, t: { en: 'North Pole & four rivers', fr: 'P\u00f4le Nord & quatre fleuves', es: 'Polo Norte y cuatro r\u00edos', ar: '\u0627\u0644\u0642\u0637\u0628 \u0627\u0644\u0634\u0645\u0627\u0644\u064a \u0648\u0627\u0644\u0623\u0646\u0647\u0627\u0631 \u0627\u0644\u0623\u0631\u0628\u0639\u0629' },
+    { id: 'pole', x: 0.4995, y: 0.5078, t: { en: 'North Pole & four rivers', fr: 'P\u00f4le Nord & quatre fleuves', es: 'Polo Norte y cuatro r\u00edos', ar: '\u0627\u0644\u0642\u0637\u0628 \u0627\u0644\u0634\u0645\u0627\u0644\u064a \u0648\u0627\u0644\u0623\u0646\u0647\u0627\u0631 \u0627\u0644\u0623\u0631\u0628\u0639\u0629' },
       d: { en: 'The Arctic Pole and the four rivers flowing toward the centre of the world.',
         fr: 'Le P\u00f4le Arctique et les quatre fleuves coulant vers le centre du monde.',
         es: 'El Polo \u00c1rtico y los cuatro r\u00edos que fluyen hacia el centro del mundo.',
@@ -511,9 +511,9 @@
 
   /* ---- Quick-nav landmarks (x/y = normalized image coords 0..1, zoom = OSD zoom) ----
      NOTE: coordinates are approximate for Monte's polar-azimuthal planisphere
-     (the North Pole is the exact centre of the image). Tweak x/y/zoom to taste. */
+     (the North Pole sits at the centre of the rose, x~0.4995, y~0.5078). Tweak x/y/zoom to taste. */
   const HOTSPOTS = {
-    pole:    { x: 0.50, y: 0.50, zoom: 4 },
+    pole:    { x: 0.4995, y: 0.5078, zoom: 4 },
     japan:   { x: 0.62, y: 0.30, zoom: 8 },
     ocean:   { x: 0.30, y: 0.62, zoom: 5 },
     sheet58: { x: 0.42, y: 0.72, zoom: 9 }
