@@ -80,7 +80,22 @@ Improvement (commit `029dcfe`, SW `al-mudhish-cache-v1.2.0`, pushed `main`):
   header h-16 ≈ 65px), FontAwesome renders (`"Font Awesome 6 Free"`), search
   22 فصل / 22 results, chapter text renders, 0 page errors.
 
-## 7. How to re-prepare offline assets later
+## 7. Brand color: orange → gold (user request)
+User: "Want this orange color turned to gold". The app's `amberGold`
+Tailwind palette was amber/orange hàze (#f59e0b/#d97706/#b45309/#92400e/#78350f).
+Converted *everything* to true gold, aligned with the icon (already gold
+#e2b560/#c8922f), in `mudhish_index.template.html`:
+- palette: 400 #f2d98c, 500 #e2b560, 600 #c8922f, 700 #a67e28, 800 #85631f
+- scrollbar thumb #d97706→#c8922f, hover #b45309→#a67e28
+- search input focus border #d97706→#c8922f; text accents → #c8922f/#a67e28
+- `.dark .funn-pill` #f59e0b→#e2b560
+- search `<mark>` highlight rgba(245,158,11,.35) → rgba(226,181,96,.35)
+Rebuilt index.html (170 chapters), SW `al-mudhish-cache-v1.3.0`, commit
+`b30652d` pushed `main`. Live-verified (Playwright): font- and bg- utilities now
+render gold rgb(226,181,96)/rgb(200,146,47)/rgb(166,126,40), no orange hex in
+CSS, 0 page errors. Manifest already used gold theme_color #e2b560.
+
+## 8. How to re-prepare offline assets later
 If Google Fonts changes its woff2 URLs/versions, the self-consistent trick is:
 the SW serves the cached css2 CSS and the cached woff2 URLs together (both taken
 at install time), so they stay in sync. Re-extract URLs if desired with:
