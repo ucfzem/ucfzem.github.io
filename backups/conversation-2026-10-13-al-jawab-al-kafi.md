@@ -408,3 +408,40 @@ Commit: `f80c078`.
 - Live: `assets/urbano-monte-1587.webp` → HTTP 200, `image/webp`, 2 849 478 bytes.
 
 Commit: `604ef41`.
+
+## Addendum 11 — Mapamundi: tiled DZI offline map (3×, readable) + coordinate picker + North-Pole fix
+
+- Follow-up to #10: the 4096 px offline copy fixed the black but the user reported it was
+  "so blurred we can't read minimum of text", then asked to make it "3× this actual size".
+- A 3× *single* image (12288 px) reintroduces the black bug, so the offline copy was rebuilt
+  as a **Deep Zoom pyramid**: `assets/offline/map.dzi` + `map_files/`, **12288×12488 px**,
+  tile 1024, overlap 0, JPEG q82 → **225 tiles, ~34 MB**. Replaces the old
+  `assets/urbano-monte-1587.webp` (deleted).
+- **Key gotcha (cost the most time):** OpenSeadragon **5.0.1** computes a DZI's `maxLevel`
+  as `ceil(log2(max(width,height)))` and *ignores the tile size* (see `tilesource.js`
+  `this.maxLevel = … Math.log(Math.max(width,height))/Math.log(2)`). So level 0 must be the
+  ~1-px thumbnail and the full image sits at **level 14**, not level 4. My first generator
+  numbered folders dzsave-style (level 0 = 768 px), so OSD requested levels 7–14, got 404s,
+  and rendered black. Fix: renumber the existing levels `0..4 → 10..14` and add the ten tiny
+  single-tile levels `0..9` (`fix_dzi_levels.mjs`). Verified OSD then requests level-14 tiles.
+- `index.html`: `OFFLINE_SRC = './assets/offline/map.dzi'` (was `{type:'image', url:…webp}`);
+  offline/`open-failed` fallback now opens the DZI. `sw.js`: `CORE` precaches `map.dzi` + all
+  225 tiles; cache bumped to **`mapamundi-cache-v1.0.5`**; install concurrency 8.
+- **Verified offline** (Playwright persistent context, `--use-gl=angle --use-angle=swiftshader`):
+  238 entries precached; offline reload renders; deep zoom (`zoom 18.82 / maxZoom 19.2`) loads
+  level-14 tiles; map canvas **stdev ≈ 30.1, mean ≈ 131** (real content, **not black**);
+  4 pins + 4 hotspots; 0 errors. Note: hardware-less headless Chromium fails WebGL
+  (`MAX_TEXTURE_IMAGE_UNITS null`) and shows a black canvas — a test artifact only; software
+  SwiftShader WebGL is required to screenshot correctly.
+- **Hidden coordinate picker** (`?pick` in the URL): click the map to print the image-space
+  `x% / y%` on a badge; `.map-pin` are made click-through so the map centre is tappable.
+  Implemented at the viewer-creation site in `index.html`. Used to locate the rose centre.
+- **North-Pole pin correction:** pin anchoring was already exact (`dx=dy=0`; OSD stores
+  viewport coordinates, so there is no aspect-ratio bug and `translate(-50%,-50%)` centres it),
+  so the only issue was the stored coordinate. User read the compass-rose centre in pick mode as
+  **x = 49.95 %, y = 50.78 %** → `PINS.pole` and `HOTSPOTS.pole` now `x:0.4995, y:0.5078`
+  (was `0.5, 0.5`).
+- Commits: `007fc10` (tiled DZI offline), `ba265aa` (coordinate picker), `b22d374` (North-Pole
+  alignment).
+- Live: `assets/offline/map.dzi` → 200 (187 B); `assets/offline/map_files/14/5_5.jpg` → 200
+  (273 678 B).
