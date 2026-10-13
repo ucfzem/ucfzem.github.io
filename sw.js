@@ -89,7 +89,24 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v1';
+const DATA_MARKER = '/__bookdata-v2';
+
+// Resolve every local src/href in an app's index.html (relative or absolute,
+// query string preserved) to an app-local path we can cache.
+function localRefs(html, s) {
+  const base = 'https://local.invalid/' + s + '/index.html';
+  const out = new Set();
+  for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+    const v = m[1];
+    if (/^(https?:|data:|#|mailto:|javascript:)/i.test(v)) continue;
+    let u;
+    try { u = new URL(v, base); } catch (e) { continue; }
+    if (u.origin !== 'https://local.invalid') continue;
+    const p = u.pathname + u.search;
+    if (p.startsWith('/' + s + '/')) out.add(p);
+  }
+  return [...out];
+}
 
 async function cacheAppData(cache, s) {
   try {
@@ -111,12 +128,7 @@ async function cacheAppData(cache, s) {
   } catch (e) {}
   try {
     const r = await fetch('/' + s + '/index.html', { cache: 'no-store' });
-    if (r && r.ok) {
-      const html = await r.text();
-      const refs = [...html.matchAll(/(?:src|href)="(\/[^"]+)"/g)]
-        .map((m) => m[1]).filter((u) => u.startsWith('/' + s + '/'));
-      await precache(cache, [...new Set(refs)], 6);
-    }
+    if (r && r.ok) await precache(cache, localRefs(await r.text(), s), 6);
   } catch (e) {}
 }
 
@@ -218,11 +230,11 @@ self.addEventListener('fetch', (event) => {
 
   // ---- same-origin asset under an app path (icons, manifest, data) ----
   event.respondWith(
-    caches.open(SHELL_CACHE).then((c) => c.match(req)).then((hit) =>
+    caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((hit) =>
       hit || fetch(req).then((res) => {
         if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put(req, res.clone()));
         return res;
       })
-    ).catch(() => caches.match(req).then((h) => h || fetch(req)))
+    ).catch(() => caches.match(req, { ignoreSearch: true }).then((h) => h || fetch(req)))
   );
 });
