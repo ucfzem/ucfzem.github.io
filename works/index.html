@@ -255,6 +255,9 @@
   .folder-count { font-size: 0.7rem; color: var(--text-sec); background: rgba(201,168,76,0.1); padding: 2px 10px; border-radius: 8px; }
   .folder-arrow { font-size: 0.7rem; color: var(--text-sec); transition: transform 0.25s ease; }
   .folder.open .folder-arrow { transform: rotate(180deg); }
+  #f-maktaba .folder-header { position: relative; }
+  #f-maktaba .folder-arrow { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); }
+  #f-maktaba.open .folder-arrow { transform: translateY(-50%) rotate(180deg); }
   .folder-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
   .folder.open .folder-content { max-height: 2000px; }
   .folder-content .card { border-radius: 0; border-left: none; border-right: none; margin: 0; border-top: none; }
