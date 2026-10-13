@@ -1,5 +1,5 @@
 // Service worker for /mapamundi/ — offline app shell + runtime caching.
-const CACHE = 'mapamundi-cache-v1.0.0';
+const CACHE = 'mapamundi-cache-v1.0.1';
 
 // App shell that must be available offline.
 const CORE = [

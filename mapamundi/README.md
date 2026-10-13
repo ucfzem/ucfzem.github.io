@@ -91,8 +91,9 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
   `localStorage` persistence.
 - **Interactive annotations** — gold map pins (North Pole, title, ocean, Terra
   Australis) that open a translated note card in the current language.
-- **ℹ️ About panel** — a translated biography of Urbano Monte with the map's
-  revisions (`ABOUT` block).
+- **Always-visible info panel** — a translated biography of Urbano Monte plus the
+  map's revisions and the pin notes, shown on load and collapsible via the panel
+  header or the toolbar **ℹ️** button (`ABOUT` block).
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
 - Offline-ready: installable PWA + service worker that caches the app shell and,
   as you browse, the tiles you actually view.

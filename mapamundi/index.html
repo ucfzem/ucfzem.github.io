@@ -8,6 +8,10 @@
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <link rel="manifest" href="./manifest.json">
+<link rel="preconnect" href="https://iiif.archive.org" crossorigin>
+<link rel="dns-prefetch" href="https://iiif.archive.org">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <title>Mapamundi Viewer</title>
 <style>
   :root {
@@ -143,24 +147,38 @@
   .pin-card h3 { font-family: Georgia, "Times New Roman", serif; font-size: 0.98rem; color: var(--gold); margin-bottom: 7px; }
   .pin-card p { font-size: 0.87rem; line-height: 1.62; color: var(--ink); }
 
-  /* ---- Modal (About) ---- */
-  .modal {
-    position: fixed; inset: 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 20px;
-    background: rgba(10, 8, 6, 0.62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  /* ---- Always-visible info panel (About + map notes) ---- */
+  .info-panel {
+    position: fixed; z-index: 15;
+    top: 74px; left: max(16px, env(safe-area-inset-left));
+    width: min(370px, calc(100vw - 32px)); max-height: calc(100dvh - 190px);
+    display: flex; flex-direction: column; overflow: hidden;
+    background: linear-gradient(rgba(30, 28, 24, 0.93), rgba(20, 18, 15, 0.95));
+    border: 1px solid var(--gold-dim); border-radius: 14px;
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
-  .modal.hidden { display: none; }
-  .modal-card {
-    position: relative; width: min(680px, 94vw); max-height: 84vh; overflow: auto;
-    background: var(--panel); border: 1px solid var(--gold-dim); border-radius: 16px;
-    padding: 24px 26px; box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+  .info-toggle {
+    flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    width: 100%; padding: 13px 16px; cursor: pointer; text-align: start;
+    font-family: Georgia, "Times New Roman", serif; font-size: 0.92rem; letter-spacing: 0.03em; color: var(--gold);
+    background: transparent; border: none; border-bottom: 1px solid var(--gold-dim);
   }
-  .modal-card h2 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 1.18rem; line-height: 1.3; margin-bottom: 4px; }
-  .modal-card .author { color: var(--gold-dim); font-size: 0.8rem; letter-spacing: 0.06em; margin-bottom: 16px; }
-  .modal-card p.summary { font-size: 0.9rem; line-height: 1.65; color: var(--ink); margin-bottom: 16px; }
-  .modal-card .subhead { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-dim); margin-bottom: 8px; }
-  .modal-card ul { list-style: none; margin-bottom: 4px; }
-  .modal-card li { position: relative; padding-inline-start: 20px; font-size: 0.88rem; line-height: 1.6; color: var(--ink-dim); margin-bottom: 10px; }
-  .modal-card li::before { content: "\25C6"; position: absolute; inset-inline-start: 0; color: var(--gold); font-size: 0.7rem; top: 0.25em; }
+  .info-toggle .chev { flex: 0 0 auto; transition: transform 0.22s ease; }
+  .info-panel.collapsed .info-toggle { border-bottom-color: transparent; }
+  .info-panel.collapsed .info-toggle .chev { transform: rotate(-90deg); }
+  .info-panel.collapsed .info-body { display: none; }
+  .info-body { flex: 1 1 auto; overflow: auto; padding: 16px 18px 18px; overscroll-behavior: contain; }
+  .info-body h2 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 1.06rem; line-height: 1.3; margin-bottom: 4px; }
+  .info-body .author { color: var(--gold-dim); font-size: 0.78rem; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .info-body p.summary { font-size: 0.86rem; line-height: 1.62; color: var(--ink); margin-bottom: 16px; }
+  .info-body .subhead { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold-dim); margin-bottom: 8px; }
+  .info-body ul { list-style: none; margin-bottom: 16px; }
+  .info-body ul:last-child { margin-bottom: 0; }
+  .info-body li { position: relative; padding-inline-start: 18px; font-size: 0.83rem; line-height: 1.58; color: var(--ink-dim); margin-bottom: 9px; }
+  .info-body li::before { content: "\25C6"; position: absolute; inset-inline-start: 0; color: var(--gold); font-size: 0.62rem; top: 0.3em; }
+  .info-body li b { color: var(--ink); font-weight: 600; }
+  #note-list li { margin-bottom: 12px; }
 
   .icon-close {
     position: absolute; top: 12px; inset-inline-end: 12px;
@@ -188,7 +206,7 @@
 
   /* ---- RTL (Arabic) ---- */
   html[dir="rtl"] .brand-text h1 { font-family: "Amiri", "Segoe UI", system-ui, sans-serif; letter-spacing: 0; }
-  html[dir="rtl"] .modal-card h2 { font-family: "Amiri", Georgia, serif; }
+  html[dir="rtl"] .info-body h2 { font-family: "Amiri", Georgia, serif; }
   html[dir="rtl"] .pin-card h3 { font-family: "Amiri", Georgia, serif; }
   html[dir="rtl"] .pin-card { padding: 16px 18px 16px 44px; }
 
@@ -204,6 +222,9 @@
     .lang-btn .lang-code { display: none; }
     .lang-btn { padding: 0 7px; }
     .hint { font-size: 0.66rem; padding: 6px 12px; }
+    .info-panel { top: 96px; left: 12px; width: calc(100vw - 24px); max-height: calc(100dvh - 230px); }
+    .info-body { padding: 14px 15px 16px; }
+    .pin-card { bottom: 92px; }
   }
   @media (max-height: 460px) { .hint { display: none; } }
 </style>
@@ -263,19 +284,22 @@
     <p id="pin-body"></p>
   </div>
 
-  <!-- About modal -->
-  <div class="modal hidden" id="about-modal" role="dialog" aria-modal="true">
-    <div class="modal-card">
-      <button class="icon-close" id="about-close" aria-label="Close">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
+  <!-- Always-visible map information panel -->
+  <aside class="info-panel" id="info-panel" aria-label="Map information">
+    <button class="info-toggle" id="info-toggle" aria-expanded="true" aria-controls="info-body">
+      <span class="info-title" data-i18n="about">About the map</span>
+      <svg class="chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="info-body" id="info-body">
       <h2 id="about-title"></h2>
       <div class="author" id="about-author"></div>
       <p class="summary" id="about-summary"></p>
       <div class="subhead" data-i18n="aboutMods">Revisions &amp; modifications</div>
       <ul id="about-mods"></ul>
+      <div class="subhead" data-i18n="mapNotes">Map notes</div>
+      <ul id="note-list"></ul>
     </div>
-  </div>
+  </aside>
 
   <!-- Loading -->
   <div class="overlay" id="loader">
@@ -318,23 +342,23 @@
     en: { title: 'Mapamundi Viewer', subtitle: 'Deep-zoom \u00b7 Historical cartography',
       hint: 'Scroll or pinch to zoom \u00b7 drag to pan \u00b7 double-click to zoom in',
       zoomIn: 'Zoom in', zoomOut: 'Zoom out', home: 'Home', nav: 'Toggle overview map',
-      fullscreen: 'Toggle fullscreen', about: 'About the map', aboutMods: 'Revisions & modifications',
+      fullscreen: 'Toggle fullscreen', about: 'About the map', aboutMods: 'Revisions & modifications', mapNotes: 'Map notes',
       loading: 'Loading map\u2026', errTitle: 'Could not load the map tiles', close: 'Close' },
     fr: { title: 'Visionneuse Mapamundi', subtitle: 'Zoom profond \u00b7 Cartographie ancienne',
       hint: 'Molette ou pincement pour zoomer \u00b7 glisser pour naviguer \u00b7 double-clic pour zoomer',
       zoomIn: 'Zoom avant', zoomOut: 'Zoom arri\u00e8re', home: 'Accueil', nav: 'Afficher la vue d\u2019ensemble',
-      fullscreen: 'Plein \u00e9cran', about: '\u00c0 propos de la carte', aboutMods: 'R\u00e9visions & modifications',
+      fullscreen: 'Plein \u00e9cran', about: '\u00c0 propos de la carte', aboutMods: 'R\u00e9visions & modifications', mapNotes: 'Notes sur la carte',
       loading: 'Chargement de la carte\u2026', errTitle: 'Impossible de charger les tuiles de la carte', close: 'Fermer' },
     es: { title: 'Visor Mapamundi', subtitle: 'Zoom profundo \u00b7 Cartograf\u00eda hist\u00f3rica',
       hint: 'Desplaza o pellizca para ampliar \u00b7 arrastra para mover \u00b7 doble clic para acercar',
       zoomIn: 'Acercar', zoomOut: 'Alejar', home: 'Inicio', nav: 'Mostrar vista general',
-      fullscreen: 'Pantalla completa', about: 'Acerca del mapa', aboutMods: 'Revisiones y modificaciones',
+      fullscreen: 'Pantalla completa', about: 'Acerca del mapa', aboutMods: 'Revisiones y modificaciones', mapNotes: 'Notas del mapa',
       loading: 'Cargando el mapa\u2026', errTitle: 'No se pudieron cargar las teselas del mapa', close: 'Cerrar' },
     ar: { title: '\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0639\u0627\u0644\u0645', subtitle: '\u062a\u0643\u0628\u064a\u0631 \u0639\u0645\u064a\u0642 \u00b7 \u0639\u0644\u0645 \u0627\u0644\u062e\u0631\u0627\u0626\u0637 \u0627\u0644\u062a\u0627\u0631\u064a\u062e\u064a',
       hint: '\u0645\u0631\u0651\u0631 \u0623\u0648 \u0627\u0636\u063a\u0637 \u0628\u0625\u0635\u0628\u0639\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631 \u00b7 \u0627\u0633\u062d\u0628 \u0644\u0644\u062a\u0646\u0642\u0644 \u00b7 \u0627\u0646\u0642\u0631 \u0645\u0631\u062a\u064a\u0646 \u0644\u0644\u062a\u0643\u0628\u064a\u0631',
       zoomIn: '\u062a\u0643\u0628\u064a\u0631', zoomOut: '\u062a\u0635\u063a\u064a\u0631', home: '\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629',
       nav: '\u0625\u0638\u0647\u0627\u0631 \u0627\u0644\u062e\u0631\u064a\u0637\u0629 \u0627\u0644\u0645\u0635\u063a\u0651\u0631\u0629', fullscreen: '\u0645\u0644\u0621 \u0627\u0644\u0634\u0627\u0634\u0629',
-      about: '\u062d\u0648\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629', aboutMods: '\u0627\u0644\u062a\u0639\u062f\u064a\u0644\u0627\u062a \u0648\u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0627\u062a',
+      about: '\u062d\u0648\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629', aboutMods: '\u0627\u0644\u062a\u0639\u062f\u064a\u0644\u0627\u062a \u0648\u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0627\u062a', mapNotes: '\u0645\u0644\u0627\u062d\u0638\u0627\u062a \u0627\u0644\u062e\u0631\u064a\u0637\u0629',
       loading: '\u062c\u0627\u0631\u064d \u062a\u062d\u0645\u064a\u0644 \u0627\u0644\u062e\u0631\u064a\u0637\u0629\u2026', errTitle: '\u062a\u0639\u0630\u0651\u0631 \u062a\u062d\u0645\u064a\u0644 \u0628\u0644\u0627\u0637\u0627\u062a \u0627\u0644\u062e\u0631\u064a\u0637\u0629', close: '\u0625\u063a\u0644\u0627\u0642' }
   };
 
@@ -389,13 +413,13 @@
   /* ---- State + i18n application ---- */
   let currentLang = 'en';
   let activePinId = null;
-  let aboutOpen = false;
 
   const $ = (id) => document.getElementById(id);
   const pinCard = $('pin-card');
   const pinTitle = $('pin-title');
   const pinBody = $('pin-body');
-  const aboutModal = $('about-modal');
+  const infoPanel = $('info-panel');
+  const infoToggle = $('info-toggle');
 
   function renderPinCard() {
     if (!activePinId) return;
@@ -405,8 +429,20 @@
     pinBody.textContent = pin.d[currentLang] || pin.d.en;
   }
 
+  function renderNotes() {
+    const ul = $('note-list');
+    ul.innerHTML = '';
+    PINS.forEach((pin) => {
+      const li = document.createElement('li');
+      const b = document.createElement('b');
+      b.textContent = (pin.t[currentLang] || pin.t.en) + ' \u2014 ';
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(pin.d[currentLang] || pin.d.en));
+      ul.appendChild(li);
+    });
+  }
+
   function renderAbout() {
-    if (!aboutOpen) return;
     const a = ABOUT[currentLang] || ABOUT.en;
     $('about-title').textContent = a.title;
     $('about-author').textContent = a.author;
@@ -414,7 +450,16 @@
     const ul = $('about-mods');
     ul.innerHTML = '';
     a.mods.forEach((m) => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+    renderNotes();
   }
+
+  function setInfoOpen(open) {
+    infoPanel.classList.toggle('collapsed', !open);
+    infoToggle.setAttribute('aria-expanded', String(open));
+  }
+  function toggleInfo() { setInfoOpen(infoPanel.classList.contains('collapsed')); }
+  infoToggle.addEventListener('click', toggleInfo);
+
 
   function setLanguage(lang) {
     if (!I18N[lang]) lang = 'en';
@@ -456,7 +501,9 @@
     animationTime: 1.2,
     springStiffness: 9,
     blendTime: 0.1,
-    immediateRender: false,
+    immediateRender: true,
+    imageLoaderLimit: 10,
+    timeout: 60000,
     visibilityRatio: 1.0,
     constrainDuringPan: true,
     minZoomImageRatio: 0.85,
@@ -479,9 +526,18 @@
     document.querySelectorAll('.map-pin').forEach((el) => el.classList.remove('active'));
   }
   let pinsAdded = false;
-  viewer.addHandler('open', () => {
+  let mapRevealed = false;
+  function revealMap() {
+    if (mapRevealed) return;
+    mapRevealed = true;
     loader.classList.add('hidden');
     setTimeout(() => hint.classList.add('gone'), 4200);
+  }
+  viewer.addHandler('tile-loaded', revealMap);
+  viewer.addHandler('open', () => {
+    // Reveal as soon as the first tile is drawn; fall back after 15s so a slow
+    // IIIF server never leaves the viewer stuck on an opaque loading screen.
+    setTimeout(revealMap, 15000);
     if (pinsAdded) return;
     pinsAdded = true;
     PINS.forEach((pin) => {
@@ -529,11 +585,9 @@
   fsBtn.addEventListener('click', toggleFullscreen);
 
   $('pin-close').addEventListener('click', hidePin);
-  $('about-btn').addEventListener('click', () => { aboutOpen = true; renderAbout(); aboutModal.classList.remove('hidden'); });
-  $('about-close').addEventListener('click', () => { aboutOpen = false; aboutModal.classList.add('hidden'); });
-  aboutModal.addEventListener('click', (ev) => { if (ev.target === aboutModal) { aboutOpen = false; aboutModal.classList.add('hidden'); } });
+  $('about-btn').addEventListener('click', toggleInfo);
   document.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Escape') { hidePin(); aboutOpen = false; aboutModal.classList.add('hidden'); }
+    if (ev.key === 'Escape') { hidePin(); }
   });
   viewer.addHandler('canvas-press', hidePin);
 
