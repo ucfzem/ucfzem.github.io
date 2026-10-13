@@ -923,6 +923,6 @@
   }
 </script>
 
-<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(reg){function ping(){if(reg.active)reg.active.postMessage({type:'prefetch-book-data'})}function wait(w){if(!w)return;if(w.state==='activated')ping();else w.addEventListener('statechange',function(e){if(e.target.state==='activated')ping()})}if(reg.active)ping();wait(reg.installing);wait(reg.waiting)}).catch(function(){})})}</script>
+<script data-root-sw="1">if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){})}if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(reg){function ping(){if(reg.active)reg.active.postMessage({type:'prefetch-book-data'})}function wait(w){if(!w)return;if(w.state==='activated')ping();else w.addEventListener('statechange',function(e){if(e.target.state==='activated')ping()})}if(reg.active)ping();wait(reg.installing);wait(reg.waiting)}).catch(function(){})})}</script>
 </body>
 </html>

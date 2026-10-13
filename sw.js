@@ -30,7 +30,15 @@ const SHELLS = [
   'al-mudhish',
   'al-jawab-al-kafi',
   'livre-al-istibsar',
-  'remedy'
+  'remedy',
+  'mapamundi',
+  'webhealth',
+  'droppy',
+  'childsgame',
+  'email-collector',
+  'quran-reader',
+  'quran-amp',
+  'api-job-finder'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -95,56 +103,120 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v3';
+const DATA_MARKER = '/__bookdata-v4';
 
-// Resolve every local src/href in an app's index.html (relative or absolute,
-// query string preserved) plus quoted ".js"/".json" literals in inline scripts
-// (lazily-injected files) to an app-local path we can cache.
-function localRefs(html, s) {
-  const base = 'https://local.invalid/' + s + '/index.html';
+const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm)(?:[?#]|$)/i;
+
+// Resolve a referenced URL (relative or absolute, query preserved) to an
+// app-local path under /<s>/, or null when it is not a local app asset.
+function localPath(v, s) {
+  if (!v || /^(data:|#|mailto:|javascript:|\/\/)/i.test(v)) return null;
+  let u;
+  try { u = new URL(v, 'https://local.invalid/' + s + '/index.html'); } catch (e) { return null; }
+  if (u.origin !== 'https://local.invalid') return null;
+  const p = u.pathname + u.search;
+  return p.startsWith('/' + s + '/') ? p : null;
+}
+
+// Every local asset reference we can find in an app's index.html or its own
+// sw.js: src/href attributes plus quoted string literals (catches lazy files,
+// multi-page links like webhealth's actualites.html, fonts, etc.).
+function assetRefs(text, s) {
   const out = new Set();
-  const add = (v) => {
-    if (!v || /^(https?:|data:|#|mailto:|javascript:|\/\/)/i.test(v)) return;
-    let u;
-    try { u = new URL(v, base); } catch (e) { return; }
-    if (u.origin !== 'https://local.invalid') return;
-    const p = u.pathname + u.search;
-    if (p.startsWith('/' + s + '/')) out.add(p);
-  };
-  for (const m of html.matchAll(/(?:src|href)="([^"]+)"/g)) add(m[1]);
-  for (const m of html.matchAll(/["']([^"'\s]+\.(?:js|json))["']/g)) add(m[1]);
+  for (const m of text.matchAll(/(?:src|href)="([^"]+)"/g)) {
+    const p = localPath(m[1], s); if (p) out.add(p);
+  }
+  for (const m of text.matchAll(/["'`]([^"'`\s]+)["'`]/g)) {
+    const v = m[1];
+    if (!ASSET_EXT.test(v)) continue;
+    const p = localPath(v, s); if (p) out.add(p);
+  }
   return [...out];
 }
 
-async function cacheAppData(cache, s) {
+// Cache a cross-origin asset. Prefer a CORS fetch (needed for fonts to render
+// offline); fall back to an opaque fetch for hosts that reject CORS.
+async function cacheCross(cache, url) {
+  try { await cache.add(url); return; } catch (e) {}
+  await cacheOpaque(cache, url);
+}
+
+// Mirror an app's own service-worker precache list. This is what makes
+// multi-page apps (webhealth), secondary pages (droppy/get.html) and their CDN
+// fonts/icons work offline from a works-only visit, without opening the app.
+async function syncAppSW(shell, cdn, s) {
+  try {
+    const r = await fetch('/' + s + '/sw.js', { cache: 'no-store' });
+    if (!r || !r.ok) return;
+    const txt = await r.text();
+    const locals = assetRefs(txt, s);
+    if (locals.length) await precache(shell, locals, 6);
+    for (const m of txt.matchAll(/["'`](https?:\/\/[^"'`\s]+)["'`]/g)) {
+      let u;
+      try { u = new URL(m[1]); } catch (e) { continue; }
+      if (CDN_HOSTS.includes(u.hostname)) await cacheCross(cdn, u.href);
+    }
+  } catch (e) {}
+}
+
+// Read a Google Fonts stylesheet over CORS and cache every woff2 it references,
+// so Arabic text renders with the right font even when it was never fetched
+// online. Opaque CSS alone is not enough (fonts need CORS responses).
+async function cacheFontFiles(cdn, cssUrl) {
+  try {
+    const r = await fetch(cssUrl, { mode: 'cors' });
+    if (!r || !r.ok) return;
+    await cdn.put(cssUrl, r.clone());
+    const txt = await r.text();
+    const urls = [...new Set((txt.match(/url\((https:\/\/fonts\.gstatic\.com\/[^)]+)\)/g) || [])
+      .map((u) => u.slice(4, -1).replace(/["']/g, '')))];
+    await Promise.all(urls.map((u) => cacheCross(cdn, u)));
+  } catch (e) {}
+}
+
+async function cacheAppData(shell, cdn, s) {
   try {
     const r = await fetch('/' + s + '/data/manifest.json', { cache: 'no-store' });
     if (r && r.ok) {
       const man = await r.clone().json();
-      await cache.put('/' + s + '/data/manifest.json', r);
-      await precache(cache, (man.chunks || []).map((c) => '/' + s + '/' + c.file), 6);
+      await shell.put('/' + s + '/data/manifest.json', r);
+      await precache(shell, (man.chunks || []).map((c) => '/' + s + '/' + c.file), 6);
     }
   } catch (e) {}
   try {
     const r = await fetch('/' + s + '/data/index.json', { cache: 'no-store' });
     if (r && r.ok) {
       const list = await r.clone().json();
-      await cache.put('/' + s + '/data/index.json', r);
+      await shell.put('/' + s + '/data/index.json', r);
       const files = [...new Set((list || []).map((x) => x.file).filter(Boolean))];
-      await precache(cache, files.map((f) => '/' + s + '/data/' + f + '.json'), 6);
+      await precache(shell, files.map((f) => '/' + s + '/data/' + f + '.json'), 6);
+    }
+  } catch (e) {}
+  try {
+    const r = await fetch('/' + s + '/manifest.json', { cache: 'no-store' });
+    if (r && r.ok) {
+      const man = await r.clone().json();
+      await shell.put('/' + s + '/manifest.json', r);
+      if (Array.isArray(man)) {
+        const files = [...new Set(man.map((x) => x && x.file).filter(Boolean))];
+        await precache(shell, files.map((f) => localPath(f, s) || ('/' + s + '/' + f)), 6);
+      }
     }
   } catch (e) {}
   try {
     const r = await fetch('/' + s + '/index.html', { cache: 'no-store' });
-    if (r && r.ok) await precache(cache, localRefs(await r.text(), s), 6);
+    if (r && r.ok) await precache(shell, assetRefs(await r.text(), s), 6);
   } catch (e) {}
+  await syncAppSW(shell, cdn, s);
 }
 
 async function prefetchBookData() {
-  const cache = await caches.open(SHELL_CACHE);
-  if (await cache.match(DATA_MARKER)) return;
-  for (const s of SHELLS) await cacheAppData(cache, s);
-  await cache.put(DATA_MARKER, new Response('1'));
+  const shell = await caches.open(SHELL_CACHE);
+  const cdn = await caches.open(CDN_CACHE);
+  if (await shell.match(DATA_MARKER)) return;
+  for (const s of SHELLS) await cacheAppData(shell, cdn, s);
+  for (const u of CDN) if (u.includes('fonts.googleapis.com')) await cacheFontFiles(cdn, u);
+  await shell.put(DATA_MARKER, new Response('1'));
 }
 
 self.addEventListener('message', (event) => {
@@ -220,6 +292,18 @@ self.addEventListener('fetch', (event) => {
             return res;
           })
         ).catch(() => caches.match('/' + first + '/index.html').then((h) => h || fetch(req)))
+      );
+    } else if (/\.[a-z0-9]+$/i.test(path)) {
+      // Navigation to an actual HTML file (multi-page apps, e.g.
+      // /webhealth/actualites.html or /droppy/get.html). These are mirrored
+      // from each app's own sw.js precache list.
+      event.respondWith(
+        caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((hit) =>
+          hit || fetch(req).then((res) => {
+            if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put(req, res.clone()));
+            return res;
+          })
+        ).catch(() => caches.match(req, { ignoreSearch: true }).then((h) => h || fetch(req)))
       );
     } else {
       // Bare "/app" -> offline redirect to "/app/" (matches GitHub's 301).
