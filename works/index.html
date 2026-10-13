@@ -236,20 +236,21 @@
 
 
   .folder {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     border-radius: 12px;
     border: 1px solid var(--card-border);
     background: var(--card-bg);
     overflow: hidden;
   }
   .folder-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
     cursor: pointer; user-select: none;
     transition: background 0.2s;
   }
   .folder-header:hover { background: rgba(201,168,76,0.08); }
-  .folder-icon { font-size: 1rem; }
+  .folder-icon { font-size: 1.3rem; min-width: 28px; text-align: center; }
+  .folder-num { min-width: 24px; }
   .folder-title { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; }
   .folder-count { font-size: 0.7rem; color: var(--text-sec); background: rgba(201,168,76,0.1); padding: 2px 10px; border-radius: 8px; }
   .folder-arrow { font-size: 0.7rem; color: var(--text-sec); transition: transform 0.25s ease; }
@@ -455,6 +456,7 @@
     .container { padding: 12px 12px 32px; }
     .title { font-size: 1.6rem; }
     .card { padding: 12px 14px; gap: 10px; }
+    .folder-header { padding: 12px 14px; gap: 10px; }
     .unlock-block { padding: 20px 16px; }
     .avatar { width: 64px; height: 64px; }
     .avatar-fallback { width: 64px; height: 64px; font-size: 1.2rem; }
@@ -474,6 +476,7 @@
     .avatar-fallback { width: 96px; height: 96px; font-size: 1.8rem; }
     .header { margin-bottom: 40px; }
     .card { padding: 16px 20px; gap: 14px; }
+    .folder-header { padding: 16px 20px; gap: 14px; }
     .unlock-block { padding: 32px; }
   }
 
@@ -485,6 +488,7 @@
     .avatar-fallback { width: 100px; height: 100px; font-size: 2rem; }
     .header { margin-bottom: 44px; }
     .card { padding: 18px 22px; gap: 16px; }
+    .folder-header { padding: 18px 22px; gap: 16px; }
     .card:hover { transform: translateX(4px); }
     .unlock-block { padding: 36px 40px; }
   }
@@ -499,6 +503,7 @@
     .header { margin-bottom: 52px; }
     .section-title { font-size: 1.3rem; }
     .card { padding: 20px 24px; gap: 18px; border-radius: 14px; }
+    .folder-header { padding: 20px 24px; gap: 18px; }
     .card:hover { transform: translateX(6px); box-shadow: 0 0 25px rgba(201,168,76,0.2); }
     .card-name { font-size: 1.1rem; }
     .unlock-block { padding: 40px 48px; border-radius: 20px; }
@@ -513,6 +518,7 @@
     .avatar-fallback { width: 140px; height: 140px; font-size: 2.8rem; }
     .header { margin-bottom: 60px; }
     .card { padding: 22px 28px; gap: 20px; border-radius: 16px; }
+    .folder-header { padding: 22px 28px; gap: 20px; }
     .card-name { font-size: 1.2rem; }
     .unlock-block { padding: 48px 56px; }
     .divider { margin: 40px 0; }
@@ -721,14 +727,16 @@
     const folder = `
       <div class="folder open" id="f-maktaba">
         <div class="folder-header" onclick="toggleFolder('maktaba')">
+          <span class="folder-num"></span>
           <span class="folder-icon">📚</span>
           <span class="folder-title">Maktaba · المكتبة</span>
-          <span class="folder-count">${maktaba.length}</span>
+          <span class="card-tag">Library</span>
           <span class="folder-arrow">▼</span>
         </div>
         <div class="folder-content">
           ${maktaba.map(p => `
             <a href="${p.url || '#'}" class="card" target="_blank">
+              <span class="folder-num"></span>
               ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
               <div class="card-info"><span class="card-name">${p.name}</span></div>
               <span class="card-tag">${p.tag||''}</span>
