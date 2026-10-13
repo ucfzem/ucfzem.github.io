@@ -588,3 +588,63 @@ changes.
     **no failed requests**.
   - Works page link + JSON-LD both show `https://ucfzem.github.io/remedy/`.
 - Commit: `65bd2cb`.
+
+## Addendum 17 — Systemic offline overhaul (all apps + sites offline from `/works/`)
+
+- **Trigger**: user reported that many book apps / sites "work for a while offline
+  then stop", and many "don't load at all offline or load in an ugly form with no
+  links working".
+- **Diagnosis** (`/tmp/opencode/test_audit.mjs`, two scenarios on a clean profile):
+  - *Scenario A* (only `/works/` visited online): the 10 book shells + `remedy`
+    loaded, but the same-origin **sites were completely dead offline**
+    (`mapamundi`, `webhealth`, `droppy`, `childsgame`, `email-collector` →
+    `ok=N`, `ERR_INTERNET_DISCONNECTED`), because they were absent from the root
+    `SHELLS`/precache set. Fonts (`cairo`/`amiri` `woff2`) and `al-tibb`'s
+    `chapters/ch-*.json` also failed → "ugly" + broken content.
+  - *Scenario B* (each app opened online once): everything worked.
+  - Root causes: (1) sites not prefetched; (2) app-local runtime files (tibb
+    chapters, webhealth sub-pages, CDN fonts) never discovered by the root SW;
+    (3) possible storage eviction → "works then stops".
+- **Fix — root `sw.js`** (now `DATA_MARKER='/__bookdata-v4'`):
+  - `SHELLS` extended with **`mapamundi`, `webhealth`, `droppy`, `childsgame`,
+    `email-collector`, `quran-reader`, `quran-amp`, `api-job-finder`**.
+  - New `assetRefs(text, s)` (extends old `localRefs`): resolves every `src`/`href`
+    **and** any quoted string literal ending in a known asset extension (adds
+    `.html/.css/.png/./jpg/.woff2/.mp3/…/.dzi`) → caches lazy files and multi-page
+    links.
+  - New **`syncAppSW(shell, cdn, s)`**: fetches each app's own `/app/sw.js` and
+    mirrors its precache list — caches its local pages (e.g. `webhealth/*.html`,
+    `droppy/get.html`) and its cross-origin CDN assets.
+  - New **`cacheFontFiles(cdn, cssUrl)`**: fetches a Google-Fonts CSS with CORS and
+    caches every `gstatic` `woff2` it references (opaque CSS alone can't render
+    fonts). Uses `precache(...,3)` (retry) to limit gstatic flakiness.
+  - `cacheAppData` now also reads `/<app>/manifest.json`; when it is an **array of
+    `{file}`** (as in `al-tibb-al-nabawi`, 107 chapters) it precaches those files.
+  - **`CDN`/`CDN_HOSTS`**: added `cdn.jsdelivr.net`, `unpkg.com`, and the exact
+    per-app Google-Fonts CSS URLs (order-sensitive — Google keys CSS by full URL,
+    so `mudhish`/`jawab`/`droppy`/`childsgame`/`email-collector`/`webhealth` needed
+    their own URL strings verbatim).
+  - `prefetchBookData` now runs every app **in parallel** (`Promise.all`) and
+    finishes fonts in parallel too (sequential 19-app run couldn't finish in the
+    old 45 s window).
+  - **Multi-page navigation bug fixed**: offline navigation to
+    `/webhealth/actualites.html` (path without trailing slash) used to hit the
+    bare-URL redirect branch → served a redirect stub. Now any navigation whose
+    path looks like a file (has an extension) is served from the mirrored cache.
+- **`works/index.html` / `remedy/index.html` / `mapamundi/index.html`**: request
+  **`navigator.storage.persist()`** on load, so cached shells/data survive storage
+  pressure (mitigates the "works for a while then stops" eviction symptom).
+- **Verified live** (`/tmp/opencode/test_focus.mjs` + `test_fonts.mjs`, 150 s
+  prefetch window, clean profile, offline):
+  - Scenario A: **all 16 apps `ok=Y`** (sites no longer dead); `al-tibb` renders
+    with chapters; `mapamundi` boots OpenSeadragon (`map.dzi` + tiles cached);
+    `webhealth` sub-page navigation works (`actualites.html`, correct title, not a
+    redirect); book fonts `document.fonts.status='loaded'` with **no failed
+    requests**.
+  - Scenario B: all apps `ok=Y`, **zero failed requests**.
+  - Remaining nit: a few decorative Google fonts (Playfair Display / Poppins /
+    Baloo 2) occasionally not cached under burst → falls back to a default font
+    (page still fully functional).
+- Commits: `97fd4ce`, `53a1dec`, `7c3e0fb`, `6bc1d2d`, `3ee4a19`.
+- Live: https://ucfzem.github.io/sw.js · https://ucfzem.github.io/works/
+
