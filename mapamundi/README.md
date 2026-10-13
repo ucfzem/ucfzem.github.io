@@ -11,7 +11,7 @@ mapamundi/
 ├── sw.js           ← offline service worker (app shell + runtime tile caching)
 ├── icon.svg        ← icon (+ icon-192.png / icon-512.png)
 ├── README.md       ← this file
-└── assets/         ← your tiles / images, + urbano-monte-1587.webp (offline copy)
+└── assets/         ← your tiles / images, + offline/ (tiled DZI copy of the map)
 ```
 
 **Default map:** Urbano Monte's **1587 planisphere** (main 60-sheet composite,
@@ -104,21 +104,23 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
 - Offline-ready: installable PWA + service worker that caches the app shell and,
   as you browse, the tiles you actually view.
-- **Full offline map**: `assets/urbano-monte-1587.webp` (a 4096 × 4163 px
-  downscaled copy of the same planisphere) is precached by the service worker and
-  used automatically when the device is offline or the IIIF server is unreachable.
+- **Full offline map**: `assets/offline/map.dzi` — a 12288 × 12488 px Deep Zoom
+  tile pyramid (225 JPEG tiles, ~34 MB) of the same planisphere — is precached by
+  the service worker and used automatically when the device is offline or the IIIF
+  server is unreachable.
 - Friendly in-page error if a tile source can't be reached.
 
 ## Offline behaviour
 
-The service worker precaches the app shell **and** the local
-`assets/urbano-monte-1587.webp`. On load the viewer uses the streaming IIIF source
-when online (best quality, tiny tiles) and silently swaps to the local WebP
-(`OFFLINE_SRC`) when `navigator.onLine` is false or if the remote source fails to
-open. The local copy is a single ~2.7 MB, 4096 px image — small enough that every
-browser (including phones, whose canvas/texture size limits reject a full 61 000 px
-scan) can render it, and keeps every interactive feature (pins, hotspots, compass,
-4 languages) working with no network.
+The service worker precaches the app shell **and** the local offline map
+(`assets/offline/map.dzi` + all 225 tiles). On load the viewer uses the streaming
+IIIF source when online (best quality, tiny tiles) and silently swaps to the local
+DZI (`OFFLINE_SRC`) when `navigator.onLine` is false or if the remote source fails
+to open. The offline copy is a 12288 px Deep Zoom pyramid (~34 MB) — tiled, so every
+browser (including phones, whose canvas/texture size limits reject a single full
+12 000 px image) can render it while staying sharp enough to read, and it keeps every
+interactive feature (pins, hotspots, compass, 4 languages) working with no network.
+Regenerate it with `sharp`/`vips` (`dzsave`, tile size 1024, no overlap).
 
 ## Customizing
 

@@ -388,10 +388,11 @@
 
   const CONFIG = { sources: [MONTE_1587_IIIF], crossOriginPolicy: false };
 
-  /* Offline fallback: a downscaled single-image copy of the same planisphere
-     (assets/urbano-monte-1587.webp), precached by the service worker. Used when
-     the device is offline, or when the remote IIIF server cannot be reached. */
-  const OFFLINE_SRC = { type: 'image', url: './assets/urbano-monte-1587.webp' };
+  /* Offline fallback: a Deep Zoom (DZI) tile pyramid of the same planisphere
+     (assets/offline/map.dzi, 12288 x 12488 px across 225 tiles), precached by the
+     service worker. Tiled so it renders on phones (no full-image canvas limit) and
+     stays sharp enough to read. Used when offline or when the IIIF server is down. */
+  const OFFLINE_SRC = './assets/offline/map.dzi';
   const PREFIX = 'https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/';
 
   /* ---- UI translations ---- */
