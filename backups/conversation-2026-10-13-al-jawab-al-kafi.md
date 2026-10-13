@@ -362,3 +362,30 @@ Commit: `24c2479`.
   works page shows exactly 1 credit line, 25 cards, 0 page errors.
 
 Commits: `e3a6521` (compass + credit), `7c43b22` (deterministic reset + SW v1.0.2).
+
+---
+
+## Addendum 9 — Mapamundi: full offline map (option 2)
+
+- Generated a downscaled single-image copy of the same planisphere with `sharp`
+  (libvips) from the 609 MB / 61461×62461 Internet Archive JPEG, using
+  shrink-on-load + `sequentialRead` (RAM-safe): `assets/urbano-monte-1587.webp`,
+  **12800×13008, 22.8 MB** (quality 80, effort 1). A 15000px/effort-4 attempt timed
+  out under the 700 MB RAM cap; 12800px finished in ~19 s.
+- Viewer: added `OFFLINE_SRC = { type:'image', url:'./assets/urbano-monte-1587.webp' }`.
+  On load it picks the local image when `!navigator.onLine`, otherwise the streaming
+  IIIF source; the `open-failed` handler now retries with the local image before
+  showing the error box. Pins/hotspots still align (identical aspect ratio).
+- Service worker: added the WebP to `CORE` (precached on install) and bumped
+  `CACHE` to `mapamundi-cache-v1.0.3`.
+- Local verification (SW on http://127.0.0.1): precached the WebP, went offline,
+  reloaded → `navigator.onLine=false`, loader hidden, `world.getItemCount()===1`
+  (local image), 4 pins, 4 hotspots, error box hidden, 0 page errors.
+- Live: https://ucfzem.github.io/mapamundi/assets/urbano-monte-1587.webp returns
+  HTTP 200 `image/webp` `content-length: 23959116`.
+
+Note: on Android the cached copy lives only inside the browser's private storage
+(`Android/data/com.android.chrome/...`), not a user-visible folder; to keep the file
+directly, download it from the URL above.
+
+Commit: `f80c078`.
