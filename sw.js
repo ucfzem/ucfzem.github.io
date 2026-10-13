@@ -38,7 +38,8 @@ const SHELLS = [
   'email-collector',
   'quran-reader',
   'quran-amp',
-  'api-job-finder'
+  'api-job-finder',
+  'works'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
