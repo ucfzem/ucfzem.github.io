@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.2';
+const CACHE = 'works-v1.0.3';
 const CORE = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const CORE = [
   './assets/avatar.png',
   './assets/cv-icon.png',
   './assets/quran.png',
+  './assets/remedy.svg',
   './assets/tanger.png',
   './assets/tarikh-ibn-khaldun.svg',
   './assets/web-dev-logo.png',
