@@ -325,3 +325,19 @@ Commit: `f21cd2f` (mapamundi/default to Monte 1587 + language switcher).
   0 page errors; offline app-shell test PASSED (SW v1.0.1).
 
 Commits: `37a3318` (pins) · `20d5e71` (info panel + loader) · `897160b` (bio/credit/hotspots).
+
+---
+
+## Addendum 7 — Mapamundi: David Rumsey provenance section
+
+- Added a provenance block to the info panel: heading + text explaining the 400-year
+  preservation of the 60 sheets and the 2017 David Rumsey / Stanford digital stitching
+  into the ~10-foot North-Polar planisphere.
+- New `INFO[lang].provHeading` / `INFO[lang].provText` keys (EN/FR/ES/AR) rendered into
+  `<h3 id="prov-heading">` + `<p id="prov-text">` (new `.info-body h3` style), between the
+  revisions list and the "Map notes" list; re-rendered on language change.
+- Live-verified: EN "The David Rumsey Digital Restoration", FR "La restauration numérique
+  de David Rumsey", AR «مشروع ديفيد رومزي للترميم الرقمي» (RTL); credit + 4 hotspots intact;
+  0 page errors.
+
+Commit: `24c2479`.
