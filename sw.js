@@ -18,6 +18,7 @@ const APPS = [
   'tarikh-ibn-khaldun',
   'mujam-al-buldan',
   'al-adhkiya',
+  'al-mudhish',
   'livre-al-istibsar',
   'quran-reader',
   'quran-amp',
