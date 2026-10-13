@@ -89,6 +89,10 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
 - Clean overlay toolbar: zoom in/out, Home reset, navigator toggle, fullscreen.
 - **4-language UI** (EN 🇬🇧 / FR 🇫🇷 / ES 🇪🇸 / AR 🇲🇦) with Arabic **RTL** and
   `localStorage` persistence.
+- **Interactive annotations** — gold map pins (North Pole, title, ocean, Terra
+  Australis) that open a translated note card in the current language.
+- **ℹ️ About panel** — a translated biography of Urbano Monte with the map's
+  revisions (`ABOUT` block).
 - Keyboard: arrow keys pan, `+`/`-` zoom, `Home` resets.
 - Offline-ready: installable PWA + service worker that caches the app shell and,
   as you browse, the tiles you actually view.
@@ -103,6 +107,11 @@ sources: ['assets/vol1.dzi', 'assets/vol2.dzi'],
   on the `open` event.
 - **Extra controls:** the toolbar buttons call `viewer.viewport.zoomBy()`,
   `.goHome()`, etc. — add your own the same way.
+- **Map pins / annotations:** edit the `PINS` array — each entry is
+  `{ id, x, y, t:{en,fr,es,ar}, d:{en,fr,es,ar} }` where `x`/`y` are normalized
+  `0..1` image coordinates (top-left = `0,0`). Add or remove entries freely.
+- **About panel text:** edit the `ABOUT` object (`title/author/summary/mods[]`)
+  per language.
 
 ## Credits
 
