@@ -484,3 +484,33 @@ Commit: `604ef41`.
     `works-v1.0.2` = 16, `ucfzem-cdn-v1` = 5; all library card icons load offline (w>0); all
     four apps open cold offline with full content.
 - Commit: `3f0d0be`.
+
+## Addendum 13 — Offline book TEXT (tarikh 13 MB, mujam 10 MB) via works-triggered prefetch
+
+- Reported: `tarikh-ibn-khaldun` "looks badly offline". Root cause: the shell/UI loaded
+  (Tailwind from the CDN cache), but the **book text is fetched at runtime** from
+  `data/manifest.json` + 29 chunk files (~13.3 MB); `mujam-al-buldan` similarly fetches
+  `data/index.json` + 28 per-letter files (~9.7 MB); `livre-al-istibsar` is a Next.js export
+  that pulls `/_next/...` chunks. The root-SW shell cache held only `index.html`, so offline
+  the app showed "تعذّر تحميل بيانات الكتاب" (old: 293 chars vs 147 337 online).
+- Fix:
+  - **`sw.js` (root)** now handles a `postMessage({type:'prefetch-book-data'})`: it discovers
+    and caches, for every `SHELLS` app, `data/manifest.json` → all `chunks[].file`,
+    `data/index.json` → all distinct `file` entries, and every same-origin `src`/`href`
+    referenced by `index.html` (covers Next.js chunks/fonts). Guarded by a
+    `'/__bookdata-v1'` marker so it runs once. Content goes into `ucfzem-shells-v1`; the
+    existing app-asset fetch branch then serves it offline.
+  - **`works/index.html`** pings the root SW with that message once the root registration is
+    `activated`. Only works-page visitors download the book data (homepage visitors just get
+    the shells).
+- Result: any device that opens **/works** online once can then read tarikh (and mujam) fully
+  offline — even if the app was never opened online. ~23 MB extra, one time.
+- Verified:
+  - Local stub test (tarikh-like manifest+chunks): message → prefetch → offline full read.
+  - **Live**: prefetch filled `ucfzem-shells-v1` to 82 entries (tarikh chunk-028 + mujam files
+    present); offline `/tarikh-ibn-khaldun/` rendered 142 315 chars with **no** data error.
+- Commit: `8a0447e`.
+
+Note: heavy shell preload (`works-v1.0.2` icons, root `ucfzem-shells-v1` + `ucfzem-cdn-v1`)
+plus the book data payload all key off `SHELLS` in `sw.js`; bump `DATA_MARKER` when book data
+changes.
