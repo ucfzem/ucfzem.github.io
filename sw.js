@@ -75,6 +75,7 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&family=Cairo+Play:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@500;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;600;700;800;900&family=DM+Serif+Display&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap'
 ];
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
@@ -105,7 +106,7 @@ async function cacheOpaque(cache, url) {
 // download to library visitors.
 const DATA_MARKER = '/__bookdata-v4';
 
-const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm)(?:[?#]|$)/i;
+const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
 // Resolve a referenced URL (relative or absolute, query preserved) to an
 // app-local path under /<s>/, or null when it is not a local app asset.
