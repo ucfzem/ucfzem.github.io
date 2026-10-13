@@ -1,0 +1,19 @@
+{
+  "name": "Mapamundi Viewer",
+  "short_name": "Mapamundi",
+  "description": "Deep-zoom viewer for high-resolution historical maps, powered by OpenSeadragon.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1e1e1e",
+  "theme_color": "#1e1e1e",
+  "lang": "en",
+  "categories": ["education", "books", "travel"],
+  "icons": [
+    { "src": "icon.svg", "type": "image/svg+xml", "sizes": "512x512", "purpose": "any" },
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
+}

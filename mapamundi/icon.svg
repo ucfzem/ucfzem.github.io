@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Mapamundi">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#262220"/>
+      <stop offset="1" stop-color="#121010"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.44" r="0.62">
+      <stop offset="0" stop-color="#3c342a"/>
+      <stop offset="1" stop-color="#1e1e1e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2d98c"/>
+      <stop offset="1" stop-color="#c8922f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
+  <rect x="10" y="10" width="492" height="492" rx="94" fill="none" stroke="url(#gold)" stroke-opacity="0.5" stroke-width="6"/>
+  <circle cx="256" cy="256" r="162" fill="url(#glow)"/>
+
+  <!-- globe -->
+  <g fill="none" stroke="url(#gold)" stroke-linecap="round">
+    <circle cx="256" cy="256" r="146" stroke-width="16"/>
+    <ellipse cx="256" cy="256" rx="72" ry="146" stroke-width="9" stroke-opacity="0.75"/>
+    <ellipse cx="256" cy="256" rx="128" ry="146" stroke-width="7" stroke-opacity="0.4"/>
+    <path d="M112 256 H400" stroke-width="9" stroke-opacity="0.75"/>
+    <path d="M136 176 H376" stroke-width="8" stroke-opacity="0.5"/>
+    <path d="M136 336 H376" stroke-width="8" stroke-opacity="0.5"/>
+    <path d="M124 208 H388" stroke-width="6" stroke-opacity="0.3"/>
+    <path d="M124 304 H388" stroke-width="6" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- navigation route + destination -->
+  <path d="M168 344 C 214 300, 250 268, 322 188"
+        fill="none" stroke="#f2d98c" stroke-width="12" stroke-linecap="round"
+        stroke-dasharray="2 30" stroke-opacity="0.95"/>
+  <circle cx="322" cy="188" r="20" fill="#f2d98c"/>
+  <circle cx="322" cy="188" r="9" fill="#a67e28"/>
+
+  <!-- compass star -->
+  <g transform="translate(168 344)">
+    <path d="M0 -30 L9 -6 L30 0 L9 6 L0 30 L-9 6 L-30 0 L-9 -6 Z" fill="url(#gold)"/>
+    <circle r="6" fill="#121010"/>
+  </g>
+</svg>
