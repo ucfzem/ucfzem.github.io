@@ -42,7 +42,8 @@ const SHELLS = [
   'api-job-finder',
   'works',
   'karamat-al-awliya',
-  'sifat-al-safwa'
+  'sifat-al-safwa',
+  'ajayib-al-makhluqat'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -69,7 +70,8 @@ const APPS = [
   'childsgame',
   'remedy',
   'karamat-al-awliya',
-  'sifat-al-safwa'
+  'sifat-al-safwa',
+  'ajayib-al-makhluqat'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -88,7 +90,8 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap',
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&display=swap',
-  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap'
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap',
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&family=Scheherazade+New:wght@400;700&display=swap'
 ];
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
 
@@ -116,7 +119,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v7';
+const DATA_MARKER = '/__bookdata-v8';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 

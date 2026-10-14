@@ -906,3 +906,37 @@ changes.
   failed requests while offline = **NONE**; `document.fonts.check('1rem "Amiri"')`
   = true, `Cairo` = true; 60 cards.
 - Live: https://ucfzem.github.io/sifat-al-safwa/
+
+
+## Addendum 29 — NEW app: `ajayib-al-makhluqat` («عجائب المخلوقات وغرائب الموجودات» — القزويني)
+
+- Built a new offline PWA reader for al-Qazwini's cosmography and wired it into the
+  `works` **Maktaba · المكتبة** (unlocked) folder.
+- **Source:** Shamela book **30006** — زكريا بن محمد بن محمود القزويني (ت 682 هـ).
+  Crawled all **398** pages via `https://shamela.ws/ajax/pageContent/30006/{id}`
+  (JSON: `{nass, pageNum, title, prevId, nextId}`), following `nextId` 1→…→398.
+- **Parser** (`build_qazwini_data.mjs`): cleaned the `nass` HTML — dropped copy
+  buttons (`<a class="btn_tag">`), anchor spans, `<hr>`+`<p class="hamesh">`
+  editorial footnotes, and standalone `(١)` footnote markers; kept `﴿﴾`, `[refs]`
+  and `c5` lead-ins. Grouped pages into **128 sections** using the source `title`
+  field (a bare «فصل» merges forward into the current section).
+- **data.json:** 128 sections · 2687 paragraphs · 398 pages · ~1.14 MB (0.61M chars).
+- **App** (`index.html`): Nuzhat/sifat palette+fonts, **dark by default** (per request);
+  header «عجائب المخلوقات وغرائب الموجودات» + «لـ زكريا القزويني — توفي سنة 682 هـ».
+- **Features:** theme toggle; full-text search with results counter
+  («تم العثور على N نتيجة») + diacritics-aware `<mark>` highlights; font-size
+  A− / A / A+ (localStorage); font-family selector (Amiri / Scheherazade New / Cairo);
+  TOC drawer (128 entries); prev/next section; back-to-top; copy/share per section;
+  last-reading-position restore.
+- **PWA:** `sw.js` `ajayib-v1` (shell precache + Google Fonts **CSS into RUNTIME**,
+  same fix as sifat-v5), `manifest.json` (theme `#4e9a73` / bg `#16130e`),
+  `icon.svg` (celestial sphere) + `icon-192/512.png`.
+- **Wired:** `works/index.html` `maktaba` (now **13** entries, `🪐 عجائب المخلوقات`,
+  tag *Cosmography*); root `sw.js` `SHELLS`+`APPS` + ajayib font CSS in `CDN`;
+  `DATA_MARKER` v7 → **v8** so clients that visited works before re-prefetch and
+  pick up the new app.
+- **Verified (local):** 128 sections render; search «السماء» → 72 results + 75 marks;
+  TOC 128 links; A+ 1.15→1.25rem; theme toggles; offline reload → 128 sections,
+  Amiri loaded; E2E from `/works/` → card online **and** offline, root SW cached the
+  app shell+data, app opens offline.
+- Live: https://ucfzem.github.io/ajayib-al-makhluqat/ · card in https://ucfzem.github.io/works/

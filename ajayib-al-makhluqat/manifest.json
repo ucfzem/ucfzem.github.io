@@ -1,0 +1,46 @@
+{
+  "name": "عجائب المخلوقات وغرائب الموجودات — القزويني",
+  "short_name": "عجائب المخلوقات",
+  "description": "قراءة كتاب عجائب المخلوقات وغرائب الموجودات لزكريا القزويني (ت 682 هـ) مع بحث فوري وعدّاد للنتائج وتظليل، وفهرس الأبواب، وتكبير الخط، وعمل كامل بدون إنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16130e",
+  "theme_color": "#4e9a73",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
