@@ -1015,3 +1015,45 @@ changes.
   re-install, re-precache CORE, and re-fetch the corrected `index.html`.
 - **Verified:** all local assets 200; online + offline works card icons/avatar
   resolve from cache (no raw.githubusercontent references remain).
+
+
+## Addendum 33 — new app: «المسالك والممالك» لابن خرداذبه (offline PWA)
+
+- **طلب المستخدم:** تحويل ملف HTML قائم بذاته (تصميم مخطوط: رَقّ/ذهبي + نمط داكن،
+  خطّا Aref Ruqaa و Amiri) إلى تطبيق كامل يعمل **أونلاين وأوفلاين**، وإدراجه بعناية
+  في شجرة الروابط `/works` ضمن مجلد **المكتبة (maktaba)** مع اختيار أيقونة جيدة،
+  ثم push/deploy/backup/روابط — مع التحذير المعتاد (سبق أن فُقد 26 موقعًا).
+- **المصدر:** المكتبة الشاملة كتاب **11800**. زُحف كامل الكتاب عبر
+  `https://shamela.ws/ajax/pageContent/11800/{id}` بمتابعة `nextId`
+  (`/tmp/opencode/ibn_khordadbeh_pages.json` = **264 صفحة**). نُظّف بنفس محلّل
+  القزويني (إسقاط `btn_tag` وأزرار النسخ، `anchor` spans، مؤشرات `c2` الرقمية،
+  وفكّ الكيانات) مع دمج الصفحات المتتابعة المتطابقة العنوان في أقسام.
+  **النتيجة: 116 بابًا/فصلًا · 554 فقرة · 264 صفحة · `data.json` = 412 KB.**
+- **التطبيق** `/al-masalik-wa-al-mamalik/`: `index.html` (تصميم المستخدم نفسه:
+  `--primary #8b0000` أحمر و`--accent #d4af37` ذهبي على رَقّ `#f7f1e3`، وعناوين
+  Aref Ruqaa ونصّ Amiri؛ الافتراضي **فاتح/رَقّ** مع تبديل داكن)، بحث فوري + عدّاد
+  («N نتيجة») + تظليل `<mark>` مع تطبيع الهمزات/التشكيل، فهرس جانبي دائم على
+  الحاسوب وصندوق `aside` منسدل على الجوال (بإصلاح الـ TOC: `right:0` +
+  `translateX(105%)` + `visibility:hidden`)، حجم الخط (أ−/أ/أ+)، نوع الخط
+  (أميري/شهرزاد/القاهرة)، تنقّل سفلي (أعلى/سابق/تالٍ)، نسخ/مشاركة لكل باب،
+  حفظ الموضع والمظهر والخط في localStorage (`masalik-*`)، `navigator.storage.persist()`
+  وتسجيل SW فوري.
+- **ملفات PWA:** `sw.js` (بادئة `masalik-`, النسخة `masalik-v1`؛ تخزين مؤقت للغلاف
+  + `data.json` + خطوط gstatic؛ `index.html` ← الحلّ حين التنقّل)، `manifest.json`
+  (theme #8b0000, bg #f7f1e3)، وأيقونة **بوصلة ذهبية على أحمر مخطوطي**:
+  `icon.svg` + `icon-192.png` + `icon-512.png` (رُسِمت الـ PNG عبر **sharp**
+  `dist/index.mjs` بدل Playwright لتجنّب تعليق الملفات).
+- **الإدراج بعناية (إضافي فقط، مع تحقّقات):** سكربت `patch_wire_masalik.mjs`
+  يتحقق من التطابق المفرد ويُعيد فحص كل `<script>` الداخلي و`ld+json`:
+  - `works/index.html`: بطاقة جديدة «🗺️ المسالك والممالك» / tag Geography في
+    `maktaba` (13 → **14** مدخلًا).
+  - `sw.js` (الجذر): إضافة `al-masalik-wa-al-mamalik` إلى `SHELLS` و`APPS`،
+    ورفع `DATA_MARKER` **v8 → v9** (يعيد التخزين المسبق للزوّار السابقين).
+    ورد CSS الخطوط المطلوب موجود أصلًا في `CDN` (لا تغيير).
+  - `works/sw.js`: إضافة أيقونة التطبيق إلى `CORE`، ورفع `works-v1.0.7 → v1.0.8`.
+  - نسخ احتياطية قبل التعديل: `BAK2.works.index.html`, `BAK2.sw.js`, `BAK2.works.sw.js`.
+- **التحقق (محلي حكومي ثم مباشر):** 116 بطاقة؛ بحث «الطريق» = 135 نتيجة/175 تظليلًا،
+  و«بغداد» = 22 نتيجة؛ الفهرس 116 عنصرًا؛ الجوال: الصندوق يُفتح (right=vw) ويُغلق
+  (visibility:hidden)؛ تبديل المظهر وحجم الخط؛ **أوفلاين: 116 بطاقة + Amiri محمّل،
+  0 أخطاء** — على الحاسوب والجوال. Live: masalik-v1، data 412006b، works-v1.0.8،
+  DATA_MARKER v9، بطاقة works ظاهرة.
