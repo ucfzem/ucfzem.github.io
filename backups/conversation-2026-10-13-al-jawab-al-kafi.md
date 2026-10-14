@@ -720,6 +720,34 @@ changes.
 - Commit quran-majeed-v3 `1910235` (cache version `v4`).
 - Live: https://ucfzem.github.io/quran-majeed-v3/
 
+## Addendum 21 — Quran Majeed v3: tafsir offline for *all* surahs (real root cause)
+
+- Report: **many** surahs had no tafsir offline (Al-Hajj was just one example).
+- **Real root cause:** in `activate`, `prefetchQuran()` was called **without
+  `await`** (`event.waitUntil((async()=>{ …; prefetchQuran(); })())`). The
+  `waitUntil` promise resolved as soon as activation ended, so the browser was
+  free to **terminate the SW immediately**, aborting the background prefetch
+  partway — only the first few surahs ever got cached. The fetches themselves are
+  fine: a standalone run cached **all 114 surahs / 18.9 MB in 2.7 s** with **0
+  failures**.
+- **Fix (SW `v5`):**
+  - `await prefetchQuran()` inside `activate`'s `waitUntil` (SW stays alive until
+    the prefetch finishes);
+  - `putWithRetry()` (2 tries) and a **second tafsir pass** to fill anything
+    missed/evicted;
+  - a `message` handler: `{type:'cache-surah', surah:n}` caches that surah's text
+    + tafsir immediately.
+- **Fix (app):** `loadSurah()` now posts `{type:'cache-surah', surah:num}` to the
+  SW, so the surah you actually open is cached for offline **right away**
+  (independent of the background prefetch).
+- **Verified live:** data cache `qmv3-data-v5` = **114 `by_chapter` entries**;
+  Surah 22 (Al-Hajj) present **and valid** (exactly **78** tafsirs);
+  `navigator.serviceWorker.controller = true`.
+- Commit quran-majeed-v3 `e04b744` (cache version `v5`).
+- Note: existing devices must let `v5` take over (one hard refresh); the ~19 MB
+  tafsir set then downloads in the background in a few seconds.
+- Live: https://ucfzem.github.io/quran-majeed-v3/
+
 
 
 
