@@ -994,3 +994,24 @@ changes.
 - **Verified:** works card icon loads online (`complete:true, naturalWidth:512`);
   persistent profile session2 offline still renders the book; app + works SW
   versions bumped as above.
+
+
+## Addendum 32 — offline works icons (Avatar, Quran Majeed v3, Tanger d'Antan)
+
+- **User report:** offline, the works page lost the Avatar image and the
+  «Quran Majeed v3» and «Tanger d'Antan» card icons.
+- **Root cause:** those <img>s pointed at **cross-origin**
+  `https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/*.png`,
+  while `works/sw.js` CORE precached the **same-origin** `./assets/*.png` — a
+  *different* URL. So the CORE entries were never actually used by the cards, and
+  the raw URLs only survived offline if they happened to be runtime-cached while
+  the works SW was controlling (timing-dependent) → intermittent broken icons.
+- **Fix:** repointed all 5 raw icon refs (avatar.png, quran.png, tanger.png,
+  cv-icon.png, web-dev-logo.png) to the same-origin
+  `https://ucfzem.github.io/works/assets/...` paths already in CORE → guaranteed
+  precached → available offline. Patched via a guarded Node script (asserted
+  exactly 5 replacements, re-validated every inline script + ld+json).
+- **works SW** bumped `works-v1.0.6` → **`works-v1.0.7`** so returning clients
+  re-install, re-precache CORE, and re-fetch the corrected `index.html`.
+- **Verified:** all local assets 200; online + offline works card icons/avatar
+  resolve from cache (no raw.githubusercontent references remain).
