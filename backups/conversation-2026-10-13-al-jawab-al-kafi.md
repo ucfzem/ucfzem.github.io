@@ -1118,3 +1118,35 @@ changes.
   غلاف التطبيق لزوّار `/works`). `works/sw.js` لم يتغيّر.
 - **نسخ احتياطية:** `BAK3.masalik.index.html`, `BAK3.masalik.sw.js`, `BAK3.root.sw.js`
   (لقطة ما قبل addendum 34؛ التغييرات التالية محفوظة في git).
+
+
+## Addendum 36 — «Remedy» (/remedy/): تحويله إلى PWA كامل يعمل أونلاين وأوفلاين
+
+- **طلب المستخدم:** أن يعمل تطبيق `/remedy/` أونلاين **وأوفلاين** (مثل بقية التطبيقات).
+- **التشخيص:** التطبيق كان **يعمل أوفلاين فعلًا**: كل بياناته مضمّنة داخل
+  `index.html` (176KB) بلا أي `fetch`/`XHR`، وله Service Worker خاص
+  (`remedy-v1.0.0`) يسجّل نفسه ويخزّن الغلاف + خطوط Alexandria، ويستدعي
+  `navigator.storage.persist()`. تأكيد مباشر: 90 بطاقة أونلاين و**90 أوفلاين،
+  0 أخطاء**. لكنه كان **ناقصًا لصفات PWA القابلة للتثبيت**: لا `manifest.json`،
+  ولا `theme-color`، ولا أيقونات تطبيق، ولا وسوم Apple — لذا لا يظهر كتطبيق على
+  الشاشة الرئيسية. (SW الجذر كان يحاول مسبقًا تخزين `/remedy/manifest.json`
+  وأيقوناتها غير الموجودة.)
+- **الإصلاح (إضافي، مع إبقاء التطبيق كما هو):**
+  - `remedy/manifest.json` (اسم «🌿 Remedy — Remèdes de Grand-Mère»، `short_name`
+    Remedy، `lang:fr`، `display:standalone`، `start_url/scope:./`،
+    `theme_color:#708238` (لسان التطبيق)، `background_color:#fcfbf7`، و4 أيقونات).
+  - أيقونة: نُسخت أيقونة بطاقة works نفسها `works/assets/remedy.svg` →
+    `remedy/icon.svg` (هاون ومدقّة خضراء)، ووُلّدت `icon-192.png` و`icon-512.png`
+    عبر **sharp**.
+  - `remedy/index.html` (رأس الصفحة): إضافة `<link rel="manifest">`،
+    `theme-color`، أيقونة SVG + `apple-touch-icon`، ووسوم
+    `apple-mobile-web-app-*`. وتغيير تسجيل SW من `window load` إلى **فوري**.
+  - `remedy/sw.js`: رفع `CACHE` `remedy-v1.0.0 → v1.1.0` وإضافة
+    `manifest.json` + الأيقونات إلى `PRECACHE`.
+  - `sw.js` (الجذر): رفع `DATA_MARKER` `/__bookdata-v11 → v12` لإعادة تخزين
+    غلاف remedy المُحدَّث لزوّار `/works` (لا تغيير آخر — الجذر يخزّن مسبقًا
+    `/remedy/manifest.json` وأيقوناتها ضمن `SHELLS`).
+- **التحقق المحلي** (`test_remedy_local.mjs`، خادم 8500): manifest يُحمّل (4 أيقونات،
+  standalone)، 90 بطاقة أونلاين، `icon-192` = 200، `theme-color=#708238`،
+  و**أوفلاين: 90 بطاقة + الأيقونة مخزّنة (200)، 0 أخطاء**.
+- **نسخ احتياطية:** `BAK4.remedy.index.html`, `BAK4.remedy.sw.js`, `BAK4.root.sw.js`.

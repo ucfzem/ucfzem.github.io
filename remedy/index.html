@@ -6,6 +6,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#708238">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Remedy">
     <style>
         :root {
             --bg: #fcfbf7;
@@ -361,7 +368,7 @@ document.addEventListener('keydown',function(e){
 document.getElementById('searchInput').addEventListener('input',function(){st=this.value.toLowerCase();document.getElementById('searchClear').classList.toggle('visible',this.value!=='');rg();});
 })();
 </script>
-<script data-app-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+<script data-app-sw="1">if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(function(){})}</script>
 <script data-root-sw="1">if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){})}if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>

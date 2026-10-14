@@ -1,7 +1,11 @@
-const CACHE = 'remedy-v1.0.0';
+const CACHE = 'remedy-v1.1.0';
 const PRECACHE = [
   './',
-  './index.html'
+  './index.html',
+  './manifest.json',
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png'
 ];
 const CDN_CSS = 'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap';
 const CDN_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
