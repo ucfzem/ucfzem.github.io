@@ -82,7 +82,7 @@
     font-size:clamp(1.4rem,3.6vw,2rem); line-height:1.2; color:var(--header-text);
     text-shadow:0 2px 8px rgba(0,0,0,.35);
   }
-  .titles p{margin:2px 0 0; font-size:.85rem; color:var(--header-text); opacity:.85}
+  .titles p.book-author{margin:3px 0 0; font-size:.95rem; font-weight:600; color:var(--header-text); opacity:.92}
   .tools{display:flex; align-items:center; gap:8px}
   .icon-btn{
     background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(212,175,55,.45);
@@ -214,7 +214,7 @@
   footer .orn{font-family:'Aref Ruqaa',serif; color:var(--accent); font-size:1.1rem}
 
   @media(max-width:560px){
-    .titles p{display:none}
+    .book-author{font-size:.88rem}
     .card{padding:18px}
   }
 </style>
@@ -235,7 +235,7 @@
       </span>
       <div class="titles">
         <h1>صفة الصفوة</h1>
-        <p>للإمام أبي الفرج عبد الرحمن بن الجوزي (ت 597 هـ)</p>
+        <p class="book-author">لابن الجوزي — توفي سنة 597 هـ</p>
       </div>
     </div>
     <div class="tools">

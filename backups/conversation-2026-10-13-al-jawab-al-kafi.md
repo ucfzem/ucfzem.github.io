@@ -874,3 +874,19 @@ changes.
   `.name`/`.body` font `Amiri`, content `18.4px`/LH `34.96px` (~1.15·1.9),
   60 cards, **no console errors**.
 - Live: https://ucfzem.github.io/sifat-al-safwa/
+
+## Addendum 27 — `sifat-al-safwa`: show author + Hijri death year under the title
+
+- The header already contained the author line, but it was **hidden on phones**
+  by `@media(max-width:560px){ .titles p{display:none} }`, so the mobile view did
+  not match the reference (which shows "الشريف الإدريسي" beside the title).
+- Markup now: `<h1>صفة الصفوة</h1>` + `<p class="book-author">لابن الجوزي — توفي سنة 597 هـ</p>`.
+- CSS: `.titles p.book-author{margin:3px 0 0; font-size:.95rem; font-weight:600;
+  color:var(--header-text); opacity:.92}`; mobile keeps it visible
+  (`.book-author{font-size:.88rem}`). Used `var(--header-text)` (#f5eeda) for
+  readable contrast on the green header instead of the suggested `#52b788`
+  (too low-contrast on the green).
+- App SW → `sifat-v4` (so returning users get the updated header immediately).
+- **Verified (headless, 1280px & 375px):** `.book-author` `display:block`,
+  `visible:true`, text "لابن الجوزي — توفي سنة 597 هـ", color `rgb(245,238,218)`.
+- Live: https://ucfzem.github.io/sifat-al-safwa/
