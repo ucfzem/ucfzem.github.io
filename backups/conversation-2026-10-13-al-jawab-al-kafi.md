@@ -813,3 +813,34 @@ changes.
 
 
 
+
+## Addendum 25 — `sifat-al-safwa`: recover missed numbered entries + real paragraphs
+
+- **Two parser gaps caused the count to stay low (1021):**
+  - **Standalone-number lines** — JK prints some headings as a bare number on its
+    own line, then the name on the next: `# 827` + `# | البيضاء بنت المفضل`.
+    The regex (which required `# | N name` on one line) skipped them. Now handled
+    via a pending-number state (a following unnumbered `# | name` line adopts it).
+    Recovered **820 = عثامة**, **827 = البيضاء بنت المفضل** (also makes JK supply
+    200, 609, 1026, 1030 with fuller text).
+  - **Combined numbers** — one entry covering two people: JK `# | 605 ، 606 غضنة وعالية`
+    and mARkdown `### $ 445، 446 - علي والحسن ابنا صالح بن حي`. Now split on the
+    `و` conjunction into two entries sharing the narrative. Recovered **606 = عالية**,
+    **445 = علي**.
+- **Result: 1025 biographies, range 1–1031** (was 1021). Only **6** numbers remain
+  absent from *all three* editions: **132, 134, 233, 475, 630, 729** (each is merged
+  into a neighbor or sits in an order-shifted region in every source, so it is not
+  separately extractable).
+- **Paragraphs fixed at data level (`mergeParas`).** The source wraps text at the
+  original line breaks, so entries were hundreds of one-line fragments. Now fragments
+  are merged into real paragraphs:
+  - break only on sentence-end punctuation `[. ؟ ? ! ۔ … » ”]`;
+  - a trailing **`:` continues** (quoted speech follows — `قالت:` / `فقال:`);
+  - **heading items (`⟪…⟫`) stay standalone** and are never glued to a neighbor;
+  - safety cap: flush at ~1500 chars.
+  - Example: entry #481 went from many fragments → **2** paragraphs; #745 → **4**.
+- **Cache bump:** app SW `VERSION` `sifat-v1` → **`sifat-v2`** so the new
+  `data.json` is fetched by returning visitors (app SW is cache-first on data).
+- File: `sifat-al-safwa/data.json` (3.04 MB, 1025 entries); parser
+  `/tmp/opencode/parse_full.mjs` (`mergeParas` + standalone/combined handling).
+- Live: https://ucfzem.github.io/sifat-al-safwa/
