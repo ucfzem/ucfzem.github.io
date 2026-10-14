@@ -795,6 +795,21 @@ changes.
   (68 on the Prophet card), no errors.
 - Live: https://ucfzem.github.io/sifat-al-safwa/
 
+## Addendum 24 — `sifat-al-safwa`: Nuzhat Al-Mushtaq dark theme
+
+- Restyled to the Nuzhat Al-Mushtaq look by mapping its palette onto the app's
+  **existing** design tokens (avoids replacing `<style>` and breaking class
+  names/JS). Dark is now the default (both `[data-theme]` palettes set to it).
+- Palette: bg `#121110`, card `#1c1a17`, border `#4a3e2c`, text `#d1c7b7`,
+  muted `#8c8275`, emerald header `#2d5d46` (→`#26503c` gradient), gold
+  `#c29b53`, sub-badges `#26221c`/`#c9b082`/`#4a3e2a`.
+- Body text: Amiri, `1.35rem`, `line-height:2.2`. Header h1 `#f0e6d2`,
+  sub-title `#8fb39b`. Card title gold. `theme_color`→`#2d5d46`
+  (meta + manifest), manifest `background_color`→`#121110`.
+- Verified (computed styles): body `#121110`, card `#1c1a17`/border `#4a3e2c`,
+  title `#c29b53`, chip `#26221c`/`#c9b082`, body Amiri 21.6px/47.5px, no errors.
+- Live: https://ucfzem.github.io/sifat-al-safwa/
+
 
 
 

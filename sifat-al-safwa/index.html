@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>صفة الصفوة — ابن الجوزي</title>
 <meta name="description" content="قراءة كتاب صفة الصفوة للإمام أبي الفرج عبد الرحمن بن الجوزي، مع بحث فوري وتصنيف الطبقات وعمل كامل بدون إنترنت.">
-<meta name="theme-color" content="#1b4332">
+<meta name="theme-color" content="#2d5d46">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="صفة الصفوة">
@@ -22,11 +22,17 @@
     --border:#E0DACE; --shadow:0 10px 30px rgba(27,67,50,.09);
     --mark-bg:#f7e6a8; --mark-text:#4a3600; --chip-bg:#ffffff; --chip-on:#1B4332;
   }
+  html[data-theme="light"]{
+    --bg:#121110; --card:#1c1a17; --text:#d1c7b7; --text-soft:#8c8275;
+    --primary:#2d5d46; --primary-2:#26503c; --accent:#c29b53; --accent-2:#b08d47;
+    --border:#4a3e2c; --shadow:0 8px 24px rgba(0,0,0,.5);
+    --mark-bg:#5a4a12; --mark-text:#f0e0b0; --chip-bg:#24211d; --chip-on:#2d5d46;
+  }
   html[data-theme="dark"]{
-    --bg:#12181B; --card:#1E262B; --text:#E1E6EB; --text-soft:#9fb0ba;
-    --primary:#2A5A44; --primary-2:#357a5c; --accent:#D4AF37; --accent-2:#c39b2b;
-    --border:#2C363F; --shadow:0 10px 30px rgba(0,0,0,.4);
-    --mark-bg:#5a4a12; --mark-text:#ffe9a8; --chip-bg:#1E262B; --chip-on:#D4AF37;
+    --bg:#121110; --card:#1c1a17; --text:#d1c7b7; --text-soft:#8c8275;
+    --primary:#2d5d46; --primary-2:#26503c; --accent:#c29b53; --accent-2:#b08d47;
+    --border:#4a3e2c; --shadow:0 8px 24px rgba(0,0,0,.55);
+    --mark-bg:#5a4a12; --mark-text:#f0e0b0; --chip-bg:#24211d; --chip-on:#2d5d46;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -60,10 +66,10 @@
   .logo svg{width:28px; height:28px}
   .titles h1{
     margin:0; font-family:'Aref Ruqaa',serif; font-weight:700;
-    font-size:clamp(1.4rem,3.6vw,2rem); line-height:1.2; color:#f6e7c2;
+    font-size:clamp(1.4rem,3.6vw,2rem); line-height:1.2; color:#f0e6d2;
     text-shadow:0 2px 8px rgba(0,0,0,.35);
   }
-  .titles p{margin:2px 0 0; font-size:.8rem; color:#e9e2d3; opacity:.92}
+  .titles p{margin:2px 0 0; font-size:.8rem; color:#8fb39b}
   .tools{display:flex; align-items:center; gap:8px}
   .icon-btn{
     background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(212,175,55,.45);
@@ -109,7 +115,7 @@
   }
   .chip:hover{border-color:var(--accent)}
   .chip.on{background:var(--primary); border-color:var(--primary); color:#fff}
-  html[data-theme="dark"] .chip.on{color:#12181B}
+  html[data-theme="dark"] .chip.on{color:#f0e6d2}
 
   /* ---------- Meta row ---------- */
   .meta{
@@ -142,7 +148,7 @@
   .card-head{display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:6px}
   .name{
     font-family:'Amiri',serif; font-weight:700; margin:0; flex:1 1 260px;
-    font-size:clamp(1.35rem,3.2vw,1.7rem); line-height:1.35; color:var(--primary);
+    font-size:clamp(1.35rem,3.2vw,1.7rem); line-height:1.35; color:var(--accent);
   }
   html[data-theme="dark"] .name{color:var(--accent)}
   .badges{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
@@ -155,7 +161,7 @@
   .badge.num{background:color-mix(in srgb,var(--accent) 18%,transparent); color:var(--accent-2); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
   html[data-theme="dark"] .badge.num{color:var(--accent)}
   .body{
-    font-family:'Amiri',serif; font-size:1.28rem; line-height:2.15; margin:12px 0 16px;
+    font-family:'Amiri',serif; font-size:1.35rem; line-height:2.2; margin:12px 0 16px;
     text-align:justify; text-justify:inter-word; color:var(--text);
     white-space:pre-line;
   }
@@ -167,13 +173,13 @@
   html[data-theme="dark"] .sub-mark{color:var(--accent)}
   .subs{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 2px; padding:0}
   .sub-chip{
-    font-family:'Cairo',sans-serif; font-size:.76rem; font-weight:600; cursor:pointer;
-    background:color-mix(in srgb,var(--accent) 16%,transparent);
-    color:var(--accent-2); border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
-    padding:3px 10px; border-radius:99px; transition:.2s;
+    font-family:'Cairo',sans-serif; font-size:.8rem; font-weight:600; cursor:pointer;
+    background:#26221c; color:#c9b082;
+    border:1px solid #4a3e2a;
+    padding:3px 10px; border-radius:6px; transition:.2s;
   }
-  .sub-chip:hover{background:var(--accent); color:#fff}
-  html[data-theme="dark"] .sub-chip{color:var(--accent)}
+  .sub-chip:hover{background:var(--primary); color:#fff; border-color:var(--accent)}
+  html[data-theme="dark"] .sub-chip{color:#c9b082}
   .actions{display:flex; gap:10px; flex-wrap:wrap; border-top:1px dashed var(--border); padding-top:14px}
   .btn{
     display:inline-flex; align-items:center; gap:7px; font-family:'Cairo',sans-serif;
@@ -261,7 +267,7 @@
   var themeBtn = $("#themeBtn");
   function applyTheme(t){
     root.setAttribute("data-theme", t);
-    document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#12181B" : "#1b4332");
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d5d46");
     themeBtn.textContent = t === "dark" ? "☀️" : "🌙";
     try { localStorage.setItem("sifat-theme", t); } catch(e){}
   }
