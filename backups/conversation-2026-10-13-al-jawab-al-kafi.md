@@ -940,3 +940,28 @@ changes.
   Amiri loaded; E2E from `/works/` → card online **and** offline, root SW cached the
   app shell+data, app opens offline.
 - Live: https://ucfzem.github.io/ajayib-al-makhluqat/ · card in https://ucfzem.github.io/works/
+
+
+## Addendum 30 — fix `ajayib-al-makhluqat`: TOC drawer overlapped the header & blocked taps (mobile)
+
+- **Symptom (user screenshot):** on mobile the top bar looked overlapped — the
+  TOC panel sat over the book title / search bar, and the ☰ فهرس button often
+  would not open.
+- **Root cause:** `.toc` was anchored with `inset-inline-end:0`, which in RTL
+  resolves to **left:0**, and hidden with `transform:translateX(102%)`. On a
+  320px viewport a `min(88vw,380px)` panel is ~281px wide, so `102%` (~287px) did
+  **not** clear the screen — a sliver stayed on-screen over the header and, because
+  it had `z-index:61`, it swallowed pointer events (headless: `#tocList`
+  intercepts pointer events → `#tocBtn` click timed out).
+- **Fix:** anchor the drawer physically `right:0`, hide with
+  `transform:translateX(105%)` **plus** `visibility:hidden` (revealed on `.show`),
+  with a staggered transition (`transition:transform .28s ease, visibility 0s linear .28s`)
+  so the slide animation still plays but the closed panel is fully off-canvas and
+  non-interactive. Removed the `html[dir="rtl"] .toc` transform override.
+- **Verified (headless, 320/360/390):** CLOSED → `visibility:hidden`, panel
+  `x=[334,616]` (fully past the viewport), `elementFromPoint(☰)` = the button;
+  OPEN → `shown:true`, `visibility:visible`, docked flush right (`right = vw`).
+  Full online/offline suite still green: 128 sections, search «السماء» → 72 results,
+  TOC 128 links, offline reload 128 sections, Amiri loaded, no console errors.
+- App SW → `ajayib-v2` (so returning users receive the fixed shell immediately).
+- Live: https://ucfzem.github.io/ajayib-al-makhluqat/
