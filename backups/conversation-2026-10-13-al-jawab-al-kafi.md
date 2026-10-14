@@ -661,4 +661,37 @@ changes.
 - Verified again after deploy: offline `/works/` clean.
 - Commit: `801ce44`. Live: https://ucfzem.github.io/works/
 
+## Addendum 19 — `/works/` cache-first hub + `quran-majeed-v3` offline
+
+- Requests: (a) `/works/` itself must run offline (it is the hub — "no need of
+  others running offline if works is not"); (b) `quran-majeed-v3` too.
+- **`works/sw.js` → `works-v1.0.5`**: navigation changed from network-first to
+  **cache-first with background revalidate** (serves the cached `index.html`
+  instantly, updates it in the background when online). Verified offline with
+  only **3 s** and **8 s** online visits: `/works/` and bare `/works` both render
+  (`len 2135`, 65 links, **no failed requests**).
+- **`quran-majeed-v3`** (separate repo `ucfzem/quran-majeed-v3`, linked from
+  works). Its old SW only cached `['/']` (the origin root — wrong) and explicitly
+  never cached the API responses the app is built from, so it had no real offline
+  mode. Rewrote its `sw.js` (version `v3`):
+  - precaches the shell `./` + `./index.html` + the Google-Fonts CSS;
+  - `staleWhileRevalidate` for Quran data hosts
+    (`api.alquran.cloud`, `api.quran.com`, `api.qurancdn.com`);
+  - cache-first for font hosts; **audio + analytics left to the network** (avoids
+    breaking Range/streaming);
+  - **background prefetch** of the surah list and, for all 114 surahs, both
+    `…/v1/surah/N/ar` and `…/v1/surah/N/quran-uthmani`.
+  - Added `quran-majeed-v3` to the **root `sw.js` `SHELLS`/`APPS`** for the hub.
+- Verified offline (clean profile): `#surahList` = **114** entries; opening a
+  surah renders Arabic text (`#mainContent` 463 chars); title + offline banner
+  correct; **no `alquran`/`quran.com` request failures**.
+- **"Is 30 s online needed?"** — No app needs 30 s to *open* offline: the shells
+  are precached at SW install (a few seconds). The heavy *content* (book text
+  ~23 MB, mapamundi tiles ~34 MB, 114×2 Quran endpoints, fonts) is fetched by a
+  **background** prefetch that keeps running and may take ~30–90 s; content that
+  finished is already usable offline.
+- Commits: main `54bc934`; quran-majeed-v3 `4a3f886`, `23cc112`.
+- Live: https://ucfzem.github.io/works/ · https://ucfzem.github.io/quran-majeed-v3/
+
+
 
