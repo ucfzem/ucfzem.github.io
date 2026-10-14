@@ -458,7 +458,8 @@
   window.addEventListener("appinstalled", function(){ installBtn.classList.add("hidden"); });
 
   // ---------- Service worker ----------
-  if("serviceWorker" in navigator){ window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); }); }
+  if(navigator.storage&&navigator.storage.persist){ navigator.storage.persist().catch(function(){}); }
+  if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(function(){}); }
 
   // ---------- Boot ----------
   function boot(){

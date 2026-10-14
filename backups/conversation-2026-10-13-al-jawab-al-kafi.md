@@ -965,3 +965,32 @@ changes.
   TOC 128 links, offline reload 128 sections, Amiri loaded, no console errors.
 - App SW → `ajayib-v2` (so returning users receive the fixed shell immediately).
 - Live: https://ucfzem.github.io/ajayib-al-makhluqat/
+
+
+## Addendum 31 — offline reliability on other devices + works card icon cache
+
+- **User report:** «عجائب المخلوقات» would not open offline on *other* devices even
+  after one online visit, and the card icon looked broken/loose on /works.
+- **Diagnosis (headless, persistent two-session profile = real device reopen):**
+  session 1 online cached correctly (shell 8 entries + runtime 25; `data.json`
+  cached), session 2 offline rendered **128 sections, 0 errors** — the SW itself is
+  fine. The smoking gun was `navigator.storage.persisted() === false`: the app never
+  requested persistent storage, so under storage pressure (very common on mobile,
+  esp. iOS/Android) the browser **evicts** the cache → later offline fails. Also
+  the SW only registered on `window load`, so a quick open/close could interrupt
+  install.
+- **Fixes (app):**
+  - call `navigator.storage.persist()` at startup (prevents eviction);
+  - register the service worker **immediately** (no `load` wait) so install
+    completes even if the tab is closed right away;
+  - SW bumped `ajayib-v2` → **`ajayib-v3`** (shell `ajayib-shell-ajayib-v3`) so
+    returning clients receive the updated `index.html`.
+- **Fixes (works):** the offline works card icon was broken because
+  `works/sw.js` CORE cached icons for the other apps but not this one. Added
+  `sifat-al-safwa/icon.svg`, `ajayib-al-makhluqat/icon.svg` and
+  `ajayib-al-makhluqat/icon-192.png` to CORE; bumped `works-v1.0.5` →
+  **`works-v1.0.6`** (install re-precaches so returning users get the icon and the
+  refreshed `index.html`).
+- **Verified:** works card icon loads online (`complete:true, naturalWidth:512`);
+  persistent profile session2 offline still renders the book; app + works SW
+  versions bumped as above.
