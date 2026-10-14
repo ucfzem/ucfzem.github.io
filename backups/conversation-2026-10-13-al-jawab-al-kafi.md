@@ -781,6 +781,20 @@ changes.
   كرامات الأولياء in `works/index.html` (12 entries, inline scripts validated).
 - Live: https://ucfzem.github.io/sifat-al-safwa/
 
+## Addendum 23 — `sifat-al-safwa`: full book expanded to 1021 biographies
+
+- The mARkdown edition was only 2 vols (791 bios). The **JK000067** edition is
+  the full 4-vol text: **1011** numbered biographies (`# | N name`, max
+  **#1031**). AY0033757 (823) used only to fill gaps.
+- `/tmp/opencode/parse_full.mjs` merges the three editions:
+  `mARkdown ∪ JK ∪ AY`, **JK wins** on overlap, **mARkdown supplies #1–#8**
+  (Prophet + early Companions, which JK numbers from #9), **AY fills stragglers**.
+- **Result: 1021 biographies, range 1–1031, 2.92 MB** (only 10 numbers absent in
+  all three editions: 132,134,233,445,475,606,630,729,820,827).
+- Re-verified: 1021 entries load, 60 initial cards, paging, search, sub-badges
+  (68 on the Prophet card), no errors.
+- Live: https://ucfzem.github.io/sifat-al-safwa/
+
 
 
 
