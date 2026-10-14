@@ -39,7 +39,8 @@ const SHELLS = [
   'quran-reader',
   'quran-amp',
   'api-job-finder',
-  'works'
+  'works',
+  'karamat-al-awliya'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -63,7 +64,8 @@ const APPS = [
   'webhealth',
   'email-collector',
   'childsgame',
-  'remedy'
+  'remedy',
+  'karamat-al-awliya'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -80,7 +82,8 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap'
+  'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap',
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&display=swap'
 ];
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
 
@@ -108,7 +111,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v4';
+const DATA_MARKER = '/__bookdata-v5';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
