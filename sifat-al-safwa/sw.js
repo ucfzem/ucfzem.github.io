@@ -6,7 +6,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'sifat-v4';
+const VERSION = 'sifat-v5';
 const SHELL = 'sifat-shell-' + VERSION;
 const RUNTIME = 'sifat-runtime-' + VERSION;
 
@@ -26,9 +26,13 @@ const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 // ---------- install ----------
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
-    const cache = await caches.open(SHELL);
-    await Promise.all(CORE.map((u) => cache.add(u).catch(() => {})));
-    await cache.add(FONT_CSS).catch(() => {});
+    const shell = await caches.open(SHELL);
+    await Promise.all(CORE.map((u) => shell.add(u).catch(() => {})));
+    await shell.add(FONT_CSS).catch(() => {});
+    // Important: warmFonts/fetch read the CSS from RUNTIME, so cache it there too
+    // (otherwise offline the @font-face CSS request fails and fonts silently fall back).
+    const runtime = await caches.open(RUNTIME);
+    await runtime.add(FONT_CSS).catch(() => {});
     self.skipWaiting();
   })());
 });

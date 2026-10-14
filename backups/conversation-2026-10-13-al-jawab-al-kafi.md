@@ -890,3 +890,19 @@ changes.
 - **Verified (headless, 1280px & 375px):** `.book-author` `display:block`,
   `visible:true`, text "لابن الجوزي — توفي سنة 597 هـ", color `rgb(245,238,218)`.
 - Live: https://ucfzem.github.io/sifat-al-safwa/
+
+## Addendum 28 — `sifat-al-safwa`: real offline bug — fonts fell back (wrong cache)
+
+- **Root cause:** `install` precached the Google Fonts **CSS** (`FONT_CSS`) into the
+  **SHELL** cache, but the fetch handler for `fonts.googleapis.com` reads the
+  **RUNTIME** cache (`staleWhileRevalidate(RUNTIME, req)`). So offline the CSS
+  `<link>` request was a cache miss → network → `net::ERR_FAILED`, and the app
+  silently dropped **Amiri/Cairo**, falling back to system fonts. (Cards/search
+  still worked, which is why it looked "fine".)
+- **Fix:** in `install`, after caching CORE into SHELL, also
+  `(await caches.open(RUNTIME)).add(FONT_CSS)` — same cache the fetch handler
+  reads. App SW → `sifat-v5`.
+- **Verified (local, fresh visit with no manual reload → offline reload):**
+  failed requests while offline = **NONE**; `document.fonts.check('1rem "Amiri"')`
+  = true, `Cairo` = true; 60 cards.
+- Live: https://ucfzem.github.io/sifat-al-safwa/
