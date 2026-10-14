@@ -844,3 +844,33 @@ changes.
 - File: `sifat-al-safwa/data.json` (3.04 MB, 1025 entries); parser
   `/tmp/opencode/parse_full.mjs` (`mergeParas` + standalone/combined handling).
 - Live: https://ucfzem.github.io/sifat-al-safwa/
+
+## Addendum 26 — `sifat-al-safwa`: match nuzhat-al-mushtaq theme (fonts + palette)
+
+- Fetched the **real** reference at `https://nuzhat-al-mushtaq.vercel.app/` and
+  reconciled. Its CSS uses two families only — **Cairo** (UI/body) and **Amiri**
+  (book text) — plus a specific token palette. The earlier "Nuzhat" pass had used
+  a different invented palette and an `Aref Ruqaa` title, so it did **not** match.
+- **Palette now copied verbatim** into the app's tokens:
+  - **light** (`html[data-theme="light"]`): ink `#2b2118`, paper `#faf5e9`,
+    panel `#f2e9d6`, green `#1f5c46`, gold `#a9792f`, line `#d8c9a8`,
+    card `#fffdf6`, modern-card `#f1f6f2`, accent-text `#7c5620`, muted `#7a6a50`.
+  - **dark** (default fallback): ink `#ece4d3`, paper `#16130e`, panel `#241f16`,
+    green `#4e9a73`, gold `#d3a34a`, line `#3a3225`, card `#1e1912`,
+    modern-card `#131b17`, accent-text `#d9b977`, muted `#9a8a6c`.
+  - header text `#f5eeda`. App tokens remapped onto these
+    (`--bg/--card/--text/--primary/--accent/--border` etc.).
+- **Fonts:** UI stays **Cairo**; **book text = Amiri** at
+  `calc(var(--content-font-size,1rem) * 1.15)` / `line-height:1.9` (was
+  `1.35rem/2.2`); the `h1` is now **Cairo** (was Aref Ruqaa); `body`
+  line-height `1.9`. Sub-chips tokenized (panel/line) so they theme correctly.
+- **Theme default** now follows the OS like the reference's `themeBoot`: dark
+  unless `prefers-color-scheme: light`. Added a matching **no-flash** inline
+  `themeBoot` script in `<head>` (same `sifat-theme` key the app uses).
+- **Meta/manifest:** `theme-color` → `#4e9a73` (dark) / `#1f5c46` (light) via JS;
+  manifest `theme_color #4e9a73`, `background_color #16130e`. App SW → `sifat-v3`.
+- **Verified (headless computed styles):** body `rgb(250,245,233)` light,
+  card `rgb(255,253,246)`, header solid green `#1f5c46`, h1 font `Cairo`,
+  `.name`/`.body` font `Amiri`, content `18.4px`/LH `34.96px` (~1.15·1.9),
+  60 cards, **no console errors**.
+- Live: https://ucfzem.github.io/sifat-al-safwa/
