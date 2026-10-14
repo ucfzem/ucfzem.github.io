@@ -1,0 +1,45 @@
+# Conversation backup — 2026-10-13 — كرامات الأولياء (addendum 19)
+
+## Summary
+Ajout d'une nouvelle PWA livre (offline-first) à l'arbre de liens
+(`ucfzem.github.io/works`, section **publique / déverrouillée**), dans le dossier
+**Maktaba · المكتبة**, plus son icône, et intégration au service worker racine.
+Rien d'existant n'a été modifié de façon destructive (aucun force-push, aucun `rm`).
+
+## Nouvelle webapp
+| App | Repo | Live URL | Deploy |
+|-----|------|----------|--------|
+| سياق كرامات الأولياء (Karamat al-Awliya) | ucfzem/karamat-al-awliya | https://ucfzem.github.io/karamat-al-awliya/ | main / |
+
+- Manuscrit : **الإمام أبو القاسم اللالكائي (ت 418 هـ)** — « سياق كرامات الأولياء » من *شرح أصول اعتقاد أهل السنة والجماعة*.
+- Structure demandée : `index.html`, `data.json`, `sw.js`, `manifest.json` (+ `icon.svg`, `icon-192.png`, `icon-512.png`, `tools/make_icons.py`).
+- Recherche (titre / texte / isnad / narrateur / **رقم الأثر**), filtres dynamiques (*الفئة* + *الموطن/العصر*), partage/copie avec référence, thème clair/sombre, favoris.
+- Cache SW `karamat-cache-v1.0.0`, scopé `karamat-` (pas de collision entre apps).
+
+## Authenticité des données
+- 5 récits authentiques fournis, intégrés verbatim (`verified: true`).
+- 5 entrées d'épisodes connus, marquées `verified: false` + badge « بانتظار التوثيق », sans `source_num` — **aucune chaîne de transmission inventée**.
+- Corpus complet (250+) **non inclus** ; `data.json` prêt pour l'import depuis la source.
+
+## Arbre de liens (`works/index.html`)
+- `maktaba` passe de **10 → 11** entrées ; كرامات الأولياء ajouté en fin de dossier Maktaba.
+- Icône : `https://ucfzem.github.io/karamat-al-awliya/icon.svg`.
+- Dossier Maktaba = section **publique/déverrouillée** (`#f-maktaba` dans `#publicProjects`), ouvert par défaut.
+
+## Offline (SW)
+- `works/sw.js` : `CACHE` `v1.0.3 → v1.0.4`, icône karamat ajoutée à `CORE`.
+- Root `sw.js` : `SHELLS += karamat-al-awliya`, `APPS += karamat-al-awliya`, `DATA_MARKER` `v4 → v5` (re-prefetch, inclut `data.json`), polices karamat ajoutées à `CDN`.
+
+## Vérification (Playwright, live)
+- /works : `maktabaInPublic: true`, dossier ouvert, 11 cartes, carte `كرامات الأولياء` trouvée, icône OK, absente de la section verrouillée.
+- App en ligne : SW actif (scopes works / root / app), 10 cartes, `سارية`→1, filtre `التابعون`→3, `2235`→1, thème light↔dark, favori→1, copie avec référence, 0 erreur.
+- App hors-ligne (reload) : 10 cartes, recherche OK, 12 puces, polices OK, favori persistant, icônes OK, 0 erreur.
+
+## Commits
+- karamat-al-awliya : `7fea8b1` (initial : app + data + sw + manifest + icons)
+- ucfzem.github.io : `07efae2` (works maktaba + icône ; root SW shell/app ; data marker v5)
+
+## All live links
+- Link tree : https://ucfzem.github.io/works/
+- كرامات الأولياء : https://ucfzem.github.io/karamat-al-awliya/
+- Icône : https://ucfzem.github.io/karamat-al-awliya/icon.svg
