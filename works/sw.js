@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.4';
+const CACHE = 'works-v1.0.5';
 const CORE = [
   './',
   './index.html',
@@ -47,10 +47,13 @@ self.addEventListener('fetch', (event) => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req).then((res) => {
-        caches.open(CACHE).then((c) => c.put(req, res.clone()));
-        return res;
-      }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
+      caches.open(CACHE).then((c) => c.match('./index.html').then((cached) => {
+        const fresh = fetch(req).then((res) => {
+          if (res && res.ok) c.put('./index.html', res.clone());
+          return res;
+        });
+        return cached || fresh.catch(() => caches.match('./'));
+      }))
     );
     return;
   }

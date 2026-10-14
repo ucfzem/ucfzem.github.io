@@ -38,6 +38,7 @@ const SHELLS = [
   'email-collector',
   'quran-reader',
   'quran-amp',
+  'quran-majeed-v3',
   'api-job-finder',
   'works',
   'karamat-al-awliya'
@@ -57,6 +58,7 @@ const APPS = [
   'livre-al-istibsar',
   'quran-reader',
   'quran-amp',
+  'quran-majeed-v3',
   'api-job-finder',
   'mapamundi',
   'works',
