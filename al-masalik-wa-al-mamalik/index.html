@@ -148,6 +148,10 @@
     .ctrl-btns{gap:6px}
     .btn{padding:7px 10px; font-size:.92rem}
   }
+  @media (min-width:1025px){
+    /* PC / Desktop: widen the reading column so it uses more of the screen */
+    .ctrl-inner, .wrap, footer{max-width:1180px}
+  }
 </style>
 <script id="themeBoot">
 (function(){try{var t=localStorage.getItem("masalik-theme")||"light";document.documentElement.setAttribute("data-theme",t);var f=localStorage.getItem("masalik-font");if(f)document.documentElement.style.setProperty("--content-font",f);var z=localStorage.getItem("masalik-size");if(z)document.documentElement.style.setProperty("--content-font-size",z);}catch(e){}})();
