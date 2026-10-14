@@ -748,6 +748,39 @@ changes.
   tafsir set then downloads in the background in a few seconds.
 - Live: https://ucfzem.github.io/quran-majeed-v3/
 
+## Addendum 22 — `sifat-al-safwa`: full book (791 biographies) + Maktaba wiring
+
+- Goal: replace the 4 sample entries in the `sifat-al-safwa` PWA with the **whole
+  book**, wire it into the `works` "Maktaba" (unlocked) folder, and make it
+  offline.
+- **Source found (after the user's suggested path 404'd):** OpenITI hosts Ibn
+  al-Jawzi (d. 597) under the period repo `OpenITI/0600AH`, folder
+  `data/0597IbnJawzi/0597IbnJawzi.SifatSafwa/`. Three editions exist:
+  `…Shamela0012031-ara1.mARkdown` (structured, used), `…JK000067-ara2`,
+  `…ShamAY0033757-ara2`. Raw: `https://raw.githubusercontent.com/OpenITI/0600AH/master/data/0597IbnJawzi/0597IbnJawzi.SifatSafwa/0597IbnJawzi.SifatSafwa.Shamela0012031-ara1.mARkdown`
+- **mARkdown structure:** `# ` = paragraphs (8432), `### |` large sections,
+  `### ||` sub-sections / companion bios, `### |||` sub-sub, `### $ N- name` =
+  numbered biographies (12+). Page markers `PageV\d+P\d+`, page notes `ms\d+`.
+- **Parser** `/tmp/opencode/parse_sifat.mjs`: bio-start regex
+  `^###\s+(?:\$|\|{1,3})\s*(\d+)\s*[-–.]`; tracks category from region headings
+  (`أهل X`) + `الطبقة N`, defaulting to `أصحاب رسول الله`; inlines non-region
+  sub-headings into the text wrapped in `⟪…⟫` and lists them in `sub_headings`.
+  Output keys: `id,name,category,sub_headings,text,source_num`.
+- **Result:** **791 biographies**, **2.93 MB**, all with `source_num`.
+- **App (`index.html`) upgrades:** `⟪…⟫` → `<strong class="sub-mark">` (inline
+  section headings); gold `📌` topic badges (`.sub-chip`) that scroll/flash the
+  matching section; search now also matches `sub_headings`; copy uses the
+  reference format (`المصدر/الترجمة/التصنيف`); share = Web Share API on mobile +
+  WhatsApp/Telegram fallback on desktop; incremental paging (60 at a time,
+  "تحميل المزيد"); `.body{white-space:pre-line}`.
+- **Verified (Playwright, local + live):** 791 entries, initial 60 cards,
+  "load more" 60→120, search "أبو مسلم الخولاني" → 1, Prophet card shows 68
+  sub-badges + 68 inline markers, no console/page errors.
+- **Wiring:** added `sifat-al-safwa` to root `sw.js` `SHELLS` + `APPS` and its
+  font CSS URL to `CDN`; added a Maktaba card (📖 صفة الصفوة) after
+  كرامات الأولياء in `works/index.html` (12 entries, inline scripts validated).
+- Live: https://ucfzem.github.io/sifat-al-safwa/
+
 
 
 

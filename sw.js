@@ -41,7 +41,8 @@ const SHELLS = [
   'quran-majeed-v3',
   'api-job-finder',
   'works',
-  'karamat-al-awliya'
+  'karamat-al-awliya',
+  'sifat-al-safwa'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -67,7 +68,8 @@ const APPS = [
   'email-collector',
   'childsgame',
   'remedy',
-  'karamat-al-awliya'
+  'karamat-al-awliya',
+  'sifat-al-safwa'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -85,7 +87,8 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap',
-  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&display=swap'
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800;900&display=swap',
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap'
 ];
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
 

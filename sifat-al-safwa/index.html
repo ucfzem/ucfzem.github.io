@@ -157,7 +157,23 @@
   .body{
     font-family:'Amiri',serif; font-size:1.28rem; line-height:2.15; margin:12px 0 16px;
     text-align:justify; text-justify:inter-word; color:var(--text);
+    white-space:pre-line;
   }
+  .sub-mark{
+    display:block; margin:14px 0 4px; color:var(--accent-2);
+    font-family:'Cairo',sans-serif; font-weight:700; font-size:.95rem;
+    white-space:normal;
+  }
+  html[data-theme="dark"] .sub-mark{color:var(--accent)}
+  .subs{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 2px; padding:0}
+  .sub-chip{
+    font-family:'Cairo',sans-serif; font-size:.76rem; font-weight:600; cursor:pointer;
+    background:color-mix(in srgb,var(--accent) 16%,transparent);
+    color:var(--accent-2); border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+    padding:3px 10px; border-radius:99px; transition:.2s;
+  }
+  .sub-chip:hover{background:var(--accent); color:#fff}
+  html[data-theme="dark"] .sub-chip{color:var(--accent)}
   .actions{display:flex; gap:10px; flex-wrap:wrap; border-top:1px dashed var(--border); padding-top:14px}
   .btn{
     display:inline-flex; align-items:center; gap:7px; font-family:'Cairo',sans-serif;
@@ -237,7 +253,8 @@
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
   var DATA = [];
-  var state = { q: "", cat: "الكل" };
+  var state = { q: "", cat: "الكل", limit: 60 };
+  var PAGE = 60;
 
   // ---------- Theme ----------
   var root = document.documentElement;
@@ -282,9 +299,17 @@
   }
 
   // ---------- Copy / Share ----------
+  function plainText(s){ return String(s||"").replace(/\u27EA([^\u27EB]*)\u27EB/g, "$1"); }
+  function renderBody(html, re){
+    var out = String(html).replace(/\u27EA([^\u27EB]*)\u27EB/g, '<strong class="sub-mark">$1</strong>');
+    if(re) out = out.replace(re, "<mark>$1</mark>");
+    return out;
+  }
   function entryToText(it){
-    return "«" + it.name + "»\n\n" + it.text +
-      "\n\n— صفة الصفوة للإمام ابن الجوزي، الترجمة رقم " + it.source_num;
+    return "« " + plainText(it.text) + " »\n\n" +
+      "📌 المصدر: كتاب «صفة الصفوة» للإمام ابن الجوزي\n" +
+      "📖 الترجمة: " + it.name + " (رقم " + it.source_num + ")\n" +
+      "📂 التصنيف: " + it.category;
   }
   function copyText(text){
     if(navigator.clipboard && navigator.clipboard.writeText){
@@ -326,7 +351,7 @@
       b.setAttribute("aria-selected", c === state.cat ? "true" : "false");
       b.textContent = c;
       b.addEventListener("click", function(){
-        state.cat = c;
+        state.cat = c; state.limit = PAGE;
         Array.prototype.forEach.call(chips.children, function(ch){ ch.classList.toggle("on", ch === b); ch.setAttribute("aria-selected", ch === b ? "true":"false"); });
         render();
       });
@@ -342,7 +367,8 @@
       if(!qn) return true;
       return norm(it.name).indexOf(qn) !== -1 ||
              norm(it.category).indexOf(qn) !== -1 ||
-             norm(it.text).indexOf(qn) !== -1;
+             norm(it.text).indexOf(qn) !== -1 ||
+             norm((it.sub_headings || []).join(" ")).indexOf(qn) !== -1;
     });
   }
 
@@ -358,9 +384,16 @@
       list.innerHTML = '<div class="empty"><div class="big">🕮</div><p>لا توجد نتائج مطابقة.</p></div>';
       return;
     }
-    var html = items.map(function(it){
+    var shown = items.slice(0, state.limit);
+    var html = shown.map(function(it){
       var name = q ? highlight(esc(it.name), re) : esc(it.name);
-      var body = q ? highlight(esc(it.text), re) : esc(it.text);
+      var body = renderBody(esc(it.text), q ? re : null);
+      var subsHTML = "";
+      if(it.sub_headings && it.sub_headings.length){
+        subsHTML = '<div class="subs">' + it.sub_headings.map(function(s){
+          return '<span class="sub-chip" data-sub="' + esc(s) + '">📌 ' + esc(s) + '</span>';
+        }).join("") + '</div>';
+      }
       return '<article class="card">' +
         '<div class="card-head">' +
           '<h2 class="name">' + name + '</h2>' +
@@ -369,6 +402,7 @@
             '<span class="badge num">رقم ' + esc(it.source_num) + '</span>' +
           '</div>' +
         '</div>' +
+        subsHTML +
         '<div class="body">' + body + '</div>' +
         '<div class="actions">' +
           '<button class="btn primary" data-act="copy" data-id="' + esc(it.id) + '">📋 نسخ الترجمة</button>' +
@@ -376,6 +410,10 @@
         '</div>' +
       '</article>';
     }).join("");
+    if(items.length > state.limit){
+      html += '<div style="text-align:center;margin:8px 0 30px">' +
+        '<button class="btn primary" data-act="more">تحميل المزيد (' + (items.length - state.limit) + ' متبقٍ)</button></div>';
+    }
     list.innerHTML = html;
   }
 
@@ -383,32 +421,57 @@
   var qInput = $("#q"), clearBtn = $("#clearBtn");
   var t = null;
   qInput.addEventListener("input", function(){
-    state.q = qInput.value;
+    state.q = qInput.value; state.limit = PAGE;
     clearBtn.classList.toggle("show", !!state.q);
     if(t) clearTimeout(t);
     t = setTimeout(render, 120);
   });
   clearBtn.addEventListener("click", function(){
-    qInput.value = ""; state.q = ""; clearBtn.classList.remove("show"); qInput.focus(); render();
+    qInput.value = ""; state.q = ""; state.limit = PAGE; clearBtn.classList.remove("show"); qInput.focus(); render();
   });
   $("#list").addEventListener("click", function(ev){
+    var chip = ev.target.closest(".sub-chip");
+    if(chip){
+      var card = chip.closest(".card");
+      var want = chip.getAttribute("data-sub");
+      var marks = card ? card.querySelectorAll(".sub-mark") : [];
+      for(var m=0;m<marks.length;m++){
+        if(marks[m].textContent.trim() === want){
+          marks[m].scrollIntoView({behavior:"smooth", block:"center"});
+          marks[m].style.transition = "background .4s"; marks[m].style.background = "var(--mark-bg)";
+          (function(el){ setTimeout(function(){ el.style.background = ""; }, 1200); })(marks[m]);
+          break;
+        }
+      }
+      return;
+    }
     var btn = ev.target.closest("button[data-act]");
     if(!btn) return;
+    var act = btn.getAttribute("data-act");
+    if(act === "more"){ state.limit += PAGE; render(); return; }
     var it = findById(btn.getAttribute("data-id"));
     if(!it) return;
-    var act = btn.getAttribute("data-act");
     if(act === "copy"){
       copyText(entryToText(it)).then(function(){ toast("✅ تم النسخ", btn); })
         .catch(function(){ toast("⚠️ تعذّر النسخ", btn, "done"); });
     } else if(act === "share"){
-      var payload = { title: it.name, text: entryToText(it), url: location.href };
-      if(navigator.share){
-        navigator.share(payload).catch(function(){});
-      } else {
-        copyText(entryToText(it)).then(function(){ toast("✅ نُسخ للمشاركة", btn); }).catch(function(){});
-      }
+      shareEntry(it, btn);
     }
   });
+
+  function shareEntry(it, btn){
+    var text = entryToText(it);
+    var payload = { title: "صفة الصفوة: " + it.name, text: text, url: location.href };
+    if(navigator.share){
+      navigator.share(payload).catch(function(){});
+      return;
+    }
+    var enc = encodeURIComponent(text + "\n🔗 " + location.href);
+    var wa = "https://api.whatsapp.com/send?text=" + enc;
+    var tg = "https://t.me/share/url?url=" + encodeURIComponent(location.href) + "&text=" + encodeURIComponent(text);
+    var choice = window.confirm("مشاركة عبر WhatsApp؟\n(اضغط Cancel للمشاركة عبر Telegram)");
+    window.open(choice ? wa : tg, "_blank");
+  }
 
   // ---------- Offline indicator ----------
   function setOnline(){
