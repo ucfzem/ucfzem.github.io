@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>صفة الصفوة — ابن الجوزي</title>
+<meta name="description" content="قراءة كتاب صفة الصفوة للإمام أبي الفرج عبد الرحمن بن الجوزي، مع بحث فوري وتصنيف الطبقات وعمل كامل بدون إنترنت.">
+<meta name="theme-color" content="#1b4332">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="صفة الصفوة">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F9F6F0; --card:#FFFFFF; --text:#2B2B2B; --text-soft:#6b6257;
+    --primary:#1B4332; --primary-2:#2d6a4f; --accent:#C5A059; --accent-2:#b08d47;
+    --border:#E0DACE; --shadow:0 10px 30px rgba(27,67,50,.09);
+    --mark-bg:#f7e6a8; --mark-text:#4a3600; --chip-bg:#ffffff; --chip-on:#1B4332;
+  }
+  html[data-theme="dark"]{
+    --bg:#12181B; --card:#1E262B; --text:#E1E6EB; --text-soft:#9fb0ba;
+    --primary:#2A5A44; --primary-2:#357a5c; --accent:#D4AF37; --accent-2:#c39b2b;
+    --border:#2C363F; --shadow:0 10px 30px rgba(0,0,0,.4);
+    --mark-bg:#5a4a12; --mark-text:#ffe9a8; --chip-bg:#1E262B; --chip-on:#D4AF37;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Cairo',system-ui,sans-serif;
+    line-height:1.7; min-height:100vh;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .35s ease,color .35s ease;
+  }
+  a{color:var(--primary-2)}
+  mark{background:var(--mark-bg); color:var(--mark-text); border-radius:4px; padding:0 3px}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:40;
+    background:linear-gradient(160deg,var(--primary),var(--primary-2));
+    color:#fff; border-bottom:3px solid var(--accent);
+    box-shadow:var(--shadow);
+  }
+  .bar{
+    max-width:1060px; margin:0 auto; padding:14px 16px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:12px; margin-inline-end:auto}
+  .logo{
+    width:46px; height:46px; border-radius:12px; flex:none;
+    display:grid; place-items:center; background:rgba(255,255,255,.1);
+    border:1px solid rgba(212,175,55,.5);
+  }
+  .logo svg{width:28px; height:28px}
+  .titles h1{
+    margin:0; font-family:'Aref Ruqaa',serif; font-weight:700;
+    font-size:clamp(1.4rem,3.6vw,2rem); line-height:1.2; color:#f6e7c2;
+    text-shadow:0 2px 8px rgba(0,0,0,.35);
+  }
+  .titles p{margin:2px 0 0; font-size:.8rem; color:#e9e2d3; opacity:.92}
+  .tools{display:flex; align-items:center; gap:8px}
+  .icon-btn{
+    background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(212,175,55,.45);
+    width:42px; height:42px; border-radius:12px; cursor:pointer; font-size:1.2rem;
+    display:grid; place-items:center; transition:.2s;
+  }
+  .icon-btn:hover{background:rgba(255,255,255,.24)}
+  .icon-btn.hidden{display:none}
+
+  /* ---------- Search / filters ---------- */
+  .controls{
+    position:sticky; top:var(--head-h,73px); z-index:30;
+    background:color-mix(in srgb,var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .controls-inner{max-width:1060px; margin:0 auto; padding:12px 16px}
+  .search-wrap{position:relative}
+  .search-wrap .mag{
+    position:absolute; inset-inline-start:14px; top:50%; transform:translateY(-50%);
+    color:var(--text-soft); pointer-events:none; font-size:1.05rem;
+  }
+  #q{
+    width:100%; padding:13px 46px 13px 44px; border-radius:14px;
+    border:1px solid var(--border); background:var(--card); color:var(--text);
+    font-family:'Cairo',sans-serif; font-size:1rem; outline:none;
+    transition:.2s;
+  }
+  #q:focus{border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent)}
+  .clear-btn{
+    position:absolute; inset-inline-end:10px; top:50%; transform:translateY(-50%);
+    border:none; background:transparent; color:var(--text-soft); cursor:pointer;
+    font-size:1.2rem; padding:6px; border-radius:8px; display:none;
+  }
+  .clear-btn.show{display:block}
+  .chips{display:flex; gap:8px; overflow-x:auto; padding:12px 2px 2px; scrollbar-width:thin}
+  .chips::-webkit-scrollbar{height:6px}
+  .chips::-webkit-scrollbar-thumb{background:var(--border); border-radius:99px}
+  .chip{
+    flex:none; border:1px solid var(--border); background:var(--chip-bg); color:var(--text);
+    padding:7px 14px; border-radius:99px; cursor:pointer; font-size:.85rem; font-weight:600;
+    white-space:nowrap; transition:.2s; font-family:'Cairo',sans-serif;
+  }
+  .chip:hover{border-color:var(--accent)}
+  .chip.on{background:var(--primary); border-color:var(--primary); color:#fff}
+  html[data-theme="dark"] .chip.on{color:#12181B}
+
+  /* ---------- Meta row ---------- */
+  .meta{
+    max-width:1060px; margin:0 auto; padding:14px 16px 0;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    color:var(--text-soft); font-size:.85rem;
+  }
+  .count b{color:var(--primary-2); font-size:1rem}
+  .offline{
+    margin-inline-start:auto; display:inline-flex; align-items:center; gap:6px;
+    background:color-mix(in srgb,var(--accent) 16%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+    color:var(--accent-2); padding:5px 12px; border-radius:99px; font-weight:600;
+  }
+  html[data-theme="dark"] .offline{color:var(--accent)}
+  .offline.off{background:color-mix(in srgb,#2e7d32 18%,transparent); border-color:#2e7d32; color:#3fae54}
+
+  /* ---------- Cards ---------- */
+  main{max-width:1060px; margin:0 auto; padding:18px 16px 60px}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:18px;
+    padding:22px; margin-bottom:18px; box-shadow:var(--shadow);
+    position:relative; overflow:hidden; transition:background .35s,border-color .35s,transform .2s;
+  }
+  .card::before{
+    content:""; position:absolute; inset-inline-start:0; top:0; bottom:0; width:5px;
+    background:linear-gradient(var(--accent),var(--primary));
+  }
+  .card:hover{transform:translateY(-2px)}
+  .card-head{display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:6px}
+  .name{
+    font-family:'Amiri',serif; font-weight:700; margin:0; flex:1 1 260px;
+    font-size:clamp(1.35rem,3.2vw,1.7rem); line-height:1.35; color:var(--primary);
+  }
+  html[data-theme="dark"] .name{color:var(--accent)}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+  .badge{
+    font-size:.72rem; font-weight:700; padding:4px 11px; border-radius:99px;
+    font-family:'Cairo',sans-serif; white-space:nowrap;
+  }
+  .badge.cat{background:color-mix(in srgb,var(--primary) 12%,transparent); color:var(--primary-2); border:1px solid color-mix(in srgb,var(--primary) 25%,transparent)}
+  html[data-theme="dark"] .badge.cat{color:#8fd3b3}
+  .badge.num{background:color-mix(in srgb,var(--accent) 18%,transparent); color:var(--accent-2); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+  html[data-theme="dark"] .badge.num{color:var(--accent)}
+  .body{
+    font-family:'Amiri',serif; font-size:1.28rem; line-height:2.15; margin:12px 0 16px;
+    text-align:justify; text-justify:inter-word; color:var(--text);
+  }
+  .actions{display:flex; gap:10px; flex-wrap:wrap; border-top:1px dashed var(--border); padding-top:14px}
+  .btn{
+    display:inline-flex; align-items:center; gap:7px; font-family:'Cairo',sans-serif;
+    font-weight:600; font-size:.85rem; padding:9px 16px; border-radius:11px; cursor:pointer;
+    border:1px solid var(--border); background:transparent; color:var(--text); transition:.2s;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent-2)}
+  .btn.primary{background:var(--primary); border-color:var(--primary); color:#fff}
+  .btn.primary:hover{background:var(--primary-2)}
+  .btn.done{background:#2e7d32; border-color:#2e7d32; color:#fff}
+
+  .empty{text-align:center; padding:60px 20px; color:var(--text-soft)}
+  .empty .big{font-size:3rem; margin-bottom:10px}
+
+  footer{
+    text-align:center; padding:26px 16px 44px; color:var(--text-soft); font-size:.82rem;
+    border-top:1px solid var(--border); font-family:'Cairo',sans-serif;
+  }
+  footer .orn{font-family:'Aref Ruqaa',serif; color:var(--accent); font-size:1.1rem}
+
+  @media(max-width:560px){
+    .titles p{display:none}
+    .card{padding:18px}
+    .body{font-size:1.18rem; line-height:2}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="bar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6.5C10 4.8 7 4.5 4 5v13c3-.5 6-.2 8 1.5 2-1.7 5-2 8-1.5V5c-3-.5-6-.2-8 1.5Z"/>
+          <path d="M12 6.5v13"/>
+        </svg>
+      </span>
+      <div class="titles">
+        <h1>صفة الصفوة</h1>
+        <p>للإمام أبي الفرج عبد الرحمن بن الجوزي (ت 597 هـ)</p>
+      </div>
+    </div>
+    <div class="tools">
+      <button class="icon-btn hidden" id="installBtn" title="تثبيت التطبيق" aria-label="تثبيت التطبيق">⬇️</button>
+      <button class="icon-btn" id="themeBtn" title="تبديل المظهر" aria-label="تبديل المظهر">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="controls" id="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <span class="mag" aria-hidden="true">🔎</span>
+      <input id="q" type="search" inputmode="search" placeholder="ابحث باسم العلم، المدينة، أو كلمة من الترجمة…" aria-label="بحث">
+      <button class="clear-btn" id="clearBtn" aria-label="مسح البحث">✕</button>
+    </div>
+    <div class="chips" id="chips" role="tablist" aria-label="تصفية الطبقات"></div>
+  </div>
+</div>
+
+<div class="meta">
+  <span class="count" id="count"></span>
+  <span class="offline" id="offline">⚡ يعمل بدون إنترنت</span>
+</div>
+
+<main id="list" aria-live="polite"></main>
+
+<footer>
+  <div class="orn">﷽</div>
+  <p>صفة الصفوة — للإمام ابن الجوزي · قراءة بدون إنترنت (PWA)<br>
+  النصوص محفوظة في قاعدة بيانات التطبيق مع أرقام التراجم من الكتاب.</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var DATA = [];
+  var state = { q: "", cat: "الكل" };
+
+  // ---------- Theme ----------
+  var root = document.documentElement;
+  var themeBtn = $("#themeBtn");
+  function applyTheme(t){
+    root.setAttribute("data-theme", t);
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#12181B" : "#1b4332");
+    themeBtn.textContent = t === "dark" ? "☀️" : "🌙";
+    try { localStorage.setItem("sifat-theme", t); } catch(e){}
+  }
+  (function initTheme(){
+    var saved = null;
+    try { saved = localStorage.getItem("sifat-theme"); } catch(e){}
+    if(!saved){ saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
+    applyTheme(saved);
+  })();
+  themeBtn.addEventListener("click", function(){
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  // ---------- Helpers ----------
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function norm(s){
+    return String(s || "")
+      .replace(/[\u064B-\u0652\u0670\u06D6-\u06ED\u0640]/g,"") // tashkeel + tatweel
+      .replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي").replace(/ؤ/g,"و").replace(/ئ/g,"ي").replace(/ة/g,"ه")
+      .toLowerCase();
+  }
+  function escReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
+  function hiRegex(q){
+    var diac = "[\\u064B-\\u0652\\u0670\\u06D6-\\u06ED\\u0640]*";
+    var parts = [];
+    for(var i=0;i<q.length;i++){ parts.push(escReg(q[i])); }
+    try { return new RegExp("(" + parts.join(diac) + ")", "gi"); } catch(e){ return null; }
+  }
+  function highlight(escaped, re){
+    if(!re) return escaped;
+    return escaped.replace(re, "<mark>$1</mark>");
+  }
+
+  // ---------- Copy / Share ----------
+  function entryToText(it){
+    return "«" + it.name + "»\n\n" + it.text +
+      "\n\n— صفة الصفوة للإمام ابن الجوزي، الترجمة رقم " + it.source_num;
+  }
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve,reject){
+      try{
+        var ta=document.createElement("textarea");
+        ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+        document.body.appendChild(ta); ta.select();
+        document.execCommand("copy"); document.body.removeChild(ta); resolve();
+      }catch(e){ reject(e); }
+    });
+  }
+  function findById(id){ for(var i=0;i<DATA.length;i++){ if(String(DATA[i].id)===String(id)) return DATA[i]; } return null; }
+  function toast(msg, btn, cls){
+    if(btn){
+      var prev = btn.dataset.label || btn.innerHTML;
+      btn.dataset.label = prev;
+      btn.classList.add(cls || "done");
+      btn.innerHTML = msg;
+      setTimeout(function(){ btn.innerHTML = prev; btn.classList.remove(cls || "done"); }, 1600);
+    }
+  }
+
+  // ---------- Category chips ----------
+  var PREF = ["الصحابة","التابعون","أهل المدينة","أهل مكة","أهل البصرة","أهل الكوفة","أهل الشام","النساء العابدات"];
+  function buildChips(){
+    var present = PREF.filter(function(p){
+      return DATA.some(function(d){ return String(d.category).indexOf(p) !== -1; });
+    });
+    var cats = ["الكل"].concat(present);
+    var chips = $("#chips");
+    chips.innerHTML = "";
+    cats.forEach(function(c){
+      var b = document.createElement("button");
+      b.className = "chip" + (c === state.cat ? " on" : "");
+      b.type = "button"; b.setAttribute("role","tab");
+      b.setAttribute("aria-selected", c === state.cat ? "true" : "false");
+      b.textContent = c;
+      b.addEventListener("click", function(){
+        state.cat = c;
+        Array.prototype.forEach.call(chips.children, function(ch){ ch.classList.toggle("on", ch === b); ch.setAttribute("aria-selected", ch === b ? "true":"false"); });
+        render();
+      });
+      chips.appendChild(b);
+    });
+  }
+
+  // ---------- Filter ----------
+  function filtered(){
+    var qn = norm(state.q);
+    return DATA.filter(function(it){
+      if(state.cat !== "الكل" && String(it.category).indexOf(state.cat) === -1) return false;
+      if(!qn) return true;
+      return norm(it.name).indexOf(qn) !== -1 ||
+             norm(it.category).indexOf(qn) !== -1 ||
+             norm(it.text).indexOf(qn) !== -1;
+    });
+  }
+
+  // ---------- Render ----------
+  function render(){
+    var list = $("#list");
+    var items = filtered();
+    var q = state.q.trim();
+    var re = q ? hiRegex(q) : null;
+    $("#count").innerHTML = "التراجم المعروضة: <b>" + items.length + "</b> من أصل " + DATA.length;
+
+    if(!items.length){
+      list.innerHTML = '<div class="empty"><div class="big">🕮</div><p>لا توجد نتائج مطابقة.</p></div>';
+      return;
+    }
+    var html = items.map(function(it){
+      var name = q ? highlight(esc(it.name), re) : esc(it.name);
+      var body = q ? highlight(esc(it.text), re) : esc(it.text);
+      return '<article class="card">' +
+        '<div class="card-head">' +
+          '<h2 class="name">' + name + '</h2>' +
+          '<div class="badges">' +
+            '<span class="badge cat">' + esc(it.category) + '</span>' +
+            '<span class="badge num">رقم ' + esc(it.source_num) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="body">' + body + '</div>' +
+        '<div class="actions">' +
+          '<button class="btn primary" data-act="copy" data-id="' + esc(it.id) + '">📋 نسخ الترجمة</button>' +
+          '<button class="btn" data-act="share" data-id="' + esc(it.id) + '">🔗 مشاركة</button>' +
+        '</div>' +
+      '</article>';
+    }).join("");
+    list.innerHTML = html;
+  }
+
+  // ---------- Events ----------
+  var qInput = $("#q"), clearBtn = $("#clearBtn");
+  var t = null;
+  qInput.addEventListener("input", function(){
+    state.q = qInput.value;
+    clearBtn.classList.toggle("show", !!state.q);
+    if(t) clearTimeout(t);
+    t = setTimeout(render, 120);
+  });
+  clearBtn.addEventListener("click", function(){
+    qInput.value = ""; state.q = ""; clearBtn.classList.remove("show"); qInput.focus(); render();
+  });
+  $("#list").addEventListener("click", function(ev){
+    var btn = ev.target.closest("button[data-act]");
+    if(!btn) return;
+    var it = findById(btn.getAttribute("data-id"));
+    if(!it) return;
+    var act = btn.getAttribute("data-act");
+    if(act === "copy"){
+      copyText(entryToText(it)).then(function(){ toast("✅ تم النسخ", btn); })
+        .catch(function(){ toast("⚠️ تعذّر النسخ", btn, "done"); });
+    } else if(act === "share"){
+      var payload = { title: it.name, text: entryToText(it), url: location.href };
+      if(navigator.share){
+        navigator.share(payload).catch(function(){});
+      } else {
+        copyText(entryToText(it)).then(function(){ toast("✅ نُسخ للمشاركة", btn); }).catch(function(){});
+      }
+    }
+  });
+
+  // ---------- Offline indicator ----------
+  function setOnline(){
+    var el = $("#offline");
+    if(navigator.onLine){ el.classList.remove("off"); el.textContent = "⚡ يعمل بدون إنترنت"; }
+    else { el.classList.add("off"); el.textContent = "🟢 متصل — يعمل بدون إنترنت كذلك"; }
+  }
+  window.addEventListener("online", setOnline);
+  window.addEventListener("offline", setOnline);
+
+  // ---------- PWA install ----------
+  var deferred = null, installBtn = $("#installBtn");
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault(); deferred = e; installBtn.classList.remove("hidden");
+  });
+  installBtn.addEventListener("click", function(){
+    if(!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){ deferred = null; installBtn.classList.add("hidden"); });
+  });
+  window.addEventListener("appinstalled", function(){ installBtn.classList.add("hidden"); });
+
+  // ---------- Service worker ----------
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
+
+  // ---------- Load data ----------
+  function boot(){
+    fetch("data.json", { cache: "no-cache" })
+      .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(json){
+        DATA = Array.isArray(json) ? json : (json.entries || []);
+        buildChips(); setOnline(); render();
+      })
+      .catch(function(err){
+        $("#list").innerHTML = '<div class="empty"><div class="big">⚠️</div><p>تعذّر تحميل البيانات.</p></div>';
+        console.error(err);
+      });
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
