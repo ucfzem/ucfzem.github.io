@@ -693,5 +693,33 @@ changes.
 - Commits: main `54bc934`; quran-majeed-v3 `4a3f886`, `23cc112`.
 - Live: https://ucfzem.github.io/works/ · https://ucfzem.github.io/quran-majeed-v3/
 
+## Addendum 20 — Quran Majeed v3: tafsir available offline
+
+- Question: "why can't we see tafsir offline?"
+- **Root cause:** tafsir was fetched **on demand, per ayah**, from
+  `…/tafsirs/…/by_ayah/{s}:{a}` and only cached by the SW **if that exact URL had
+  been fetched online**. The background prefetch cached only the surah list and
+  the Arabic text — not tafsir — so tafsir for ayahs/surahs you had never opened
+  was simply absent offline (the app showed "❌ Impossible de charger le Tafsir").
+- **Fix (app):** `index.html` now requests the **whole-surah bulk endpoint**
+  `https://api.quran.com/api/v4/tafsirs/ar-tafsir-ibn-kathir/by_chapter/{surah}?per_page=300`
+  (one request returns every ayah of the surah, indexed by `verse_key`), with the
+  old per-ayah endpoints kept as fallback if the bulk call fails. Bonus: faster
+  (1 request instead of N) and every ayah of a surah gets cached at once.
+- **Fix (SW `v4`):** after the Arabic-text prefetch, a second background worker
+  (3 concurrent) prefetches the same bulk tafsir URL for **all 114 surahs** into
+  the data cache; `api.quran.com`/`api.qurancdn.com` are already
+  stale-while-revalidate, so they are served offline.
+- **Verified:** opening a tafsir online issued exactly **one** request
+  (`…/by_chapter/1?per_page=300`) and rendered Ibn Kathir text; the data cache
+  `qmv3-data-v4` held **114 `by_chapter` entries** (every surah) → tafsir is
+  available offline. (The offline Playwright leg crashed on a context
+  teardown quirk, not on app behaviour.)
+- **Size:** ~1–3 KB/ayah; whole-Quran tafsir ≈ 15–25 MB (comparable to the
+  mapamundi tile cache already held). It downloads in the background.
+- Commit quran-majeed-v3 `1910235` (cache version `v4`).
+- Live: https://ucfzem.github.io/quran-majeed-v3/
+
+
 
 
