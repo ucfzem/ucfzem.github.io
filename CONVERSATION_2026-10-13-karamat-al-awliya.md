@@ -43,3 +43,32 @@ Rien d'existant n'a été modifié de façon destructive (aucun force-push, aucu
 - Link tree : https://ucfzem.github.io/works/
 - كرامات الأولياء : https://ucfzem.github.io/karamat-al-awliya/
 - Icône : https://ucfzem.github.io/karamat-al-awliya/icon.svg
+
+---
+
+# Addendum 20 — Corpus complet (extraction verbatim)
+
+## Méthode
+- Source : **Shamela book 13150** « كتاب كرامات الأولياء للالكائي » — pages `id 1..318` (319+ = 404).
+- Scraper : `/tmp/opencode/scrape13150.mjs` → `/tmp/opencode/shamela13150.json` (318 pages, 347 paragraphes).
+- Build : `/tmp/opencode/build13150b.py` → `data.json` (220 récits, **tout `verified: true`**, aucun texte/isnad fabriqué).
+
+## Résultat
+- **220 récits** numérotés 1→230 (numérotation de l'imprimé), **92 chapitres**.
+- Catégories : الصحابة 73 · التابعون 86 · أتباع التابعين 21 · القرآن والتفسير 28 · الأنبياء والأمم السابقة 12.
+- Régions/époques (12) : تفسير القرآن، الأمم السابقة، عصر النبوة، الصحابة، المدينة، مكة، الشام، مصر، الكوفة، البصرة، بغداد، خراسان.
+- Découpe isnâd/matn au **dernier connecteur de chaîne** avant 70 % du texte (210/220 récits avec chaîne).
+- `data.json` ≈ 434 Ko.
+
+## Déploiement & offline
+- `karamat-al-awliya/sw.js` : `karamat-cache` `v1.0.0 → v1.1.0`.
+- Root `sw.js` : `DATA_MARKER` `v5 → v6` (re-prefetch → recharge le nouveau `data.json` via `syncAppSW`).
+
+## Vérification (Playwright, live)
+- En ligne : **220 cartes**, 19 puces, recherche `سارية`→2 · `النار`→6 · `230`→1, filtre `التابعون`→86, thème, favori, copie OK, 0 erreur.
+- Hors-ligne (reload) : **220 cartes**, 19 puces, polices OK, favori persistant, icônes OK, 0 erreur.
+- /works : Maktaba publique, 11 cartes, carte كرامات الأولياء présente, non verrouillée.
+
+## Commits
+- karamat-al-awliya : `a5d2e73` (corpus complet 220 récits).
+- ucfzem.github.io : `93bf6f5` (bump data marker v6).
