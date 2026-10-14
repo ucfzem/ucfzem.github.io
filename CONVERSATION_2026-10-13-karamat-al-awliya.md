@@ -72,3 +72,26 @@ Rien d'existant n'a été modifié de façon destructive (aucun force-push, aucu
 ## Commits
 - karamat-al-awliya : `a5d2e73` (corpus complet 220 récits).
 - ucfzem.github.io : `93bf6f5` (bump data marker v6).
+
+---
+
+# Addendum 21 — Correction UX de la barre de recherche
+
+Diagnostic : la recherche **fonctionnait** (test Playwright desktop + émulation mobile : 220→2). Le problème était l'**affichage** — compteur discret/non libellé, aucun bouton d'effacement, aucune mise en évidence du terme trouvé.
+
+## Changements (`index.html`)
+- Compteur explicite : « نتائج البحث عن «سارية»: 2 أثر من 220 » (classe `.query`), `aria-live="polite"`.
+- Bouton **مسح (✕)** dans la zone de recherche + touche **Échap** pour effacer.
+- **Surlignage** du terme (`<mark>`) dans le titre, l'isnâd et le texte, **tolérant au تشكيل et aux variantes** (أ/إ/آ/ا، ى/ي، ة/ه، ؤ/ئ/و).
+- Sécurité IME : `oncompositionend` en plus de `oninput`.
+
+## Cache
+- App `sw.js` : `karamat-cache` `v1.1.0 → v1.1.1`.
+- Root `sw.js` : `DATA_MARKER` `v6 → v7` (réinstallation → re-précache du nouvel `index.html`).
+
+## Vérification locale (Playwright)
+- `سارية`→2 (6 marks) · `البخاري`→16 (16) · `عمر`→88 (176) · `النار`→6 (9) · `اسحاق` sans hamza→33 (40 marks). 0 erreur.
+
+## Commits
+- karamat-al-awliya : (recherche UX).
+- ucfzem.github.io : (bump data marker v7).
