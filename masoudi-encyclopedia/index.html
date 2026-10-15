@@ -142,6 +142,7 @@
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   }
   .chapter-card h3 .pg{font-family:'Amiri',serif; font-size:.72rem; font-weight:700; color:var(--muted); background:var(--sidebar); border:1px solid var(--border); padding:2px 9px; border-radius:99px}
+  .chapter-card{content-visibility:auto; contain-intrinsic-size:auto 700px}
   .chapter-text{font-family:var(--content-font); font-size:var(--content-font-size); text-align:justify; text-justify:inter-word; line-height:2.15}
   .chapter-text p{margin-bottom:14px}
   .sec-actions{display:flex; gap:8px; margin-top:16px}
@@ -295,15 +296,37 @@
   function escReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
   function hiRegex(q){
     var diac = "[\\u064B-\\u0652\\u0670\\u06D6-\\u06ED\\u0640]*";
+    var qn = norm(q);
+    var CLS = { "ا":"[اأإآٱ]", "ي":"[يىئ]", "و":"[وؤ]", "ه":"[هة]" };
     var parts = [];
-    for(var i=0;i<q.length;i++) parts.push(escReg(q[i]));
+    for(var i=0;i<qn.length;i++){ var ch = qn.charAt(i); parts.push(CLS[ch] || escReg(ch)); }
     try { return new RegExp("(" + parts.join(diac) + ")", "gi"); } catch(e){ return null; }
   }
   function highlight(escaped, re){ return re ? escaped.replace(re, "<mark>$1</mark>") : escaped; }
   function countMatches(text, qn){ if(!qn) return 0; var t = norm(text), c = 0, i = 0; while((i = t.indexOf(qn, i)) !== -1){ c++; i += qn.length; } return c; }
 
-  // ---------- Render ----------
+  // ---------- Render (lazy: only build a section's paragraphs when it nears the viewport) ----------
   var container = $("#bookContainer"), counter = $("#matchCount");
+  var bodyIO = null;
+  function ensureIO(){
+    if(bodyIO || typeof IntersectionObserver === "undefined") return bodyIO;
+    bodyIO = new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){ buildBody(entries[i].target); bodyIO.unobserve(entries[i].target); }
+      }
+    }, { rootMargin: "1500px 0px" });
+    return bodyIO;
+  }
+  function buildBody(sec){
+    if(!sec || sec.getAttribute("data-built") === "1") return;
+    var idx = +sec.getAttribute("data-idx");
+    var s = DATA.sections[idx]; if(!s) return;
+    var el = sec.querySelector(".chapter-text"); if(!el) return;
+    var q = state.q.trim();
+    var re = q ? hiRegex(q) : null;
+    el.innerHTML = s.x.map(function(p){ return "<p>" + (q ? highlight(esc(p), re) : esc(p)) + "</p>"; }).join("");
+    sec.setAttribute("data-built", "1");
+  }
 
   function render(){
     var q = state.q.trim();
@@ -317,7 +340,7 @@
         var joined = s.x.join(" ");
         var c = countMatches(joined, qn);
         var inTitle = norm(s.t).indexOf(qn) !== -1;
-        if(c > 0 || inTitle){ total += c; shown.push({ s: s }); }
+        if(c > 0 || inTitle){ total += c; shown.push({ s: s, c: c }); }
       });
       counter.textContent = total + " نتيجة";
     } else {
@@ -334,17 +357,30 @@
       var s = item.s;
       var idx = qn ? secs.indexOf(s) : item.i;
       var title = q ? highlight(esc(s.t), re) : esc(s.t);
-      var body = s.x.map(function(p){ return "<p>" + (q ? highlight(esc(p), re) : esc(p)) + "</p>"; }).join("");
-      return '<section class="chapter-card" id="sec-' + idx + '" data-idx="' + idx + '">' +
+      return '<section class="chapter-card" id="sec-' + idx + '" data-idx="' + idx + '" data-built="0">' +
         '<h3><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj") ? "ج " : "ص ") + esc(s.p) + '</span></h3>' +
-        '<div class="chapter-text">' + body + '</div>' +
+        '<div class="chapter-text"></div>' +
         '<div class="sec-actions">' +
           '<button class="mini" data-act="copy" data-idx="' + idx + '">📋 نسخ الباب</button>' +
           '<button class="mini" data-act="share" data-idx="' + idx + '">🔗 مشاركة</button>' +
         '</div></section>';
     }).join("");
 
-    if(qn){ var first = container.querySelector("mark"); if(first) first.scrollIntoView({block:"center"}); }
+    var cards = container.querySelectorAll(".chapter-card");
+    var io = ensureIO();
+    var warm = Math.min(cards.length, 3);
+    for(var ci = 0; ci < cards.length; ci++){
+      if(ci < warm || !io) buildBody(cards[ci]);
+      else io.observe(cards[ci]);
+    }
+
+    if(qn){
+      var target = null;
+      for(var si=0; si<shown.length; si++){ if(shown[si].c > 0){ target = shown[si].s; break; } }
+      if(target){ var card = document.getElementById("sec-" + secs.indexOf(target)); if(card) buildBody(card); }
+      var firstMark = container.querySelector("mark");
+      if(firstMark) firstMark.scrollIntoView({block:"center"});
+    }
   }
 
   // ---------- Copy / share ----------
@@ -442,7 +478,7 @@
     for(var i=0;i<secs.length;i++){ var top = secs[i].getBoundingClientRect().top + window.scrollY; if(top <= y && top > bestTop){ bestTop = top; best = +secs[i].getAttribute("data-idx"); } }
     return best;
   }
-  function goSec(idx){ var el = document.getElementById("sec-" + idx); if(el) el.scrollIntoView({ behavior:"smooth", block:"start" }); }
+  function goSec(idx){ var el = document.getElementById("sec-" + idx); if(el){ buildBody(el); el.scrollIntoView({ behavior:"smooth", block:"start" }); } }
   $("#fabNext").addEventListener("click", function(){ goSec(currentIdx() + 1); });
   $("#fabPrev").addEventListener("click", function(){ goSec(Math.max(0, currentIdx() - 1)); });
   $("#fabTop").addEventListener("click", function(){ window.scrollTo({ top:0, behavior:"smooth" }); });
@@ -465,7 +501,7 @@
   function restorePos(){
     var raw = null; try { raw = localStorage.getItem(LASTKEY); } catch(e){}
     if(!raw) return;
-    try { var o = JSON.parse(raw); var el = document.getElementById("sec-" + (o.idx || 0)); if(el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 110 }); } catch(e){}
+    try { var o = JSON.parse(raw); var el = document.getElementById("sec-" + (o.idx || 0)); if(el){ buildBody(el); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 110 }); } } catch(e){}
   }
 
   // ---------- Offline indicator (in title card src line) ----------
