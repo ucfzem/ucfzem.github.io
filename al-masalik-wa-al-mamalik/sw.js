@@ -6,7 +6,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'masalik-v3';
+const VERSION = 'masalik-v4';
 const SHELL = 'masalik-shell-' + VERSION;
 const RUNTIME = 'masalik-runtime-' + VERSION;
 

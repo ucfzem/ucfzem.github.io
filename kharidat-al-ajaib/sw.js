@@ -6,7 +6,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'kharidat-v3';
+const VERSION = 'kharidat-v4';
 const SHELL = 'kharidat-shell-' + VERSION;
 const RUNTIME = 'kharidat-runtime-' + VERSION;
 

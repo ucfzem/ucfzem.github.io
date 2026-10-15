@@ -101,7 +101,7 @@
 
   /* ---------- Sections ---------- */
   main{max-width:820px; margin:0 auto; padding:20px 16px 9rem}
-  .sec{margin:0 0 34px; scroll-margin-top:160px}
+  .sec{margin:0 0 34px; scroll-margin-top:160px; content-visibility:auto; contain-intrinsic-size:auto 700px}
   .sec-title{
     font-family:'Cairo',sans-serif; font-weight:800; color:var(--accent);
     font-size:clamp(1.15rem,2.8vw,1.45rem); line-height:1.5;
@@ -302,8 +302,29 @@
   function highlight(escaped, re){ return re ? escaped.replace(re, "<mark>$1</mark>") : escaped; }
   function countMatches(text, qn){ if(!qn) return 0; var t = norm(text), c = 0, i = 0; while((i = t.indexOf(qn, i)) !== -1){ c++; i += qn.length; } return c; }
 
-  // ---------- Render ----------
+  // ---------- Render (lazy) ----------
   var list = $("#list"), counter = $("#counter");
+  // ---------- Render (lazy: build a section's paragraphs only when it nears the viewport) ----------
+  var bodyIO = null;
+  function ensureIO(){
+    if(bodyIO || typeof IntersectionObserver === "undefined") return bodyIO;
+    bodyIO = new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){ buildBody(entries[i].target); bodyIO.unobserve(entries[i].target); }
+      }
+    }, { rootMargin: "1500px 0px" });
+    return bodyIO;
+  }
+  function buildBody(sec){
+    if(!sec || sec.getAttribute("data-built") === "1") return;
+    var idx = +sec.getAttribute("data-idx");
+    var s = DATA.sections[idx]; if(!s) return;
+    var el = sec.querySelector(".body"); if(!el) return;
+    var q = state.q.trim();
+    var re = q ? hiRegex(q) : null;
+    el.innerHTML = s.x.map(function(p){ return "<p>" + (q ? highlight(esc(p), re) : esc(p)) + "</p>"; }).join("");
+    sec.setAttribute("data-built", "1");
+  }
   function render(){
     var q = state.q.trim();
     var qn = norm(q);
@@ -334,14 +355,10 @@
       var s = item.s;
       var idx = state.q.trim() ? secs.indexOf(s) : item.i;
       var title = q ? highlight(esc(s.t), re) : esc(s.t);
-      var body = s.x.map(function(p){
-        var t = q ? highlight(esc(p), re) : esc(p);
-        return "<p>" + t + "</p>";
-      }).join("");
-      return '<section class="sec" id="sec-' + idx + '" data-idx="' + idx + '">' +
+      return '<section class="sec" id="sec-' + idx + '" data-idx="' + idx + '" data-built="0">' +
         '<div class="sechead-wrap"><h2 class="sec-title">' + title +
           '<span class="pg">ص ' + esc(s.p) + '</span></h2></div>' +
-        '<div class="body">' + body + '</div>' +
+        '<div class="body"></div>' +
         '<div class="sec-actions">' +
           '<button class="mini" data-act="copy" data-idx="' + idx + '">📋 نسخ الفصل</button>' +
           '<button class="mini" data-act="share" data-idx="' + idx + '">🔗 مشاركة</button>' +
@@ -349,7 +366,22 @@
       '</section>';
     }).join("");
 
-    if(qn){ var first = list.querySelector("mark"); if(first) first.scrollIntoView({block:"center"}); }
+    var cards = list.querySelectorAll(".sec");
+    if(bodyIO) bodyIO.disconnect();
+    var io = ensureIO();
+    var warm = Math.min(cards.length, 3);
+    for(var ci = 0; ci < cards.length; ci++){
+      if(ci < warm || !io) buildBody(cards[ci]);
+      else io.observe(cards[ci]);
+    }
+
+    if(qn){
+      var target = null;
+      for(var si=0; si<shown.length; si++){ if(shown[si].c > 0){ target = shown[si].s; break; } }
+      if(target){ var tcard = document.getElementById("sec-" + secs.indexOf(target)); if(tcard) buildBody(tcard); }
+      var firstMark = list.querySelector("mark");
+      if(firstMark) firstMark.scrollIntoView({block:"center"});
+    }
   }
 
   // ---------- Copy / share ----------
@@ -399,7 +431,7 @@
   }
   function goSec(idx){
     var el = document.getElementById("sec-" + idx);
-    if(el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if(el){ buildBody(el); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
   }
   $("#nextBtn").addEventListener("click", function(){ goSec(currentSecIdx() + 1); });
   $("#prevBtn").addEventListener("click", function(){ goSec(Math.max(0, currentSecIdx() - 1)); });
@@ -438,7 +470,7 @@
     try {
       var o = JSON.parse(raw);
       var el = document.getElementById("sec-" + (o.idx || 0));
-      if(el){ window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 150 }); return; }
+      if(el){ buildBody(el); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 150 }); return; }
     } catch(e){}
   }
 

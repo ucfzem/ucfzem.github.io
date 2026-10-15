@@ -151,7 +151,7 @@
   .card{
     background:var(--card); border:1px solid var(--border); border-radius:18px;
     padding:22px; margin-bottom:18px; box-shadow:var(--shadow);
-    position:relative; overflow:hidden; transition:background .35s,border-color .35s,transform .2s;
+    position:relative; overflow:hidden; transition:background .35s,border-color .35s,transform .2s; content-visibility:auto; contain-intrinsic-size:auto 600px;
   }
   .card::before{
     content:""; position:absolute; inset-inline-start:0; top:0; bottom:0; width:5px;
@@ -393,7 +393,26 @@
     });
   }
 
-  // ---------- Render ----------
+  // ---------- Render (lazy: build a card's body only when it nears the viewport) ----------
+  var bodyIO = null;
+  function ensureIO(){
+    if(bodyIO || typeof IntersectionObserver === "undefined") return bodyIO;
+    bodyIO = new IntersectionObserver(function(entries){
+      for(var i=0;i<entries.length;i++){
+        if(entries[i].isIntersecting){ buildBody(entries[i].target); bodyIO.unobserve(entries[i].target); }
+      }
+    }, { rootMargin: "1500px 0px" });
+    return bodyIO;
+  }
+  function buildBody(card){
+    if(!card || card.getAttribute("data-built") === "1") return;
+    var it = findById(card.getAttribute("data-id")); if(!it) return;
+    var el = card.querySelector(".body"); if(!el) return;
+    var q = state.q.trim();
+    var re = q ? hiRegex(q) : null;
+    el.innerHTML = renderBody(esc(it.text), q ? re : null);
+    card.setAttribute("data-built", "1");
+  }
   function render(){
     var list = $("#list");
     var items = filtered();
@@ -408,14 +427,13 @@
     var shown = items.slice(0, state.limit);
     var html = shown.map(function(it){
       var name = q ? highlight(esc(it.name), re) : esc(it.name);
-      var body = renderBody(esc(it.text), q ? re : null);
       var subsHTML = "";
       if(it.sub_headings && it.sub_headings.length){
         subsHTML = '<div class="subs">' + it.sub_headings.map(function(s){
           return '<span class="sub-chip" data-sub="' + esc(s) + '">📌 ' + esc(s) + '</span>';
         }).join("") + '</div>';
       }
-      return '<article class="card">' +
+      return '<article class="card" data-id="' + esc(it.id) + '" data-built="0">' +
         '<div class="card-head">' +
           '<h2 class="name">' + name + '</h2>' +
           '<div class="badges">' +
@@ -424,7 +442,7 @@
           '</div>' +
         '</div>' +
         subsHTML +
-        '<div class="body">' + body + '</div>' +
+        '<div class="body"></div>' +
         '<div class="actions">' +
           '<button class="btn primary" data-act="copy" data-id="' + esc(it.id) + '">📋 نسخ الترجمة</button>' +
           '<button class="btn" data-act="share" data-id="' + esc(it.id) + '">🔗 مشاركة</button>' +
@@ -436,6 +454,15 @@
         '<button class="btn primary" data-act="more">تحميل المزيد (' + (items.length - state.limit) + ' متبقٍ)</button></div>';
     }
     list.innerHTML = html;
+
+    var cards = list.querySelectorAll(".card");
+    if(bodyIO) bodyIO.disconnect();
+    var io = ensureIO();
+    var warm = Math.min(cards.length, 6);
+    for(var ci = 0; ci < cards.length; ci++){
+      if(ci < warm || !io) buildBody(cards[ci]);
+      else io.observe(cards[ci]);
+    }
   }
 
   // ---------- Events ----------

@@ -6,7 +6,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'ajayib-v3';
+const VERSION = 'ajayib-v4';
 const SHELL = 'ajayib-shell-' + VERSION;
 const RUNTIME = 'ajayib-runtime-' + VERSION;
 
