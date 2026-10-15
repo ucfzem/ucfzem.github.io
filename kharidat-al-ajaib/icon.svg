@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="خريدة العجائب وفريدة الغرائب">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#8f3226"/>
+      <stop offset="1" stop-color="#4c1912"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7dd97"/>
+      <stop offset="1" stop-color="#b7950b"/>
+    </linearGradient>
+    <radialGradient id="parch" cx="42%" cy="34%" r="80%">
+      <stop offset="0" stop-color="#fbf3df"/>
+      <stop offset="1" stop-color="#ecdcb8"/>
+    </radialGradient>
+    <clipPath id="globeclip"><circle cx="256" cy="262" r="150"/></clipPath>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="262" r="184" fill="none" stroke="#b7950b" stroke-width="3" opacity="0.45"/>
+
+  <circle cx="256" cy="262" r="150" fill="url(#parch)"/>
+
+  <g clip-path="url(#globeclip)" stroke="#9c7c3c" stroke-width="4" fill="none" opacity="0.7">
+    <ellipse cx="256" cy="262" rx="150" ry="150"/>
+    <ellipse cx="256" cy="262" rx="100" ry="150"/>
+    <ellipse cx="256" cy="262" rx="46" ry="150"/>
+    <line x1="106" y1="262" x2="406" y2="262"/>
+    <line x1="111" y1="212" x2="401" y2="212"/>
+    <line x1="111" y1="312" x2="401" y2="312"/>
+    <line x1="256" y1="112" x2="256" y2="412"/>
+  </g>
+
+  <g clip-path="url(#globeclip)" fill="#78281f" opacity="0.85">
+    <path d="M150 214c34-26 86-30 118-6 26 20 30 58 6 84-26 28-78 34-116 12-30-18-38-64-8-90z"/>
+    <path d="M300 150c26-6 52 8 60 34 6 22-6 44-28 50-24 6-48-8-54-32-4-20 2-44 22-52z"/>
+    <path d="M180 356c22-10 52-4 66 16 10 16 4 38-14 46-22 10-52 2-62-18-8-16-6-36 10-44z"/>
+  </g>
+
+  <circle cx="256" cy="262" r="150" fill="none" stroke="url(#gold)" stroke-width="13"/>
+
+  <g fill="url(#gold)" transform="translate(366 138)">
+    <path d="M0 -30 L8 -8 L30 0 L8 8 L0 30 L-8 8 L-30 0 L-8 -8 Z"/>
+  </g>
+</svg>

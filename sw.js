@@ -44,7 +44,8 @@ const SHELLS = [
   'karamat-al-awliya',
   'sifat-al-safwa',
   'ajayib-al-makhluqat',
-  'al-masalik-wa-al-mamalik'
+  'al-masalik-wa-al-mamalik',
+  'kharidat-al-ajaib'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -73,7 +74,8 @@ const APPS = [
   'karamat-al-awliya',
   'sifat-al-safwa',
   'ajayib-al-makhluqat',
-  'al-masalik-wa-al-mamalik'
+  'al-masalik-wa-al-mamalik',
+  'kharidat-al-ajaib'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -121,7 +123,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v12';
+const DATA_MARKER = '/__bookdata-v13';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 

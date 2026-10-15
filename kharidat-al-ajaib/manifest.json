@@ -1,0 +1,21 @@
+{
+  "name": "خريدة العجائب وفريدة الغرائب — ابن الوردي",
+  "short_name": "خريدة العجائب",
+  "description": "قراءة كتاب خريدة العجائب وفريدة الغرائب لابن الوردي (ت 852 هـ) مع بحث فوري وعدّاد للنتائج وتظليل، وفهرس الأبواب، وتكبير الخط، وتغيير الخط والمظهر — وعمل كامل بدون إنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fcf9f2",
+  "theme_color": "#78281f",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
