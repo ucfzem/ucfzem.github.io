@@ -1,0 +1,21 @@
+{
+  "name": "موسوعة المسعودي — أخبار الزمان ومروج الذهب",
+  "short_name": "المسعودي",
+  "description": "موسوعة المسعودي (أخبار الزمان ومروج الذهب) لأبي الحسن المسعودي (ت 346 هـ) مع بحث فوري وعدّاد للنتائج وتظليل، وفهرس الأبواب، وتكبير الخط، وتغيير الخط والمظهر — وعمل كامل بدون إنترنت.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4faf8",
+  "theme_color": "#0e6b63",
+  "categories": ["books", "education", "lifestyle"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

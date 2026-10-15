@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="موسوعة المسعودي — أخبار الزمان ومروج الذهب">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="34%" r="80%">
+      <stop offset="0" stop-color="#16776e"/>
+      <stop offset="1" stop-color="#073b39"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7dd97"/>
+      <stop offset="1" stop-color="#b7950b"/>
+    </linearGradient>
+    <linearGradient id="parch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbf3df"/>
+      <stop offset="1" stop-color="#ecdcb8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="246" r="189" fill="none" stroke="#b7950b" stroke-width="3" opacity="0.4"/>
+
+  <!-- astrolabe disc -->
+  <circle cx="256" cy="246" r="150" fill="none" stroke="url(#gold)" stroke-width="14"/>
+  <circle cx="256" cy="246" r="130" fill="none" stroke="#c9a227" stroke-width="3" opacity="0.65"/>
+  <g stroke="#caa63a" stroke-width="3" fill="none" opacity="0.55">
+    <ellipse cx="256" cy="246" rx="86" ry="130"/>
+    <ellipse cx="256" cy="246" rx="130" ry="86"/>
+    <line x1="126" y1="246" x2="386" y2="246"/>
+    <line x1="256" y1="116" x2="256" y2="376"/>
+  </g>
+
+  <!-- rete star -->
+  <path d="M256 88 L263 107 L282 114 L263 121 L256 140 L249 121 L230 114 L249 107 Z" fill="url(#gold)"/>
+
+  <!-- alidade (sighting rule) -->
+  <line x1="164" y1="326" x2="348" y2="166" stroke="url(#gold)" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="164" cy="326" r="11" fill="url(#gold)"/>
+  <circle cx="348" cy="166" r="11" fill="url(#gold)"/>
+  <circle cx="256" cy="246" r="13" fill="url(#gold)"/>
+
+  <!-- open book -->
+  <path d="M256 402 C 224 386 176 384 150 392 L150 452 C 176 444 224 446 256 462 Z" fill="url(#parch)" stroke="#b7950b" stroke-width="4"/>
+  <path d="M256 402 C 288 386 336 384 362 392 L362 452 C 336 444 288 446 256 462 Z" fill="url(#parch)" stroke="#b7950b" stroke-width="4"/>
+  <line x1="256" y1="402" x2="256" y2="462" stroke="#b7950b" stroke-width="4"/>
+</svg>
