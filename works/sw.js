@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.10';
+const CACHE = 'works-v1.0.11';
 const CORE = [
   './',
   './index.html',

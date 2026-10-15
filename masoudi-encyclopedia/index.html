@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>موسوعة المسعودي — أخبار الزمان ومروج الذهب</title>
-<meta name="description" content="موسوعة المسعودي (أخبار الزمان ومروج الذهب) لأبي الحسن المسعودي (ت 346 هـ) مع بحث فوري وعدّاد للنتائج وتظليل، وفهرس الأبواب، وتكبير الخط، وتغيير الخط والمظهر — والعمل الكامل بدون إنترنت.">
+<title>أخبار الزمان ومروج الذهب — المسعودي</title>
+<meta name="description" content="أخبار الزمان ومروج الذهب لأبي الحسن المسعودي (ت 346 هـ) مع بحث فوري وعدّاد للنتائج وتظليل، وفهرس الأبواب، وتكبير الخط، وتغيير الخط والمظهر — والعمل الكامل بدون إنترنت.">
 <meta name="theme-color" content="#0e6b63">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -227,14 +227,14 @@
   <div class="wrap">
     <div class="book-title-card">
       <div class="ornament">﷽</div>
-      <h1>موسوعة المسعودي</h1>
+      <h1>أخبار الزمان ومروج الذهب</h1>
       <div class="author">أبو الحسن علي بن الحسين المسعودي — توفي سنة ٣٤٦ هـ</div>
       <div class="src" id="bookmeta"></div>
     </div>
     <div id="bookContainer" aria-live="polite"></div>
     <footer>
       <div class="orn">﷽</div>
-      <p>موسوعة المسعودي — أخبار الزمان ومروج الذهب — لأبي الحسن المسعودي (ت 346 هـ) · قراءة بدون إنترنت (PWA)<br>
+      <p>أخبار الزمان ومروج الذهب — لأبي الحسن المسعودي (ت 346 هـ) · قراءة بدون إنترنت (PWA)<br>
       أخبار الزمان: المكتبة الشاملة (كتاب 8620) · مروج الذهب: أرشيف الإنترنت (تحقيق أسعد داغر، 4 أجزاء) — عبر ملف بيانات محلي داخل التطبيق.</p>
     </footer>
   </div>
@@ -352,7 +352,7 @@
     if(navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
     return new Promise(function(res,rej){ try{ var ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); res(); }catch(e){ rej(e); } });
   }
-  function sectionText(s){ return "« " + s.t + " »\n\n" + s.x.join("\n\n") + "\n\n📖 موسوعة المسعودي — أخبار الزمان ومروج الذهب (ت 346 هـ)"; }
+  function sectionText(s){ return "« " + s.t + " »\n\n" + s.x.join("\n\n") + "\n\n📖 أخبار الزمان ومروج الذهب — المسعودي (ت 346 هـ)"; }
   function toast(btn, msg){ var p = btn.dataset.label || btn.textContent; btn.dataset.label = p; btn.textContent = msg; setTimeout(function(){ btn.textContent = p; }, 1500); }
   function shareSection(s){
     var text = sectionText(s);
