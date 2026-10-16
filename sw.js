@@ -46,7 +46,8 @@ const SHELLS = [
   'ajayib-al-makhluqat',
   'al-masalik-wa-al-mamalik',
   'kharidat-al-ajaib',
-  'masoudi-encyclopedia'
+  'masoudi-encyclopedia',
+  'akhbar-al-hamqa-wal-mughaffalin'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -77,7 +78,8 @@ const APPS = [
   'ajayib-al-makhluqat',
   'al-masalik-wa-al-mamalik',
   'kharidat-al-ajaib',
-  'masoudi-encyclopedia'
+  'masoudi-encyclopedia',
+  'akhbar-al-hamqa-wal-mughaffalin'
 ];
 
 // Shared third-party assets the shells need to render offline.
