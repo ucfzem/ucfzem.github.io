@@ -10,6 +10,8 @@ const CORE = [
   './assets/tanger.png',
   './assets/tarikh-ibn-khaldun.svg',
   './assets/web-dev-logo.png',
+  './assets/barnabas.svg',
+  './assets/maktaba.svg',
   'https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg',
   'https://ucfzem.github.io/mapamundi/icon.svg',
   'https://ucfzem.github.io/al-mudhish/icon.svg',
