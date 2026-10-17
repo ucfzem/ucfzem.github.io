@@ -1,4 +1,4 @@
-const CACHE = 'sahih-al-qasas-v1.2.0';
+const CACHE = 'sahih-al-qasas-v1.3.0';
 const CORE = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const CORE = [
   './icon-192.png',
   './icon-512.png',
   './data/sahih-al-qasas.json',
+  './tools/pdf2json.html',
   'https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap'
 ];
 
@@ -28,7 +29,7 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
-  if (url.origin !== location.origin && !url.hostname.endsWith('gstatic.com') && !url.hostname.endsWith('googleapis.com')) return;
+  if (url.origin !== location.origin && !url.hostname.endsWith('gstatic.com') && !url.hostname.endsWith('googleapis.com') && !url.hostname.endsWith('cdnjs.cloudflare.com')) return;
 
   e.respondWith(
     caches.match(e.request).then((cached) => {

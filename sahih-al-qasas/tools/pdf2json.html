@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF ← JSON — أداة استخراج القصص (تعمل على جهازك)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#fdfbf7; --surface:#fff; --text:#2c2c2c; --text2:#5b6b63;
+    --accent:#2e6f40; --accent-soft:rgba(46,111,64,.12);
+    --border:#e7e0d3; --warn:#b7791f; --warn-soft:rgba(183,121,31,.12);
+    --danger:#c53030; --radius:14px;
+  }
+  [data-theme="dark"] {
+    --bg:#12181b; --surface:#1f2731; --text:#e2e8f0; --text2:#9fb3a8;
+    --accent:#48bb78; --accent-soft:rgba(72,187,120,.14);
+    --border:#2d3748; --warn:#f0c866; --warn-soft:rgba(240,200,102,.12);
+    --danger:#fc8181;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Cairo',system-ui,sans-serif; background:var(--bg); color:var(--text);
+         line-height:1.8; min-height:100vh; padding-bottom:60px; transition:background .3s,color .3s; }
+  header { position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+           gap:10px; padding:12px 16px; background:color-mix(in srgb,var(--bg) 90%,transparent);
+           backdrop-filter:blur(8px); border-bottom:1px solid var(--border); }
+  header h1 { font-size:1.05rem; }
+  header h1 small { display:block; font-size:.72rem; color:var(--text2); font-weight:400; }
+  header button { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+                  width:38px; height:38px; cursor:pointer; font-size:1rem; color:var(--text); }
+  main { max-width:760px; margin:0 auto; padding:20px 16px; }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+          padding:18px 16px; margin-bottom:16px; }
+  .card h2 { font-size:1rem; color:var(--accent); margin-bottom:12px; }
+  .note { font-size:.85rem; color:var(--text2); margin-bottom:10px; }
+  .note b { color:var(--warn); }
+  label { display:block; font-size:.85rem; color:var(--text2); margin:10px 0 4px; }
+  input[type=text], textarea {
+    width:100%; padding:11px 13px; border:1px solid var(--border); border-radius:10px;
+    background:var(--bg); color:var(--text); font-family:inherit; font-size:.95rem; outline:none;
+  }
+  input[type=text]:focus, textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  textarea { min-height:140px; resize:vertical; direction:rtl; }
+  .file-drop { display:block; border:2px dashed var(--border); border-radius:var(--radius);
+                padding:26px 14px; text-align:center; cursor:pointer; transition:all .2s; }
+  .file-drop:hover, .file-drop.drag { border-color:var(--accent); background:var(--accent-soft); }
+  .file-drop input { display:none; }
+  .file-drop .big { font-size:1.6rem; }
+  .file-drop p { font-size:.9rem; color:var(--text2); }
+  .file-drop .fname { color:var(--accent); font-weight:700; word-break:break-all; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  button.btn { background:var(--accent); color:#fff; border:none; border-radius:12px;
+               padding:13px 22px; font-family:inherit; font-size:.95rem; font-weight:700;
+               cursor:pointer; transition:all .2s; }
+  button.btn:disabled { opacity:.45; cursor:not-allowed; }
+  button.btn.sec { background:transparent; color:var(--accent); border:2px solid var(--accent); }
+  .status { font-size:.88rem; color:var(--text2); margin-top:10px; white-space:pre-wrap; }
+  .status.err { color:var(--danger); }
+  .status.ok { color:var(--accent); font-weight:700; }
+  .progress { height:8px; background:var(--border); border-radius:6px; overflow:hidden; margin-top:10px; display:none; }
+  .progress i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s; }
+  .stats { display:flex; gap:10px; flex-wrap:wrap; margin:12px 0; }
+  .stat { background:var(--accent-soft); border-radius:10px; padding:8px 14px; font-size:.85rem; }
+  .stat b { color:var(--accent); font-size:1.05rem; }
+  .warnbox { background:var(--warn-soft); border:1px solid var(--warn); border-radius:10px;
+             padding:10px 14px; font-size:.85rem; color:var(--warn); margin-top:10px; display:none; }
+  .storylist { max-height:420px; overflow-y:auto; border:1px solid var(--border); border-radius:10px; margin-top:12px; }
+  .stitem { display:flex; gap:10px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:.85rem; }
+  .stitem:last-child { border-bottom:none; }
+  .stitem .n { color:var(--accent); font-weight:700; min-width:26px; text-align:center; }
+  .stitem .t { flex:1; }
+  .stitem .t small { display:block; color:var(--text2); font-size:.75rem; }
+  .catbadge { background:var(--accent-soft); color:var(--accent); border-radius:8px;
+              padding:2px 8px; font-size:.72rem; white-space:nowrap; align-self:flex-start; }
+  .stitem.short .t small { color:var(--danger); }
+  footer { max-width:760px; margin:24px auto 0; padding:0 16px; color:var(--text2); font-size:.78rem;
+           text-align:center; line-height:2; }
+  .tabs { display:flex; gap:8px; margin-bottom:12px; }
+  .tabs button { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:10px;
+                 padding:10px; font-family:inherit; font-size:.88rem; color:var(--text2); cursor:pointer; }
+  .tabs button.on { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); font-weight:700; }
+  .hidden { display:none !important; }
+  #result { display:none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📄 PDF ← JSON <small>أداة استخراج القصص — تعمل داخل متصفحك على جهازك</small></h1>
+  <button id="themeBtn" aria-label="تبديل الوضع">🌙</button>
+</header>
+
+<main>
+  <div class="card">
+    <h2>١ — بيانات الكتاب</h2>
+    <label>عنوان الكتاب</label>
+    <input type="text" id="fTitle" value="صحيح القصص النبوي">
+    <label>المؤلف</label>
+    <input type="text" id="fAuthor" value="أبو إسحاق الحويني">
+    <p class="note" style="margin-top:10px">
+      🔒 <b>خصوصيتك:</b> كل المعالجة تتم داخل جهازك. ملف الـ PDF لا يُرفع لأي خادم،
+      والنص لا يخرج من متصفحك إلا إذا حمّلت أنت ملف JSON الناتج.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>٢ — مصدر النص</h2>
+    <div class="tabs">
+      <button id="tabPdf" class="on">ملف PDF</button>
+      <button id="tabText">لصق نص</button>
+    </div>
+
+    <div id="panePdf">
+      <label class="file-drop" id="drop">
+        <input type="file" id="file" accept="application/pdf,.pdf">
+        <div class="big">📖</div>
+        <p>اضغط لاختيار ملف PDF من جهازك</p>
+        <p class="fname" id="fname"></p>
+      </label>
+      <p class="note" style="margin-top:8px">
+        يعمل مع ملفات النص (وليس الصور الممسوحة ضوئياً). إن كان ملفك مصوّراً (صور)،
+        استخدم تبويب «لصق نص» وانسخ النص من المكتبة الشاملة أو أي مصدر تقرأ منه.
+      </p>
+    </div>
+
+    <div id="paneText" class="hidden">
+      <label>الصق نص القصص هنا (من الشاملة أو أي مصدر تقرأ منه):</label>
+      <textarea id="paste" placeholder="القصة الأولى: ...&#10;نص القصة...&#10;القصة الثانية: ..."></textarea>
+    </div>
+
+    <label style="margin-top:14px">طريقة التقسيم على عناوين «القصة …»</label>
+    <div class="row">
+      <label style="margin:0"><input type="radio" name="mode" value="strict" checked> صارم (بداية السطر)</label>
+      <label style="margin:0"><input type="radio" name="mode" value="loose"> متساهل (أي موضع)</label>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="go">استخراج القصص</button>
+      <button class="btn sec hidden" id="dl" disabled>⬇️ تحميل JSON</button>
+    </div>
+    <div class="progress" id="pbar"><i></i></div>
+    <div class="status" id="status"></div>
+    <div class="warnbox" id="warn"></div>
+  </div>
+
+  <div class="card" id="result">
+    <h2>٣ — النتيجة — راجعها قبل التحميل</h2>
+    <div class="stats" id="stats"></div>
+    <div class="storylist" id="list"></div>
+    <p class="note" style="margin-top:10px">
+      إن كان التقسيم غير دقيق، جرّب الطريقة «المتساهلة» أو الوضع «الصارم»، أو الصق نصاً أنظف.
+      ملف JSON سيُحفظ بنفس الاسم <code>sahih-al-qasas.json</code> ليحل مباشرة محل بيانات التطبيق.
+    </p>
+  </div>
+</main>
+
+<footer>
+  الأداة تُستخدم على نسختك الشخصية من الكتاب. الناتج مسؤوليتك أنت.<br>
+  بعد التحميل: أرسل الملف عبر Droppy للنشر، أو ضعه في <code>data/sahih-al-qasas.json</code>.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+'use strict';
+
+/* ---------- theme ---------- */
+(function () {
+  var t = 'light';
+  try {
+    t = localStorage.getItem('qasas_theme') ||
+        (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
+  var b = document.getElementById('themeBtn');
+  var upd = function () {
+    b.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+  };
+  upd();
+  b.onclick = function () {
+    var n = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', n);
+    try { localStorage.setItem('qasas_theme', n); } catch (e) {}
+    upd();
+  };
+})();
+
+if (window.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+/* ---------- tabs ---------- */
+var tabPdf = document.getElementById('tabPdf'),
+    tabText = document.getElementById('tabText'),
+    panePdf = document.getElementById('panePdf'),
+    paneText = document.getElementById('paneText');
+tabPdf.onclick = function () {
+  tabPdf.classList.add('on'); tabText.classList.remove('on');
+  panePdf.classList.remove('hidden'); paneText.classList.add('hidden');
+};
+tabText.onclick = function () {
+  tabText.classList.add('on'); tabPdf.classList.remove('on');
+  paneText.classList.remove('hidden'); panePdf.classList.add('hidden');
+};
+
+/* ---------- file picker ---------- */
+var fileInput = document.getElementById('file'),
+    drop = document.getElementById('drop'),
+    fname = document.getElementById('fname');
+fileInput.onchange = function () {
+  fname.textContent = fileInput.files && fileInput.files[0] ? fileInput.files[0].name : '';
+};
+['dragover', 'dragenter'].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('drag'); });
+});
+['dragleave', 'drop'].forEach(function (ev) {
+  drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('drag'); });
+});
+drop.addEventListener('drop', function (e) {
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) {
+    var dt = new DataTransfer();
+    dt.items.add(f);
+    fileInput.files = dt.files;
+    fname.textContent = f.name;
+  }
+});
+
+/* ---------- splitting engine (same logic as tools/extract.js) ---------- */
+var AR_ORDINALS = [
+  'الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','التاسعة','العاشرة',
+  'الحادية عشرة','الثانية عشرة','الثالثة عشرة','الرابعة عشرة','الخامسة عشرة',
+  'السادسة عشرة','السابعة عشرة','الثامنة عشرة','التاسعة عشرة','العشرون',
+  'الحادية والعشرون','الثانية والعشرون','الثالثة والعشرون','الرابعة والعشرون','الخامسة والعشرون',
+  'السادسة والعشرون','السابعة والعشرون','الثامنة والعشرون','التاسعة والعشرون','الثلاثون',
+  'الحادية والثلاثون','الثانية والثلاثون','الثالثة والثلاثون','الرابعة والثلاثون','الخامسة والثلاثون',
+  'السادسة والثلاثون','السابعة والثلاثون','الثامنة والثلاثون','التاسعة والثلاثون','الأربعون',
+  'الحادية والأربعون','الثانية والأربعون','الثالثة والأربعون','الرابعة والأربعون','الخامسة والأربعون',
+  'السادسة والأربعون','السابعة والأربعون','الثامنة والأربعون','التاسعة والأربعون','الخمسون',
+  'الحادية والخمسون','الثانية والخمسون','الثالثة والخمسون','الرابعة والخمسون','الخامسة والخمسون',
+  'السادسة والخمسون','السابعة والخمسون','الثامنة والخمسون','التاسعة والخمسون'
+].join('|');
+
+var KNOWN_CATS = [
+  'قصص الأنبياء والمرسلين','قصص الأنبياء',
+  'القصص الدالة على عجائب قدرة الله','عجائب قدرة الله',
+  'القصص الدالة على فضائل الأعمال','فضائل الأعمال',
+  'قصص النماذج الإيمانية الراقية','النماذج الإيمانية',
+  'قصص النماذج السيئة والعبر والمواعظ منها','قصص النماذج السيئة','النماذج السيئة'
+];
+var CAT_ALIAS = {
+  'قصص الأنبياء':'قصص الأنبياء والمرسلين',
+  'عجائب قدرة الله':'القصص الدالة على عجائب قدرة الله',
+  'فضائل الأعمال':'القصص الدالة على فضائل الأعمال',
+  'النماذج الإيمانية':'قصص النماذج الإيمانية الراقية',
+  'النماذج السيئة':'قصص النماذج السيئة والعبر والمواعظ منها'
+};
+
+function canonicalCat(c) {
+  if (!c) return '';
+  var best = '';
+  KNOWN_CATS.forEach(function (k) { if (c.indexOf(k) !== -1 && k.length > best.length) best = k; });
+  if (best) return CAT_ALIAS[best] || best;
+  return '';
+}
+
+function detectLineCat(line) {
+  // "الباب الأول: قصص الأنبياء ..." → use the part after the colon, else known match.
+  var known = canonicalCat(line);
+  if (known) return known;
+  if (/^الباب\s/.test(line)) {
+    var m = /^الباب\s+[^:：]{0,40}[:：]\s*(.+)$/.exec(line);
+    if (m && m[1].trim().length >= 4 && m[1].trim().length <= 80) return m[1].trim();
+    if (line.length <= 80) return line.trim();
+  }
+  return '';
+}
+
+function storyHeaderRe(loose) {
+  var core = 'القصة\\s+(?:' + AR_ORDINALS + '|\\d+|[\\u0660-\\u0669]+)';
+  return loose ? new RegExp(core, 'g') : new RegExp('(^|\\n)[ \\t]*' + core, 'gm');
+}
+
+function splitStories(text, loose) {
+  var re = storyHeaderRe(loose);
+  var marks = [], m;
+  while ((m = re.exec(text)) !== null) {
+    var header = loose ? m[1] : m[2];
+    var start = loose ? m.index : m.index + m[1].length;
+    marks.push({ header: header, start: start });
+    if (re.lastIndex === m.index) re.lastIndex++;
+  }
+  var stories = [];
+  for (var i = 0; i < marks.length; i++) {
+    var contentStart = marks[i].start + marks[i].header.length;
+    var contentEnd = (i + 1 < marks.length) ? marks[i + 1].start : text.length;
+    var seg = text.slice(contentStart, contentEnd);
+    stories.push({ header: marks[i].header, seg: seg });
+  }
+  return stories;
+}
+
+function cleanSeg(seg) {
+  var lines = seg.split('\n').map(function (l) { return l.trim(); })
+    .filter(function (l) {
+      if (!l) return false;
+      if (/^\d+$/.test(l)) return false;                       // page numbers
+      if (/^[-–—•·\s]+$/.test(l)) return false;                // rules
+      if (/صحيح القصص النبوي|دار النشر|الطبعة|دار النفائس/.test(l)) return false; // furniture
+      return true;
+    });
+  return lines;
+}
+
+function extractTitle(lines) {
+  for (var i = 0; i < Math.min(lines.length, 4); i++) {
+    var l = lines[i];
+    if (/^[\d\s.\-–—]+$/.test(l)) continue;
+    if (storyHeaderRe(false).test(l)) continue;
+    if (l.length >= 4) return l;
+  }
+  return '';
+}
+
+function detectSegmentCat(firstLines) {
+  for (var i = 0; i < Math.min(firstLines.length, 6); i++) {
+    var c = detectLineCat(firstLines[i]);
+    if (c) return c;
+  }
+  return '';
+}
+
+/* ---------- pdf text extraction ---------- */
+async function extractPdfText(file, onProgress) {
+  var buf = await file.arrayBuffer();
+  var pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  var out = '';
+  for (var i = 1; i <= pdf.numPages; i++) {
+    var page = await pdf.getPage(i);
+    var tc = await page.getTextContent();
+    for (var j = 0; j < tc.items.length; j++) {
+      var it = tc.items[j];
+      if (typeof it.str === 'string') {
+        out += it.str;
+        if (it.hasEOL) out += '\n';
+      }
+    }
+    out += '\n';
+    onProgress(i, pdf.numPages);
+  }
+  return out;
+}
+
+/* ---------- main flow ---------- */
+var lastJson = null;
+var goBtn = document.getElementById('go'),
+    dlBtn = document.getElementById('dl'),
+    statusEl = document.getElementById('status'),
+    warnEl = document.getElementById('warn'),
+    pbar = document.getElementById('pbar'),
+    pfill = pbar.firstElementChild,
+    resultBox = document.getElementById('result');
+
+function setStatus(msg, cls) {
+  statusEl.textContent = msg;
+  statusEl.className = 'status' + (cls ? ' ' + cls : '');
+}
+function setWarn(msg) {
+  warnEl.textContent = msg || '';
+  warnEl.style.display = msg ? 'block' : 'none';
+}
+
+goBtn.onclick = async function () {
+  setWarn('');
+  dlBtn.disabled = true;
+  resultBox.style.display = 'none';
+  var loose = document.querySelector('input[name=mode]:checked').value === 'loose';
+  var title = document.getElementById('fTitle').value.trim() || 'الكتاب';
+  var author = document.getElementById('fAuthor').value.trim() || '';
+
+  var text = '';
+  try {
+    var usePdf = !panePdf.classList.contains('hidden');
+    if (usePdf) {
+      var f = fileInput.files && fileInput.files[0];
+      if (!f) { setStatus('⚠️ اختر ملف PDF أولاً.', 'err'); return; }
+      if (!window.pdfjsLib) { setStatus('⚠️ تعذّر تحميل مكتبة قراءة PDF (تحقق من الإنترنت).', 'err'); return; }
+      setStatus('⏳ جارٍ قراءة الملف… (قد يطول مع الملفات الكبيرة)');
+      pbar.style.display = 'block'; pfill.style.width = '0%';
+      text = await extractPdfText(f, function (p, total) {
+        pfill.style.width = Math.round((p / total) * 100) + '%';
+        setStatus('⏳ استُخرجت ' + p + ' من ' + total + ' صفحة…');
+      });
+      pbar.style.display = 'none';
+      if (!text.trim()) {
+        setStatus('⚠️ لم يُعثر على نص (الملف ممسوح ضوئياً كصور؟). استخدم تبويب «لصق نص».', 'err');
+        return;
+      }
+    } else {
+      text = document.getElementById('paste').value;
+      if (!text.trim()) { setStatus('⚠️ الصق النص أولاً.', 'err'); return; }
+    }
+  } catch (e) {
+    pbar.style.display = 'none';
+    setStatus('⚠️ خطأ أثناء القراءة: ' + e.message, 'err');
+    return;
+  }
+
+  setStatus('⏳ جارٍ تقسيم النص إلى قصص…');
+  await new Promise(function (r) { setTimeout(r, 30); });
+
+  var raw = splitStories(text, loose);
+  var stories = [], dropped = 0, pendingCat = '';
+  // first pass: track باب headings in order
+  // (categories appear as lines before stories; we scan each segment + look-back)
+  raw.forEach(function (r, idx) {
+    var lines = cleanSeg(r.seg);
+    if (lines.length) {
+      var catHere = detectSegmentCat(lines);
+      if (catHere) pendingCat = catHere;
+    }
+    // also: detect باب line that appeared right before this header inside previous seg tail
+    var cat = pendingCat || detectSegmentCat(cleanSeg(r.header + '\n' + r.seg.slice(0, 300)));
+    if (lines.length < 1 || r.seg.trim().length < 40) { dropped++; return; }
+    var titleLine = extractTitle(lines);
+    var ti = titleLine ? lines.indexOf(titleLine) : -1;
+    var contentLines = ti >= 0 ? lines.slice(ti + 1) : lines;
+    // strip a leading duplicate of the header/title if present
+    if (contentLines.length && contentLines[0] === r.header) contentLines.shift();
+    stories.push({
+      header: r.header,
+      title: titleLine || r.header,
+      category: cat,
+      content: contentLines.join('\n\n').trim()
+    });
+  });
+
+  // re-number sequentially
+  stories.forEach(function (s, i) { s.id = i + 1; s.number = i + 1; });
+
+  if (!stories.length) {
+    setStatus('⚠️ لم يتم العثور على عناوين قصص. جرّب الوضع الآخر للتقسيم أو تأكد من النص.', 'err');
+    return;
+  }
+
+  lastJson = {
+    bookInfo: {
+      title: title,
+      author: author,
+      totalStories: stories.length,
+      language: 'ar',
+      direction: 'rtl'
+    },
+    stories: stories.map(function (s) {
+      return { id: s.id, number: s.number, category: s.category, title: s.title, content: s.content };
+    })
+  };
+
+  renderResult(stories, dropped, loose);
+  setStatus('✅ تم استخراج ' + stories.length + ' قصة.' + (dropped ? ' (تم تجاهل ' + dropped + ' مقطع قصير جداً)' : ''), 'ok');
+  dlBtn.disabled = false;
+};
+
+function renderResult(stories, dropped, loose) {
+  var cats = {};
+  stories.forEach(function (s) {
+    var k = s.category || '(بدون باب)';
+    cats[k] = (cats[k] || 0) + 1;
+  });
+  var shortCount = stories.filter(function (s) { return s.content.length < 200; }).length;
+
+  var html = '<div class="stat"><b>' + stories.length + '</b> قصة</div>' +
+             '<div class="stat"><b>' + Object.keys(cats).length + '</b> أبواب/فئات</div>';
+  document.getElementById('stats').innerHTML = html;
+
+  document.getElementById('list').innerHTML = stories.map(function (s, i) {
+    var isShort = s.content.length < 200;
+    return '<div class="stitem' + (isShort ? ' short' : '') + '">' +
+      '<span class="n">' + (i + 1) + '</span>' +
+      '<span class="t"><b>' + esc(s.title) + '</b>' +
+      '<small>' + (isShort ? '⚠ مقطع قصير (' + s.content.length + ' حرف) — راجعه' :
+        s.content.length + ' حرف · ' + esc(s.content.slice(0, 70)) + '…') + '</small></span>' +
+      (s.category ? '<span class="catbadge">' + esc(s.category) + '</span>' : '') +
+    '</div>';
+  }).join('');
+
+  var warnMsg = '';
+  if (shortCount > 0) warnMsg += '«' + shortCount + '» قصة بمقطع قصير — قد يكون التقسيم ضاق. ';
+  if (Object.keys(cats).length === 1 && stories.length > 5) warnMsg += 'لم يُكتشف سوى باب واحد — إن كان للكتاب عدة أبواب جرّب وضع «متساهل» أو تأكد من عناوين «الباب». ';
+  if (loose && dropped > 0) warnMsg += '(عند التقسيم المتساهل قد تُنشأ مقاطع وهمية من الفهرس — راجع القائمة.)';
+  setWarn(warnMsg.trim());
+
+  resultBox.style.display = 'block';
+}
+
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+dlBtn.onclick = function () {
+  if (!lastJson) return;
+  var blob = new Blob([JSON.stringify(lastJson, null, 2)], { type: 'application/json;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sahih-al-qasas.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  setStatus('✅ تم تحميل الملف: sahih-al-qasas.json — راجعه ثم أرسله للنشر.', 'ok');
+};
+</script>
+</body>
+</html>
