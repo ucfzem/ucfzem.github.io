@@ -85,3 +85,30 @@ Built a complete Arabic RTL PWA reader for **صحيح القصص النبوي** 
 - `works/` untouched — all entries preserved
 
 
+
+## Huweeni book question + v1.3.0 — Browser PDF→JSON tool (phone-only workflow)
+
+- User asked whether «صحيح القصص النبوي» by **أبو إسحاق الحويني** is available "بدون قيود" (without restrictions).
+- Research answer: only **الجزء الأول (قصص 1–50)** exists — printed by مكتبة الصحابة، جدة، 1411هـ، ~92pp; available on المكتبة الوقفية / الشاملة / مكتبة عين. **No full موسوعة published.** It is a **modern copyrighted work** (Huweeni, b. 1949) — free PDF on archive sites ≠ public domain; عين University explicitly states حقوق النشر محفوظة. So: readable/quotable by the user personally, but not free to reproduce publicly. Same boundary as the Al-Ashqar book.
+- User answered **«لا»** to building a Huweeni skeleton — app stays as-is (Al-Ashqar, 48 titles / 5 أبواب).
+- User then said: **«لا أستطيع فعل كل هذا بمجرد هاتف محمول»** (cannot run the Node/Python extractors — phone only).
+- **Solution (v1.3.0): new browser-based extractor `tools/pdf2json.html`** — no Termux, no computer, no installs:
+  - Opens directly on the phone browser: https://ucfzem.github.io/sahih-al-qasas/tools/pdf2json.html
+  - **All processing runs client-side** (pdf.js from cdnjs) — the PDF never leaves the device; only the user's own downloaded JSON can be shared.
+  - Two input modes: pick a **PDF file** (text-layer PDFs) or **paste text** (fallback for scanned PDFs / Shamela copy-paste).
+  - Editable bookInfo (title/author, prefilled), split mode toggle (strict line-start / loose any-position).
+  - Same splitting engine as `tools/extract.js`: Arabic ordinals 1–50 + digits, sequential باب/known-category detection, page-furniture cleanup, short-segment filtering.
+  - Live preview before download: story count, أبواب breakdown, per-story title/category/content length (⚠ flags short segments), warnings (single باب detected, TOC noise in loose mode).
+  - Download button produces **`sahih-al-qasas.json`** in the exact app schema — user sends it via Droppy (or any transfer) and we deploy it.
+- Also: app footer now links to the tool; `sw.js` bumped to `sahih-al-qasas-v1.3.0`, precaches `./tools/pdf2json.html`, runtime-caches `cdnjs.cloudflare.com` (for pdf.js) after first use (not precached to avoid ~1MB for every visitor).
+
+## Git/Push Context (v1.3.0)
+
+- Commit `Sahih al-Qasas v1.3.0: browser-based PDF-to-JSON extractor (works on phone, runs locally)` (pushed, `d9b8574`)
+- Verified live with `Cache-Control: no-cache`:
+  - `/sahih-al-qasas/tools/pdf2json.html` → 200
+  - `/sahih-al-qasas/sw.js` → `v1.3.0`
+  - `/sahih-al-qasas/` footer link → present (1)
+  - cdnjs `pdf.min.js` + `pdf.worker.min.js` (3.11.174) → 200
+  - `works/` card → still 1 match (untouched)
+- Standalone source `/tmp/opencode/sahih-al-qasas-app/` re-synced (index/styles/sw + tool).
