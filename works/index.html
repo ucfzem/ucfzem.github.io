@@ -257,6 +257,7 @@
   }
   .folder-header:hover { background: rgba(201,168,76,0.08); }
   .folder-icon { font-size: 1.3rem; min-width: 28px; text-align: center; }
+  .folder-icon-img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; min-width: 28px; }
   .folder-num { min-width: 24px; }
   .maktaba-num {
     min-width: 22px;
@@ -761,7 +762,8 @@
       <div class="folder open" id="f-maktaba">
         <div class="folder-header" onclick="toggleFolder('maktaba')">
           <span class="card-num">${split + 1}</span>
-          <span class="folder-icon">📚</span>
+          <img src="https://ucfzem.github.io/works/assets/maktaba.svg" class="folder-icon-img" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+          <span class="folder-icon" style="display:none;">📚</span>
           <span class="folder-title">Maktaba · المكتبة</span>
           <span class="card-tag">Library</span>
           <span class="folder-arrow">▼</span>
