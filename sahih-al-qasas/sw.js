@@ -1,4 +1,4 @@
-const CACHE = 'sahih-al-qasas-v1.0.0';
+const CACHE = 'sahih-al-qasas-v1.1.0';
 const CORE = [
   './',
   './index.html',

@@ -141,6 +141,7 @@ async function loadData() {
     chapters = list.map((c, i) => ({
       id: c.id || (i + 1),
       number: c.number || (i + 1),
+      category: c.category || '',
       title: c.title || ('القصة ' + (i + 1)),
       summary: c.summary || '',
       content: c.content || ''
@@ -303,6 +304,7 @@ function renderReader(id) {
       '<button type="button" class="clearbtn" id="clearSearch" title="مسح البحث">✕</button>' +
     '</div>' +
     '<div class="card" id="chapterCard">' +
+      (ch.category ? '<p class="cat">' + esc(ch.category) + '</p>' : '') +
       '<h2>' + esc(ch.title || ('القصة ' + id)) + '</h2>' +
       (ch.summary ? '<p class="sub">' + esc(ch.summary) + '</p>' : '') +
       body +
@@ -343,6 +345,28 @@ function renderReader(id) {
   updateProgress();
 }
 
+function renderGroupedToc() {
+  const groups = [];
+  const byCat = new Map();
+  chapters.forEach(ch => {
+    const key = ch.category || '';
+    if (!byCat.has(key)) { byCat.set(key, []); groups.push(key); }
+    byCat.get(key).push(ch);
+  });
+  return groups.map(cat => {
+    const items = byCat.get(cat);
+    const head = cat
+      ? '<h3 class="cat-head">' + esc(cat) + '</h3>'
+      : '';
+    const list = items.map(ch =>
+      '<button type="button" class="toc-item" data-id="' + ch.id + '">' +
+        '<span class="num">' + toArabicDigits(ch.number || ch.id) + '</span>' +
+        '<span class="t">' + esc(ch.title || ('القصة ' + ch.id)) + '</span>' +
+      '</button>').join('');
+    return head + '<div class="toc">' + list + '</div>';
+  }).join('');
+}
+
 function renderHome() {
   const app = document.getElementById('app');
   let resume = null;
@@ -366,13 +390,8 @@ function renderHome() {
       '</div>' +
       '<div class="results" id="searchResults" hidden></div>' +
       '<div id="tocWrap">' +
-        '<h2>القصص</h2>' +
-        '<div class="toc">' +
-          chapters.map(ch =>
-            '<button type="button" class="toc-item" data-id="' + ch.id + '">' +
-              '<span class="num">' + toArabicDigits(ch.number || ch.id) + '</span><span class="t">' + esc(ch.title || ('القصة ' + ch.id)) + '</span>' +
-            '</button>').join('') +
-        '</div>' +
+        '<h2>القصص (' + toArabicDigits(total) + ')</h2>' +
+        renderGroupedToc() +
       '</div>' +
     '</div>';
 
