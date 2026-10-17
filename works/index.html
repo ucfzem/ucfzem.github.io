@@ -258,6 +258,14 @@
   .folder-header:hover { background: rgba(201,168,76,0.08); }
   .folder-icon { font-size: 1.3rem; min-width: 28px; text-align: center; }
   .folder-num { min-width: 24px; }
+  .maktaba-num {
+    min-width: 22px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #d97706;
+    text-align: center;
+    letter-spacing: -0.25px;
+  }
   .folder-title { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; }
   .folder-count { font-size: 0.7rem; color: var(--text-sec); background: rgba(201,168,76,0.1); padding: 2px 10px; border-radius: 8px; }
   .folder-arrow { font-size: 0.7rem; color: var(--text-sec); transition: transform 0.25s ease; }
@@ -759,9 +767,9 @@
           <span class="folder-arrow">▼</span>
         </div>
         <div class="folder-content">
-          ${maktaba.map(p => `
+          ${maktaba.map((p, i) => `
             <a href="${p.url || '#'}" class="card" target="_blank">
-              <span class="folder-num"></span>
+              <span class="maktaba-num">${i+1}</span>
               ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
               <div class="card-info"><span class="card-name">${p.name}</span></div>
               <span class="card-tag">${p.tag||''}</span>
