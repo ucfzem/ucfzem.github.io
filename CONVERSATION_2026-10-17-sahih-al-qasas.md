@@ -44,3 +44,29 @@ Built a complete Arabic RTL PWA reader for **صحيح القصص النبوي** 
 
 - Added card: `{ emoji: "📿", name: "صحيح القصص النبوي", tag: "Hadith", icon: "https://ucfzem.github.io/sahih-al-qasas/icon.svg", url: "https://ucfzem.github.io/sahih-al-qasas/" }`
 - `works/sw.js` bumped to `works-v1.0.16` to include new icon for offline
+
+## v1.1.0 — Full book structure (categories) + extraction tools
+
+- App now supports the `category` field on each story:
+  - Grouped home TOC by the 5 أبواب (category headers).
+  - Category label shown at top of each story card.
+  - `bookInfo.totalStories` honored in the home heading.
+- `app.js` `loadData()` maps `c.category`; `renderGroupedToc()` groups by category.
+- `styles.css` adds `.cat` and `.cat-head` styles.
+- Shipped extraction tools in `sahih-al-qasas/tools/`:
+  - `extract_stories.py` (pdfplumber) — extracts stories + باب category detection.
+  - `extract.js` (pdf-parse) — Node.js equivalent.
+  - `render_icons.mjs` — icon rendering.
+- Data schema now:
+  ```json
+  { "bookInfo": { "totalStories": 57, ... },
+    "stories": [ { "id", "number", "category", "title", "content", "summary?" } ] }
+  ```
+- Starter data remains a small set of accurate, source-attributed classical hadiths (Bukhari/Muslim); run the extractor on the book PDF to populate all 57 stories.
+
+## Git/Push Context (v1.1.0)
+
+- Commit `Sahih al-Qasas: add category support, grouped TOC, extraction tools` (pushed)
+- `sahih-al-qasas/sw.js` bumped to `sahih-al-qasas-v1.1.0`
+- `works/` left untouched (verified: no diff) — all Maktaba entries preserved
+
