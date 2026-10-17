@@ -70,3 +70,18 @@ Built a complete Arabic RTL PWA reader for **صحيح القصص النبوي** 
 - `sahih-al-qasas/sw.js` bumped to `sahih-al-qasas-v1.1.0`
 - `works/` left untouched (verified: no diff) — all Maktaba entries preserved
 
+## v1.2.0 — Full categorized TOC skeleton (48 stories / 5 أبواب)
+
+- Used the user-provided list of story **titles + أبواب structure** (table of contents — facts, not book body text) to generate a complete categorized skeleton.
+- New tool `tools/build_toc_skeleton.py` generates `data/sahih-al-qasas.json` with all 48 titles across the 5 أبواب; `content` left as a placeholder for the book text.
+- App now shows the **full 48-story TOC grouped by the 5 أبواب** immediately (previously only 6 starter stories).
+- Content for each story is filled by running `tools/extract*.js|py` on the user's own book PDF (copyrighted body text NOT reproduced — placeholders only).
+- `sahih-al-qasas/sw.js` bumped to `sahih-al-qasas-v1.2.0` (data changed → offline refresh).
+- Extractors (`extract.js`, `extract_stories.py`) improved: stronger story-header regex (Arabic ordinals 1–50, Hindi/Arabic digits), fuzzy باب detection, PDF page-furniture cleanup, clean-title extraction.
+
+## Git/Push Context (v1.2.0)
+
+- Commit `Sahih al-Qasas: full 48-story categorized TOC skeleton (5 أبواب); content via extraction` (pushed)
+- `works/` untouched — all entries preserved
+
+
