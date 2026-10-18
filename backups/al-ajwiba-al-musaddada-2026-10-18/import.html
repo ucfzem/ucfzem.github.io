@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استيراد الكتاب — الأجوبة المسددة</title>
+  <meta name="theme-color" content="#1f5c46">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script id="themeBoot">
+    (function () {
+      var t = 'dark';
+      try {
+        t = localStorage.getItem('ajwiba_theme') ||
+          (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site">
+    <div class="brand">
+      <h1>⬆️ استيراد الكتاب</h1>
+      <p>الصق النص أو ارفع ملف .md / .txt — يُحفظ في المتصفح للعمل دون إنترنت</p>
+    </div>
+    <div class="actions">
+      <button id="themeToggle" aria-label="تبديل الوضع">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="import-wrap">
+      <div class="card">
+        <h2>نص الكتاب (Markdown مبسّط)</h2>
+        <p>يبدأ كل فصل بـ <code>## </code>، وكل قسم بـ <code>### </code>. الترتيب المقترح للأقسام: السياق والراوي، السؤال، الجواب، التحليل، الدروس المستفادة.</p>
+        <textarea id="bookText" placeholder="# عنوان الكتاب&#10;&#10;## الفصل الأول: ...&#10;### السياق والراوي&#10;..."></textarea>
+        <div class="import-actions">
+          <label class="btn" for="fileInput">📂 رفع ملف</label>
+          <input id="fileInput" type="file" accept=".txt,.md,text/plain,text/markdown" hidden>
+          <button id="btnPreview" class="alt">👁️ معاينة</button>
+          <button id="btnSave">💾 حفظ</button>
+          <button id="btnExport" class="alt">📤 تصدير JSON</button>
+          <button id="btnDelete" class="danger">🗑️ حذف</button>
+          <a class="btn alt" href="./index.html" style="text-decoration:none;display:inline-flex;align-items:center">↩︎ القارئ</a>
+        </div>
+        <div id="importPreview">—</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site">
+    <p>تخزين محلي بالكامل داخل متصفحك (IndexedDB). لا يُرسل أي نص إلى أي خادم.</p>
+  </footer>
+
+  <script type="module" src="./import.js"></script>
+  <script>
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      var get = function () { return document.documentElement.getAttribute('data-theme') || 'dark'; };
+      var upd = function () { btn.textContent = get() === 'dark' ? '☀️' : '🌙'; };
+      upd();
+      btn.addEventListener('click', function () {
+        var next = get() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        upd();
+        try { localStorage.setItem('ajwiba_theme', next); } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>
