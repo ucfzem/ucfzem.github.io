@@ -1,4 +1,4 @@
-const CACHE = 'musawa-qasas-v1.0.1';
+const CACHE = 'musawa-qasas-v1.0.2';
 const CORE = [
   './',
   './index.html',
@@ -6,7 +6,7 @@ const CORE = [
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
-  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;600;700&display=swap'
+  'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;600;700&display=swap'
 ];
 
 self.addEventListener('install', (e) => {
