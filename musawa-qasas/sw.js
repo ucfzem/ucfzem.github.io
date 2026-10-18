@@ -1,4 +1,4 @@
-const CACHE = 'musawa-qasas-v1.0.2';
+const CACHE = 'musawa-qasas-v1.0.3';
 const CORE = [
   './',
   './index.html',
