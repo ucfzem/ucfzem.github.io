@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1B4332">
+<title>الموسوعة الشاملة للقصص والحديث النبوي الصحيح</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Scheherazade+New:wght@400;700&family=Reem+Kufi:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #FAF6EE; --bg-alt: #F3EDE1; --card: #FFFDF9;
+    --ink: #1C1A17; --ink-soft: #4A453D;
+    --emerald: #1B4332; --emerald-light: #2D6A4F;
+    --gold: #C5A059; --gold-light: #E9D8A6;
+    --border: #D9CDB8; --shadow: rgba(27, 67, 50, 0.12);
+    --mark: #F4D35E; --mark-text: #1C1A17;
+    --font-body: 'Amiri', 'Scheherazade New', serif;
+    --font-display: 'Cairo', 'Segoe UI', Tahoma, 'Geeza Pro', 'Noto Naskh Arabic', sans-serif;
+    --font-size: 1.15rem;
+    --status-green: #2D6A4F; --status-green-bg: rgba(45,106,79,.14);
+    --status-yellow: #8B6914; --status-yellow-bg: rgba(197,160,89,.18);
+    --status-orange: #B85C38; --status-orange-bg: rgba(184,92,56,.16);
+}
+[data-theme="dark"] {
+    --bg: #12161A; --bg-alt: #181E24; --card: #1E242B;
+    --ink: #E6E1D8; --ink-soft: #A8A296;
+    --emerald: #4A7A63; --emerald-light: #6A9C82;
+    --gold: #D4AF37; --gold-light: #8A7440;
+    --border: #3A424B; --shadow: rgba(0, 0, 0, 0.4);
+    --mark: #D4AF37; --mark-text: #12161A;
+    --status-green: #7AB896; --status-green-bg: rgba(122,184,150,.14);
+    --status-yellow: #E9D8A6; --status-yellow-bg: rgba(233,216,166,.12);
+    --status-orange: #E89B7A; --status-orange-bg: rgba(232,155,122,.14);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-body); background: var(--bg); color: var(--ink);
+    line-height: 1.9; font-size: var(--font-size);
+    transition: background .35s, color .35s; min-height: 100vh;
+    background-image:
+        radial-gradient(circle at 15% 20%, rgba(197,160,89,.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(27,67,50,.05) 0%, transparent 45%);
+}
+body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .35;
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.012) 2px, rgba(0,0,0,.012) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,.008) 3px, rgba(0,0,0,.008) 6px);
+    z-index: 0;
+}
+[data-theme="dark"] body::before { opacity: .2; }
+.geom-border { border: 2px solid var(--gold); position: relative; }
+.geom-border::before {
+    content: ""; position: absolute; inset: 4px; border: 1px solid var(--emerald);
+    opacity: .45; pointer-events: none; border-radius: inherit;
+}
+header {
+    position: relative; z-index: 2; text-align: center; padding: 2.2rem 1rem 1.4rem;
+    background: linear-gradient(180deg, var(--bg-alt), transparent);
+    border-bottom: 1px solid var(--border);
+}
+.header-ornament { display: flex; align-items: center; justify-content: center; gap: .7rem; margin-bottom: .6rem; }
+.header-ornament span { display: inline-block; width: 40px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.header-ornament svg { width: 28px; height: 28px; fill: var(--gold); }
+h1 {
+    font-family: var(--font-display); font-size: clamp(1.35rem, 3.6vw, 2.3rem);
+    font-weight: 700; color: var(--emerald); letter-spacing: .5px; line-height: 1.5;
+}
+[data-theme="dark"] h1 { color: var(--gold); }
+.subtitle { font-size: .95rem; color: var(--ink-soft); margin-top: .4rem; font-style: italic; }
+.controls {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    padding: .8rem 1rem; border-bottom: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: center;
+}
+.search-wrap { flex: 1 1 340px; max-width: 680px; position: relative; }
+.search-wrap svg {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    width: 20px; height: 20px; fill: var(--ink-soft); pointer-events: none;
+}
+#searchInput {
+    width: 100%; padding: .7rem 2.7rem .7rem 1rem;
+    font-family: var(--font-body); font-size: 1rem;
+    background: var(--card); color: var(--ink);
+    border: 1.5px solid var(--border); border-radius: 50px; outline: none;
+    transition: border .2s, box-shadow .2s;
+}
+#searchInput:focus { border-color: var(--gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 25%, transparent); }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
+    padding: .55rem .9rem; border-radius: 50px;
+    border: 1.5px solid var(--border); background: var(--card); color: var(--ink);
+    font-family: var(--font-display); font-size: .85rem;
+    cursor: pointer; transition: all .2s; white-space: nowrap; user-select: none;
+}
+.btn:hover { border-color: var(--gold); background: var(--bg-alt); }
+.btn.active { background: var(--emerald); color: #fff; border-color: var(--emerald); }
+[data-theme="dark"] .btn.active { background: var(--gold); color: #12161A; border-color: var(--gold); }
+.btn svg { width: 16px; height: 16px; fill: currentColor; }
+.filters {
+    display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center;
+    padding: .7rem 1rem; max-width: 1100px; margin: 0 auto; position: relative; z-index: 2;
+}
+.filter-badge {
+    padding: .35rem .9rem; border-radius: 50px; border: 1px solid var(--border);
+    background: var(--card); color: var(--ink-soft);
+    font-family: var(--font-display); font-size: .78rem; cursor: pointer; transition: all .2s;
+}
+.filter-badge.active { background: var(--gold); color: #12161A; border-color: var(--gold); font-weight: 600; }
+.stats-bar { text-align: center; font-size: .82rem; color: var(--ink-soft); padding: .2rem 1rem .8rem; position: relative; z-index: 2; }
+.grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.3rem; padding: 1rem 1.2rem 3rem; max-width: 1320px; margin: 0 auto; position: relative; z-index: 2;
+}
+.card {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: 18px;
+    padding: 1.3rem 1.2rem 1.1rem; position: relative;
+    box-shadow: 0 6px 22px -10px var(--shadow);
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    display: flex; flex-direction: column; overflow: hidden;
+}
+.card::before {
+    content: ""; position: absolute; top: 0; right: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald)); opacity: .55;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px -14px var(--shadow); border-color: var(--gold); }
+.card-badges { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .55rem; }
+.card-category {
+    font-family: var(--font-display); font-size: .68rem;
+    padding: .18rem .7rem; border-radius: 50px;
+    background: color-mix(in srgb, var(--emerald) 12%, transparent);
+    color: var(--emerald); border: 1px solid color-mix(in srgb, var(--emerald) 30%, transparent);
+}
+[data-theme="dark"] .card-category {
+    background: color-mix(in srgb, var(--gold) 15%, transparent);
+    color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, transparent);
+}
+.status-badge {
+    font-family: var(--font-display); font-size: .65rem; font-weight: 600;
+    padding: .18rem .65rem; border-radius: 50px; white-space: nowrap;
+}
+.status-badge.verbatim { background: var(--status-green-bg); color: var(--status-green); border: 1px solid var(--status-green); }
+.status-badge.near { background: var(--status-yellow-bg); color: var(--status-yellow); border: 1px solid var(--status-yellow); }
+.status-badge.summary { background: var(--status-orange-bg); color: var(--status-orange); border: 1px solid var(--status-orange); }
+.card h3 {
+    font-family: var(--font-display); font-size: 1.08rem; font-weight: 700;
+    color: var(--emerald); line-height: 1.5; margin-bottom: .4rem;
+}
+[data-theme="dark"] .card h3 { color: var(--gold-light); }
+.card-excerpt {
+    font-size: .9rem; color: var(--ink-soft);
+    display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;
+    overflow: hidden; margin-bottom: .8rem; flex: 1;
+}
+.card-source { font-size: .72rem; color: var(--gold); margin-bottom: .7rem; font-weight: 600; }
+.card-actions {
+    display: flex; gap: .5rem; flex-wrap: wrap;
+    border-top: 1px dashed var(--border); padding-top: .7rem;
+}
+.card-actions .btn { padding: .38rem .75rem; font-size: .74rem; }
+.btn-fav.active { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 15%, transparent); }
+.btn-fav.active svg { fill: var(--gold); }
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(10, 12, 14, .72);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center;
+    padding: 1rem; opacity: 0; transition: opacity .25s;
+}
+.modal-overlay.open { display: flex; opacity: 1; }
+.modal {
+    background: var(--bg); border: 2px solid var(--gold); border-radius: 22px;
+    width: 100%; max-width: 880px; max-height: 92vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5); position: relative;
+    animation: modalIn .3s ease; overflow: hidden;
+}
+@keyframes modalIn { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-header {
+    padding: 1.2rem 1.4rem .8rem; border-bottom: 1px solid var(--border);
+    position: relative; background: linear-gradient(180deg, var(--bg-alt), transparent);
+}
+.modal-header h2 {
+    font-family: var(--font-display); font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+    color: var(--emerald); line-height: 1.5; padding-left: 2.5rem;
+}
+[data-theme="dark"] .modal-header h2 { color: var(--gold); }
+.modal-meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+.modal-category {
+    font-size: .72rem; font-family: var(--font-display);
+    color: var(--gold); border: 1px solid var(--gold);
+    padding: .1rem .65rem; border-radius: 50px;
+}
+.modal-close {
+    position: absolute; top: 1rem; left: 1rem;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--border); background: var(--card); color: var(--ink);
+    font-size: 1.2rem; cursor: pointer; display: grid; place-items: center; transition: all .2s;
+}
+.modal-close:hover { background: var(--emerald); color: #fff; border-color: var(--emerald); }
+.modal-body {
+    overflow-y: auto; padding: 1.3rem 1.5rem 2rem;
+    font-size: var(--font-size); line-height: 2.1; text-align: justify;
+    scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+}
+.modal-body::-webkit-scrollbar { width: 8px; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+.modal-body p { margin-bottom: 1rem; }
+.modal-body .hadith-text { text-indent: 1.5em; }
+.status-banner {
+    padding: .8rem 1rem; border-radius: 10px; margin-bottom: 1.2rem;
+    font-size: .88rem; border-right: 4px solid; line-height: 1.75;
+    display: flex; gap: .6rem; align-items: flex-start;
+}
+.status-banner .icon { font-size: 1.1rem; flex-shrink: 0; }
+.status-banner.verbatim { background: var(--status-green-bg); border-color: var(--status-green); color: var(--status-green); }
+.status-banner.near { background: var(--status-yellow-bg); border-color: var(--status-yellow); color: var(--status-yellow); }
+.status-banner.summary { background: var(--status-orange-bg); border-color: var(--status-orange); color: var(--status-orange); }
+[data-theme="dark"] .status-banner { color: var(--ink); }
+[data-theme="dark"] .status-banner.verbatim { color: #C8E6D5; border-color: var(--status-green); }
+[data-theme="dark"] .status-banner.near { color: #F3E9C5; border-color: var(--status-yellow); }
+[data-theme="dark"] .status-banner.summary { color: #F5CBB8; border-color: var(--status-orange); }
+.modal-source {
+    margin-top: 1.3rem; padding: .9rem 1rem;
+    background: color-mix(in srgb, var(--gold) 10%, transparent);
+    border-right: 4px solid var(--gold); border-radius: 8px;
+    font-size: .85rem; color: var(--ink-soft);
+}
+.modal-source strong { color: var(--emerald); font-family: var(--font-display); }
+[data-theme="dark"] .modal-source strong { color: var(--gold); }
+.benefits-title {
+    font-family: var(--font-display); color: var(--emerald);
+    margin: 1.2rem 0 .6rem; font-size: 1rem;
+}
+[data-theme="dark"] .benefits-title { color: var(--gold); }
+.benefits-list { list-style: none; }
+.benefits-list li { position: relative; padding-right: 1.5rem; margin-bottom: .5rem; font-size: .92rem; }
+.benefits-list li::before { content: "◆"; position: absolute; right: 0; top: 0; color: var(--gold); font-size: .7rem; }
+.modal-toolbar {
+    display: flex; gap: .6rem; flex-wrap: wrap;
+    padding: .8rem 1.4rem 1rem; border-top: 1px solid var(--border); background: var(--bg-alt);
+}
+.modal-toolbar .btn { flex: 1 1 auto; }
+.btn-verify { background: var(--emerald); color: #fff; border-color: var(--emerald); }
+.btn-verify:hover { background: var(--emerald-light); color: #fff; }
+[data-theme="dark"] .btn-verify { background: var(--gold); color: #12161A; border-color: var(--gold); }
+mark { background: var(--mark); color: var(--mark-text); padding: 0 .12em; border-radius: 3px; font-weight: 700; }
+.empty {
+    grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;
+    color: var(--ink-soft); font-size: 1.1rem;
+}
+.empty svg { width: 60px; height: 60px; fill: var(--border); margin-bottom: 1rem; }
+.toast {
+    position: fixed; bottom: 1.5rem; right: 50%; transform: translateX(50%) translateY(120%);
+    background: var(--emerald); color: #fff; padding: .7rem 1.4rem; border-radius: 50px;
+    font-family: var(--font-display); font-size: .85rem; z-index: 200;
+    transition: transform .35s; box-shadow: 0 8px 30px rgba(0,0,0,.3); white-space: nowrap;
+}
+[data-theme="dark"] .toast { background: var(--gold); color: #12161A; }
+.toast.show { transform: translateX(50%) translateY(0); }
+.font-panel {
+    display: none; gap: .5rem; align-items: center; flex-wrap: wrap;
+    padding: .5rem .8rem; background: var(--bg-alt); border-radius: 12px;
+    border: 1px solid var(--border); font-size: .8rem;
+}
+.font-panel.show { display: flex; }
+.font-panel select {
+    font-family: var(--font-display); font-size: .8rem; padding: .35rem .6rem;
+    border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--ink);
+}
+.font-panel button {
+    width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--card); color: var(--ink); font-size: 1rem; cursor: pointer;
+}
+@media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; padding: .8rem .8rem 2.5rem; gap: 1rem; }
+    .controls { padding: .6rem .7rem; gap: .45rem; }
+    .btn { font-size: .76rem; padding: .45rem .7rem; }
+    .modal-body { padding: 1rem 1.1rem 1.5rem; }
+    .modal-header { padding: 1rem 1.1rem .7rem; }
+}
+#scrollTop {
+    position: fixed; bottom: 1.4rem; left: 1.4rem; z-index: 50;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--emerald); color: #fff;
+    border: 2px solid var(--gold); cursor: pointer;
+    display: grid; place-items: center; opacity: 0; pointer-events: none;
+    transition: all .3s; box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+[data-theme="dark"] #scrollTop { background: var(--gold); color: #12161A; }
+#scrollTop.show { opacity: 1; pointer-events: auto; }
+#scrollTop svg { width: 20px; height: 20px; fill: currentColor; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-ornament">
+        <span></span>
+        <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9H22L16 13.5L18.5 21L12 16.5L5.5 21L8 13.5L2 9H9.5L12 2Z"/></svg>
+        <span></span>
+    </div>
+    <h1>الموسوعة الشاملة للقصص والحديث النبوي الصحيح</h1>
+</header>
+
+<div class="controls" role="search">
+    <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="search" id="searchInput" placeholder="ابحث في العناوين والنصوص والمصادر…" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="btn" id="favFilterBtn" title="المفضلة">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        المفضلة
+    </button>
+    <button class="btn" id="fontBtn" title="إعدادات الخط">
+        <svg viewBox="0 0 24 24"><path d="M9 4v3h5v12h3V7h5V4H9zm-6 8h3v7h3v-7h3V9H3v3z"/></svg>
+        الخط
+    </button>
+    <button class="btn" id="themeBtn" title="تبديل الوضع">
+        <svg viewBox="0 0 24 24" id="themeIcon"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36A5.39 5.39 0 0112 14.5 5.5 5.5 0 016.5 9c0-2.12 1.2-3.96 2.96-4.88C10.92 3.04 11.46 3 12 3z"/></svg>
+    </button>
+</div>
+
+<div style="text-align:center; position:relative; z-index:5;">
+    <div class="font-panel" id="fontPanel">
+        <span style="font-family:var(--font-display);color:var(--ink-soft)">حجم الخط:</span>
+        <button id="fontMinus" title="تصغير">−</button>
+        <span id="fontSizeLabel" style="min-width:2.4rem;text-align:center;font-weight:700">1.15</span>
+        <button id="fontPlus" title="تكبير">+</button>
+        <span style="width:1px;height:22px;background:var(--border)"></span>
+        <label for="fontSelect" style="font-family:var(--font-display);color:var(--ink-soft)">نوع الخط:</label>
+        <select id="fontSelect">
+            <option value="Amiri">أميري</option>
+            <option value="Scheherazade New">شهرزاد</option>
+            <option value="Reem Kufi">ريم كوفي</option>
+        </select>
+    </div>
+</div>
+
+<div class="filters" id="filters">
+    <button class="filter-badge active" data-cat="all">الكل</button>
+    <button class="filter-badge" data-cat="قصص الأنبياء والأمم السابقة">قصص الأنبياء والأمم السابقة</button>
+    <button class="filter-badge" data-cat="قصص السيرة والمغازي والشمائل">السيرة والمغازي</button>
+    <button class="filter-badge" data-cat="الغيبيات والمشاهدات والأمثال">الغيبيات والأمثال</button>
+</div>
+
+<div class="filters" id="statusFilters">
+    <button class="filter-badge active" data-status="all">كل النصوص</button>
+    <button class="filter-badge" data-status="verbatim">🟢 حرفي موثق</button>
+    <button class="filter-badge" data-status="near_verbatim">🟡 قريب بالمعنى</button>
+    <button class="filter-badge" data-status="summary_with_reference">🟠 ملخّص + إحالة</button>
+</div>
+
+<div class="stats-bar" id="statsBar"></div>
+<main class="grid" id="grid"></main>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal geom-border">
+        <div class="modal-header">
+            <button class="modal-close" id="modalClose" aria-label="إغلاق">✕</button>
+            <h2 id="modalTitle"></h2>
+            <div class="modal-meta">
+                <span class="modal-category" id="modalCategory"></span>
+                <span class="status-badge" id="modalStatusBadge"></span>
+            </div>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-toolbar">
+            <button class="btn" id="modalFavBtn">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>حفظ في المفضلة</span>
+            </button>
+            <button class="btn btn-verify" id="modalVerifyBtn">
+                <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+                تحقّق في المصدر
+            </button>
+            <button class="btn" id="modalCopyBtn">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                نسخ
+            </button>
+        </div>
+    </div>
+</div>
+
+<button id="scrollTop" aria-label="العودة للأعلى">
+    <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+</button>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ STATUS LABELS ============ */
+const STATUS_LABELS = {
+    verbatim: { icon: '🟢', short: 'نصّ حرفي موثق', long: 'هذا النصّ منقولٌ حرفياً من المصدر المذكور أدناه، ويمكنك التحقق من نصّه الكامل عبر زرّ «تحقّق في المصدر».' },
+    near_verbatim: { icon: '🟡', short: 'نصّ قريب بالمعنى', long: 'هذا النصّ قريبٌ من لفظ الحديث الأصلي بالمعنى، وقد تختلف بعض الألفاظ يسيراً. راجع المصدر للتحقّق من اللفظ الحرفي.' },
+    summary_with_reference: { icon: '🟠', short: 'ملخّص وافٍ + إحالة', long: 'هذا النصّ ملخّصٌ وافٍ للحديث ولم يُنقل حرفياً. النص الكامل موجود في المصدر المذكور أدناه — يُرجى الرجوع إليه للتحقق.' }
+};
+function statusClass(status) {
+    if (status === 'verbatim') return 'verbatim';
+    if (status === 'near_verbatim') return 'near';
+    return 'summary';
+}
+
+/* ============ DATASET — 70 قصص ============ */
+const STORIES = [
+/* ===== المجموعة الأولى: القصص الـ22 السابقة (مع ترقية النصوص حيث أمكن) ===== */
+{
+    id: 1,
+    title: "حديث أم زرع وقصة النساء الإحدى عشرة",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:5189",
+    full_text: `عن عائشة رضي الله عنها قالت: جلس إحدى عشرة امرأة فتعاهدن وتعاقدن أن لا يكتمن من أخبار أزواجهن شيئًا.
+
+
+قالت الأولى: زوجي لحم جمل غث على رأس جبل وعر، لا سهل فيرتقى، ولا سمين فينتقل.
+
+
+قالت الثانية: زوجي لا أبث خبره، إني أخاف أن لا أذره، إن أذكره أذكر عجره وبجره.
+
+
+قالت الثالثة: زوجي العشنق، إن أنطق أطلق، وإن أسكت أعلق.
+
+
+قالت الرابعة: زوجي كليل تهامة، لا حر ولا قر، ولا مخافة ولا سآمة.
+
+
+قالت الخامسة: زوجي إن دخل فهد، وإن خرج أسد، ولا يسأل عما عهد.
+
+
+قالت السادسة: زوجي إن أكل لف، وإن شرب اشتف، وإن اضطجع التف، ولا يولج الكف ليعلم البث.
+
+
+قالت السابعة: زوجي غياياء أو عياياء طباقاء، كل داء له داء، شجك أو فلك أو جمع كلالك.
+
+
+قالت الثامنة: زوجي المس مس أرنب، والريح ريح زرنب.
+
+
+قالت التاسعة: زوجي رفيع العماد، طويل النجاد، عظيم الرماد، قريب البيت من الناد.
+
+
+قالت العاشرة: زوجي مالك وما مالك؟ مالك خير من ذلك، له إبل كثيرات المبارك، قليلات المسارح، وإذا سمعن صوت المزهر أيقن أنهن هوالك.
+
+
+قالت الحادية عشرة: زوجي أبو زرع فما أبو زرع؟ أناس من حلي أذني، وملأ من شحم عضدي، وبجحني فبجحت إلى نفسي، وجدني في أهل غنيمة بشق، فجعلني في أهل صهيل وأطيط ودائس ومنق، فعنده أقول فلا أقبح، وأرقد فأتصبح، وأشرب فأتقنح.
+
+
+أم أبي زرع فما أم أبي زرع؟ عكومها رداح، وبيتها فساح.
+
+
+ابن أبي زرع فما ابن أبي زرع؟ مضجعه كمسل شطبة، ويشبعه ذراع الجفرة.
+
+
+بنت أبي زرع فما بنت أبي زرع؟ طوع أبيها وطوع أمها، وملء كسائها، وغيظ جارتها.
+
+
+جارية أبي زرع فما جارية أبي زرع؟ لا تبث حديثنا تبثيثًا، ولا تنقث ميرتنا تنقيثًا، ولا تملأ بيتنا تعشيشًا.
+
+
+قالت: خرج أبو زرع والأوطاب تمخض، فلقي امرأة معها ولدان لها كالفهدين، يلعبان من تحت خصرها برمانتين، فطلقني ونكحها، فنكحت بعده رجلًا سريًّا، ركب شريًّا، وأخذ خطيًّا، وأراح علي نعمًا ثريًّا، وأعطاني من كل رائحة زوجًا، وقال: كلي أم زرع وميري أهلك.
+
+
+قالت: فلو جمعت كل شيء أعطانيه ما بلغ أصغر آنية أبي زرع.
+
+
+قالت عائشة: قال رسول الله ﷺ: «كنت لكِ كأبي زرع لأم زرع».`,
+    source: "صحيح البخاري (5189)، صحيح مسلم (2448)",
+    benefits: [
+        "بيان حسن العشرة والوفاء بين الزوجين.",
+        "فيه جواز ذكر محاسن الأزواج والثناء عليهم بصدق.",
+        "قوله ﷺ لعائشة: «كنت لك كأبي زرع لأم زرع» فيه تودد وتكريم للنبي ﷺ لأهله.",
+        "الحديث من أطول أحاديث البخاري وفيه فصاحة وبلاغة عربية عالية."
+    ]
+},
+{
+    id: 2,
+    title: "رحلة الإسراء والمعراج التفصيلية (كاملة)",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:349",
+    full_text: `عن أنس بن مالك قال: كان أبو ذر يحدث أن رسول الله ﷺ قال: «فرج عن سقف بيتي وأنا بمكة، فنزل جبريل، ففرج صدري، ثم غسله بماء زمزم، ثم جاء بطست من ذهب ممتلئ حكمة وإيمانًا، فأفرغه في صدري، ثم أطبقه، ثم أخذ بيدي فعرج بي إلى السماء الدنيا.
+
+
+فلما جئت إلى السماء الدنيا قال جبريل لخازن السماء: افتح. قال: من هذا؟ قال: هذا جبريل. قال: هل معك أحد؟ قال: نعم، معي محمد ﷺ. فقال: أرسل إليه؟ قال: نعم. فلما فتح علونا السماء الدنيا، فإذا رجل قاعد على يمينه أسودة، وعلى يساره أسودة، إذا نظر قبل يمينه ضحك، وإذا نظر قبل يساره بكى، فقال: مرحبًا بالنبي الصالح والابن الصالح. قلت لجبريل: من هذا؟ قال: هذا آدم، وهذه الأسودة عن يمينه وشماله نسم بنيه، فأهل اليمين منهم أهل الجنة، والأسودة التي عن شماله أهل النار، فإذا نظر عن يمينه ضحك، وإذا نظر عن شماله بكى.
+
+
+ثم عرج بي إلى السماء الثانية، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء الثانية إذا أنا برجلين: عيسى ابن مريم ويحيى بن زكريا، وهما ابنا خالة، فرحبا بي ودعوا لي بخير.
+
+
+ثم عرج بي إلى السماء الثالثة، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء الثالثة إذا أنا برجل، فرحب بي ودعا لي بخير. قلت: من هذا؟ قال: هذا يوسف، قد أعطي شطر الحسن.
+
+
+ثم عرج بي إلى السماء الرابعة، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء الرابعة إذا أنا برجل، فرحب بي ودعا لي بخير. قلت: من هذا؟ قال: هذا إدريس، قال الله: {وَرَفَعْنَاهُ مَكَانًا عَلِيًّا}.
+
+
+ثم عرج بي إلى السماء الخامسة، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء الخامسة إذا أنا برجل، فرحب بي ودعا لي بخير. قلت: من هذا؟ قال: هذا هارون.
+
+
+ثم عرج بي إلى السماء السادسة، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء السادسة إذا أنا برجل، فرحب بي ودعا لي بخير. قلت: من هذا؟ قال: هذا موسى.
+
+
+ثم عرج بي إلى السماء السابعة، فقال جبريل لخازنها: افتح. فقال له مثل ما قال للأول، ففتح. فلما علونا السماء السابعة إذا أنا برجل مسند ظهره إلى البيت المعمور، وإذا هو يدخله كل يوم سبعون ألف ملك لا يعودون إليه. قلت: من هذا؟ قال: هذا إبراهيم.
+
+
+ثم ذهب بي إلى السدرة المنتهى، وإذا ورقها كآذان الفيلة، وإذا ثمرها كالقلال، فلما غشيها من أمر الله ما غشي تغيرت، فما أحد من خلق الله يستطيع أن ينعتها من حسنها.
+
+
+فأوحى الله إلي ما أوحى، ففرض علي خمسين صلاة في كل يوم وليلة. فنزلت إلى موسى فقال: ما فرض ربك على أمتك؟ قلت: خمسين صلاة. قال: ارجع إلى ربك فاسأله التخفيف، فإن أمتك لا تطيق ذلك، فإني قد بلوت بني إسرائيل وخبرتهم.
+
+
+فرجعت إلى ربي فقلت: يا رب خفف على أمتي. فحط عني خمسًا. فرجعت إلى موسى فقلت: حط عني خمسًا. قال: إن أمتك لا تطيق ذلك، فارجع إلى ربك فاسأله التخفيف.
+
+
+فلم أزل أرجع بين ربي وبين موسى حتى قال: يا محمد، إنهن خمس صلوات كل يوم وليلة، لكل صلاة عشر، فذلك خمسون صلاة. ومن هم بحسنة فلم يعملها كتبت له حسنة، فإن عملها كتبت له عشرًا، ومن هم بسيئة فلم يعملها لم تكتب شيئًا، فإن عملها كتبت سيئة».`,
+    source: "صحيح البخاري (349)، صحيح مسلم (162)",
+    benefits: [
+        "إثبات معجزة الإسراء والمعراج بالروح والجسد يقظة.",
+        "بيان منزلة الصلاة العظيمة، وأنها فُرضت في السماء ليلة المعراج.",
+        "فيه مشروعية التخفيف عن الناس والرفق بهم.",
+        "إثبات البيت المعمور والسدرة المنتهى والجنة والنار.",
+        "فضل النبي ﷺ وشرفه على سائر الأنبياء."
+    ]
+},
+{
+    id: 3,
+    title: "قصة جابر بن عبد الله والجمل",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/muslim:715",
+    full_text: `عن جابر بن عبد الله قال: غزوت مع رسول الله ﷺ، فتلاحق بي وتحتي ناضح لي قد أعيا ولا يكاد يسير.
+
+
+قال: فقال لي: «ما لبعيرك؟» قال: قلت: عليل. قال: فتخلف رسول الله ﷺ، فزجره ودعا له، فما زال بين يدي الإبل قدامها يسير.
+
+
+قال: فقال لي: «كيف ترى بعيرك؟» قال: قلت: بخير، قد أصابته بركتك. قال: «أفتبيعنيه؟» فاستحييت، ولم يكن لنا ناضح غيره. قال: فقلت: نعم، فبعته إياه على أن لي فقار ظهره حتى أبلغ المدينة.
+
+
+قال: فقلت له: يا رسول الله، إني عروس، فاستأذنته فأذن لي، فتقدمت الناس إلى المدينة حتى انتهيت، فلقيني خالي فسألني عن البعير، فأخبرته بما صنعت فيه، فلامني فيه.
+
+
+قال: وقد كان رسول الله ﷺ قال لي حين استأذنته: «ما تزوجت، أبكرًا أم ثيبًا؟» فقلت له: تزوجت ثيبًا. قال: «أفلا تزوجت بكرًا تلاعبك وتلاعبها؟» فقلت له: يا رسول الله، توفي والدي (أو استشهد) ولي أخوات صغار، فكرهت أن أتزوج إليهن مثلهن، فلا تؤدبهن ولا تقوم عليهن، فتزوجت ثيبًا لتقوم عليهن وتؤدبهن.
+
+
+قال: فلما قدم رسول الله ﷺ المدينة غدوت إليه بالبعير، فأعطاني ثمنه ورده علي.`,
+    source: "صحيح مسلم (715)، صحيح البخاري (2097)",
+    benefits: [
+        "بيان تواضع النبي ﷺ وحسن معاملته لأصحابه في السفر.",
+        "فيه بركة دعاء النبي ﷺ.",
+        "جواز بيع الحيوان مع استثناء منفعته مدة معلومة.",
+        "حرص النبي ﷺ على مصلحة جابر وتزويجه.",
+        "فيه استحباب اختيار البكر لمن لم يكن له عائلة، والثيب لمن يحتاج إلى رعاية."
+    ]
+},
+{
+    id: 4,
+    title: "قصة خرافة وأهل الجاهلية",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "verbatim",
+    source_url: "https://www.dorar.net/hadith/search?q=%D8%AE%D8%B1%D8%A7%D9%81%D8%A9",
+    full_text: `عن عائشة رضي الله عنها قالت: حدّث رسول الله ﷺ ذات ليلة نساءه حديثًا، فقالت امرأة منهن: كأنّ الحديث حديث خرافة.
+
+
+فقال رسول الله ﷺ: «أتدرون ما خرافة؟ إن خرافة كان رجلًا من عُذْرة، أسرته الجن في الجاهلية، فمكث فيهم دهرًا، ثم ردوه إلى الإنس، فكان يحدث الناس بما رأى فيهم من الأعاجيب، فقال الناس: حديث خرافة».`,
+    source: "رواه الإمام أحمد في المسند، وابن ماجه، وصححه الألباني في السلسلة الصحيحة",
+    benefits: [
+        "بيان أن بعض ما يُروى من عجائب الجن قد يكون له أصل.",
+        "فيه فصاحة النبي ﷺ وحسن تعليمه لأهله.",
+        "التحذير من الانجراف وراء القصص الخرافية دون تحقق.",
+        "إثبات وجود الجن."
+    ]
+},
+{
+    id: 5,
+    title: "قصة تميم الداري والمسيح الدجال والجساسة",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/muslim:2942",
+    full_text: `عن فاطمة بنت قيس رضي الله عنها قالت: سمعت نداء منادي رسول الله ﷺ ينادي: الصلاة جامعة. فخرجت إلى المسجد، فصليت مع رسول الله ﷺ، فكنت في صف النساء التي تلي ظهور القوم.
+
+
+فلما قضى رسول الله ﷺ صلاته جلس على المنبر وهو يضحك، فقال: «ليلزم كل إنسان مصلاه، ثم قال: أتدرون لم جمعتكم؟» قالوا: الله ورسوله أعلم. قال: «إني والله ما جمعتكم لرغبة ولا لرهبة، ولكن جمعتكم لأن تميمًا الداري كان رجلًا نصرانيًا فجاء فبايع وأسلم، وحدثني حديثًا وافق الذي كنت أحدثكم عن مسيح الدجال.
+
+
+حدثني أنه ركب في سفينة بحرية مع ثلاثين رجلًا من لخم وجذام، فلعب بهم الموج شهرًا في البحر، ثم أرفئوا إلى جزيرة في البحر حتى مغرب الشمس. فجلسوا في أقرب السفينة فدخلوا الجزيرة، فلقيتهم دابة أهلب كثير الشعر، لا يدرون ما قبله من دبره من كثرة الشعر. فقالوا: ويلك ما أنت؟ فقالت: أنا الجساسة. قالوا: وما الجساسة؟ قالت: أيها القوم انطلقوا إلى هذا الرجل في الدير، فإنه إلى خبركم بالأشواق.
+
+
+قال: لما سمت لنا رجلًا فرقنا منها أن تكون شيطانة، قال: فانطلقنا سراعًا حتى دخلنا الدير، فإذا فيه أعظم إنسان رأيناه قط خلقًا، وأشده وثاقًا، مجموعة يداه إلى عنقه، ما بين ركبتيه إلى كعبيه بالحديد.
+
+
+قلنا: ويلك ما أنت؟ قال: قد قدرتم على خبري، فأخبروني ما أنتم؟ قالوا: نحن أناس من العرب، ركبنا في سفينة بحرية، فصادفنا البحر حين اغتلم، فلعب بنا الموج شهرًا، ثم أرفأنا إلى جزيرتك هذه، فجلسنا في أقربها، فدخلنا الجزيرة، فلقيتنا دابة أهلب كثير الشعر، لا يُدرى ما قبله من دبره من كثرة الشعر، فقلنا: ويلك ما أنت؟ فقالت: أنا الجساسة. قلنا: وما الجساسة؟ قالت: اعمدوا إلى هذا الرجل في الدير، فإنه إلى خبركم بالأشواق. فأقبلنا إليك سراعًا، وفزعنا منها، ولم نأمن أن تكون شيطانة.
+
+
+قال: أخبروني عن نخل بيسان. قلنا: عن أي شأنها تستخبر؟ قال: أسألكم عن نخلها هل يثمر؟ قلنا له: نعم. قال: أما إنه يوشك أن لا تثمر.
+
+
+قال: أخبروني عن بحيرة الطبرية. قلنا: عن أي شأنها تستخبر؟ قال: هل فيها ماء؟ قالوا: هي كثيرة الماء. قال: أما إن ماءها يوشك أن يذهب.
+
+
+قال: أخبروني عن عين زغر. قالوا: عن أي شأنها تستخبر؟ قال: هل في العين ماء، وهل يزرع أهلها بماء العين؟ قلنا له: نعم، هي كثيرة الماء، وأهلها يزرعون من مائها.
+
+
+قال: أخبروني عن نبي الأميين ما فعل؟ قالوا: قد خرج من مكة ونزل يثرب. قال: أقاتله العرب؟ قلنا: نعم. قال: كيف صنع بهم؟ فأخبرناه أنه قد ظهر على من يليه من العرب وأطاعوه. قال لهم: قد كان ذلك؟ قلنا: نعم. قال: أما إن ذاك خير لهم أن يطيعوه، وإني مخبركم عني: إني أنا المسيح، وإني أوشك أن يؤذن لي في الخروج، فأخرج فأسير في الأرض، فلا أدع قرية إلا هبطتها في أربعين ليلة، غير مكة وطيبة، فهما محرمتان علي كلتاهما، كلما أردت أن أدخل واحدة أو واحدًا منهما استقبلني ملك بيده السيف صلتًا يصدني عنها، وإن على كل نقب منها ملائكة يحرسونها.
+
+
+قالت: قال رسول الله ﷺ وطعن بمخصرته في المنبر: «هذه طيبة، هذه طيبة، هذه طيبة» يعني المدينة. «ألا هل كنت حدثتكم ذلك؟» فقال الناس: نعم. «فإنه أعجبني حديث تميم أنه وافق الذي كنت أحدثكم عنه وعن المدينة ومكة، ألا إنه في بحر الشام أو بحر اليمن، لا بل من قبل المشرق، ما هو من قبل المشرق، ما هو من قبل المشرق» وأومأ بيده إلى المشرق.`,
+    source: "صحيح مسلم (2942)",
+    benefits: [
+        "إثبات قصة الجساسة والدجال.",
+        "بيان فضيلة تميم الداري رضي الله عنه.",
+        "تحريم مكة والمدينة على الدجال.",
+        "فيه مشروعية جمع الناس للتعليم.",
+        "الحث على التمسك بالمدينة والصبر فيها عند الفتن."
+    ]
+},
+{
+    id: 6,
+    title: "قصة أصحاب الأخدود والساحر والراهب والغلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/muslim:3005",
+    full_text: `عن صهيب أن رسول الله ﷺ قال: «كان ملك فيمن كان قبلكم، وكان له ساحر، فلما كبر قال للملك: إني قد كبرت، فابعث إلي غلامًا أعلمه السحر. فبعث إليه غلامًا يعلمه.
+
+
+فكان في طريقه إذا سلك راهب، فقعد إليه وسمع كلامه فأعجبه، فكان إذا أتى الساحر مر بالراهب وقعد إليه، فإذا أتى الساحر ضربه، فشكى ذلك إلى الراهب، فقال: إذا خشيت الساحر فقل: حبسني أهلي، وإذا خشيت أهلك فقل: حبسني الساحر.
+
+
+فبينما هو كذلك إذ أتى على دابة عظيمة قد حبست الناس، فقال: اليوم أعلم الساحر أفضل أم الراهب أفضل. فأخذ حجرًا فقال: اللهم إن كان أمر الراهب أحب إليك من أمر الساحر، فاقتل هذه الدابة حتى يمضي الناس. فرماهما فقتلها، ومضى الناس.
+
+
+فأتى الراهب فأخبره، فقال له الراهب: أي بني، أنت اليوم أفضل مني، قد بلغ من أمرك ما أرى، وإنك ستبتلى، فإن ابتليت فلا تدل علي.
+
+
+وكان الغلام يبرئ الأكمه والأبرص، ويداوي الناس من سائر الأدواء. فسمع جليس للملك كان قد عمي، فأتاه بهدايا كثيرة، فقال: ما هاهنا لك أجمع إن أنت شفيتني. فقال: إني لا أشفي أحدًا، إنما يشفي الله، فإن أنت آمنت بالله دعوت الله فشفاك. فآمن بالله فشفاه الله.
+
+
+فأتى الملك فجلس إليه كما كان يجلس، فقال له الملك: من رد عليك بصرك؟ قال: ربي. قال: ولك رب غيري؟ قال: ربي وربك الله. فأخذه فلم يزل يعذبه حتى دل على الغلام. فجيء بالغلام، فقال له الملك: أي بني، قد بلغ من سحرك ما تبرئ الأكمه والأبرص وتفعل وتفعل؟ فقال: إني لا أشفي أحدًا، إنما يشفي الله. فأخذه فلم يزل يعذبه حتى دل على الراهب.
+
+
+فجيء بالراهب، فقيل له: ارجع عن دينك. فأبى، فدعا بالمئشار فوضع المئشار في مفرق رأسه فشقه حتى وقع شقاه. ثم جيء بجليس الملك فقيل له: ارجع عن دينك. فأبى، فوضع المئشار في مفرق رأسه فشقه به حتى وقع شقاه.
+
+
+ثم جيء بالغلام فقيل له: ارجع عن دينك. فأبى، فدفعه إلى نفر من أصحابه فقال: اذهبوا به إلى جبل كذا وكذا، فاصعدوا به الجبل، فإذا بلغتم ذروته فإن رجع عن دينه وإلا فاطرحوه. فذهبوا به فصعدوا به الجبل، فقال: اللهم اكفنيهم بما شئت. فرجف بهم الجبل فسقطوا، وجاء يمشي إلى الملك.
+
+
+فقال له الملك: ما فعل أصحابك؟ قال: كفانيهم الله. فدفعه إلى نفر من أصحابه فقال: اذهبوا به فاحملوه في قرقور، فتوسطوا به البحر، فإن رجع عن دينه وإلا فاقذفوه. فذهبوا به، فقال: اللهم اكفنيهم بما شئت. فانكفأت بهم السفينة فغرقوا، وجاء يمشي إلى الملك.
+
+
+فقال له الملك: ما فعل أصحابك؟ قال: كفانيهم الله. فقال للملك: إنك لست بقاتلي حتى تفعل ما آمرك به. قال: وما هو؟ قال: تجمع الناس في صعيد واحد، وتصلبني على جذع، ثم خذ سهمًا من كنانتي، ثم ضع السهم في كبد القوس، ثم قل: بسم الله رب الغلام، ثم ارمي، فإنك إذا فعلت ذلك قتلتني.
+
+
+فجمع الناس في صعيد واحد، وصلبه على جذع، ثم أخذ سهمًا من كنانته، ثم وضع السهم في كبد القوس، ثم قال: بسم الله رب الغلام، ثم رماه، فوقع السهم في صدغه، فوضع يده في صدغه في موضع السهم فمات.
+
+
+فقال الناس: آمنا برب الغلام، آمنا برب الغلام، آمنا برب الغلام. فأتي الملك فقيل له: أرأيت ما كنت تحذر، قد والله نزل بك حذرك، قد آمن الناس. فأمر بالأخدود في أفواه السكك فخدت، وأضرم النيران، وقال: من لم يرجع عن دينه فأحموه فيها، أو قيل له اقتحم. ففعلوا، حتى جاءت امرأة ومعها صبي يرضع، فتقاعست أن تقع في النار، فقال لها الغلام: يا أمه اصبري فإنك على الحق».`,
+    source: "صحيح مسلم (3005)",
+    benefits: [
+        "الثبات على الحق مهما اشتد البلاء.",
+        "بيان كرامة الأولياء، وأن الشفاء بيد الله وحده.",
+        "الغلام الصغير كان سببًا في إيمان أمة كاملة.",
+        "الطفل الرضيع تكلم دفاعًا عن الحق.",
+        "ذم الظلم والطغيان."
+    ]
+},
+/* ===== القصص المستكملة والمضافة ===== */
+{
+    id: 7,
+    title: "قصة جريج العابد",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3436",
+    full_text: `عن أبي هريرة عن النبي ﷺ قال: «كان في بني إسرائيل رجل عابد يقال له جريج، يتعبد في صومعة له. فأنته أمه فقالت: يا جريج إني أنا أمك، أشرف علي أكلمك. فأقبل على الصلاة، فقال: أي رب، صلاتي وأمي. فأقبل على الصلاة، فمضى في صلاته.
+
+
+فقالت: اللهم لا تمته حتى تربه المؤسسة. وكانت راعية ترعى وتؤي غنمها إلى ظل صومعته، فأصابت فاحشة فحملت، فقالوا: ممن هذا الحمل؟ فقالت: من جريج صاحب الصومعة. وكان زنا بها رجل راعي ضأن.
+
+
+فجاؤوا بالفؤوس، فقالوا: يا جريج يا جريج يا مرائي، انزل. فجعل يصلي، فلما رأوه لا يلتفت إليهم أخذوا في هدم صومعته، فنزل إليهم، فجعلوا في عنقه وعنقها حبلًا، فقرنوهما، فطافوا بهما في الناس.
+
+
+فوضع إصبعه على بطنها، فقال: يا غلام من أبوك؟ فقال: أي فلان راعي الضأن. فتركوه، وقالوا له: إن شئت بنينا لك صومعتك من ذهب، وإن شئت من فضة. فقال: لا، ولكن أعيدوها كما كانت».`,
+    source: "صحيح البخاري (3436)، صحيح مسلم (2550)",
+    benefits: [
+        "بر الوالدين مقدمة على النوافل.",
+        "دعاء الأم مستجاب.",
+        "كرامة جريج وبراءة عرضه.",
+        "التوبة والرجوع إلى الله.",
+        "التحذير من اتهام الأبرياء بالباطل."
+    ]
+},
+{
+    id: 8,
+    title: "قصة الأبرص والأقرع والأعمى",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3464",
+    full_text: `عن أبي هريرة أنه سمع رسول الله ﷺ يقول: «إن ثلاثة في بني إسرائيل: أبرص وأقرع وأعمى، بدا لله عز وجل أن يبتليهم، فبعث إليهم ملكًا.
+
+
+فأتى الأبرص، فقال: أي شيء أحب إليك؟ قال: لون حسن، وجلد حسن، قد قذرني الناس. قال: فمسحه فذهب عنه، فأعطي لونًا حسنًا وجلدًا حسنًا. فقال: أي المال أحب إليك؟ قال: الإبل. فأعطي ناقة عشراء، فقال: يبارك لك فيها.
+
+
+وأتى الأقرع، فقال: أي شيء أحب إليك؟ قال: شعر حسن، ويذهب عني هذا، قد قذرني الناس. قال: فمسحه فذهب، وأعطي شعرًا حسنًا. قال: فأي المال أحب إليك؟ قال: البقر. فأعطاه بقرة حاملًا، وقال: يبارك لك فيها.
+
+
+وأتى الأعمى، فقال: أي شيء أحب إليك؟ قال: يرد الله إلي بصري، فأبصر به الناس. قال: فمسحه فرد الله إليه بصره. قال: فأي المال أحب إليك؟ قال: الغنم. فأعطاه شاة والدًا.
+
+
+فأنتج هذان وولد هذا، فكان لهذا واد من إبل، ولهذا واد من بقر، ولهذا واد من غنم.
+
+
+ثم إنه أتى الأبرص في صورته وهيئته، فقال: رجل مسكين تقطعت بي الحبال في سفري، فلا بلاغ اليوم إلا بالله ثم بك، أسألك بالذي أعطاك اللون الحسن والجلد الحسن والمال، بعيرًا أتبلغ عليه في سفري.
+
+
+فقال له: إن الحقوق كثيرة. فقال له: كأني أعرفك، ألم تكن أبرص يقذرك الناس فقيرًا، فأعطاك الله؟ فقال: لقد ورثت لكابر عن كابر. فقال: إن كنت كاذبًا فصيرك الله إلى ما كنت.
+
+
+وأتى الأقرع في صورته وهيئته، فقال له مثل ما قال لهذا، فرد عليه مثل ما رد عليه هذا، فقال: إن كنت كاذبًا فصيرك الله إلى ما كنت.
+
+
+وأتى الأعمى في صورته، فقال: رجل مسكين وابن سبيل، وتقطعت بي الحبال في سفري، فلا بلاغ اليوم إلا بالله ثم بك، أسألك بالذي رد عليك بصرك شاة أتبلغ بها في سفري.
+
+
+فقال: قد كنت أعمى فرد الله إلي بصري، وفقيرًا فقد أغناني، فخذ ما شئت، فوالله لا أجهضك اليوم بشيء أخذته لله. فقال: أمسك مالك، فإنما ابتليتم، فقد رضي الله عنك، وسخط على صاحبيك».`,
+    source: "صحيح البخاري (3464)، صحيح مسلم (2964)",
+    benefits: [
+        "الابتلاء سنة الله في خلقه.",
+        "شكر النعمة وعدم جحدها.",
+        "الجزاء من جنس العمل.",
+        "إثبات كرامات الأولياء.",
+        "الحث على الصدقة."
+    ]
+},
+{
+    id: 9,
+    title: "قصة الثلاثة أصحاب الصخرة",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:2272",
+    full_text: `عن عبد الله بن عمر رضي الله عنهما قال: سمعت رسول الله ﷺ يقول: «انطلق ثلاثة رهط ممن كان قبلكم حتى أووا المبيت إلى غار فدخلوه، فانحدرت صخرة من الجبل فسدت عليهم الغار.
+
+
+فقالوا: إنه لا ينجيكم من هذه الصخرة إلا أن تدعوا الله بصالح أعمالكم.
+
+
+فقال رجل منهم: اللهم كان لي أبوان شيخان كبيران، وكنت لا أغبق قبلهما أهلًا ولا مالًا، فنأى بي في طلب شيء يومًا، فلم أرح عليهما حتى ناما، فحلبت لهما غبوقهما فوجدتهما نائمين، وكرهت أن أغبق قبلهما أهلًا أو مالًا، فلبثت والقدح على يدي أنتظر استيقاظهما حتى برق الفجر، فاستيقظا فشربا غبوقهما. اللهم إن كنت فعلت ذلك ابتغاء وجهك ففرج عنا ما نحن فيه من هذه الصخرة. فانفرجت شيئًا لا يستطيعون الخروج.
+
+
+وقال الآخر: اللهم كانت لي بنت عم كانت أحب الناس إلي، فأردتها عن نفسها فامتنعت مني، حتى ألمت بها سنة من السنين، فجاءتني فأعطيتها عشرين ومائة دينار على أن تخلي بيني وبين نفسها، ففعلت. حتى إذا قدرت عليها قالت: لا أحل لك أن تفض الخاتم إلا بحقه. فتحرجت من الوقوع عليها، فانصرفت عنها وهي أحب الناس إلي، وتركت الذهب الذي أعطيتها. اللهم إن كنت فعلت ذلك ابتغاء وجهك فافرج عنا ما نحن فيه. فانفرجت الصخرة غير أنهم لا يستطيعون الخروج منها.
+
+
+وقال الثالث: اللهم إني استأجرت أجراء فأعطيتهم أجرهم، غير رجل واحد ترك الذي له وذهب، فثمرت أجره حتى كثرت منه الأموال، فجاءني بعد حين فقال: يا عبد الله أد إلي أجري. فقلت له: كل ما ترى من أجرك من الإبل والبقر والغنم والرقيق. فقال: يا عبد الله لا تستهزئ بي. فقلت: إني لا أستهزئ بك. فأخذه كله فاستاقه فلم يترك منه شيئًا. اللهم إن كنت فعلت ذلك ابتغاء وجهك فافرج عنا ما نحن فيه. فانفرجت الصخرة فخرجوا يمشون».`,
+    source: "صحيح البخاري (2272)، صحيح مسلم (2743)",
+    benefits: [
+        "التوسل إلى الله بالعمل الصالح.",
+        "بر الوالدين من أفضل الأعمال.",
+        "الورع عن الحرام.",
+        "حفظ حقوق العمال.",
+        "اليقين بأن الله لا يضيع أجر المحسنين."
+    ]
+},
+{
+    id: 10,
+    title: "قصة قاتل المائة نفس",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/muslim:2766",
+    full_text: `عن أبي سعيد الخدري أن نبي الله ﷺ قال: «كان فيمن كان قبلكم رجل قتل تسعة وتسعين نفسًا، فسأل عن أعلم أهل الأرض، فدل على راهب، فأتاه فقال: إنه قتل تسعة وتسعين نفسًا، فهل له من توبة؟ فقال: لا. فقتله فكمل به مائة.
+
+
+ثم سأل عن أعلم أهل الأرض، فدل على رجل عالم، فقال: إنه قتل مائة نفس، فهل له من توبة؟ فقال: نعم، ومن يحول بينه وبين التوبة؟ انطلق إلى أرض كذا وكذا، فإن بها أناسًا يعبدون الله، فاعبد الله معهم، ولا ترجع إلى أرضك فإنها أرض سوء.
+
+
+فانطلق حتى إذا نصف الطريق أتاه الموت، فاختصمت فيه ملائكة الرحمة وملائكة العذاب. فقالت ملائكة الرحمة: جاء تائبًا مقبلًا بقلبه إلى الله. وقالت ملائكة العذاب: إنه لم يعمل خيرًا قط.
+
+
+فأتاهم ملك في صورة آدمي، فجعلوه بينهم، فقال: قيسوا ما بين الأرضين، فإلى أيتهما كان أدنى فهو له. فقاسوه فوجدوه أدنى إلى الأرض التي أراد، فقبضته ملائكة الرحمة».`,
+    source: "صحيح مسلم (2766)",
+    benefits: [
+        "سعة رحمة الله وقبول توبته مهما عظم الذنب.",
+        "الفتوى بغير علم سبب للهلاك.",
+        "أهمية الرحلة إلى أهل العلم والصلاح.",
+        "التوبة النصوح تمحو الذنوب.",
+        "المبادرة إلى التوبة قبل الموت."
+    ]
+},
+{
+    id: 11,
+    title: "قصة الذي أقرض ألف دينار في خشبة",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:2291",
+    full_text: `عن أبي هريرة رضي الله عنه عن رسول الله ﷺ أنه ذكر رجلًا من بني إسرائيل سأل بعض بني إسرائيل أن يسلفه ألف دينار، فقال: ائتني بالشهداء أشهدهم. فقال: كفى بالله شهيدًا. قال: فأتني بالكفيل. قال: كفى بالله كفيلًا. قال: صدقت. فدفعها إليه إلى أجل مسمى.
+
+
+فخرج في البحر فقضى حاجته، ثم التمس مركبًا يركبها يقدم عليه للأجل الذي أجله، فلم يجد مركبًا. فأخذ خشبة فنقرها، فأدخل فيها ألف دينار وصحيفة منه إلى صاحبه، ثم زجج موضعها، ثم أتى بها إلى البحر.
+
+
+فقال: اللهم إنك تعلم أني كنت تسلفت فلانًا ألف دينار، فسألني كفيلًا فقلت: كفى بالله كفيلًا، فرضي بك. وسألني شهيدًا فقلت: كفى بالله شهيدًا، فرضي بك. وأنا جهدت أن أجد مركبًا أبعث إليه الذي له فلم أجد، وإني أستودعكها. فرمى بها في البحر حتى ولجت فيه، ثم انصرف.
+
+
+فخرج صاحب المال ينظر إلى مركبه الذي خرج فيه، فوجد الخشبة التي ألقى بها، فأخذها لينتفع بها، فلما نشرها وجد المال والصحيفة.
+
+
+ثم قدم الرجل الذي كان تسلف منه، فأتاه بالمال، فقال: والله ما زلت جاهدًا في طلب مركب إليك لآتيك بمالك، فما وجدت مركبًا قبل الذي أتيت فيه. فقال: هل كنت بعثت إلي شيئًا؟ قال: أخبرك أني لم أجد مركبًا قبل الذي جئت فيه. قال: فإن الله قد أدى عنك الذي بعثت في الخشبة، فانصرف بالألف الدينار راشدًا».`,
+    source: "صحيح البخاري (2291)",
+    benefits: [
+        "الوفاء بالدين والأمانة.",
+        "التوكل على الله مع الأخذ بالأسباب.",
+        "جواز اتخاذ الله شهيدًا وكفيلًا.",
+        "إثبات كرامات الأولياء.",
+        "الحث على رد الأمانات."
+    ]
+},
+{
+    id: 12,
+    title: "قصة ملك الموت وموسى عليه السلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:1339",
+    full_text: `عن أبي هريرة قال: أرسل ملك الموت إلى موسى عليهما السلام، فلما جاءه صكه، فرجع إلى ربه فقال: أرسلتني إلى عبد لا يريد الموت.
+
+
+قال: ارجع إليه فقل له: يضع يده على متن ثور، فله بكل ما غطت به يده بكل شعرة سنة. قال: أي رب، ثم ماذا؟ قال: ثم الموت. قال: فالآن.
+
+
+فقال: رب أدنني من الأرض المقدسة رمية بحجر. قال رسول الله ﷺ: «والذي نفسي بيده لو أني عنده لأريتكم قبره إلى جانب الطريق عند الكثيب الأحمر».`,
+    source: "صحيح البخاري (1339)، صحيح مسلم (2372)",
+    benefits: [
+        "إثبات أن ملك الموت مخلوق لله.",
+        "بيان كرامة موسى عليه السلام.",
+        "الموت حق على كل نفس.",
+        "جواز طلب الدفن في الأرض المقدسة.",
+        "التذكير بالآخرة."
+    ]
+},
+{
+    id: 13,
+    title: "قصة كعب بن مالك وتخلفه عن تبوك (كاملة)",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:4418",
+    full_text: `عن عبد الله بن كعب بن مالك — وكان قائد كعب من بنيه حين عمي — قال: سمعت كعب بن مالك يحدث حين تخلف عن قصة تبوك.
+
+
+قال كعب: لم أتخلف عن رسول الله ﷺ في غزوة غزاها إلا في غزوة تبوك، غير أني كنت تخلفت في غزوة بدر، ولم يعاتب أحدًا تخلف عنها، إنما خرج رسول الله ﷺ يريد عير قريش حتى جمع الله بينهم وبين عدوهم على غير ميعاد.
+
+
+ولقد شهدت مع رسول الله ﷺ ليلة العقبة حين تواثقنا على الإسلام، وما أحب أن لي بها مشهد بدر، وإن كانت بدر أذكر في الناس منها.
+
+
+كان من خبري أني لم أكن قط أقوى ولا أيسر حين تخلفت عنه في تلك الغزاة، والله ما اجتمعت عندي قبله راحلتان قط حتى جمعتهما في تلك الغزوة. ولم يكن رسول الله ﷺ يريد غزوة إلا ورى بغيرها، حتى كانت تلك الغزوة غزاها رسول الله ﷺ في حر شديد، واستقبل سفرًا بعيدًا، ومفازًا، وعدوًا كثيرًا.
+
+
+فجلى للمسلمين أمرهم ليتأهبوا أهبة غزوهم، فأخبرهم بوجهه الذي يريد، والمسلمون مع رسول الله ﷺ كثير، ولا يجمعهم كتاب حافظ. قال كعب: فما رجل يريد أن يتغيب إلا ظن أن سيخفى له ما لم ينزل فيه وحي الله.
+
+
+وغزا رسول الله ﷺ تلك الغزوة حين طابت الثمار والظلال، وتجهز رسول الله ﷺ والمسلمون معه. فطفقت أغدو لكي أتجهز معهم، فأرجع ولم أقض شيئًا، فأقول في نفسي: أنا قادر عليه. فلم يزل يتمادى بي حتى اشتد بالناس الجد، فأصبح رسول الله ﷺ والمسلمون معه ولم أقض من جهازي شيئًا.
+
+
+فقلت: أتجهز بعده بيوم أو يومين ثم ألحقهم. فغدوت بعد أن فصلوا لأتجهز، فرجعت ولم أقض شيئًا، ثم غدوت ثم رجعت ولم أقض شيئًا. فلم يزل بي حتى أسرعوا وتفارط الغزو، وهممت أن أرتحل فأدركهم، وليتني فعلت، فلم يقدر لي ذلك.
+
+
+فكنت إذا خرجت في الناس بعد خروج رسول الله ﷺ فطفت فيهم أحزنني أني لا أرى إلا رجلًا مغموصًا عليه النفاق، أو رجلًا ممن عذر الله من الضعفاء. ولم يذكرني رسول الله ﷺ حتى بلغ تبوك، فقال وهو جالس في القوم بتبوك: «ما فعل كعب؟» فقال رجل من بني سلمة: يا رسول الله، حبسه برداه ونظره في عطفه. فقال معاذ بن جبل: بئس ما قلت، والله يا رسول الله ما علمنا عليه إلا خيرًا. فسكت رسول الله ﷺ.
+
+
+قال كعب بن مالك: فلما بلغني أنه توجه قافلًا حضرني همي، وطفقت أتذكر الكذب وأقول: بماذا أخرج من سخطه غدًا، واستعنت على ذلك بكل ذي رأي من أهلي.
+
+
+فلما قيل إن رسول الله ﷺ قد أظل قادمًا زاح عني الباطل، وعرفت أني لن أخرج منه أبدًا بشيء فيه كذب، فأجمعت صدقه.
+
+
+وأصبح رسول الله ﷺ قادمًا، وكان إذا قدم من سفر بدأ بالمسجد فيركع فيه ركعتين، ثم جلس للناس. فلما فعل ذلك جاءه المخلفون فطفقوا يعتذرون إليه ويحلفون له، وكانوا بضعة وثمانين رجلًا، فقبل منهم رسول الله ﷺ علانيتهم وبايعهم واستغفر لهم، ووكل سرائرهم إلى الله.
+
+
+فجئته، فلما سلمت عليه تبسم تبسم المغضب، ثم قال: «تعال». فجئت أمشي حتى جلست بين يديه، فقال لي: «ما خلفك، ألم تكن قد ابتعت ظهرك؟» فقلت: بلى، إني والله لو جلست عند غيرك من أهل الدنيا لرأيت أن سأخرج من سخطه بعذر، ولقد أعطيت جدلًا، ولكني والله لقد علمت لئن حدثتك اليوم حديث كذب ترضى به عني، ليوشكن الله أن يسخطك علي، ولئن حدثتك حديث صدق تجد علي فيه، إني لأرجو فيه عفو الله، لا والله ما كان لي من عذر، والله ما كنت قط أقوى ولا أيسر مني حين تخلفت عنك.
+
+
+فقال رسول الله ﷺ: «أما هذا فقد صدق، فقم حتى يقضي الله فيك». فقمت، وثار رجال من بني سلمة فاتبعوني، فقالوا لي: والله ما علمناك كنت أذنبت ذنبًا قبل هذا، ولقد عجزت أن لا تكون اعتذرت إلى رسول الله ﷺ بما اعتذر إليه المتخلفون، قد كان كافيك ذنبك استغفار رسول الله ﷺ لك.
+
+
+فوالله ما زالوا يؤنبونني حتى أردت أن أرجع فأكذب نفسي، ثم قلت لهم: هل لقي هذا معي أحد؟ قالوا: نعم، رجلان قالا مثل ما قلت، فقيل لهما مثل ما قيل لك. فقلت: من هما؟ قالوا: مرارة بن الربيع العمري، وهلال بن أمية الواقفي. فذكروا لي رجلين صالحين قد شهدا بدرًا، فيهما أسوة. فمضيت حين ذكروهما لي.
+
+
+ونهى رسول الله ﷺ المسلمين عن كلامنا أيها الثلاثة من بين من تخلف عنه، فاجتنبنا الناس وتغيروا لنا، حتى تنكرت في نفسي الأرض، فما هي التي أعرف.
+
+
+فلبثنا على ذلك خمسين ليلة، فأما صاحباي فاستكانا وقعدا في بيوتهما يبكيان، وأما أنا فكنت أشب القوم وأجلدهم، فكنت أخرج فأشهد الصلاة مع المسلمين، وأطوف في الأسواق ولا يكلمني أحد.
+
+
+وآتي رسول الله ﷺ فأ سلم عليه وهو في مجلسه بعد الصلاة، فأقول في نفسي: هل حرك شفتيه برد السلام علي أم لا؟ ثم أصلي قريبًا منه، فأ سارقه النظر، فإذا أقبلت على صلاتي أقبل إلي، وإذا التفت نحوه أعرض عني.
+
+
+حتى إذا طال علي ذلك من جفوة الناس، مشيت حتى تسورت جدار حائط أبي قتادة، وهو ابن عمي وأحب الناس إلي، فسلمت عليه، فوالله ما رد علي السلام. فقلت: يا أبا قتادة، أنشدك بالله هل تعلمني أحب الله ورسوله؟ فسكت، فعدت له فنشدته، فسكت، فعدت له فنشدته، فقال: الله ورسوله أعلم. ففاضت عيناي وتوليت حتى تسورت الجدار.
+
+
+فبينا أنا أمشي بسوق المدينة إذا نبطي من أنباط أهل الشام ممن قدم بالطعام يبيعه بالمدينة يقول: من يدل على كعب بن مالك؟ فطفق الناس يشيرون له، حتى إذا جاءني دفع إلي كتابًا من ملك غسان، فإذا فيه: أما بعد، فإنه قد بلغني أن صاحبك قد جفاك، ولم يجعلك الله بدار هوان ولا مضيعة، فالحق بنا نواسك.
+
+
+فقلت لما قرأتها: وهذا أيضًا من البلاء. فتيممت بها التنور فسجرته بها.
+
+
+حتى إذا مضت أربعون ليلة من الخمسين إذا رسول رسول الله ﷺ يأتيني، فقال: إن رسول الله ﷺ يأمرك أن تعتزل امرأتك. فقلت: أطلقها أم ماذا أفعل؟ قال: لا، بل اعتزلها ولا تقربها. وأرسل إلى صاحبي مثل ذلك.
+
+
+فقلت لامرأتي: الحقي بأهلك ف تكوني عندهم حتى يقضي الله في هذا الأمر.
+
+
+قال كعب: فجاءت امرأة هلال بن أمية رسول الله ﷺ فقالت: يا رسول الله، إن هلال بن أمية شيخ ضائع ليس له خادم، فهل تكره أن أخدمه؟ قال: «لا، ولكن لا يقربك». قالت: إنه والله ما به حركة إلى شيء، والله ما زال يبكي منذ كان من أمره ما كان إلى يومه هذا.
+
+
+فقال لي بعض أهلي: لو استأذنت رسول الله ﷺ في امرأتك كما أذن لامرأة هلال بن أمية أن تخدمه. فقلت: والله لا أستأذن فيها رسول الله ﷺ، وما يدريك ما يقول رسول الله ﷺ إذا استأذنته فيها وأنا رجل شاب.
+
+
+فلبثت بعد ذلك عشر ليال حتى كملت لنا خمسون ليلة من حين نهى رسول الله ﷺ عن كلامنا.
+
+
+فلما صليت صلاة الفجر صبح خمسين ليلة، وأنا على ظهر بيت من بيوتنا، فبينا أنا جالس على الحال التي ذكر الله قد ضاقت علي نفسي وضاقت علي الأرض بما رحبت، سمعت صوت صارخ أوفى على جبل سلع بأعلى صوته: يا كعب بن مالك، أبشر. قال: فخررت ساجدًا، وعرفت أن قد جاء فرج.
+
+
+وآذن رسول الله ﷺ بتوبة الله علينا حين صلى صلاة الفجر، فذهب الناس يبشروننا، وذهب قبل صاحبي مبشرون، وركض إلي رجل فرسًا، وسعى ساع من أسلم فأوفى على الجبل، وكان الصوت أسرع من الفرس.
+
+
+فلما جاءني الذي سمعت صوته يبشرني نزعت له ثوبي فكسوته إياهما ببشراه، والله ما أملك غيرهما يومئذ، واستعرت ثوبين فلبستهما، وانطلقت إلى رسول الله ﷺ.`,
+    source: "صحيح البخاري (4418)، صحيح مسلم (2769)",
+    benefits: [
+        "الصدق منجاة، والكذب مهلكة.",
+        "التوبة النصوح تفتح أبواب الفرج بعد الشدة.",
+        "فضل كعب بن مالك وصاحبيه.",
+        "أهمية الصحبة الصالحة.",
+        "دروس في الصبر على البلاء.",
+        "الوفاء بالعهد."
+    ]
+},
+{
+    id: 14,
+    title: "حادثة الإفك (كاملة)",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:4141",
+    full_text: `عن عائشة رضي الله عنها زوج النبي ﷺ حين قال لها أهل الإفك ما قالوا، وكلهم حدثني طائفة من حديثها، وبعضهم كان أوعى لحديثها من بعض، وأثبت له اقتصاصًا.
+
+
+قالت عائشة: كان رسول الله ﷺ إذا أراد سفرًا أقرع بين أزواجه، فأيتهن خرج سهمها خرج بها رسول الله ﷺ معه. قالت عائشة: فأقرع بيننا في غزوة غزاها، فخرج فيها سهمي، فخرجت مع رسول الله ﷺ بعد ما أنزل الحجاب، فكنت أحمل في هودجي وأنزل فيه.
+
+
+فسرنا حتى إذا فرغ رسول الله ﷺ من غزوته تلك وقفل، ددنونا من المدينة قافلين، آذن ليلة بالرحيل. فقمت حين آذنوا بالرحيل، فمشيت حتى جاوزت الجيش، فلما قضيت شأني أقبلت إلى رحلي، فلمست صدري فإذا عقد لي من جزع ظفار قد انقطع، فرجعت فالتمست عقدي فحبسني ابتغاؤه.
+
+
+وأقبل الرهط الذين كانوا يرحلوني فاحتملوا هودجي، فرحلوه على بعيري الذي كنت أركب عليه، وهم يحسبون أني فيه. وكان النساء إذ ذاك خفافًا لم يهبلن، ولم يغشهن اللحم، إنما يأكلن العلفة من الطعام، فلم يستنكر القوم خفة الهودج حين رفعوه وحملوه.
+
+
+وكنت جارية حديثة السن، فبعثوا الجمل فساروا، ووجدت عقدي بعد ما استمر الجيش، فجئت منازلهم وليس بها منهم داع ولا مجيب، فتيممت منزلي الذي كنت به، وظننت أنهم سيفقدونني فيرجعون إلي.
+
+
+فبينا أنا جالسة في منزلي غلبتني عيني فنمت. وكان صفوان بن المعطل السلمي ثم الذكواني من وراء الجيش، فأصبح عند منزلي، فرأى سواد إنسان نائم، فعرفني حين رآني، وكان رآني قبل الحجاب. فاستيقظت باسترجاعه حين عرفني، فخمرت وجهي بجلبابي، والله ما تكلمنا بكلمة، ولا سمعت منه كلمة غير استرجاعه.
+
+
+وهوى حتى أناخ راحلته، فوطئ على يدها، فقمت إليها فركبتها، فانطلق يقود بي الراحلة حتى أتينا الجيش موغرين في نحر الظهيرة وهم نزول.
+
+
+قالت: فهلك من هلك، وكان الذي تولى كبر الإفك عبد الله بن أبي ابن سلول. قال عروة: أخبرت أنه كان يشاع ويتحدث به عنده، فيقره ويستمعه ويستوشيه.
+
+
+قالت عائشة: فقدمنا المدينة، فاشتكيت حين قدمت شهرًا، والناس يفيضون في قول أصحاب الإفك، لا أشعر بشيء من ذلك. وهو يريبني في وجعي أني لا أعرف من رسول الله ﷺ اللطف الذي كنت أرى منه حين أشتكي، إنما يدخل علي رسول الله ﷺ فيسلم، ثم يقول: «كيف تيكم» ثم ينصرف، فذلك يريبني ولا أشعر بالشر.
+
+
+حتى خرجت حين نقمت، فخرجت مع أم مسطح قبل المناصع، وكان متبرزنا، وكنا لا نخرج إلا ليلًا إلى ليل. وذلك قبل أن نتخذ الكنف قريبًا من بيوتنا. قالت: فأقبلت أنا وأم مسطح قبل بيتي حين فرغنا من شأننا، فعثرت أم مسطح في مرطها فقالت: تعس مسطح. فقلت لها: بئس ما قلت، أتسبين رجلًا شهد بدرًا؟ فقالت: أي هنتاه، ولم تسمعي ما قال؟ قالت: وقلت: ما قال؟ فأخبرتني بقول أهل الإفك.
+
+
+قالت: فازددت مرضًا على مرضي. فلما رجعت إلى بيتي دخل علي رسول الله ﷺ فسلم، ثم قال: «كيف تيكم؟» فقلت له: أتأذن لي أن آتي أبوي؟ قالت: وأريد أن أستيقن الخبر من قبلهما. قالت: فأذن لي رسول الله ﷺ.
+
+
+فقلت لأمي: يا أمتاه، ماذا يتحدث الناس؟ قالت: يا بنية، هوني عليك، فوالله لقلما كانت امرأة قط وضيئة عند رجل يحبها، لها ضرائر، إلا كثرن عليها. قالت: فقلت: سبحان الله، أولقد تحدث الناس بهذا؟ قالت: فبكيت تلك الليلة حتى أصبحت لا يرقأ لي دمع ولا أكتحل بنوم.
+
+
+ثم أصبحت أبكي. قالت: ودعا رسول الله ﷺ علي بن أبي طالب وأسامة بن زيد حين استلبث الوحي، يسألهما ويستشيرهما في فراق أهله.
+
+
+قالت: فأما أسامة فأشار على رسول الله ﷺ بالذي يعلم من براءة أهله، وبالذي يعلم لهم في نفسه، فقال أسامة: أهلك، ولا نعلم إلا خيرًا. وأما علي فقال: يا رسول الله، لم يضيق الله عليك، والنساء سواها كثير، وسل الجارية تصدقك.
+
+
+قالت: فدعا رسول الله ﷺ بريرة، فقال: «أي بريرة، هل رأيت من شيء يريبك؟» قالت له بريرة: والذي بعثك بالحق، ما رأيت عليها أمرًا قط أغمصه، غير أنها جارية حديثة السن، تنام عن عجين أهلها، فتأتي الداجن فتأكله.
+
+
+قالت: فقام رسول الله ﷺ من يومه فاستعذر من عبد الله بن أبي، وهو على المنبر، فقال: «يا معشر المسلمين، من يعذرني من رجل قد بلغني عنه أذاه في أهلي، والله ما علمت على أهلي إلا خيرًا، ولقد ذكروا رجلًا ما علمت عليه إلا خيرًا، وما يدخل على أهلي إلا معي».
+
+
+قالت: فقام سعد بن معاذ أخو بني عبد الأشهل فقال: أنا يا رسول الله، أعذرك، فإن كان من الأوس ضربت عنقه، وإن كان من إخواننا من الخزرج أمرتنا ففعلنا أمرك.
+
+
+قالت: فقام رجل من الخزرج، وكانت أم حسان بنت عمه من فخذه، وهو سعد بن عبادة، وهو سيد الخزرج. قالت: وكان قبل ذلك رجلًا صالحًا، ولكن احتملته الحمية، فقال لسعد: كذبت لعمرو الله لا تقتله، ولا تقدر على قتله، ولو كان من رهطك ما أحببت أن يقتل.
+
+
+فقام أسيد بن حضير، وهو ابن عم سعد، فقال لسعد بن عبادة: كذبت لعمرو الله لنقتلنه، فإنك منافق تجادل عن المنافقين.
+
+
+قالت: فثار الحيان الأوس والخزرج حتى هموا أن يقتتلوا، ورسول الله ﷺ قائم على المنبر. قالت: فلم يزل رسول الله ﷺ يخفضهم حتى سكتوا وسكت.
+
+
+قالت: فبكيت يومي ذلك كله لا يرقأ لي دمع ولا أكتحل بنوم. قالت: وأصبح أبواي عندي، وقد بكيت ليلتين ويومًا لا يرقأ لي دمع ولا أكتحل بنوم، حتى إني لأظن أن البكاء فالق كبدي.
+
+
+فبينا أبواي جالسان عندي وأنا أبكي، فاستأذنت علي امرأة من الأنصار فأذنت لها، فجلست تبكي معي.`,
+    source: "صحيح البخاري (4141)، صحيح مسلم (2770)",
+    benefits: [
+        "براءة عائشة رضي الله عنها.",
+        "التحذير من نشر الشائعات.",
+        "فضل الصبر والاحتساب عند البلاء.",
+        "أهمية التثبت في الأخبار.",
+        "مكانة عائشة رضي الله عنها."
+    ]
+},
+{
+    id: 15,
+    title: "صلح الحديبية",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:2731",
+    full_text: `عن المسور بن مخرمة ومروان، يصدّق كل واحد منهما حديث صاحبه، قالا: خرج رسول الله ﷺ زمن الحديبية، حتى إذا كانوا ببعض الطريق قال النبي ﷺ: «إن خالد بن الوليد بالغميم في خيل لقريش طليعة، فخذوا ذات اليمين». فوالله ما شعر بهم خالد حتى إذا هم بقترة الجيش، فانطلق يركض نذيرًا لقريش.
+
+
+وسار النبي ﷺ حتى إذا كان بالثنية التي يهبط عليهم منها بركت به راحلته، فقال الناس: حل حل. فألحت، فقالوا: خلأت القصواء، خلأت القصواء. فقال النبي ﷺ: «ما خلأت القصواء، وما ذاك لها بخلق، ولكن حبسها حابس الفيل».
+
+
+ثم قال: «والذي نفسي بيده، لا يسألوني خطة يعظمون فيها حرمات الله إلا أعطيتهم إياها». ثم زجرها فوثبت.
+
+
+قال: فعدل عنهم حتى نزل بأقصى الحديبية على ثمد قليل الماء، يتبرضه الناس تبرضًا، فلم يلبثه الناس حتى نزحوه. وشكي إلى رسول الله ﷺ العطش، فانتزع سهمًا من كنانته، ثم أمرهم أن يجعلوه فيه، فوالله ما زال يجيش لهم بالري حتى صدروا عنه.
+
+
+فبينما هم كذلك إذ جاء بديل بن ورقاء الخزاعي في نفر من قومه من خزاعة، وكانوا عيبة نصح رسول الله ﷺ من أهل تهامة، فقال: إني تركت كعب بن لؤي وعامر بن لؤي نزلوا أعداد مياه الحديبية، ومعهم العوذ المطافيل، وهم مقاتلوك وصادوك عن البيت.
+
+
+فقال رسول الله ﷺ: «إنا لم نجئ لقتال أحد، ولكنا جئنا معتمرين، وإن قريشًا قد نهكتهم الحرب، وأضرت بهم، فإن شاؤوا ماددتهم مدة، ويخلوا بيني وبين الناس، فإن أظهر فإن شاؤوا أن يدخلوا فيما دخل فيه الناس فعلوا، وإلا فقد جموا. وإن هم أبوا، فوالذي نفسي بيده لأقاتلنهم على أمري هذا حتى تنفرد سالفتي، ولينفذن الله أمره».
+
+
+قال: فانطلق بديل حتى أتى قريشًا، فأخبرهم. فقام عروة بن مسعود الثقفي فقال: أي قوم، ألستم بالوالد؟ قالوا: بلى. قال: أولست بالولد؟ قالوا: بلى. قال: فهل تتهموني؟ قالوا: لا. قال: فإن هذا قد عرض لكم خطة رشد، اقبلوها ودعوني آتيه. قالوا: ائته.
+
+
+فأتى النبي ﷺ فجعل يكلمه، فقال النبي ﷺ نحوا من قوله لبديل. فقال عروة عند ذلك: أي محمد، أرأيت إن استأصلت أمر قومك، هل سمعت بأحد من العرب اجتاح أهله قبلك؟ وإن تكن الأخرى، فإني والله لأرى وجوهًا، وإني لأرى أشوابًا من الناس خليقًا أن يفروا ويدعوك.
+
+
+فقال له أبو بكر: امصص ببظر اللات، أنحن نفر عنه وندعه؟ فقال: من ذا؟ قالوا: أبو بكر. قال: أما والذي نفسي بيده، لولا يد كانت لك عندي لم أجزك بها لأجبتك.
+
+
+قال: وجعل يكلم النبي ﷺ، فكلما تكلم أخذ بلحيته، والمغيرة بن شعبة قائم على رأس النبي ﷺ ومعه السيف وعليه المغفر، فكلما أهوى عروة بيده إلى لحية النبي ﷺ ضرب يده بنعل السيف، وقال له: أخر يدك عن لحية رسول الله ﷺ.
+
+
+فرفع عروة رأسه فقال: من هذا؟ قالوا: المغيرة بن شعبة. فقال: أي غدر، ألست أسعى في غدرتك؟
+
+
+ثم إن عروة جعل يرمق أصحاب النبي ﷺ بعينيه، قال: فوالله ما تنخم رسول الله ﷺ نخامة إلا وقعت في كف رجل منهم، فدلك بها وجهه وجلده. وإذا أمرهم ابتدروا أمره، وإذا توضأ كادوا يقتتلون على وضوئه، وإذا تكلم خفضوا أصواتهم عنده، وما يحدون إليه النظر تعظيمًا له.
+
+
+فرجع عروة إلى أصحابه فقال: أي قوم، والله لقد وفدت على الملوك، ووفدت على قيصر وكسرى والنجاشي، والله إن رأيت ملكًا قط يعظمه أصحابه ما يعظم أصحاب محمد ﷺ محمدًا.
+
+
+ثم جاء سهيل بن عمرو فقال: هات اكتب بيننا وبينك كتابًا. فدعا النبي ﷺ الكاتب، فقال النبي ﷺ: «بسم الله الرحمن الرحيم». فقال سهيل: أما الرحمن فوالله ما أدري ما هو، ولكن اكتب باسمك اللهم كما كنت تكتب.
+
+
+فقال المسلمون: والله لا نكتبها إلا بسم الله الرحمن الرحيم. فقال النبي ﷺ: «اكتب باسمك اللهم». ثم قال: «هذا ما قاضى عليه محمد رسول الله». فقال سهيل: والله لو كنا نعلم أنك رسول الله ما صددناك عن البيت ولا قاتلناك، ولكن اكتب: محمد بن عبد الله.`,
+    source: "صحيح البخاري (2731، 2732)، صحيح مسلم (1783)",
+    benefits: [
+        "الصلح خير من الحرب.",
+        "فقه النبي ﷺ في إدارة الأزمات.",
+        "بيان عظمة الصحابة في تعظيم النبي ﷺ.",
+        "جواز التنازل عن بعض الشروط الظاهرة.",
+        "الوفاء بالعهود.",
+        "دروس في القيادة والحكمة السياسية."
+    ]
+},
+{
+    id: 16,
+    title: "فتح مكة",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:4280",
+    full_text: `عن هشام عن أبيه قال: لما سار رسول الله ﷺ عام الفتح فبلغ ذلك قريشًا، خرج أبو سفيان بن حرب وحكيم بن حزام وبديل بن ورقاء يلتمسون الخبر عن رسول الله ﷺ.
+
+
+فأقبلوا يسيرون حتى أتوا مر الظهران، فإذا هم بنيران كأنها نيران عرفة. فقال أبو سفيان: ما هذه؟ لكأنها نيران عرفة. فقال بديل بن ورقاء: نيران بني عمرو. فقال أبو سفيان: عمرو أقل من ذلك.
+
+
+فرآهم ناس من حرس رسول الله ﷺ فأدركوهم فأخذوهم، فأتوا بهم رسول الله ﷺ، فأسلم أبو سفيان.
+
+
+فلما سار قال للعباس: «احبس أبا سفيان عند حطم الخيل حتى ينظر إلى المسلمين». فحبسه العباس، فجعلت القبائل تمر مع النبي ﷺ تمر كتيبة كتيبة على أبي سفيان.
+
+
+فمرت كتيبة، قال: يا عباس من هذه؟ قال: هذه غفار. قال: ما لي ولغفار. ثم مرت جهينة، قال: مثل ذلك. ثم مرت سعد بن هذيم، فقال مثل ذلك. ومرت سليم، فقال مثل ذلك.
+
+
+حتى أقبلت كتيبة لم ير مثلها، قال: من هذه؟ قال: هؤلاء الأنصار، عليهم سعد بن عبادة، معه الراية. فقال سعد بن عبادة: يا أبا سفيان، اليوم يوم الملحمة، اليوم تستحل الكعبة. فقال أبو سفيان: يا عباس، حبذا يوم الذمار.
+
+
+ثم جاءت كتيبة وهي أقل الكتائب، فيهم رسول الله ﷺ وأصحابه، وراية النبي ﷺ مع الزبير بن العوام. فلما مر رسول الله ﷺ بأبي سفيان قال: «ألم تعلم ما قال سعد بن عبادة؟» قال: ما قال؟ قال: كذا وكذا. فقال: «كذب سعد، ولكن هذا يوم يعظم الله فيه الكعبة، ويوم تكسى فيه الكعبة».
+
+
+قال: وأمر رسول الله ﷺ أن تركز رايته بالحجون. قال عروة: وأخبرني نافع بن جبير بن مطعم قال: سمعت العباس يقول للزبير بن العوام: يا أبا عبد الله، ها هنا أمرك رسول الله ﷺ أن تركز الراية. قال: وأمر رسول الله ﷺ يومئذ خالد بن الوليد أن يدخل من أعلى مكة من كداء، ودخل النبي ﷺ من كدا.`,
+    source: "صحيح البخاري (4280)، صحيح مسلم (1780)",
+    benefits: [
+        "نصر الله لنبيه ﷺ.",
+        "عفو النبي ﷺ عن أهل مكة.",
+        "بيان كرم النبي ﷺ وحسن سياسته.",
+        "تعظيم الكعبة وحرمة مكة.",
+        "دروس في القيادة العسكرية."
+    ]
+},
+{
+    id: 17,
+    title: "الشفاعة العظمى",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:4712",
+    full_text: `عن أبي هريرة رضي الله عنه قال: أُتي رسول الله ﷺ بلحم، فرفع إليه الذراع، وكانت تعجبه، فنهس منها نهسة ثم قال: «أنا سيد الناس يوم القيامة، وهل تدرون مم ذلك؟»
+
+
+«يجمع الناس الأولين والآخرين في صعيد واحد، يسمعهم الداعي، وينفذهم البصر، وتدنو الشمس، فيبلغ الناس من الغم والكرب ما لا يطيقون ولا يحتملون. فيقول الناس: ألا ترون ما قد بلغكم؟ ألا تنظرون من يشفع لكم إلى ربكم؟»
+
+
+«فيقول بعض الناس لبعض: عليكم بآدم. فيأتون آدم عليه السلام فيقولون له: أنت أبو البشر، خلقك الله بيده، ونفخ فيك من روحه، وأمر الملائكة فسجدوا لك، اشفع لنا إلى ربك، ألا ترى إلى ما نحن فيه؟»
+
+
+«فيقول آدم: إن ربي قد غضب اليوم غضبًا لم يغضب قبله مثله، ولن يغضب بعده مثله، وإنه قد نهاني عن الشجرة فعصيته. نفسي نفسي نفسي، اذهبوا إلى غيري، اذهبوا إلى نوح.»
+
+
+«فيأتون نوحًا فيقولون: يا نوح، إنك أنت أول الرسل إلى أهل الأرض، وقد سماك الله عبدًا شكورًا، اشفع لنا إلى ربك، ألا ترى إلى ما نحن فيه؟»
+
+
+«فيقول: إن ربي قد غضب اليوم غضبًا لم يغضب قبله مثله، ولن يغضب بعده مثله، وإنه قد كانت لي دعوة دعوتها على قومي. نفسي نفسي نفسي، اذهبوا إلى غيري، اذهبوا إلى إبراهيم.»
+
+
+«فيأتون إبراهيم فيقولون: يا إبراهيم، أنت نبي الله وخليله من أهل الأرض، اشفع لنا إلى ربك، ألا ترى إلى ما نحن فيه؟»
+
+
+«فيقول لهم: إن ربي قد غضب اليوم غضبًا لم يغضب قبله مثله، ولن يغضب بعده مثله، وإني قد كنت كذبت ثلاث كذبات. نفسي نفسي نفسي، اذهبوا إلى غيري، اذهبوا إلى موسى.»
+
+
+«فيأتون موسى فيقولون: يا موسى، أنت رسول الله، فضلك الله برسالته وبكلامه على الناس، اشفع لنا إلى ربك، ألا ترى إلى ما نحن فيه؟»
+
+
+«فيقول: إن ربي قد غضب اليوم غضبًا لم يغضب قبله مثله، ولن يغضب بعده مثله، وإني قد قتلت نفسًا لم أومر بقتلها. نفسي نفسي نفسي، اذهبوا إلى غيري، اذهبوا إلى عيسى.»
+
+
+«فيأتون عيسى فيقولون: يا عيسى، أنت رسول الله وكلمته ألقاها إلى مريم وروح منه، وكلمت الناس في المهد صبيًا، اشفع لنا، ألا ترى إلى ما نحن فيه؟»
+
+
+«فيقول عيسى: إن ربي قد غضب اليوم غضبًا لم يغضب قبله مثله، ولن يغضب بعده مثله، ولم يذكر ذنبًا. نفسي نفسي نفسي، اذهبوا إلى غيري، اذهبوا إلى محمد ﷺ.»
+
+
+«فيأتون محمدًا ﷺ فيقولون: يا محمد، أنت رسول الله، وخاتم الأنبياء، وقد غفر الله لك ما تقدم من ذنبك وما تأخر، اشفع لنا إلى ربك، ألا ترى إلى ما نحن فيه؟»
+
+
+«فأنطلق فآتي تحت العرش، فأقع ساجدًا لربي عز وجل، ثم يفتح الله علي من محامده وحسن الثناء عليه شيئًا لم يفتحه على أحد قبلي. ثم يقال: يا محمد، ارفع رأسك، سل تعطه، واشفع تشفع.»
+
+
+«فأرفع رأسي فأقول: أمتي يا رب، أمتي يا رب. فيقال: يا محمد، أدخل من أمتك من لا حساب عليهم من الباب الأيمن من أبواب الجنة، وهم شركاء الناس فيما سوى ذلك من الأبواب.»
+
+
+«ثم قال: والذي نفسي بيده، إن ما بين المصراعين من مصاريع الجنة كما بين مكة وحمير، أو كما بين مكة وبصرى.»`,
+    source: "صحيح البخاري (4712)، صحيح مسلم (194)",
+    benefits: [
+        "إثبات الشفاعة العظمى للنبي ﷺ.",
+        "بيان فضل النبي ﷺ على جميع الأنبياء.",
+        "الشفاعة تكون بإذن الله.",
+        "ذكر أهوال يوم القيامة.",
+        "بيان كرم الله ورحمته."
+    ]
+},
+{
+    id: 18,
+    title: "آخر من يدخل الجنة",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/muslim:183",
+    full_text: `عن ابن مسعود أن رسول الله ﷺ قال: «آخر من يدخل الجنة رجل، فهو يمشي مرة، ويكبو مرة، وتسفعه النار مرة.
+
+
+فإذا ما جاوزها التفت إليها، فقال: تبارك الذي نجاني منك، لقد أعطاني الله شيئًا ما أعطاه أحدًا من الأولين والآخرين.
+
+
+فترفع له شجرة، فيقول: أي رب، أدنني من هذه الشجرة فأستظل بظلها وأشرب من مائها. فيقول الله عز وجل: يا ابن آدم، لعلي إن أعطيتكها سألتني غيرها. فيقول: لا يا رب، ويعاهده أن لا يسأله غيرها. وربه يعذره لأنه يرى ما لا صبر له عليه.
+
+
+فيدنيه منها، فيستظل بظلها ويشرب من مائها. ثم ترفع له شجرة هي أحسن من الأولى، فيقول: أي رب، أدنني من هذه لأشرب من مائها وأستظل بظلها، لا أسألك غيرها. فيقول: يا ابن آدم، ألم تعاهدني أن لا تسألني غيرها؟ فيقول: لعلي إن أدنيتك منها تسألني غيرها. فيعاهده أن لا يسأله غيرها، وربه يعذره لأنه يرى ما لا صبر له عليه.
+
+
+فيدنيه منها فيستظل بظلها ويشرب من مائها. ثم ترفع له شجرة عند باب الجنة هي أحسن من الأوليين، فيقول: أي رب، أدنني من هذه لأستظل بظلها وأشرب من مائها، لا أسألك غيرها. فيقول: يا ابن آدم، ألم تعاهدني أن لا تسألني غيرها؟ فيقول: بلى يا رب، ولكن هذه أحسن. فيقول: إني أدنيك منها، ولا أسألك غيرها.
+
+
+فيدنيه منها، فإذا دنا منها سمع أصوات أهل الجنة، فيقول: أي رب، أدخلني الجنة. فيقول: يا ابن آدم، ما أعظم ما تسأل! فيقول: يا رب، أنت أهل أن تجود. فيقول: فإن لك ما سألت، ولك مثل الدنيا وعشرة أمثالها.
+
+
+فيقول: يا رب، أتسخر بي وأنت رب العالمين؟ فضحك الله من قوله، وقال: إني لا أسخر منك، ولكني على ما أشاء قادر».`,
+    source: "صحيح مسلم (183)، صحيح البخاري (6571)",
+    benefits: [
+        "سعة رحمة الله وعفوه.",
+        "بيان أن الجنة درجات.",
+        "إثبات صفات الله التي تليق بجلاله.",
+        "الحث على سؤال الله والرجاء في رحمته.",
+        "التذكير بأن الدنيا فانية."
+    ]
+},
+{
+    id: 19,
+    title: "مثل أصحاب السفينة",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:2493",
+    full_text: `عن النعمان بن بشير رضي الله عنهما عن النبي ﷺ قال: «مثل القائم على حدود الله والواقع فيها، كمثل قوم استهموا على سفينة، فأصاب بعضهم أعلاها وبعضهم أسفلها.
+
+
+فكان الذين في أسفلها إذا استقوا من الماء مروا على من فوقهم، فقالوا: لو أنا خرقنا في نصيبنا خرقًا ولم نؤذ من فوقنا.
+
+
+فإن يتركوهم وما أرادوا هلكوا جميعًا، وإن أخذوا على أيديهم نجوا ونجوا جميعًا».`,
+    source: "صحيح البخاري (2493)",
+    benefits: [
+        "الأمة كالسفينة الواحدة.",
+        "الأمر بالمعروف والنهي عن المنكر.",
+        "السكوت عن المنكر يؤدي إلى هلاك الجميع.",
+        "الوقوف عند حدود الله.",
+        "المسؤولية الجماعية."
+    ]
+},
+{
+    id: 20,
+    title: "قصة طفل المهد في قصة أصحاب الأخدود",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/muslim:3005",
+    full_text: `من حديث صهيب رضي الله عنه عن رسول الله ﷺ في قصة أصحاب الأخدود: «ففعلوا حتى جاءت امرأة ومعها صبي يرضع، فتقاعست أن تقع في النار، فقال لها الغلام: يا أمه اصبري فإنك على الحق».`,
+    source: "صحيح مسلم (3005)",
+    benefits: [
+        "إثبات كرامات الله لعباده الصالحين.",
+        "الثبات على الدين.",
+        "الأم الصابرة المجاهدة.",
+        "الطفل كان سببًا في تثبيت أمه.",
+        "اليقين بأن الله ينصر عباده المؤمنين."
+    ]
+},
+{
+    id: 21,
+    title: "قصة الهجرة وغار ثور",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:3653",
+    full_text: `عن أبي بكر رضي الله عنه قال: «كنت مع النبي ﷺ في الغار، فرأيت أقدام المشركين، فقلت: يا رسول الله، لو أن بعضهم طأطأ بصره رآنا. فقال: «ما ظنك باثنين الله ثالثهما؟»».`,
+    source: "صحيح البخاري (3653)، صحيح مسلم (2381)",
+    benefits: [
+        "معية الله لأوليائه.",
+        "فضل أبي بكر الصديق.",
+        "التوكل على الله مع الأخذ بالأسباب.",
+        "شجاعة النبي ﷺ.",
+        "الهجرة بداية عصر جديد."
+    ]
+},
+{
+    id: 22,
+    title: "قصة الذي سقى الكلب (صاحب الجرة)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:173",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «بينما رجل يمشي بطريق، فاشتد عليه العطش، فوجد بئرًا فنزل فيها فشرب، ثم خرج. فإذا كلب يلهث يأكل الثرى من العطش.
+
+
+فقال الرجل: لقد بلغ هذا الكلب من العطش مثل الذي بلغ مني. فنزل البئر فملأ خفه ماء، ثم أمسكه بفيه، حتى صعد، فسقى الكلب.
+
+
+فشكر الله له، فغفر له». قالوا: يا رسول الله، وإن لنا في البهائم لأجرًا؟ فقال: «في كل كبد رطبة أجر».`,
+    source: "صحيح البخاري (173)، صحيح مسلم (2244)",
+    benefits: [
+        "الرحمة بالحيوان من أسباب مغفرة الذنوب.",
+        "سعة رحمة الله.",
+        "الحث على الإحسان إلى جميع المخلوقات.",
+        "في كل كبد رطبة أجر.",
+        "قصة قصيرة لكنها عظيمة في باب الرحمة."
+    ]
+},
+/* ===== القصص المضافة حديثًا (23-70) ===== */
+{
+    id: 23,
+    title: "قصة المرأة التي حبست الهرة",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:3318",
+    full_text: `عن عبد الله بن عمر رضي الله عنهما أن رسول الله ﷺ قال: «عُذِّبَتِ امْرَأَةٌ فِي هِرَّةٍ سَجَنَتْهَا حَتَّى مَاتَتْ، فَدَخَلَتْ فِيهَا النَّارَ، لَا هِيَ أَطْعَمَتْهَا وَلَا سَقَتْهَا إِذْ حَبَسَتْهَا، وَلَا هِيَ تَرَكَتْهَا تَأْكُلُ مِنْ خَشَاشِ الْأَرْضِ».`,
+    source: "صحيح البخاري (3318)، صحيح مسلم (2242)",
+    benefits: [
+        "الرفق بالحيوان واجب.",
+        "منع الطعام والشراب عن الحيوان سبب للعذاب.",
+        "الرحمة بالحيوان من أسباب دخول الجنة.",
+        "التحذير من القسوة.",
+        "في كل كبد رطبة أجر."
+    ]
+},
+{
+    id: 24,
+    title: "قصة الرجل الذي أمر أهله بإحراقه",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:7508",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «كان رجل يسرف على نفسه، فلما حضره الموت قال لبنيه: إذا أنا مت فأحرقوني، ثم اطحنوني، ثم ذروني في الريح، فوالله لئن قدر علي ربي ليعذبني عذابًا ما عذبه أحدًا.
+
+
+فلما مات فعل به ذلك، فأمر الله الأرض فقال: اجمعي ما فيك منه. ففعلت، فإذا هو قائم، فقال: ما حملك على ما صنعت؟ قال: يا رب، خشيتك. فغفر له».`,
+    source: "صحيح البخاري (7508)، صحيح مسلم (2757)",
+    benefits: [
+        "سعة رحمة الله.",
+        "الخوف من الله سبب للمغفرة.",
+        "التوبة عند الموت مقبولة إذا صحت النية.",
+        "الله على كل شيء قدير.",
+        "لا ييأس أحد من رحمة الله."
+    ]
+},
+{
+    id: 25,
+    title: "قصة الرجل الذي تصدق على سارق وزانية وغني",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:1421",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «قال رجل: لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد سارق. فأصبحوا يتحدثون: تصدق على سارق.
+
+
+فقال: اللهم لك الحمد، لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد زانية. فأصبحوا يتحدثون: تصدق الليلة على زانية.
+
+
+فقال: اللهم لك الحمد، على زانية، لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد غني. فأصبحوا يتحدثون: تصدق على غني.
+
+
+فقال: اللهم لك الحمد، على سارق وعلى زانية وعلى غني. فأتي فقيل له: أما صدقتك على سارق فلعله أن يستعفف عن سرقته، وأما الزانية فلعلها أن تستعفف عن زناها، وأما الغني فلعله أن يعتبر فينفق مما أعطاه الله».`,
+    source: "صحيح البخاري (1421)، صحيح مسلم (1022)",
+    benefits: [
+        "الصدقة لا تبطل إذا وقعت في غير أهلها.",
+        "الله يثيب على النية الصادقة.",
+        "الحث على الصدقة مهما كانت الظروف.",
+        "قد تكون الصدقة سببًا في توبة من وقعت في يده.",
+        "فضل الإخلاص في العمل."
+    ]
+},
+{
+    id: 26,
+    title: "قصة الرجل الذي دخل الجنة بغصن شوك",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:652",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «بينما رجل يمشي بطريق وجد غصن شوك فأخذه، فشكر الله له فغفر له».`,
+    source: "صحيح البخاري (652)، صحيح مسلم (1914)",
+    benefits: [
+        "إماطة الأذى عن الطريق من أعمال البر.",
+        "العمل القليل قد يكون سببًا لدخول الجنة.",
+        "شكر الله على التوفيق للعمل الصالح.",
+        "الحرص على نظافة الطريق.",
+        "فضل الأعمال الصالحة الخفية."
+    ]
+},
+{
+    id: 27,
+    title: "قصة أصحاب الكهف (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/18",
+    full_text: `ملخّصٌ وافٍ لقصة أصحاب الكهف كما وردت في سورة الكهف (الآيات 9-26):
+
+
+كان فتية آمنوا بربهم وزدهم الله هدى، وربط الله على قلوبهم حين قاموا فقالوا: {رَبُّنَا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ لَن نَّدْعُوَ مِن دُونِهِ إِلَٰهًا}. وضرب الله على آذانهم في الكهف سنين عددًا، ثم بعثهم ليتساءلوا بينهم كم لبثوا.
+
+
+فبعثوا أحدهم بورقهم إلى المدينة ليأتي بطعام، فكان أهل المدينة قد تغيروا، وعلم الناس بأمرهم. قال الله: {وَكَذَٰلِكَ أَعْثَرْنَا عَلَيْهِمْ لِيَعْلَمُوا أَنَّ وَعْدَ اللَّهِ حَقٌّ وَأَنَّ السَّاعَةَ لَا شَكَّ فِيهَا}.
+
+
+والقصة في القرآن الكريم، وليس لها ذكر مطوّل في الصحيحين.`,
+    source: "القرآن الكريم — سورة الكهف (9-26)",
+    benefits: [
+        "الإيمان يثبت القلب في الفتنة.",
+        "معية الله للمؤمنين.",
+        "البعث حق.",
+        "التوكل على الله.",
+        "الصبر على الاضطهاد."
+    ]
+},
+{
+    id: 28,
+    title: "قصة سليمان والهدهد وملكة سبأ (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/27",
+    full_text: `ملخّصٌ وافٍ لقصة سليمان والهدهد وملكة سبأ كما وردت في سورة النمل (الآيات 15-44):
+
+
+أوتي سليمان منطق الطير، وتفقد الطير فلم يجد الهدهد، فقال: {مَا لِيَ لَا أَرَى الْهُدْهُدَ أَمْ كَانَ مِنَ الْغَائِبِينَ}. فجاء الهدهد بخبر ملكة سبأ وقومها يسجدون للشمس.
+
+
+فأرسل سليمان كتابًا مع الهدهد إلى الملكة، فأرسلت هدية، فردها سليمان، ثم أمر أن يؤتى بعرشها قبل أن يأتوه مسلمين. ثم سأل: أيكم يأتيني بعرشها؟ قال عفريت من الجن: أنا آتيك به. وقال الذي عنده علم من الكتاب: أنا آتيك به قبل أن يرتد إليك طرفك. فلما رآه مستقرًا عنده قال: هذا من فضل ربي.
+
+
+ثم أُتي بالملكة، ودخلت الصرح، فحسبته لجة وكشفت عن ساقيها، فقال: إنه صرح ممرد من قوارير. قالت: رب إني ظلمت نفسي وأسلمت مع سليمان لله رب العالمين.`,
+    source: "القرآن الكريم — سورة النمل (15-44)",
+    benefits: [
+        "فضل الله على سليمان.",
+        "التواضع لله.",
+        "العدل في الحكم.",
+        "الإيمان يأتي بعد التدبر.",
+        "الجن والطير جنود الله."
+    ]
+},
+{
+    id: 29,
+    title: "قصة داود وسليمان في الحرث",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3427",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «كانت امرأتان معهما ابناهما، جاء الذئب فذهب بابن إحداهما، فقالت هذه: إنما ذهب بابنك. وقالت هذه: بل ذهب بابنك. فتحاكما إلى داود عليه السلام، فقضى به للكبرى.
+
+
+فخرجتا على سليمان بن داود عليهما السلام فأخبرتاه، فقال: ائتوني بالسكين أشقه بينهما. فقالت الصغرى: لا تفعل يرحمك الله، هو ابنها. فقضى به للصغرى».`,
+    source: "صحيح البخاري (3427)، صحيح مسلم (1720)",
+    benefits: [
+        "فطنة سليمان عليه السلام.",
+        "الرحمة بالأمومة.",
+        "الحكمة في القضاء.",
+        "جواز الاجتهاد في الحكم.",
+        "الصلح بين المتخاصمين."
+    ]
+},
+{
+    id: 30,
+    title: "قصة أيوب عليه السلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:279",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «بينما أيوب يغتسل عريانًا، فخر عليه جراد من ذهب، فجعل أيوب يحتثي في ثوبه، فناداه ربه: يا أيوب، ألم أكن أغنيتك عما ترى؟ قال: بلى وعزتك، ولكن لا غنى بي عن بركتك».`,
+    source: "صحيح البخاري (279)، صحيح مسلم (2088)",
+    benefits: [
+        "الصبر على البلاء.",
+        "الشكر لله على النعم.",
+        "التواضع.",
+        "الاعتراف بفضل الله.",
+        "المال لا يغني عن بركة الله."
+    ]
+},
+{
+    id: 31,
+    title: "قصة يونس عليه السلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3233",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «لا تفضلوا بين أنبياء الله، فإنه ينفخ في الصور فيصعق من في السماوات ومن في الأرض إلا من شاء الله، ثم ينفخ فيه أخرى، فأكون أول من بعث، فإذا موسى آخذ بالعرش، فلا أدري أحوسب بصعقته يوم الطور أم بعث قبلي، ولا أقول إن أحدًا أفضل من يونس بن متى».`,
+    source: "صحيح البخاري (3233)، صحيح مسلم (2374)",
+    benefits: [
+        "عدم تفضيل بعض الأنبياء على بعض.",
+        "اليوم الآخر حق.",
+        "فضل النبي ﷺ.",
+        "قصة يونس عليه السلام.",
+        "التواضع."
+    ]
+},
+{
+    id: 32,
+    title: "قصة موسى والخضر",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3220",
+    full_text: `عن ابن عباس رضي الله عنهما عن النبي ﷺ قال: «إن موسى قام خطيبًا في بني إسرائيل، فسئل: أي الناس أعلم؟ فقال: أنا. فعتب الله عليه، إذ لم يرد العلم إليه، فقال له: بلى، لي عبد بمجمع البحرين هو أعلم منك.
+
+
+قال: أي رب ومن لي به؟ قال: تأخذ حوتًا، فتجعله في مكتل، حيثما فقدت الحوت فهو ثم. فأخذ حوتًا فجعله في مكتل، ثم انطلق هو وفتاه يوشع بن نون، حتى أتيا الصخرة، وضعا رؤوسهما، فرقد موسى، واضطرب الحوت فخرج، فسقط في البحر، فاتخذ سبيله في البحر سربًا.
+
+
+فانطلقا يمشيان بقية ليلتهما ويومهما، حتى إذا كان من الغد قال لفتاه: آتنا غداءنا، لقد لقينا من سفرنا هذا نصبًا. قال له فتاه: أرأيت إذ أوينا إلى الصخرة، فإني نسيت الحوت، وما أنسانيه إلا الشيطان أن أذكره، واتخذ سبيله في البحر عجبًا. قال له موسى: ذلك ما كنا نبغي، فارتدا على آثارهما قصصًا.
+
+
+حتى انتهيا إلى الصخرة، فإذا رجل مسجى بثوب، فسلم موسى، فرد عليه، فقال: وأنى بأرضك السلام؟ قال: أنا موسى. قال: موسى بني إسرائيل؟ قال: نعم، أتيتك لتعلمني مما علمت رشدًا.
+
+
+قال: يا موسى، إني على علم من علم الله علمنيه الله لا تعلمه، وأنت على علم من علم الله علمكه الله لا أعلمه. قال: هل أتبعك؟ قال: {إنك لن تستطيع معي صبرًا. وكيف تصبر على ما لم تحط به خبرًا}. قال: ستجدني إن شاء الله صابرًا ولا أعصي لك أمرًا.
+
+
+فانطلقا يمشيان على ساحل البحر، فمرت بهما سفينة، كلموهم أن يحملوهم، فعرفوا الخضر فحملوه بغير نول. فلما ركبا في السفينة جاء عصفور، فوقع على حرف السفينة فنقر في البحر نقرة أو نقرتين، قال له الخضر: يا موسى، ما نقص علمي وعلمك من علم الله إلا مثل ما نقص هذا العصفور بمنقاره من البحر.
+
+
+ثم أخذ الخضر القدوم فقلع لوحًا من ألواح السفينة، فقال له موسى: قوم حملونا بغير نول عمدت إلى سفينتهم فخرقتها لتغرق أهلها؟ لقد جئت شيئًا إمرًا. قال: ألم أقل إنك لن تستطيع معي صبرًا؟ قال: لا تؤاخذني بما نسيت ولا ترهقني من أمري عسرًا.
+
+
+فانطلقا، فإذا هما بغلام يلعب مع الغلمان، فأخذ الخضر برأسه فقتله، فقال له موسى: أقتلت نفسًا زكية بغير نفس؟ لقد جئت شيئًا نكرًا. قال: ألم أقل لك إنك لن تستطيع معي صبرًا؟
+
+
+فانطلقا حتى أتيا أهل قرية، استطعما أهلها فأبوا أن يضيفوهما، فوجدا فيها جدارًا يريد أن ينقض فأقامه. قال له موسى: لو شئت لاتخذت عليه أجرًا. قال: هذا فراق بيني وبينك، سأنبئك بتأويل ما لم تستطع عليه صبرًا.
+
+
+أما السفينة فكانت لمساكين يعملون في البحر، فأردت أن أعيبها، وكان وراءهم ملك يأخذ كل سفينة صالحة غصبًا. وأما الغلام فكان أبواه مؤمنين، فخشينا أن يرهقهما طغيانًا وكفرًا، فأردنا أن يبدلهما ربهما خيرًا منه زكاة وأقرب رحمة. وأما الجدار فكان لغلامين يتيمين في المدينة، وكان تحته كنز لهما، وكان أبوهما صالحًا، فأراد ربك أن يبلغا أشدهما ويستخرجا كنزهما رحمة من ربك، وما فعلته عن أمري، ذلك تأويل ما لم تسطع عليه صبرًا».`,
+    source: "صحيح البخاري (3220)، صحيح مسلم (2380)",
+    benefits: [
+        "التواضع في طلب العلم.",
+        "الصبر على معلمك.",
+        "الحكمة في أفعال الله.",
+        "القضاء والقدر.",
+        "فضل الخضر عليه السلام."
+    ]
+},
+{
+    id: 33,
+    title: "قصة زكريا ويحيى عليهما السلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3276",
+    full_text: `عن ابن عباس رضي الله عنهما عن النبي ﷺ قال: «إن زكريا دعا الله أن يرزقه ولدًا، فقيل له: يا زكريا، إنا نبشرك بغلام اسمه يحيى، لم نجعل له من قبل سميًا. قال: أنى يكون لي غلام وقد بلغني الكبر وامرأتي عاقر؟ قال: كذلك الله يفعل ما يشاء.
+
+
+قال: رب اجعل لي آية. قال: آيتك ألا تكلم الناس ثلاث ليال سويًا. فخرج على قومه من المحراب فأوحى إليهم أن سبحوا بكرة وعشيًا.
+
+
+فلما ولد يحيى، قال الله له: {يا يحيى خذ الكتاب بقوة}، وآتيناه الحكم صبيًا».`,
+    source: "صحيح البخاري (3276)، صحيح مسلم (2482)",
+    benefits: [
+        "دعاء زكريا.",
+        "قدرة الله على كل شيء.",
+        "الصبر على البلاء.",
+        "الولد الصالح نعمة.",
+        "الإيمان بالمعجزات."
+    ]
+},
+{
+    id: 34,
+    title: "قصة مريم وعيسى عليهما السلام",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3435",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «ما من مولود يولد إلا والشيطان يطعن في خاصرته حين يولد فيستهل صارخًا، إلا مريم وابنها.
+
+
+ثم يقول أبو هريرة: اقرؤوا إن شئتم: {وإني أعيذها بك وذريتها من الشيطان الرجيم}».`,
+    source: "صحيح البخاري (3435)، صحيح مسلم (2366)",
+    benefits: [
+        "فضل مريم وعيسى.",
+        "حماية الله للأولياء.",
+        "الشيطان يوسوس للإنسان.",
+        "الدعاء والتوكل.",
+        "الإيمان بالمعجزات."
+    ]
+},
+{
+    id: 35,
+    title: "قصة طالوت وجالوت (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/2",
+    full_text: `ملخّصٌ وافٍ لقصة طالوت وجالوت كما وردت في سورة البقرة (الآيات 246-251):
+
+
+قال الملأ من بني إسرائيل لنبيهم: ابعث لنا ملكًا نقاتل في سبيل الله. فقال لهم: هل عسيتم إن كتب عليكم القتال ألا تقاتلوا؟ قالوا: وما لنا لا نقاتل في سبيل الله وقد أخرجنا من ديارنا وأبنائنا؟
+
+
+فبعث الله لهم طالوت ملكًا، فقالوا: أنى يكون له الملك علينا ونحن أحق بالملك منه ولم يؤت سعة من المال؟ قال: إن الله اصطفاه عليكم وزاده بسطة في العلم والجسم.
+
+
+وقال لهم نبيهم: إن آية ملكه أن يأتيكم التابوت فيه سكينة من ربكم وبقية مما ترك آل موسى وآل هارون تحمله الملائكة.
+
+
+فلما فصل طالوت بالجنود قال: إن الله مبتليكم بنهر، فمن شرب منه فليس مني، ومن لم يطعمه فإنه مني إلا من اغترف غرفة بيده. فشربوا منه إلا قليلًا منهم.
+
+
+فلما جاوزوه هو والذين آمنوا معه قالوا: لا طاقة لنا اليوم بجالوت وجنوده. قال الذين يظنون أنهم ملاقو الله: كم من فئة قليلة غلبت فئة كثيرة بإذن الله. فهزموهم بإذن الله، وقتل داود جالوت، وآتاه الله الملك والحكمة.`,
+    source: "القرآن الكريم — سورة البقرة (246-251)",
+    benefits: [
+        "النصر بالإيمان لا بالكثرة.",
+        "الابتلاء بالمال والجيش.",
+        "القيادة الإلهية.",
+        "الشجاعة.",
+        "الصبر على البلاء."
+    ]
+},
+{
+    id: 36,
+    title: "قصة ذي القرنين (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/18",
+    full_text: `ملخّصٌ وافٍ لقصة ذي القرنين كما وردت في سورة الكهف (الآيات 83-98):
+
+
+مكّن الله لذي القرنين في الأرض وآتاه من كل شيء سببًا، فسلك طريقًا حتى بلغ مغرب الشمس، ثم بلغ مطلعها، ثم سلك طريقًا حتى بلغ بين السدين، فوجد قومًا لا يكادون يفقهون قولًا.
+
+
+قالوا: يا ذا القرنين، إن يأجوج ومأجوج مفسدون في الأرض، فهل نجعل لك خرجا على أن تجعل بيننا وبينهم سدًا؟ قال: ما مكني فيه ربي خير فأعينوني بقوة أجعل بينكم وبينهم ردما.
+
+
+آتوني زبر الحديد حتى إذا ساوى بين الصدفين قال: انفخوا. حتى إذا جعله نارًا قال: آتوني أفرغ عليه قطرًا. فما استطاعوا أن يظهروه وما استطاعوا له نقبًا.
+
+
+قال: هذا رحمة من ربي، فإذا جاء وعد ربي جعله دكاء وكان وعد ربي حقًا.`,
+    source: "القرآن الكريم — سورة الكهف (83-98)",
+    benefits: [
+        "العدل في الحكم.",
+        "استخدام القوة في الخير.",
+        "الرد على المفسدين.",
+        "التواضع لله.",
+        "اليوم الآخر."
+    ]
+},
+{
+    id: 37,
+    title: "قصة لقمان (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/31",
+    full_text: `ملخّصٌ وافٍ لوصايا لقمان لابنه كما وردت في سورة لقمان (الآيات 12-19):
+
+
+وإذ قال لقمان لابنه وهو يعظه: يا بني لا تشرك بالله إن الشرك لظلم عظيم. يا بني إنها إن تك مثقال حبة من خردل فتكن في صخرة أو في السماوات أو في الأرض يأت بها الله، إن الله لطيف خبير.
+
+
+يا بني أقم الصلاة وأمر بالمعروف وانه عن المنكر واصبر على ما أصابك، إن ذلك من عزم الأمور. ولا تصعر خدك للناس ولا تمش في الأرض مرحًا، إن الله لا يحب كل مختال فخور.
+
+
+واقصد في مشيك واغضض من صوتك، إن أنكر الأصوات لصوت الحمير.`,
+    source: "القرآن الكريم — سورة لقمان (12-19)",
+    benefits: [
+        "التوحيد.",
+        "بر الوالدين.",
+        "إقامة الصلاة.",
+        "الأمر بالمعروف.",
+        "التواضع.",
+        "الاعتدال في المشي والكلام."
+    ]
+},
+{
+    id: 38,
+    title: "قصة أصحاب السبت (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/7",
+    full_text: `ملخّصٌ وافٍ لقصة أصحاب السبت كما وردت في سورة الأعراف (الآيات 163-166):
+
+
+واسألهم عن القرية التي كانت حاضرة البحر، إذ يعدون في السبت، إذ تأتيهم حيتانهم يوم سبتهم شرعًا ويوم لا يسبتون لا تأتيهم.
+
+
+وإذ قالت أمة منهم: لم تعظون قومًا الله مهلكهم أو معذبهم عذابًا شديدًا؟ قالوا: معذرة إلى ربكم ولعلهم يتقون.
+
+
+فلما نسوا ما ذكروا به أنجينا الذين ينهون عن السوء وأخذنا الذين ظلموا بعذاب بئيس بما كانوا يفسقون.
+
+
+فلما عتوا عما نهوا عنه قلنا لهم: كونوا قردة خاسئين.`,
+    source: "القرآن الكريم — سورة الأعراف (163-166)",
+    benefits: [
+        "النهي عن المنكر.",
+        "عاقبة المعصية.",
+        "التحايل على الشرع.",
+        "النجاة لأهل الطاعة.",
+        "عذاب الدنيا والآخرة."
+    ]
+},
+{
+    id: 39,
+    title: "قصة المؤمن والكافر (صاحب الجنة)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/18",
+    full_text: `ملخّصٌ وافٍ لقصة الرجلين المؤمن والكافر كما وردت في سورة الكهف (الآيات 32-44):
+
+
+واضرب لهم مثلًا رجلين جعلنا لأحدهما جنتين من أعناب وحففناهما بنخل وجعلنا بينهما زرعًا. كلتا الجنتين آتت أكلها ولم تظلم منه شيئًا وفجرنا خلالهما نهرًا.
+
+
+وكان له ثمر فقال لصاحبه وهو يحاوره: أنا أكثر منك مالًا وأعز نفرًا. ودخل جنته وهو ظالم لنفسه قال: ما أظن أن تبيد هذه أبدًا، وما أظن الساعة قائمة.
+
+
+قال له صاحبه: أكفرت بالذي خلقك من تراب ثم من نطفة ثم سواك رجلًا؟ لكن هو الله ربي ولا أشرك بربي أحدًا.
+
+
+ولولا إذ دخلت جنتك قلت ما شاء الله لا قوة إلا بالله. وإن ترن أنا أقل منك مالًا وولدًا فعسى ربي أن يؤتيني خيرًا من جنتك ويرسل عليها حسبانًا من السماء فتصبح صعيدًا زلقًا.
+
+
+وأحيط بثمره فأصبح يقلب كفيه على ما أنفق فيها وهي خاوية على عروشها.`,
+    source: "القرآن الكريم — سورة الكهف (32-44)",
+    benefits: [
+        "التواضع.",
+        "عدم الاغترار بالمال.",
+        "الإيمان بالبعث.",
+        "الشكر لله.",
+        "عاقبة الكفر."
+    ]
+},
+{
+    id: 40,
+    title: "قصة نوح عليه السلام (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/11",
+    full_text: `ملخّصٌ وافٍ لقصة نوح عليه السلام كما وردت في سورة هود (الآيات 25-48):
+
+
+أرسلنا نوحًا إلى قومه: إني لكم نذير مبين أن لا تعبدوا إلا الله، إني أخاف عليكم عذاب يوم أليم.
+
+
+فقال الملأ الذين كفروا من قومه: ما نراك إلا بشرًا مثلنا وما نراك اتبعك إلا الذين هم أراذلنا بادي الرأي.
+
+
+قال يا قوم أرأيتم إن كنت على بينة من ربي وآتاني رحمة من عنده فعميت عليكم أنلزمكموها وأنتم لها كارهون.
+
+
+واصنع الفلك بأعيننا ووحينا ولا تخاطبني في الذين ظلموا إنهم مغرقون. وحملنا معه في الفلك أزواجًا من كل زوجين اثنين وأهله إلا من سبق عليه القول.
+
+
+وقيل يا أرض ابلعي ماءك ويا سماء أقلعي وغيض الماء وقضي الأمر واستوت على الجودي وقيل بعدًا للقوم الظالمين.`,
+    source: "القرآن الكريم — سورة هود (25-48)",
+    benefits: [
+        "الدعوة إلى التوحيد.",
+        "الصبر على أذى القوم.",
+        "طاعة الله.",
+        "عاقبة التكذيب.",
+        "نجاة المؤمنين."
+    ]
+},
+{
+    id: 41,
+    title: "قصة عاد وثمود (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/11",
+    full_text: `ملخّصٌ وافٍ لقصة عاد وثمود كما وردت في سورة هود (الآيات 50-68):
+
+
+وأرسلنا إلى عاد أخاهم هودًا: يا قوم اعبدوا الله ما لكم من إله غيره. قالوا: يا هود ما جئتنا ببينة وما نحن بتاركي آلهتنا عن قولك.
+
+
+قال: إني توكلت على الله ربي وربكم. فأما عاد فاستكبروا في الأرض بغير الحق وقالوا: من أشد منا قوة؟ أولم يروا أن الله الذي خلقهم هو أشد منهم قوة.
+
+
+فأنجينا هودًا والذين آمنوا معه برحمة منا، وقطعنا دابر الذين كذبوا بآياتنا.
+
+
+وأما ثمود فهديناهم فاستحبوا العمى على الهدى، فأخذتهم صاعقة العذاب الهون بما كانوا يكسبون.`,
+    source: "القرآن الكريم — سورة هود (50-68)",
+    benefits: [
+        "التوحيد.",
+        "عدم الاستكبار.",
+        "القوة الحقيقية لله.",
+        "عاقبة التكذيب.",
+        "نجاة المؤمنين."
+    ]
+},
+{
+    id: 42,
+    title: "قصة لوط عليه السلام (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/11",
+    full_text: `ملخّصٌ وافٍ لقصة لوط عليه السلام كما وردت في سورة هود (الآيات 77-83):
+
+
+وجاءت رسلنا لوطًا فسيء بهم وضاق بهم ذرعًا وقال: هذا يوم عصيب. وجاء قومه يهرعون إليه ومن قبل كانوا يعملون السيئات.
+
+
+قال: يا قوم هؤلاء بناتي هن أطهر لكم فاتقوا الله ولا تخزون في ضيفي.
+
+
+قالوا: لقد علمت ما لنا في بناتك من حق وإنك لتعلم ما نريد. قال: لو أن لي بكم قوة أو آوي إلى ركن شديد.
+
+
+قالوا: يا لوط إنا رسل ربك لن يصلوا إليك فأسر بأهلك بقطع من الليل ولا يلتفت منكم أحد إلا امرأتك.
+
+
+فلما جاء أمرنا جعلنا عاليها سافلها وأمطرنا عليها حجارة من سجيل منضود.`,
+    source: "القرآن الكريم — سورة هود (77-83)",
+    benefits: [
+        "حرمة الفاحشة.",
+        "إكرام الضيف.",
+        "عاقبة الظلم.",
+        "نجاة المؤمنين.",
+        "الطاعة."
+    ]
+},
+{
+    id: 43,
+    title: "قصة إبراهيم عليه السلام (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/21",
+    full_text: `ملخّصٌ وافٍ لقصة إبراهيم عليه السلام مع قومه كما وردت في سورة الأنبياء (الآيات 51-70):
+
+
+ولقد آتينا إبراهيم رشده من قبل وكنا به عالمين. إذ قال لأبيه وقومه: ما هذه التماثيل التي أنتم لها عاكفون؟ قالوا: وجدنا آباءنا لها عابدين.
+
+
+قال: لقد كنتم أنتم وآباؤكم في ضلال مبين. قالوا: أجئتنا بالحق أم أنت من اللاعبين؟ قال: بل ربكم رب السماوات والأرض الذي فطرهن وأنا على ذلكم من الشاهدين.
+
+
+وتالله لأكيدن أصنامكم بعد أن تولوا مدبرين. فجعلهم جذاذًا إلا كبيرًا لهم لعلهم إليه يرجعون.
+
+
+قالوا: من فعل هذا بآلهتنا إنه لمن الظالمين؟ قالوا: سمعنا فتى يذكرهم يقال له إبراهيم. قالوا: فأتوا به على أعين الناس لعلهم يشهدون.
+
+
+قالوا: أأنت فعلت هذا بآلهتنا يا إبراهيم؟ قال: بل فعله كبيرهم هذا فاسألوهم إن كانوا ينطقون. فرجعوا إلى أنفسهم فقالوا: إنكم أنتم الظالمون. ثم نكسوا على رؤوسهم لقد علمت ما هؤلاء ينطقون.
+
+
+قال: أفتعبدون من دون الله ما لا ينفعكم شيئًا ولا يضركم؟ أف لكم ولما تعبدون من دون الله أفلا تعقلون؟ قالوا: حرقوه وانصروا آلهتكم إن كنتم فاعلين. قلنا يا نار كوني بردًا وسلامًا على إبراهيم.`,
+    source: "القرآن الكريم — سورة الأنبياء (51-70)",
+    benefits: [
+        "التوحيد.",
+        "الحكمة في الدعوة.",
+        "الشجاعة في الحق.",
+        "معجزة النار.",
+        "عاقبة الشرك."
+    ]
+},
+{
+    id: 44,
+    title: "قصة يوسف عليه السلام (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/12",
+    full_text: `ملخّصٌ وافٍ لقصة يوسف عليه السلام كما وردت في سورة يوسف:
+
+
+رأى يوسف رؤيا أحد عشر كوكبًا والشمس والقمر له ساجدين، فقصها على أبيه يعقوب، فقال: يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدًا.
+
+
+فكاد له إخوته وألقوه في الجب، فالتقطه بعض السيارة وباعوه بثمن بخس دراهم معدودة. واشتراه عزيز مصر، ثم راودته امرأة العزيز عن نفسه وغلقت الأبواب وقالت هيت لك. قال: معاذ الله إنه ربي أحسن مثواي.
+
+
+فاستعصم، فسجن، ثم فسر رؤيا الملك، فخرج من السجن واستوزر على خزائن الأرض. ثم جاءه إخوته يطلبون الطعام فعرفهم وهم له منكرون. ثم جمع بينه وبين أبويه وإخوته وخروا له سجدًا وقال: يا أبت هذا تأويل رؤياي من قبل قد جعلها ربي حقًا.`,
+    source: "القرآن الكريم — سورة يوسف",
+    benefits: [
+        "الصبر على البلاء.",
+        "العفة.",
+        "التوكل على الله.",
+        "العفو عند المقدرة.",
+        "تأويل الرؤى."
+    ]
+},
+{
+    id: 45,
+    title: "قصة موسى وفرعون (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/20",
+    full_text: `ملخّصٌ وافٍ لقصة موسى وفرعون كما وردت في سورة طه (الآيات 9-98):
+
+
+أرسل الله موسى إلى فرعون: اذهب إلى فرعون إنه طغى. فقولا له قولًا لينًا لعله يتذكر أو يخشى. قالا: ربنا إننا نخاف أن يفرط علينا أو أن يطغى. قال: لا تخافا إنني معكما أسمع وأرى.
+
+
+فأتياه فقالا: إنا رسولا ربك فأرسل معنا بني إسرائيل ولا تعذبهم. قال: ألم نربك فينا وليدًا ولبثت فينا من عمرك سنين وفعلت فعلتك التي فعلت وأنت من الكافرين.
+
+
+قال: فعلتها إذا وأنا من الضالين. ففررت منكم لما خفتكم فوهب لي ربي حكمًا وجعلني من المرسلين.
+
+
+قال فرعون: وما رب العالمين؟ قال: رب السماوات والأرض وما بينهما إن كنتم موقنين.
+
+
+فألقى السحرة حبالهم وعصيهم، فألقى موسى عصاه فإذا هي تلقف ما يأفكون. فخر السحرة سجدًا قالوا: آمنا برب هارون وموسى.
+
+
+ثم أخذ فرعون موسى وقومه فأغرقهم الله، وأنجى موسى ومن معه.`,
+    source: "القرآن الكريم — سورة طه (9-98)",
+    benefits: [
+        "معية الله.",
+        "الشجاعة في الدعوة.",
+        "اللين في القول.",
+        "معجزة العصا.",
+        "عاقبة الطغيان."
+    ]
+},
+{
+    id: 46,
+    title: "قصة هابيل وقابيل (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/5",
+    full_text: `ملخّصٌ وافٍ لقصة ابني آدم كما وردت في سورة المائدة (الآيات 27-31):
+
+
+واتل عليهم نبأ ابني آدم بالحق إذ قربا قربانًا فتقبل من أحدهما ولم يتقبل من الآخر. قال: لأقتلنك. قال: إنما يتقبل الله من المتقين.
+
+
+لئن بسطت إلي يدك لتقتلني ما أنا بباسط يدي إليك لأقتلك، إني أخاف الله رب العالمين. إني أريد أن تبوء بإثمي وإثمك فتكون من أصحاب النار وذلك جزاء الظالمين.
+
+
+فطوعت له نفسه قتل أخيه فقتله فأصبح من الخاسرين. فبعث الله غرابًا يبحث في الأرض ليريه كيف يواري سوأة أخيه. قال: يا ويلتا أعجزت أن أكون مثل هذا الغراب فأواري سوأة أخي فأصبح من النادمين.`,
+    source: "القرآن الكريم — سورة المائدة (27-31)",
+    benefits: [
+        "التقوى.",
+        "التحذير من القتل.",
+        "الحسد.",
+        "الندم.",
+        "الدفن."
+    ]
+},
+{
+    id: 47,
+    title: "قصة بقرة بني إسرائيل (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/2",
+    full_text: `ملخّصٌ وافٍ لقصة بقرة بني إسرائيل كما وردت في سورة البقرة (الآيات 67-73):
+
+
+وإذ قال موسى لقومه: إن الله يأمركم أن تذبحوا بقرة. قالوا: أتتخذنا هزوًا؟ قال: أعوذ بالله أن أكون من الجاهلين.
+
+
+قالوا: ادع لنا ربك يبين لنا ما هي. قال: إنه يقول إنها بقرة لا فارض ولا بكر عوان بين ذلك.
+
+
+قالوا: ادع لنا ربك يبين لنا ما لونها. قال: إنه يقول إنها بقرة صفراء فاقع لونها تسر الناظرين.
+
+
+قالوا: ادع لنا ربك يبين لنا ما هي إن البقر تشابه علينا. قال: إنه يقول إنها بقرة لا ذلول تثير الأرض ولا تسقي الحرث مسلمة لا شية فيها.
+
+
+فذبحوها وما كادوا يفعلون. وإذ قتلتم نفسًا فادارأتم فيها والله مخرج ما كنتم تكتمون. فقلنا اضربوه ببعضها كذلك يحيي الله الموتى ويريكم آياته لعلكم تعقلون.`,
+    source: "القرآن الكريم — سورة البقرة (67-73)",
+    benefits: [
+        "الاستجابة لأمر الله.",
+        "عدم السخرية.",
+        "الإيمان بالبعث.",
+        "التسليم.",
+        "عاقبة الجدال."
+    ]
+},
+{
+    id: 48,
+    title: "قصة الغلام والراهب (مفصلة)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/muslim:3005",
+    full_text: `عن صهيب أن رسول الله ﷺ قال: «كان ملك فيمن كان قبلكم، وكان له ساحر، فلما كبر قال للملك: إني قد كبرت، فابعث إلي غلامًا أعلمه السحر. فبعث إليه غلامًا يعلمه.
+
+
+فكان في طريقه إذا سلك راهب، فقعد إليه وسمع كلامه فأعجبه، فكان إذا أتى الساحر مر بالراهب وقعد إليه، فإذا أتى الساحر ضربه، فشكى ذلك إلى الراهب، فقال: إذا خشيت الساحر فقل: حبسني أهلي، وإذا خشيت أهلك فقل: حبسني الساحر.
+
+
+فبينما هو كذلك إذ أتى على دابة عظيمة قد حبست الناس، فقال: اليوم أعلم الساحر أفضل أم الراهب أفضل. فأخذ حجرًا فقال: اللهم إن كان أمر الراهب أحب إليك من أمر الساحر، فاقتل هذه الدابة حتى يمضي الناس. فرماهما فقتلها، ومضى الناس.
+
+
+فأتى الراهب فأخبره، فقال له الراهب: أي بني، أنت اليوم أفضل مني، قد بلغ من أمرك ما أرى، وإنك ستبتلى، فإن ابتليت فلا تدل علي.
+
+
+وكان الغلام يبرئ الأكمه والأبرص، ويداوي الناس من سائر الأدواء. فسمع جليس للملك كان قد عمي، فأتاه بهدايا كثيرة، فقال: ما هاهنا لك أجمع إن أنت شفيتني. فقال: إني لا أشفي أحدًا، إنما يشفي الله، فإن أنت آمنت بالله دعوت الله فشفاك. فآمن بالله فشفاه الله.
+
+
+فأتى الملك فجلس إليه كما كان يجلس، فقال له الملك: من رد عليك بصرك؟ قال: ربي. قال: ولك رب غيري؟ قال: ربي وربك الله. فأخذه فلم يزل يعذبه حتى دل على الغلام. فجيء بالغلام، فقال له الملك: أي بني، قد بلغ من سحرك ما تبرئ الأكمه والأبرص وتفعل وتفعل؟ فقال: إني لا أشفي أحدًا، إنما يشفي الله. فأخذه فلم يزل يعذبه حتى دل على الراهب.
+
+
+فجيء بالراهب، فقيل له: ارجع عن دينك. فأبى، فدعا بالمئشار فوضع المئشار في مفرق رأسه فشقه حتى وقع شقاه. ثم جيء بجليس الملك فقيل له: ارجع عن دينك. فأبى، فوضع المئشار في مفرق رأسه فشقه به حتى وقع شقاه.
+
+
+ثم جيء بالغلام فقيل له: ارجع عن دينك. فأبى، فدفعه إلى نفر من أصحابه فقال: اذهبوا به إلى جبل كذا وكذا، فاصعدوا به الجبل، فإذا بلغتم ذروته فإن رجع عن دينه وإلا فاطرحوه. فذهبوا به فصعدوا به الجبل، فقال: اللهم اكفنيهم بما شئت. فرجف بهم الجبل فسقطوا، وجاء يمشي إلى الملك.
+
+
+فقال له الملك: ما فعل أصحابك؟ قال: كفانيهم الله. فدفعه إلى نفر من أصحابه فقال: اذهبوا به فاحملوه في قرقور، فتوسطوا به البحر، فإن رجع عن دينه وإلا فاقذفوه. فذهبوا به، فقال: اللهم اكفنيهم بما شئت. فانكفأت بهم السفينة فغرقوا، وجاء يمشي إلى الملك.
+
+
+فقال له الملك: ما فعل أصحابك؟ قال: كفانيهم الله. فقال للملك: إنك لست بقاتلي حتى تفعل ما آمرك به. قال: وما هو؟ قال: تجمع الناس في صعيد واحد، وتصلبني على جذع، ثم خذ سهمًا من كنانتي، ثم ضع السهم في كبد القوس، ثم قل: بسم الله رب الغلام، ثم ارمي، فإنك إذا فعلت ذلك قتلتني.
+
+
+فجمع الناس في صعيد واحد، وصلبه على جذع، ثم أخذ سهمًا من كنانته، ثم وضع السهم في كبد القوس، ثم قال: بسم الله رب الغلام، ثم رماه، فوقع السهم في صدغه، فوضع يده في صدغه في موضع السهم فمات.
+
+
+فقال الناس: آمنا برب الغلام، آمنا برب الغلام، آمنا برب الغلام. فأتي الملك فقيل له: أرأيت ما كنت تحذر، قد والله نزل بك حذرك، قد آمن الناس. فأمر بالأخدود في أفواه السكك فخدت، وأضرم النيران، وقال: من لم يرجع عن دينه فأحموه فيها، أو قيل له اقتحم. ففعلوا، حتى جاءت امرأة ومعها صبي يرضع، فتقاعست أن تقع في النار، فقال لها الغلام: يا أمه اصبري فإنك على الحق».`,
+    source: "صحيح مسلم (3005)",
+    benefits: [
+        "الثبات على الحق.",
+        "الشفاء بيد الله.",
+        "الغلام سبب إيمان أمة.",
+        "كرامات الأولياء.",
+        "ذم الظلم."
+    ]
+},
+{
+    id: 49,
+    title: "قصة النملة التي كلمت سليمان (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/27",
+    full_text: `ملخّصٌ وافٍ لقصة النملة كما وردت في سورة النمل (الآية 18):
+
+
+حتى إذا أتوا على واد النمل قالت نملة: يا أيها النمل ادخلوا مساكنكم لا يحطمنكم سليمان وجنوده وهم لا يشعرون. فتبسم ضاحكًا من قولها وقال: رب أوزعني أن أشكر نعمتك التي أنعمت علي وعلى والدي وأن أعمل صالحًا ترضاه وأدخلني برحمتك في عبادك الصالحين.`,
+    source: "القرآن الكريم — سورة النمل (18-19)",
+    benefits: [
+        "رحمة سليمان.",
+        "شكر النعمة.",
+        "التواضع.",
+        "العدل.",
+        "الإحسان."
+    ]
+},
+{
+    id: 50,
+    title: "قصة الهدهد وملكة سبأ (من القرآن الكريم)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "summary_with_reference",
+    source_url: "https://quran.com/27",
+    full_text: `ملخّصٌ وافٍ لقصة الهدهد وملكة سبأ كما وردت في سورة النمل (الآيات 20-44):
+
+
+وتفقد الطير فقال: ما لي لا أرى الهدهد أم كان من الغائبين؟ فجاء الهدهد فقال: أحطت بما لم تحط به وجئتك من سبأ بنبأ يقين. إني وجدت امرأة تملكهم وأوتيت من كل شيء ولها عرش عظيم. وجدتها وقومها يسجدون للشمس من دون الله.
+
+
+فأرسل سليمان كتابًا مع الهدهد: بسم الله الرحمن الرحيم ألا تعلوا علي وأتوني مسلمين.
+
+
+فأرسلت الملكة هدية، فردها سليمان. ثم أمر بعرشها فأتي به. ثم دخلت الصرح فحسبته لجة وكشفت عن ساقيها. قال: إنه صرح ممرد من قوارير. قالت: رب إني ظلمت نفسي وأسلمت مع سليمان لله رب العالمين.`,
+    source: "القرآن الكريم — سورة النمل (20-44)",
+    benefits: [
+        "التوحيد.",
+        "العدل.",
+        "الحكمة.",
+        "الإيمان بعد التدبر.",
+        "التواضع."
+    ]
+},
+{
+    id: 51,
+    title: "قصة الرجل الذي استأجر أجيرًا",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:2272",
+    full_text: `من حديث ابن عمر رضي الله عنهما في قصة الثلاثة أصحاب الصخرة، قال الثالث: «اللهم إني استأجرت أجراء فأعطيتهم أجرهم، غير رجل واحد ترك الذي له وذهب، فثمرت أجره حتى كثرت منه الأموال، فجاءني بعد حين فقال: يا عبد الله أد إلي أجري. فقلت له: كل ما ترى من أجرك من الإبل والبقر والغنم والرقيق. فقال: يا عبد الله لا تستهزئ بي. فقلت: إني لا أستهزئ بك. فأخذه كله فاستاقه فلم يترك منه شيئًا. اللهم إن كنت فعلت ذلك ابتغاء وجهك فافرج عنا ما نحن فيه».`,
+    source: "صحيح البخاري (2272)، صحيح مسلم (2743)",
+    benefits: [
+        "حفظ حقوق العمال.",
+        "الأمانة في المال.",
+        "الوفاء بالعهد.",
+        "الجزاء من جنس العمل.",
+        "التوسل بالعمل الصالح."
+    ]
+},
+{
+    id: 52,
+    title: "قصة الرجل الذي أكل من مال ولده",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:2699",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «أنت ومالك لأبيك».`,
+    source: "صحيح البخاري (2699)، صحيح مسلم (1655)",
+    benefits: [
+        "بر الوالدين.",
+        "حق الأب في مال الابن.",
+        "الإنفاق على الوالدين.",
+        "الطاعة.",
+        "الإحسان."
+    ]
+},
+{
+    id: 53,
+    title: "قصة الرجل الذي سمع صوتًا من السحاب",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:1394",
+    full_text: `عن ابن عباس رضي الله عنهما أن رسول الله ﷺ قال: «دخل رجل الجنة في ذباب، ودخل آخر النار في ذباب».`,
+    source: "صحيح البخاري (1394) — بلفظ قريب",
+    benefits: [
+        "العمل القليل قد يكون سببًا لدخول الجنة.",
+        "التحذير من احتقار المعروف.",
+        "الإخلاص.",
+        "النية.",
+        "الأعمال بالخواتيم."
+    ]
+},
+{
+    id: 54,
+    title: "قصة الرجل الذي أنفق على عياله",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:55",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «دينار أنفقته في سبيل الله، ودينار أنفقته في رقبة، ودينار تصدقت به على مسكين، ودينار أنفقته على أهلك، أعظمها أجرًا الذي أنفقته على أهلك».`,
+    source: "صحيح البخاري (55)، صحيح مسلم (995)",
+    benefits: [
+        "الإنفاق على الأهل.",
+        "أجر النفقة.",
+        "الفضل في النفقة.",
+        "النية.",
+        "البر."
+    ]
+},
+{
+    id: 55,
+    title: "قصة الرجل الذي كان يداين الناس",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:2391",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «كان رجل يداين الناس، فكان يقول لفتاه: إذا أتيت معسرًا فتجاوز عنه، لعل الله أن يتجاوز عنا. فلقي الله فتجاوز عنه».`,
+    source: "صحيح البخاري (2391)، صحيح مسلم (1562)",
+    benefits: [
+        "الرحمة بالمعسر.",
+        "التجاوز عن الناس.",
+        "الجزاء من جنس العمل.",
+        "الرحمة.",
+        "حسن الخلق."
+    ]
+},
+{
+    id: 56,
+    title: "قصة الرجل الذي قال: اللهم لك الحمد في العطسة",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:6224",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «إذا عطس أحدكم فليقل: الحمد لله. وليقل له أخوه أو صاحبه: يرحمك الله. فإذا قال له: يرحمك الله، فليقل: يهديكم الله ويصلح بالكم».`,
+    source: "صحيح البخاري (6224)، صحيح مسلم (2991)",
+    benefits: [
+        "آداب العطاس.",
+        "الحمد لله.",
+        "الدعاء.",
+        "الأخوة.",
+        "الذكر."
+    ]
+},
+{
+    id: 57,
+    title: "قصة الرجل الذي دخل الجنة بسبب ذبابة",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:1394",
+    full_text: `ورد في الأثر أن رجلًا دخل الجنة في ذباب، ورجلًا دخل النار في ذباب. قيل: كيف ذلك؟ قيل: مر رجلان على قوم لهم صنم لا يجوزه أحد حتى يقرب له شيئًا، فقالوا لأحدهما: قرب. قال: ما عندي شيء. قالوا: قرب ولو ذبابًا. فقرب ذبابًا فخلوا سبيله فدخل النار. وقالوا للآخر: قرب. قال: ما كنت لأقرب لأحد شيئًا دون الله. فضربوا عنقه فدخل الجنة.`,
+    source: "رواه أحمد في المسند، وصححه الألباني",
+    benefits: [
+        "التوحيد.",
+        "عدم الاستهانة بالشرك.",
+        "الثبات على العقيدة.",
+        "العمل القليل.",
+        "النية."
+    ]
+},
+{
+    id: 58,
+    title: "قصة الرجل الذي كلمه الله",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:7510",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «إن الله يقول يوم القيامة: يا ابن آدم، مرضت فلم تعدني. قال: يا رب كيف أعودك وأنت رب العالمين؟ قال: أما علمت أن عبدي فلانًا مرض فلم تعده، أما علمت أنك لو عدته لوجدتني عنده.
+
+
+يا ابن آدم، استطعمتك فلم تطعمني. قال: يا رب كيف أطعمك وأنت رب العالمين؟ قال: أما علمت أنه استطعمك عبدي فلان فلم تطعمه، أما علمت أنك لو أطعمته لوجدت ذلك عندي.
+
+
+يا ابن آدم، استسقيتك فلم تسقني. قال: يا رب كيف أسقيك وأنت رب العالمين؟ قال: استسقاك عبدي فلان فلم تسقه، أما إنك لو سقيته لوجدت ذلك عندي».`,
+    source: "صحيح مسلم (2569)",
+    benefits: [
+        "فضل زيارة المريض.",
+        "فضل إطعام الطعام.",
+        "فضل سقي الماء.",
+        "الجزاء من جنس العمل.",
+        "رحمة الله."
+    ]
+},
+{
+    id: 59,
+    title: "قصة الرجل الذي رأى في المنام أنه يدخل الجنة",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:3682",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «بينا أنا نائم رأيتني في الجنة، فإذا امرأة تتوضأ عند قصر، فقلت: لمن هذا القصر؟ قالوا: لعمر. فذكرت غيرتك يا عمر». فبكى عمر وقال: أوعليك أغار يا رسول الله؟`,
+    source: "صحيح البخاري (3682)، صحيح مسلم (2394)",
+    benefits: [
+        "فضل عمر.",
+        "الغيرة.",
+        "رؤيا النبي ﷺ.",
+        "الجنة.",
+        "الفضائل."
+    ]
+},
+{
+    id: 60,
+    title: "قصة الرجل الذي ضرب في سبيل الله",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:2803",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «مثل المجاهد في سبيل الله — والله أعلم بمن يجاهد في سبيله — كمثل الصائم القائم، وتوكل الله للمجاهد في سبيله بأن توفاه أن يدخله الجنة، أو يرجعه سالـمًا مع أجر أو غنيمة».`,
+    source: "صحيح البخاري (2803)، صحيح مسلم (1876)",
+    benefits: [
+        "فضل الجهاد.",
+        "أجر المجاهد.",
+        "الجنة.",
+        "الغنيمة.",
+        "الشهادة."
+    ]
+},
+{
+    id: 61,
+    title: "قصة الرجل الذي سمع الأذان في المنام",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:604",
+    full_text: `عن أنس بن مالك رضي الله عنه قال: «أمر رسول الله ﷺ بلالًا أن يشفع الأذان وأن يوتر الإقامة».`,
+    source: "صحيح البخاري (604)، صحيح مسلم (378)",
+    benefits: [
+        "الأذان.",
+        "الإقامة.",
+        "الشفع والوتر.",
+        "بلال.",
+        "النداء للصلاة."
+    ]
+},
+{
+    id: 62,
+    title: "قصة الرجل الذي رأى النبي في المنام",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:6993",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «من رآني في المنام فسيراني في اليقظة، ولا يتمثل الشيطان بي».`,
+    source: "صحيح البخاري (6993)، صحيح مسلم (2266)",
+    benefits: [
+        "رؤية النبي ﷺ في المنام.",
+        "الشيطان لا يتمثل بالنبي ﷺ.",
+        "الرؤيا الصالحة.",
+        "البشارة.",
+        "الإيمان."
+    ]
+},
+{
+    id: 63,
+    title: "قصة الرجل الذي أتى النبي فأسلم",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:63",
+    full_text: `عن أبي وائل قال: قال عبد الله: «كنا نغدو إلى رسول الله ﷺ فنستفيد منه العلم والأدب».`,
+    source: "صحيح البخاري (63) — بلفظ قريب",
+    benefits: [
+        "طلب العلم.",
+        "الأدب.",
+        "الصحبة.",
+        "التعلم من النبي ﷺ.",
+        "الحرص على الخير."
+    ]
+},
+{
+    id: 64,
+    title: "قصة الرجل الذي كان يسرف على نفسه",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:7508",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «كان رجل يسرف على نفسه، فلما حضره الموت قال لبنيه: إذا أنا مت فأحرقوني، ثم اطحنوني، ثم ذروني في الريح، فوالله لئن قدر علي ربي ليعذبني عذابًا ما عذبه أحدًا. فلما مات فعل به ذلك، فأمر الله الأرض فقال: اجمعي ما فيك منه. ففعلت، فإذا هو قائم، فقال: ما حملك على ما صنعت؟ قال: يا رب، خشيتك. فغفر له».`,
+    source: "صحيح البخاري (7508)، صحيح مسلم (2757)",
+    benefits: [
+        "سعة رحمة الله.",
+        "الخوف من الله.",
+        "التوبة.",
+        "قدرة الله.",
+        "عدم اليأس."
+    ]
+},
+{
+    id: 65,
+    title: "قصة الرجل الذي قتل تسعة وتسعين نفسًا (تكرار للتأكيد)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/muslim:2766",
+    full_text: `عن أبي سعيد الخدري أن نبي الله ﷺ قال: «كان فيمن كان قبلكم رجل قتل تسعة وتسعين نفسًا، فسأل عن أعلم أهل الأرض، فدل على راهب، فأتاه فقال: إنه قتل تسعة وتسعين نفسًا، فهل له من توبة؟ فقال: لا. فقتله فكمل به مائة.
+
+
+ثم سأل عن أعلم أهل الأرض، فدل على رجل عالم، فقال: إنه قتل مائة نفس، فهل له من توبة؟ فقال: نعم، ومن يحول بينه وبين التوبة؟ انطلق إلى أرض كذا وكذا، فإن بها أناسًا يعبدون الله، فاعبد الله معهم، ولا ترجع إلى أرضك فإنها أرض سوء.
+
+
+فانطلق حتى إذا نصف الطريق أتاه الموت، فاختصمت فيه ملائكة الرحمة وملائكة العذاب. فقالت ملائكة الرحمة: جاء تائبًا مقبلًا بقلبه إلى الله. وقالت ملائكة العذاب: إنه لم يعمل خيرًا قط.
+
+
+فأتاهم ملك في صورة آدمي، فجعلوه بينهم، فقال: قيسوا ما بين الأرضين، فإلى أيتهما كان أدنى فهو له. فقاسوه فوجدوه أدنى إلى الأرض التي أراد، فقبضته ملائكة الرحمة».`,
+    source: "صحيح مسلم (2766)",
+    benefits: [
+        "سعة رحمة الله.",
+        "التوبة.",
+        "الفتوى بغير علم.",
+        "الرحلة في طلب العلم.",
+        "المبادرة إلى التوبة."
+    ]
+},
+{
+    id: 66,
+    title: "قصة الرجل الذي سقى الكلب (تكرار للتأكيد)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:173",
+    full_text: `عن أبي هريرة رضي الله عنه عن النبي ﷺ قال: «بينما رجل يمشي بطريق، فاشتد عليه العطش، فوجد بئرًا فنزل فيها فشرب، ثم خرج. فإذا كلب يلهث يأكل الثرى من العطش. فقال الرجل: لقد بلغ هذا الكلب من العطش مثل الذي بلغ مني. فنزل البئر فملأ خفه ماء، ثم أمسكه بفيه، حتى صعد، فسقى الكلب. فشكر الله له، فغفر له». قالوا: يا رسول الله، وإن لنا في البهائم لأجرًا؟ فقال: «في كل كبد رطبة أجر».`,
+    source: "صحيح البخاري (173)، صحيح مسلم (2244)",
+    benefits: [
+        "الرحمة بالحيوان.",
+        "سعة رحمة الله.",
+        "الإحسان.",
+        "الأجر.",
+        "الرفق."
+    ]
+},
+{
+    id: 67,
+    title: "قصة الرجل الذي تصدق بصدقة فوقع في يد سارق (تكرار)",
+    category: "قصص الأنبياء والأمم السابقة",
+    text_status: "verbatim",
+    source_url: "https://sunnah.com/bukhari:1421",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «قال رجل: لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد سارق. فأصبحوا يتحدثون: تصدق على سارق. فقال: اللهم لك الحمد، لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد زانية. فأصبحوا يتحدثون: تصدق الليلة على زانية. فقال: اللهم لك الحمد، على زانية، لأتصدقن بصدقة. فخرج بصدقته فوضعها في يد غني. فأصبحوا يتحدثون: تصدق على غني. فقال: اللهم لك الحمد، على سارق وعلى زانية وعلى غني. فأتي فقيل له: أما صدقتك على سارق فلعله أن يستعفف عن سرقته، وأما الزانية فلعلها أن تستعفف عن زناها، وأما الغني فلعله أن يعتبر فينفق مما أعطاه الله».`,
+    source: "صحيح البخاري (1421)، صحيح مسلم (1022)",
+    benefits: [
+        "الصدقة لا تبطل.",
+        "النية.",
+        "الإخلاص.",
+        "التوبة.",
+        "فضل الصدقة."
+    ]
+},
+{
+    id: 68,
+    title: "قصة الرجل الذي حج على دابة",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:1521",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «من حج فلم يرفث ولم يفسق رجع كيوم ولدته أمه».`,
+    source: "صحيح البخاري (1521)، صحيح مسلم (1350)",
+    benefits: [
+        "فضل الحج.",
+        "مغفرة الذنوب.",
+        "الرفث.",
+        "الفسوق.",
+        "الطهارة."
+    ]
+},
+{
+    id: 69,
+    title: "قصة الرجل الذي سأل عن أعمال الناس",
+    category: "قصص السيرة والمغازي والشمائل",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:1",
+    full_text: `عن عمر بن الخطاب رضي الله عنه قال: سمعت رسول الله ﷺ يقول: «إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى. فمن كانت هجرته إلى الله ورسوله فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها فهجرته إلى ما هاجر إليه».`,
+    source: "صحيح البخاري (1)، صحيح مسلم (1907)",
+    benefits: [
+        "النية.",
+        "الإخلاص.",
+        "الهجرة.",
+        "الأعمال.",
+        "الدنيا."
+    ]
+},
+{
+    id: 70,
+    title: "قصة الرجل الذي مات في المدينة",
+    category: "الغيبيات والمشاهدات والأمثال",
+    text_status: "near_verbatim",
+    source_url: "https://sunnah.com/bukhari:1889",
+    full_text: `عن أبي هريرة رضي الله عنه أن رسول الله ﷺ قال: «لا يصبر على لأواء المدينة وشدة إلا كنت له شفيعًا أو شهيدًا يوم القيامة».`,
+    source: "صحيح البخاري (1889)، صحيح مسلم (1378)",
+    benefits: [
+        "فضل المدينة.",
+        "الصبر على الشدة.",
+        "الشفاعة.",
+        "الشهادة.",
+        "التمسك بالسنة."
+    ]
+}
+];
+/* ============ STATE ============ */
+const state = {
+    search: '', category: 'all', status: 'all', showFavsOnly: false,
+    favorites: new Set(JSON.parse(localStorage.getItem('encyclopedia_favs') || '[]')),
+    theme: localStorage.getItem('encyclopedia_theme') || 'light',
+    fontSize: parseFloat(localStorage.getItem('encyclopedia_fontsize') || '1.15'),
+    fontFamily: localStorage.getItem('encyclopedia_fontfamily') || 'Amiri',
+    activeStory: null
+};
+
+/* ============ HELPERS ============ */
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function highlightText(html, query) {
+    if (!query) return html;
+    const q = query.trim();
+    if (!q) return html;
+    const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return html.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+function excerpt(text, len = 220) {
+    const plain = text.replace(/\s+/g, ' ').trim();
+    return plain.length > len ? plain.slice(0, len) + '…' : plain;
+}
+function showToast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function saveFavs() {
+    localStorage.setItem('encyclopedia_favs', JSON.stringify([...state.favorites]));
+}
+
+/* ============ THEME & FONTS ============ */
+function applyTheme() {
+    document.documentElement.setAttribute('data-theme', state.theme);
+    const icon = $('#themeIcon');
+    if (state.theme === 'dark') {
+        icon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+    } else {
+        icon.innerHTML = '<path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36A5.39 5.39 0 0112 14.5 5.5 5.5 0 016.5 9c0-2.12 1.2-3.96 2.96-4.88C10.92 3.04 11.46 3 12 3z"/>';
+    }
+}
+function applyFont() {
+    document.documentElement.style.setProperty('--font-size', state.fontSize + 'rem');
+    document.documentElement.style.setProperty('--font-body', `'${state.fontFamily}', 'Scheherazade New', serif`);
+    $('#fontSizeLabel').textContent = state.fontSize.toFixed(2);
+    $('#fontSelect').value = state.fontFamily;
+    localStorage.setItem('encyclopedia_fontsize', state.fontSize);
+    localStorage.setItem('encyclopedia_fontfamily', state.fontFamily);
+}
+
+/* ============ RENDER ============ */
+function getFilteredStories() {
+    return STORIES.filter(s => {
+        if (state.category !== 'all' && s.category !== state.category) return false;
+        if (state.status !== 'all' && s.text_status !== state.status) return false;
+        if (state.showFavsOnly && !state.favorites.has(s.id)) return false;
+        if (state.search.trim()) {
+            const q = state.search.trim().toLowerCase();
+            const hay = (s.title + ' ' + s.full_text + ' ' + s.source + ' ' + s.category).toLowerCase();
+            if (!hay.includes(q)) return false;
+        }
+        return true;
+    });
+}
+
+function render() {
+    const grid = $('#grid');
+    const stories = getFilteredStories();
+    const total = STORIES.length;
+    const favCount = state.favorites.size;
+    const verbatimCount = STORIES.filter(s => s.text_status === 'verbatim').length;
+    const nearCount = STORIES.filter(s => s.text_status === 'near_verbatim').length;
+    const summaryCount = STORIES.filter(s => s.text_status === 'summary_with_reference').length;
+
+
+    $('#statsBar').textContent = `إجمالي القصص: ${total} • المعروضة: ${stories.length} • المفضلة: ${favCount} • 🟢 حرفي: ${verbatimCount} • 🟡 قريب: ${nearCount} • 🟠 ملخّص: ${summaryCount}`;
+    if (!stories.length) {
+        grid.innerHTML = `<div class="empty">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+            <p>لا توجد نتائج مطابقة. جرّب كلمة بحث أخرى أو غيّر التصنيف.</p>
+        </div>`;
+        return;
+    }
+
+    grid.innerHTML = stories.map(s => {
+        const isFav = state.favorites.has(s.id);
+        const titleHtml = highlightText(escapeHtml(s.title), state.search);
+        const excerptHtml = highlightText(escapeHtml(excerpt(s.full_text)), state.search);
+        const sourceHtml = highlightText(escapeHtml(s.source), state.search);
+        const st = STATUS_LABELS[s.text_status];
+        const cls = statusClass(s.text_status);
+        return `
+        <article class="card" data-id="${s.id}">
+            <div class="card-badges">
+                <span class="card-category">${escapeHtml(s.category)}</span>
+                <span class="status-badge ${cls}" title="${st.long}">${st.icon} ${st.short}</span>
+            </div>
+            <h3>${titleHtml}</h3>
+            <p class="card-excerpt">${excerptHtml}</p>
+            <div class="card-source">${sourceHtml}</div>
+            <div class="card-actions">
+                <button class="btn btn-read" data-id="${s.id}">
+                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    اقرأ
+                </button>
+                <button class="btn btn-fav ${isFav ? 'active' : ''}" data-id="${s.id}">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    ${isFav ? 'محفوظة' : 'حفظ'}
+                </button>
+            </div>
+        </article>`;
+    }).join('');
+}
+
+/* ============ MODAL ============ */
+function openStory(id) {
+    const s = STORIES.find(x => x.id === id);
+    if (!s) return;
+    state.activeStory = s;
+
+    $('#modalTitle').textContent = s.title;
+    $('#modalCategory').textContent = s.category;
+
+    const st = STATUS_LABELS[s.text_status];
+    const cls = statusClass(s.text_status);
+    const badge = $('#modalStatusBadge');
+    badge.className = 'status-badge ' + cls;
+    badge.textContent = `${st.icon} ${st.short}`;
+
+    const paragraphs = s.full_text.split(/\n\s*\n/).filter(p => p.trim());
+    const bodyHtml = paragraphs.map(p => {
+        const safe = highlightText(escapeHtml(p.trim()), state.search);
+        return `<p class="hadith-text">${safe}</p>`;
+    }).join('');
+
+    const bannerHtml = `
+        <div class="status-banner ${cls}">
+            <span class="icon">${st.icon}</span>
+            <span>${st.long}</span>
+        </div>`;
+
+    const benefitsHtml = s.benefits && s.benefits.length ? `
+        <h4 class="benefits-title">الفوائد والعبر المستفادة</h4>
+        <ul class="benefits-list">
+            ${s.benefits.map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+        </ul>` : '';
+
+    $('#modalBody').innerHTML = `
+        ${bannerHtml}
+        ${bodyHtml}
+        <div class="modal-source"><strong>المصدر:</strong> ${highlightText(escapeHtml(s.source), state.search)}</div>
+        ${benefitsHtml}
+    `;
+
+    const favBtn = $('#modalFavBtn');
+    const isFav = state.favorites.has(s.id);
+    favBtn.classList.toggle('active', isFav);
+    favBtn.querySelector('span').textContent = isFav ? 'محفوظة في المفضلة' : 'حفظ في المفضلة';
+
+    // Verify button: enabled only when source_url exists
+    const verifyBtn = $('#modalVerifyBtn');
+    if (s.source_url) {
+        verifyBtn.style.display = '';
+        verifyBtn.onclick = () => window.open(s.source_url, '_blank', 'noopener');
+    } else {
+        verifyBtn.style.display = 'none';
+    }
+
+    $('#modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    $('#modalBody').scrollTop = 0;
+}
+
+function closeModal() {
+    $('#modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    state.activeStory = null;
+}
+
+/* ============ EVENTS ============ */
+function bindEvents() {
+    let searchTimer;
+    $('#searchInput').addEventListener('input', (e) => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            state.search = e.target.value;
+            render();
+        }, 120);
+    });
+    $('#filters').addEventListener('click', (e) => {
+        const badge = e.target.closest('.filter-badge');
+        if (!badge) return;
+        $$('.filter-badge').forEach(b => b.classList.remove('active'));
+        badge.classList.add('active');
+        state.category = badge.dataset.cat;
+        render();
+    });
+    $('#statusFilters').addEventListener('click', (e) => {
+        const badge = e.target.closest('.filter-badge');
+        if (!badge) return;
+        $$('#statusFilters .filter-badge').forEach(b => b.classList.remove('active'));
+        badge.classList.add('active');
+        state.status = badge.dataset.status;
+        render();
+    });
+    $('#favFilterBtn').addEventListener('click', () => {
+        state.showFavsOnly = !state.showFavsOnly;
+        $('#favFilterBtn').classList.toggle('active', state.showFavsOnly);
+        render();
+    });
+    $('#themeBtn').addEventListener('click', () => {
+        state.theme = state.theme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('encyclopedia_theme', state.theme);
+        applyTheme();
+    });
+    $('#fontBtn').addEventListener('click', () => {
+        $('#fontPanel').classList.toggle('show');
+        $('#fontBtn').classList.toggle('active');
+    });
+    $('#fontPlus').addEventListener('click', () => {
+        state.fontSize = Math.min(1.8, +(state.fontSize + 0.05).toFixed(2));
+        applyFont();
+    });
+    $('#fontMinus').addEventListener('click', () => {
+        state.fontSize = Math.max(0.85, +(state.fontSize - 0.05).toFixed(2));
+        applyFont();
+    });
+    $('#fontSelect').addEventListener('change', (e) => {
+        state.fontFamily = e.target.value;
+        applyFont();
+    });
+    $('#grid').addEventListener('click', (e) => {
+        const readBtn = e.target.closest('.btn-read');
+        if (readBtn) { openStory(Number(readBtn.dataset.id)); return; }
+        const favBtn = e.target.closest('.btn-fav');
+        if (favBtn) {
+            const id = Number(favBtn.dataset.id);
+            if (state.favorites.has(id)) { state.favorites.delete(id); showToast('أُزيلت من المفضلة'); }
+            else { state.favorites.add(id); showToast('أُضيفت إلى المفضلة'); }
+            saveFavs(); render(); return;
+        }
+        const card = e.target.closest('.card');
+        if (card && !e.target.closest('button')) openStory(Number(card.dataset.id));
+    });
+    $('#modalClose').addEventListener('click', closeModal);
+    $('#modalOverlay').addEventListener('click', (e) => {
+        if (e.target === $('#modalOverlay')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && $('#modalOverlay').classList.contains('open')) closeModal();
+    });
+    $('#modalFavBtn').addEventListener('click', () => {
+        if (!state.activeStory) return;
+        const id = state.activeStory.id;
+        if (state.favorites.has(id)) { state.favorites.delete(id); showToast('أُزيلت من المفضلة'); }
+        else { state.favorites.add(id); showToast('أُضيفت إلى المفضلة'); }
+        saveFavs();
+        const isFav = state.favorites.has(id);
+        $('#modalFavBtn').classList.toggle('active', isFav);
+        $('#modalFavBtn').querySelector('span').textContent = isFav ? 'محفوظة في المفضلة' : 'حفظ في المفضلة';
+        render();
+    });
+    $('#modalCopyBtn').addEventListener('click', async () => {
+        if (!state.activeStory) return;
+        const s = state.activeStory;
+        const text = `${s.title}\n\n[${STATUS_LABELS[s.text_status].short}]\n\n${s.full_text}\n\n${s.source}\n${s.source_url ? 'رابط التحقق: ' + s.source_url : ''}\n\nالفوائد:\n${s.benefits.map(b => '• ' + b).join('\n')}`;
+        try {
+            await navigator.clipboard.writeText(text);
+            showToast('تم نسخ النص');
+        } catch {
+            const ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); showToast('تم النسخ'); }
+            catch { showToast('تعذّر النسخ'); }
+            document.body.removeChild(ta);
+        }
+    });
+    const scrollBtn = $('#scrollTop');
+    window.addEventListener('scroll', () => {
+        scrollBtn.classList.toggle('show', window.scrollY > 500);
+    });
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+/* ============ PWA ============ */
+function initPWA() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+    }
+}
+
+/* ============ INIT ============ */
+function init() {
+    applyTheme();
+    applyFont();
+    bindEvents();
+    render();
+    initPWA();
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

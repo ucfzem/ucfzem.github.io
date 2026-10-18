@@ -105,3 +105,34 @@ Earlier the user lost 26 links from the works page by mistake. This session enfo
 ### Offline-capable entry points
 - App: `https://ucfzem.github.io/musawa-qasas/` (PWA installable, SW-precached).
 - Link-tree: `https://ucfzem.github.io/works/` (SW caches page + 12 local assets + 22 app icons + fonts).
+
+## Expansion Session (same day) — 70-story version
+
+### What changed
+- The encyclopedia grew from **22 → 70 stories**: the four previously "near-verbatim" narratives were completed to **full verbatim text** (الإسراء والمعراج، كعب بن مالك، الإفك، موسى والخضر), and dozens of new narrations were added across the three categories.
+- **Status distribution:** 🟢 حرفي موثق = 29 • 🟡 قريب بالمعنى = 24 • 🟠 ملخّص + إحالة = 17 (70 total).
+- The user's pasted 70-story file reintroduced three earlier-fixed items; all were re-applied during the merge:
+  1. Removed the header subtitle again.
+  2. Restored the **Cairo** heading font (`--font-display` + Cairo in the Google Fonts link).
+  3. Replaced the blob-based service worker/manifest with the **real external `sw.js` + `manifest.webmanifest`** (blob SW/manifest URLs are not supported by Chrome).
+- **Status-filter choice:** the user's file used a single cycling button; per the user's decision the already-deployed **4-button row** (`#statusFilters`) was **kept** (superset, already tested).
+- The richer stats line from the user's file was adopted: `إجمالي القصص / المعروضة / المفضلة / 🟢 / 🟡 / 🟠`.
+- **Method note:** a single-call write of the ~130 KB file failed (`JSON parse error: Unterminated string`). The exact pasted bytes were recovered from the harness DB (`~/.local/share/opencode/opencode.db`, `part` table) and the 70-story `const STORIES = [...]` array was merged into the fixed template, so the user's content is byte-exact (no retyping/fabrication).
+
+### Deploy & versions
+- `manifest.webmanifest` description → "... 70 قصة ..."; `sw.js` bumped `musawa-qasas-v1.0.2` → **`musawa-qasas-v1.0.3`**.
+- Commit **`463a8e1`** — "musawa-qasas: expand to 70 stories (full texts, dozens of new narrations); bump sw to v1.0.3".
+
+### Verification performed (local + live, online + offline)
+- **Local headless:** 70 cards rendered, 4 status buttons, no subtitle, `h1` computed font **Cairo**, stats `70 • 70 • 0 • 29 • 24 • 17`, SW registration, 0 errors. Offline reload (HTTP cache disabled): 70 cards, 0 errors.
+- **Live:** `sw.js` = `musawa-qasas-v1.0.3`; `index.html` 186,394 bytes, 70 `id:` entries, no `.subtitle`, Cairo present.
+- **Live app (SW-only, HTTP cache disabled):** online 70 cards → offline 70 cards, title intact, 0 errors.
+- **Live works (SW-only, HTTP cache disabled):** 75 links, 26 images 0 broken, offline renders, 0 errors.
+
+### Backups
+- `backups/musawa-qasas-2026-10-18/` — app snapshot (`index.html`, `sw.js`, `manifest.webmanifest`, `icon.svg`, `icon-192.png`, `icon-512.png`).
+- `backups/works-2026-10-18/` — unchanged works snapshot (works files unchanged this session).
+
+### Current live SW versions (after this session)
+- `https://ucfzem.github.io/musawa-qasas/sw.js` → `musawa-qasas-v1.0.3`
+- `https://ucfzem.github.io/works/sw.js` → `works-v1.0.20`
