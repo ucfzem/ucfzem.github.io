@@ -1,0 +1,272 @@
+@import url('./fonts/fonts.css');
+
+/* ===================== THEME TOKENS (from nuzhat-al-mushtaq reference) ===================== */
+:root {
+  --ink: #2b2118;
+  --paper: #faf5e9;
+  --panel: #f2e9d6;
+  --green: #1f5c46;
+  --gold: #a9792f;
+  --line: #d8c9a8;
+  --card: #fffdf6;
+  --modern-card: #f1f6f2;
+  --accent-text: #7c5620;
+  --muted: #7a6a50;
+  --header-text: #f5eeda;
+  --focus: #ffd166;
+  --content-font-size: 1rem;
+  --hl-bg: #ffe9a8;
+  --hl-ink: #2b2118;
+  --ayah: #1f5c46;
+  --hadith: #7c5620;
+}
+[data-theme="dark"] {
+  --ink: #ece4d3;
+  --paper: #16130e;
+  --panel: #241f16;
+  --green: #4e9a73;
+  --gold: #d3a34a;
+  --line: #3a3225;
+  --card: #1e1912;
+  --modern-card: #131b17;
+  --accent-text: #d9b977;
+  --muted: #9a8a6c;
+  --header-text: #f5eeda;
+  --focus: #ffd166;
+  --hl-bg: #5c4a12;
+  --hl-ink: #fff6dd;
+  --ayah: #4e9a73;
+  --hadith: #d9b977;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Cairo", "Segoe UI", "Tahoma", "Geeza Pro", "Noto Naskh Arabic", sans-serif;
+  line-height: 1.9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--accent-text); }
+
+/* ===================== HEADER ===================== */
+header.site {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  background: var(--green);
+  color: var(--header-text);
+  padding: 12px 18px;
+  flex-wrap: wrap;
+}
+header.site .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+header.site h1 { margin: 0; font-size: 1.15rem; line-height: 1.4; }
+header.site p { margin: 2px 0 0; font-size: .78rem; opacity: .85; }
+header.site .actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+header.site .actions button {
+  font-family: inherit; font-size: .82rem; cursor: pointer;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.35);
+  color: #fff; border-radius: 8px; padding: 6px 10px; line-height: 1;
+}
+header.site .actions button:hover { background: rgba(255,255,255,.28); }
+header.site .actions button.active { background: var(--gold); border-color: var(--gold); }
+#themeToggle { width: 42px; height: 42px; font-size: 1.15rem; padding: 0; }
+
+/* ===================== SEARCH BAR ===================== */
+#searchBar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+#searchBar .row1 { display: flex; gap: 8px; align-items: center; }
+#searchInput {
+  flex: 1; padding: 11px 14px; font-size: 1.05rem;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink); font-family: inherit;
+}
+#searchInput:focus { outline: none; border-color: var(--gold); }
+#searchBar .opts { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: .82rem; color: var(--muted); }
+#searchBar .opts label { display: inline-flex; gap: 5px; align-items: center; cursor: pointer; }
+#searchBar button {
+  font-family: inherit; font-size: .82rem; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 6px; padding: 6px 12px; color: var(--ink);
+}
+#searchBar button:hover { background: var(--gold); color: #fff; }
+#searchBar button:disabled { opacity: .4; cursor: default; }
+#searchCount { color: var(--accent-text); font-weight: 700; font-size: .85rem; }
+#navCounter { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .82rem; }
+
+/* ===================== LAYOUT ===================== */
+main { flex: 1; padding: 20px 30px; max-width: 900px; margin: 0 auto; width: 100%; }
+.topnav { display: flex; justify-content: flex-end; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.topnav .font-row { display: flex; gap: 4px; margin-inline-end: auto; }
+.topnav button {
+  font-family: inherit; font-size: .82rem;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 14px; cursor: pointer; color: var(--ink);
+}
+.topnav button:hover { background: var(--gold); color: #fff; }
+.topnav button.active { background: var(--green); color: #fff; border-color: var(--green); }
+.topnav button.copied { background: var(--green); color: #fff; }
+
+/* ===================== CARDS ===================== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--gold);
+  border-radius: 8px; padding: 18px 22px; margin-bottom: 16px;
+}
+.card h2 { margin: 0 0 8px; font-size: 1.25rem; color: var(--accent-text); }
+.kicker { font-size: .8rem; color: var(--muted); margin-bottom: 6px; }
+.modern { border-inline-start-color: var(--green); background: var(--modern-card); }
+.modern h2 { color: var(--green); font-size: 1.05rem; }
+
+/* ===================== HOME ===================== */
+.home { text-align: center; padding: 26px 10px; }
+.home h1 { color: var(--accent-text); font-size: 1.8rem; margin: 0 0 6px; }
+.home .desc { max-width: 660px; margin: 12px auto; font-size: .95rem; }
+.home .resume-btn {
+  font-family: inherit; font-weight: bold; font-size: .95rem;
+  background: var(--green); color: #fff; border: none; border-radius: 8px;
+  padding: 12px 26px; cursor: pointer; margin: 8px 0 4px;
+}
+.home .resume-btn:hover { filter: brightness(1.1); }
+.chapters {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px; margin-top: 20px; text-align: right;
+}
+.chapter-card {
+  display: flex; flex-direction: column; gap: 6px; align-items: flex-start;
+  background: var(--card); border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--gold); border-radius: 8px;
+  padding: 14px 16px; cursor: pointer; text-align: right;
+  font-family: inherit; color: var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.chapter-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.chapter-card .num {
+  font-size: .72rem; font-weight: 700; color: #fff; background: var(--green);
+  border-radius: 6px; padding: 2px 8px;
+}
+.chapter-card .ct { font-size: 1.02rem; font-weight: 700; color: var(--accent-text); line-height: 1.5; }
+.chapter-card .meta { font-size: .74rem; color: var(--muted); }
+.chapter-card .bookmark-dot { color: var(--gold); font-size: .8rem; }
+.chapter-card.read { opacity: .72; }
+
+/* ===================== CHAPTER READER ===================== */
+#progressWrap { position: sticky; top: 0; z-index: 40; height: 4px; background: var(--line); }
+#progressBar { height: 100%; width: 0; background: var(--gold); transition: width .1s linear; }
+.chapter-body p {
+  font-size: calc(var(--content-font-size, 1rem) * 1.15);
+  line-height: 1.9;
+  font-family: 'Amiri', 'Traditional Arabic', 'Scheherazade New', 'Lateef', serif;
+  margin: 0 0 14px;
+}
+.section { margin-bottom: 22px; }
+.section h3 {
+  font-size: 1.05rem; color: var(--green); margin: 0 0 10px;
+  border-bottom: 1px dashed var(--line); padding-bottom: 6px;
+}
+.section h3 .sect-ico { color: var(--gold); }
+.ayah { color: var(--ayah); }
+.hadith { color: var(--hadith); }
+mark, .mark {
+  background: var(--hl-bg); color: var(--hl-ink);
+  border-radius: 3px; padding: 0 2px; scroll-margin-top: 130px;
+}
+mark.current { outline: 2px solid var(--gold); box-shadow: 0 0 0 4px rgba(169,121,47,.25); }
+
+.pager { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; align-items: center; }
+.pager button {
+  font-family: inherit; font-weight: bold;
+  background: var(--green); color: #fff; border: none;
+  border-radius: 6px; padding: 8px 16px; cursor: pointer; font-size: .9rem;
+}
+.pager button:hover { filter: brightness(1.1); }
+.pager button:disabled { opacity: .35; cursor: default; }
+.pager span { font-size: .85rem; color: var(--muted); }
+
+/* ===================== SEARCH RESULTS ===================== */
+#searchResults { margin-top: 4px; }
+.result-chapter {
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 12px 16px; margin-bottom: 12px;
+}
+.result-chapter h4 { margin: 0 0 8px; font-size: .98rem; color: var(--accent-text); display: flex; justify-content: space-between; gap: 8px; }
+.result-chapter h4 .cnt { font-size: .78rem; color: #fff; background: var(--green); border-radius: 10px; padding: 1px 9px; }
+.result-hit {
+  display: block; width: 100%; text-align: right; font-family: inherit;
+  background: transparent; border: none; border-inline-start: 3px solid var(--line);
+  padding: 6px 10px; margin: 4px 0; cursor: pointer; color: var(--ink);
+  font-family: 'Amiri', serif; font-size: 1rem; line-height: 1.8;
+}
+.result-hit:hover { border-inline-start-color: var(--gold); background: var(--panel); }
+.empty { color: var(--muted); font-style: italic; text-align: center; padding: 20px; }
+
+/* ===================== TOAST / UPDATE ===================== */
+#toast {
+  position: fixed; inset-inline: 0; bottom: 18px; margin: 0 auto; width: max-content; max-width: 90vw;
+  background: var(--ink); color: var(--paper); padding: 10px 18px; border-radius: 10px;
+  font-size: .88rem; opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .25s, transform .25s; z-index: 300;
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+#updateBar {
+  display: none; background: var(--gold); color: #241f16; text-align: center;
+  padding: 8px; font-size: .85rem; font-weight: 700;
+}
+#updateBar.show { display: block; }
+#updateBar button { font-family: inherit; font-weight: 700; background: #241f16; color: #fff; border: none; border-radius: 6px; padding: 4px 12px; margin-inline-start: 10px; cursor: pointer; }
+
+/* ===================== FOOTER ===================== */
+footer.site {
+  text-align: center; font-size: .76rem; color: var(--muted);
+  padding: 14px; border-top: 1px solid var(--line);
+}
+footer.site b { color: var(--accent-text); }
+
+/* ===================== IMPORT PAGE ===================== */
+.import-wrap { max-width: 900px; margin: 0 auto; }
+.import-wrap textarea {
+  width: 100%; min-height: 320px; padding: 14px; font-family: 'Amiri', serif;
+  font-size: 1.1rem; line-height: 1.9; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink); resize: vertical;
+}
+.import-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.import-actions button, .import-actions label.btn {
+  font-family: inherit; font-weight: 700; font-size: .9rem; cursor: pointer;
+  background: var(--green); color: #fff; border: none; border-radius: 6px; padding: 9px 16px;
+}
+.import-actions button.alt { background: var(--panel); color: var(--ink); border: 1px solid var(--line); }
+.import-actions button.danger { background: #9b2c2c; }
+.import-actions button:hover { filter: brightness(1.08); }
+#importPreview { font-size: .9rem; color: var(--muted); margin-top: 12px; }
+#importPreview b { color: var(--accent-text); }
+
+/* ===================== FOCUS / A11Y ===================== */
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 2px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (min-width: 1400px) {
+  main { max-width: 1040px; }
+  .chapters { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .pager button { font-size: 1.02rem; padding: 11px 22px; }
+}
+@media (max-width: 700px) {
+  main { padding: 14px 12px; }
+  header.site { padding: 10px 12px; }
+  header.site h1 { font-size: 1rem; }
+  .pager { flex-wrap: wrap; }
+  .pager button { flex: 1; min-width: 120px; }
+  .chapters { grid-template-columns: 1fr; }
+}
+@media print {
+  header.site, #searchBar, .topnav, .pager, footer.site, #progressWrap { display: none !important; }
+  main { padding: 0; max-width: none; }
+}
