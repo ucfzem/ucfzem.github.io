@@ -77,3 +77,31 @@ Earlier the user lost 26 links from the works page by mistake. This session enfo
 2. Append-only edits (one new line), never replacing array blocks.
 3. `git diff` inspection before commit to confirm zero deletions.
 4. Headless render count check (public/maktaba/locked) before pushing.
+
+---
+
+## Follow-up Session (same day) — tweaks, font, offline hardening, backup
+
+### Changes applied
+1. **Removed app subtitle** «نزهة المشتاق في اختراق الآفاق — في رحاب السنة النبوية المطهرة» from the header. Source `sw.js` bumped `musawa-qasas-v1.0.0` → `v1.0.1`.
+2. **Removed the «صحيح القصص النبوي» card** from the works Maktaba folder (single-line deletion only). The `sahih-al-qasas` app files remain live; only its link-tree card was removed. Maktaba 22 → 21. `works/sw.js` bumped `works-v1.0.18` → `v1.0.19`.
+   - Commit `f5d22e6` — "Remove app subtitle; remove Sahih al-Qasas card from Maktaba; bump SW caches".
+3. **Heading font changed to Cairo** to match the heading font of the book app **نزهة المشتاق** (نُزهة المشتاق uses Cairo for `h1`/`h2`; verified via live computed style). `--font-display` changed from `'Reem Kufi'` → `'Cairo'`, and Cairo added to the Google Fonts `<link>` + SW CORE fonts URL. Body font remains Amiri. Source `sw.js` bumped `v1.0.1` → `v1.0.2`.
+   - Commit `20b5c84` — "Change heading font to Cairo (match Nuzhat al-Mushtaq book); bump SW v1.0.2".
+4. **Works offline hardening:** the works page requests the Maktaba icon as `assets/maktaba.png?v=2026-10-17-3` (query-parameterized), but SW CORE precaches the query-less `assets/maktaba.png` → `caches.match(req)` would miss it if the HTTP cache is cleared. Fixed the same-origin fetch fallback to `caches.match(req, { ignoreSearch: true })`. `works/sw.js` bumped `works-v1.0.19` → `works-v1.0.20`.
+
+### Works backup snapshot
+- Created `backups/works-2026-10-18/` — full restorable copy of `works/` (`index.html`, `sw.js`, `assets/` (12 files), `robots.txt`, `sitemap.xml`), ~1.3 MB.
+
+### Verification performed (online + offline)
+- **Online icon check:** all 27 referenced icon/asset URLs **+ the `?v=` parameterized Maktaba icon** → HTTP 200 (0 failures).
+- **Offline test (works):** registered SW → controlled → `setOffline(true)` → reload: title renders, **16 public cards + 21 Maktaba cards**, **0 broken images** (26/26 imgs loaded), 0 errors.
+- **App heading font:** headless computed style confirms `h1` and `.card h3` render in **Cairo**; body in Amiri; 22 cards; subtitle element gone; 0 errors.
+
+### Current live SW versions
+- `https://ucfzem.github.io/musawa-qasas/sw.js` → `musawa-qasas-v1.0.2`
+- `https://ucfzem.github.io/works/sw.js` → `works-v1.0.20`
+
+### Offline-capable entry points
+- App: `https://ucfzem.github.io/musawa-qasas/` (PWA installable, SW-precached).
+- Link-tree: `https://ucfzem.github.io/works/` (SW caches page + 12 local assets + 22 app icons + fonts).

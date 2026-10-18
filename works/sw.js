@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.19';
+const CACHE = 'works-v1.0.20';
 const CORE = [
   './',
   './index.html',
@@ -84,7 +84,7 @@ self.addEventListener('fetch', (event) => {
       fetch(req).then((res) => {
         if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
-      }).catch(() => caches.match(req))
+      }).catch(() => caches.match(req, { ignoreSearch: true }))
     );
     return;
   }
