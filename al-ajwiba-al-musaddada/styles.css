@@ -172,6 +172,19 @@ main { flex: 1; padding: 20px 30px; max-width: 900px; margin: 0 auto; width: 100
   border-bottom: 1px dashed var(--line); padding-bottom: 6px;
 }
 .section h3 .sect-ico { color: var(--gold); }
+.section h3 { position: relative; }
+.copy-sec {
+  float: left; background: transparent; border: 1px solid var(--line);
+  color: var(--muted); border-radius: 6px; padding: 2px 7px; cursor: pointer;
+  font-size: .8rem; line-height: 1.1; font-family: inherit;
+}
+.copy-sec:hover { color: var(--accent-text); border-color: var(--gold); }
+.sec-takhrij {
+  background: var(--modern-card); border: 1px dashed var(--line);
+  border-radius: 8px; padding: 10px 14px;
+}
+.sec-takhrij h3 { border-bottom: none; }
+.sec-takhrij p { font-size: calc(var(--content-font-size, 1rem) * 1.03); color: var(--muted); }
 .ayah { color: var(--ayah); }
 .hadith { color: var(--hadith); }
 mark, .mark {

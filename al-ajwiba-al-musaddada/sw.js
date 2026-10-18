@@ -1,4 +1,4 @@
-const CACHE = 'ajwiba-v1.0.0';
+const CACHE = 'ajwiba-v1.0.1';
 const CORE = [
   './',
   './index.html',
@@ -62,6 +62,20 @@ self.addEventListener('fetch', (e) => {
   }
 
   if (!sameOrigin) return;
+
+  // نص الكتاب: الشبكة أولاً لملامسة أحدث المحتوى، مع الكاش احتياطاً دون إنترنت
+  if (url.pathname.endsWith('/data/book.md')) {
+    e.respondWith(
+      fetch(e.request).then((res) => {
+        if (res && res.status === 200 && res.type === 'basic') {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, copy));
+        }
+        return res;
+      }).catch(() => caches.match(e.request, { ignoreSearch: true }))
+    );
+    return;
+  }
 
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then((cached) => {

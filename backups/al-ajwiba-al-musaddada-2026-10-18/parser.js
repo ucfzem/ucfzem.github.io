@@ -11,6 +11,7 @@ export const SECTION_NAMES = [
   'الدروس المستفادة',
   'الدروس',
   'العبرة',
+  'التخريج',
 ];
 
 const AR_DIACRITICS = /[\u064B-\u065F\u0670\u06D6-\u06ED]/g;

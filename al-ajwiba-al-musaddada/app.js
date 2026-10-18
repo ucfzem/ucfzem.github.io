@@ -117,8 +117,12 @@ function renderChapter(id) {
   let occ = 0;
   let bodyHtml = '';
   chapter.sections.forEach((sec, si) => {
-    bodyHtml += '<div class="section">';
-    if (sec.title) bodyHtml += `<h3><span class="sect-ico">◈</span> ${escapeHtml(sec.title)}</h3>`;
+    const isTakhrij = /التخريج/.test(sec.title || '');
+    bodyHtml += `<div class="section${isTakhrij ? ' sec-takhrij' : ''}">`;
+    if (sec.title) {
+      bodyHtml += `<h3><span class="sect-ico">${isTakhrij ? '📚' : '◈'}</span> ${escapeHtml(sec.title)}`
+        + `<button class="copy-sec" data-si="${si}" title="نسخ هذا القسم" aria-label="نسخ القسم">📋</button></h3>`;
+    }
     sec.paragraphs.forEach((p, pi) => {
       const r = highlightParagraph(p, state.query, state.opts, occ);
       occ = r.next;
@@ -150,6 +154,26 @@ function renderChapter(id) {
   el('markBtn') && (el('markBtn').onclick = () => toggleBookmark(id));
   el('markBtn') && el('markBtn').classList.toggle('active', isMarked);
   setupFontControls();
+
+  contentEl().querySelectorAll('.copy-sec').forEach((btn) => {
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const s = chapter.sections[+btn.dataset.si];
+      if (!s) return;
+      const txt = (s.title ? s.title + '\n\n' : '') + s.paragraphs.join('\n\n');
+      const done = () => toast('نُسخ القسم 📋');
+      const fallback = () => {
+        const ta = document.createElement('textarea');
+        ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { toast('تعذّر النسخ'); }
+        document.body.removeChild(ta);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(done).catch(fallback);
+      } else fallback();
+    });
+  });
 
   state.occEls = Array.from(contentEl().querySelectorAll('mark[data-occ]'));
   state.occCursor = -1;
@@ -298,20 +322,19 @@ function safeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
 /* ---------- تحميل الكتاب ---------- */
 async function loadOrFetchBook() {
-  let rec = await loadBook();
-  if (!rec) {
-    try {
-      const res = await fetch('./data/book.md', { cache: 'no-cache' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
+  // أحدث نسخة أولاً (شبكة أو كاش الـSW)، ثم الاحتياط من IndexedDB
+  try {
+    const res = await fetch('./data/book.md', { cache: 'no-cache' });
+    if (res.ok) {
       const text = await res.text();
       const book = parseBook(text);
-      await saveBook(book, text);
-      rec = { book, raw: text };
-    } catch (e) {
-      return null;
+      if (book && book.chapters.length) {
+        await saveBook(book, text);
+        return { book, raw: text };
+      }
     }
-  }
-  return rec;
+  } catch (e) {}
+  try { return await loadBook(); } catch (e) { return null; }
 }
 
 /* ---------- PWA ---------- */

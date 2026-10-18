@@ -74,3 +74,25 @@ al-ajwiba-al-musaddada/
 
 ## Note de contenu
 Le texte des 17 chapitres est une **ébauche fournie par l'utilisateur** ; les hadiths/références doivent être vérifiés sur les sources avant publication. L'infrastructure n'invente ni ne modifie aucun texte.
+
+---
+
+## Addendum — ajout de 3 chapitres (finition des Q/R)
+
+**Contexte :** un texte externe fut proposé avec 7 questions/réponses en un fichier unique. Analyse : 4 des 7 dupliquaient des chapitres existants (٦، ٨، ٩، ١٧). Décision utilisateur → **ajouter uniquement les 3 vraiment nouvelles**, dans l'app réelle (design + recherche + offline conservés).
+
+**Chapitres ajoutés à `data/book.md` (17 → 20) :**
+- الفصل الثامن عشر : « عملٌ يدخل الجنة ويباعد من النار » — معاذ (الترمذي 2616، ابن ماجه 3973، أحمد 22016)
+- الفصل التاسع عشر : « ازهد في الدنيا يحبّك الله والناس » — سهل بن سعد (ابن ماجه 4102)
+- الفصل العشرون : « إذا صلّيتُ المكتوبات أأدخل الجنة؟ » — جابر (مسلم 15)
+
+Chaque chapitre suit la structure du livre (السياق والراوي / السؤال / الجواب) + nouvelle section **### التخريج**.
+
+**Modifications de code :**
+- `parser.js` : « التخريج » ajouté à `SECTION_NAMES`.
+- `app.js` : bouton **📋 نسخ** sur chaque section (copie le titre + le texte ; fallback `execCommand`) ; classe `.sec-takhrij` ; `loadOrFetchBook()` passe en **fetch-first** (réseau/cache SW) puis repli IndexedDB — pour que le contenu mis à jour s'affiche chez les utilisateurs existants.
+- `styles.css` : styles `.copy-sec` et `.sec-takhrij` (panneau 📚 bordure pointillée).
+- `sw.js` : cache `ajwiba-v1.0.0 → ajwiba-v1.0.1` ; **network-first** pour `data/book.md` (fraîcheur en ligne, repli cache hors-ligne).
+
+**Vérifs locales :** 20 chapitres ; ch.18 sections + التخريج affichés ; boutons نسخ fonctionnels (presse-papiers OK) ; offline → 20 chapitres, ch.20 + التخريج rendus ; 0 erreur.
+
