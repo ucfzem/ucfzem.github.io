@@ -1,0 +1,129 @@
+const CACHE = 'works-v1.0.23';
+const CORE = [
+  './',
+  './index.html',
+  './fonts.css?v=1',
+  './fonts/cinzel-400-latin-ext.woff2',
+  './fonts/cinzel-400-latin.woff2',
+  './fonts/cinzel-700-latin-ext.woff2',
+  './fonts/cinzel-700-latin.woff2',
+  './fonts/inter-300-latin-ext.woff2',
+  './fonts/inter-300-latin.woff2',
+  './fonts/inter-400-latin-ext.woff2',
+  './fonts/inter-400-latin.woff2',
+  './fonts/inter-500-latin-ext.woff2',
+  './fonts/inter-500-latin.woff2',
+  './fonts/inter-600-latin-ext.woff2',
+  './fonts/inter-600-latin.woff2',
+  './fonts/inter-700-latin-ext.woff2',
+  './fonts/inter-700-latin.woff2',
+  './assets/al-tibb-al-nabawi.svg',
+  './assets/avatar.png',
+  './assets/cv-icon.png',
+  './assets/quran.png',
+  './assets/remedy.svg',
+  './assets/tanger.png',
+  './assets/tarikh-ibn-khaldun.svg',
+  './assets/web-dev-logo.png',
+  './assets/barnabas.svg',
+  './assets/maktaba.png',
+  './assets/maktaba-icon.png',
+  './assets/maktaba.svg',
+  'https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg',
+  'https://ucfzem.github.io/mapamundi/icon.svg',
+  'https://ucfzem.github.io/al-mudhish/icon.svg',
+  'https://ucfzem.github.io/al-jawab-al-kafi/icon.svg',
+  'https://ucfzem.github.io/asrar-al-kawn/icon.svg',
+  'https://ucfzem.github.io/al-adhama/icon.svg',
+  'https://ucfzem.github.io/karamat-al-awliya/icon.svg',
+  'https://ucfzem.github.io/sifat-al-safwa/icon.svg',
+  'https://ucfzem.github.io/ajayib-al-makhluqat/icon.svg',
+  'https://ucfzem.github.io/ajayib-al-makhluqat/icon-192.png',
+  'https://ucfzem.github.io/al-masalik-wa-al-mamalik/icon.svg',
+  'https://ucfzem.github.io/kharidat-al-ajaib/icon.svg',
+  'https://ucfzem.github.io/kharidat-al-ajaib/icon-192.png',
+  'https://ucfzem.github.io/masoudi-encyclopedia/icon.svg',
+  'https://ucfzem.github.io/masoudi-encyclopedia/icon-192.png',
+  'https://ucfzem.github.io/akhbar-al-hamqa-wal-mughaffalin/icon.svg',
+  'https://ucfzem.github.io/rihlat-ibn-battuta/icon.svg',
+  'https://ucfzem.github.io/rihlat-ibn-battuta/icon-192.png',
+  'https://ucfzem.github.io/risalat-ibn-fadlan/icon.svg',
+  'https://ucfzem.github.io/risalat-ibn-fadlan/icon-192.png',
+  'https://ucfzem.github.io/sahih-al-qasas/icon.svg',
+  'https://ucfzem.github.io/sahih-al-qasas/icon-192.png',
+  'https://ucfzem.github.io/musawa-qasas/icon.svg',
+  'https://ucfzem.github.io/musawa-qasas/icon-192.png',
+  'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg',
+  'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon-192.png',
+  'https://ucfzem.github.io/al-bishara/icon.svg',
+  'https://ucfzem.github.io/al-bishara/icon-192.png'
+];
+const CDN = [];
+
+function fetchTO(url, opts, ms = 8000) {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, Object.assign({}, opts, { signal: c.signal })).finally(() => clearTimeout(t));
+}
+
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await Promise.all(CORE.map((u) => fetchTO(u).then((r) => {
+      if (r && (r.ok || r.type === 'opaque')) return cache.put(u, r);
+    }).catch(() => {})));
+    await Promise.all(CDN.map((u) =>
+      fetchTO(u, { mode: 'no-cors' }).then((r) => { if (r) return cache.put(u, r); }).catch(() => {})
+    ));
+  })());
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('works-')).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      caches.open(CACHE).then((c) => c.match('./index.html').then((cached) => {
+        const fresh = fetch(req).then((res) => {
+          if (res && res.ok) c.put('./index.html', res.clone());
+          return res;
+        });
+        return cached || fresh.catch(() => caches.match('./'));
+      }))
+    );
+    return;
+  }
+
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      fetch(req).then((res) => {
+        if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
+        return res;
+      }).catch(() => caches.match(req, { ignoreSearch: true }))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then((cached) => {
+      if (cached) return cached;
+      return fetch(req).then((res) => {
+        if (res && (res.ok || res.type === 'opaque')) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy));
+        }
+        return res;
+      }).catch(() => cached);
+    })
+  );
+});
