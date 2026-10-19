@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>البشارة بنبي الإسلام في كتب اليهود والنصارى — د. سامي عامري</title>
+  <meta name="description" content="كتاب «البشارة بنبي الإسلام في كتب اليهود والنصارى» للدكتور سامي عامري (الطبعة الثانية ١٤٤٣هـ/٢٠٢١م) — النص الكامل في ٢٠ فصلاً، مع فهرس وبحث فوري وتلوين وتنقّل، ويعمل دون اتصال.">
+  <meta name="theme-color" content="#0f5c5a">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="البشارة">
+  <link rel="stylesheet" href="./fonts.css?v=1">
+  <link rel="stylesheet" href="./style.css?v=3">
+  <script id="themeBoot">
+    (function () {
+      var t = 'light';
+      try {
+        t = localStorage.getItem('bishara_theme') ||
+          (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+      try {
+        var fs = localStorage.getItem('bishara_font');
+        if (fs) document.documentElement.style.setProperty('--content-font-size', fs + 'rem');
+      } catch (e) {}
+      var lg = 'ar';
+      try { lg = localStorage.getItem('bishara_lang') || 'ar'; } catch (e) {}
+      if (lg !== 'ar') {
+        document.documentElement.setAttribute('lang', lg);
+        document.documentElement.setAttribute('dir', 'ltr');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <div id="progressBar" aria-hidden="true"></div>
+
+  <header>
+    <button id="tocToggle" aria-label="فتح الفهرس" title="الفهرس" data-i18n-title="ui.tocOpen">☰</button>
+    <div class="brand">
+      <h1 data-i18n="ui.brand1">📖 البشارة بنبي الإسلام</h1>
+      <p data-i18n="ui.brand2">في كتب اليهود والنصارى — د. سامي عامري</p>
+    </div>
+    <div class="lang-switch">
+      <button id="langToggle" aria-label="اللغة" title="اللغة" data-i18n-title="ui.langLabel">🇲🇦</button>
+      <div id="langMenu" class="lang-menu" hidden>
+        <button type="button" data-lang="ar">🇲🇦 العربية</button>
+        <button type="button" data-lang="en">🇬🇧 English</button>
+        <button type="button" data-lang="fr">🇫🇷 Français</button>
+        <button type="button" data-lang="es">🇪🇸 Español</button>
+      </div>
+    </div>
+    <button id="themeToggle" aria-label="تبديل الوضع النهاري/الليلي" title="تبديل الوضع النهاري/الليلي" data-i18n-title="ui.themeToggle">🌙</button>
+  </header>
+
+  <div id="drawer" class="drawer" hidden>
+    <div class="drawer-panel">
+      <div class="drawer-head">
+        <strong data-i18n="ui.toc">الفهرس</strong>
+        <button id="drawerClose" aria-label="إغلاق" title="إغلاق" data-i18n-title="ui.close">✕</button>
+      </div>
+      <input id="drawerFilter" type="search" placeholder="ابحث عن فصل…" data-i18n-placeholder="ui.filterChap" autocomplete="off">
+      <div id="drawerList" class="drawer-list"></div>
+    </div>
+  </div>
+
+  <main id="app" aria-live="polite"></main>
+
+  <footer>
+    <p data-i18n-html="ui.footer1">📖 <b>البشارة بنبي الإسلام في كتب اليهود والنصارى</b> — د. سامي عامري، الطبعة الثانية ١٤٤٣هـ / ٢٠٢١م، مركز تكوين. النص الكامل في ٢٠ فصلاً.</p>
+    <p data-i18n="ui.footer2">يُعرض النص كما هو في المصدر دون زيادة أو نقصان.</p>
+  </footer>
+
+  <button id="toTop" aria-label="العودة إلى الأعلى" title="إلى الأعلى" data-i18n-title="ui.toTop" data-i18n-aria="ui.toTopAria" hidden>↑</button>
+
+  <script src="./locales/ar.js"></script>
+  <script src="./locales/en.js"></script>
+  <script src="./locales/fr.js"></script>
+  <script src="./locales/es.js"></script>
+  <script src="./app.js"></script>
+  <script data-app-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+  <script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+</body>
+</html>

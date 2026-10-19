@@ -16,6 +16,108 @@ try { fontSize = parseFloat(localStorage.getItem('bishara_font')) || 1; } catch 
 
 const ALLOWED = { b: 1, i: 1, em: 1, strong: 1, ul: 1, ol: 1, li: 1, blockquote: 1, br: 1 };
 
+const LANGS = ['ar', 'en', 'fr', 'es'];
+let lang = 'ar';
+try {
+  const stored = localStorage.getItem('bishara_lang');
+  if (stored && LANGS.indexOf(stored) !== -1) lang = stored;
+} catch (e) {}
+
+function lookup(dict, keyPath) {
+  const parts = keyPath.split('.');
+  let v = dict;
+  for (let i = 0; i < parts.length; i++) {
+    if (v && typeof v === 'object' && parts[i] in v) v = v[parts[i]];
+    else return undefined;
+  }
+  return v;
+}
+function t(keyPath) {
+  const L = window.LOCALES || {};
+  const v = lookup(L[lang], keyPath);
+  if (typeof v === 'string') return v;
+  const d = lookup(L.ar, keyPath);
+  return typeof d === 'string' ? d : keyPath;
+}
+function tsub(keyPath, vars) {
+  let s = t(keyPath);
+  Object.keys(vars || {}).forEach(k => { s = s.split('{' + k + '}').join(String(vars[k])); });
+  return s;
+}
+function fmtNum(n) {
+  return lang === 'ar' ? toArabicDigits(n) : String(n);
+}
+function applyDocumentLang() {
+  const m = ((window.LOCALES || {})[lang] || {}).meta || {};
+  document.documentElement.setAttribute('lang', m.lang || lang);
+  document.documentElement.setAttribute('dir', m.dir || (lang === 'ar' ? 'rtl' : 'ltr'));
+  const h = ((window.LOCALES || {})[lang] || {}).html || {};
+  if (h.title) document.title = h.title;
+  const md = document.querySelector('meta[name="description"]');
+  if (md && h.description) md.setAttribute('content', h.description);
+}
+function applyStaticI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n-title'));
+    el.title = v;
+    el.setAttribute('aria-label', v);
+  });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  applyDocumentLang();
+}
+function setupLangSwitch() {
+  const toggle = document.getElementById('langToggle');
+  const menu = document.getElementById('langMenu');
+  if (!toggle || !menu) return;
+  const sync = () => {
+    const m = ((window.LOCALES || {})[lang] || {}).meta || {};
+    toggle.textContent = m.flag || '🌐';
+    toggle.title = t('ui.langLabel');
+    toggle.setAttribute('aria-label', t('ui.langLabel'));
+    menu.querySelectorAll('button[data-lang]').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+  };
+  window._syncLangUI = sync;
+  sync();
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.hidden = !menu.hidden;
+  });
+  menu.querySelectorAll('button[data-lang]').forEach(b => {
+    b.addEventListener('click', () => {
+      menu.hidden = true;
+      setLanguage(b.getAttribute('data-lang'));
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== toggle) menu.hidden = true;
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) { menu.hidden = true; toggle.focus(); }
+  });
+}
+function setLanguage(next) {
+  if (!next || LANGS.indexOf(next) === -1 || next === lang) return;
+  lang = next;
+  try { localStorage.setItem('bishara_lang', lang); } catch (e) {}
+  applyStaticI18n();
+  if (window._syncLangUI) window._syncLangUI();
+  const d = document.getElementById('drawer');
+  if (d && !d.hidden) {
+    const f = document.getElementById('drawerFilter');
+    renderDrawerList(f ? f.value : '');
+  }
+  if (BOOK) route();
+}
+
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
@@ -133,9 +235,9 @@ function applyFontSize() {
 }
 function fontControlsHTML() {
   return '<span class="font-row">' +
-    '<button type="button" id="fontDec" title="تصغير الخط">A−</button>' +
-    '<button type="button" id="fontReset" title="الخط الافتراضي">A</button>' +
-    '<button type="button" id="fontInc" title="تكبير الخط">A+</button>' +
+    '<button type="button" id="fontDec" title="' + t('ui.fontDec') + '">A−</button>' +
+    '<button type="button" id="fontReset" title="' + t('ui.fontReset') + '">A</button>' +
+    '<button type="button" id="fontInc" title="' + t('ui.fontInc') + '">A+</button>' +
     '</span>';
 }
 function setupFontControls() {
@@ -207,7 +309,7 @@ function renderDrawerList(q) {
   if (nq) items = chapters.filter(ch => normalize(ch.title || '').indexOf(nq) !== -1);
   list.innerHTML = items.map(ch =>
     '<button type="button" data-id="' + ch.id + '">' +
-      '<span>' + toArabicDigits(ch.id) + '. ' + esc(ch.title || ('الفصل ' + ch.id)) + '</span>' +
+      '<span>' + fmtNum(ch.id) + '. ' + esc(ch.title || (t('ui.chapter') + ' ' + ch.id)) + '</span>' +
     '</button>').join('');
   list.querySelectorAll('button').forEach(b => {
     b.onclick = () => { currentQuery = ''; closeDrawer(); go('#chapter-' + b.dataset.id); };
@@ -234,7 +336,7 @@ function copyText(text, btn) {
   const done = () => {
     if (!btn) return;
     const old = btn.textContent;
-    btn.textContent = '✓ تم النسخ';
+    btn.textContent = t('ui.copied');
     btn.classList.add('copied');
     setTimeout(() => {
       if (btn.isConnected) { btn.textContent = old; btn.classList.remove('copied'); }
@@ -244,7 +346,7 @@ function copyText(text, btn) {
     const ta = document.createElement('textarea');
     ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) { if (btn) { const old = btn.textContent; btn.textContent = '⚠️ تعذّر النسخ'; setTimeout(() => { if (btn.isConnected) btn.textContent = old; }, 1600); } }
+    try { document.execCommand('copy'); done(); } catch (e) { if (btn) { const old = btn.textContent; btn.textContent = t('ui.copyFail'); setTimeout(() => { if (btn.isConnected) btn.textContent = old; }, 1600); } }
     document.body.removeChild(ta);
   };
   if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
@@ -268,9 +370,9 @@ function paintMarks(scroll) {
     const m = occMarks[occCur];
     m.classList.add('hl-cur');
     if (scroll) m.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    if (cEl) cEl.textContent = toArabicDigits(occCur + 1) + ' / ' + toArabicDigits(occMarks.length);
+    if (cEl) cEl.textContent = fmtNum(occCur + 1) + ' / ' + fmtNum(occMarks.length);
   } else if (cEl) {
-    cEl.textContent = normalize(currentQuery) ? '٠ / ٠' : '';
+    cEl.textContent = normalize(currentQuery) ? fmtNum(0) + ' / ' + fmtNum(0) : '';
   }
 }
 function goOcc(delta) {
@@ -296,26 +398,26 @@ function renderReader(id) {
   const app = document.getElementById('app');
   app.innerHTML =
     '<div class="topnav">' + fontControlsHTML() +
-      '<button id="copyBtn" type="button">📋 نسخ الفصل</button>' +
-      '<button id="homeBtn" type="button">🏠 الفهرس</button>' +
-      '<button id="tocOpenBtn" type="button">☰ فهرس</button>' +
+      '<button id="copyBtn" type="button">' + t('ui.copyChapter') + '</button>' +
+      '<button id="homeBtn" type="button">' + t('ui.home') + '</button>' +
+      '<button id="tocOpenBtn" type="button">' + t('ui.tocBtn') + '</button>' +
     '</div>' +
     '<div class="searchbar">' +
-      '<input id="chapSearch" type="search" placeholder="ابحث في هذا الفصل…" value="' + esc(currentQuery) + '" autocomplete="off">' +
-      '<span class="counter" id="occCount">' + (nq ? '٠ / ٠' : '') + '</span>' +
-      '<button type="button" class="navbtn" id="occPrev" title="النتيجة السابقة">▲</button>' +
-      '<button type="button" class="navbtn" id="occNext" title="النتيجة التالية">▼</button>' +
-      '<button type="button" class="clearbtn" id="clearSearch" title="مسح البحث">✕</button>' +
+      '<input id="chapSearch" type="search" placeholder="' + esc(t('ui.searchChap')) + '" value="' + esc(currentQuery) + '" autocomplete="off">' +
+      '<span class="counter" id="occCount">' + (nq ? fmtNum(0) + ' / ' + fmtNum(0) : '') + '</span>' +
+      '<button type="button" class="navbtn" id="occPrev" title="' + esc(t('ui.prevOcc')) + '">▲</button>' +
+      '<button type="button" class="navbtn" id="occNext" title="' + esc(t('ui.nextOcc')) + '">▼</button>' +
+      '<button type="button" class="clearbtn" id="clearSearch" title="' + esc(t('ui.clearSearch')) + '">✕</button>' +
     '</div>' +
     '<div class="card" id="chapterCard">' +
       '<p class="kicker">' + esc((partOf(ch) || {}).title || '') + '</p>' +
-      '<h2>' + toArabicDigits(id) + '. ' + esc(ch.title || ('الفصل ' + id)) + '</h2>' +
+      '<h2>' + fmtNum(id) + '. ' + esc(ch.title || (t('ui.chapter') + ' ' + id)) + '</h2>' +
       '<div class="chbody">' + body + '</div>' +
     '</div>' +
     '<div class="pager">' +
-      '<button id="prevBtn"' + (prev ? '' : ' disabled') + '>→ السابق</button>' +
-      '<span>' + toArabicDigits(idx + 1) + ' / ' + toArabicDigits(chapters.length) + '</span>' +
-      '<button id="nextBtn"' + (next ? '' : ' disabled') + '>التالي ←</button>' +
+      '<button id="prevBtn"' + (prev ? '' : ' disabled') + '>' + t('ui.prev') + '</button>' +
+      '<span>' + fmtNum(idx + 1) + ' / ' + fmtNum(chapters.length) + '</span>' +
+      '<button id="nextBtn"' + (next ? '' : ' disabled') + '>' + t('ui.next') + '</button>' +
     '</div>';
 
   const card = document.getElementById('chapterCard');
@@ -357,7 +459,7 @@ function renderHome() {
   try { resume = localStorage.getItem('bishara_last'); } catch (e) {}
   const resumeCh = chapters.find(c => String(c.id) === resume);
   const resumeBtn = resumeCh
-    ? '<button id="resumeBtn" type="button">↩️ متابعة القراءة — ' + toArabicDigits(resumeCh.id) + '. ' + esc(resumeCh.title) + '</button>' : '';
+    ? '<button id="resumeBtn" type="button">' + t('ui.resume') + ' — ' + fmtNum(resumeCh.id) + '. ' + esc(resumeCh.title) + '</button>' : '';
 
   const total = chapters.length;
   const tocByPart = parts.map(p => {
@@ -368,20 +470,20 @@ function renderHome() {
       '<div class="toc">' +
         items.map(ch =>
           '<button type="button" class="toc-item" data-id="' + ch.id + '">' +
-            '<span class="num">' + toArabicDigits(ch.id) + '</span><span class="t">' + esc(ch.title || ('الفصل ' + ch.id)) + '</span>' +
+            '<span class="num">' + fmtNum(ch.id) + '</span><span class="t">' + esc(ch.title || (t('ui.chapter') + ' ' + ch.id)) + '</span>' +
           '</button>').join('') +
       '</div></div>';
   }).join('');
 
   app.innerHTML =
-    '<div class="topnav">' + fontControlsHTML() + resumeBtn + '<button id="tocOpenBtnHome" type="button">☰ فهرس</button></div>' +
+    '<div class="topnav">' + fontControlsHTML() + resumeBtn + '<button id="tocOpenBtnHome" type="button">' + t('ui.tocBtn') + '</button></div>' +
     '<div class="home">' +
-      '<h1>📖 ' + esc(meta.title || 'البشارة بنبي الإسلام') + '</h1>' +
-      '<p class="desc">' + esc(meta.author || '') + ' · ' + esc(meta.publisher || '') + ' · ' + esc(meta.edition || '') +
-        ' — النص الكامل في ' + toArabicDigits(total) + ' فصلاً. ابحث في الكتاب كله مع تلوين النتائج وعدّاد وتنقّل بين المواضع.</p>' +
+      '<h1>' + esc(t('ui.brand1')) + '</h1>' +
+      '<p class="desc">' + esc(t('ui.byline')) +
+        ' — ' + tsub('ui.desc', { n: fmtNum(total) }) + '</p>' +
       '<div class="searchbar">' +
-        '<input id="globalSearch" type="search" placeholder="ابحث في الكتاب كله…" autocomplete="off">' +
-        '<button type="button" class="clearbtn" id="clearGlobal" title="مسح">✕</button>' +
+        '<input id="globalSearch" type="search" placeholder="' + esc(t('ui.searchBook')) + '" autocomplete="off">' +
+        '<button type="button" class="clearbtn" id="clearGlobal" title="' + esc(t('ui.clear')) + '">✕</button>' +
       '</div>' +
       '<div class="results" id="searchResults" hidden></div>' +
       '<div id="tocWrap">' + tocByPart + '</div>' +
@@ -409,18 +511,19 @@ function renderHome() {
     const hits = globalSearch(nq);
     if (!hits.length) {
       resultsEl.hidden = false;
-      resultsEl.innerHTML = '<p class="empty">لا نتائج عن «' + esc(q) + '».</p>';
+      resultsEl.innerHTML = '<p class="empty">' + tsub('ui.noResults', { q: esc(q) }) + '</p>';
       return;
     }
     const shown = hits.slice(0, 150);
+    const chapterCount = new Set(hits.map(h => h.ci)).size;
     resultsEl.hidden = false;
     resultsEl.innerHTML =
-      '<p class="empty">تم العثور على ' + toArabicDigits(hits.length) + ' نتيجة في ' + toArabicDigits(new Set(hits.map(h => h.ci)).size) + ' فصلاً' +
-        (hits.length > shown.length ? ' (تُعرض أول ' + toArabicDigits(shown.length) + ')' : '') + ':</p>' +
+      '<p class="empty">' + tsub('ui.found', { n: fmtNum(hits.length), c: fmtNum(chapterCount) }) +
+        (hits.length > shown.length ? tsub('ui.foundShown', { s: fmtNum(shown.length) }) : '') + ':</p>' +
       shown.map((h, i) => {
         const ch = chapters[h.ci];
         return '<div class="result" tabindex="0" data-i="' + i + '">' +
-          '<div class="rtitle">' + toArabicDigits(ch.id) + ' — ' + esc(ch.title || ('الفصل ' + ch.id)) + '</div>' +
+          '<div class="rtitle">' + fmtNum(ch.id) + ' — ' + esc(ch.title || (t('ui.chapter') + ' ' + ch.id)) + '</div>' +
           '<div class="rsnip">' + snippet(h.text, nq) + '</div>' +
         '</div>';
       }).join('');
@@ -463,16 +566,18 @@ function renderError() {
   const app = document.getElementById('app');
   app.innerHTML =
     '<div class="home">' +
-      '<p class="empty">⚠️ تعذّر تحميل نص الكتاب. تحقّق من اتصالك ثم أعد المحاولة.</p>' +
-      '<p><button id="retryBtn" type="button" class="toc-item" style="display:inline-block">↻ إعادة المحاولة</button></p>' +
+      '<p class="empty">' + t('ui.loadError') + '</p>' +
+      '<p><button id="retryBtn" type="button" class="toc-item" style="display:inline-block">' + t('ui.retry') + '</button></p>' +
     '</div>';
   document.getElementById('retryBtn').onclick = () => init();
 }
 async function init() {
+  applyStaticI18n();
+  setupLangSwitch();
   setupTheme();
   setupProgress();
   const app = document.getElementById('app');
-  app.innerHTML = '<div class="home"><p class="empty">⏳ جارٍ تحميل نص الكتاب…</p></div>';
+  app.innerHTML = '<div class="home"><p class="empty">' + t('ui.loading') + '</p></div>';
 
   const tocToggle = document.getElementById('tocToggle');
   if (tocToggle) tocToggle.onclick = openDrawer;

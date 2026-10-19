@@ -1,0 +1,48 @@
+window.LOCALES = window.LOCALES || {};
+window.LOCALES.es = {
+  "meta": { "lang": "es", "dir": "ltr", "flag": "🇪🇸", "name": "Español" },
+  "html": {
+    "title": "Al-Bishara — La Buena Nueva del Profeta del Islam en los libros judíos y cristianos — Dr. Sami Amri",
+    "description": "El libro «Al-Bishara» del Dr. Sami Amri (2.ª edición, 1443/2021) — el texto completo en 20 capítulos, con índice, búsqueda instantánea, resaltado y navegación. Funciona sin conexión."
+  },
+  "ui": {
+    "tocOpen": "Índice",
+    "brand1": "📖 Al-Bishara — La Buena Nueva del Profeta del Islam",
+    "brand2": "En los libros judíos y cristianos — Dr. Sami Amri",
+    "themeToggle": "Cambiar modo claro/oscuro",
+    "toc": "Índice",
+    "close": "Cerrar",
+    "filterChap": "Buscar un capítulo…",
+    "footer1": "📖 <b>Al-Bishara — La Buena Nueva del Profeta del Islam en los libros judíos y cristianos</b> — Dr. Sami Amri, 2.ª edición, 1443 H / 2021, centro Takwin. Texto completo en 20 capítulos.",
+    "footer2": "El texto se muestra tal como aparece en la fuente, sin añadidos ni omisiones.",
+    "toTop": "Arriba",
+    "toTopAria": "Volver arriba",
+    "langLabel": "Idioma",
+    "fontDec": "Reducir el tamaño de letra",
+    "fontReset": "Tamaño predeterminado",
+    "fontInc": "Aumentar el tamaño de letra",
+    "copyChapter": "📋 Copiar capítulo",
+    "copied": "✓ Copiado",
+    "copyFail": "⚠️ No se pudo copiar",
+    "home": "🏠 Índice",
+    "tocBtn": "☰ Índice",
+    "searchChap": "Buscar en este capítulo…",
+    "prevOcc": "Resultado anterior",
+    "nextOcc": "Resultado siguiente",
+    "clearSearch": "Borrar búsqueda",
+    "prev": "← Anterior",
+    "next": "Siguiente →",
+    "resume": "↩️ Continuar la lectura",
+    "searchBook": "Buscar en todo el libro…",
+    "clear": "Borrar",
+    "noResults": "Sin resultados para «{q}».",
+    "found": "Se encontraron {n} resultados en {c} capítulos",
+    "foundShown": " (se muestran los primeros {s})",
+    "chapter": "Capítulo",
+    "loading": "⏳ Cargando el texto…",
+    "loadError": "⚠️ No se pudo cargar el texto. Compruebe su conexión e inténtelo de nuevo.",
+    "retry": "↻ Reintentar",
+    "byline": "Dr. Sami Amri · Centro Takwin · 2.ª edición, 1443 H / 2021",
+    "desc": "Texto completo en {n} capítulos. Busque en todo el libro con resultados resaltados, contador y navegación entre coincidencias."
+  }
+};

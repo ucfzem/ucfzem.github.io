@@ -1,12 +1,16 @@
-const CACHE = 'bishara-v1.0.2';
+const CACHE = 'bishara-v1.0.3';
 const CORE = [
   './',
   './index.html',
   './fonts.css?v=1',
-  './style.css?v=2',
+  './style.css?v=3',
   './app.js',
   './manifest.json',
   './data/chapters.json',
+  './locales/ar.js',
+  './locales/en.js',
+  './locales/fr.js',
+  './locales/es.js',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
