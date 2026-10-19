@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.21';
+const CACHE = 'works-v1.0.22';
 const CORE = [
   './',
   './index.html',
@@ -39,7 +39,9 @@ const CORE = [
   'https://ucfzem.github.io/musawa-qasas/icon.svg',
   'https://ucfzem.github.io/musawa-qasas/icon-192.png',
   'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg',
-  'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon-192.png'
+  'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon-192.png',
+  'https://ucfzem.github.io/al-bishara/icon.svg',
+  'https://ucfzem.github.io/al-bishara/icon-192.png'
 ];
 const CDN = [
   'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap'
