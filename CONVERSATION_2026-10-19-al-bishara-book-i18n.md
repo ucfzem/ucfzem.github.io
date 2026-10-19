@@ -68,3 +68,15 @@ authoritative and is the default.
 ## Backups
 
 - `backups/al-bishara-book-i18n-2026-10-19/` — verbatim copies of every changed file.
+
+## Addendum — honorific glossary fix (glose du début du livre)
+
+Machine translation rendered BOTH honorifics as "the Word of God" in `ch1/blk0`
+(`…عيسى كلمة الله، وموسى كليم الله…`). Corrected Moses (Jesus was already right):
+
+- en: `Moses, the Word of God` → **`Moses, to whom God spoke`**
+- fr: `Moïse, la Parole de Dieu` → **`Moïse, l'interlocuteur de Dieu`**
+- es: `Moisés, la Palabra de Dios` → **`Moisés, el interlocutor de Dios`**
+
+Added a `GLOSSARY`/`postfix()` step to `tools/translate-book.mjs` so re-runs keep the fix.
+SW bumped `bishara-v1.0.4 → v1.0.5`, root `DATA_MARKER v25 → v26`.

@@ -55,13 +55,26 @@ async function gtranslate(text, tl, attempt = 0) {
   }
 }
 
+// Fixed honorific renderings the machine translator gets wrong. Applied after
+// translation so regeneration is consistent. Jesus ("كلمة الله") is already
+// correct; Moses ("كليم الله") must NOT become "the Word of God".
+const GLOSSARY = {
+  en: [['Moses, the Word of God', 'Moses, to whom God spoke']],
+  fr: [['Moïse, la Parole de Dieu', "Moïse, l'interlocuteur de Dieu"]],
+  es: [['Moisés, la Palabra de Dios', 'Moisés, el interlocutor de Dios']]
+};
+function postfix(s, tl) {
+  (GLOSSARY[tl] || []).forEach(([a, b]) => { s = s.split(a).join(b); });
+  return s;
+}
+
 async function tr(text, tl) {
   if (!text || !ARABIC.test(text)) return text;
   if (text.trim().length <= 1) return text;
   const pieces = chunk(text);
   const out = [];
   for (const p of pieces) { out.push(await gtranslate(p, tl)); await sleep(DELAY_MS); }
-  return out.join(pieces.length > 1 && /[.،؛!؟]\s*$/.test(out[pieces.length - 1]) ? '' : ' ');
+  return postfix(out.join(pieces.length > 1 && /[.،؛!؟]\s*$/.test(out[pieces.length - 1]) ? '' : ' '), tl);
 }
 
 async function trHtml(html, tl) {
