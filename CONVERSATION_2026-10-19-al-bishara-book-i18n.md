@@ -80,3 +80,22 @@ Machine translation rendered BOTH honorifics as "the Word of God" in `ch1/blk0`
 
 Added a `GLOSSARY`/`postfix()` step to `tools/translate-book.mjs` so re-runs keep the fix.
 SW bumped `bishara-v1.0.4 → v1.0.5`, root `DATA_MARKER v25 → v26`.
+
+## Addendum 2 — offline raw-key fix (embedded fallback)
+
+Symptom: on an offline refresh, `app.js` ran but the `locales/*.js` scripts did not, so
+`t()` returned the literal key (`ui.brand1`, `ui.searchBook`, …) and rendered raw keys.
+
+Reproduced locally by aborting `**/locales/*.js` (brand showed `ui.brand1`).
+
+Fix (in `al-bishara/app.js`):
+- Embedded `EMBEDDED_LOCALES` (all 4 languages, generated from `locales/*.js`, 160 UI keys).
+- A `seedLocales()` IIFE runs at startup: fills `window.LOCALES[l]` from the loaded script,
+  else from `localStorage['bishara_dict_'+l]`, else from `EMBEDDED_LOCALES` — so keys can never
+  render raw and the flag/labels are always available.
+- On a normal load, each loaded dictionary is cached to `localStorage['bishara_dict_'+l]`.
+- Locale files (`locales/{ar,en,fr,es}.js`) were already in `al-bishara/sw.js` CORE (unchanged).
+
+Verified: with locale scripts blocked, all 4 languages show correct text/dir/flag and zero raw
+keys; suites `test-book-i18n` 21/21 and `test-i18n` 51/51 still pass.
+SW bumped `bishara-v1.0.5 → v1.0.6`, root `DATA_MARKER v26 → v27`.
