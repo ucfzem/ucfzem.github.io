@@ -1,7 +1,22 @@
-const CACHE = 'works-v1.0.22';
+const CACHE = 'works-v1.0.23';
 const CORE = [
   './',
   './index.html',
+  './fonts.css?v=1',
+  './fonts/cinzel-400-latin-ext.woff2',
+  './fonts/cinzel-400-latin.woff2',
+  './fonts/cinzel-700-latin-ext.woff2',
+  './fonts/cinzel-700-latin.woff2',
+  './fonts/inter-300-latin-ext.woff2',
+  './fonts/inter-300-latin.woff2',
+  './fonts/inter-400-latin-ext.woff2',
+  './fonts/inter-400-latin.woff2',
+  './fonts/inter-500-latin-ext.woff2',
+  './fonts/inter-500-latin.woff2',
+  './fonts/inter-600-latin-ext.woff2',
+  './fonts/inter-600-latin.woff2',
+  './fonts/inter-700-latin-ext.woff2',
+  './fonts/inter-700-latin.woff2',
   './assets/al-tibb-al-nabawi.svg',
   './assets/avatar.png',
   './assets/cv-icon.png',
@@ -43,17 +58,23 @@ const CORE = [
   'https://ucfzem.github.io/al-bishara/icon.svg',
   'https://ucfzem.github.io/al-bishara/icon-192.png'
 ];
-const CDN = [
-  'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap'
-];
+const CDN = [];
+
+function fetchTO(url, opts, ms = 8000) {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, Object.assign({}, opts, { signal: c.signal })).finally(() => clearTimeout(t));
+}
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await Promise.all(CORE.map((u) => cache.add(u).catch(() => {})));
+    await Promise.all(CORE.map((u) => fetchTO(u).then((r) => {
+      if (r && (r.ok || r.type === 'opaque')) return cache.put(u, r);
+    }).catch(() => {})));
     await Promise.all(CDN.map((u) =>
-      fetch(u, { mode: 'no-cors' }).then((r) => { if (r) return cache.put(u, r); }).catch(() => {})
+      fetchTO(u, { mode: 'no-cors' }).then((r) => { if (r) return cache.put(u, r); }).catch(() => {})
     ));
   })());
 });

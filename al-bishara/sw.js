@@ -25,14 +25,24 @@ const CORE = [
 ];
 const CDN = [];
 
+function fetchTO(url, opts, ms = 8000) {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, Object.assign({}, opts, { signal: c.signal })).finally(() => clearTimeout(t));
+}
+
 async function precacheAll(cache, urls, concurrency = 4) {
   let i = 0;
   const worker = async () => {
     while (i < urls.length) {
       const u = urls[i++];
-      try { await cache.add(u); }
+      const put = async () => {
+        const r = await fetchTO(u);
+        if (r && (r.ok || r.type === 'opaque')) await cache.put(u, r);
+      };
+      try { await put(); }
       catch (e) {
-        try { await new Promise((r) => setTimeout(r, 300)); await cache.add(u); } catch (_) {}
+        try { await new Promise((r) => setTimeout(r, 300)); await put(); } catch (_) {}
       }
     }
   };

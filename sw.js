@@ -107,13 +107,30 @@ const CDN = [
 ];
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
 
+// Bounded fetch: a single stalled TCP connection (flaky network, captive
+// portal) must never hang install/prefetch forever.
+function fetchTO(url, opts, ms = 8000) {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, Object.assign({}, opts, { signal: c.signal })).finally(() => clearTimeout(t));
+}
+
 async function precache(cache, urls, concurrency = 4) {
   let i = 0;
   const worker = async () => {
     while (i < urls.length) {
       const u = urls[i++];
-      try { await cache.add(u); }
-      catch (e) { try { await new Promise((r) => setTimeout(r, 300)); await cache.add(u); } catch (_) {} }
+      try {
+        const r = await fetchTO(u);
+        if (r && (r.ok || r.type === 'opaque')) await cache.put(u, r);
+      }
+      catch (e) {
+        try {
+          await new Promise((r) => setTimeout(r, 300));
+          const r2 = await fetchTO(u);
+          if (r2 && (r2.ok || r2.type === 'opaque')) await cache.put(u, r2);
+        } catch (_) {}
+      }
     }
   };
   await Promise.all(Array.from({ length: concurrency }, worker));
@@ -121,7 +138,7 @@ async function precache(cache, urls, concurrency = 4) {
 
 async function cacheOpaque(cache, url) {
   for (let t = 0; t < 3; t++) {
-    try { const r = await fetch(url, { mode: 'no-cors' }); if (r) { await cache.put(url, r); } return; }
+    try { const r = await fetchTO(url, { mode: 'no-cors' }); if (r) { await cache.put(url, r); } return; }
     catch (e) { await new Promise((r) => setTimeout(r, 300)); }
   }
 }
@@ -131,7 +148,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v22';
+const DATA_MARKER = '/__bookdata-v23';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
@@ -174,7 +191,7 @@ async function cacheCross(cache, url) {
 // fonts/icons work offline from a works-only visit, without opening the app.
 async function syncAppSW(shell, cdn, s) {
   try {
-    const r = await fetch('/' + s + '/sw.js', { cache: 'no-store' });
+    const r = await fetchTO('/' + s + '/sw.js', { cache: 'no-store' });
     if (!r || !r.ok) return;
     const txt = await r.text();
     const locals = assetRefs(txt, s);
@@ -192,7 +209,7 @@ async function syncAppSW(shell, cdn, s) {
 // online. Opaque CSS alone is not enough (fonts need CORS responses).
 async function cacheFontFiles(cdn, cssUrl) {
   try {
-    const r = await fetch(cssUrl, { mode: 'cors' });
+    const r = await fetchTO(cssUrl, { mode: 'cors' });
     if (!r || !r.ok) return;
     await cdn.put(cssUrl, r.clone());
     const txt = await r.text();
@@ -204,7 +221,7 @@ async function cacheFontFiles(cdn, cssUrl) {
 
 async function cacheAppData(shell, cdn, s) {
   try {
-    const r = await fetch('/' + s + '/data/manifest.json', { cache: 'no-store' });
+    const r = await fetchTO('/' + s + '/data/manifest.json', { cache: 'no-store' });
     if (r && r.ok) {
       const man = await r.clone().json();
       await shell.put('/' + s + '/data/manifest.json', r);
@@ -212,7 +229,7 @@ async function cacheAppData(shell, cdn, s) {
     }
   } catch (e) {}
   try {
-    const r = await fetch('/' + s + '/data/index.json', { cache: 'no-store' });
+    const r = await fetchTO('/' + s + '/data/index.json', { cache: 'no-store' });
     if (r && r.ok) {
       const list = await r.clone().json();
       await shell.put('/' + s + '/data/index.json', r);
@@ -221,7 +238,7 @@ async function cacheAppData(shell, cdn, s) {
     }
   } catch (e) {}
   try {
-    const r = await fetch('/' + s + '/manifest.json', { cache: 'no-store' });
+    const r = await fetchTO('/' + s + '/manifest.json', { cache: 'no-store' });
     if (r && r.ok) {
       const man = await r.clone().json();
       await shell.put('/' + s + '/manifest.json', r);
@@ -232,7 +249,7 @@ async function cacheAppData(shell, cdn, s) {
     }
   } catch (e) {}
   try {
-    const r = await fetch('/' + s + '/index.html', { cache: 'no-store' });
+    const r = await fetchTO('/' + s + '/index.html', { cache: 'no-store' });
     if (r && r.ok) await precache(shell, assetRefs(await r.text(), s), 6);
   } catch (e) {}
   await syncAppSW(shell, cdn, s);
