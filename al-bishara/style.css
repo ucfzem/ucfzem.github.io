@@ -5,6 +5,7 @@
   --ink: #2c2c2c;
   --muted: #6b7280;
   --green: #2e6f40;
+  --title: #2e6f40;
   --green-soft: #e6f0e8;
   --line: #e6e0d6;
   --header-text: #ffffff;
@@ -21,6 +22,7 @@
   --ink: #e2e8f0;
   --muted: #94a3b8;
   --green: #48bb78;
+  --title: #86efac;
   --green-soft: #1f2b24;
   --line: #2d3748;
   --header-text: #f0fff4;
@@ -114,7 +116,7 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
   border-inline-start: 4px solid var(--green);
   border-radius: 10px; padding: 20px 24px; margin-bottom: 16px;
 }
-.card h2 { margin: 0 0 6px; font-size: 1.35rem; color: var(--green); line-height: 1.5; }
+.card h2 { margin: 0 0 6px; font-size: 1.35rem; color: var(--title); line-height: 1.5; }
 .card .sub { color: var(--muted); font-size: .95rem; margin: 0 0 12px; font-family: 'Amiri', serif; }
 .kicker { font-size: .8rem; color: var(--muted); margin-bottom: 4px; }
 .card p {
@@ -135,9 +137,9 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
 .pager button:disabled { opacity: .35; cursor: default; }
 .pager span { align-self: center; font-size: .85rem; color: var(--muted); }
 .home { text-align: center; padding: 8px 4px 20px; }
-.home h1 { color: var(--green); font-size: 1.8rem; margin: .2em 0; }
+.home h1 { color: var(--title); font-size: 1.8rem; margin: .2em 0; }
 .home .desc { max-width: 700px; margin: 12px auto; font-size: .97rem; text-align: justify; color: var(--ink); }
-.home h2 { font-size: 1.15rem; color: var(--green); margin-top: 22px; }
+.home h2 { font-size: 1.15rem; color: var(--title); margin-top: 22px; }
 .quicklinks { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
 .quicklinks button {
   font-family: inherit; font-size: .85rem; cursor: pointer;
@@ -156,7 +158,7 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
   color: var(--ink); font-size: .92rem;
 }
 .toc-item:hover { background: var(--green); color: #fff; }
-.toc-item .num { color: var(--green); font-weight: bold; font-size: .8rem; flex-shrink: 0; }
+.toc-item .num { color: var(--title); font-weight: bold; font-size: .8rem; flex-shrink: 0; }
 .toc-item:hover .num { color: #fff; }
 .toc-item .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .results { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; text-align: start; max-height: 60vh; overflow-y: auto; }
@@ -165,7 +167,7 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
   padding: 10px 14px; cursor: pointer; color: var(--ink); text-align: start;
 }
 .result:hover { border-color: var(--green); }
-.result .rtitle { font-weight: bold; color: var(--green); font-size: .9rem; }
+.result .rtitle { font-weight: bold; color: var(--title); font-size: .9rem; }
 .result .rsnip { font-family: 'Amiri', serif; font-size: 1.05rem; color: var(--ink); margin-top: 4px; line-height: 1.9; }
 mark.search-highlight, mark.hl { background: var(--hl); color: var(--hl-ink); border-radius: 3px; padding: 0 1px; }
 mark.hl.hl-cur { background: var(--hl-cur); box-shadow: 0 0 0 2px var(--focus); }
@@ -192,7 +194,7 @@ footer {
   box-shadow: 2px 0 14px rgba(0,0,0,.25);
 }
 .drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.drawer-head strong { color: var(--green); font-size: 1.05rem; }
+.drawer-head strong { color: var(--title); font-size: 1.05rem; }
 #drawerClose { background: var(--panel); border: 1px solid var(--line); border-radius: 7px; width: 36px; height: 36px; cursor: pointer; color: var(--ink); font-size: 1rem; }
 #drawerFilter { font-family: inherit; font-size: .95rem; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); margin-bottom: 8px; }
 .drawer-list { overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
@@ -223,7 +225,7 @@ footer {
 /* --- bishara additions --- */
 .chbody h3 {
   font-size: calc(var(--content-font-size, 1rem) * 1.12);
-  color: var(--green); margin: 1.2em 0 .5em; line-height: 1.6;
+  color: var(--title); margin: 1.2em 0 .5em; line-height: 1.6;
   font-family: 'Cairo', 'Segoe UI', sans-serif; font-weight: 700;
 }
 .chbody ul, .chbody ol { padding-inline-start: 1.6em; margin: 0 0 .8em; }
@@ -239,10 +241,10 @@ footer {
   font-family: 'Amiri', serif; font-size: calc(var(--content-font-size, 1rem) * 1.12);
   line-height: 2.1; text-align: justify;
 }
-.chbody b { color: var(--green); }
+.chbody b { color: var(--title); }
 .part-block { margin-bottom: 18px; text-align: start; }
 .part-block h3 {
-  font-size: 1.02rem; color: var(--green); margin: 20px 0 8px;
+  font-size: 1.02rem; color: var(--title); margin: 20px 0 8px;
   border-bottom: 2px solid var(--line); padding-bottom: 6px;
 }
 .mt-note {
