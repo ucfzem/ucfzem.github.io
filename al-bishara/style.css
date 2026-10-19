@@ -245,3 +245,10 @@ footer {
   font-size: 1.02rem; color: var(--green); margin: 20px 0 8px;
   border-bottom: 2px solid var(--line); padding-bottom: 6px;
 }
+.mt-note {
+  margin: 6px 0 10px; padding: 7px 12px; border-radius: 8px; font-size: .82rem;
+  background: var(--green-soft); color: var(--ink); border-inline-start: 3px solid var(--green);
+}
+.mt-note.warn { background: #fff3cd; border-inline-start-color: #e0a800; color: #6b5300; }
+[data-theme="dark"] .mt-note.warn { background: #3a3320; color: #f0d98a; }
+@media print { .mt-note { display: none; } }

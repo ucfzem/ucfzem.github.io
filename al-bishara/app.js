@@ -1,7 +1,14 @@
 'use strict';
 
 const DATA_URL = './data/chapters.json';
+const LANG_DATA_URL = {
+  en: './data/chapters.en.json',
+  fr: './data/chapters.fr.json',
+  es: './data/chapters.es.json'
+};
 let BOOK = null;
+const bookCache = {};
+let appliedLang = 'ar';
 let meta = {};
 let parts = [];
 let chapters = [];
@@ -115,7 +122,12 @@ function setLanguage(next) {
     const f = document.getElementById('drawerFilter');
     renderDrawerList(f ? f.value : '');
   }
-  if (BOOK) route();
+  if (!BOOK) return;
+  const show = () => { applyBook(bookCache[lang] || bookCache.ar, lang); route(); };
+  if (bookCache[lang]) { show(); return; }
+  const app = document.getElementById('app');
+  if (app) app.innerHTML = '<div class="home"><p class="empty">' + t('ui.loading') + '</p></div>';
+  ensureLang(lang).then(show);
 }
 
 function esc(s) {
@@ -143,7 +155,7 @@ function normalize(s) {
   return String(s)
     .replace(/\u0640+/g, '')
     .replace(/\u064B|\u064C|\u064D|\u064E|\u064F|\u0650|\u0651|\u0652|\u0670/g, '')
-    .replace(/[^\u0621-\u064A\u0660-\u0669\u06F0-\u06F9\u0041-\u005A\u0061-\u007A\s]/g, '')
+    .replace(/[^\u0621-\u064A\u0660-\u0669\u06F0-\u06F9\u0041-\u005A\u0061-\u007A\u00C0-\u024F\u0080-\u00FF\s]/g, '')
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase();
@@ -250,20 +262,42 @@ function setupFontControls() {
 }
 applyFontSize();
 
-async function loadData() {
+function applyBook(data, l) {
+  meta = (data && data.meta) || meta || {};
+  parts = (data && data.parts) || [];
+  chapters = (data && data.chapters) || [];
+  chapters.forEach(ch => { ch._text = (ch.blocks || []).map(stripTags).join('\n'); });
+  appliedLang = l || 'ar';
+  flat = null;
+  occMarks = []; occCur = -1;
+}
+async function fetchBook(url) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), 25000);
   try {
-    const res = await fetch(DATA_URL, { signal: ctrl.signal, cache: 'no-cache' });
+    const res = await fetch(url, { signal: ctrl.signal, cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    BOOK = await res.json();
-    meta = BOOK.meta || {};
-    parts = BOOK.parts || [];
-    chapters = BOOK.chapters || [];
-    if (!chapters.length) throw new Error('empty');
-    chapters.forEach(ch => { ch._text = (ch.blocks || []).map(stripTags).join('\n'); });
-    flat = null;
+    const j = await res.json();
+    if (!j || !j.chapters || !j.chapters.length) throw new Error('empty');
+    return j;
   } finally { clearTimeout(timer); }
+}
+async function ensureLang(l) {
+  if (bookCache[l]) return bookCache[l];
+  if (l === 'ar' || !LANG_DATA_URL[l]) return bookCache.ar || BOOK;
+  try {
+    const j = await fetchBook(LANG_DATA_URL[l]);
+    j._translated = true;
+    bookCache[l] = j;
+    return j;
+  } catch (e) {
+    return bookCache.ar || BOOK;
+  }
+}
+async function loadData() {
+  BOOK = await fetchBook(DATA_URL);
+  bookCache.ar = BOOK;
+  applyBook(await ensureLang(lang), lang);
 }
 function buildFlat() {
   if (flat) return flat;
@@ -384,6 +418,11 @@ function goOcc(delta) {
 function partOf(ch) {
   return parts.find(p => p.id === ch.part);
 }
+function translationNoteHTML() {
+  if (lang === 'ar') return '';
+  if (appliedLang === 'ar') return '<p class="mt-note warn">🌐 ' + esc(t('ui.mtUnavailable')) + '</p>';
+  return '<p class="mt-note">🌐 ' + esc(t('ui.mtNote')) + '</p>';
+}
 function renderReader(id) {
   const idx = chapters.findIndex(c => c.id === id);
   const ch = chapters[idx];
@@ -402,6 +441,7 @@ function renderReader(id) {
       '<button id="homeBtn" type="button">' + t('ui.home') + '</button>' +
       '<button id="tocOpenBtn" type="button">' + t('ui.tocBtn') + '</button>' +
     '</div>' +
+    translationNoteHTML() +
     '<div class="searchbar">' +
       '<input id="chapSearch" type="search" placeholder="' + esc(t('ui.searchChap')) + '" value="' + esc(currentQuery) + '" autocomplete="off">' +
       '<span class="counter" id="occCount">' + (nq ? fmtNum(0) + ' / ' + fmtNum(0) : '') + '</span>' +
@@ -481,6 +521,7 @@ function renderHome() {
       '<h1>' + esc(t('ui.brand1')) + '</h1>' +
       '<p class="desc">' + esc(t('ui.byline')) +
         ' — ' + tsub('ui.desc', { n: fmtNum(total) }) + '</p>' +
+      translationNoteHTML() +
       '<div class="searchbar">' +
         '<input id="globalSearch" type="search" placeholder="' + esc(t('ui.searchBook')) + '" autocomplete="off">' +
         '<button type="button" class="clearbtn" id="clearGlobal" title="' + esc(t('ui.clear')) + '">✕</button>' +

@@ -43,6 +43,8 @@ window.LOCALES.en = {
     "loadError": "⚠️ Could not load the book text. Check your connection and try again.",
     "retry": "↻ Try again",
     "byline": "Dr. Sami Amri · Takwin Center · 2nd edition, 1443 AH / 2021 CE",
+    "mtNote": "Machine translation — the Arabic original is authoritative.",
+    "mtUnavailable": "Translation not available yet — showing the Arabic original.",
     "desc": "The complete text in {n} chapters. Search the whole book with highlighted results, a counter, and navigation between matches."
   }
 };

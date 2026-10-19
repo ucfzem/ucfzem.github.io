@@ -1,4 +1,4 @@
-const CACHE = 'bishara-v1.0.3';
+const CACHE = 'bishara-v1.0.4';
 const CORE = [
   './',
   './index.html',
@@ -7,6 +7,9 @@ const CORE = [
   './app.js',
   './manifest.json',
   './data/chapters.json',
+  './data/chapters.en.json',
+  './data/chapters.fr.json',
+  './data/chapters.es.json',
   './locales/ar.js',
   './locales/en.js',
   './locales/fr.js',

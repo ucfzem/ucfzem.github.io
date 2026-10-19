@@ -43,6 +43,8 @@ window.LOCALES.fr = {
     "loadError": "⚠️ Impossible de charger le texte. Vérifiez votre connexion puis réessayez.",
     "retry": "↻ Réessayer",
     "byline": "Dr Sami Amri · Centre Takwin · 2ᵉ édition, 1443 H / 2021",
+    "mtNote": "Traduction automatique — le texte arabe original fait foi.",
+    "mtUnavailable": "Traduction indisponible — affichage de l'original arabe.",
     "desc": "Texte intégral en {n} chapitres. Recherchez dans tout le livre avec résultats surlignés, compteur et navigation entre les occurrences."
   }
 };
