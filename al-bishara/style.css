@@ -38,7 +38,7 @@ body {
   flex-direction: column;
   background: var(--bg);
   color: var(--ink);
-  font-family: "Cairo", "Tajawal", "Segoe UI", "Tahoma", sans-serif;
+  font-family: "Cairo", "Segoe UI", "Tahoma", "Geeza Pro", "Noto Naskh Arabic", sans-serif;
   line-height: 1.9;
 }
 #progressBar {
@@ -209,7 +209,7 @@ footer {
 .chbody h3 {
   font-size: calc(var(--content-font-size, 1rem) * 1.12);
   color: var(--green); margin: 1.2em 0 .5em; line-height: 1.6;
-  font-family: 'Cairo', 'Tajawal', sans-serif; font-weight: 700;
+  font-family: 'Cairo', 'Segoe UI', sans-serif; font-weight: 700;
 }
 .chbody ul, .chbody ol { padding-inline-start: 1.6em; margin: 0 0 .8em; }
 .chbody li {
