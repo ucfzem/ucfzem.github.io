@@ -148,7 +148,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v29';
+const DATA_MARKER = '/__bookdata-v30';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
@@ -366,12 +366,19 @@ self.addEventListener('fetch', (event) => {
   }
 
   // ---- same-origin asset under an app path (icons, manifest, data) ----
-  event.respondWith(
-    caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((hit) =>
-      hit || fetch(req).then((res) => {
-        if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put(req, res.clone()));
-        return res;
-      })
-    ).catch(() => caches.match(req, { ignoreSearch: true }).then((h) => h || fetch(req)))
-  );
+  // Exact-match first (so a versioned asset like style.css?v=4 is not silently
+  // served a stale style.css?v=3), then revalidate from the network in the
+  // background so the mirror converges; fall back to a loose match offline.
+  event.respondWith((async () => {
+    const cache = await caches.open(SHELL_CACHE);
+    const exact = await cache.match(req);
+    const stale = exact || await cache.match(req, { ignoreSearch: true });
+    const network = fetch(req).then((res) => {
+      if (res && res.ok) cache.put(req, res.clone());
+      return res;
+    });
+    if (stale) { network.catch(() => {}); return stale; }
+    try { return await network; }
+    catch (e) { return cache.match(req, { ignoreSearch: true }); }
+  })());
 });

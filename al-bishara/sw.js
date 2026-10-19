@@ -1,4 +1,4 @@
-const CACHE = 'bishara-v1.0.8';
+const CACHE = 'bishara-v1.0.9';
 const CORE = [
   './',
   './index.html',
@@ -103,7 +103,7 @@ self.addEventListener('fetch', (event) => {
       fetch(req).then((res) => {
         caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
-      }).catch(() => caches.match(req))
+      }).catch(() => caches.match(req).then((h) => h || caches.match(req, { ignoreSearch: true })))
     );
     return;
   }
