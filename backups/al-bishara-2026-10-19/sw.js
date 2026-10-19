@@ -1,18 +1,29 @@
-const CACHE = 'bishara-v1.0.0';
+const CACHE = 'bishara-v1.0.2';
 const CORE = [
   './',
   './index.html',
-  './style.css',
+  './fonts.css?v=1',
+  './style.css?v=2',
   './app.js',
   './manifest.json',
   './data/chapters.json',
   './icon.svg',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './fonts/amiri-400-arabic.woff2',
+  './fonts/amiri-400-latin-ext.woff2',
+  './fonts/amiri-400-latin.woff2',
+  './fonts/amiri-700-arabic.woff2',
+  './fonts/amiri-700-latin-ext.woff2',
+  './fonts/amiri-700-latin.woff2',
+  './fonts/cairo-400-arabic.woff2',
+  './fonts/cairo-400-latin-ext.woff2',
+  './fonts/cairo-400-latin.woff2',
+  './fonts/cairo-700-arabic.woff2',
+  './fonts/cairo-700-latin-ext.woff2',
+  './fonts/cairo-700-latin.woff2'
 ];
-const CDN = [
-  'https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap'
-];
+const CDN = [];
 
 async function precacheAll(cache, urls, concurrency = 4) {
   let i = 0;

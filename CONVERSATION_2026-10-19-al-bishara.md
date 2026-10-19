@@ -36,3 +36,26 @@ Publish the user's app «البشارة بنبي الإسلام في كتب ال
 - `git commit -m "Add al-bishara..."` (includes all above changes).
 - `git push origin main`.
 - Local test with Playwright: 20 chapters, 4 parts TOC, search returns results, no errors, offline renders chapter view.
+
+## Font fix — 2026-10-19 (follow-up)
+### Problem
+User reported the custom Arabic fonts were not visible, unlike `https://ucfzem.github.io/rihlat-ibn-battuta/`.
+
+### Root cause
+The `<link>` to the Google Fonts stylesheet had a **typo: `rel="mediaprint"`** instead of `rel="stylesheet"`. An invalid `rel` made the browser ignore the stylesheet entirely, so `Cairo`/`Amiri` were never downloaded and the page fell back to system fonts. (The earlier commit `4ecd24f` only reordered fallback names — visually a no-op, since `Cairo` was already first.)
+
+### Fix
+1. Corrected the link to `rel="stylesheet"` and, to guarantee online **and** offline rendering:
+2. **Self-hosted the fonts**: downloaded Cairo (400/700) and Amiri (400/700) `woff2` subsets (arabic, latin-ext, latin) from Google Fonts into `al-bishara/fonts/` (12 files, ~452 KB).
+3. Added `al-bishara/fonts.css` with local `@font-face` rules (`unicode-range` preserved).
+4. `index.html`: replaced the external Google Fonts link with `./fonts.css?v=1` (no more CDN dependency for fonts).
+5. `style.css`: content font stack now byte-identical to rihlat: `'Amiri', 'Traditional Arabic', 'Scheherazade New', 'Lateef', serif`; body: `"Cairo", "Segoe UI", "Tahoma", "Geeza Pro", "Noto Naskh Arabic", sans-serif`.
+6. `sw.js`: bumped `CACHE` to `bishara-v1.0.2`, precache `fonts.css?v=1` + all 12 `woff2` files, `CDN` emptied.
+
+### Verification (local, Playwright)
+- ONLINE: `document.fonts.check('1em Cairo')` = true; all 12 faces loaded; chapter page `Amiri` = true (19 blocks).
+- OFFLINE (SW controlling): Cairo = true, Amiri = true, chapter renders 19 blocks.
+- Live: `fonts.css` 200, `cairo-400-arabic.woff2` 200, `amiri-400-arabic.woff2` 200; index no longer contains `mediaprint`.
+
+### Commits
+- `315c806` — Fix al-bishara fonts (rel=mediaprint typo) + self-host Cairo/Amiri woff2; precache in SW v1.0.2.
