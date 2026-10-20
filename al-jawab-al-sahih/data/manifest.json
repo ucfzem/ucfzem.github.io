@@ -1,0 +1,19 @@
+{
+ "book_title": "الجواب الصحيح لمن بدل دين المسيح",
+ "book_title_en": "The Correct Answer to Whoever Changed the Religion of Christ",
+ "author": "شيخ الإسلام أحمد بن تيمية",
+ "author_en": "Ibn Taymiyyah",
+ "total_volumes": 1,
+ "volumes": [
+  {
+   "id": "vol_1",
+   "title": "الجزء الأول",
+   "title_en": "Volume 1",
+   "title_fr": "Tome 1",
+   "title_es": "Volumen 1",
+   "file": "vol_1.json",
+   "chapter_count": 4,
+   "word_count": 183
+  }
+ ]
+}

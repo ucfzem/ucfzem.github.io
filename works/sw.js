@@ -56,7 +56,10 @@ const CORE = [
   'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg',
   'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon-192.png',
   'https://ucfzem.github.io/al-bishara/icon.svg',
-  'https://ucfzem.github.io/al-bishara/icon-192.png'
+  'https://ucfzem.github.io/al-bishara/icon-192.png',
+  'https://ucfzem.github.io/al-jawab-al-sahih/icon.svg',
+  'https://ucfzem.github.io/al-jawab-al-sahih/icon-192.png',
+  'https://ucfzem.github.io/al-jawab-al-sahih/icon-512.png'
 ];
 const CDN = [];
 

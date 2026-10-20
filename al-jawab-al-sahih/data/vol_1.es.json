@@ -1,0 +1,37 @@
+{
+ "title": "الجزء الأول",
+ "title_en": "Volume 1",
+ "title_fr": "Tome 1",
+ "title_es": "Volumen 1",
+ "lang": "es",
+ "chapters": [
+  {
+   "id": "ch_0",
+   "title": "Introducción del libro",
+   "paragraphs": [
+    "Alabado sea Dios, Señor de los mundos, y sean las oraciones y la paz sobre Muhammad, su familia y sus compañeros, abundantemente. Esta respuesta correcta a quien cambió la religión de Cristo se ha redactado para defender la religión de los mensajeros, y para convencer de que lo que Muhammad, la paz sea con él, trajo es la senda recta."
+   ]
+  },
+  {
+   "id": "ch_1",
+   "title": "Capítulo: sobre la profecía de Muhammad, la paz sea con él",
+   "paragraphs": [
+    "La profecía de Muhammad, la paz sea con él, está atestiguada por lo que no se puede contar de versículos y noticias en la Escritura y la Sunna; es descrito en la Torá y el Evangelio con sus semejantes y análogos. Quien medita la palabra de Dios encuentra en ella la descripción del profeta final, y que su mensaje abarca todas las leyes, sellando lo que lo precedió y siendo testimonio de ello."
+   ]
+  },
+  {
+   "id": "ch_2",
+   "title": "Capítulo: contra quienes pretenden reformar la religión",
+   "paragraphs": [
+    "En cuanto a quienes pretenden reformar la religión alegando volver a su origen, no son sino imitadores de quienes alteraron el origen de la religión, y no han comprendido que la reforma es volver a lo que fue el Mensajero de Dios, la paz sea con él, y sus Compañeros. La religión es conocida por quien la entiende, y la innovación extravía a quien tiene discernimiento."
+   ]
+  },
+  {
+   "id": "ch_3",
+   "title": "Capítulo: incentivo a la búsqueda del saber sagrado",
+   "paragraphs": [
+    "La búsqueda del saber sagrado es obligación para todo musulmán y toda musulmana, porque es condición de las demás obligaciones de adoración y transacciones. Quien reúne el Corán y la jurisprudencia en su pecho, Dios le abre una puerta de luz y le guía por ella hacia los beneficios de este mundo y del otro."
+   ]
+  }
+ ]
+}
