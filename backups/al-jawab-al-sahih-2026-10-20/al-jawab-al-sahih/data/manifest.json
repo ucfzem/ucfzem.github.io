@@ -1,0 +1,109 @@
+{
+ "book_title": "الجواب الصحيح لمن بدل دين المسيح",
+ "author": "شيخ الإسلام أحمد بن تيمية",
+ "total_volumes": 6,
+ "volumes": [
+  {
+   "id": "vol_1",
+   "title": "الجزء الأول",
+   "title_en": "Volume 1",
+   "title_fr": "Tome 1",
+   "title_es": "Volumen 1",
+   "file": "vol_1.json",
+   "chapter_count": 42,
+   "word_count": 44309,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  },
+  {
+   "id": "vol_2",
+   "title": "الجزء الثاني",
+   "title_en": "Volume 2",
+   "title_fr": "Tome 2",
+   "title_es": "Volumen 2",
+   "file": "vol_2.json",
+   "chapter_count": 36,
+   "word_count": 58553,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  },
+  {
+   "id": "vol_3",
+   "title": "الجزء الثالث",
+   "title_en": "Volume 3",
+   "title_fr": "Tome 3",
+   "title_es": "Volumen 3",
+   "file": "vol_3.json",
+   "chapter_count": 77,
+   "word_count": 68616,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  },
+  {
+   "id": "vol_4",
+   "title": "الجزء الرابع",
+   "title_en": "Volume 4",
+   "title_fr": "Tome 4",
+   "title_es": "Volumen 4",
+   "file": "vol_4.json",
+   "chapter_count": 12,
+   "word_count": 73890,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  },
+  {
+   "id": "vol_5",
+   "title": "الجزء الخامس",
+   "title_en": "Volume 5",
+   "title_fr": "Tome 5",
+   "title_es": "Volumen 5",
+   "file": "vol_5.json",
+   "chapter_count": 34,
+   "word_count": 53695,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  },
+  {
+   "id": "vol_6",
+   "title": "الجزء السادس",
+   "title_en": "Volume 6",
+   "title_fr": "Tome 6",
+   "title_es": "Volumen 6",
+   "file": "vol_6.json",
+   "chapter_count": 25,
+   "word_count": 59217,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
+  }
+ ],
+ "content_langs": [
+  "ar",
+  "en",
+  "es",
+  "fr"
+ ]
+}

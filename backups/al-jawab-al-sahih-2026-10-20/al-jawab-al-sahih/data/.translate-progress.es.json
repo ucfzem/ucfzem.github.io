@@ -1,0 +1,26 @@
+{
+ "es/vol_1": {
+  "doneChapters": 42,
+  "total": 42
+ },
+ "es/vol_2": {
+  "doneChapters": 36,
+  "total": 36
+ },
+ "es/vol_3": {
+  "doneChapters": 77,
+  "total": 77
+ },
+ "es/vol_4": {
+  "doneChapters": 12,
+  "total": 12
+ },
+ "es/vol_5": {
+  "doneChapters": 34,
+  "total": 34
+ },
+ "es/vol_6": {
+  "doneChapters": 25,
+  "total": 25
+ }
+}

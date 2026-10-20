@@ -1,4 +1,4 @@
-const CACHE = 'jawab-v1.1.1';
+const CACHE = 'jawab-v1.1.2';
 const CORE = [
   './',
   './index.html',
@@ -88,7 +88,13 @@ self.addEventListener('fetch', (event) => {
   if (req.mode === 'navigate') {
     event.respondWith(
       fetch(req, { cache: 'no-cache' }).then((res) => {
-        caches.open(CACHE).then((c) => c.put(req, res.clone()));
+        // Clone SYNCHRONOUSLY before the renderer starts reading the body —
+        // a clone inside the async open().then() callback hits
+        // "Response body is already used" and the put silently dies.
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req.url, copy)).catch(() => {});
+        }
         return res;
       }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
     );
@@ -98,7 +104,10 @@ self.addEventListener('fetch', (event) => {
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(req, { cache: 'no-cache' }).then((res) => {
-        if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req.url, copy)).catch(() => {});
+        }
         return res;
       }).catch(() => caches.match(req).then((h) => h || caches.match(req, { ignoreSearch: true })))
     );

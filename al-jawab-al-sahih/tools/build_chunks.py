@@ -198,17 +198,33 @@ def main():
         })
         print(f"  {file_name}: {len(chapters)} chapters, {words} words")
 
-    # declare which languages actually have translated chunks on disk
-    lang_codes = {"ar"}
-    for name in os.listdir(out):
-        m2 = re.fullmatch(r"vol_\d+\.([a-z]{2})\.json", name)
-        if m2:
-            lang_codes.add(m2.group(1))
-    manifest["content_langs"] = sorted(lang_codes)
+    # Per-volume languages: a translation counts only when it is COMPLETE
+    # (same chapter count as the Arabic source), so a half-translated file can
+    # never be listed and served as a truncated volume.
+    for vol in manifest["volumes"]:
+        n = vol["chapter_count"]
+        langs = ["ar"]
+        for code in ("en", "fr", "es"):
+            tp = os.path.join(out, vol["id"] + "." + code + ".json")
+            if os.path.exists(tp):
+                try:
+                    with open(tp, encoding="utf-8") as fh2:
+                        if len(json.load(fh2).get("chapters", [])) == n:
+                            langs.append(code)
+                except Exception:
+                    pass
+        vol["langs"] = langs
+
+    # content_langs = languages available for EVERY volume (no 404 probes)
+    common = set(manifest["volumes"][0]["langs"])
+    for vol in manifest["volumes"][1:]:
+        common &= set(vol["langs"])
+    manifest["content_langs"] = sorted(common)
 
     with open(os.path.join(out, "manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)
-    print(f"manifest.json: {len(manifest['volumes'])} volumes -> {out}")
+
+    print("manifest.json: %d volumes -> %s" % (len(manifest["volumes"]), out))
 
 
 if __name__ == "__main__":

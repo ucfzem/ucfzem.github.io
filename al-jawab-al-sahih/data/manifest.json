@@ -11,7 +11,13 @@
    "title_es": "Volumen 1",
    "file": "vol_1.json",
    "chapter_count": 42,
-   "word_count": 44309
+   "word_count": 44309,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   },
   {
    "id": "vol_2",
@@ -21,7 +27,13 @@
    "title_es": "Volumen 2",
    "file": "vol_2.json",
    "chapter_count": 36,
-   "word_count": 58553
+   "word_count": 58553,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   },
   {
    "id": "vol_3",
@@ -31,7 +43,13 @@
    "title_es": "Volumen 3",
    "file": "vol_3.json",
    "chapter_count": 77,
-   "word_count": 68616
+   "word_count": 68616,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   },
   {
    "id": "vol_4",
@@ -41,7 +59,13 @@
    "title_es": "Volumen 4",
    "file": "vol_4.json",
    "chapter_count": 12,
-   "word_count": 73890
+   "word_count": 73890,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   },
   {
    "id": "vol_5",
@@ -51,7 +75,13 @@
    "title_es": "Volumen 5",
    "file": "vol_5.json",
    "chapter_count": 34,
-   "word_count": 53695
+   "word_count": 53695,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   },
   {
    "id": "vol_6",
@@ -61,10 +91,19 @@
    "title_es": "Volumen 6",
    "file": "vol_6.json",
    "chapter_count": 25,
-   "word_count": 59217
+   "word_count": 59217,
+   "langs": [
+    "ar",
+    "en",
+    "fr",
+    "es"
+   ]
   }
  ],
  "content_langs": [
-  "ar"
+  "ar",
+  "en",
+  "es",
+  "fr"
  ]
 }
