@@ -123,13 +123,13 @@ async function precache(cache, urls, concurrency = 4) {
     while (i < urls.length) {
       const u = urls[i++];
       try {
-        const r = await fetchTO(u);
+        const r = await fetchTO(u, { cache: 'no-cache' });
         if (r && (r.ok || r.type === 'opaque')) await cache.put(u, r);
       }
       catch (e) {
         try {
           await new Promise((r) => setTimeout(r, 300));
-          const r2 = await fetchTO(u);
+          const r2 = await fetchTO(u, { cache: 'no-cache' });
           if (r2 && (r2.ok || r2.type === 'opaque')) await cache.put(u, r2);
         } catch (_) {}
       }
@@ -150,7 +150,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v33';
+const DATA_MARKER = '/__bookdata-v34';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
@@ -331,26 +331,27 @@ self.addEventListener('fetch', (event) => {
   // ---- navigation to an app ----
   if (req.mode === 'navigate') {
     if (path.endsWith('/')) {
-      // Serve the precached shell; fall back to the network when online.
+      // Network-first: always the current shell when online (the old
+      // cache-first path served stale app HTML/data indefinitely after a
+      // deploy). Cache remains the offline fallback.
       event.respondWith(
-        caches.open(SHELL_CACHE).then((c) => c.match('/' + first + '/index.html')).then((hit) =>
-          hit || fetch(req).then((res) => {
-            if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put('/' + first + '/index.html', res.clone()));
-            return res;
-          })
-        ).catch(() => caches.match('/' + first + '/index.html').then((h) => h || fetch(req)))
+        fetch(req, { cache: 'no-cache' }).then((res) => {
+          if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put('/' + first + '/index.html', res.clone()));
+          return res;
+        }).catch(() =>
+          caches.open(SHELL_CACHE).then((c) => c.match('/' + first + '/index.html'))
+            .then((h) => h || caches.match('/' + first + '/index.html'))
+        )
       );
     } else if (/\.[a-z0-9]+$/i.test(path)) {
       // Navigation to an actual HTML file (multi-page apps, e.g.
       // /webhealth/actualites.html or /droppy/get.html). These are mirrored
       // from each app's own sw.js precache list.
       event.respondWith(
-        caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((hit) =>
-          hit || fetch(req).then((res) => {
-            if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put(req, res.clone()));
-            return res;
-          })
-        ).catch(() => caches.match(req, { ignoreSearch: true }).then((h) => h || fetch(req)))
+        fetch(req, { cache: 'no-cache' }).then((res) => {
+          if (res && res.ok) caches.open(SHELL_CACHE).then((c) => c.put(req, res.clone()));
+          return res;
+        }).catch(() => caches.open(SHELL_CACHE).then((c) => c.match(req, { ignoreSearch: true })).then((h) => h || caches.match(req, { ignoreSearch: true })))
       );
     } else {
       // Bare "/app" -> offline redirect to "/app/" (matches GitHub's 301).
@@ -371,16 +372,20 @@ self.addEventListener('fetch', (event) => {
   // Exact-match first (so a versioned asset like style.css?v=4 is not silently
   // served a stale style.css?v=3), then revalidate from the network in the
   // background so the mirror converges; fall back to a loose match offline.
+  // Network-first with no-cache revalidation: a previously mirrored copy must
+  // never shadow a newer deploy (it served the old 4-chapter scaffold of
+  // al-jawab-al-sahih after the real 6-volume text went live). The cache is
+  // only consulted when the network is unreachable.
   event.respondWith((async () => {
     const cache = await caches.open(SHELL_CACHE);
-    const exact = await cache.match(req);
-    const stale = exact || await cache.match(req, { ignoreSearch: true });
-    const network = fetch(req).then((res) => {
+    try {
+      const res = await fetch(req, { cache: 'no-cache' });
       if (res && res.ok) cache.put(req, res.clone());
       return res;
-    });
-    if (stale) { network.catch(() => {}); return stale; }
-    try { return await network; }
-    catch (e) { return cache.match(req, { ignoreSearch: true }); }
+    } catch (e) {
+      const hit = await cache.match(req) || await cache.match(req, { ignoreSearch: true });
+      if (hit) return hit;
+      throw e;
+    }
   })());
 });

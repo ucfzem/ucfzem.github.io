@@ -1,4 +1,4 @@
-const CACHE = 'jawab-v1.1.0';
+const CACHE = 'jawab-v1.1.1';
 const CORE = [
   './',
   './index.html',
@@ -41,7 +41,7 @@ async function precacheAll(cache, urls, concurrency = 4) {
     while (i < urls.length) {
       const u = urls[i++];
       const put = async () => {
-        const r = await fetchTO(u);
+        const r = await fetchTO(u, { cache: 'no-cache' });
         if (r && (r.ok || r.type === 'opaque')) await cache.put(u, r);
       };
       try { await put(); }
@@ -87,7 +87,7 @@ self.addEventListener('fetch', (event) => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, { cache: 'no-cache' }).then((res) => {
         caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
       }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
@@ -97,7 +97,7 @@ self.addEventListener('fetch', (event) => {
 
   if (url.origin === self.location.origin) {
     event.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, { cache: 'no-cache' }).then((res) => {
         if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
       }).catch(() => caches.match(req).then((h) => h || caches.match(req, { ignoreSearch: true })))
