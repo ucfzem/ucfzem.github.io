@@ -15,6 +15,7 @@
   --focus: #2e6f40;
   --content-font-size: 1rem;
   --body-font: 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --para-font: 'AmiriPara', 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif;
 }
 [data-theme="dark"] {
   --bg: #12181b;
@@ -125,8 +126,8 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
 .kicker { font-size: .8rem; color: var(--muted); margin-bottom: 4px; }
 .card p {
   font-size: calc(var(--content-font-size, 1rem) * 1.18);
-  line-height: 1.9;
-  font-family: var(--body-font);
+  line-height: 2.15;
+  font-family: var(--para-font);
   text-align: start;
   margin: 0 0 .8em;
 }
@@ -172,7 +173,7 @@ main { flex: 1; padding: 22px 26px 40px; max-width: 900px; margin: 0 auto; width
 }
 .result:hover { border-color: var(--green); }
 .result .rtitle { font-weight: bold; color: var(--title); font-size: .9rem; }
-.result .rsnip { font-family: var(--body-font); font-size: 1.05rem; color: var(--ink); margin-top: 4px; line-height: 1.9; }
+.result .rsnip { font-family: var(--para-font); font-size: 1.05rem; color: var(--ink); margin-top: 4px; line-height: 2; }
 mark.search-highlight, mark.hl { background: var(--hl); color: var(--hl-ink); border-radius: 3px; padding: 0 1px; }
 mark.hl.hl-cur { background: var(--hl-cur); box-shadow: 0 0 0 2px var(--focus); }
 button:focus, a:focus, input:focus, .toc-item:focus, .result:focus {
@@ -235,15 +236,15 @@ footer {
 .chbody ul, .chbody ol { padding-inline-start: 1.6em; margin: 0 0 .8em; }
 .chbody li {
   font-size: calc(var(--content-font-size, 1rem) * 1.15);
-  line-height: 1.9; font-family: var(--body-font);
+  line-height: 2.1; font-family: var(--para-font);
   margin-bottom: .45em; text-align: start;
 }
 .chbody blockquote {
   background: var(--panel); border: 1px solid var(--line);
   border-inline-start: 4px solid var(--hl-cur); border-radius: 8px;
   padding: 12px 16px; margin: 0 0 .9em; color: var(--ink);
-  font-family: var(--body-font); font-size: calc(var(--content-font-size, 1rem) * 1.12);
-  line-height: 1.9; text-align: start;
+  font-family: var(--para-font); font-size: calc(var(--content-font-size, 1rem) * 1.12);
+  line-height: 2.1; text-align: start;
 }
 .chbody b { color: var(--title); }
 .part-block { margin-bottom: 18px; text-align: start; }
