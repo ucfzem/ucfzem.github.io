@@ -101,6 +101,12 @@ def process_book_file(path):
 
     for raw_line in raw.splitlines():
         line = raw_line.rstrip()
+        if line.startswith("@@HEAD:"):
+            head_title = clean_arabic_text(line[7:])
+            if head_title:
+                close_chapter()
+                current_chapter = {"title": head_title, "paragraphs": []}
+            continue
         if is_decoration(line):
             continue
 
@@ -135,7 +141,7 @@ def process_book_file(path):
         current_chapter["_buf"] = (current_chapter.get("_buf", "") + " " + text).strip()
 
         buf = current_chapter["_buf"]
-        if len(buf) >= 700 or buf.rstrip().endswith((".", "،", "؛")):
+        if len(buf) >= 700 or re.search(r"[.،؛؟!»)\]\u201d\u2019]$", buf.rstrip()):
             paras = split_into_paragraphs(buf)
             current_chapter["paragraphs"].extend(paras)
             current_chapter["_buf"] = ""
@@ -167,6 +173,8 @@ def main():
 
     for vol in volumes:
         file_name = f"vol_{vol['n']}.json"
+        ar_ord = {1: "الأول", 2: "الثاني", 3: "الثالث", 4: "الرابع", 5: "الخامس", 6: "السادس"}
+        vol_title = f"الجزء {ar_ord.get(vol['n'], vol['n'])}"
         chapters = []
         for i, chap in enumerate(vol["chapters"]):
             chapters.append({
@@ -174,18 +182,29 @@ def main():
                 "title": chap["title"],
                 "paragraphs": [p for p in chap["paragraphs"] if p],
             })
-        payload = {"title": vol["title"], "lang": "ar", "chapters": chapters}
+        payload = {"title": vol_title, "lang": "ar", "chapters": chapters}
         with open(os.path.join(out, file_name), "w", encoding="utf-8") as fh:
             json.dump(payload, fh, ensure_ascii=False, indent=1)
         words = sum(word_count(p) for c in chapters for p in c["paragraphs"])
         manifest["volumes"].append({
             "id": f"vol_{vol['n']}",
-            "title": vol["title"],
+            "title": vol_title,
+            "title_en": f"Volume {vol['n']}",
+            "title_fr": f"Tome {vol['n']}",
+            "title_es": f"Volumen {vol['n']}",
             "file": file_name,
             "chapter_count": len(chapters),
             "word_count": words,
         })
         print(f"  {file_name}: {len(chapters)} chapters, {words} words")
+
+    # declare which languages actually have translated chunks on disk
+    lang_codes = {"ar"}
+    for name in os.listdir(out):
+        m2 = re.fullmatch(r"vol_\d+\.([a-z]{2})\.json", name)
+        if m2:
+            lang_codes.add(m2.group(1))
+    manifest["content_langs"] = sorted(lang_codes)
 
     with open(os.path.join(out, "manifest.json"), "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)

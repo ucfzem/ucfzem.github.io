@@ -1,9 +1,7 @@
 {
  "book_title": "الجواب الصحيح لمن بدل دين المسيح",
- "book_title_en": "The Correct Answer to Whoever Changed the Religion of Christ",
  "author": "شيخ الإسلام أحمد بن تيمية",
- "author_en": "Ibn Taymiyyah",
- "total_volumes": 1,
+ "total_volumes": 6,
  "volumes": [
   {
    "id": "vol_1",
@@ -12,8 +10,61 @@
    "title_fr": "Tome 1",
    "title_es": "Volumen 1",
    "file": "vol_1.json",
-   "chapter_count": 4,
-   "word_count": 183
+   "chapter_count": 42,
+   "word_count": 44309
+  },
+  {
+   "id": "vol_2",
+   "title": "الجزء الثاني",
+   "title_en": "Volume 2",
+   "title_fr": "Tome 2",
+   "title_es": "Volumen 2",
+   "file": "vol_2.json",
+   "chapter_count": 36,
+   "word_count": 58553
+  },
+  {
+   "id": "vol_3",
+   "title": "الجزء الثالث",
+   "title_en": "Volume 3",
+   "title_fr": "Tome 3",
+   "title_es": "Volumen 3",
+   "file": "vol_3.json",
+   "chapter_count": 77,
+   "word_count": 68616
+  },
+  {
+   "id": "vol_4",
+   "title": "الجزء الرابع",
+   "title_en": "Volume 4",
+   "title_fr": "Tome 4",
+   "title_es": "Volumen 4",
+   "file": "vol_4.json",
+   "chapter_count": 12,
+   "word_count": 73890
+  },
+  {
+   "id": "vol_5",
+   "title": "الجزء الخامس",
+   "title_en": "Volume 5",
+   "title_fr": "Tome 5",
+   "title_es": "Volumen 5",
+   "file": "vol_5.json",
+   "chapter_count": 34,
+   "word_count": 53695
+  },
+  {
+   "id": "vol_6",
+   "title": "الجزء السادس",
+   "title_en": "Volume 6",
+   "title_fr": "Tome 6",
+   "title_es": "Volumen 6",
+   "file": "vol_6.json",
+   "chapter_count": 25,
+   "word_count": 59217
   }
+ ],
+ "content_langs": [
+  "ar"
  ]
 }

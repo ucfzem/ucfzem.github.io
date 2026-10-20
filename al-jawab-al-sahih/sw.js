@@ -1,4 +1,4 @@
-const CACHE = 'jawab-v1.0.0';
+const CACHE = 'jawab-v1.1.0';
 const CORE = [
   './',
   './index.html',
@@ -6,9 +6,11 @@ const CORE = [
   './manifest.json',
   './data/manifest.json',
   './data/vol_1.json',
-  './data/vol_1.en.json',
-  './data/vol_1.fr.json',
-  './data/vol_1.es.json',
+  './data/vol_2.json',
+  './data/vol_3.json',
+  './data/vol_4.json',
+  './data/vol_5.json',
+  './data/vol_6.json',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
