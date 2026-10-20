@@ -150,3 +150,15 @@ offline, A± persistence, deep-link, drawer, works card, **zero online 404s**, z
 - Manifest: https://ucfzem.github.io/al-jawab-al-sahih/data/manifest.json?cb=latest (4 langs, 6 vols, 226 ch)
 - Example translated data: https://ucfzem.github.io/al-jawab-al-sahih/data/vol_1.en.json
 - Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/al-jawab-al-sahih-2026-10-20
+
+## Post-launch verification (same day, after `b876322` went live)
+- Live suite rerun against https://ucfzem.github.io/al-jawab-al-sahih/ : **92/92 passed**
+  (translated offline reads arShare 0.00 ×3, nav labels localized, works card + icon).
+- Nav-label localization confirmed live in a fresh browser:
+  EN Previous/Next · FR Précédent/Suivant · ES Anterior/Siguiente · AR السابق/التالي.
+- Samsung A5-class profile (360×640, Galaxy S5 UA, live site): labels localize correctly,
+  prev/next nav visible, no horizontal overflow. User-reported "Arabic labels on phone" was a
+  **stale client cache** (pre-deploy page in an open tab / old SW shell) — resolution:
+  pull-to-refresh twice (SW updates first, fresh HTML second). App JS audited for old-WebView
+  compatibility: no `?.`, `??`, `replaceAll`, or other post-ES2017 syntax in index.html.
+- No tree changes were needed post-launch; this addendum is the only new commit.
