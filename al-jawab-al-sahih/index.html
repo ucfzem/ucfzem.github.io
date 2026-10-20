@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>الجواب الصحيح لمن بدل دين المسيح - ابن تيمية</title>
-<meta name="theme-color" content="#1e293b">
+<meta name="theme-color" content="#0f172a">
 <meta name="description" content="الجواب الصحيح لمن بدل دين المسيح — شيخ الإسلام ابن تيمية. قراءة تعمل دون اتصال.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -12,219 +12,255 @@
 <link rel="stylesheet" href="fonts.css?v=1">
 <style>
 :root {
-  --bg-color: #f8fafc;
-  --text-color: #1e293b;
-  --header-bg: #ffffff;
-  --card-bg: #ffffff;
+  --bg-body: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-header: rgba(255,255,255,0.88);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
   --border-color: #e2e8f0;
-  --accent-color: #2563eb;
-  --accent-hover: #1d4ed8;
-  --sidebar-width: 330px;
+  --accent: #2563eb;
+  --accent-soft: #eff6ff;
   --highlight-bg: #fef08a;
   --highlight-text: #854d0e;
+  --sidebar-width: 330px;
+  --bar-height: 62px;
+  --reader-size: 18px;
   --body-font: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --para-font: 'AmiriPara', 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 [data-theme="dark"] {
-  --bg-color: #0f172a;
-  --text-color: #f1f5f9;
-  --header-bg: #1e293b;
-  --card-bg: #1e293b;
+  --bg-body: #0f172a;
+  --bg-card: #1e293b;
+  --bg-header: rgba(15,23,42,0.88);
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
   --border-color: #334155;
-  --accent-color: #3b82f6;
-  --accent-hover: #60a5fa;
+  --accent: #3b82f6;
+  --accent-soft: #1e3a8a;
   --highlight-bg: #713f12;
   --highlight-text: #fef08a;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body { height: 100%; }
-
 body {
   font-family: var(--body-font);
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  line-height: 1.7;
-  display: flex;
+  background: var(--bg-body);
+  color: var(--text-main);
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
-aside {
-  width: var(--sidebar-width);
-  background-color: var(--header-bg);
-  border-left: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform 0.3s ease;
-  z-index: 100;
-}
-
-[dir="ltr"] aside { border-left: none; border-right: 1px solid var(--border-color); }
-
-.sidebar-header {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.sidebar-header h1 { font-size: 1.15rem; font-weight: 700; color: var(--accent-color); }
-
-.controls-row { display: flex; gap: 0.5rem; align-items: center; justify-content: space-between; }
-
-select, button {
-  font-family: inherit;
-  font-size: 0.85rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  background: var(--card-bg);
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-button:hover, select:hover { border-color: var(--accent-color); }
-
-.search-box {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--text-color);
-  font-size: 0.9rem;
-}
-
-.search-box:focus { outline: none; border-color: var(--accent-color); }
-
-.chapter-list { flex: 1; overflow-y: auto; padding: 0.5rem; }
-
-.chapter-item {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-bottom: 0.25rem;
-  font-size: 0.92rem;
-  transition: background 0.2s;
-  border: 1px solid transparent;
-}
-
-.chapter-item:hover { background-color: var(--bg-color); border-color: var(--border-color); }
-.chapter-item.active { background-color: var(--accent-color); color: #ffffff; }
-
-main { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; position: relative; }
-
-header {
-  height: 60px;
-  background-color: var(--header-bg);
+header.app-bar {
+  height: var(--bar-height);
+  flex-shrink: 0;
+  background: var(--bg-header);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0 1.5rem;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  z-index: 200;
 }
 
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  color: var(--text-color);
-  cursor: pointer;
+.brand-section { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+
+.menu-btn {
+  background: none; border: none; font-size: 1.35rem;
+  color: var(--text-main); cursor: pointer; padding: 0.2rem;
 }
 
-.content-area { flex: 1; overflow-y: auto; padding: 2rem; max-width: 900px; width: 100%; margin: 0 auto; }
-
-article {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 2.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+.app-title {
+  font-weight: 700; font-size: 1.1rem; color: var(--accent);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-article h2 {
-  font-size: 1.55rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-  color: var(--accent-color);
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 0.5rem;
+.controls-group { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.lang-pills {
+  display: flex; background: var(--bg-body);
+  border: 1px solid var(--border-color); border-radius: 8px; padding: 2px;
+}
+
+.lang-btn {
+  border: none; background: none; padding: 0.25rem 0.55rem;
+  font-family: inherit; font-size: 0.78rem; font-weight: 700;
+  border-radius: 6px; color: var(--text-muted); cursor: pointer;
+}
+
+.lang-btn.active { background: var(--accent); color: #ffffff; }
+
+.icon-btn {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  color: var(--text-main); padding: 0.3rem 0.6rem; border-radius: 8px;
+  cursor: pointer; font-family: inherit; font-size: 0.85rem; line-height: 1.2;
+}
+.icon-btn:hover { border-color: var(--accent); }
+
+.shell { flex: 1; display: flex; min-height: 0; position: relative; }
+
+aside.drawer {
+  width: var(--sidebar-width);
+  background: var(--bg-card);
+  border-left: 1px solid var(--border-color);
+  display: flex; flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease;
+  z-index: 150;
+}
+[dir="ltr"] aside.drawer { border-left: none; border-right: 1px solid var(--border-color); }
+aside.drawer.closed { transform: translateX(100%); }
+[dir="ltr"] aside.drawer.closed { transform: translateX(-100%); }
+
+.sidebar-header {
+  padding: 0.85rem; border-bottom: 1px solid var(--border-color);
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+
+.controls-row { display: flex; gap: 0.5rem; align-items: center; }
+
+select, button { font-family: inherit; }
+
+select {
+  font-size: 0.85rem; padding: 0.4rem 0.5rem; border-radius: 6px;
+  border: 1px solid var(--border-color); background: var(--bg-card);
+  color: var(--text-main); cursor: pointer; flex: 1; min-width: 0;
+}
+select:hover { border-color: var(--accent); }
+
+.search-box {
+  width: 100%; padding: 0.5rem 0.75rem; border-radius: 8px;
+  border: 1px solid var(--border-color); background: var(--bg-body);
+  color: var(--text-main); font-family: inherit; font-size: 0.9rem;
+}
+.search-box:focus { outline: none; border-color: var(--accent); }
+
+.search-stats { font-size: 0.8rem; color: var(--text-muted); min-height: 1.2em; padding: 0 0.15rem; }
+
+.chapter-list { flex: 1; overflow-y: auto; padding: 0.5rem; }
+
+.chapter-item {
+  padding: 0.7rem 0.85rem; border-radius: 8px; cursor: pointer;
+  margin-bottom: 0.25rem; font-size: 0.92rem; transition: background 0.2s;
+  border: 1px solid transparent; display: flex; justify-content: space-between;
+  gap: 0.5rem; align-items: center;
+}
+.chapter-item:hover { background: var(--bg-body); border-color: var(--border-color); }
+.chapter-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+.badge-matches {
+  background: var(--highlight-bg); color: var(--highlight-text);
+  font-size: 0.72rem; padding: 0.05rem 0.4rem; border-radius: 10px;
+  font-weight: 700; flex-shrink: 0; direction: ltr;
+}
+
+main.viewport {
+  flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100%;
+}
+
+.sub-bar {
+  background: var(--bg-card); border-bottom: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding: 0.7rem 1.5rem; min-height: 46px;
+}
+.sub-bar .cur-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sub-bar .author { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+
+.scroll-area { flex: 1; overflow-y: auto; padding: 2rem 1rem; display: flex; justify-content: center; }
+
+article.reader-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 12px; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  max-width: 860px; width: 100%; height: fit-content;
+}
+
+article h1.chapter-heading, article h2 {
+  font-size: 1.55rem; line-height: 1.5; margin-bottom: 1.4rem;
+  color: var(--accent); border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.55rem;
 }
 
 article p {
-  margin-bottom: 1.35rem;
-  text-align: start;
+  margin-bottom: 1.3rem; text-align: start;
   font-family: var(--para-font);
-  font-size: 1.15rem;
-  line-height: 2.15;
+  font-size: var(--reader-size);
+  line-height: 2.1;
 }
 
-mark { background-color: var(--highlight-bg); color: var(--highlight-text); padding: 0.1rem 0.2rem; border-radius: 3px; font-weight: bold; }
-
-.search-stats { font-size: 0.8rem; color: var(--text-color); opacity: 0.75; padding: 0 0.25rem; min-height: 1.2em; }
+mark {
+  background: var(--highlight-bg); color: var(--highlight-text);
+  padding: 0.05rem 0.2rem; border-radius: 3px; font-weight: 700;
+}
 
 .loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 3rem;
-  font-size: 1.1rem;
-  opacity: 0.8;
+  display: flex; justify-content: center; align-items: center;
+  padding: 3rem; font-size: 1.05rem; opacity: 0.8;
 }
 
 @media (max-width: 768px) {
-  aside { position: absolute; height: 100%; right: 0; transform: translateX(100%); }
-  [dir="ltr"] aside { right: auto; left: 0; transform: translateX(-100%); }
-  aside.open { transform: translateX(0); }
-  .menu-toggle { display: block; }
-  .content-area { padding: 1rem; }
-  article { padding: 1.5rem; }
+  .app-title { font-size: 0.95rem; }
+  aside.drawer { position: absolute; top: 0; right: 0; height: 100%; }
+  [dir="ltr"] aside.drawer { right: auto; left: 0; }
+  .scroll-area { padding: 1rem; }
+  article.reader-card { padding: 1.4rem; }
+  .sub-bar { padding: 0.6rem 1rem; }
 }
 </style>
 </head>
 <body data-theme="light" dir="rtl">
 
-<aside id="sidebar">
-  <div class="sidebar-header">
-    <h1 id="ui-title">الجواب الصحيح لمن بدل دين المسيح</h1>
-    <div class="controls-row">
-      <select id="volumeSelect" aria-label="Volume Selection">
-        <option value="">جاري تحميل الأجزاء...</option>
-      </select>
-      <select id="langSelect" aria-label="Language">
-        <option value="ar" selected>العربية</option>
-        <option value="en">English</option>
-        <option value="fr">Français</option>
-        <option value="es">Español</option>
-      </select>
-      <button id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">🌓</button>
+<header class="app-bar">
+  <div class="brand-section">
+    <button class="menu-btn" id="menuToggle" title="الفهرس" aria-label="Toggle navigation">☰</button>
+    <span class="app-title" id="ui-title">الجواب الصحيح لمن بدل دين المسيح</span>
+  </div>
+  <div class="controls-group">
+    <div class="lang-pills" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="es">ES</button>
     </div>
-    <input type="text" id="searchInput" class="search-box" placeholder="ابحث في الجزء الحالي...">
-    <div id="searchStats" class="search-stats" aria-live="polite"></div>
+    <button class="icon-btn" id="fontMinus" title="تصغير الخط" aria-label="Smaller text">A-</button>
+    <button class="icon-btn" id="fontPlus" title="تكبير الخط" aria-label="Larger text">A+</button>
+    <button class="icon-btn" id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">🌓</button>
   </div>
-  <div class="chapter-list" id="chapterList"></div>
-</aside>
+</header>
 
-<main>
-  <header>
-    <button class="menu-toggle" id="menuToggle">☰</button>
-    <span id="currentChapterTitle" style="font-weight: 600;"></span>
-    <div id="authorLine" style="font-size: 0.85rem; opacity: 0.8; white-space: nowrap;">شيخ الإسلام ابن تيمية</div>
-  </header>
-  <div class="content-area">
-    <article id="contentContainer">
-      <div class="loading-spinner">جاري تحميل المحتوى...</div>
-    </article>
-  </div>
-</main>
+<div class="shell">
+  <aside id="sidebar" class="drawer">
+    <div class="sidebar-header">
+      <div class="controls-row">
+        <select id="volumeSelect" aria-label="Volume Selection">
+          <option value="">جاري تحميل الأجزاء...</option>
+        </select>
+      </div>
+      <input type="text" id="searchInput" class="search-box" placeholder="ابحث في الجزء الحالي...">
+      <div id="searchStats" class="search-stats" aria-live="polite"></div>
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+
+  <main class="viewport">
+    <div class="sub-bar">
+      <span class="cur-title" id="currentChapterTitle"></span>
+      <span class="author" id="authorLine">شيخ الإسلام ابن تيمية</span>
+    </div>
+    <div class="scroll-area" id="scrollArea">
+      <article id="contentContainer">
+        <div class="loading-spinner">جاري تحميل المحتوى...</div>
+      </article>
+    </div>
+  </main>
+</div>
 
 <script>
 let manifest = null;
@@ -235,15 +271,16 @@ let searchQuery = '';
 let currentLang = localStorage.getItem('jawab_lang') || 'ar';
 
 const i18n = {
-  ar: { title: "الجواب الصحيح لمن بدل دين المسيح", placeholder: "ابحث في الجزء الحالي...", matches: "نتيجة مطابقة", loading: "جاري تحميل الجزء...", chapters: "فصل", volLoading: "جاري تحميل الأجزاء...", author: "شيخ الإسلام ابن تيمية", bookSub: "لمن بدل دين المسيح", error: "خطأ في تحميل بيانات الجزء: " },
-  en: { title: "Al-Jawab al-Sahih", placeholder: "Search active volume...", matches: "matches found", loading: "Loading volume...", chapters: "chapters", volLoading: "Loading volumes...", author: "Ibn Taymiyyah", bookSub: "to whoever changed the religion of Christ", error: "Error loading volume data: " },
-  fr: { title: "Al-Jawab al-Sahih", placeholder: "Rechercher dans le tome...", matches: "correspondances", loading: "Chargement du tome...", chapters: "chapitres", volLoading: "Chargement des tomes...", author: "Ibn Taymiyyah", bookSub: "à qui a changé la religion du Christ", error: "Erreur de chargement des données : " },
-  es: { title: "Al-Jawab al-Sahih", placeholder: "Buscar en el volumen...", matches: "coincidencias", loading: "Cargando volumen...", chapters: "capítulos", volLoading: "Cargando volúmenes...", author: "Ibn Taymiyyah", bookSub: "a quien cambió la religión de Cristo", error: "Error al cargar los datos: " }
+  ar: { title: "الجواب الصحيح لمن بدل دين المسيح", placeholder: "ابحث في الجزء الحالي...", matches: "نتيجة مطابقة", loading: "جاري تحميل الجزء...", chapters: "فصل", volLoading: "جاري تحميل الأجزاء...", author: "شيخ الإسلام ابن تيمية", error: "خطأ في تحميل بيانات الجزء: " },
+  en: { title: "Al-Jawab al-Sahih", placeholder: "Search active volume...", matches: "matches found", loading: "Loading volume...", chapters: "chapters", volLoading: "Loading volumes...", author: "Ibn Taymiyyah", error: "Error loading volume data: " },
+  fr: { title: "Al-Jawab al-Sahih", placeholder: "Rechercher dans le tome...", matches: "correspondances", loading: "Chargement du tome...", chapters: "chapitres", volLoading: "Chargement des tomes...", author: "Ibn Taymiyyah", error: "Erreur de chargement des données : " },
+  es: { title: "Al-Jawab al-Sahih", placeholder: "Buscar en el volumen...", matches: "coincidencias", loading: "Cargando volumen...", chapters: "capítulos", volLoading: "Cargando volúmenes...", author: "Ibn Taymiyyah", error: "Error al cargar los datos: " }
 };
 
 const volumeSelect = document.getElementById('volumeSelect');
-const langSelect = document.getElementById('langSelect');
 const themeToggle = document.getElementById('themeToggle');
+const fontMinus = document.getElementById('fontMinus');
+const fontPlus = document.getElementById('fontPlus');
 const searchInput = document.getElementById('searchInput');
 const searchStats = document.getElementById('searchStats');
 const chapterList = document.getElementById('chapterList');
@@ -253,9 +290,9 @@ const uiTitle = document.getElementById('ui-title');
 const authorLine = document.getElementById('authorLine');
 const menuToggle = document.getElementById('menuToggle');
 const sidebar = document.getElementById('sidebar');
+const scrollArea = document.getElementById('scrollArea');
 
 function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-
 function makeRegex(query) { return new RegExp(escapeRe(query), 'gi'); }
 
 function countMatches(text, query) {
@@ -290,10 +327,17 @@ function fillHighlighted(el, text, query) {
   if (last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
 }
 
+function setFontSize(px) {
+  const size = Math.max(12, Math.min(30, px));
+  document.documentElement.style.setProperty('--reader-size', size + 'px');
+  localStorage.setItem('jawab_font_size', String(size));
+  return size;
+}
+
 async function initApp() {
   setupEventListeners();
   loadSavedTheme();
-  langSelect.value = currentLang;
+  setFontSize(parseInt(localStorage.getItem('jawab_font_size'), 10) || 18);
   applyUiStrings();
   await fetchManifest();
 }
@@ -307,7 +351,8 @@ async function fetchManifest() {
     if (manifest.volumes && manifest.volumes.length > 0) {
       currentVolId = manifest.volumes[0].id;
       volumeSelect.value = currentVolId;
-      await loadVolumeChunk(currentVolId);
+      await maybeLoadFromHash();
+      if (!location.hash) await loadVolumeChunk(currentVolId);
     }
   } catch (err) {
     console.warn('Manifest load failed. Loading default fallback dataset...', err);
@@ -337,6 +382,29 @@ function volumeFileName(volId) {
 
 function cacheKey(volId) { return currentLang + ':' + volId; }
 
+function writeHash() {
+  if (currentVolId) history.replaceState(null, '', `#${currentVolId}/${currentChapterIndex}`);
+}
+
+async function maybeLoadFromHash() {
+  const m = /^#(vol_[0-9]+)\/([0-9]+)$/.exec(location.hash || '');
+  if (!m) return false;
+  const [, volId, idx] = m;
+  const known = (manifest.volumes || []).some(v => v.id === volId);
+  if (known) {
+    currentVolId = volId;
+    volumeSelect.value = volId;
+  }
+  await loadVolumeChunk(currentVolId);
+  const data = volumeCache[cacheKey(currentVolId)];
+  if (data && data.chapters && data.chapters[+idx]) {
+    currentChapterIndex = +idx;
+    renderChaptersList(data);
+    displayChapter(data, currentChapterIndex);
+  }
+  return true;
+}
+
 async function loadVolumeChunk(volId) {
   contentContainer.textContent = '';
   const spinner = document.createElement('div');
@@ -364,7 +432,7 @@ async function loadVolumeChunk(volId) {
         volumeCache[key] = volData;
         renderVolumeData(volData);
         return;
-      } catch (e2) { /* fall through to error below */ }
+      } catch (e2) { /* fall through */ }
     }
     contentContainer.textContent = '';
     const p = document.createElement('p');
@@ -378,7 +446,8 @@ function renderVolumeData(volData) {
   currentChapterIndex = 0;
   renderChaptersList(volData);
   displayChapter(volData, 0);
-  contentContainer.parentElement.scrollTop = 0;
+  scrollArea.scrollTop = 0;
+  writeHash();
 }
 
 function renderChaptersList(volData) {
@@ -390,18 +459,27 @@ function renderChaptersList(volData) {
     const div = document.createElement('div');
     div.className = 'chapter-item' + (idx === currentChapterIndex ? ' active' : '');
     const contentStr = (chap.paragraphs || []).join(' ');
-    let title = chap.title;
+    const label = document.createElement('span');
+    label.textContent = chap.title;
+    div.appendChild(label);
+
     if (searchQuery) {
       const count = countMatches(contentStr, searchQuery) + countMatches(chap.title, searchQuery);
       totalMatches += count;
-      if (count > 0) title += ` (${count})`;
+      if (count > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'badge-matches';
+        badge.textContent = String(count);
+        div.appendChild(badge);
+      }
     }
-    div.textContent = title;
+
     div.addEventListener('click', () => {
       currentChapterIndex = idx;
       renderChaptersList(volData);
       displayChapter(volData, idx);
-      if (window.innerWidth <= 768) sidebar.classList.remove('open');
+      writeHash();
+      if (window.innerWidth <= 768) sidebar.classList.add('closed');
     });
     chapterList.appendChild(div);
   });
@@ -417,6 +495,7 @@ function displayChapter(volData, chapIdx) {
   contentContainer.textContent = '';
 
   const h2 = document.createElement('h2');
+  h2.className = 'chapter-heading';
   fillHighlighted(h2, chap.title, searchQuery);
   contentContainer.appendChild(h2);
 
@@ -429,6 +508,7 @@ function displayChapter(volData, chapIdx) {
     fillHighlighted(p, text, searchQuery);
     contentContainer.appendChild(p);
   });
+  scrollArea.scrollTop = 0;
 }
 
 function applyUiStrings() {
@@ -438,7 +518,18 @@ function applyUiStrings() {
   authorLine.textContent = t.author;
   document.documentElement.lang = currentLang;
   document.body.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === currentLang);
+  });
   if (manifest) populateVolumeSelect();
+}
+
+async function switchLanguage(lang) {
+  if (!i18n[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('jawab_lang', currentLang);
+  applyUiStrings();
+  if (currentVolId) await loadVolumeChunk(currentVolId);
 }
 
 function setupEventListeners() {
@@ -447,21 +538,23 @@ function setupEventListeners() {
     loadVolumeChunk(currentVolId);
   });
 
-  langSelect.addEventListener('change', async (e) => {
-    currentLang = e.target.value;
-    localStorage.setItem('jawab_lang', currentLang);
-    applyUiStrings();
-    if (currentVolId) await loadVolumeChunk(currentVolId);
-    if (volumeCache[cacheKey(currentVolId)]) {
-      renderChaptersList(volumeCache[cacheKey(currentVolId)]);
-      displayChapter(volumeCache[cacheKey(currentVolId)], currentChapterIndex);
-    }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchLanguage(btn.dataset.lang));
   });
 
   themeToggle.addEventListener('click', () => {
     const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     document.body.setAttribute('data-theme', nextTheme);
     localStorage.setItem('theme', nextTheme);
+  });
+
+  fontPlus.addEventListener('click', () => {
+    const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reader-size'), 10) || 18;
+    setFontSize(cur + 2);
+  });
+  fontMinus.addEventListener('click', () => {
+    const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reader-size'), 10) || 18;
+    setFontSize(cur - 2);
   });
 
   searchInput.addEventListener('input', (e) => {
@@ -473,7 +566,9 @@ function setupEventListeners() {
     }
   });
 
-  menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  menuToggle.addEventListener('click', () => sidebar.classList.toggle('closed'));
+
+  window.addEventListener('hashchange', () => { if (manifest) maybeLoadFromHash(); });
 }
 
 function loadSavedTheme() {
