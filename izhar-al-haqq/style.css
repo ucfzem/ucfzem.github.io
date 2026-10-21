@@ -183,6 +183,24 @@ select, button { font-family: inherit; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .chip.active { background: var(--accent); border-color: var(--accent); color: #ffffff; font-weight: 700; }
 
+.font-size-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem; margin-top: 0.5rem;
+}
+.font-size-label { font-size: 0.8rem; color: var(--text-sec, var(--text-main)); }
+.font-size-btns { display: flex; align-items: center; gap: 0.35rem; }
+.size-btn {
+  border: 1px solid var(--border-color); background: var(--bg-card);
+  color: var(--text-main); border-radius: 9px; padding: 0.25rem 0.7rem;
+  font-family: inherit; font-size: 0.85rem; cursor: pointer; line-height: 1.4; min-width: 40px;
+}
+.size-btn:hover { border-color: var(--accent); color: var(--accent); }
+.size-btn:active { background: var(--accent); color: #ffffff; }
+.font-size-value {
+  min-width: 2rem; text-align: center; font-size: 0.82rem;
+  color: var(--text-main); font-variant-numeric: tabular-nums;
+}
+
 .chapter-list { flex: 1; overflow-y: auto; padding: 0.5rem; }
 
 .chapter-item {
@@ -317,5 +335,5 @@ button:focus, select:focus, input:focus, .chapter-item:focus {
   .nav-pos { font-size: 0.78rem; }
 }
 @media (max-width: 600px) {
-  #fontMinus, #fontPlus { display: none; }
+  #fontMinus, #fontPlus { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
 }

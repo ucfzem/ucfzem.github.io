@@ -10,7 +10,7 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="fonts.css?v=1">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body data-theme="light" dir="rtl">
 
@@ -48,6 +48,14 @@
         <button class="chip active" id="chipAll" type="button">الكل</button>
         <button class="chip" id="chipFav" type="button">المفضلة</button>
       </div>
+      <div class="font-size-row" role="group" aria-label="Font size" id="fontSizeGroup">
+        <span class="font-size-label" id="fontSizeLabel">حجم الخط</span>
+        <div class="font-size-btns">
+          <button class="size-btn" id="fontMinus2" type="button" title="تصغير الخط" aria-label="Smaller text">A−</button>
+          <span class="font-size-value" id="fontSizeValue">18</span>
+          <button class="size-btn" id="fontPlus2" type="button" title="تكبير الخط" aria-label="Larger text">A+</button>
+        </div>
+      </div>
     </div>
     <div class="chapter-list" id="chapterList"></div>
   </aside>
@@ -73,6 +81,6 @@
   </main>
 </div>
 
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

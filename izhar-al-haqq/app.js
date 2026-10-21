@@ -22,7 +22,8 @@ const i18n = {
     prev: 'السابق', next: 'التالي', navLabel: 'تنقل بين الفصول',
     all: 'الكل', favorites: 'المفضلة', noFavs: 'لا توجد فصول مفضلة بعد',
     prevResult: 'النتيجة السابقة', nextResult: 'النتيجة التالية',
-    resultsAria: 'التنقل بين نتائج البحث', favAria: 'المفضلة', theme: 'السمة'
+    resultsAria: 'التنقل بين نتائج البحث', favAria: 'المفضلة', theme: 'السمة',
+    fontSize: 'حجم الخط', smaller: 'تصغير الخط', larger: 'تكبير الخط'
   },
   en: {
     title: 'Izhar al-Haqq', author: 'Sheikh Rahmatullah al-Hindi',
@@ -31,7 +32,8 @@ const i18n = {
     prev: 'Previous', next: 'Next', navLabel: 'Chapter navigation',
     all: 'All', favorites: 'Favorites', noFavs: 'No favorite chapters yet',
     prevResult: 'Previous result', nextResult: 'Next result',
-    resultsAria: 'Search result navigation', favAria: 'Favorites', theme: 'Theme'
+    resultsAria: 'Search result navigation', favAria: 'Favorites', theme: 'Theme',
+    fontSize: 'Font size', smaller: 'Smaller text', larger: 'Larger text'
   },
   fr: {
     title: 'Izhar al-Haqq', author: 'Cheikh Rahmatullah al-Hindi',
@@ -40,7 +42,8 @@ const i18n = {
     prev: 'Précédent', next: 'Suivant', navLabel: 'Navigation entre les chapitres',
     all: 'Tout', favorites: 'Favoris', noFavs: 'Aucun chapitre favori pour le moment',
     prevResult: 'Résultat précédent', nextResult: 'Résultat suivant',
-    resultsAria: 'Navigation dans les résultats de recherche', favAria: 'Favoris', theme: 'Thème'
+    resultsAria: 'Navigation dans les résultats de recherche', favAria: 'Favoris', theme: 'Thème',
+    fontSize: 'Taille du texte', smaller: 'Réduire le texte', larger: 'Agrandir le texte'
   },
   es: {
     title: 'Izhar al-Haqq', author: 'Jeques Rahmatullah al-Hindi',
@@ -49,7 +52,8 @@ const i18n = {
     prev: 'Anterior', next: 'Siguiente', navLabel: 'Navegación entre capítulos',
     all: 'Todo', favorites: 'Favoritos', noFavs: 'Aún no hay capítulos favoritos',
     prevResult: 'Resultado anterior', nextResult: 'Resultado siguiente',
-    resultsAria: 'Navegación de resultados de búsqueda', favAria: 'Favoritos', theme: 'Tema'
+    resultsAria: 'Navegación de resultados de búsqueda', favAria: 'Favoritos', theme: 'Tema',
+    fontSize: 'Tamaño de letra', smaller: 'Texto más pequeño', larger: 'Texto más grande'
   }
 };
 
@@ -59,6 +63,10 @@ const themeIcons = { light: '☀️', dark: '🌙', sepia: '📜' };
 const themeToggle = document.getElementById('themeToggle');
 const fontMinus = document.getElementById('fontMinus');
 const fontPlus = document.getElementById('fontPlus');
+const fontMinus2 = document.getElementById('fontMinus2');
+const fontPlus2 = document.getElementById('fontPlus2');
+const fontSizeValue = document.getElementById('fontSizeValue');
+const fontSizeLabel = document.getElementById('fontSizeLabel');
 const searchInput = document.getElementById('searchInput');
 const searchStats = document.getElementById('searchStats');
 const chapterList = document.getElementById('chapterList');
@@ -164,8 +172,15 @@ function setFontSize(px) {
   const size = Math.max(12, Math.min(30, px));
   document.documentElement.style.setProperty('--reader-size', size + 'px');
   localStorage.setItem('izhar_font_size', String(size));
+  if (fontSizeValue) fontSizeValue.textContent = String(size);
   return size;
 }
+
+function currentFontSize() {
+  return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reader-size'), 10) || 18;
+}
+
+function stepFont(delta) { setFontSize(currentFontSize() + delta); }
 
 async function initApp() {
   setupEventListeners();
@@ -472,6 +487,11 @@ function applyUiStrings() {
   favBtn.title = t.favAria;
   favBtn.setAttribute('aria-label', t.favAria);
   themeToggle.title = t.theme;
+  if (fontSizeLabel) fontSizeLabel.textContent = t.fontSize;
+  if (fontMinus) { fontMinus.title = t.smaller; fontMinus.setAttribute('aria-label', t.smaller); }
+  if (fontPlus) { fontPlus.title = t.larger; fontPlus.setAttribute('aria-label', t.larger); }
+  if (fontMinus2) { fontMinus2.title = t.smaller; fontMinus2.setAttribute('aria-label', t.smaller); }
+  if (fontPlus2) { fontPlus2.title = t.larger; fontPlus2.setAttribute('aria-label', t.larger); }
   applyBookStrings();
   updateNav();
   document.documentElement.lang = currentLang;
@@ -538,14 +558,10 @@ function setupEventListeners() {
 
   themeToggle.addEventListener('click', cycleTheme);
 
-  fontPlus.addEventListener('click', () => {
-    const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reader-size'), 10) || 18;
-    setFontSize(cur + 2);
-  });
-  fontMinus.addEventListener('click', () => {
-    const cur = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--reader-size'), 10) || 18;
-    setFontSize(cur - 2);
-  });
+  fontPlus.addEventListener('click', () => stepFont(2));
+  fontMinus.addEventListener('click', () => stepFont(-2));
+  if (fontPlus2) fontPlus2.addEventListener('click', () => stepFont(2));
+  if (fontMinus2) fontMinus2.addEventListener('click', () => stepFont(-2));
 
   let searchTimer = null;
   searchInput.addEventListener('input', (e) => {
