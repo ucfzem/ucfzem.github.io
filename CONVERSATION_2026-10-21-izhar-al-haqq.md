@@ -62,11 +62,26 @@ support — using the **exact JSON schema the user specified**. Then register it
   `{ emoji: "🌟", name: "إظهار الحق", tag: "Islamic Studies", icon: …/izhar-al-haqq/icon.svg, url: … }`
   → renders inside `#f-maktaba` in the always-unlocked `#publicProjects` container.
 
+## Author name + death year correction (after launch)
+User: the accurate Urdu spelling is **رحمت الله الهندي** (open taa); contemporary Arabic often
+writes رحمة الله (closed taa) — both historically used, but the open-taa form is closer to the
+original. Also: add death year **1891 CE**.
+- Applied across **all four JSON `book` blocks** (source + en/fr/es): `author` →
+  `الشيخ رحمت الله بن خليل الرحمن الهندي`, `translations.ar.author` → `الشيخ رحمت الله الهندي`;
+  `year_ah` 1280 → **1308**, `year_ce` 1864 → **1891**.
+- Latin/other translations keep their transliteration (`Sheikh/Cheikh/Jeques Rahmatullah al-Hindi`).
+- `index.html`: `<title>`, meta description, `#authorLine` → رحمت الله; `manifest.json` description.
+- `app.js`: ar i18n fallback author → رحمت الله.
+- **Confirmed against the book's own first paragraph** (source text, left untouched):
+  `ـ[إظهار الحق]ـ المؤلف: محمد رحمت الله بن خليل الرحمن الكيرانوي العثماني الهندي الحنفي (المتوفى: ١٣٠٨هـ)`
+  — validates open taa **رحمت الله** and death year **1308 AH (≈1891 CE)**.
+- Cache-bust: `app.js?v=4`, SW `izhar-v1.3.0`.
+
 ## Tests
 | Suite | Result |
 |---|---|
-| `test-izhar-local.mjs` (repo on :8099) | **102/102** (incl. font-size controls header + sidebar, mobile reachability) |
-| `test-izhar-local.mjs` (production, cache-busted) | **102/102** — offline translated reads (en/fr/es arShare 0.00), offline search + result nav, works Maktaba icon, mobile header + sidebar font controls, 0 page errors/404s |
+| `test-izhar-local.mjs` (repo on :8099) | **108/108** (incl. author + death-year assertions, font controls, translations) |
+| `test-izhar-local.mjs` (production, cache-busted) | **108/108** — author/year corrected, offline translated reads (en/fr/es arShare 0.00), offline search + result nav, works Maktaba icon, mobile controls, 0 page errors/404s |
 
 ## Font-size controls (added after launch)
 User: *"must add +A A- font size buttons"*. The buttons existed but were **hidden on ≤600px**
@@ -122,3 +137,5 @@ data/izhar-al-haqq.{en,fr,es}.json · tools/{gtx,clientPool,translate-izhar,veri
 - `cd9fbd5` izhar-al-haqq: EN/FR/ES paragraph translations + content_langs gate + SW v1.1.0 + toolchain/verify gate
 - `10258af` conversation: izhar-al-haqq notes (translations)
 - `037733e` izhar-al-haqq: always-visible A-/A+ font-size controls (header compact + sidebar row) + SW v1.2.0
+- `6b944ee` izhar-al-haqq: backup tree (byte-identical) + conversation notes
+- `9d61ef5` izhar-al-haqq: correct author name to «رحمت الله الهندي» + death year 1308AH/1891CE; SW v1.3.0, app.js?v=4

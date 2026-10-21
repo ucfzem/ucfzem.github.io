@@ -1,9 +1,9 @@
-const CACHE = 'izhar-v1.2.0';
+const CACHE = 'izhar-v1.3.0';
 const CORE = [
   './',
   './index.html',
   './style.css?v=2',
-  './app.js?v=3',
+  './app.js?v=4',
   './fonts.css?v=1',
   './manifest.json',
   './data/izhar-al-haqq.json',
