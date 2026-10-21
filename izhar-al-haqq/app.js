@@ -16,7 +16,7 @@ let listFilter = localStorage.getItem('izhar_filter') === 'fav' ? 'fav' : 'all';
 
 const i18n = {
   ar: {
-    title: 'إظهار الحق', author: 'الشيخ رحمة الله الهندي',
+    title: 'إظهار الحق', author: 'الشيخ رحمت الله الهندي',
     placeholder: 'ابحث في الكتاب كاملاً...', matches: 'نتيجة مطابقة',
     loading: 'جاري تحميل الكتاب...', error: 'خطأ في تحميل بيانات الكتاب: ',
     prev: 'السابق', next: 'التالي', navLabel: 'تنقل بين الفصول',
