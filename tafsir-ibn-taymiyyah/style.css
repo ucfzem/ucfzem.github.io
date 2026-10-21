@@ -359,3 +359,7 @@ button:focus, select:focus, input:focus, .chapter-item:focus {
 @media (max-width: 600px) {
   #fontMinus, #fontPlus { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
 }
+
+/* Performance for old mobile */
+article { content-visibility: auto; contain-intrinsic-size: 1px 1000px; }
+* { -webkit-tap-highlight-color: transparent; }
