@@ -273,11 +273,32 @@ article h3.section-heading {
 }
 article h3.section-heading:first-of-type { margin-top: 0.3rem; }
 
-article p {
-  margin-bottom: 0.8em; text-align: start;
-  font-family: var(--para-font);
-  font-size: var(--reader-size);
-  line-height: 2.15;
+article p,
+article h2,
+article h3,
+.section-heading,
+.chapter-heading,
+.quran-text,
+.ayah-block {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  font-feature-settings: "liga" 1, "clig" 1, "calt" 1, "ccmp" 1, "mark" 1, "mkmk" 1, "kern" 1;
+  font-variant-ligatures: common-ligatures contextual;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.quran-ayah {
+  color: #e6dfcc;
+  font-family: 'AmiriPara', 'Amiri', 'Traditional Arabic', serif;
+  line-height: 2.4;
+}
+
+.ayah-number {
+  color: #c5a059;
+  padding: 0 4px;
+  font-size: 0.9em;
 }
 
 mark {

@@ -1,9 +1,9 @@
-const CACHE = 'tafsir-v1.0.0';
+const CACHE = 'tafsir-v1.0.1';
 const CORE = [
   './',
   './index.html',
   './style.css?v=1',
-  './app.js?v=1',
+  './app.js?v=2',
   './fonts.css?v=1',
   './manifest.json',
   './data/tafsir-ibn-taymiyyah.json',
