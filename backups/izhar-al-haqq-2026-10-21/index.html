@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إظهار الحق - رحمة الله الهندي</title>
+<meta name="theme-color" content="#2e6f40">
+<meta name="description" content="كتاب «إظهار الحق» للشيخ رحمة الله الهندي (١٢٨٠هـ) — النص كاملًا بفهرس وبحث فوري وتنقّل بين الفصول والمفضلة، ويعمل دون اتصال.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="fonts.css?v=1">
+<link rel="stylesheet" href="style.css?v=2">
+</head>
+<body data-theme="light" dir="rtl">
+
+<header class="app-bar">
+  <div class="brand-section">
+    <button class="menu-btn" id="menuToggle" title="الفهرس" aria-label="Toggle navigation">☰</button>
+    <span class="app-title" id="ui-title">إظهار الحق</span>
+  </div>
+  <div class="controls-group">
+    <div class="lang-pills" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="ar" title="العربية" aria-label="العربية">🇲🇦</button>
+      <button class="lang-btn" data-lang="en" title="English" aria-label="English">🇬🇧</button>
+      <button class="lang-btn" data-lang="fr" title="Français" aria-label="Français">🇫🇷</button>
+      <button class="lang-btn" data-lang="es" title="Español" aria-label="Español">🇪🇸</button>
+    </div>
+    <button class="icon-btn" id="fontMinus" title="تصغير الخط" aria-label="Smaller text">A-</button>
+    <button class="icon-btn" id="fontPlus" title="تكبير الخط" aria-label="Larger text">A+</button>
+    <button class="icon-btn" id="themeToggle" title="السمة" aria-label="Toggle Theme">☀️</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside id="sidebar" class="drawer">
+    <div class="sidebar-header">
+      <input type="text" id="searchInput" class="search-box" placeholder="ابحث في الكتاب كاملاً...">
+      <div class="controls-row">
+        <div id="searchStats" class="search-stats" aria-live="polite" style="flex:1"></div>
+        <div id="resultNav" class="result-nav hidden">
+          <button id="resPrev" type="button" title="النتيجة السابقة" aria-label="Previous result">‹</button>
+          <span id="resCounter" class="result-counter">0 / 0</span>
+          <button id="resNext" type="button" title="النتيجة التالية" aria-label="Next result">›</button>
+        </div>
+      </div>
+      <div class="filter-chips" role="group" aria-label="Filter">
+        <button class="chip active" id="chipAll" type="button">الكل</button>
+        <button class="chip" id="chipFav" type="button">المفضلة</button>
+      </div>
+      <div class="font-size-row" role="group" aria-label="Font size" id="fontSizeGroup">
+        <span class="font-size-label" id="fontSizeLabel">حجم الخط</span>
+        <div class="font-size-btns">
+          <button class="size-btn" id="fontMinus2" type="button" title="تصغير الخط" aria-label="Smaller text">A−</button>
+          <span class="font-size-value" id="fontSizeValue">18</span>
+          <button class="size-btn" id="fontPlus2" type="button" title="تكبير الخط" aria-label="Larger text">A+</button>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+
+  <main class="viewport">
+    <div class="sub-bar">
+      <span class="cur-title" id="currentChapterTitle"></span>
+      <div class="bar-right">
+        <span class="author" id="authorLine">الشيخ رحمة الله الهندي</span>
+        <button class="fav-btn" id="favBtn" type="button" aria-pressed="false" title="المفضلة" aria-label="Favorites">☆</button>
+      </div>
+    </div>
+    <div class="scroll-area" id="scrollArea">
+      <article id="contentContainer">
+        <div class="loading-spinner">جاري تحميل الكتاب...</div>
+      </article>
+    </div>
+    <nav class="chapter-nav" id="chapterNav" aria-label="تنقل بين الفصول">
+      <button class="nav-btn" id="prevChapter" type="button">السابق</button>
+      <span class="nav-pos" id="navPos" aria-live="polite"></span>
+      <button class="nav-btn" id="nextChapter" type="button">التالي</button>
+    </nav>
+  </main>
+</div>
+
+<script src="app.js?v=3"></script>
+</body>
+</html>

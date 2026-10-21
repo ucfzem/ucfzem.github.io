@@ -1,0 +1,19 @@
+{
+  "name": "إظهار الحق",
+  "short_name": "إظهار الحق",
+  "description": "كتاب «إظهار الحق» للشيخ رحمة الله بن خليل الرحمن الهندي (١٢٨٠هـ / ١٨٦٤م) — النص كاملًا بفهرس وبحث فوري وتنقّل بين الفصول والمفضلة، ويعمل دون اتصال.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12181b",
+  "theme_color": "#2e6f40",
+  "categories": ["books", "education", "religion"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

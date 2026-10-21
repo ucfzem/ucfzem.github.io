@@ -65,8 +65,22 @@ support — using the **exact JSON schema the user specified**. Then register it
 ## Tests
 | Suite | Result |
 |---|---|
-| `test-izhar-local.mjs` (repo on :8099) | **96/96** after translations |
-| `test-izhar-local.mjs` (production, cache-busted) | **96/96** — offline translated reads (en/fr/es arShare 0.00), offline search + result nav, works Maktaba icon, 0 page errors/404s |
+| `test-izhar-local.mjs` (repo on :8099) | **102/102** (incl. font-size controls header + sidebar, mobile reachability) |
+| `test-izhar-local.mjs` (production, cache-busted) | **102/102** — offline translated reads (en/fr/es arShare 0.00), offline search + result nav, works Maktaba icon, mobile header + sidebar font controls, 0 page errors/404s |
+
+## Font-size controls (added after launch)
+User: *"must add +A A- font size buttons"*. The buttons existed but were **hidden on ≤600px**
+(`#fontMinus,#fontPlus{display:none}`) — invisible on the user's phone. Fixed:
+- Header `A-` / `A+` now **always visible** (compact at ≤600px, no longer hidden).
+- New **sidebar font-size row** (`#fontSizeGroup`): label `حجم الخط` + `A−` `#fontMinus2` / live value
+  `#fontSizeValue` / `A+` `#fontPlus2` — always reachable on mobile via the ☰ drawer.
+- `app.js`: shared `stepFont(delta)` / `currentFontSize()` used by all four buttons; the size label
+  stays in sync; persists to `izhar_font_size` (12–30px clamp). i18n label/titles ×4
+  (ar: حجم الخط/تصغير الخط/تكبير الخط; en: Font size/Smaller/Larger; fr: Taille du texte/Réduire/Agrandir;
+  es: Tamaño de letra/más pequeño/más grande).
+- CSS: `.font-size-row`, `.size-btn`, `.font-size-value` added (uses existing theme tokens, works in
+  all 3 themes); `A-` uses the `A−` (minus sign) glyph.
+- Cache-bust: `app.js?v=3`, `style.css?v=2`, SW `izhar-v1.2.0`.
 
 ## Paragraph translations (EN/FR/ES) — added after launch
 User reported the same gap as the Ibn Taymiyyah book: *"only index and titles are translated, no paragraph translation"*.
@@ -106,3 +120,5 @@ data/izhar-al-haqq.{en,fr,es}.json · tools/{gtx,clientPool,translate-izhar,veri
 ## Commits
 - `26f21d8` izhar-al-haqq: full book PWA + works Maktaba card + root sw SHELLS/APPS entry
 - `cd9fbd5` izhar-al-haqq: EN/FR/ES paragraph translations + content_langs gate + SW v1.1.0 + toolchain/verify gate
+- `10258af` conversation: izhar-al-haqq notes (translations)
+- `037733e` izhar-al-haqq: always-visible A-/A+ font-size controls (header compact + sidebar row) + SW v1.2.0
