@@ -1,0 +1,19 @@
+{
+  "name": "تفسير شيخ الإسلام ابن تيمية",
+  "short_name": "تفسير ابن تيمية",
+  "description": "تفسير شيخ الإسلام ابن تيمية — الجامع لكلام الإمام ابن تيمية في التفسير، جمع وتحقيق إياد بن عبد اللطيف القيسي (دار ابن الجوزي، ٧ مجلدات) — النص كاملًا بفهرس وبحث فوري وتنقّل بين المواضع والمفضلة، ويعمل دون اتصال.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14161f",
+  "theme_color": "#2a3b7a",
+  "categories": ["books", "education", "religion"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

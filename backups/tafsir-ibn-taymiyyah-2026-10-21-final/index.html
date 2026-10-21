@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفسير شيخ الإسلام ابن تيمية</title>
+<meta name="theme-color" content="#2a3b7a">
+<meta name="description" content="تفسير شيخ الإسلام ابن تيمية — الجامع لكلام الإمام ابن تيمية في التفسير، جمع وتحقيق إياد بن عبد اللطيف القيسي (دار ابن الجوزي، ٧ مجلدات) — النص كاملًا بفهرس وبحث فوري وتنقّل بين المواضع والمفضلة، ويعمل دون اتصال.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="fonts.css?v=1">
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body data-theme="light" dir="rtl">
+
+<header class="app-bar">
+  <div class="brand-section">
+    <button class="menu-btn" id="menuToggle" title="الفهرس" aria-label="إظهار الفهرس">☰</button>
+    <span class="app-title" id="ui-title">تفسير شيخ الإسلام ابن تيمية</span>
+  </div>
+  <div class="controls-group">
+    <button class="icon-btn" id="fontMinus" title="تصغير الخط" aria-label="تصغير الخط">A-</button>
+    <button class="icon-btn" id="fontPlus" title="تكبير الخط" aria-label="تكبير الخط">A+</button>
+    <button class="icon-btn" id="themeToggle" title="السمة" aria-label="تبديل السمة">☀️</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside id="sidebar" class="drawer">
+    <div class="sidebar-header">
+      <input type="text" id="searchInput" class="search-box" placeholder="ابحث في الكتاب كاملاً...">
+      <div class="controls-row">
+        <div id="searchStats" class="search-stats" aria-live="polite" style="flex:1"></div>
+        <div id="resultNav" class="result-nav hidden">
+          <button id="resPrev" type="button" title="النتيجة السابقة" aria-label="النتيجة السابقة">‹</button>
+          <span id="resCounter" class="result-counter">0 / 0</span>
+          <button id="resNext" type="button" title="النتيجة التالية" aria-label="النتيجة التالية">›</button>
+        </div>
+      </div>
+      <div class="filter-chips" role="group" aria-label="تصفية">
+        <button class="chip active" id="chipAll" type="button">الكل</button>
+        <button class="chip" id="chipFav" type="button">المفضلة</button>
+      </div>
+      <div class="font-size-row" role="group" aria-label="حجم الخط" id="fontSizeGroup">
+        <span class="font-size-label" id="fontSizeLabel">حجم الخط</span>
+        <div class="font-size-btns">
+          <button class="size-btn" id="fontMinus2" type="button" title="تصغير الخط" aria-label="تصغير الخط">A−</button>
+          <span class="font-size-value" id="fontSizeValue">19</span>
+          <button class="size-btn" id="fontPlus2" type="button" title="تكبير الخط" aria-label="تكبير الخط">A+</button>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+
+  <main class="viewport">
+    <div class="sub-bar">
+      <span class="cur-title" id="currentChapterTitle"></span>
+      <div class="bar-right">
+        <span class="author" id="authorLine">جمع وتحقيق: إياد بن عبد اللطيف القيسي</span>
+        <button class="fav-btn" id="favBtn" type="button" aria-pressed="false" title="المفضلة" aria-label="المفضلة">☆</button>
+      </div>
+    </div>
+    <div class="scroll-area" id="scrollArea">
+      <article id="contentContainer">
+        <div class="loading-spinner">جاري تحميل الكتاب...</div>
+      </article>
+    </div>
+    <nav class="chapter-nav" id="chapterNav" aria-label="تنقل بين المواضع">
+      <button class="nav-btn" id="prevChapter" type="button">السابق</button>
+      <span class="nav-pos" id="navPos" aria-live="polite"></span>
+      <button class="nav-btn" id="nextChapter" type="button">التالي</button>
+    </nav>
+  </main>
+</div>
+
+<script src="app.js?v=5"></script>
+</body>
+</html>
