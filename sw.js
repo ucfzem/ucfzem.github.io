@@ -50,7 +50,8 @@ const SHELLS = [
   'akhbar-al-hamqa-wal-mughaffalin',
   'rihlat-ibn-battuta',
   'al-bishara',
-  'al-jawab-al-sahih'
+  'al-jawab-al-sahih',
+  'izhar-al-haqq'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -85,7 +86,8 @@ const APPS = [
   'akhbar-al-hamqa-wal-mughaffalin',
   'rihlat-ibn-battuta',
   'al-bishara',
-  'al-jawab-al-sahih'
+  'al-jawab-al-sahih',
+  'izhar-al-haqq'
 ];
 
 // Shared third-party assets the shells need to render offline.
