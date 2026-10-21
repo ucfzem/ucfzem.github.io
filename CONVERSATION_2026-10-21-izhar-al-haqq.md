@@ -65,19 +65,44 @@ support — using the **exact JSON schema the user specified**. Then register it
 ## Tests
 | Suite | Result |
 |---|---|
-| `test-izhar-local.mjs` (repo on :8099) | **91/92** — only fail: works card icon (live URL not deployed yet); all app features PASS incl. offline (8/8 chapters, offline search + result nav, offline i18n), favorites, resume, sepia, mobile 360px, 0 page errors/404s |
-| Live suite (production) | to run after deploy |
+| `test-izhar-local.mjs` (repo on :8099) | **96/96** after translations |
+| `test-izhar-local.mjs` (production, cache-busted) | **96/96** — offline translated reads (en/fr/es arShare 0.00), offline search + result nav, works Maktaba icon, 0 page errors/404s |
+
+## Paragraph translations (EN/FR/ES) — added after launch
+User reported the same gap as the Ibn Taymiyyah book: *"only index and titles are translated, no paragraph translation"*.
+Fixed by adapting the jawab translation pipeline to the single-file schema:
+- `tools/gtx.mjs` + `tools/clientPool.mjs` — reused verbatim from al-jawab-al-sahih (multi-client rotation, per-client
+  429 cooldowns, Arabic-echo detection). Output: `data/izhar-al-haqq.{en,fr,es}.json` — **identical structure**
+  (same book, chapter ids, section ids, paragraph counts/order), only `sections[].heading` + `sections[].content[]` translated.
+- `tools/translate-izhar.mjs` — resumable at **paragraph granularity** (output file is ground truth, atomic write per
+  paragraph); the 3 languages run **concurrently through the shared ClientPool** so the synchronous rotation hands each
+  in-flight request a different bucket while cooldown state stays shared.
+- `tools/verify-izhar.mjs` — quality gate: structural parity + no Arabic-dominant entries; repairs damaged entries in place.
+  Final: **0 damaged, 0 structural issues** across all three languages.
+- One stubborn paragraph (chap-4-s2 #17, a 901-char run of quoted Genesis verses) kept tripping the engine's
+  Arabic-echo heuristic; translated it directly in smaller pieces → **0.00** Arabic share.
+- `data/izhar-al-haqq.json`: added `book.content_langs = ["ar","en","fr","es"]`.
+- `app.js`: `ensureContent(lang)` loads `izhar-al-haqq.<lang>.json` **only when `book.content_langs` lists it**
+  (no 404 probes) with a **strict chapter-count shape guard** (partial files fall back to Arabic rather than render
+  misaligned); `switchLanguage()` re-fetches content + rebuilds search results; boot restores translated content for a
+  saved language. Cache-bust `app.js?v=2`.
+- `sw.js`: `izhar-v1.0.0` → **`izhar-v1.1.0`**; CORE now precaches the 3 translation files too.
+- Live proof: chapter 1 renders ar 100% / en,fr,es 0.00 Arabic in body text; English reads fully **offline** (357k chars, 0.00).
 
 ## Files (deployed)
 `izhar-al-haqq/` = index.html · style.css · app.js · sw.js · manifest.json · fonts.css ·
-fonts/×12 · icon.svg · icon-192.png · icon-512.png · data/izhar-al-haqq.json (22 files, 2.6 MB).
-Scraper/builder/TOC kept out of the repo in `/tmp/opencode/`.
+fonts/×12 · icon.svg · icon-192.png · icon-512.png · data/izhar-al-haqq.json ·
+data/izhar-al-haqq.{en,fr,es}.json · tools/{gtx,clientPool,translate-izhar,verify-izhar}.mjs.
 
 ## Links
 - App: https://ucfzem.github.io/izhar-al-haqq/
-- Data: https://ucfzem.github.io/izhar-al-haqq/data/izhar-al-haqq.json
+- Data (AR): https://ucfzem.github.io/izhar-al-haqq/data/izhar-al-haqq.json
+- Data (EN): https://ucfzem.github.io/izhar-al-haqq/data/izhar-al-haqq.en.json
+- Data (FR): https://ucfzem.github.io/izhar-al-haqq/data/izhar-al-haqq.fr.json
+- Data (ES): https://ucfzem.github.io/izhar-al-haqq/data/izhar-al-haqq.es.json
 - Works card: https://ucfzem.github.io/works/ (Maktaba · المكتبة, unlocked)
 - Source: https://shamela.ws/book/22721
 
 ## Commits
-- (this session) `izhar-al-haqq`: full book PWA + works Maktaba card + root sw SHELLS/APPS entry
+- `26f21d8` izhar-al-haqq: full book PWA + works Maktaba card + root sw SHELLS/APPS entry
+- `cd9fbd5` izhar-al-haqq: EN/FR/ES paragraph translations + content_langs gate + SW v1.1.0 + toolchain/verify gate
