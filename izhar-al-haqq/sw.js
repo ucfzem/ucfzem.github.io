@@ -1,12 +1,15 @@
-const CACHE = 'izhar-v1.0.0';
+const CACHE = 'izhar-v1.1.0';
 const CORE = [
   './',
   './index.html',
   './style.css?v=1',
-  './app.js?v=1',
+  './app.js?v=2',
   './fonts.css?v=1',
   './manifest.json',
   './data/izhar-al-haqq.json',
+  './data/izhar-al-haqq.en.json',
+  './data/izhar-al-haqq.fr.json',
+  './data/izhar-al-haqq.es.json',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',

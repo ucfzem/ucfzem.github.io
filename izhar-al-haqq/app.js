@@ -4,6 +4,8 @@
    reading-position resume, three themes, and global search result navigation. */
 
 let bookData = null;
+let contentBook = null;      // null => Arabic source (bookData); else the loaded translation
+const translationCache = {}; // lang -> translation object, or false after a failed load
 let currentChapterIndex = 0;
 let searchQuery = '';
 let results = [];          // flat search results: {ch, sec, para, start, end}
@@ -180,6 +182,7 @@ async function fetchBook() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     bookData = await response.json();
     applyBookStrings();
+    await ensureContent(currentLang); // restore translated content for a saved language
     await maybeLoadFromHash(true);
   } catch (err) {
     console.warn('Book load failed:', err);
@@ -196,7 +199,36 @@ function writeHash() {
   if (chap) history.replaceState(null, '', `#${chap.id}`);
 }
 
-function chapters() { return (bookData && bookData.chapters) || []; }
+function chapters() {
+  const active = contentBook || bookData;
+  return (active && active.chapters) || [];
+}
+
+// Language gate: only fetch a translation file the book declares in
+// book.content_langs (no 404 probes for languages that don't exist yet).
+function contentLangs() {
+  return (bookData && bookData.book && bookData.book.content_langs) || ['ar'];
+}
+
+async function ensureContent(lang) {
+  if (!bookData || lang === 'ar' || !contentLangs().includes(lang)) { contentBook = null; return; }
+  if (translationCache[lang] === false) { contentBook = null; return; }
+  if (translationCache[lang]) { contentBook = translationCache[lang]; return; }
+  try {
+    const response = await fetch(`./data/izhar-al-haqq.${lang}.json`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const json = await response.json();
+    if (!json || !Array.isArray(json.chapters) || json.chapters.length !== bookData.chapters.length) {
+      throw new Error('translation shape mismatch');
+    }
+    translationCache[lang] = json;
+    contentBook = json;
+  } catch (err) {
+    console.warn('Translation load failed, using Arabic source:', err);
+    translationCache[lang] = false;
+    contentBook = null;
+  }
+}
 
 async function maybeLoadFromHash(allowResume) {
   const hashId = (location.hash || '').replace(/^#/, '');
@@ -454,8 +486,11 @@ async function switchLanguage(lang) {
   if (!i18n[lang]) return;
   currentLang = lang;
   localStorage.setItem('izhar_lang', currentLang);
+  await ensureContent(lang);
   applyUiStrings();
+  buildResults();               // flat results must match the (possibly new) corpus
   displayChapter(currentChapterIndex);
+  updateResultCounter();
 }
 
 function cycleTheme() {
