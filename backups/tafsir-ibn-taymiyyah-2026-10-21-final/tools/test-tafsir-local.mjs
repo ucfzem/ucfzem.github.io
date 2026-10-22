@@ -171,12 +171,17 @@ if (EXP.chapters >= 3) {
   }
 }
 await p.evaluate((c) => { location.hash = `juz-${c}`; }, EXP.chapters);
-await p.waitForTimeout(700);
-const endNav = await p.evaluate(() => ({
-  pos: document.getElementById('navPos').textContent.trim(),
-  nextDis: document.getElementById('nextChapter').disabled,
-  prevDis: document.getElementById('prevChapter').disabled
-}));
+// wait for the volume to load (production network can be slow)
+let endNav = { pos: '', nextDis: false, prevDis: false };
+for (let i = 0; i < 40; i++) {
+  endNav = await p.evaluate(() => ({
+    pos: document.getElementById('navPos').textContent.trim(),
+    nextDis: document.getElementById('nextChapter').disabled,
+    prevDis: document.getElementById('prevChapter').disabled
+  }));
+  if (new RegExp(`^${EXP.chapters} / ${EXP.chapters}`).test(endNav.pos)) break;
+  await new Promise(r => setTimeout(r, 400));
+}
 ok(new RegExp(`${EXP.chapters} / ${EXP.chapters}`).test(endNav.pos) && endNav.nextDis && !endNav.prevDis, `nav: book end disables next (${endNav.pos})`);
 
 // ---------- DEEP LINK + RESUME + DRAWER + FONT SIZE ----------
