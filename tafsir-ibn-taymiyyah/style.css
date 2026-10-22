@@ -288,6 +288,20 @@ article p,
   text-rendering: optimizeLegibility;
 }
 
+.fn-mark {
+  font-size: 0.58em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--accent);
+  margin-inline-start: 0.15em;
+}
+
+#contentContainer p.fn-para {
+  font-size: calc(var(--reader-size) * 0.72);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
 article p,
 article h2,
 article h3,

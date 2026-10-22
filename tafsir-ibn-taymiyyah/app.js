@@ -73,6 +73,8 @@ const DIAC_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/;
 const FOLD_MAP = { '\u0623': '\u0627', '\u0625': '\u0627', '\u0622': '\u0627', '\u0671': '\u0627', '\u0629': '\u0647' };
 const MAX_RESULTS = 20000;
 const CHUNK = 200;              // paragraphs appended per frame
+// A paragraph that is nothing but a footnote reference, e.g. "(١)" / "(1)".
+const FN_MARK_RE = /^\([0-9\u0660-\u0669\u06F0-\u06F9A-Za-z]{1,3}\)$/;
 const PREFETCH_IDLE = 900;      // ms of idle before prefetching the next chapter
 
 function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
@@ -215,7 +217,7 @@ function buildPlan(idx, data) {
     }
     (sec.content || []).forEach(text => {
       g2i.set(gpara, items.length);
-      items.push({ type: 'p', text: text, gpara: gpara });
+      items.push({ type: 'p', text: text, gpara: gpara, fn: FN_MARK_RE.test(text.trim()) });
       gpara++;
     });
   });
@@ -251,6 +253,25 @@ function renderChunk(idx, plan) {
       h3.className = 'section-heading';
       fillHighlighted(h3, item.text, searchQuery);
       frag.appendChild(h3);
+    } else if (item.fn) {
+      // Footnote reference: tuck it as a superscript onto the paragraph it
+      // belongs to instead of letting it float as its own line.
+      let host = frag.lastElementChild;
+      if (!host || host.tagName !== 'P') host = contentContainer.lastElementChild;
+      if (host && host.tagName === 'P') {
+        const sup = document.createElement('span');
+        sup.className = 'fn-mark';
+        sup.id = 'p-' + idx + '-' + item.gpara;
+        sup.textContent = item.text;
+        host.appendChild(document.createTextNode(' '));
+        host.appendChild(sup);
+      } else {
+        const p = document.createElement('p');
+        p.className = 'fn-para';
+        p.id = 'p-' + idx + '-' + item.gpara;
+        p.textContent = item.text;
+        frag.appendChild(p);
+      }
     } else {
       const p = document.createElement('p');
       p.id = 'p-' + idx + '-' + item.gpara;
