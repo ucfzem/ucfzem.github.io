@@ -238,28 +238,35 @@ def build_volume(vol):
 
 # ---------------------------------------------------------------- Fatihah
 
-FATIHAH_BASMALA = u'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'
-FATIHAH_AYAT = (
-    u'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿١﴾ '
-    u'الرَّحْمَٰنِ الرَّحِيمِ ﴿٢﴾ '
-    u'مَالِكِ يَوْمِ الدِّينِ ﴿٣﴾ '
-    u'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٤﴾ '
-    u'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٥﴾ '
-    u'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٦﴾'
-)
+FATIHAH_AYAT = [
+    u'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾',
+    u'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾',
+    u'الرَّحْمَٰنِ الرَّحِيمِ ﴿٣﴾',
+    u'مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾',
+    u'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾',
+    u'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾',
+    u'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾',
+]
 
-# garbled opening lines produced by the scan (they carry the surah's own
-# ayat, split across lines with broken letter order)
+# The scan lost the start of the basmala and split the ayat across three
+# broken lines; these are their real openings.
 FATIHAH_GARBLED = (
-    u'الله الرحمن',
-    u'الرحيةِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَنِ',
-    u'ملِكِ يَوْمِ الدِّينِ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
+    u'\u0627\u0644\u0644\u0647 \u0627\u0644\u0631\u062d\u0645\u0646',
+    u'\u0627\u0644\u0631\u062d\u064a\u0629\u0650 \u0627\u0644\u0652\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0650\u0644\u0651\u064e\u0647\u0650 \u0631\u064e\u0628\u0651\u064e \u0627\u0644\u0652\u064e\u0639\u064e\u0627\u0644\u064e\u0645\u0650\u064a\u0646\u064e',
+    u'\u0645\u064e\u0644\u0650\u0643\u0650 \u064a\u064e\u0648\u0652\u0645\u0650 \u0627\u0644\u0652\u062f\u0651\u064a\u0646\u0650 \u0625\u0650\u064a\u0651\u064e\u0627\u0643\u064e \u0646\u064e\u0639\u0652\u0628\u064f\u062f\u064f',
 )
-FATIHAH_COMMENTARY_START = u'قال شيخ الإسلام في أسباب نزول الفاتحة :'
+FATIHAH_COMMENTARY_START = u'\u0642\u0627\u0644 \u0634\u064a\u062e \u0627\u0644\u0625\u0633\u0644\u0627\u0645 \u0641\u064a \u0623\u0633\u0628\u0627\u0628 \u0646\u0632\u0648\u0644 \u0627\u0644\u0641\u0627\u062a\u062d\u0629 :'
+
+
+def _pref(text, n=10):
+    """First n characters with diacritics stripped - used to recognise the
+    broken opening lines of Al-Fatihah."""
+    return DIAC.sub('', text)[:n].strip()
 
 
 def fix_fatihah(section):
-    """Swap the garbled opening ayat for clean ones, keep the commentary."""
+    """Replace the garbled opening with the seven clean ayat (the basmala
+    counts as the first one) and keep the full commentary."""
     content = section['content']
     start = None
     for i, line in enumerate(content):
@@ -268,14 +275,17 @@ def fix_fatihah(section):
             break
 
     def clean(seq):
-        return [l for l in seq if not any(l.startswith(g[:18]) for g in FATIHAH_GARBLED)]
+        out = []
+        for l in seq:
+            pl = _pref(l)
+            if pl and any(pl == _pref(g) for g in FATIHAH_GARBLED):
+                continue
+            out.append(l)
+        return out
 
-    if start is None:
-        section['content'] = [FATIHAH_BASMALA, FATIHAH_AYAT] + clean(content)
-        return section
-
-    head = clean(content[:start])
-    section['content'] = [FATIHAH_BASMALA, FATIHAH_AYAT] + head + content[start:]
+    head = clean(content[:start]) if start is not None else clean(content)
+    tail = content[start:] if start is not None else []
+    section['content'] = list(FATIHAH_AYAT) + head + tail
     return section
 
 

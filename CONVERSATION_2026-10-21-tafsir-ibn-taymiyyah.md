@@ -8,14 +8,14 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 ## Dataset
 - Source: aljam3.com book 18202 (7 volumes, 4216 pages), crawled to `/tmp/opencode/tafsir_it/raw/vol-1..7.json`
 - Rebuilt with `tools/build3.py` → `data/c/<n>.json` (lazy per volume) + `data/s/<n>.txt` (normalized search blob) + `data/index.json`
-- **7 chapters · 114 sections · 54,039 paragraphs** (volumes: 2 / 3 / 6 / 13 / 23 / 40 / 27 sections)
+- **7 chapters · 114 sections · 54,044 paragraphs** (volumes: 2 / 3 / 6 / 13 / 23 / 40 / 27 sections)
 - Parser rules that fixed the previous build:
   - a page's running header names the surah it belongs to → a change means a new section;
   - a `سورة X` line inside the body is a section heading;
   - surahs only move forward, so a repeated/lower-index heading is a running header and is dropped (kills the old duplicate sections);
   - OCR-tolerant surah names (`سورة السجدة` → السجادة) via 1-edit matching with a shared 4-letter prefix;
   - page numbers (ASCII / ٠-٩ / ۰-۹), spelled-out `الجزء …` footers (848), mangled headers and TOC/index pages are stripped;
-  - Al-Fatihah: the 3 garbled opening ayat lines are replaced with clean ﴿١﴾…﴿٦﴾ text, the 928-paragraph commentary is preserved intact.
+  - Al-Fatihah: the 3 garbled opening lines are replaced with the **seven clean ayat**, one per line, with the **basmala counted as ayah 1** (﴿١﴾ basmala, ﴿٢﴾ الحمد … ﴿٧﴾ الضالين) - the scan had lost the start of the basmala and split the ayat; the full commentary (now 933 paragraphs) is preserved intact.
 - Verified against the raw rebuild: **no tafsir prose lost** (only 8 OCR header fragments + the 3 intentionally replaced ayat lines differ).
 
 ## Steps
@@ -26,7 +26,7 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 - Fixed the section-heading parser (8 surahs were being swallowed into the previous section)
 - Warm sepia manuscript theme (bg `#16120e`, card `#1e1913`, text `#e6d5bc`, gold `#c89b3c`) + reader font-size control + old-phone optimizations
 - Typography: the manuscript font (**AmiriPara**) is applied to **paragraphs only**; titles, headings and every UI control keep the original **Cairo** face (`--body-font`)
-- Service worker `tafsir-v1.1.2`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
+- Service worker `tafsir-v1.1.3`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
 - Fonts are force-loaded at startup (`document.fonts.load`, with an Arabic sample for the Arabic-only AmiriPara face) so the first paint never falls back and offline rendering works
 - Deployed to GitHub Pages, ran the Playwright suite (67/67 passing), refreshed the backup
 
