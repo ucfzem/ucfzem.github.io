@@ -1,15 +1,27 @@
-/* تفسير شيخ الإسلام ابن تيمية — application engine.
-   Cloned from izhar-al-haqq (diacritic-insensitive highlight, drawer, nav,
-   favorites, resume, three themes, global search result navigation).
-   Arabic-only build: single language, no translation layer. */
+/* تفسير شيخ الإسلام ابن تيمية — application engine (Arabic-only, mobile-first).
+   Performance model:
+   - data/index.json  (~10 KB)  : metadata only, loaded at boot
+   - data/c/<n>.json             : chapter text, fetched lazily when opened
+   - data/s/<n>.txt             : normalized search blob, fetched lazily on search
+   The reader renders paragraphs in small chunks through an IntersectionObserver
+   sentinel so a 10 000-paragraph surah never creates 10 000 DOM nodes at once. */
 
-let bookData = null;                 // active book (Arabic source)
+let bookMeta = null;                 // { book, chapters:[...] }
 let currentChapterIndex = 0;
 let searchQuery = '';
-let results = [];          // flat search results: {ch, sec, para, start, end}
-let resultIdx = null;      // index into results of the "current" result
+let results = [];                    // { ch, gpara, mIdx }
+let resultIdx = null;
 let favorites = new Set(JSON.parse(localStorage.getItem('tafsir_favs') || '[]'));
 let listFilter = localStorage.getItem('tafsir_filter') === 'fav' ? 'fav' : 'all';
+
+const chapterData = new Map();       // idx -> { id, title, sections:[{id,heading,content[]}] }
+const chapterPlan = new Map();       // idx -> { items:[{type,text,gpara}], g2i:Map }
+const searchLines = new Map();       // idx -> string[]  (one normalized line per paragraph)
+const chapterCounts = new Map();     // idx -> match count for the active query
+
+let renderToken = 0;
+let searchToken = 0;
+let chunkTimer = null;
 
 const UI = {
   title: 'تفسير شيخ الإسلام ابن تيمية',
@@ -20,7 +32,9 @@ const UI = {
   all: 'الكل', favorites: 'المفضلة', noFavs: 'لا توجد مواضع مفضلة بعد',
   prevResult: 'النتيجة السابقة', nextResult: 'النتيجة التالية',
   resultsAria: 'التنقل بين نتائج البحث', favAria: 'المفضلة', theme: 'السمة',
-  fontSize: 'حجم الخط', smaller: 'تصغير الخط', larger: 'تكبير الخط'
+  fontSize: 'حجم الخط', smaller: 'تصغير الخط', larger: 'تكبير الخط',
+  searching: 'جاري البحث', loadingChapter: 'جاري تحميل المجلد...',
+  more: 'التمرير للمزيد', end: 'نهاية المجلد'
 };
 
 const themeOrder = ['light', 'dark', 'sepia'];
@@ -58,6 +72,8 @@ const resultNav = document.getElementById('resultNav');
 const DIAC_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/;
 const FOLD_MAP = { '\u0623': '\u0627', '\u0625': '\u0627', '\u0622': '\u0627', '\u0671': '\u0627', '\u0629': '\u0647' };
 const MAX_RESULTS = 20000;
+const CHUNK = 200;              // paragraphs appended per frame
+const PREFETCH_IDLE = 900;      // ms of idle before prefetching the next chapter
 
 function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function makeRegex(query) { return new RegExp(escapeRe(query), 'gi'); }
@@ -88,29 +104,15 @@ function makeRegexSafe(query) {
   try { return makeRegex(nq); } catch (e) { return null; }
 }
 
-function countMatches(text, query) {
-  if (!text) return 0;
-  const re = makeRegexSafe(query);
-  if (!re) return 0;
-  const norm = normalizeText(text).norm;
-  let n = 0;
-  let m;
-  while ((m = re.exec(norm)) !== null) {
-    if (m[0].length === 0) { re.lastIndex++; continue; }
-    n++;
-  }
-  return n;
-}
-
 // Render `text` into `el`, wrapping every (diacritic-insensitive) match of
 // `query` in <mark class="highlight"> — DOM-safe, unlike innerHTML regexing.
 function fillHighlighted(el, text, query) {
   el.textContent = '';
-  if (!text) return;
+  if (!text) return 0;
   const re = makeRegexSafe(query);
-  if (!re) { el.textContent = text; return; }
+  if (!re) { el.textContent = text; return 0; }
   const { norm, map } = normalizeText(text);
-  let last = 0, m;
+  let last = 0, m, n = 0;
   while ((m = re.exec(norm)) !== null) {
     if (m[0].length === 0) { re.lastIndex++; continue; }
     const start = map[m.index];
@@ -122,17 +124,14 @@ function fillHighlighted(el, text, query) {
     mark.textContent = text.slice(start, end);
     el.appendChild(mark);
     last = end;
+    n++;
   }
   if (last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
+  return n;
 }
 
 function chapterTitle(chap) { return chap.title; }
-
-function chapterCorpus(chap) {
-  const parts = [chap.title];
-  (chap.sections || []).forEach(s => { parts.push(s.heading || ''); parts.push(...(s.content || [])); });
-  return parts.join(' ');
-}
+function chapters() { return (bookMeta && bookMeta.chapters) || []; }
 
 function setFontSize(px) {
   const size = Math.max(12, Math.min(30, px));
@@ -148,6 +147,8 @@ function currentFontSize() {
 
 function stepFont(delta) { setFontSize(currentFontSize() + delta); }
 
+/* ------------------------------------------------------------------ boot */
+
 async function initApp() {
   setupEventListeners();
   loadSavedTheme();
@@ -159,13 +160,14 @@ async function initApp() {
 
 async function fetchBook() {
   try {
-    const response = await fetch('./data/tafsir-ibn-taymiyyah.json');
+    const response = await fetch('./data/index.json', { cache: 'no-cache' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    bookData = await response.json();
+    bookMeta = await response.json();
     applyBookStrings();
     await maybeLoadFromHash(true);
+    schedulePrefetch(0);
   } catch (err) {
-    console.warn('Book load failed:', err);
+    console.warn('Book index load failed:', err);
     contentContainer.textContent = '';
     const p = document.createElement('p');
     p.style.color = 'red';
@@ -174,13 +176,167 @@ async function fetchBook() {
   }
 }
 
+/* ------------------------------------------------- lazy chapter loading */
+
+async function loadChapter(idx) {
+  if (chapterData.has(idx)) return chapterData.get(idx);
+  const meta = chapters()[idx];
+  if (!meta) return null;
+  const res = await fetch('./data/' + meta.file, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  chapterData.set(idx, data);
+  return data;
+}
+
+// Prefetch the next chapter while the reader is idle — makes navigation feel
+// instant without blocking the first paint.
+function schedulePrefetch(idx) {
+  const meta = chapters()[idx];
+  if (!meta) return;
+  const target = idx + 1;
+  if (target >= chapters().length || chapterData.has(target)) return;
+  if (chunkTimer) clearTimeout(chunkTimer);
+  chunkTimer = setTimeout(() => {
+    loadChapter(target).catch(() => {});
+  }, PREFETCH_IDLE);
+}
+
+/* ------------------------------------------------- rendering (chunked) */
+
+function buildPlan(idx, data) {
+  const items = [];
+  const g2i = new Map();
+  let gpara = 0;
+  (data.sections || []).forEach(sec => {
+    if (sec.heading) {
+      g2i.set(gpara, items.length);
+      items.push({ type: 'h3', text: sec.heading, gpara: -1 });
+    }
+    (sec.content || []).forEach(text => {
+      g2i.set(gpara, items.length);
+      items.push({ type: 'p', text: text, gpara: gpara });
+      gpara++;
+    });
+  });
+  const plan = { items: items, g2i: g2i, total: gpara, next: 0 };
+  chapterPlan.set(idx, plan);
+  return plan;
+}
+
+let sentinelObserver = null;
+
+function observeSentinel(sentinel, idx, plan) {
+  if (sentinelObserver) sentinelObserver.disconnect();
+  sentinelObserver = new IntersectionObserver((entries) => {
+    if (entries.some(e => e.isIntersecting)) {
+      if (plan.next < plan.items.length) {
+        renderChunk(idx, plan);
+      } else {
+        sentinel.remove();
+      }
+    }
+  }, { root: scrollArea, rootMargin: '600px 0px' });
+  sentinelObserver.observe(sentinel);
+}
+
+function renderChunk(idx, plan) {
+  const token = renderToken;
+  const frag = document.createDocumentFragment();
+  const end = Math.min(plan.next + CHUNK, plan.items.length);
+  for (let i = plan.next; i < end; i++) {
+    const item = plan.items[i];
+    if (item.type === 'h3') {
+      const h3 = document.createElement('h3');
+      h3.className = 'section-heading';
+      fillHighlighted(h3, item.text, searchQuery);
+      frag.appendChild(h3);
+    } else {
+      const p = document.createElement('p');
+      p.id = 'p-' + idx + '-' + item.gpara;
+      fillHighlighted(p, item.text, searchQuery);
+      frag.appendChild(p);
+    }
+  }
+  plan.next = end;
+  const sentinel = document.getElementById('renderSentinel');
+  contentContainer.insertBefore(frag, sentinel || null);
+  if (plan.next >= plan.items.length) {
+    const s = document.getElementById('renderSentinel');
+    if (s) s.textContent = UI.end;
+    if (sentinelObserver) sentinelObserver.disconnect();
+  }
+  if (token !== renderToken) return;
+}
+
+async function displayChapter(chapIdx, opts) {
+  const meta = chapters()[chapIdx];
+  if (!meta) return;
+  currentChapterIndex = chapIdx;
+  currentChapterTitle.textContent = chapterTitle(meta);
+  contentContainer.textContent = '';
+
+  const h2 = document.createElement('h2');
+  h2.className = 'chapter-heading';
+  fillHighlighted(h2, chapterTitle(meta), searchQuery);
+  contentContainer.appendChild(h2);
+
+  const status = document.createElement('div');
+  status.className = 'loading-spinner';
+  status.textContent = UI.loadingChapter;
+  contentContainer.appendChild(status);
+
+  let data;
+  try {
+    data = await loadChapter(chapIdx);
+  } catch (err) {
+    status.textContent = UI.error + err.message;
+    return;
+  }
+  if (currentChapterIndex !== chapIdx) return;   // user moved on
+
+  status.remove();
+  const plan = buildPlan(chapIdx, data);
+  const sentinel = document.createElement('div');
+  sentinel.id = 'renderSentinel';
+  sentinel.className = 'render-sentinel';
+  sentinel.textContent = plan.items.length ? UI.more : '';
+  contentContainer.appendChild(sentinel);
+
+  plan.next = 0;
+  renderChunk(chapIdx, plan);
+  observeSentinel(sentinel, chapIdx, plan);
+
+  updateNav();
+  updateFavBtn();
+  savePosition();
+  schedulePrefetch(chapIdx);
+
+  if (opts && opts.gpara != null) {
+    await ensureRendered(chapIdx, opts.gpara);
+  }
+}
+
+// Render forward until the requested paragraph exists in the DOM.
+async function ensureRendered(idx, gpara) {
+  const plan = chapterPlan.get(idx);
+  if (!plan) return;
+  let guard = 0;
+  while (plan.next < plan.items.length && guard++ < 400) {
+    const itemIdx = plan.g2i.get(gpara);
+    if (itemIdx != null && itemIdx < plan.next) break;
+    renderChunk(idx, plan);
+    if (plan.next % CHUNK === 0) await new Promise(r => setTimeout(r, 0));
+  }
+  const el = document.getElementById('p-' + idx + '-' + gpara);
+  if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+
+/* --------------------------------------------------------- navigation */
+
 function writeHash() {
   const chap = chapters()[currentChapterIndex];
   if (chap) history.replaceState(null, '', `#${chap.id}`);
-}
-
-function chapters() {
-  return (bookData && bookData.chapters) || [];
 }
 
 async function maybeLoadFromHash(allowResume) {
@@ -194,14 +350,12 @@ async function maybeLoadFromHash(allowResume) {
   if (!chapters().length) return;
   currentChapterIndex = idx;
   renderChapterList();
-  displayChapter(currentChapterIndex);
   const saved = JSON.parse(localStorage.getItem('tafsir_pos') || 'null');
+  await displayChapter(idx);
   if (idx > 0 || !saved) scrollArea.scrollTop = 0;
-  requestAnimationFrame(() => {
-    if (saved && chapters()[idx] && saved.id === chapters()[idx].id && saved.top) {
-      scrollArea.scrollTop = saved.top;
-    }
-  });
+  if (saved && chapters()[idx] && saved.id === chapters()[idx].id && saved.top) {
+    scrollArea.scrollTop = saved.top;
+  }
   writeHash();
 }
 
@@ -209,6 +363,7 @@ function gotoChapter(idx) {
   if (idx < 0 || idx >= chapters().length) return;
   currentChapterIndex = idx;
   renderChapterList();
+  renderToken++;
   displayChapter(idx);
   writeHash();
   if (window.innerWidth <= 768) sidebar.classList.add('closed');
@@ -229,52 +384,19 @@ function updateFavBtn() {
   favBtn.textContent = active ? '★' : '☆';
 }
 
-function displayChapter(chapIdx) {
-  const chap = chapters()[chapIdx];
-  if (!chap) return;
-
-  currentChapterTitle.textContent = chapterTitle(chap);
-  contentContainer.textContent = '';
-
-  const h2 = document.createElement('h2');
-  h2.className = 'chapter-heading';
-  fillHighlighted(h2, chapterTitle(chap), searchQuery);
-  contentContainer.appendChild(h2);
-
-  (chap.sections || []).forEach(sec => {
-    if (sec.heading) {
-      const h3 = document.createElement('h3');
-      h3.className = 'section-heading';
-      fillHighlighted(h3, sec.heading, searchQuery);
-      contentContainer.appendChild(h3);
-    }
-    (sec.content || []).forEach(text => {
-      const p = document.createElement('p');
-      fillHighlighted(p, text, searchQuery);
-      contentContainer.appendChild(p);
-    });
-  });
-
-  updateNav();
-  updateFavBtn();
-  savePosition();
-}
-
 function savePosition() {
   const chap = chapters()[currentChapterIndex];
   if (!chap) return;
   localStorage.setItem('tafsir_pos', JSON.stringify({ id: chap.id, top: scrollArea.scrollTop }));
 }
 
-/* ---------------- favorites + list ---------------- */
+/* -------------------------------------------------- favorites + list */
 
 function renderChapterList() {
   chapterList.textContent = '';
-  let totalMatches = 0;
-  const chaps = chapters();
   let visible = 0;
 
-  chaps.forEach((chap, idx) => {
+  chapters().forEach((chap, idx) => {
     if (listFilter === 'fav' && !favorites.has(chap.id)) return;
     visible++;
 
@@ -298,15 +420,12 @@ function renderChapterList() {
       tail.appendChild(star);
     }
 
-    if (searchQuery) {
-      const count = countMatches(chapterCorpus(chap), searchQuery);
-      totalMatches += count;
-      if (count > 0) {
-        const badge = document.createElement('span');
-        badge.className = 'badge-matches';
-        badge.textContent = String(count);
-        tail.appendChild(badge);
-      }
+    const count = chapterCounts.get(idx);
+    if (count) {
+      const badge = document.createElement('span');
+      badge.className = 'badge-matches';
+      badge.textContent = String(count);
+      tail.appendChild(badge);
     }
     div.appendChild(tail);
 
@@ -322,8 +441,6 @@ function renderChapterList() {
     note.textContent = UI.noFavs;
     chapterList.appendChild(note);
   }
-
-  updateSearchStats(totalMatches);
 }
 
 function updateSearchStats(totalMatches) {
@@ -344,36 +461,64 @@ function updateResultCounter() {
   resNext.disabled = n === 0;
 }
 
-/* ---------------- global search ---------------- */
+/* ------------------------------------------------------ global search */
 
-function buildResults() {
-  results = [];
-  resultIdx = null;
-  if (!searchQuery) return;
-  const re = makeRegexSafe(searchQuery);
-  if (!re) return;
-
-  chapters().forEach((chap, ch) => {
-    (chap.sections || []).forEach((sec, si) => {
-      (sec.content || []).forEach((text, pi) => {
-        if (results.length >= MAX_RESULTS) return;
-        const { norm, map } = normalizeText(text || '');
-        let m;
-        re.lastIndex = 0;
-        while ((m = re.exec(norm)) !== null) {
-          if (m[0].length === 0) { re.lastIndex++; continue; }
-          const start = map[m.index];
-          const end = map[m.index + m[0].length - 1] + 1;
-          if (start == null || end == null) continue;
-          results.push({ ch, sec: si, para: pi, start, end });
-          if (results.length >= MAX_RESULTS) break;
-        }
-      });
-    });
-  });
+async function getSearchLines(idx) {
+  if (searchLines.has(idx)) return searchLines.get(idx);
+  const meta = chapters()[idx];
+  if (!meta) return [];
+  const res = await fetch('./data/' + meta.search, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  const lines = text.split('\n');
+  searchLines.set(idx, lines);
+  return lines;
 }
 
-function gotoResult(delta) {
+// Progressive search: chapters stream in one at a time so the first results
+// show up quickly on slow connections.
+async function buildResults(query) {
+  const token = ++searchToken;
+  results = [];
+  resultIdx = null;
+  chapterCounts.clear();
+  if (!query) { renderChapterList(); updateSearchStats(0); return; }
+
+  const re = makeRegexSafe(query);
+  if (!re) { renderChapterList(); updateSearchStats(0); return; }
+
+  const total = chapters().length;
+  for (let idx = 0; idx < total; idx++) {
+    if (token !== searchToken) return;
+    let lines;
+    try { lines = await getSearchLines(idx); }
+    catch (e) { lines = []; }
+    if (token !== searchToken) return;
+
+    let count = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line) continue;
+      re.lastIndex = 0;
+      let m, mIdx = 0;
+      while ((m = re.exec(line)) !== null) {
+        if (m[0].length === 0) { re.lastIndex++; continue; }
+        if (results.length < MAX_RESULTS) results.push({ ch: idx, gpara: i, mIdx: mIdx });
+        mIdx++;
+        count++;
+      }
+    }
+    if (count) chapterCounts.set(idx, count);
+    searchStats.textContent = `${UI.searching} ${idx + 1}/${total} — ${results.length} ${UI.matches}`;
+    renderChapterList();
+  }
+
+  if (token !== searchToken) return;
+  updateSearchStats(results.length);
+  renderChapterList();
+}
+
+async function gotoResult(delta) {
   if (!results.length) return;
   if (resultIdx == null) {
     resultIdx = delta > 0 ? 0 : results.length - 1;
@@ -385,26 +530,29 @@ function gotoResult(delta) {
   if (r.ch !== currentChapterIndex) {
     currentChapterIndex = r.ch;
     renderChapterList();
-    displayChapter(r.ch);
-    writeHash();
+    renderToken++;
+    await displayChapter(r.ch, { gpara: r.gpara });
+  } else {
+    await ensureRendered(r.ch, r.gpara);
   }
-  // DOM marks appear in the same order as results for this chapter.
-  const marks = contentContainer.querySelectorAll('mark.highlight');
-  const firstOfChapter = results.findIndex(x => x.ch === r.ch);
-  const markIdx = resultIdx - firstOfChapter;
-  const target = marks[markIdx];
-  contentContainer.querySelectorAll('mark.highlight-current').forEach(mk => mk.classList.remove('highlight-current'));
-  if (target) {
-    target.classList.add('highlight-current');
-    target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  writeHash();
+  const para = document.getElementById('p-' + r.ch + '-' + r.gpara);
+  if (para) {
+    const marks = para.querySelectorAll('mark.highlight');
+    contentContainer.querySelectorAll('mark.highlight-current').forEach(mk => mk.classList.remove('highlight-current'));
+    const target = marks[r.mIdx];
+    if (target) {
+      target.classList.add('highlight-current');
+      target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
   }
   updateResultCounter();
 }
 
-/* ---------------- strings / theme / favorites ---------------- */
+/* --------------------------------------------- strings / theme / favs */
 
 function applyBookStrings() {
-  const t = bookData && bookData.book;
+  const t = bookMeta && bookMeta.book;
   uiTitle.textContent = (t && t.title) || UI.title;
   authorLine.textContent = (t && t.author) || UI.author;
 }
@@ -433,7 +581,7 @@ function applyUiStrings() {
   updateNav();
   document.documentElement.lang = 'ar';
   document.body.setAttribute('dir', 'rtl');
-  if (bookData) renderChapterList();
+  if (bookMeta) renderChapterList();
 }
 
 function cycleTheme() {
@@ -472,7 +620,7 @@ function setFilter(mode) {
   renderChapterList();
 }
 
-/* ---------------- events ---------------- */
+/* ------------------------------------------------------------ events */
 
 function setupEventListeners() {
   themeToggle.addEventListener('click', cycleTheme);
@@ -486,12 +634,13 @@ function setupEventListeners() {
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
     clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => {
-      buildResults();
-      renderChapterList();
-      displayChapter(currentChapterIndex);
-      updateResultCounter();
-    }, 120);
+    searchTimer = setTimeout(async () => {
+      await buildResults(searchQuery);
+      if (searchQuery) {
+        renderToken++;
+        await displayChapter(currentChapterIndex);
+      }
+    }, 260);
   });
 
   resPrev.addEventListener('click', () => gotoResult(-1));
@@ -509,17 +658,31 @@ function setupEventListeners() {
   let saveTimer = null;
   scrollArea.addEventListener('scroll', () => {
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(savePosition, 300);
-  });
+    saveTimer = setTimeout(savePosition, 400);
+  }, { passive: true });
 
-  window.addEventListener('hashchange', () => { if (bookData) maybeLoadFromHash(false); });
+  window.addEventListener('hashchange', () => { if (bookMeta) maybeLoadFromHash(false); });
 }
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
   });
 }
+
+/* Warm up the manuscript faces up-front so the first paint never falls back
+   to a system serif, and so the service worker has them cached for offline
+   reading.  document.fonts.check() only reports a face as available once it
+   has actually been fetched. */
+(function preloadFonts() {
+  if (!document.fonts || !document.fonts.load) return;
+  const faces = [
+    '1rem Amiri', '1rem Cairo', '1rem AmiriPara',
+    '700 1rem Amiri', '700 1rem Cairo', '700 1rem AmiriPara'
+  ];
+  const run = () => faces.forEach(f => { try { document.fonts.load(f); } catch (e) {} });
+  if (document.readyState === 'complete') run();
+  else window.addEventListener('load', run, { once: true });
+})();
 
 initApp();

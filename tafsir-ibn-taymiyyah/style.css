@@ -4,62 +4,62 @@
    and search result navigation. Arabic-only build. */
 
 :root {
-  --bg-body: #fdfbf7;
-  --bg-panel: #f4f3ee;
-  --bg-card: #ffffff;
-  --text-main: #2c2c2c;
-  --text-muted: #6b7280;
-  --accent: #2a3b7a;
-  --accent-soft: #e7eaf5;
-  --title: #2a3b7a;
-  --border-color: #e2e0d6;
-  --header-text: #ffffff;
-  --highlight-bg: #f6ad55;
-  --highlight-text: #1a202c;
-  --highlight-current: #ed8936;
-  --focus: #2a3b7a;
-  --fav-color: #d4a017;
+  --bg-body: #16120e;
+  --bg-panel: #1a1510;
+  --bg-card: #1e1913;
+  --text-main: #e6d5bc;
+  --text-muted: #b0a084;
+  --accent: #c89b3c;
+  --accent-soft: #2a221b;
+  --title: #d9a74a;
+  --border-color: #3a2f24;
+  --header-text: #f2e7d3;
+  --highlight-bg: #c89b3c;
+  --highlight-text: #16120e;
+  --highlight-current: #d9a74a;
+  --focus: #d9a74a;
+  --fav-color: #c89b3c;
   --sidebar-width: 330px;
   --bar-height: 62px;
   --reader-size: 19px;
   --body-font: 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --para-font: 'AmiriPara', 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif;
+  --para-font: 'Amiri', 'Traditional Arabic', 'Times New Roman', serif;
 }
 
 [data-theme="dark"] {
-  --bg-body: #14161f;
-  --bg-panel: #1b1f2e;
-  --bg-card: #1b1f2e;
-  --text-main: #e2e5f0;
-  --text-muted: #94a0b8;
-  --accent: #7c8fd6;
-  --accent-soft: #20263a;
-  --title: #a9b8ec;
-  --border-color: #2d3548;
-  --header-text: #f0f2ff;
-  --highlight-bg: #7c8fd6;
-  --highlight-text: #0a0f0d;
-  --highlight-current: #9db0e8;
-  --focus: #9db0e8;
-  --fav-color: #ecc94b;
+  --bg-body: #16120e;
+  --bg-panel: #1a1510;
+  --bg-card: #1e1913;
+  --text-main: #e6d5bc;
+  --text-muted: #b0a084;
+  --accent: #c89b3c;
+  --accent-soft: #2a221b;
+  --title: #d9a74a;
+  --border-color: #3a2f24;
+  --header-text: #f2e7d3;
+  --highlight-bg: #c89b3c;
+  --highlight-text: #16120e;
+  --highlight-current: #d9a74a;
+  --focus: #d9a74a;
+  --fav-color: #c89b3c;
 }
 
 [data-theme="sepia"] {
-  --bg-body: #f4ecd8;
-  --bg-panel: #eee2c6;
-  --bg-card: #faf3e3;
-  --text-main: #3d3229;
-  --text-muted: #7a6a52;
-  --accent: #5a4a8a;
-  --accent-soft: #efe3ca;
-  --title: #4a3d70;
-  --border-color: #ddd0b4;
-  --header-text: #fffdf7;
-  --highlight-bg: #e8b84b;
-  --highlight-text: #2c2416;
-  --highlight-current: #d99a2b;
-  --focus: #5a4a8a;
-  --fav-color: #b8860b;
+  --bg-body: #241d15;
+  --bg-panel: #2b231a;
+  --bg-card: #2e261c;
+  --text-main: #e6d5bc;
+  --text-muted: #b0a084;
+  --accent: #c89b3c;
+  --accent-soft: #3a2f22;
+  --title: #d9a74a;
+  --border-color: #45392a;
+  --header-text: #f2e7d3;
+  --highlight-bg: #c89b3c;
+  --highlight-text: #16120e;
+  --highlight-current: #d9a74a;
+  --focus: #d9a74a;
+  --fav-color: #c89b3c;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -82,9 +82,10 @@ header.app-bar {
   height: var(--bar-height);
   flex-shrink: 0;
   flex-wrap: nowrap;
-  background: var(--accent);
+  background: #1a1510;
   color: var(--header-text);
-  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+  border-bottom: 1px solid rgba(200, 155, 60, .28);
+  box-shadow: 0 2px 10px rgba(0,0,0,.35);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -103,7 +104,7 @@ header.app-bar {
 .menu-btn:hover { background: rgba(255,255,255,.28); }
 
 .app-title {
-  font-weight: 700; font-size: 1.1rem; color: #ffffff;
+  font-weight: 700; font-size: 1.1rem; color: #e8c87e;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   min-width: 0; flex: 0 1 auto;
 }
@@ -255,7 +256,7 @@ article.reader-card,
 #contentContainer {
   background: var(--bg-card); border: 1px solid var(--border-color);
   border-inline-start: 4px solid var(--accent);
-  border-radius: 10px; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  border-radius: 10px; padding: 2.5rem; box-shadow: 0 8px 26px rgba(0,0,0,.35);
   max-width: 860px; width: 100%; height: fit-content;
 }
 
@@ -263,15 +264,31 @@ article h1.chapter-heading,
 article h2.chapter-heading {
   font-size: 1.35rem; line-height: 1.5; margin-bottom: 1.1rem;
   color: var(--title); font-weight: 700;
+  font-family: var(--para-font);
 }
 
 article h3.section-heading {
   font-size: 1.08rem; line-height: 1.6; margin: 1.5rem 0 0.7rem;
   color: var(--title); font-weight: 700;
+  font-family: var(--para-font);
   border-inline-start: 3px solid var(--accent);
   padding-inline-start: 0.6rem;
 }
 article h3.section-heading:first-of-type { margin-top: 0.3rem; }
+
+article p,
+#contentContainer p,
+.reader-card p {
+  font-family: var(--para-font);
+  color: var(--text-main);
+  font-size: var(--reader-size);
+  line-height: 1.95;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  font-feature-settings: "liga" 1, "clig" 1, "calt" 1, "ccmp" 1, "mark" 1, "mkmk" 1, "kern" 1;
+  font-variant-ligatures: common-ligatures contextual;
+  text-rendering: optimizeLegibility;
+}
 
 article p,
 article h2,
@@ -291,7 +308,7 @@ article h3,
 
 .quran-ayah {
   color: #e6dfcc;
-  font-family: 'AmiriPara', 'Amiri', 'Traditional Arabic', serif;
+  font-family: 'Amiri', 'Traditional Arabic', 'Times New Roman', serif;
   line-height: 2.4;
 }
 
@@ -360,6 +377,136 @@ button:focus, select:focus, input:focus, .chapter-item:focus {
   #fontMinus, #fontPlus { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
 }
 
-/* Performance for old mobile */
-article { content-visibility: auto; contain-intrinsic-size: 1px 1000px; }
+/* ---------- performance for old / small-screen smartphones ---------- */
 * { -webkit-tap-highlight-color: transparent; }
+
+article p {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 3.2em;
+}
+
+.render-sentinel {
+  text-align: center; color: var(--text-muted);
+  font-size: 0.85rem; padding: 1rem 0 2rem;
+}
+
+/* Avoid expensive compositing on low-end GPUs */
+@media (max-width: 768px) {
+  header.app-bar { box-shadow: none; }
+  article.reader-card, #contentContainer { box-shadow: none; }
+  aside.drawer { transition: none; }
+  .chapter-item { padding: 0.55rem 0.7rem; }
+  .scroll-area { padding: 0.75rem 0.5rem; }
+  #contentContainer { padding: 1rem 0.9rem; border-radius: 8px; }
+  .chapter-nav { min-height: 44px; }
+  .nav-btn { min-height: 32px; padding: 0.28rem 0.6rem; font-size: 0.85rem; }
+  .app-title { font-size: 0.9rem; }
+  .icon-btn, .menu-btn { padding: 0.25rem 0.4rem; font-size: 0.8rem; }
+  .search-box { padding: 0.45rem 0.6rem; font-size: 0.9rem; }
+  .chapter-item { font-size: 0.86rem; }
+}
+
+/* Very small screens (iPhone SE and older) */
+@media (max-width: 380px) {
+  :root { --reader-size: 17px; --bar-height: 52px; --sidebar-width: 88vw; }
+  .controls-group { gap: 0.25rem; }
+  #contentContainer { padding: 0.8rem 0.7rem; }
+  .chapter-nav { padding: 0.4rem 0.4rem; }
+  .nav-pos { font-size: 0.74rem; }
+}
+
+/* Reduced motion / low-power */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* ============================================================
+   THEME OVERRIDE — dark sepia/olive manuscript theme (Image 1)
+   Authoritative layer: forces the manuscript font and the
+   sepia palette so no framework/theme rule can override it.
+   ============================================================ */
+
+:root {
+  --bg-body: #16120e !important;
+  --bg-card: #1e1913 !important;
+  --text-main: #e6d5bc !important;
+  --accent: #c89b3c !important;
+  --title: #c89b3c !important;
+  --sepia-bg: #16120e;
+  --sepia-card: #1e1913;
+  --sepia-text: #e6d5bc;
+  --sepia-gold: #c89b3c;
+}
+
+/* The "sepia" theme is the warm parchment variant of the manuscript
+   palette; light/dark stay on the darker olive ground. */
+body[data-theme="sepia"] {
+  --sepia-bg: #241d15;
+  --sepia-card: #2e261c;
+  --sepia-text: #e6d5bc;
+}
+
+body {
+  background-color: var(--sepia-bg) !important;
+  color: var(--sepia-text) !important;
+  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+}
+
+/* Paragraph / body copy — the manuscript font everywhere */
+p,
+article p,
+#contentContainer p,
+.reader-card p,
+.reader-card p *,
+.chunk p,
+.chunk p * {
+  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+  color: var(--sepia-text) !important;
+  line-height: 2 !important;
+}
+
+/* Headings + accent rules in manuscript gold */
+h1, h2, h3, h4, h5, h6,
+.section-heading,
+#currentChapterTitle,
+.chapter-item span,
+.chapter-item.active span {
+  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+  color: var(--sepia-gold) !important;
+}
+
+/* The reading surface */
+#contentContainer,
+.reader-card,
+article.reader-card {
+  background-color: var(--sepia-card) !important;
+  color: var(--sepia-text) !important;
+  border-color: #3a2f24 !important;
+}
+
+/* Controls inherit the manuscript face but keep their own contrast */
+button,
+input,
+select,
+textarea,
+.nav-btn,
+.chapter-item,
+.icon-btn,
+.menu-btn,
+.result-nav button,
+.search-box {
+  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+}
+
+/* Accent borders */
+#contentContainer,
+.reader-card,
+.section-heading,
+.chapter-item.active {
+  border-color: var(--sepia-gold) !important;
+}
+
+::selection {
+  background: var(--sepia-gold);
+  color: var(--sepia-bg);
+}

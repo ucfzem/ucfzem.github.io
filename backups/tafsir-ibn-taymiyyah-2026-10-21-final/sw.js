@@ -1,27 +1,27 @@
-const CACHE = 'tafsir-v1.0.4';
+const CACHE = 'tafsir-v1.1.1';
 const CORE = [
   './',
   './index.html',
-  './style.css?v=1',
-  './app.js?v=5',
+  './style.css?v=3',
+  './app.js?v=7',
   './fonts.css?v=1',
   './manifest.json',
-  './data/tafsir-ibn-taymiyyah.json',
+  './data/index.json',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
   './fonts/amiri-400-arabic.woff2',
-  './fonts/amiri-400-latin-ext.woff2',
   './fonts/amiri-400-latin.woff2',
+  './fonts/amiri-400-latin-ext.woff2',
   './fonts/amiri-700-arabic.woff2',
-  './fonts/amiri-700-latin-ext.woff2',
   './fonts/amiri-700-latin.woff2',
+  './fonts/amiri-700-latin-ext.woff2',
   './fonts/cairo-400-arabic.woff2',
-  './fonts/cairo-400-latin-ext.woff2',
   './fonts/cairo-400-latin.woff2',
+  './fonts/cairo-400-latin-ext.woff2',
   './fonts/cairo-700-arabic.woff2',
-  './fonts/cairo-700-latin-ext.woff2',
-  './fonts/cairo-700-latin.woff2'
+  './fonts/cairo-700-latin.woff2',
+  './fonts/cairo-700-latin-ext.woff2'
 ];
 const CDN = [];
 
