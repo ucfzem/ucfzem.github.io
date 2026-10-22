@@ -445,6 +445,23 @@ def main():
         fixed, dropped = apply_corrections(sections)
         if vol == 1 and sections and sections[0]['heading'] == 'سورة الفاتحة':
             repair_fatihah_intro(sections[0])
+        # Fix Al-An'am 1 boundary split (yastadhifoon issue)
+        if vol == 3:
+            for sec in sections:
+                if sec['heading'] == u'سورة الأنعام':
+                    c = sec['content']
+                    # Remove standalone يَعْدِلُونَ and fix the split ayah
+                    newc = []
+                    for p in c:
+                        if p.strip() == u'يَعْدِلُونَ':
+                            continue
+                        # Fix the truncated ayah
+                        if p.strip().startswith(u'الْحَمْدُ لِلَّهِ الَّذِي خَلَقَ السَّمَوَاتِ وَالْأَرْضَ وَجَعَلَ الظُّلُمَاتِ وَالنُّورَ ثُمَّ الَّذِينَ كَفَرُوا بِرَبِّهِمْ') and u'يَعْدِلُونَ' not in p:
+                            p = p.rstrip() + u' يَعْدِلُونَ'
+                        newc.append(p)
+                    # Also fix the passage around it
+                    sec['content'] = newc
+                    break
         paras = sum(len(s['content']) for s in sections)
         print('vol %d: %2d sections, %5d paragraphs, %d corrected, %d junk dropped'
               % (vol, len(sections), paras, fixed, dropped))
