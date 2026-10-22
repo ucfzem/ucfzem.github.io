@@ -215,10 +215,10 @@ select, button { font-family: inherit; }
   gap: 0.5rem; align-items: center;
 }
 .chapter-item:hover { background: var(--accent-soft); border-color: var(--accent); }
-.chapter-item.active { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 700; }
-.chapter-item.active .badge-matches { background: rgba(255,255,255,.25); color: #ffffff; }
+.chapter-item.active { background: var(--accent); color: #1a1208; border-color: var(--accent); font-weight: 700; }
+.chapter-item.active .badge-matches { background: rgba(26,18,8,.16); color: #1a1208; }
 .chapter-item .fav-star { color: var(--fav-color); flex-shrink: 0; font-size: 0.85rem; }
-.chapter-item.active .fav-star { color: #ffe08a; }
+.chapter-item.active .fav-star { color: #1a1208; }
 
 .badge-matches {
   background: var(--accent-soft); color: var(--title);
@@ -483,6 +483,20 @@ h1, h2, h3, h4, h5, h6,
 .chapter-item span,
 .chapter-item.active span {
   color: var(--sepia-gold) !important;
+}
+
+/* Selected volume/chapter: the grouped gold !important rule above would make
+   gold text sit on the gold highlight and disappear — force dark ink instead. */
+.chapter-item.active,
+.chapter-item.active span {
+  color: #1a1208 !important;
+}
+.chapter-item.active .fav-star,
+.chapter-item.active .badge-matches {
+  color: #1a1208 !important;
+}
+.chapter-item.active .badge-matches {
+  background: rgba(26, 18, 8, 0.16) !important;
 }
 
 /* The reading surface */
