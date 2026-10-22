@@ -1,4 +1,4 @@
-const CACHE = 'tafsir-v1.1.6';
+const CACHE = 'tafsir-v1.1.7';
 const CORE = [
   './',
   './index.html',
