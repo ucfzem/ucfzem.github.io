@@ -53,3 +53,9 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 - Backup: backups/tafsir-ibn-taymiyyah-2026-10-21-final/
 - Builder: backups/tafsir-ibn-taymiyyah-2026-10-21-final/tools/build3.py
 - Test suite: backups/tafsir-ibn-taymiyyah-2026-10-21-final/tools/test-tafsir-local.mjs
+
+
+## 2026-10-22 - Quranic ayahs corrected to King Fahd Uthmani text (commit 9593dcd)
+- Fetched authenticated Uthmani text from api.alquran.cloud
+- Replaced all quoted ayahs between ﴿﴾ referenced with [Surah: Ayah] using correct Uthmani text (1,883 fixes across all 7 volumes)
+- Rebuilt, tests 67/67 passed, sw tafsir-v1.1.11
