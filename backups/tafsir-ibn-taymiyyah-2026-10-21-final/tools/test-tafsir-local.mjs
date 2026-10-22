@@ -71,11 +71,11 @@ const fonts = await p.evaluate(async () => {
   return {
     pFont: getComputedStyle(document.querySelector('#contentContainer p')).fontFamily.split(',')[0].replace(/["']/g, ''),
     hFont: getComputedStyle(document.querySelector('#contentContainer h2')).fontFamily.split(',')[0].replace(/["']/g, ''),
-    para: document.fonts.check('1rem Amiri'), cairo: document.fonts.check('1rem Cairo')
+    para: document.fonts.check('1rem AmiriPara', '\u0628\u0633\u0645'), cairo: document.fonts.check('1rem Cairo')
   };
 });
-ok(fonts.pFont === 'Amiri', `paragraph font = ${fonts.pFont}`);
-ok(fonts.hFont === 'Amiri', `heading font = ${fonts.hFont}`);
+ok(fonts.pFont === 'AmiriPara', `paragraph font = ${fonts.pFont}`);
+ok(fonts.hFont === 'Cairo', `heading font = ${fonts.hFont}`);
 ok(fonts.para && fonts.cairo, 'AmiriPara + Cairo loaded online');
 
 // ---------- THEME: light -> dark -> sepia cycle ----------
@@ -230,7 +230,7 @@ for (let i = 0; i < 90; i++) {
       if (!k.startsWith('tafsir-')) continue;
       const c = await caches.open(k);
       let all = true;
-      for (const f of ['data/index.json', 'fonts/cairo-400-arabic.woff2', 'style.css?v=3', 'app.js?v=7']) {
+      for (const f of ['data/index.json', 'fonts/cairo-400-arabic.woff2', 'style.css?v=4', 'app.js?v=8']) {
         if (!await c.match('/tafsir-ibn-taymiyyah/' + f)) all = false;
       }
       if (all) return true;

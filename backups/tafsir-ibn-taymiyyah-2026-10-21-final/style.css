@@ -23,7 +23,7 @@
   --bar-height: 62px;
   --reader-size: 19px;
   --body-font: 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --para-font: 'Amiri', 'Traditional Arabic', 'Times New Roman', serif;
+  --para-font: 'AmiriPara', 'Cairo', 'Segoe UI', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif;
 }
 
 [data-theme="dark"] {
@@ -264,13 +264,11 @@ article h1.chapter-heading,
 article h2.chapter-heading {
   font-size: 1.35rem; line-height: 1.5; margin-bottom: 1.1rem;
   color: var(--title); font-weight: 700;
-  font-family: var(--para-font);
 }
 
 article h3.section-heading {
   font-size: 1.08rem; line-height: 1.6; margin: 1.5rem 0 0.7rem;
   color: var(--title); font-weight: 700;
-  font-family: var(--para-font);
   border-inline-start: 3px solid var(--accent);
   padding-inline-start: 0.6rem;
 }
@@ -449,10 +447,9 @@ body[data-theme="sepia"] {
 body {
   background-color: var(--sepia-bg) !important;
   color: var(--sepia-text) !important;
-  font-family: 'Amiri', 'Traditional Arabic', serif !important;
 }
 
-/* Paragraph / body copy — the manuscript font everywhere */
+/* Paragraph / body copy — the manuscript font (paragraphs ONLY) */
 p,
 article p,
 #contentContainer p,
@@ -460,18 +457,17 @@ article p,
 .reader-card p *,
 .chunk p,
 .chunk p * {
-  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+  font-family: var(--para-font) !important;
   color: var(--sepia-text) !important;
   line-height: 2 !important;
 }
 
-/* Headings + accent rules in manuscript gold */
+/* Titles keep the UI font — only the colour is themed */
 h1, h2, h3, h4, h5, h6,
 .section-heading,
 #currentChapterTitle,
 .chapter-item span,
 .chapter-item.active span {
-  font-family: 'Amiri', 'Traditional Arabic', serif !important;
   color: var(--sepia-gold) !important;
 }
 
@@ -495,7 +491,7 @@ textarea,
 .menu-btn,
 .result-nav button,
 .search-box {
-  font-family: 'Amiri', 'Traditional Arabic', serif !important;
+  font-family: var(--body-font) !important;
 }
 
 /* Accent borders */

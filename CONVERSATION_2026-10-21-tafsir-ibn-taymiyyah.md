@@ -24,9 +24,10 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 - Built izhar-schema JSON, split into per-volume lazy files + search blobs
 - Restored the full Al-Fatihah commentary (previous release had truncated it to 2 lines)
 - Fixed the section-heading parser (8 surahs were being swallowed into the previous section)
-- Warm sepia/Amiri manuscript theme + reader font-size control + old-phone optimizations
-- Service worker `tafsir-v1.1.1`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
-- Fonts are force-loaded at startup (`document.fonts.load`) so the first paint never falls back and offline rendering works
+- Warm sepia manuscript theme (bg `#16120e`, card `#1e1913`, text `#e6d5bc`, gold `#c89b3c`) + reader font-size control + old-phone optimizations
+- Typography: the manuscript font (**AmiriPara**) is applied to **paragraphs only**; titles, headings and every UI control keep the original **Cairo** face (`--body-font`)
+- Service worker `tafsir-v1.1.2`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
+- Fonts are force-loaded at startup (`document.fonts.load`, with an Arabic sample for the Arabic-only AmiriPara face) so the first paint never falls back and offline rendering works
 - Deployed to GitHub Pages, ran the Playwright suite (67/67 passing), refreshed the backup
 
 ## Performance (360 px viewport, local)

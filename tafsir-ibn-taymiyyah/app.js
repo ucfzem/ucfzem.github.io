@@ -676,11 +676,15 @@ if ('serviceWorker' in navigator) {
    has actually been fetched. */
 (function preloadFonts() {
   if (!document.fonts || !document.fonts.load) return;
+  // [font shorthand, sample text] - AmiriPara is Arabic-only, so it needs an
+  // Arabic sample to actually trigger the download.
   const faces = [
-    '1rem Amiri', '1rem Cairo', '1rem AmiriPara',
-    '700 1rem Amiri', '700 1rem Cairo', '700 1rem AmiriPara'
+    ['1rem Amiri', ' '], ['1rem Cairo', ' '],
+    ['1rem AmiriPara', '\u0628\u0633\u0645'],
+    ['700 1rem Amiri', ' '], ['700 1rem Cairo', ' '],
+    ['700 1rem AmiriPara', '\u0628\u0633\u0645']
   ];
-  const run = () => faces.forEach(f => { try { document.fonts.load(f); } catch (e) {} });
+  const run = () => faces.forEach(f => { try { document.fonts.load(f[0], f[1]); } catch (e) {} });
   if (document.readyState === 'complete') run();
   else window.addEventListener('load', run, { once: true });
 })();
