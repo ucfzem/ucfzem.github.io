@@ -26,9 +26,10 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 - Fixed the section-heading parser (8 surahs were being swallowed into the previous section)
 - Warm sepia manuscript theme (bg `#16120e`, card `#1e1913`, text `#e6d5bc`, gold `#c89b3c`) + reader font-size control + old-phone optimizations
 - Typography: the manuscript font (**AmiriPara**) is applied to **paragraphs only**; titles, headings and every UI control keep the original **Cairo** face (`--body-font`)
-- Service worker `tafsir-v1.1.5`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
+- Service worker `tafsir-v1.1.6`: precaches shell + index.json + all 12 font faces, runtime-caches per-volume data
 - Fonts are force-loaded at startup (`document.fonts.load`, with an Arabic sample for the Arabic-only AmiriPara face) so the first paint never falls back and offline rendering works
 - Deployed to GitHub Pages, ran the Playwright suite (67/67 passing), refreshed the backup
+- **2026-10-22 Qur'anic quotation fixes (commit fe83a91):** ash-Shura 21 (`شُرَكَوا`/`شُرَكَلُوا`→`شُرَكَاءُ`, `يَأْذَنُ`→`يَأْذَنْ`, `بأن …`→`بقوله: ﴿أَمْ …`), Maryam 18-19 (`تَقِيَّا`→`تَقِيًّا`, `لا هَبَ … رَكِيَّا`→`لِأَهَبَ … زَكِيًّا`, `زَكِبًا`→`زَكِيًّا`), az-Zumar 54 (`وَأَنبُوا`→`وَأَنِيبُوا`), `الَّذِى`→`الَّذِي` (297).
 - **2026-10-22 UI fixes (commit f9f5bd3):** fixed the active volume/chapter button contrast (gold text on gold highlight made الجزء 1 invisible); forced dark ink on `.chapter-item.active`; speed up clearing the search field.
 - **2026-10-22 text clean-up (commit 4e7c970):**
   - added a corpus-wide correction table to `tools/build3.py` (24 classes, 422 paragraphs fixed): `عَانَيْنَكَ→آتَيْنَاكَ`, `يَتَأَيُّهَا→يَا أَيُّهَا` (94), `الكَفِرُونَ→الكَافِرُونَ` (44), `مثلِكِ/ملِكِ يَوْمِ→مَالِكِ يَوْمِ الدِّينِ` (13), `النبي الله→نبي الله` (267), `بن المعلى→بن المُعَلَّى`, `عن بن→عن ابن`, `في تفسره→في تفسيره`, `ينسوه→ينسخه`, `فيها الله الحمد→فيها لله الحمد`, `العبادة الله→العبادة لله`, `الْقُرْوَانَ→الْقُرْءَانَ` (16), and the mangled basmala fragments (`الرحمن الرحية/الرجة/الرحيدية`, `الري الحر`, `العلمي الرحمة`, `الم الرحيم`, stray `ه الرحمن الرحيم`);
