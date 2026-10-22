@@ -230,7 +230,7 @@ for (let i = 0; i < 90; i++) {
       if (!k.startsWith('tafsir-')) continue;
       const c = await caches.open(k);
       let all = true;
-      for (const f of ['data/index.json', 'fonts/cairo-400-arabic.woff2', 'style.css?v=4', 'app.js?v=8']) {
+      for (const f of ['data/index.json', 'fonts/cairo-400-arabic.woff2', 'style.css?v=5', 'app.js?v=9']) {
         if (!await c.match('/tafsir-ibn-taymiyyah/' + f)) all = false;
       }
       if (all) return true;

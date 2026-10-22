@@ -289,6 +289,127 @@ def fix_fatihah(section):
     return section
 
 
+# ------------------------------------------------------------------ corrections
+# High-confidence OCR / Quranic-text fixes, applied corpus-wide after the
+# Fatihah repair.  Order matters: multi-word passages (and the longer mangled
+# basmala fragments) must come before the short generic tokens.
+
+CORRECTIONS_LITERAL = [
+    # --- specific passages reported by the editor (must precede generics) ---
+    (u'و وقُلْ يَتَأَيُّهَا الْكَفِرُونَ', u'﴿قُلْ يَا أَيُّهَا الْكَافِرُونَ'),
+    (u'وسورة قل هوَ اللهُ أَحَدٌ ﴾ [الإخلاص',
+     u'وسورة ﴿قُلْ هُوَ اللَّهُ أَحَدٌ﴾ [الإخلاص'),
+    (u'الَّذِينَ الْمَغْضُوبِ عَلَيْهِمْ',
+     u'الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ'),
+    (u'ما كان الله ينسوه فيؤخر نزوله',
+     u'ما كان الله ينسخه فيؤخر نزوله'),
+    (u'فيها الله الحمد', u'فيها لله الحمد'),
+    (u'في تفسره', u'في تفسيره'),
+    (u'«تفسره»', u'«تفسيره»'),
+    (u'العبادة هي الله وحده', u'العبادة هي لله وحده'),
+    (u'العبادة الله', u'العبادة لله'),
+    (u'بن المعلى', u'بن المُعَلَّى'),
+
+    # --- mangled basmala fragments inside hadith quotations ---
+    (u'الرحمن الرحيدية', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'الرحمن الرحجة', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'الرحمن الرحية', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'الرحمن الرجة', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'العلمي الرحمة', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'الري الحر', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (u'الم الرحيم', u'الرَّحْمَٰنِ الرَّحِيمِ'),
+
+    # --- recurring OCR tokens (whole corpus) ---
+    (u'عَانَيْنَكَ', u'آتَيْنَاكَ'),
+    (u'يَتَأَيُّهَا', u'يَا أَيُّهَا'),
+    (u'الكَفِرُونَ', u'الكَافِرُونَ'),
+    (u'مثلِكِ يَوْمِ', u'مَالِكِ يَوْمِ'),
+    (u'ملِكِ يَوْمِ', u'مَالِكِ يَوْمِ'),
+    (u'النبي الله', u'نبي الله'),
+    (u'الرحية', u'الرحيم'),
+    (u'الرجة', u'الرحيم'),
+    (u'الْقُرْوَانَ', u'الْقُرْءَانَ'),
+]
+
+# word-bounded replacements (protect names such as "لمعن بن أوس" and "إنه الرحمن")
+CORRECTIONS_REGEX = [
+    (re.compile(u'(?<![\u0621-\u064A])ه الرحمن الرحيم'),
+     u'الرَّحْمَٰنِ الرَّحِيمِ'),
+    (re.compile(u'(?<![\u0621-\u064A])عن بن '), u'عن ابن '),
+]
+
+
+def repair_fatihah_intro(section):
+    """Stitch the OCR-fragmented opening of the 'فضل الفاتحة' quotation into
+    one paragraph:
+        '(وأم القرآن' / 'هي' / '(1)' / 'فاتحة الكتاب...' / hadith ... / 'سأل»'
+    Stray word-fragments ('أنعمت', 'بره', 'عليهم غير') already duplicated in
+    the hadith are discarded; the footnote marker is kept as its own line so
+    the reader can render it as a superscript."""
+    c = section['content']
+    i = next((k for k, l in enumerate(c) if l.startswith(u'(وأم القرآن')), None)
+    if i is None:
+        return 0
+    kf = None
+    for k in range(i + 1, min(i + 14, len(c))):
+        if c[k].strip().startswith(u'سأل»'):
+            kf = k
+            break
+    if kf is None:
+        return 0
+    parts = [c[i].strip()]
+    markers = []
+    for l in c[i + 1:kf + 1]:
+        s = l.strip()
+        if s in (u'أنعمت', u'بره', u'عليهم غير'):
+            continue
+        if re.match(u'^\\([0-9\u0660-\u0669A-Za-z]{1,3}\\)$', s):
+            markers.append(s)
+            continue
+        parts.append(s)
+    c[i:kf + 1] = [u' '.join(parts)] + markers
+    return 1
+
+
+_AR = re.compile(u'[\u0621-\u064A]')
+_DIG = re.compile(u'[0-9\u0660-\u0669\u06F0-\u06F9]')
+
+
+def is_junk_para(line):
+    """Punctuation-only / symbol-only / foreign-glyph fragments left behind by
+    the OCR (e.g. '،', ':', '•', '·', 'เ').  Footnote markers such as '(١)'
+    contain digits and are kept."""
+    t = line.strip()
+    if not t:
+        return True
+    return not _AR.search(t) and not _DIG.search(t)
+
+
+def apply_corrections(sections):
+    """Apply the correction tables to every content paragraph and drop pure
+    junk fragments.  The search blob is regenerated afterwards, so its
+    one-line-per-paragraph invariant still holds."""
+    hits = 0
+    dropped = 0
+    for sec in sections:
+        out = []
+        for line in sec['content']:
+            before = line
+            for a, b in CORRECTIONS_LITERAL:
+                if a in line:
+                    line = line.replace(a, b)
+            for rx, b in CORRECTIONS_REGEX:
+                line = rx.sub(b, line)
+            if line != before:
+                hits += 1
+            if is_junk_para(line):
+                dropped += 1
+                continue
+            out.append(line)
+        sec['content'] = out
+    return hits, dropped
+
+
 # ------------------------------------------------------------------ main
 
 def main():
@@ -303,8 +424,12 @@ def main():
             continue
         if vol == 1 and sections and sections[0]['heading'] == 'سورة الفاتحة':
             fix_fatihah(sections[0])
+        fixed, dropped = apply_corrections(sections)
+        if vol == 1 and sections and sections[0]['heading'] == 'سورة الفاتحة':
+            repair_fatihah_intro(sections[0])
         paras = sum(len(s['content']) for s in sections)
-        print('vol %d: %2d sections, %5d paragraphs' % (vol, len(sections), paras))
+        print('vol %d: %2d sections, %5d paragraphs, %d corrected, %d junk dropped'
+              % (vol, len(sections), paras, fixed, dropped))
         chapters.append({
             'id': 'juz-%d' % vol,
             'number': vol,
