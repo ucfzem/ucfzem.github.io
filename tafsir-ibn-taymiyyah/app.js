@@ -653,10 +653,22 @@ function setupEventListeners() {
 
   let searchTimer = null;
   searchInput.addEventListener('input', (e) => {
-    searchQuery = e.target.value.trim();
+    const val = e.target.value;
+    const q = val.trim();
+    searchQuery = q;
     clearTimeout(searchTimer);
+    if (!q) {
+      results = [];
+      resultIdx = null;
+      chapterCounts.clear();
+      updateSearchStats(0);
+      renderChapterList();
+      renderToken++;
+      displayChapter(currentChapterIndex).catch(() => {});
+      return;
+    }
     searchTimer = setTimeout(async () => {
-      await buildResults(searchQuery);
+      await buildResults(q);
       if (searchQuery) {
         renderToken++;
         await displayChapter(currentChapterIndex);
