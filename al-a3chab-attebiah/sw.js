@@ -1,10 +1,10 @@
-const CACHE = 'a3chab-cache-v1.3.5';
+const CACHE = 'a3chab-cache-v1.3.6';
 const CORE = [
   './',
   './index.html',
-  './style.css?v=1.3.5',
-  './app.js?v=1.3.5',
-  './data.js?v=1.3.5',
+  './style.css?v=1.3.6',
+  './app.js?v=1.3.6',
+  './data.js?v=1.3.6',
   './manifest.json',
   './icon.svg',
   './icon-192.png',
