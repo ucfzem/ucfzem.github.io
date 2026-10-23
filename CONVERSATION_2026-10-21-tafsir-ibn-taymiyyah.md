@@ -59,3 +59,16 @@ Final release restores the **complete** Al-Fatihah commentary (the earlier relea
 - Fetched authenticated Uthmani text from api.alquran.cloud
 - Replaced all quoted ayahs between ﴿﴾ referenced with [Surah: Ayah] using correct Uthmani text (1,883 fixes across all 7 volumes)
 - Rebuilt, tests 67/67 passed, sw tafsir-v1.1.11
+
+## Read-only Qur'an audit — 2026-10-23
+Prompted by a claim that commit `9593dcd` replaced all quoted ayahs with Uthmani text (1,883 fixes). Verified: **false** — `git show --stat 9593dcd` changes only `sw.js`; `git diff 9593dcd~1 9593dcd -- data/` is empty. Live `data/c/1..7.json` is byte-identical (SHA-256) to the repo. Real text edits are in earlier commits (`4e7c970`, `fe83a91`, `d5878f2`) and are incomplete.
+
+Added a read-only audit (`tools/audit_quran.py`, no data modified):
+- Extracts every `﴿...﴾` quote with volume/section/paragraph/offset, matches fragments as substrings against `quran-simple` over 1–3 ayah spans, and parses `[surah: ayah]` references.
+- Extracts and scans the whole corpus for known OCR artifacts.
+- Results: **3,486** quotes; 747 matched to their stated ref, 735 matched without a ref; 1,187 unmatched with a ref, 817 unmatched without one (includes commentary, broken brackets, and ref-association noise — review-only).
+- **175 OCR candidates: 126 high-confidence, 49 context-dependent.** High: `قرهان` 59, `قرمان` 33, `اينت` 27, `تبرك الذي بيده` 7. Context-dependent: `جعلته` 31, `انزلته` 18.
+- Confirmed examples: Yusuf 12:1–2 (`الر تلك اينت الكتاب المبين انا انزلته قرهانا/قرمانا...`), Al-Baqarah p236 (`قرمانا`, `اينت`), Al-Anfal 2 (`واينته`), Al-Mulk 1 (`تبرك`), Hud 11:143 (`قرءانه` in data as `قرهانه`).
+- Search index `data/s/*.txt` mirrors the corpus exactly (same corrupt counts), so it is not stale; it was rebuilt from the same OCR text.
+- No Qur'anic text was changed. `data/` remains untouched.
+Files: `tafsir-ibn-taymiyyah/tools/audit_quran.py`, `tafsir-ibn-taymiyyah/audit/quran-audit-review.json`, `tafsir-ibn-taymiyyah/audit/quran_audit_summary.md`. Backup: `backups/tafsir-ibn-taymiyyah-audit-2026-10-23/`.
