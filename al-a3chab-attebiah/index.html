@@ -52,6 +52,7 @@
   .ref-note{background:color-mix(in srgb,var(--highlight-bg) 30%,transparent);
     border:1px dashed var(--primary-accent);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;
     font-size:.95rem;color:var(--text-charcoal);}
+  section[id^="sec-"]{scroll-margin-top:calc(var(--header-h,96px) + 18px);}
 </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-100">
@@ -164,6 +165,15 @@ function applyTheme(t){document.documentElement.setAttribute("data-theme",t);loc
   applyTheme(s||(d?"dark":"light"));})();
 document.getElementById("themeToggle").addEventListener("click",()=>{
   applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");});
+
+/* ================= SCROLL OFFSET (real header height) ================= */
+(function(){
+  const header=document.querySelector("header");
+  const set=()=>document.documentElement.style.setProperty("--header-h",header.offsetHeight+"px");
+  set();
+  window.addEventListener("resize",set);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(set);
+})();
 
 /* ================= MOBILE TOC TOGGLE ================= */
 (function(){
@@ -388,14 +398,17 @@ function renderIndex(){
   indexContainer.addEventListener("click",e=>{
     const btn=e.target.closest("button[data-target]"); if(!btn) return;
     const target = document.getElementById(btn.dataset.target);
-    if(target) {
-      target.scrollIntoView({behavior:"smooth",block:"start"});
-    }
-    // Close sidebar on mobile after selection
+    if(!target) return;
     const sidebar = document.getElementById('tocSidebar');
-    if(sidebar && window.innerWidth < 768) {
-      sidebar.classList.add('hidden');
-    }
+    const isMobile = window.innerWidth < 768;
+    // Hide the in-flow mobile sidebar FIRST so the scroll offset is correct,
+    // then scroll after the layout has reflowed.
+    if(sidebar && isMobile) sidebar.classList.add('hidden');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        target.scrollIntoView({behavior:"smooth",block:"start"});
+      });
+    });
   });
 }
 
