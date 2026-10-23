@@ -1,0 +1,1463 @@
+[
+ {
+  "id": "chih",
+  "latin": "Artemisia herba-alba",
+  "status": "ok",
+  "file": "images/chih.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "YassineMrabet , Photo prise par un appareil numérique AIPTEK 8.7mm.",
+  "score": 10,
+  "bytes": 60131
+ },
+ {
+  "id": "louiza",
+  "latin": "Aloysia citrodora",
+  "status": "ok",
+  "file": "images/louiza.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Juan Carlos Fonseca Mata",
+  "score": 10,
+  "bytes": 119399
+ },
+ {
+  "id": "zaatar",
+  "latin": "Thymus maroccanus",
+  "status": "ok",
+  "file": "images/zaatar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Xemenendura",
+  "score": 10,
+  "bytes": 42332
+ },
+ {
+  "id": "flio",
+  "latin": "Mentha pulegium",
+  "status": "ok",
+  "file": "images/flio.jpg",
+  "license": "CC0",
+  "artist": "EmirDzaferovic",
+  "score": 10,
+  "bytes": 15493
+ },
+ {
+  "id": "salmia",
+  "latin": "Salvia officinalis",
+  "status": "ok",
+  "file": "images/salmia.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Flocci Nivis",
+  "score": 10,
+  "bytes": 60190
+ },
+ {
+  "id": "yazir",
+  "latin": "Rosmarinus officinalis",
+  "status": "ok",
+  "file": "images/yazir.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Basotxerri",
+  "score": 10,
+  "bytes": 75281
+ },
+ {
+  "id": "harmal",
+  "latin": "Peganum harmala",
+  "status": "ok",
+  "file": "images/harmal.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Yuriy75",
+  "score": 10,
+  "bytes": 43161
+ },
+ {
+  "id": "kamoun_soufi",
+  "latin": "Ammodaucus leucotrichus",
+  "status": "ok",
+  "file": "images/kamoun_soufi.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Roger Culos",
+  "score": 10,
+  "bytes": 24804
+ },
+ {
+  "id": "karwiya",
+  "latin": "Carum carvi",
+  "status": "ok",
+  "file": "images/karwiya.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Anneli Salo",
+  "score": 10,
+  "bytes": 115631
+ },
+ {
+  "id": "lakhzama",
+  "latin": "Lavandula dentata",
+  "status": "ok",
+  "file": "images/lakhzama.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Nathaly 1106",
+  "score": 10,
+  "bytes": 178878
+ },
+ {
+  "id": "tourenjane",
+  "latin": "Melissa officinalis",
+  "status": "ok",
+  "file": "images/tourenjane.jpg",
+  "license": "CC0",
+  "artist": "Cbaile19",
+  "score": 10,
+  "bytes": 53533
+ },
+ {
+  "id": "chendgoura",
+  "latin": "Ajuga iva",
+  "status": "ok",
+  "file": "images/chendgoura.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Daniel VILLAFRUELA .",
+  "score": 10,
+  "bytes": 84066
+ },
+ {
+  "id": "zaiitra",
+  "latin": "Thymus satureioides",
+  "status": "ok-fallback",
+  "candidates": 0,
+  "file": "images/zaiitra.jpg",
+  "license": "CC0",
+  "artist": "Jun2013",
+  "bytes": 147802
+ },
+ {
+  "id": "arek_souss",
+  "latin": "Glycyrrhiza glabra",
+  "status": "ok",
+  "file": "images/arek_souss.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "W. Bulach",
+  "score": 10,
+  "bytes": 28902
+ },
+ {
+  "id": "lhelba",
+  "latin": "Trigonella foenum-graecum",
+  "status": "ok",
+  "file": "images/lhelba.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Ajtjohnsingh",
+  "score": 10,
+  "bytes": 121023
+ },
+ {
+  "id": "sena_makki",
+  "latin": "Cassia angustifolia",
+  "status": "ok",
+  "file": "images/sena_makki.jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "阿橋 HQ",
+  "score": 10,
+  "bytes": 83404
+ },
+ {
+  "id": "wrak_zitoune",
+  "latin": "Olea europaea",
+  "status": "ok",
+  "file": "images/wrak_zitoune.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 33055
+ },
+ {
+  "id": "babounj",
+  "latin": "Matricaria chamomilla",
+  "status": "ok",
+  "file": "images/babounj.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "JackyM59",
+  "score": 10,
+  "bytes": 114929
+ },
+ {
+  "id": "habat_baraka",
+  "latin": "Nigella sativa",
+  "status": "ok",
+  "file": "images/habat_baraka.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "No machine-readable author provided. TheGoblin~commonswiki assumed (based on copyright claims).",
+  "score": 10,
+  "bytes": 57369
+ },
+ {
+  "id": "henna",
+  "latin": "Lawsonia inermis",
+  "status": "ok",
+  "file": "images/henna.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "thiagarajan",
+  "score": 10,
+  "bytes": 83899
+ },
+ {
+  "id": "daghmouss",
+  "latin": "Euphorbia resinifera",
+  "status": "ok",
+  "file": "images/daghmouss.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Wikimedia Commons",
+  "score": 10,
+  "bytes": 127242
+ },
+ {
+  "id": "herrast_lehjar",
+  "latin": "Herniaria fontanesii",
+  "status": "ok",
+  "file": "images/herrast_lehjar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Krzysztof Ziarnek, Kenraiz",
+  "score": 10,
+  "bytes": 82081
+ },
+ {
+  "id": "drou",
+  "latin": "Pistacia lentiscus",
+  "status": "ok",
+  "file": "images/drou.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Paolo Villa",
+  "score": 10,
+  "bytes": 59727
+ },
+ {
+  "id": "sabar",
+  "latin": "Aloe vera",
+  "status": "ok",
+  "file": "images/sabar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Petro Stelte",
+  "score": 10,
+  "bytes": 70774
+ },
+ {
+  "id": "kamoun",
+  "latin": "Cuminum cyminum",
+  "status": "ok",
+  "file": "images/kamoun.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Yercaud-elango",
+  "score": 10,
+  "bytes": 47976
+ },
+ {
+  "id": "nafaa",
+  "latin": "Foeniculum vulgare",
+  "status": "ok",
+  "file": "images/nafaa.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Schlaghecken Josef",
+  "score": 10,
+  "bytes": 65364
+ },
+ {
+  "id": "kebbar",
+  "latin": "Capparis spinosa",
+  "status": "ok",
+  "file": "images/kebbar.jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "RuthP",
+  "score": 10,
+  "bytes": 71256
+ },
+ {
+  "id": "khella",
+  "latin": "Ammi visnaga",
+  "status": "ok",
+  "file": "images/khella.jpg",
+  "license": "CC BY 2.0",
+  "artist": "Dwight Sipler from Stow, MA, USA",
+  "score": 10,
+  "bytes": 59180
+ },
+ {
+  "id": "bessbas",
+  "latin": "Anethum graveolens",
+  "status": "ok",
+  "file": "images/bessbas.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Nourrmousa",
+  "score": 10,
+  "bytes": 50331
+ },
+ {
+  "id": "kzber",
+  "latin": "Coriandrum sativum",
+  "status": "ok",
+  "file": "images/kzber.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 43852
+ },
+ {
+  "id": "march",
+  "latin": "Petroselinum crispum",
+  "status": "ok",
+  "file": "images/march.jpg",
+  "license": "CC BY 3.0",
+  "artist": "Horacio Cambeiro",
+  "score": 10,
+  "bytes": 79712
+ },
+ {
+  "id": "karfas",
+  "latin": "Apium graveolens",
+  "status": "ok",
+  "file": "images/karfas.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "MPF",
+  "score": 10,
+  "bytes": 105805
+ },
+ {
+  "id": "chibt",
+  "latin": "Artemisia absinthium",
+  "status": "ok",
+  "file": "images/chibt.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "AfroBrazilian",
+  "score": 10,
+  "bytes": 185497
+ },
+ {
+  "id": "allal",
+  "latin": "Artemisia campestris",
+  "status": "ok",
+  "file": "images/allal.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Agnieszka Kwiecień, Nova",
+  "score": 10,
+  "bytes": 66684
+ },
+ {
+  "id": "chih_khorassani",
+  "latin": "Artemisia verlotiorum",
+  "status": "ok",
+  "file": "images/chih_khorassani.jpg",
+  "license": "Public domain",
+  "artist": "javier martin",
+  "score": 10,
+  "bytes": 75116
+ },
+ {
+  "id": "khobiza",
+  "latin": "Malva sylvestris",
+  "status": "ok",
+  "file": "images/khobiza.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Krzysztof Golik",
+  "score": 10,
+  "bytes": 46445
+ },
+ {
+  "id": "beqqoula",
+  "latin": "Portulaca oleracea",
+  "status": "ok",
+  "file": "images/beqqoula.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Bobjgalindo",
+  "score": 10,
+  "bytes": 77664
+ },
+ {
+  "id": "kherchaf",
+  "latin": "Cynara scolymus",
+  "status": "ok",
+  "file": "images/kherchaf.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Agnes Monkelbaan",
+  "score": 10,
+  "bytes": 40011
+ },
+ {
+  "id": "chlada",
+  "latin": "Taraxacum officinale",
+  "status": "ok",
+  "file": "images/chlada.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Famberhorst",
+  "score": 10,
+  "bytes": 57882
+ },
+ {
+  "id": "hendba",
+  "latin": "Cichorium intybus",
+  "status": "ok",
+  "file": "images/hendba.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Agnes Monkelbaan",
+  "score": 10,
+  "bytes": 46063
+ },
+ {
+  "id": "khachkhach",
+  "latin": "Papaver rhoeas",
+  "status": "ok",
+  "file": "images/khachkhach.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "JackyM59",
+  "score": 10,
+  "bytes": 114929
+ },
+ {
+  "id": "qernoun",
+  "latin": "Papaver somniferum",
+  "status": "ok",
+  "file": "images/qernoun.jpg",
+  "license": "CC BY-SA 1.0",
+  "artist": "Louise Joly , one half of AtelierJoly",
+  "score": 10,
+  "bytes": 78302
+ },
+ {
+  "id": "loubia",
+  "latin": "Lupinus albus",
+  "status": "ok",
+  "file": "images/loubia.jpg",
+  "license": "Public domain",
+  "artist": "Calapito",
+  "score": 10,
+  "bytes": 40073
+ },
+ {
+  "id": "kharroub",
+  "latin": "Ceratonia siliqua",
+  "status": "ok",
+  "file": "images/kharroub.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Juan Emilio Prades Bel",
+  "score": 10,
+  "bytes": 92460
+ },
+ {
+  "id": "sdess",
+  "latin": "Ziziphus lotus",
+  "status": "ok",
+  "file": "images/sdess.jpg",
+  "license": "CC BY-SA 2.0",
+  "artist": "Bernard DUPONT from FRANCE",
+  "score": 10,
+  "bytes": 84878
+ },
+ {
+  "id": "sedra",
+  "latin": "Ziziphus spina-christi",
+  "status": "ok",
+  "file": "images/sedra.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "איתן פרמן",
+  "score": 10,
+  "bytes": 62603
+ },
+ {
+  "id": "tmar",
+  "latin": "Phoenix dactylifera",
+  "status": "ok",
+  "file": "images/tmar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "ImagePerson",
+  "score": 10,
+  "bytes": 97071
+ },
+ {
+  "id": "doum",
+  "latin": "Chamaerops humilis",
+  "status": "ok",
+  "file": "images/doum.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Michal Klajban",
+  "score": 10,
+  "bytes": 136578
+ },
+ {
+  "id": "argan",
+  "latin": "Argania spinosa",
+  "status": "ok",
+  "file": "images/argan.jpg",
+  "license": "CC BY 2.5",
+  "artist": "No machine-readable author provided. MPF assumed (based on copyright claims).",
+  "score": 10,
+  "bytes": 91851
+ },
+ {
+  "id": "zitoun",
+  "latin": "Olea europaea",
+  "status": "ok-cached"
+ },
+ {
+  "id": "azemmour",
+  "latin": "Crataegus monogyna",
+  "status": "ok",
+  "file": "images/azemmour.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 56286
+ },
+ {
+  "id": "tuffah",
+  "latin": "Malus domestica",
+  "status": "ok",
+  "file": "images/tuffah.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Agnes Monkelbaan",
+  "score": 10,
+  "bytes": 117877
+ },
+ {
+  "id": "karmous",
+  "latin": "Ficus carica",
+  "status": "ok",
+  "file": "images/karmous.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Luis Fernández García",
+  "score": 10,
+  "bytes": 191777
+ },
+ {
+  "id": "tin",
+  "latin": "Opuntia ficus-indica",
+  "status": "ok",
+  "file": "images/tin.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Zeynel Cebeci",
+  "score": 10,
+  "bytes": 45995
+ },
+ {
+  "id": "rman",
+  "latin": "Punica granatum",
+  "status": "ok",
+  "file": "images/rman.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Diego Delso",
+  "score": 10,
+  "bytes": 116355
+ },
+ {
+  "id": "safssaf",
+  "latin": "Salix alba",
+  "status": "ok",
+  "file": "images/safssaf.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Achim Lammerts (Syntaxys)",
+  "score": 10,
+  "bytes": 167670
+ },
+ {
+  "id": "ghar",
+  "latin": "Laurus nobilis",
+  "status": "ok",
+  "file": "images/ghar.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Harlock81",
+  "score": 10,
+  "bytes": 138518
+ },
+ {
+  "id": "rayhane",
+  "latin": "Myrtus communis",
+  "status": "ok",
+  "file": "images/rayhane.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 95484
+ },
+ {
+  "id": "karkad",
+  "latin": "Hibiscus sabdariffa",
+  "status": "ok",
+  "file": "images/karkad.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Aris riyanto",
+  "score": 10,
+  "bytes": 177634
+ },
+ {
+  "id": "khatmi",
+  "latin": "Althaea officinalis",
+  "status": "ok",
+  "file": "images/khatmi.jpg",
+  "license": "CC0",
+  "artist": "Cbaile19",
+  "score": 10,
+  "bytes": 40320
+ },
+ {
+  "id": "khobbiza",
+  "latin": "Alcea rosea",
+  "status": "ok",
+  "file": "images/khobbiza.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Acabashi",
+  "score": 10,
+  "bytes": 188548
+ },
+ {
+  "id": "zafzaf",
+  "latin": "Sambucus nigra",
+  "status": "ok",
+  "file": "images/zafzaf.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "W. Bulach",
+  "score": 10,
+  "bytes": 51810
+ },
+ {
+  "id": "sambouk",
+  "latin": "Sambucus ebulus",
+  "status": "ok",
+  "file": "images/sambouk.jpg",
+  "license": "Public domain",
+  "artist": "Giuseppe Frizzi",
+  "score": 10,
+  "bytes": 124295
+ },
+ {
+  "id": "defla",
+  "latin": "Nerium oleander",
+  "status": "ok",
+  "file": "images/defla.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Bff",
+  "score": 10,
+  "bytes": 44634
+ },
+ {
+  "id": "ftila",
+  "latin": "Daphne gnidium",
+  "status": "ok",
+  "file": "images/ftila.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Luis Fernández García",
+  "score": 10,
+  "bytes": 68992
+ },
+ {
+  "id": "guelb",
+  "latin": "Atractylis gummifera",
+  "status": "ok",
+  "file": "images/guelb.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Fabio Ippolito",
+  "score": 10,
+  "bytes": 117005
+ },
+ {
+  "id": "datura",
+  "latin": "Datura stramonium",
+  "status": "ok",
+  "file": "images/datura.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Leila Dasher",
+  "score": 10,
+  "bytes": 93042
+ },
+ {
+  "id": "chouik",
+  "latin": "Carthamus caeruleus",
+  "status": "ok",
+  "file": "images/chouik.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Buchner P, Corley M, Junnilainen J (2017) Three new species and one new subspecies of Depressariinae (Lepidoptera) from ",
+  "score": 4,
+  "bytes": 31608
+ },
+ {
+  "id": "chouk_lihoud",
+  "latin": "Acanthus mollis",
+  "status": "ok",
+  "file": "images/chouk_lihoud.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 72668
+ },
+ {
+  "id": "khennour",
+  "latin": "Cistus monspeliensis",
+  "status": "ok",
+  "file": "images/khennour.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Alvesgaspar",
+  "score": 10,
+  "bytes": 44753
+ },
+ {
+  "id": "tizghart",
+  "latin": "Cistus salviifolius",
+  "status": "ok",
+  "file": "images/tizghart.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "W. Bulach",
+  "score": 10,
+  "bytes": 40652
+ },
+ {
+  "id": "toubib",
+  "latin": "Cistus ladanifer",
+  "status": "ok",
+  "file": "images/toubib.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Basotxerri",
+  "score": 10,
+  "bytes": 171005
+ },
+ {
+  "id": "kharou",
+  "latin": "Cistus creticus",
+  "status": "ok",
+  "file": "images/kharou.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "W. Bulach",
+  "score": 10,
+  "bytes": 39849
+ },
+ {
+  "id": "tirghist",
+  "latin": "Genista tricuspidata",
+  "status": "ok",
+  "file": "images/tirghist.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Krzysztof Ziarnek, Kenraiz",
+  "score": 10,
+  "bytes": 94939
+ },
+ {
+  "id": "ouzal",
+  "latin": "Genista quadriflora",
+  "status": "ok-fallback",
+  "candidates": 1,
+  "file": "images/ouzal.jpg",
+  "license": "Public domain",
+  "artist": "Cosson, E.",
+  "bytes": 55549
+ },
+ {
+  "id": "azir",
+  "latin": "Lavandula stoechas",
+  "status": "ok",
+  "file": "images/azir.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Robert Flogaus-Faust",
+  "score": 10,
+  "bytes": 115050
+ },
+ {
+  "id": "halhal",
+  "latin": "Lavandula multifida",
+  "status": "ok",
+  "file": "images/halhal.jpg",
+  "license": "Public domain",
+  "artist": "Laitche",
+  "score": 10,
+  "bytes": 48815
+ },
+ {
+  "id": "khezama",
+  "latin": "Lavandula pedunculata",
+  "status": "ok",
+  "file": "images/khezama.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Luis Fernández García",
+  "score": 10,
+  "bytes": 137092
+ },
+ {
+  "id": "zaatar_fassi",
+  "latin": "Thymus broussonetii",
+  "status": "no-results",
+  "candidates": 0
+ },
+ {
+  "id": "zaatar_kheli",
+  "latin": "Thymus zygis",
+  "status": "ok",
+  "file": "images/zaatar_kheli.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Xemenendura",
+  "score": 10,
+  "bytes": 92855
+ },
+ {
+  "id": "marddouch",
+  "latin": "Origanum majorana",
+  "status": "ok",
+  "file": "images/marddouch.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Schlaghecken Josef",
+  "score": 10,
+  "bytes": 38270
+ },
+ {
+  "id": "zaatar_berri",
+  "latin": "Origanum vulgare",
+  "status": "ok",
+  "file": "images/zaatar_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "GT1976",
+  "score": 10,
+  "bytes": 113285
+ },
+ {
+  "id": "merriout",
+  "latin": "Marrubium vulgare",
+  "status": "ok",
+  "file": "images/merriout.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Juan Carlos Fonseca Mata",
+  "score": 10,
+  "bytes": 64671
+ },
+ {
+  "id": "chahma",
+  "latin": "Salvia verbenaca",
+  "status": "ok",
+  "file": "images/chahma.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Isidre blanc",
+  "score": 10,
+  "bytes": 122057
+ },
+ {
+  "id": "salvia_montana",
+  "latin": "Salvia taraxacifolia",
+  "status": "ok",
+  "file": "images/salvia_montana.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Julien Renoult https://www.inaturalist.org/people/jujurenoult",
+  "score": 10,
+  "bytes": 71620
+ },
+ {
+  "id": "nanaa",
+  "latin": "Mentha spicata",
+  "status": "ok",
+  "file": "images/nanaa.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "W. Bulach",
+  "score": 10,
+  "bytes": 51240
+ },
+ {
+  "id": "flio_berri",
+  "latin": "Mentha suaveolens",
+  "status": "ok",
+  "file": "images/flio_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Humoyun Mehridinov",
+  "score": 10,
+  "bytes": 52328
+ },
+ {
+  "id": "timija",
+  "latin": "Mentha gattefossei",
+  "status": "ok",
+  "file": "images/timija.jpg",
+  "license": "CC BY-SA 2.5",
+  "artist": "André Karwath aka Aka",
+  "score": 10,
+  "bytes": 103868
+ },
+ {
+  "id": "mkhinza",
+  "latin": "Dysphania ambrosioides",
+  "status": "ok",
+  "file": "images/mkhinza.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Josep Gesti",
+  "score": 10,
+  "bytes": 19576
+ },
+ {
+  "id": "lemlissa",
+  "latin": "Aloysia citrodora",
+  "status": "ok-cached"
+ },
+ {
+  "id": "khebbiz",
+  "latin": "Malva parviflora",
+  "status": "ok",
+  "file": "images/khebbiz.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 112887
+ },
+ {
+  "id": "bekkoula",
+  "latin": "Portulaca grandiflora",
+  "status": "ok",
+  "file": "images/bekkoula.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Joydeep",
+  "score": 10,
+  "bytes": 93967
+ },
+ {
+  "id": "harriga",
+  "latin": "Urtica dioica",
+  "status": "ok",
+  "file": "images/harriga.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Dominicus Johannes Bergsma",
+  "score": 10,
+  "bytes": 53084
+ },
+ {
+  "id": "harriga_sghira",
+  "latin": "Urtica urens",
+  "status": "ok",
+  "file": "images/harriga_sghira.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 120464
+ },
+ {
+  "id": "khellala",
+  "latin": "Anacyclus pyrethrum",
+  "status": "ok",
+  "file": "images/khellala.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "JerryFriedman",
+  "score": 10,
+  "bytes": 99287
+ },
+ {
+  "id": "tifla",
+  "latin": "Thymelaea hirsuta",
+  "status": "ok",
+  "file": "images/tifla.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "User:Tigerente",
+  "score": 10,
+  "bytes": 130639
+ },
+ {
+  "id": "metnan",
+  "latin": "Thymelaea microphylla",
+  "status": "ok",
+  "file": "images/metnan.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Ilias Marmouzi, Najat Bouchmaa, Mourad Kharbach, Shahira M. Ezzat, Rana M. Merghany, Inssaf Berkiks, Meryem El Jemli",
+  "score": 10,
+  "bytes": 38692
+ },
+ {
+  "id": "alouka",
+  "latin": "Withania frutescens",
+  "status": "ok",
+  "file": "images/alouka.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Nanosanchez",
+  "score": 10,
+  "bytes": 173463
+ },
+ {
+  "id": "ghessal",
+  "latin": "Salsola vermiculata",
+  "status": "ok",
+  "file": "images/ghessal.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Isidre blanc",
+  "score": 10,
+  "bytes": 114229
+ },
+ {
+  "id": "harmel_blanc",
+  "latin": "Peganum harmala",
+  "status": "ok-cached"
+ },
+ {
+  "id": "toutia",
+  "latin": "Morus alba",
+  "status": "ok",
+  "file": "images/toutia.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Didier Descouens",
+  "score": 10,
+  "bytes": 72449
+ },
+ {
+  "id": "tout_ssoud",
+  "latin": "Morus nigra",
+  "status": "ok",
+  "file": "images/tout_ssoud.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Juan Emilio Prades Bel",
+  "score": 10,
+  "bytes": 91039
+ },
+ {
+  "id": "khokh",
+  "latin": "Prunus persica",
+  "status": "ok",
+  "file": "images/khokh.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "George Chernilevsky",
+  "score": 10,
+  "bytes": 101284
+ },
+ {
+  "id": "louz",
+  "latin": "Prunus dulcis",
+  "status": "ok",
+  "file": "images/louz.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Diego Delso",
+  "score": 10,
+  "bytes": 60508
+ },
+ {
+  "id": "sendian",
+  "latin": "Quercus ilex",
+  "status": "ok",
+  "file": "images/sendian.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Sannicolasdeugarte",
+  "score": 10,
+  "bytes": 56683
+ },
+ {
+  "id": "affares",
+  "latin": "Quercus coccifera",
+  "status": "ok",
+  "file": "images/affares.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Christian Ferrer",
+  "score": 10,
+  "bytes": 72530
+ },
+ {
+  "id": "sanoubar",
+  "latin": "Pinus halepensis",
+  "status": "ok",
+  "file": "images/sanoubar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Christian Ferrer",
+  "score": 10,
+  "bytes": 76655
+ },
+ {
+  "id": "arz",
+  "latin": "Cedrus atlantica",
+  "status": "ok",
+  "file": "images/arz.jpg",
+  "license": "CC BY 2.0",
+  "artist": "Dr Mary Gillham Archive Project",
+  "score": 10,
+  "bytes": 122742
+ },
+ {
+  "id": "thuya",
+  "latin": "Tetraclinis articulata",
+  "status": "ok",
+  "file": "images/thuya.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Cs california",
+  "score": 10,
+  "bytes": 66806
+ },
+ {
+  "id": "sandarous",
+  "latin": "Tetraclinis articulata",
+  "status": "ok-cached"
+ },
+ {
+  "id": "kafour",
+  "latin": "Cinnamomum camphora",
+  "status": "ok",
+  "file": "images/kafour.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Al*from*Lig",
+  "score": 10,
+  "bytes": 59932
+ },
+ {
+  "id": "qorfa",
+  "latin": "Cinnamomum verum",
+  "status": "ok",
+  "file": "images/qorfa.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Luc Viatour",
+  "score": 10,
+  "bytes": 21292
+ },
+ {
+  "id": "qronfel",
+  "latin": "Syzygium aromaticum",
+  "status": "ok",
+  "file": "images/qronfel.jpg",
+  "license": "CC BY 3.0",
+  "artist": "Forest & Kim Starr",
+  "score": 10,
+  "bytes": 122301
+ },
+ {
+  "id": "habb_felfel",
+  "latin": "Piper nigrum",
+  "status": "ok",
+  "file": "images/habb_felfel.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "K Hari Krishnan",
+  "score": 10,
+  "bytes": 70304
+ },
+ {
+  "id": "zanjabil",
+  "latin": "Zingiber officinale",
+  "status": "ok",
+  "file": "images/zanjabil.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Martín Huamán",
+  "score": 10,
+  "bytes": 56685
+ },
+ {
+  "id": "kourkoum",
+  "latin": "Curcuma longa",
+  "status": "ok",
+  "file": "images/kourkoum.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "AjayDas",
+  "score": 10,
+  "bytes": 87824
+ },
+ {
+  "id": "hel",
+  "latin": "Elettaria cardamomum",
+  "status": "ok",
+  "file": "images/hel.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Mokkie",
+  "score": 10,
+  "bytes": 76667
+ },
+ {
+  "id": "karkar",
+  "latin": "Curcuma zedoaria",
+  "status": "ok",
+  "file": "images/karkar.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Photo by David J. Stang",
+  "score": 10,
+  "bytes": 27366
+ },
+ {
+  "id": "zira",
+  "latin": "Cuminum cyminum",
+  "status": "ok-cached"
+ },
+ {
+  "id": "karoun",
+  "latin": "Carum carvi",
+  "status": "ok-cached"
+ },
+ {
+  "id": "smaq",
+  "latin": "Rhus coriaria",
+  "status": "ok",
+  "file": "images/smaq.jpg",
+  "license": "Public domain",
+  "artist": "Giuseppe Frizzi",
+  "score": 10,
+  "bytes": 83675
+ },
+ {
+  "id": "chib",
+  "latin": "Artemisia herba-alba",
+  "status": "ok-cached"
+ },
+ {
+  "id": "tebbouna",
+  "latin": "Artemisia judaica",
+  "status": "ok",
+  "file": "images/tebbouna.jpg",
+  "license": "Public domain",
+  "artist": "Scan by NYPL",
+  "score": 10,
+  "bytes": 33841
+ },
+ {
+  "id": "chih_ahmar",
+  "latin": "Artemisia inculta",
+  "status": "ok",
+  "file": "images/chih_ahmar.jpg",
+  "license": "Public domain",
+  "artist": "Scan by NYPL",
+  "score": 10,
+  "bytes": 33841
+ },
+ {
+  "id": "chih_azzrak",
+  "latin": "Artemisia caerulescens",
+  "status": "ok",
+  "file": "images/chih_azzrak.jpg",
+  "license": "CC0",
+  "artist": "Ruff tuff cream puff",
+  "score": 10,
+  "bytes": 83404
+ },
+ {
+  "id": "khayyata",
+  "latin": "Artemisia arborescens",
+  "status": "ok",
+  "file": "images/khayyata.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Consultaplantas",
+  "score": 10,
+  "bytes": 100782
+ },
+ {
+  "id": "zerr",
+  "latin": "Crataegus laciniata",
+  "status": "ok",
+  "file": "images/zerr.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Magnus Manske",
+  "score": 10,
+  "bytes": 53852
+ },
+ {
+  "id": "tifah_berri",
+  "latin": "Malus sylvestris",
+  "status": "ok",
+  "file": "images/tifah_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Charles J. Sharp",
+  "score": 10,
+  "bytes": 65347
+ },
+ {
+  "id": "karmous_berri",
+  "latin": "Ficus salicifolia",
+  "status": "ok",
+  "file": "images/karmous_berri.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "JMK",
+  "score": 10,
+  "bytes": 47365
+ },
+ {
+  "id": "safsaf_berri",
+  "latin": "Salix pedicellata",
+  "status": "ok",
+  "file": "images/safsaf_berri.jpg",
+  "license": "CC BY 4.0",
+  "artist": "D. Rafael S. Fernandes",
+  "score": 10,
+  "bytes": 102222
+ },
+ {
+  "id": "ghar_berri",
+  "latin": "Laurus azorica",
+  "status": "ok",
+  "file": "images/ghar_berri.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Ixitixel",
+  "score": 10,
+  "bytes": 79727
+ },
+ {
+  "id": "rayhane_berri",
+  "latin": "Myrtus nivellei",
+  "status": "ok",
+  "file": "images/rayhane_berri.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Muséum National d'Histoire Naturelle",
+  "score": 10,
+  "bytes": 101141
+ },
+ {
+  "id": "khatmi_berri",
+  "latin": "Malva hispanica",
+  "status": "ok",
+  "file": "images/khatmi_berri.jpg",
+  "license": "CC BY 4.0",
+  "artist": "Alexkom000",
+  "score": 10,
+  "bytes": 72513
+ },
+ {
+  "id": "zafzaf_berri",
+  "latin": "Sambucus palmensis",
+  "status": "ok",
+  "file": "images/zafzaf_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "El Funcionario",
+  "score": 10,
+  "bytes": 95191
+ },
+ {
+  "id": "defla_berri",
+  "latin": "Nerium grandiflorum",
+  "status": "ok-fallback",
+  "candidates": 1,
+  "file": "images/defla_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "M sh شراونة محمد",
+  "bytes": 174265
+ },
+ {
+  "id": "ftila_berri",
+  "latin": "Daphne laureola",
+  "status": "ok",
+  "file": "images/ftila_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Sdjurovic",
+  "score": 10,
+  "bytes": 76207
+ },
+ {
+  "id": "chouk_berri",
+  "latin": "Carthamus lanatus",
+  "status": "ok",
+  "file": "images/chouk_berri.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Philmarin",
+  "score": 10,
+  "bytes": 123938
+ },
+ {
+  "id": "khennour_berri",
+  "latin": "Cistus heterophyllus",
+  "status": "ok",
+  "file": "images/khennour_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "El Funcionario",
+  "score": 10,
+  "bytes": 65806
+ },
+ {
+  "id": "halhal_berri",
+  "latin": "Lavandula lanata",
+  "status": "ok",
+  "file": "images/halhal_berri.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Krzysztof Golik",
+  "score": 10,
+  "bytes": 139847
+ },
+ {
+  "id": "zaatar_berri_2",
+  "latin": "Thymus algeriensis",
+  "status": "ok",
+  "file": "images/zaatar_berri_2.jpg",
+  "license": "Public domain",
+  "artist": "Desfontaines, René; Redouté, Henri Joseph; Redouté, Pierre Joseph",
+  "score": -1,
+  "bytes": 67429
+ },
+ {
+  "id": "toum",
+  "latin": "Allium sativum",
+  "status": "ok",
+  "file": "images/toum.jpg",
+  "license": "CC BY-SA 3.0",
+  "artist": "Luis Miguel Bugallo Sánchez (Lmbuga)",
+  "score": 10,
+  "bytes": 30305
+ },
+ {
+  "id": "bsal",
+  "latin": "Allium cepa",
+  "status": "ok",
+  "file": "images/bsal.jpg",
+  "license": "CC0",
+  "artist": "Abraham",
+  "score": 10,
+  "bytes": 79477
+ },
+ {
+  "id": "zaafran",
+  "latin": "Crocus sativus",
+  "status": "ok",
+  "file": "images/zaafran.jpg",
+  "license": "CC0",
+  "artist": "Emilie40",
+  "score": 10,
+  "bytes": 110327
+ },
+ {
+  "id": "ward_beldi",
+  "latin": "Rosa damascena",
+  "status": "ok",
+  "file": "images/ward_beldi.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Kritzolina",
+  "score": 10,
+  "bytes": 36477
+ },
+ {
+  "id": "jaada",
+  "latin": "Teucrium polium",
+  "status": "ok",
+  "file": "images/jaada.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Kamvysi Eirini",
+  "score": 10,
+  "bytes": 157812
+ },
+ {
+  "id": "tayoun",
+  "latin": "Dittrichia viscosa",
+  "status": "ok",
+  "file": "images/tayoun.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "Christian Ferrer",
+  "score": 10,
+  "bytes": 93240
+ },
+ {
+  "id": "berberis",
+  "latin": "Berberis hispanica",
+  "status": "ok",
+  "file": "images/berberis.jpg",
+  "license": "Public domain",
+  "artist": "Javier martin",
+  "score": 10,
+  "bytes": 63632
+ },
+ {
+  "id": "kettan",
+  "latin": "Linum usitatissimum",
+  "status": "ok",
+  "file": "images/kettan.jpg",
+  "license": "CC0",
+  "artist": "Cbaile19",
+  "score": 10,
+  "bytes": 72192
+ },
+ {
+  "id": "jeljlan",
+  "latin": "Sesamum indicum",
+  "status": "ok",
+  "file": "images/jeljlan.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "পাপৰি বৰা",
+  "score": 10,
+  "bytes": 182527
+ },
+ {
+  "id": "narenj",
+  "latin": "Citrus aurantium",
+  "status": "ok",
+  "file": "images/narenj.jpg",
+  "license": "CC BY-SA 4.0",
+  "artist": "A. Barra",
+  "score": 10,
+  "bytes": 57242
+ }
+]

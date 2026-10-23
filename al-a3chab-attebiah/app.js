@@ -171,6 +171,15 @@ function renderReader(id) {
   const isRef = /تُراجع البطاقة رقم/.test(ch.content || '');
   const note = isRef ? '<div class="ref-note">📌 بطاقة تعريف بالاسم المحلي — يُرجى مراجعة البطاقة الأصلية للاستعمالات الكاملة.</div>' : '';
   const body = String(ch.content || '').split('\n').map(p => '<p>' + highlight(p, nq).html + '</p>').join('');
+  const photo = ch.image
+    ? '<figure class="plant-photo">' +
+        '<img src="./' + esc(ch.image) + '" alt="' + esc(ch.title + (ch.latin ? ' — ' + ch.latin : '')) + '" loading="lazy" decoding="async">' +
+        '<figcaption>📷 ' + esc(ch.imageCredit || 'Wikimedia Commons') +
+          (ch.imageLicense ? ' · <a href="' + esc(ch.imageLicenseUrl || '#') + '" target="_blank" rel="noopener">' + esc(ch.imageLicense) + '</a>' : '') +
+          ' · <a href="' + esc(ch.imageSource || '#') + '" target="_blank" rel="noopener">ويكيميديا كومنز</a>' +
+        '</figcaption>' +
+      '</figure>'
+    : '<div class="plant-photo placeholder" role="img" aria-label="لا توجد صورة متاحة لهذا النبات"><span>🌿</span><small>الصورة قيد المراجعة</small></div>';
 
   const prev = idx > 0 ? chapters[idx - 1] : null;
   const next = idx < chapters.length - 1 ? chapters[idx + 1] : null;
@@ -195,7 +204,7 @@ function renderReader(id) {
     '<div class="card" id="chapterCard">' +
       '<div class="kicker">' + esc(kicker) + '</div>' +
       '<h2>' + title + '</h2>' +
-      note + meta + body +
+      photo + note + meta + body +
       '<div class="safety-note"><strong>تنبيه:</strong> هذا المدخل محتوى تعليمي عن استخدام تقليدي، وليس وصفة. ' +
         'لا تتجاوز الجرعات المذكورة، وتوقّف عند أي عرض غير متوقع، واستشر طبيباً أو صيدلياً قبل الاستعمال المنتظم، ' +
         'خاصة أثناء الحمل أو الرضاعة أو مع أدوية أخرى.</div>' +
@@ -305,6 +314,9 @@ function renderHome() {
         '<div class="toc">' +
           chapters.map((ch, i) =>
             '<button type="button" class="toc-item" data-id="' + esc(ch.id) + '">' +
+              (ch.image
+                ? '<img class="toc-thumb" src="./' + esc(ch.image) + '" alt="" loading="lazy" decoding="async">'
+                : '<span class="toc-thumb placeholder" aria-hidden="true">🌿</span>') +
               '<span class="num">' + (ch.isHeader ? 'مقدمة' : toArabicDigits(i)) + '</span>' +
               '<span>' + esc(ch.title.replace(/^\d+\.\s*/, '')) + '</span>' +
             '</button>').join('') +
@@ -459,6 +471,11 @@ function renderSources() {
         '<li>Kew Science — <em>Plants of the World Online</em> للتحقق من الأسماء اللاتينية.</li>' +
         '<li>«الأعشاب الطبية في المغرب» (Éditions Le Fennec) و«العلاج بالأغذية والأعشاب في بلاد المغرب» لابن حبيب: مراجع ببليوغرافية للاستئناس، وليست مصدراً مباشراً لهذا الموقع.</li>' +
       '</ul>' +
+      '<h3>الصور والرخص</h3>' +
+      '<p>صور النباتات مصدرها <strong>ويكيميديا كومنز</strong>، وتُعرض برخص حرة (CC0، ملكية عامة، CC BY، CC BY-SA) فقط. ' +
+        'تظهر تحت كل صورة نسبةُ المصوّر أو المؤلّف ورخصةُ الاستعمال مع رابط المصدر على كومنز. ' +
+        'إذا تعذّر العثور على صورة موثوقة ومرخّصة لنوع ما، تُعرض أيقونة بدل الصورة إلى حين مراجعتها يدوياً. ' +
+        'الصور لأغراض التعريف البصري فقط، ولا تُغني عن التحقق من الاسم اللاتيني.</p>' +
       '<h3>تصحيح الأخطاء</h3>' +
       '<p>إذا لاحظت خطأ في اسم أو استعمال أو تنبيه، استعمل زر «⚠️ أبلغ عن خطأ» داخل بطاقة المدخل. ' +
         'نراجع البلاغات ونصحّح المحتوى في تحديثات لاحقة.</p>' +
