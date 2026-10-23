@@ -71,9 +71,9 @@ Fix:
 Verified locally: version label, SW v1.3.2, `chih-2.jpg`, reload without loops, offline reload still 151 TOC items and 0 broken thumbs, no JS errors.
 Backup: `backups/al-a3chab-attebiah-2026-10-23-cachefix/`.
 
-## Photo choice 2026-10-23j — الشيح = option C
-User picked option C. Swapped to **Gardenology.org-IMG 2791** by Raffi Kojian, CC BY-SA 3.0 (1200×1600 portrait), saved as `images/chih-3.jpg`; credit/license/source and `image_report.json` updated.
-Reader photos switched from `object-fit: cover` (cropped) to full-image `contain` with `max-height: 460px`, so portrait shots are no longer cut off; index thumbs stay square-cropped.
-Asset query strings and SW cache bumped to **1.3.3**; footer shows «الإصدار 1.3.3».
-Verified desktop + mobile: chih-3.jpg loads (960×1280), rendered 346×460 / 329×438, no overflow, no JS errors.
-Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-choice/`.
+## Photo choice 2026-10-23j — الشيح keeps the Ghislain118 shot
+User first picked option C, then changed their mind and asked to keep the Ghislain118 photo. Final image is **`images/chih-2.jpg`** by **Ghislain118** (fleurs-des-montagnes.net), CC BY-SA 3.0; the credit/license/source in `data.js` and `image_report.json` were restored accordingly. Option C (`images/chih-3.jpg`, Raffi Kojian) remains in the repo unused in case it is wanted later.
+Reader photos now use full-image `contain` with `max-height: 460px` (instead of cropping with `cover`), so portrait shots are not cut off; index thumbnails stay square-cropped.
+Asset query strings and SW cache bumped to **1.3.4**; footer shows «الإصدار 1.3.4».
+Verified desktop: `chih-2.jpg` loads (960×720), rendered 613×460, caption shows Ghislain118 / CC BY-SA 3.0, no JS errors, no overflow.
+Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-keep/`.
