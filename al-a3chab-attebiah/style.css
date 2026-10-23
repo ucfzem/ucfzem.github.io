@@ -122,7 +122,8 @@ main { flex: 1; padding: 24px 30px; max-width: 920px; margin: 0 auto; width: 100
 .plant-meta strong { color: var(--green); }
 .plant-photo { margin: 0 0 14px; }
 .plant-photo img {
-  display: block; width: 100%; max-height: 340px; object-fit: cover;
+  display: block; width: auto; height: auto; max-width: 100%; max-height: 460px;
+  margin: 0 auto; object-fit: contain;
   border: 1px solid var(--line); border-radius: 8px; background: var(--panel);
 }
 .plant-photo figcaption {

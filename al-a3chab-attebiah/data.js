@@ -14,11 +14,11 @@ window.BOOK_DATA = [
 "latin": "Artemisia herba-alba",
 "french": "Armoise blanche",
 "content": "الشيح شجيرة عطرية طبية معمرة متفرعة بقوة، تنمو بشكل بري كثيف في السهوب والنجود العليا ومناطق الهضاب شبه الجافة بالمغرب (مثل أقاليم فكيك، جرادة، وبولمان). يمتاز برائحته الكافورية النفاذة وطعمه الشديد المرارة.\nفي الطب التقليدي المغربي، يتبوأ الشيح مكانة الصدارة كمطهر أمعاء فعال جداً وطارد للديدان الطفيلية، ومسكن للمغص التشنجي الحاد. يحتوي الشيح على مركبات أساسية طيارة تشمل الثوجون (Thujone) والسينيول. يُنصح بشدة بعدم الإفراط في جرعاته أو غليه لفترات طويلة نظراً للسمية العصبية التي قد تحدثها مادة الثوجون إذا تركزت في الجسم.\nيُحضّر منقوع خفيف من الأوراق المجففة (ملعقة صغيرة لكل كوب ماء مغلي) ويُترك خمس دقائق، ويُشرب بعد الأكل، دون تجاوز كوب واحد يومياً ولمدة لا تتجاوز أسبوعاً. يُمنع للحوامل والأطفال والمصابين بالصرع أو بأمراض الكبد، ولا يُستعمل الزيت العطري داخلياً.",
-"image": "images/chih-2.jpg",
-"imageCredit": "Ghislain118 http://www.fleurs-des-montagnes.net",
+"image": "images/chih-3.jpg",
+"imageCredit": "Raffi Kojian",
 "imageLicense": "CC BY-SA 3.0",
 "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-"imageSource": "https://commons.wikimedia.org/wiki/File%3AArtemisia_herba-alba_1.jpg"
+"imageSource": "https://commons.wikimedia.org/wiki/File%3AGardenology.org-IMG_2791_rbgs11jan.jpg"
 },
 {
 "id": "louiza",
