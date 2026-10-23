@@ -25,3 +25,9 @@ Tested with Playwright: 141 TOC items, global search 14 hits / 5 entries for «�
 ## Fix 2026-10-23d — Western digits
 Replaced Arabic-Indic numerals (١٢٣) with Western digits (123) for TOC numbers, entry counters, search summaries and the zero state. Bumped service worker cache to `a3chab-cache-v1.0.1`.
 Verified: TOC 140, summary «14 موضعاً في 5 مدخلاً», counter «1 / 5», zero state «0 / 0».
+
+## Update 2026-10-23e — rename + 10 new plants (150)
+- Renamed the app to «المعشبة المغربية» / «موسوعة النباتات الطبية في المغرب» (title, header, manifest, works listing, footer). It is an independent compilation, not the Éditions Le Fennec book.
+- Added 10 new monographs (ids 141–150): الثوم، البصل، الزعفران، الورد البلدي، الجعدة، الطيون، البرباريس، الكتان، الجلجلان، النارنج.
+- Updated counts to 150 plants (151 entries incl. intro) and service worker cache to `a3chab-cache-v1.1.0`.
+- Verified: 151 TOC items, last num 150, each new entry 3 paragraphs + metadata, global search «الزعفران» 4 hits, SW precache + offline reload 151 items, no mobile overflow, no JS errors.
