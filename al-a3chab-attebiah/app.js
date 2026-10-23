@@ -251,7 +251,7 @@ function paintMarks(scroll) {
     if (scroll) m.scrollIntoView({ behavior: 'smooth', block: 'center' });
     if (cEl) cEl.textContent = toArabicDigits(occCur + 1) + ' / ' + toArabicDigits(occMarks.length);
   } else if (cEl) {
-    cEl.textContent = normalize(currentQuery) ? '٠ / ٠' : '';
+    cEl.textContent = normalize(currentQuery) ? '0 / 0' : '';
   }
 }
 function goOcc(delta) {
@@ -364,7 +364,7 @@ function globalSearch(nq) {
 
 /* ---------- misc ---------- */
 function toArabicDigits(n) {
-  return String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  return String(n);
 }
 function debounce(fn, ms) {
   let t;

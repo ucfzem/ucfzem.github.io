@@ -21,3 +21,7 @@ Refactored the app to mirror the reference design and features:
 - In-entry search with occurrence counter, prev/next occurrence (Enter / Shift+Enter).
 - PWA: `manifest.json`, `sw.js` cache (`a3chab-cache-v1.0.0`), generated 192/512 icons, offline fallback + online/offline indicator.
 Tested with Playwright: 141 TOC items, global search 14 hits / 5 entries for «الشيح», reader 5 marks + counter, next/prev, font size, dark mode, SW registered, offline reload shows 141 items, no console errors, no mobile overflow.
+
+## Fix 2026-10-23d — Western digits
+Replaced Arabic-Indic numerals (١٢٣) with Western digits (123) for TOC numbers, entry counters, search summaries and the zero state. Bumped service worker cache to `a3chab-cache-v1.0.1`.
+Verified: TOC 140, summary «14 موضعاً في 5 مدخلاً», counter «1 / 5», zero state «0 / 0».

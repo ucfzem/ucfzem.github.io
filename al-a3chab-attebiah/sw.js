@@ -1,4 +1,4 @@
-const CACHE = 'a3chab-cache-v1.0.0';
+const CACHE = 'a3chab-cache-v1.0.1';
 const CORE = [
   './',
   './index.html',
