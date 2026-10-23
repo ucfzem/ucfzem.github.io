@@ -31,3 +31,14 @@ Verified: TOC 140, summary «14 موضعاً في 5 مدخلاً», counter «1 
 - Added 10 new monographs (ids 141–150): الثوم، البصل، الزعفران، الورد البلدي، الجعدة، الطيون، البرباريس، الكتان، الجلجلان، النارنج.
 - Updated counts to 150 plants (151 entries incl. intro) and service worker cache to `a3chab-cache-v1.1.0`.
 - Verified: 151 TOC items, last num 150, each new entry 3 paragraphs + metadata, global search «الزعفران» 4 hits, SW precache + offline reload 151 items, no mobile overflow, no JS errors.
+
+## Safety & credibility 2026-10-23f
+Response to medical-audit checklist:
+- Persistent disclaimer bar under the header on every view.
+- New `#/safety` page: core rules, drug-herb interactions, pregnancy/children, toxic-plant list (17 entries), local-name confusion, poisoning response.
+- New `#/sources` page: honest methodology, recommended references (WHO, EMA, Moroccan pharmacopoeia, Kew POWO), and explicit statement that entries are an independent compilation without per-entry citations yet.
+- Per-entry «⚠️ أبلغ عن خطأ» button opening a prefilled GitHub issue; universal safety note inside every entry card.
+- A11y: aria-label on both search inputs, aria-live on the occurrence counter, labelled theme/status controls.
+- Audit run: 150 plants, all have 3 paragraphs and required name fields; every known-toxic entry contains warning language; duplicate Latin names are intentional name-variant entries.
+- SW cache bumped to `a3chab-cache-v1.2.0`.
+Verified desktop + mobile: disclaimer, safety/sources routes, 17 toxic links, report popup, search, no overflow, no JS errors.

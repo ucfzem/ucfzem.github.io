@@ -124,6 +124,31 @@ main { flex: 1; padding: 24px 30px; max-width: 920px; margin: 0 auto; width: 100
   background: var(--panel); border: 1px dashed var(--gold); border-radius: 8px;
   padding: 10px 14px; margin: 0 0 14px; font-size: .9rem; color: var(--ink);
 }
+.disclaimer {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 14px;
+  background: color-mix(in srgb, var(--gold) 14%, var(--panel));
+  border-bottom: 1px solid var(--line);
+  color: var(--ink); font-size: .8rem; line-height: 1.7;
+  padding: 8px 16px; text-align: center;
+}
+.disclaimer a { color: var(--green); font-weight: 700; white-space: nowrap; }
+.disclaimer a:hover { text-decoration: underline; }
+.safety-note {
+  margin-top: 16px; padding: 10px 14px; border: 1px dashed var(--gold);
+  border-radius: 6px; background: var(--panel); font-size: .82rem; line-height: 1.8; color: var(--ink);
+}
+.safety-note strong { color: var(--green); }
+.card h3 { font-size: 1.05rem; color: var(--green); margin: 20px 0 6px; }
+.card ul { margin: 6px 0 12px; padding-inline-start: 22px; }
+.card li { margin-bottom: 6px; }
+.toxic-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
+.toxic-list a {
+  font-size: .82rem; text-decoration: none; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px;
+}
+.toxic-list a:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.footer-links { margin-top: 6px; }
+.footer-links a { color: var(--green); }
 .empty { color: var(--muted); font-style: italic; font-size: 1rem; }
 .pager { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
 .pager button {

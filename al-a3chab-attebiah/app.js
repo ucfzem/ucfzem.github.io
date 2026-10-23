@@ -181,11 +181,13 @@ function renderReader(id) {
   app.innerHTML =
     '<div class="topnav">' + fontControlsHTML() +
       '<button id="copyBtn" type="button">📋 نسخ المدخل</button>' +
+      '<button id="reportBtn" type="button">⚠️ أبلغ عن خطأ</button>' +
       '<button id="homeBtn" type="button">🏠 الفهرس</button>' +
+      '<button id="safetyBtn" type="button">🛡️ السلامة</button>' +
     '</div>' +
     '<div class="searchbar">' +
-      '<input id="chapSearch" type="search" placeholder="ابحث في هذا المدخل…" value="' + esc(currentQuery) + '" autocomplete="off">' +
-      '<span class="counter" id="occCount"></span>' +
+      '<input id="chapSearch" type="search" aria-label="ابحث في هذا المدخل" placeholder="ابحث في هذا المدخل…" value="' + esc(currentQuery) + '" autocomplete="off">' +
+      '<span class="counter" id="occCount" aria-live="polite"></span>' +
       '<button type="button" class="navbtn" id="occNext" title="النتيجة التالية">▼</button>' +
       '<button type="button" class="navbtn" id="occPrev" title="النتيجة السابقة">▲</button>' +
       '<button type="button" class="clearbtn" id="clearSearch" title="مسح البحث">✕</button>' +
@@ -194,6 +196,9 @@ function renderReader(id) {
       '<div class="kicker">' + esc(kicker) + '</div>' +
       '<h2>' + title + '</h2>' +
       note + meta + body +
+      '<div class="safety-note"><strong>تنبيه:</strong> هذا المدخل محتوى تعليمي عن استخدام تقليدي، وليس وصفة. ' +
+        'لا تتجاوز الجرعات المذكورة، وتوقّف عند أي عرض غير متوقع، واستشر طبيباً أو صيدلياً قبل الاستعمال المنتظم، ' +
+        'خاصة أثناء الحمل أو الرضاعة أو مع أدوية أخرى.</div>' +
     '</div>' +
     '<div class="pager">' +
       '<button id="prevBtn"' + (prev ? '' : ' disabled') + '>→ السابق</button>' +
@@ -204,6 +209,14 @@ function renderReader(id) {
   if (prev) document.getElementById('prevBtn').onclick = () => go('#/read/' + encodeURIComponent(prev.id));
   if (next) document.getElementById('nextBtn').onclick = () => go('#/read/' + encodeURIComponent(next.id));
   document.getElementById('homeBtn').onclick = () => go('#/');
+  document.getElementById('safetyBtn').onclick = () => go('#/safety');
+  document.getElementById('reportBtn').onclick = () => {
+    const body = 'المدخل: ' + ch.id + '\nالعنوان: ' + ch.title +
+      '\n\nوصف الخطأ (معلومة طبية/اسم/جرعة/رابط...):\n\n';
+    const url = 'https://github.com/ucfzem/ucfzem.github.io/issues/new?labels=content&title=' +
+      encodeURIComponent('بلاغ عن خطأ: ' + ch.title) + '&body=' + encodeURIComponent(body);
+    window.open(url, '_blank', 'noopener');
+  };
   document.getElementById('copyBtn').onclick = (e) => {
     const metaLines = parts.map(p => p[0] + ': ' + p[1]).join('\n');
     copyText(ch.title + '\n' + metaLines + (metaLines ? '\n\n' : '') + ch.content, e.currentTarget);
@@ -271,7 +284,10 @@ function renderHome() {
   const plants = chapters.filter(c => !c.isHeader).length;
 
   app.innerHTML =
-    '<div class="topnav">' + fontControlsHTML() + resumeBtn + '</div>' +
+    '<div class="topnav">' + fontControlsHTML() + resumeBtn +
+      '<button id="homeSafetyBtn" type="button">🛡️ السلامة أولاً</button>' +
+      '<button id="homeSourcesBtn" type="button">📚 المصادر والمنهج</button>' +
+    '</div>' +
     '<div class="home">' +
       '<h1>🌿 المعشبة المغربية</h1>' +
       '<p class="desc">دليل تفاعلي للأنواع الطبية المغربية المتداولة في الأسواق التقليدية: ' +
@@ -280,7 +296,7 @@ function renderHome() {
         'وستُلوَّن النتائج بالأخضر مع عدّاد وتنقّل بين المواضع.</p>' +
       '<p class="stats">' + toArabicDigits(plants) + ' مدخلاً · ' + toArabicDigits(chapters.length - 1) + ' بطاقة نباتية</p>' +
       '<div class="searchbar">' +
-        '<input id="globalSearch" type="search" placeholder="ابحث في الموسوعة كلها…" autocomplete="off">' +
+        '<input id="globalSearch" type="search" aria-label="ابحث في الموسوعة كلها" placeholder="ابحث في الموسوعة كلها…" autocomplete="off">' +
         '<button type="button" class="clearbtn" id="clearGlobal" title="مسح">✕</button>' +
       '</div>' +
       '<div class="results" id="searchResults" hidden></div>' +
@@ -297,6 +313,8 @@ function renderHome() {
     '</div>';
 
   setupFontControls();
+  document.getElementById('homeSafetyBtn').onclick = () => go('#/safety');
+  document.getElementById('homeSourcesBtn').onclick = () => go('#/sources');
   if (resumeCh) {
     const rb = document.getElementById('resumeBtn');
     if (rb) rb.onclick = () => go('#/read/' + encodeURIComponent(resumeCh.id));
@@ -362,6 +380,96 @@ function globalSearch(nq) {
   return hits;
 }
 
+/* ---------- safety + sources ---------- */
+function entryTitle(id) {
+  const c = chapters.find(x => x.id === id);
+  return c ? c.title.replace(/^\d+\.\s*/, '') : id;
+}
+function entryLink(id) {
+  return '<a href="#/read/' + encodeURIComponent(id) + '">' + esc(entryTitle(id)) + '</a>';
+}
+
+function renderSafety() {
+  const toxicIds = ['defla', 'ftila', 'guelb', 'datura', 'sambouk', 'daghmouss',
+    'qernoun', 'harmal', 'harmel_blanc', 'kafour', 'mkhinza', 'sena_makki',
+    'arek_souss', 'chib', 'chibt', 'khayyata', 'tebbouna'];
+  const toxic = toxicIds.filter(id => chapters.some(c => c.id === id))
+    .map(id => entryLink(id)).join('');
+
+  app.innerHTML =
+    '<div class="topnav">' + fontControlsHTML() +
+      '<button id="homeBtn" type="button">🏠 الفهرس</button>' +
+      '<button id="sourcesBtn" type="button">📚 المصادر والمنهج</button>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="kicker">إرشادات عامة</div>' +
+      '<h2>🛡️ السلامة أولاً</h2>' +
+      '<p>هذه الموسوعة تعرض معرفة تقليدية عن استعمال النباتات في المغرب، وهدفها تعليمي وتوثيقي. ' +
+        'لا تُغني عن تشخيص طبي ولا عن دواء موصوف، ولا يجوز الاعتماد عليها لعلاج حالة مرضية.</p>' +
+      '<h3>قواعد أساسية قبل أي استعمال</h3>' +
+      '<ul>' +
+        '<li>استشر طبيباً أو صيدلياً قبل استعمال أي نبات، خصوصاً إذا كنت تتناول أدوية أو تعاني مرضاً مزمناً.</li>' +
+        '<li>أثناء الحمل والرضاعة، ومع الأطفال وكبار السن، لا تستعمل النباتات الطبية دون إشراف مختص.</li>' +
+        '<li>أخبر طبيبك بكل الأعشاب والمكمّلات التي تتناولها؛ فبعضها يتفاعل مع مميّعات الدم، وأدوية الضغط والسكري، والمهدّئات، ومثبّطات المناعة.</li>' +
+        '<li>احترم الجرعة وطريقة التحضير المذكورتين، ولا تُطِل الاستعمال دون مراجعة. «طبيعي» لا يعني «آمن».</li>' +
+        '<li>لا تجمع النباتات البرية بنفسك إن لم تكن متأكداً من تحديدها؛ الالتباس بين نبات سام وآخر نافع من أخطر أسباب التسمم.</li>' +
+        '<li>توقّف فوراً عند ظهور غثيان أو دوار أو طفح أو أي عرض غير متوقع.</li>' +
+      '</ul>' +
+      '<h3>نباتات سامة أو خطرة</h3>' +
+      '<p>هذه مداخل تستوجب حذراً خاصاً، وبعضها سام جداً. اضغط على الاسم لقراءة بطاقته وتنبيهاته:</p>' +
+      '<div class="toxic-list">' + toxic + '</div>' +
+      '<h3>التباس الأسماء المحلية</h3>' +
+      '<p>قد يحمل اسم دارج واحد نباتات مختلفة في جهات مختلفة، وقد تكون إحداها سامة. ' +
+        'اعتمد دائماً على <strong>الاسم اللاتيني</strong> للتحقق، وقارن الصورة والوصف قبل أي استعمال. ' +
+        'بعض المداخل في الموسوعة تشير صراحة إلى أسماء محلية مشتركة أو إلى بطاقة أخرى مرجعية.</p>' +
+      '<h3>في حالة الشك أو التسمم</h3>' +
+      '<p>أوقف الاستعمال فوراً، واحتفظ بعينة من النبات أو المنتج، واتصل بخدمات الطوارئ أو أقرب مركز لمحاربة التسممات، ' +
+        'ولا تُحاول إحداث تقيؤ إلا بتوجيه طبي. أبلغ أيضاً عبر زر «⚠️ أبلغ عن خطأ» في بطاقة المدخل إذا لاحظت معلومة مشكوكاً فيها.</p>' +
+      '<div class="safety-note"><strong>ملاحظة:</strong> هذه الصفحة إرشادية عامة، وليست بديلاً عن نشرة دواء أو استشارة مختص.</div>' +
+    '</div>';
+
+  setupFontControls();
+  document.getElementById('homeBtn').onclick = () => go('#/');
+  document.getElementById('sourcesBtn').onclick = () => go('#/sources');
+}
+
+function renderSources() {
+  app.innerHTML =
+    '<div class="topnav">' + fontControlsHTML() +
+      '<button id="homeBtn" type="button">🏠 الفهرس</button>' +
+      '<button id="safetyBtn" type="button">🛡️ السلامة أولاً</button>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="kicker">التوثيق والمنهج</div>' +
+      '<h2>📚 المصادر والمنهج</h2>' +
+      '<p><strong>المعشبة المغربية</strong> عمل رقمي مستقل أُعدّ خصيصاً لهذا الموقع، وليس نسخة من كتاب مطبوع ولا مأخوذاً عنه. ' +
+        'تجمع المداخل معرفة إثنوبوتانية عامة ومتداولة عن النباتات الطبية في المغرب، مع التأكيد على التنبيهات والسلامة.</p>' +
+      '<h3>منهج الإعداد</h3>' +
+      '<ul>' +
+        '<li>لكل مدخل: وصف مختصر، استعمالات تقليدية، طريقة تحضير، وتنبيهات سلامة.</li>' +
+        '<li>تُذكر الأسماء بالدارجة والأمازيغية والعربية والفرنسية واللاتينية حين توفرها، مع التنبيه إلى أن الأسماء المحلية تختلف بين الجهات.</li>' +
+        '<li>لا تُعرض جرعات علاجية دقيقة للحالات المرضية؛ المحتوى تعليمي وليس وصفة.</li>' +
+        '<li>هذه النسخة لا تُرفق لكل مدخل مرجعاً فردياً بعد. نعمل على إضافة التوثيق المرجعي تدريجياً بدل اختلاق مراجع غير محققة.</li>' +
+      '</ul>' +
+      '<h3>مراجع يُنصح بها للتحقق</h3>' +
+      '<ul>' +
+        '<li>منظمة الصحة العالمية: <em>WHO Monographs on Selected Medicinal Plants</em>.</li>' +
+        '<li>الوكالة الأوروبية للأدوية: <em>EMA Herbal Medicinal Products</em> و<em>European Pharmacopoeia</em>.</li>' +
+        '<li>المديرية المغربية للأدوية والصيدلة / دستور الأدوية المغربي (Pharmacopée Marocaine).</li>' +
+        '<li>Kew Science — <em>Plants of the World Online</em> للتحقق من الأسماء اللاتينية.</li>' +
+        '<li>«الأعشاب الطبية في المغرب» (Éditions Le Fennec) و«العلاج بالأغذية والأعشاب في بلاد المغرب» لابن حبيب: مراجع ببليوغرافية للاستئناس، وليست مصدراً مباشراً لهذا الموقع.</li>' +
+      '</ul>' +
+      '<h3>تصحيح الأخطاء</h3>' +
+      '<p>إذا لاحظت خطأ في اسم أو استعمال أو تنبيه، استعمل زر «⚠️ أبلغ عن خطأ» داخل بطاقة المدخل. ' +
+        'نراجع البلاغات ونصحّح المحتوى في تحديثات لاحقة.</p>' +
+      '<div class="safety-note"><strong>تنبيه:</strong> المعلومات في هذا الموقع لأغراض تعليمية، ولا تُعتبر استشارة طبية أو صيدلية.</div>' +
+    '</div>';
+
+  setupFontControls();
+  document.getElementById('homeBtn').onclick = () => go('#/');
+  document.getElementById('safetyBtn').onclick = () => go('#/safety');
+}
+
 /* ---------- misc ---------- */
 function toArabicDigits(n) {
   return String(n);
@@ -398,11 +506,15 @@ function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
   const m = /^read\/(.+)$/.exec(h);
   if (m) return { view: 'read', id: decodeURIComponent(m[1]) };
+  if (h === 'safety') return { view: 'safety' };
+  if (h === 'sources') return { view: 'sources' };
   return { view: 'home' };
 }
 function route() {
   const r = parseHash();
   if (r.view === 'read' && chapters.some(c => c.id === r.id)) renderReader(r.id);
+  else if (r.view === 'safety') renderSafety();
+  else if (r.view === 'sources') renderSources();
   else renderHome();
   window.scrollTo(0, 0);
 }
