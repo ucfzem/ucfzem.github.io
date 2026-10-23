@@ -1,0 +1,19 @@
+{
+  "name": "الأعشاب الطبية في المغرب — 140 مدخلاً موسوعياً",
+  "short_name": "الأعشاب الطبية",
+  "description": "الموسوعة الرقمية للأعشاب الطبية في المغرب: 140 مدخلاً موسوعياً، بحث فوري بلون أخضر، ويعمل دون اتصال.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16130e",
+  "theme_color": "#1f5c46",
+  "categories": ["books", "education", "health"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
