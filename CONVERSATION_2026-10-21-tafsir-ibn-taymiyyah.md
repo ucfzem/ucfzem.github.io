@@ -72,3 +72,31 @@ Added a read-only audit (`tools/audit_quran.py`, no data modified):
 - Search index `data/s/*.txt` mirrors the corpus exactly (same corrupt counts), so it is not stale; it was rebuilt from the same OCR text.
 - No Qur'anic text was changed. `data/` remains untouched.
 Files: `tafsir-ibn-taymiyyah/tools/audit_quran.py`, `tafsir-ibn-taymiyyah/audit/quran-audit-review.json`, `tafsir-ibn-taymiyyah/audit/quran_audit_summary.md`. Backup: `backups/tafsir-ibn-taymiyyah-audit-2026-10-23/`.
+
+## OCR correction pass — 2026-10-23
+Regenerated the audit against **`quran-uthmani`** (not `quran-simple`) and separated actionable OCR corruption from contextual guesses.
+
+Applied **111 verified edits**:
+- `قرهان` → `قرآن`: 59
+- `قرمان` → `قرآن`: 33
+- `تبرك الذي بيده` → `تبارك الذي بيده`: 7
+- `انزلته` → `أنزلناه` in verbatim 12:2 / 20:113: 10
+- `جعلته` → `جعلناه` in verbatim 43:3: 2
+
+Verification:
+- Only `data/c/*.json` and `data/s/*.txt` changed; `data/index.json` untouched.
+- Section and paragraph counts unchanged (7 volumes); search-blob line counts unchanged.
+- Every changed paragraph reconstructs exactly from the manifest; 0 extra changes.
+- Post-fix audit: **0 actionable**, **64 needs-review** (`اينت` 27, `جعلته` 29, `انزلته` 8).
+- Service-worker cache bumped to `tafsir-v1.1.12`.
+- Commit: `694c7b4`.
+
+Links:
+- App: https://ucfzem.github.io/tafsir-ibn-taymiyyah/
+- Audit summary: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/quran_audit_summary.md
+- Audit JSON: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/quran-audit-review.json
+- Remaining review list: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/needs-review-ocr.json
+- Applied manifest: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/applied-ocr-fixes.json
+- Audit README: https://github.com/ucfzem/ucfzem.github.io/blob/main/tafsir-ibn-taymiyyah/audit/README.md
+- Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/tafsir-ibn-taymiyyah-ocr-fixes-2026-10-23
+- Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-21-tafsir-ibn-taymiyyah.md
