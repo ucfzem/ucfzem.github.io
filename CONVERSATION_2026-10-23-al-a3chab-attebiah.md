@@ -77,3 +77,8 @@ Reader photos now use full-image `contain` with `max-height: 460px` (instead of 
 Asset query strings and SW cache bumped to **1.3.4**; footer shows «الإصدار 1.3.4».
 Verified desktop: `chih-2.jpg` loads (960×720), rendered 613×460, caption shows Ghislain118 / CC BY-SA 3.0, no JS errors, no overflow.
 Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-keep/`.
+
+## Rename 2026-10-23k — الطبونة → البعيثران
+Entry 123 renamed from «الطبونة» to «البعيثران» (title, darja and first paragraph). The internal id remains `tebbouna` so existing links/bookmarks (`#/read/tebbouna`) keep working; only the displayed name changed. Latin name (Artemisia judaica) and photo untouched. Asset query strings and SW cache bumped to **1.3.5**; footer shows «الإصدار 1.3.5».
+Verified: 151 TOC items, search «البعيثران» → entry 123, search «الطبونة» → no results, photo loads, no JS errors.
+Backup: `backups/al-a3chab-attebiah-2026-10-23-rename-baitharan/`.
