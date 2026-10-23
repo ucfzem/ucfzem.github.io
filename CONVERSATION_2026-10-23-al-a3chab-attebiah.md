@@ -46,7 +46,7 @@ Verified desktop + mobile: disclaimer, safety/sources routes, 17 toxic links, re
 ## Photos 2026-10-23g — 149 verified Commons images
 Added real plant photos to nearly every monograph, with license and attribution on each card:
 - New `tools/fetch_images.py`: queries the Wikimedia Commons API per Latin binomial, accepts **only** CC0 / Public domain / CC BY / CC BY-SA (rejects NC, ND, GFDL-only), verifies the genus appears in the file title/description, skips maps/logos, downloads a 480px thumbnail to `images/<id>.jpg`, and records artist, license, license URL and the Commons file page.
-- Coverage: **149 / 150** plants. The only placeholder is **الزعفران**? no — **الزعتر الفاسي (Thymus broussonetii)**; no license-clear Commons photo exists, so it shows a labelled «الصورة قيد المراجعة» placeholder instead of a possibly wrong species.
+- Coverage: **149 / 150** plants. The only placeholder is **الزعتر الفاسي (Thymus broussonetii)**; no license-clear Commons photo exists, so it shows a labelled «الصورة قيد المراجعة» placeholder instead of a possibly wrong species.
 - Fallbacks used: `Thymus saturejoides` (CC0, accepted spelling variant) for الزعيترة، a public-domain botanical plate for الوزال (Genista quadriflora)، and a CC BY-SA oleander photo for الدفلى الكبيرة (Nerium grandiflorum, a synonym of N. oleander).
 - Licenses: 73 CC BY-SA 4.0, 27 CC BY-SA 3.0, 13 CC BY 4.0, 9 Public domain, 7 CC0, plus smaller CC BY/CC BY-SA versions; **no NC/ND images**.
 - UI: reader cards get a lazy-loaded 16:9-ish photo with a caption «📷 author · license · Wikimedia Commons» linking to both the license and the source file; the TOC/index now shows a 36px thumbnail beside every plant name (lazy-loaded).
