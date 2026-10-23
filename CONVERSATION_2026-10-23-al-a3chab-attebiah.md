@@ -56,3 +56,6 @@ Added real plant photos to nearly every monograph, with license and attribution 
 - Verified desktop + mobile with Playwright: 149 TOC thumbs + 2 placeholders (intro + zaatar_fassi), zero broken images, reader photo decodes, caption renders, placeholder visible, global search still works, no console errors, no horizontal overflow.
 - Commit `b3a7937`; live verified (data.js has 149 credits, sw v1.3.0, `images/chih.jpg` HTTP 200).
 - Backup: `backups/al-a3chab-attebiah-2026-10-23-images/` (app files + images + fetch script + report).
+
+## Photo tweak 2026-10-23h — الشيح
+User disliked the first الشيح photo. Replaced `images/chih.jpg` with a higher-resolution field shot by **Ghislain118** (fleurs-des-montagnes.net), CC BY-SA 3.0, saved as `images/chih-2.jpg` so the service-worker runtime cache cannot serve the old file. Credit/license/source updated in `data.js`; SW cache bumped to `a3chab-cache-v1.3.1`. Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-photo/`.
