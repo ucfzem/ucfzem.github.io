@@ -9,14 +9,14 @@
 
 Nothing under data/ is modified.
 
-Usage: python3 tools/audit_quran.py [--corpus /tmp/quran_simple.json]
+Usage: python3 tools/audit_quran.py [--corpus /tmp/quran_uthmani.json]
 """
 import argparse, difflib, json, os, re, unicodedata, urllib.request
 from collections import Counter, defaultdict
 
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS_URL = 'https://api.alquran.cloud/v1/quran/quran-simple'
-DEFAULT_CORPUS = '/tmp/quran_simple.json'
+CORPUS_URL = 'https://api.alquran.cloud/v1/quran/quran-uthmani'
+DEFAULT_CORPUS = '/tmp/quran_uthmani.json'
 MARK_RE = re.compile(r'[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u08D3-\u08FF\u0640]')
 AR_DIGITS = str.maketrans('٠١٢٣٤٥٦٧٨٩', '0123456789')
 
@@ -30,9 +30,18 @@ OCR_PATTERNS = [
 ]
 
 
+RASM_FOLD = [
+    ('الصلوة', 'الصلاة'), ('الزكوة', 'الزكاة'), ('الحيوة', 'الحياة'),
+    ('الربوا', 'الربا'), ('مشكوة', 'مشكاة'), ('نجوة', 'نجاة'),
+    ('داوود', 'داود'), ('الضحوة', 'الضحى'),
+]
+
+
 def norm(s, flex=False):
     s = unicodedata.normalize('NFKC', s or '')
     s = MARK_RE.sub('', s)
+    for a, b in RASM_FOLD:
+        s = s.replace(a, b)
     s = re.sub(r'[أإآٱ]', 'ا', s)
     s = re.sub(r'[ىئ]', 'ي', s)
     s = re.sub(r'ؤ', 'و', s)
@@ -46,6 +55,15 @@ def norm(s, flex=False):
 
 def tokens(s):
     return [t for t in norm(s).split() if t]
+
+
+def corpus_label(path):
+    b = os.path.basename(path).lower()
+    if 'uthmani' in b:
+        return 'quran-uthmani'
+    if 'simple' in b:
+        return 'quran-simple'
+    return os.path.basename(path)
 
 
 def load_corpus(path):
@@ -244,20 +262,28 @@ def audit(ayahs, names):
     return items, Counter(i['status'] for i in items), scan_known_ocr(vols)
 
 
-def markdown(stats, items, ocr):
+def markdown(stats, items, ocr, actionable, needs):
     L = ['# تدقيق الآيات القرآنية — تقرير قراءة فقط', '',
-         'لم يُعدَّل أي نص في `data/`. هذا التقرير يحصر المواضع التي تحتاج مراجعة بشرية.', '',
+         f"المرجع: **{stats.get('corpus', '—')}**. لم يُعدَّل أي نص في `data/`.", '',
          '## الإحصاء', '']
     for k, v in stats.items():
-        L.append(f'- **{k}**: {v}')
-    L += ['', '## آثار OCR المرشحة للمراجعة (من كل المتن)', '']
-    if ocr:
-        for i, o in enumerate(ocr[:60], 1):
-            L.append(f"{i}. **{o['pattern']} → {o['suggested']}** [{o['level']}] — ج{o['vol']}، {o['section']}، فقرة {o['para']}")
-            L.append(f"   `{o['context']}`")
-        if len(ocr) > 60:
-            L.append(f'- … و{len(ocr)-60} موضعاً آخر في ملف JSON.')
-    else:
+        if k != 'corpus':
+            L.append(f'- **{k}**: {v}')
+    L += ['', f"## مجموعة قابلة للتنفيذ — OCR مؤكد ({len(actionable)})", '']
+    for i, o in enumerate(actionable[:40], 1):
+        L.append(f"{i}. **{o['pattern']} → {o['suggested']}** [{o['level']}] — ج{o['vol']}، {o['section']}، فقرة {o['para']}")
+        L.append(f"   `{o['context']}`")
+    if len(actionable) > 40:
+        L.append(f'- … و{len(actionable)-40} موضعاً آخر في ملف JSON.')
+    if not actionable:
+        L.append('لا توجد.')
+    L += ['', f"## تحتاج مراجعة سياقية — غير قابلة للتنفيذ الآلي ({len(needs)})", '']
+    for i, o in enumerate(needs[:30], 1):
+        L.append(f"{i}. **{o['pattern']} → {o['suggested']}** [{o['level']}] — ج{o['vol']}، {o['section']}، فقرة {o['para']}")
+        L.append(f"   `{o['context']}`")
+    if len(needs) > 30:
+        L.append(f'- … و{len(needs)-30} موضعاً آخر في ملف JSON.')
+    if not needs:
         L.append('لا توجد.')
     L += ['', '## مقتبسات تحتاج مراجعة (أول 40)', '']
     picks = [x for x in items if x.get('confidence') in ('high', 'medium') and x['status'] not in ('MATCH_REF', 'MATCH_NO_REF')]
@@ -273,7 +299,8 @@ def markdown(stats, items, ocr):
     L += ['## حدود التقرير', '',
           '- المطابقة تقبل الاقتباس الجزئي داخل الآية أو عبر آية/آيتين.',
           '- الأقواس المكسورة أو غير المغلقة قد تمنع الاستخراج؛ لذلك يُفحص متن كامل بحثاً عن آثار OCR.',
-          '- «المرجع» قد يخص اقتباساً لاحقاً في نفس الفقرة؛ لذلك قد تظهر حالات REF_MISMATCH تحتاج مراجعة بشرية.',
+          '- «المرجع» قد يخص اقتباساً لاحقاً في نفس الفقرة؛ لذلك تظهر حالات UNMATCHED_WITH_REF تحتاج مراجعة بشرية.',
+          '- «اينت/انزلته/جعلته» تُصنَّف سياقية ولا تُعدّ قابلة للتنفيذ الآلي (آياته/آياتنا/لآيات...).',
           '- لا توجد هنا أي تعديلات تلقائية على النص القرآني.']
     return '\n'.join(L) + '\n'
 
@@ -282,18 +309,31 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--corpus', default=DEFAULT_CORPUS)
     args = ap.parse_args()
+    label = corpus_label(args.corpus)
     ayahs, names = load_corpus(args.corpus)
     items, stats, ocr = audit(ayahs, names)
+    stats['corpus'] = label
     stats['quotes'] = len(items)
     stats['known_ocr_occurrences'] = len(ocr)
     stats['known_ocr_high'] = sum(1 for o in ocr if o.get('level') == 'high')
     stats['known_ocr_medium'] = sum(1 for o in ocr if o.get('level') == 'medium')
-    outdir = os.path.join(APP, 'audit')
+    safe = {'تبرك الذي بيده الملك', 'قرهان', 'قرمان'}
+    actionable = [o for o in ocr if o.get('level') == 'high' and o.get('pattern') in safe]
+    needs = [o for o in ocr if o not in actionable]
+    stats['actionable'] = len(actionable)
+    stats['needs_review'] = len(needs)
+    outdir = os.path.join(APP, 'audit', 'uthmani' if 'uthmani' in label else 'simple')
     os.makedirs(outdir, exist_ok=True)
-    json.dump({'corpus': 'quran-simple', 'stats': dict(stats), 'known_ocr': ocr,
-               'items': items}, open(os.path.join(outdir, 'quran-audit-review.json'), 'w', encoding='utf-8'),
+    payload = {'corpus': label, 'stats': dict(stats), 'actionable': actionable,
+               'needs_review': needs, 'known_ocr': ocr, 'items': items}
+    json.dump(payload, open(os.path.join(outdir, 'quran-audit-review.json'), 'w', encoding='utf-8'),
               ensure_ascii=False, indent=1)
-    open(os.path.join(outdir, 'quran_audit_summary.md'), 'w', encoding='utf-8').write(markdown(stats, items, ocr))
+    open(os.path.join(outdir, 'quran_audit_summary.md'), 'w', encoding='utf-8').write(
+        markdown(stats, items, ocr, actionable, needs))
+    json.dump({'actionable': actionable}, open(os.path.join(APP, 'audit', 'actionable-ocr.json'), 'w', encoding='utf-8'),
+              ensure_ascii=False, indent=1)
+    json.dump({'needs_review': needs}, open(os.path.join(APP, 'audit', 'needs-review-ocr.json'), 'w', encoding='utf-8'),
+              ensure_ascii=False, indent=1)
     print(json.dumps(dict(stats), ensure_ascii=False, indent=1))
 
 
