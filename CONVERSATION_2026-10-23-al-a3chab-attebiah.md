@@ -59,3 +59,14 @@ Added real plant photos to nearly every monograph, with license and attribution 
 
 ## Photo tweak 2026-10-23h — الشيح
 User disliked the first الشيح photo. Replaced `images/chih.jpg` with a higher-resolution field shot by **Ghislain118** (fleurs-des-montagnes.net), CC BY-SA 3.0, saved as `images/chih-2.jpg` so the service-worker runtime cache cannot serve the old file. Credit/license/source updated in `data.js`; SW cache bumped to `a3chab-cache-v1.3.1`. Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-photo/`.
+
+## Cache fix 2026-10-23i — photo change wasn't reaching the browser
+Symptom: the الشيح photo still looked unchanged after the swap.
+Cause: GitHub Pages serves HTML/JS with a ~10-minute HTTP cache, and the existing service worker used default `fetch()`, so it kept replaying the old `data.js` (which still pointed at `chih.jpg`).
+Fix:
+- Versioned asset URLs in `index.html` (`style.css?v=1.3.2`, `data.js?v=1.3.2`, `app.js?v=1.3.2`).
+- SW v1.3.2: `cache: 'no-store'` for navigations and html/js/css/json requests (online always fresh, offline still falls back to cache); versioned files in `CORE`.
+- Registration uses `{updateViaCache:'none'}`, calls `reg.update()`, and reloads once on `controllerchange` (no loop).
+- Footer now shows «الإصدار 1.3.2» so the running version is visible.
+Verified locally: version label, SW v1.3.2, `chih-2.jpg`, reload without loops, offline reload still 151 TOC items and 0 broken thumbs, no JS errors.
+Backup: `backups/al-a3chab-attebiah-2026-10-23-cachefix/`.
