@@ -1,10 +1,10 @@
-const CACHE = 'a3chab-cache-v1.3.1';
+const CACHE = 'a3chab-cache-v1.3.2';
 const CORE = [
   './',
   './index.html',
-  './style.css',
-  './app.js',
-  './data.js',
+  './style.css?v=1.3.2',
+  './app.js?v=1.3.2',
+  './data.js?v=1.3.2',
   './manifest.json',
   './icon.svg',
   './icon-192.png',
@@ -56,7 +56,7 @@ self.addEventListener('fetch', (event) => {
 
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, { cache: 'no-store' }).then((res) => {
         caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
       }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
@@ -65,8 +65,9 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (url.origin === self.location.origin) {
+    const fresh = /\.(?:html|js|css|json)$/.test(url.pathname) || url.pathname.endsWith('/');
     event.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, fresh ? { cache: 'no-store' } : undefined).then((res) => {
         caches.open(CACHE).then((c) => c.put(req, res.clone()));
         return res;
       }).catch(() => caches.match(req))
