@@ -70,3 +70,10 @@ Fix:
 - Footer now shows «الإصدار 1.3.2» so the running version is visible.
 Verified locally: version label, SW v1.3.2, `chih-2.jpg`, reload without loops, offline reload still 151 TOC items and 0 broken thumbs, no JS errors.
 Backup: `backups/al-a3chab-attebiah-2026-10-23-cachefix/`.
+
+## Photo choice 2026-10-23j — الشيح = option C
+User picked option C. Swapped to **Gardenology.org-IMG 2791** by Raffi Kojian, CC BY-SA 3.0 (1200×1600 portrait), saved as `images/chih-3.jpg`; credit/license/source and `image_report.json` updated.
+Reader photos switched from `object-fit: cover` (cropped) to full-image `contain` with `max-height: 460px`, so portrait shots are no longer cut off; index thumbs stay square-cropped.
+Asset query strings and SW cache bumped to **1.3.3**; footer shows «الإصدار 1.3.3».
+Verified desktop + mobile: chih-3.jpg loads (960×1280), rendered 346×460 / 329×438, no overflow, no JS errors.
+Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-choice/`.
