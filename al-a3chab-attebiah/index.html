@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الأعشاب الطبية في المغرب | محمد السيجلماسي</title>
-  <meta name="description" content="الأعشاب الطبية في المغرب - محمد السيجلماسي | تطبيق ويب للقراءة والبحث">
+  <meta name="description" content="الأعشاب الطبية في المغرب - محمد السيجلماسي | دراسة في النباتات الطبية واستعمالاتها التقليدية">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b9a07e'/%3E%3Ctext x='50' y='62' font-family='Amiri, serif' font-size='46' fill='%23fcfaf2' text-anchor='middle'%3Eع%3C/text%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,97 +13,864 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    :root{--bg-primary:#fcfaf2;--bg-secondary:#f7f3e9;--text-primary:#2f2618;--text-secondary:#5c4f36;--border-color:#e7dfc9;--accent-color:#b9a07e;--highlight-bg:rgba(255,226,122,0.8);--highlight-active:rgba(255,196,0,0.95);--scrollbar-thumb:#d7c9b0;--scrollbar-track:transparent}
-    [data-theme="dark"]{--bg-primary:#1f1b16;--bg-secondary:#26211a;--text-primary:#e7e0d2;--text-secondary:#b9b09d;--border-color:#3a3326;--accent-color:#c9b08a;--highlight-bg:rgba(255,213,79,0.4);--highlight-active:rgba(255,193,7,0.7);--scrollbar-thumb:#4a4030;--scrollbar-track:transparent}
-    *{scrollbar-width:thin;scrollbar-color:var(--scrollbar-thumb) var(--scrollbar-track)}
-    *::-webkit-scrollbar{width:6px}*::-webkit-scrollbar-track{background:transparent}*::-webkit-scrollbar-thumb{background-color:var(--scrollbar-thumb);border-radius:10px}
-    html{scroll-behavior:smooth}
-    body{font-family:'Amiri','Scheherazade New',serif;background-color:var(--bg-primary);color:var(--text-primary);line-height:1.9;transition:background-color .4s ease,color .4s ease;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-    .book-container{max-width:920px;margin:0 auto;padding:clamp(1rem,4vw,3rem) clamp(1rem,6vw,4rem)}
-    .book-header{text-align:center;border-bottom:1px solid var(--border-color);padding-bottom:clamp(1.5rem,4vw,2.8rem);margin-bottom:clamp(2rem,5vw,3.8rem)}
-    .book-title{font-family:'Scheherazade New','Amiri',serif;font-weight:700;font-size:clamp(2rem,6vw,3.8rem);letter-spacing:-0.01em}
-    .book-subtitle{margin-top:.8rem;font-size:clamp(1.1rem,3vw,1.6rem);color:var(--text-secondary)}
-    .search-wrapper{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,var(--bg-primary) 85%,transparent 100%);padding-top:clamp(.6rem,2vw,1rem);padding-bottom:clamp(1rem,3vw,1.6rem);margin-bottom:clamp(1rem,3vw,2rem);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-    .search-panel{display:flex;flex-direction:column;gap:.9rem;border:1px solid var(--border-color);background-color:var(--bg-secondary);border-radius:999px;padding:clamp(.6rem,2vw,.8rem) clamp(1rem,4vw,2rem);box-shadow:0 40px 60px -60px rgba(47,38,24,.9);transition:border-color .3s ease,background-color .3s ease}
-    .search-panel-inner{display:flex;align-items:center;gap:clamp(.6rem,2vw,1rem)}
-    .search-input{flex:1;background:transparent;border:none;outline:none;font-family:'Amiri',serif;font-size:clamp(1rem,2.2vw,1.15rem);color:var(--text-primary);text-align:right}
-    .search-input::placeholder{color:var(--text-secondary);opacity:.8}
-    .search-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.8rem;padding-inline:clamp(.6rem,4vw,1.6rem);font-size:clamp(.95rem,2vw,1rem);color:var(--text-secondary)}
-    .match-badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid var(--border-color);border-radius:999px;padding:.25rem .9rem}
-    .match-nav{display:inline-flex;align-items:center;gap:.4rem}
-    .match-btn{display:inline-flex;align-items:center;justify-content:center;width:2.2rem;height:2.2rem;border-radius:999px;border:1px solid transparent;transition:all .2s ease;color:var(--text-secondary)}
-    .match-btn:not(:disabled):hover{color:var(--text-primary);border-color:var(--border-color)}
-    .match-btn:disabled{opacity:.4;cursor:not-allowed}
-    .toc-panel{border:1px solid var(--border-color);border-radius:1rem;background-color:var(--bg-secondary);overflow:hidden;margin-bottom:clamp(2rem,5vw,3.5rem);transition:background-color .3s ease,border-color .3s ease}
-    .toc-header{display:flex;align-items:center;justify-content:space-between;padding:clamp(.9rem,2vw,1.2rem) clamp(1.2rem,4vw,2rem);cursor:pointer}
-    .toc-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.4rem;padding:0 clamp(1rem,4vw,1.8rem) clamp(1rem,3vw,1.6rem)}
-    .toc-item{display:flex;align-items:center;justify-content:space-between;border-radius:999px;padding:.6rem 1rem;font-size:clamp(1rem,2vw,1.05rem);color:var(--text-secondary);transition:all .2s ease;text-align:right}
-    .toc-item:hover{color:var(--text-primary);background-color:rgba(185,160,126,.12)}
-    .toc-item.active{color:var(--text-primary);background-color:rgba(185,160,126,.18)}
-    .chapter{margin-bottom:clamp(3rem,8vw,5rem);scroll-margin-top:clamp(9rem,16vw,12rem)}
-    .chapter-header{display:flex;flex-direction:column;gap:.4rem;margin-bottom:clamp(1.6rem,4vw,2.4rem)}
-    .chapter-number{font-size:clamp(.95rem,2vw,1rem);color:var(--text-secondary);letter-spacing:.4em;text-transform:uppercase}
-    .chapter-title{font-family:'Scheherazade New','Amiri',serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.8rem)}
-    .chapter-content{display:flex;flex-direction:column;gap:clamp(1.2rem,3vw,1.8rem);font-size:clamp(1.08rem,2.4vw,1.24rem);text-align:justify;white-space:normal}
-    .chapter-content p{position:relative}
-    .highlight{background-color:var(--highlight-bg);border-radius:.4rem;padding-inline:.2rem;transition:background-color .2s ease}
-    .highlight.active-match{background-color:var(--highlight-active);box-shadow:0 0 0 1px rgba(185,160,126,.4)}
-    .theme-toggle{position:fixed;bottom:clamp(1rem,4vw,1.8rem);left:clamp(1rem,4vw,1.8rem);display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;border:1px solid var(--border-color);background-color:var(--bg-secondary);color:var(--text-secondary);padding:.6rem 1rem;font-size:.98rem;transition:all .3s ease;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:50}
-    .theme-toggle:hover{color:var(--text-primary)}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-    @media(max-width:640px){.search-panel{border-radius:1.2rem}.search-meta{flex-direction:column;align-items:flex-start}.toc-list{grid-template-columns:1fr}}
+    :root {
+      --bg-primary: #fcfaf2;
+      --bg-secondary: #f7f3e9;
+      --text-primary: #2f2618;
+      --text-secondary: #5c4f36;
+      --border-color: #e7dfc9;
+      --accent-color: #b9a07e;
+      --highlight-bg: rgba(255, 226, 122, 0.8);
+      --highlight-active: rgba(255, 196, 0, 0.95);
+      --scrollbar-thumb: #d7c9b0;
+      --scrollbar-track: transparent;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #1f1b16;
+      --bg-secondary: #26211a;
+      --text-primary: #e7e0d2;
+      --text-secondary: #b9b09d;
+      --border-color: #3a3326;
+      --accent-color: #c9b08a;
+      --highlight-bg: rgba(255, 213, 79, 0.4);
+      --highlight-active: rgba(255, 193, 7, 0.7);
+      --scrollbar-thumb: #4a4030;
+      --scrollbar-track: transparent;
+    }
+
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+
+    *::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar-thumb);
+      border-radius: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Amiri', 'Scheherazade New', serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 2;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .book-container {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 6vw, 4.2rem);
+    }
+
+    .book-header {
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: clamp(1.6rem, 4vw, 3rem);
+      margin-bottom: clamp(2rem, 5vw, 4rem);
+    }
+
+    .book-title {
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 7vw, 4.2rem);
+      letter-spacing: -0.01em;
+    }
+
+    .book-subtitle {
+      margin-top: 0.8rem;
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      color: var(--text-secondary);
+    }
+
+    .book-meta {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 2.2vw, 1.15rem);
+      color: var(--text-secondary);
+    }
+
+    .search-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: linear-gradient(180deg, var(--bg-primary) 88%, transparent 100%);
+      padding-top: clamp(0.6rem, 2vw, 1rem);
+      padding-bottom: clamp(1rem, 3vw, 1.8rem);
+      margin-bottom: clamp(1.2rem, 3vw, 2.4rem);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .search-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+      border-radius: 999px;
+      padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.2rem, 4vw, 2.2rem);
+      box-shadow: 0 40px 60px -60px rgba(47, 38, 24, 0.9);
+    }
+
+    .search-panel-inner {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.6rem, 2vw, 1rem);
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Amiri', serif;
+      font-size: clamp(1rem, 2.2vw, 1.18rem);
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.8;
+    }
+
+    .search-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding-inline: clamp(0.8rem, 4vw, 1.8rem);
+      font-size: clamp(0.98rem, 2vw, 1.02rem);
+      color: var(--text-secondary);
+    }
+
+    .match-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 0.28rem 1rem;
+    }
+
+    .match-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .match-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      color: var(--text-secondary);
+    }
+
+    .match-btn:not(:disabled):hover {
+      color: var(--text-primary);
+      border-color: var(--border-color);
+    }
+
+    .match-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .toc-panel {
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      background-color: var(--bg-secondary);
+      overflow: hidden;
+      margin-bottom: clamp(2.2rem, 6vw, 4rem);
+    }
+
+    .toc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(1rem, 2vw, 1.4rem) clamp(1.4rem, 4vw, 2.4rem);
+      cursor: pointer;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.4rem;
+      padding: 0 clamp(1.2rem, 4vw, 2rem) clamp(1.2rem, 3vw, 1.8rem);
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 999px;
+      padding: 0.7rem 1.1rem;
+      font-size: clamp(1rem, 2vw, 1.08rem);
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      text-align: right;
+    }
+
+    .toc-item:hover {
+      color: var(--text-primary);
+      background-color: rgba(185, 160, 126, 0.12);
+    }
+
+    .toc-item.active {
+      color: var(--text-primary);
+      background-color: rgba(185, 160, 126, 0.18);
+    }
+
+    .chapter {
+      margin-bottom: clamp(3.6rem, 9vw, 6rem);
+      scroll-margin-top: clamp(10rem, 18vw, 13rem);
+    }
+
+    .chapter-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: clamp(1.8rem, 5vw, 2.8rem);
+    }
+
+    .chapter-number {
+      font-size: clamp(0.98rem, 2vw, 1.02rem);
+      color: var(--text-secondary);
+      letter-spacing: 0.5em;
+    }
+
+    .chapter-title {
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+    }
+
+    .chapter-content {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.4rem, 3.6vw, 2rem);
+      font-size: clamp(1.1rem, 2.6vw, 1.28rem);
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .chapter-content p {
+      position: relative;
+    }
+
+    .chapter-content strong {
+      font-weight: 700;
+    }
+
+    .highlight {
+      background-color: var(--highlight-bg);
+      border-radius: 0.4rem;
+      padding-inline: 0.25rem;
+    }
+
+    .highlight.active-match {
+      background-color: var(--highlight-active);
+      box-shadow: 0 0 0 1px rgba(185, 160, 126, 0.4);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: clamp(1rem, 4vw, 1.9rem);
+      left: clamp(1rem, 4vw, 1.9rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+      color: var(--text-secondary);
+      padding: 0.65rem 1.1rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 50;
+    }
+
+    .theme-toggle:hover {
+      color: var(--text-primary);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 640px) {
+      .search-panel {
+        border-radius: 1.2rem;
+      }
+
+      .search-meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toc-list {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="book-container">
     <header class="book-header">
-      <div class="book-number chapter-number">محمد السيجلماسي</div>
+      <div class="book-number chapter-number">تأليف : محمد السيجلماسي</div>
       <h1 class="book-title">الأعشاب الطبية في المغرب</h1>
-      <p class="book-subtitle">دراسة في النباتات الطبية واستعمالاتها التقليدية</p>
+      <p class="book-subtitle">دراسة في النباتات الطبية واستعمالاتها التقليدية بين الموروث والواقع</p>
+      <p class="book-meta">طبعة إلكترونية مهيأة للقراءة والبحث</p>
     </header>
+
     <div class="search-wrapper">
       <div class="search-panel">
         <div class="search-panel-inner">
-          <i class="bi bi-search text-lg" style="color:var(--text-secondary)"></i>
-          <input id="searchInput" class="search-input" type="search" placeholder="ابحث في الكتاب عن نبات، مرض، وصفة أو أي مصطلح..." autocomplete="off" spellcheck="false">
-          <button id="clearSearch" class="match-btn hidden" aria-label="مسح البحث"><i class="bi bi-x-lg"></i></button>
+          <i class="bi bi-search text-lg" style="color: var(--text-secondary);"></i>
+          <input id="searchInput" class="search-input" type="search" placeholder="ابحث في الكتاب عن نبات، عرض، دواء شعبي، اسم دارج..." autocomplete="off" spellcheck="false">
+          <button id="clearSearch" class="match-btn hidden" aria-label="مسح البحث">
+            <i class="bi bi-x-lg"></i>
+          </button>
         </div>
       </div>
       <div class="search-meta">
-        <div class="match-badge"><i class="bi bi-journal-text"></i><span id="matchCount">0 نتيجة</span></div>
+        <div class="match-badge">
+          <i class="bi bi-journal-text"></i>
+          <span id="matchCount">0 نتيجة</span>
+        </div>
         <div class="match-nav">
-          <button id="prevMatch" class="match-btn" disabled aria-label="النتيجة السابقة"><i class="bi bi-chevron-right"></i></button>
+          <button id="prevMatch" class="match-btn" disabled aria-label="النتيجة السابقة">
+            <i class="bi bi-chevron-right"></i>
+          </button>
           <span id="matchPosition">— / —</span>
-          <button id="nextMatch" class="match-btn" disabled aria-label="النتيجة التالية"><i class="bi bi-chevron-left"></i></button>
+          <button id="nextMatch" class="match-btn" disabled aria-label="النتيجة التالية">
+            <i class="bi bi-chevron-left"></i>
+          </button>
         </div>
       </div>
     </div>
+
     <section class="toc-panel">
       <div class="toc-header" id="tocToggle">
         <div>
-          <div class="chapter-number">الفهرس</div>
-          <div style="font-family:'Scheherazade New',serif;font-size:clamp(1.2rem,3vw,1.6rem)">محتويات الكتاب</div>
+          <div class="chapter-number">فهرس الكتاب</div>
+          <div style="font-family: 'Scheherazade New', serif; font-size: clamp(1.3rem, 3vw, 1.8rem);">المحتويات</div>
         </div>
         <i id="tocIcon" class="bi bi-chevron-down transition-transform duration-300"></i>
       </div>
       <nav id="tocList" class="toc-list"></nav>
     </section>
+
     <main id="bookContent"></main>
   </div>
-  <button class="theme-toggle" id="themeToggle"><i class="bi bi-moon-stars"></i><span>الوضع الليلي</span></button>
+
+  <button class="theme-toggle" id="themeToggle">
+    <i class="bi bi-moon-stars"></i>
+    <span>الوضع الليلي</span>
+  </button>
+
   <script>
-    const bookData=[{id:1,title:"المقدمة",content:["يُعدّ نبات الأعشاب الطبية أحد أعرق الموروثات العلاجية في المغرب، إذ توارثته الأجيال جيلاً بعد جيل، واستُعمل في علاج الكثير من الأمراض بالاعتماد على خبرة المشايخ والعطارين وأهل البيت.","يهدف هذا العمل إلى جمع واستعراض أبرز النباتات الطبية المتداولة في مختلف جهات المغرب، مع بيان أسمائها، وصفها، ومناطق انتشارها، وطرق الاستعمال الشعبي، وبعض الملاحظات حول الانتفاع بها في حدود المألوف من الطب الشعبي.","لقد حرص المؤلف محمد السيجلماسي على رصد ما لا زال حيّاً من هذا الموروث، قبل أن يندثر مع التحولات العصرية، محافظاً على دقة المصطلحات المحلية إلى جانب التعريف العلمي قدر الإمكان."]},{id:2,title:"الشيح (Artemisia herba-alba)",content:["يُعرف الشيح في أغلب جهات المغرب بالشيح، ويُعدّ من أكثر النباتات استعمالاً في المنزل المغربي. ينبت برياً في السهول الجافة والجبال الصخرية، ويتميز برائحته القوية العطرية وطعمه المرّ.","يُستعمل مغلي الشيح في حالات عسر الهضم والانتفاخ، كما يُنقع منه قليل في الماء ويُشرب دافئاً بعد الوجبات الدسمة. ويُستخدم أيضاً كغسول للفم في بعض الوصفات التقليدية لتخفيف رائحة الفم.","في بعض المناطق، يُستعمل الشيح بحذر شديد للحوامل، لذا يُنصح بعدم الإفراط في تناوله، والاقتصار على ما درج عليه أهل الخبرة في الاستعمال المعتاد."]},{id:3,title:"اللويزة (Lippia citriodora)",content:["تُعدّ اللويزة من الأشهر في المغرب، وتُزرع غالباً حول البيوت لطيب رائحتها، وتُستعمل على نطاق واسع في إعداد المنقوعات العطرية الدافئة.","يُعدّ مغلي أوراق اللويزة من المنبهات الخفيفة المهدئة في آن معاً، ويُستعمل كثيراً لتهدئة الأعصاب، وتخفيف التوتر، ومساعدة على الاسترخاء قبل النوم.","كما يُستعمل في تخفيف آلام البطن الخفيفة الناتجة عن الغازات، ويُضاف أحياناً إلى الشاي التقليدي لإضفاء نكهة عطرية مميزة."]},{id:4,title:"النعناع (Mentha spp.)",content:["يحظى النعناع مكانة خاصة في المطبخ المغربي، ولا يكاد يخلو منزل من أغصانه. أما الاستعمال العلاجي، فيعود إلى قدرته على تهدئة الجهاز الهضمي وتسكين المغص الخفيف.","يُشرب مغلي النعناع دافئاً بعد الطعام للمساعدة على الهضم، ويُستعمل أيضاً في استنشاق البخار مع ماء ساخن لتخفيف احتقان الأنف في بعض الأحيان.","يجب الانتباه إلى عدم تناوله بكثرة جداً من قبل من يعانون من حساسية خاصة، مع مراعاة الاعتدال دائماً في الاستعمال الشعبي."]},{id:5,title:"الحلبة (Trigonella foenum-graecum)",content:["تُعرف الحلبة ببذورها الصفراء ذات الرائحة المميزة، وتُستعمل في المغرب داخلياً وخارجياً على حد سواء.","يُغلى قليل من بذور الحلبة ويُشرب المنقوع بعد تبريده في بعض الاستعمالات، أو تُنقع ليلاً ويُتناول صباحاً في العادات التقليدية المعروفة.","خارجياً، يُصنع عجين من مسحوق الحلبة الممزوج بالماء الدافئ ويُوضع كلبخة دافئة على بعض الآلام الموضعية، وهو من أكثر ما يُذكر في الوصفات المنزلية المغربية."]},{id:6,title:"الكمون (Cuminum cyminum)",content:["يُعدّ الكمون من التوابل الدارجة في المغرب، ويُجمع بين الاستعمال الغذائي والاستعمال العلاجي الشعبي منذ زمن بعيد.","يُضاف الكمون المطحون إلى بعض المنقوعات لتخفيف الانتفاخ، ويُعتقد في الطب الشعبي أنه يساهم في تيسير الهضم ويقلل من المغص الناتج عن الغازات.","يُستعمل أيضاً في خلطات عطرية منزلية، ويُحرص دائماً على الاستعمال بالكمية المعتادة لا المفرطة."]},{id:7,title:"أوراق الزيتون (Olea europaea)",content:["أوراق الزيتون معروفة في الموروث المغربي، ويُستعمل مغليها في بعض الوصفات التقليدية، خاصة في فترات معينة، بعد استشارة أهل الخبرة.","يُكثر الحديث عن أوراق الزيتون في الاستعمالات الشعبية، غير أن الاعتدال هو القاعدة، إذ أن بعض الاستعمالات المفرطة لا تخلو من حذر.","يبقى الزيتون وزيته ركناً أساسياً في الحياة المغربية، ويُستغل في الطعام والاعتناء اليومي على حد سواء."]},{id:8,title:"الخاتمة",content:["يبقى الموروث العشبي المغربي ثروةً حيةً تستحق الحفظ والتوثيق، لا لنقلها كما هي فحسب، بل لإبراز قيمتها مع التحلي بالموضوعية والحذر.","يجب دائماً التمييز بين ما هو مألوف في الاستعمال الشعبي، وبين ما يحتاج إلى متابعة طبية متخصصة، خاصة في الحالات المزمنة أو عند تناول الأدوية بانتظام.","نسأل الله أن يكون هذا العمل إضافةً متواضعةً لخدمة هذا التراث الغني، وأن يحفظه للأجيال القادمة."]}];
-    const bookContent=document.getElementById('bookContent'),tocList=document.getElementById('tocList'),tocToggle=document.getElementById('tocToggle'),tocIcon=document.getElementById('tocIcon'),searchInput=document.getElementById('searchInput'),clearSearch=document.getElementById('clearSearch'),matchCountEl=document.getElementById('matchCount'),prevMatch=document.getElementById('prevMatch'),nextMatch=document.getElementById('nextMatch'),matchPosition=document.getElementById('matchPosition'),themeToggle=document.getElementById('themeToggle');
-    let currentHighlights=[],activeIndex=-1,tocCollapsed=false;
-    function renderBook(){bookContent.innerHTML='';tocList.innerHTML='';bookData.forEach((chapter,index)=>{const chapterEl=document.createElement('article');chapterEl.className='chapter';chapterEl.id=`chapter-${chapter.id}`;const header=document.createElement('header');header.className='chapter-header';const number=document.createElement('span');number.className='chapter-number';number.textContent=`الباب ${String(index+1).padStart(2,'0')}`;const title=document.createElement('h2');title.className='chapter-title';title.textContent=chapter.title;header.appendChild(number);header.appendChild(title);chapterEl.appendChild(header);const content=document.createElement('div');content.className='chapter-content';chapter.content.forEach(paragraph=>{const p=document.createElement('p');p.textContent=paragraph;content.appendChild(p)});chapterEl.appendChild(content);bookContent.appendChild(chapterEl);const tocItem=document.createElement('button');tocItem.className='toc-item';tocItem.innerHTML=`<span>${chapter.title}</span><span style="color:var(--text-secondary)">${String(index+1).padStart(2,'0')}</span>`;tocItem.addEventListener('click',()=>{chapterEl.scrollIntoView({behavior:'smooth',block:'start'});updateActiveToc(chapter.id)});tocList.appendChild(tocItem)});updateActiveToc(bookData[0].id)}
-    function updateActiveToc(id){document.querySelectorAll('.toc-item').forEach((item,idx)=>{item.classList.toggle('active',bookData[idx].id===id)})}
-    tocToggle.addEventListener('click',()=>{tocCollapsed=!tocCollapsed;if(tocCollapsed){tocList.style.display='none';tocIcon.style.transform='rotate(-90deg)'}else{tocList.style.display='grid';tocIcon.style.transform='rotate(0deg)'}})
-    function clearHighlights(){document.querySelectorAll('.highlight').forEach(el=>{const text=document.createTextNode(el.textContent);el.replaceWith(text)});currentHighlights=[];activeIndex=-1;updateMatchUI()}
-    function performSearch(){clearHighlights();const query=searchInput.value.trim();if(query.length<2){clearSearch.classList.add('hidden');matchCountEl.textContent='0 نتيجة';matchPosition.textContent='— / —';prevMatch.disabled=true;nextMatch.disabled=true;return}clearSearch.classList.remove('hidden');const regex=new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');const paragraphs=document.querySelectorAll('.chapter-content p');paragraphs.forEach(p=>{const original=p.textContent;if(regex.test(original)){regex.lastIndex=0;const highlighted=original.replace(regex,match=>`<mark class="highlight">${match}</mark>`);p.innerHTML=highlighted}regex.lastIndex=0});currentHighlights=Array.from(document.querySelectorAll('.highlight'));if(currentHighlights.length>0){activeIndex=0;focusMatch(activeIndex)}updateMatchUI()}
-    function focusMatch(index){currentHighlights.forEach((el,i)=>{el.classList.toggle('active-match',i===index)});if(currentHighlights[index]){currentHighlights[index].scrollIntoView({behavior:'smooth',block:'center'})}updateMatchUI()}
-    function updateMatchUI(){const count=currentHighlights.length;matchCountEl.textContent=count===0?'0 نتيجة':`تم العثور على ${count} ${count===1?'نتيجة':'نتائج'}`;if(count===0){matchPosition.textContent='— / —';prevMatch.disabled=true;nextMatch.disabled=true;return}matchPosition.textContent=`${activeIndex+1} / ${count}`;prevMatch.disabled=activeIndex<=0;nextMatch.disabled=activeIndex>=count-1}
-    let searchTimeout;searchInput.addEventListener('input',()=>{clearTimeout(searchTimeout);searchTimeout=setTimeout(performSearch,160)});clearSearch.addEventListener('click',()=>{searchInput.value='';clearSearch.classList.add('hidden');clearHighlights();searchInput.focus()});prevMatch.addEventListener('click',()=>{if(activeIndex>0){activeIndex--;focusMatch(activeIndex)}});nextMatch.addEventListener('click',()=>{if(activeIndex<currentHighlights.length-1){activeIndex++;focusMatch(activeIndex)}});
-    const themeKey='sijelmassi-theme';const applyTheme=theme=>{document.documentElement.setAttribute('data-theme',theme);const icon=themeToggle.querySelector('i');const label=themeToggle.querySelector('span');if(theme==='dark'){icon.className='bi bi-sun';label.textContent='الوضع الفاتح'}else{icon.className='bi bi-moon-stars';label.textContent='الوضع الليلي'}localStorage.setItem(themeKey,theme)};themeToggle.addEventListener('click',()=>{const current=document.documentElement.getAttribute('data-theme')||'light';applyTheme(current==='dark'?'light':'dark')});const savedTheme=localStorage.getItem(themeKey)||'light';applyTheme(savedTheme);renderBook();
+    const bookData = [
+      {
+        id: 1,
+        title: "المقدمة",
+        content: [
+          "يُعدّ الموروث العشبي المغربي من أقدم الموروثات الطبية في بلاد المغرب الأقصى، إذ امتزج فيه علم العرب الأقدم مع خبرة السكان الأصليين، وتوارثه العطارون، والحجامون، وكبار السن جيلاً بعد جيل.",
+          "يُلاحظ أن كثيراً من البيوت المغربية ما زالت تحتفظ حتى اليوم بعادتها في استعمال مغلي بعض الأعشاب لعلاج ما يسمونه 'الريح' أو 'الانتفاخ' أو 'سوء الهضم'، مع تحلي بالاعتدال والحذر.",
+          "يهدف هذا الكتاب إلى جمع أبرز ما لا يزال مستعملاً فعلاً في ربوع المغرب، بيان أسمائه بالعربية والدارجة، وصفه، موطنه، وطرق الاستعمال الشعبي الأكثر تداولاً، مع لفت النظر إلى ضرورة الحذر عند الاستعمال، والتمييز بين ما هو مألوف وبين ما يستدعي مراجعة الطبيب المختص.",
+          "وقد سعى المؤلف إلى توثيق هذا الموروث قبل أن ينسى مع تسارع الحياة العصرية، إيمانه بأهمية الحفاظ على هذا التراث العلمي الشعبي الأصيل."
+        ]
+      },
+      {
+        id: 2,
+        title: "منهج الكتاب وأهدافه",
+        content: [
+          "اعتمد المؤلف على المشاهدة الميدانية، ومقابلات مع عطارين كبار في أسواق المدن المغربية، وملاحظات مباشرة على الاستعمالات المنزلية المتداولة، مع الرجوع إلى ما هو مشهور في كتب الطب الشعبي المغربي.",
+          "يُذكر في هذا الكتاب الاستعمال التقليدي فقط، لا يهدف إلى استبدال العلاج الطبي الحديث، بل إلى توثيق المعرفة المتوارثة. وفي كل ما يُذكر، يُراعى مبدأ الاعتدال، ونبذ الإفراط، وتحذير من الاستعمال الخطير.",
+          "يُراعى أيضاً ذكر بعض التحذيرات الهامة، خاصة للحوامل والمرضعات، والأطفال الصغار، وكبار السن، ومن يتناولون أدوية مزمنة بانتظام."
+        ]
+      },
+      {
+        id: 3,
+        title: "الشيح (Artemisia herba-alba) – آشيح / الشّيح",
+        content: [
+          "<strong>الوصف:</strong> نبتة عشبية معمرة، أوراقها صغيرة رقيقة مكسوة بزغب أبيض ناصع، ذات رائحة عطرية قوية جداً وطعم مرّ واضح.",
+          "<strong>الموطن:</strong> ينتشر بكثرة في سهول السوس، وأقاليم الجنوب الشرقي، والجبال الجافة، وعلى حواف الطرق في الأراضي الرملية أو الكلسية.",
+          "<strong>الاستعمالات التقليدية:</strong> يُستعمل مغلي الشيح بعد الطعام لتخفيف الانتفاخ وعسر الهضم. ويُستخدم أيضاً كغسول للفم لانتعاشه، وفي بعض الاستعمالات الموضعية بحذر شديد.",
+          "<strong>طريقة الاستعمال:</strong> مغلي خفيف جداً، ملعقة صغيرة من الأوراق الجافة لكل كأس ماء، يُغلى برفق ويُترك ليبرد ثم يُشرب دافئاً باعتدال.",
+          "<strong>تحذيرات:</strong> يُحذر من الإفراط الشديد، ويمنع استعماله بكثرة للحوامل، وللأطفال دون استشارة، ولمن يعانون من قرحة حادة في المعدة."
+        ]
+      },
+      {
+        id: 4,
+        title: "اللويزة (Lippia citriodora) – اللوِيزَة",
+        content: [
+          "<strong>الوصف:</strong> شجيرة عطرية، أوراقها رقيقة لامعة ذات رائحة ليمونية نفاذة جداً، تُعرف برائحتها المميزة التي تملأ البيت عند غليها.",
+          "<strong>الموطن:</strong> تُزرع بكثرة في حدائق المنازل المغربية في المدن والقرى، وأقلها برياً.",
+          "<strong>الاستعمالات التقليدية:</strong> من أقدم المنقوعات المهدئة. يُستعمل لتهدئة الأعصاب، وتخفيف التوتر، ومساعدة على الاسترخاء، وكذا لتسكين آلام البطن الخفيفة الناتجة عن الغازات.",
+          "<strong>طريقة الاستعمال:</strong> منقوع دافئ، بضع أوراق طازجة أو ملعقة من الجافة لكل كأس ماء مغلي، يُغطي ويُترك ٥-٧ دقائق.",
+          "<strong>تحذيرات:</strong> عمومياً آمن في الاستعمال المعتاد، إلا أنه يُنصح بالاعتدال، وفي حالات معينة يفضل استشارة الطبيب."
+        ]
+      },
+      {
+        id: 5,
+        title: "النعناع (Mentha spicata / Mentha pulegium) – النّعناع",
+        content: [
+          "<strong>الوصف:</strong> نبات عطري منتشر جداً، ساقه قائم، أوراقه سنانية ذات حواف مسننة، ورائحته المنعشة المعروفة.",
+          "<strong>الموطن:</strong> يُزرع في كل البيوت المغربية تقريباً، ويُوجد أيضاً برياً قرب الأودية والمجاري المائية.",
+          "<strong>الاستعمالات التقليدية:</strong> مشروب يومي عريق، يُساعد على الهضم، ويُزيل الثقل بعد الوجبات الدسمة، ويُستعمل في استنشاق البخار لتخفيف احتقان الأنف الخفيف.",
+          "<strong>طريقة الاستعمال:</strong> مغلي أو منقوع، حسب العادة. كثيراً ما يُشرب بالسكر أو نقياً بعد الطعام.",
+          "<strong>تحذيرات:</strong> يُحذر الإفراط فيه لمن يعانون من ارتجاع المريء الحاد، وللرضع صغار السن جداً."
+        ]
+      },
+      {
+        id: 6,
+        title: "الزعتر (Thymus satureioides) – الزّعتر / الزّعتَر",
+        content: [
+          "<strong>الوصف:</strong> نبات شجيري صغير، أغصانه خشبية رقيقة، أوراقه صغيرة ضيقة، أزهاره وردية أو أرجوانية، ذو رائحة قوية عطرية دافئة.",
+          "<strong>الموطن:</strong> ينتشر بكثرة في جبال الأطلس، والريف، والمناطق الجبلية ذات التربة الصخرية. يُعدّ من أبرز أعشاب جبال المغرب.",
+          "<strong>الاستعمالات التقليدية:</strong> مشهور جداً ضد البلغم، ويُستعمل في مغلي دافئ لتهدئة السعال المصحوب بالبلغم، وفي غسولات الفم لأوجاع الأسنان الخفيفة، وكذا كمنقوع منبه خفيف.",
+          "<strong>طريقة الاستعمال:</strong> ملعقة صغيرة من الزعتر الجاف لكل كأس ماء، يُغلى دقيقتين ويُترك مغطىً ٥ دقائق قبل الشرب.",
+          "<strong>تحذيرات:</strong> يستعمل بحذر في حالات القرحة، ويُفضل الاعتدال الشديد في الجرعات، ولا يُعطى بكثرة للأطفال الرضع."
+        ]
+      },
+      {
+        id: 7,
+        title: "البابونج (Matricaria chamomilla) – بابونج",
+        content: [
+          "<strong>الوصف:</strong> نبات حولي رقيق، أزهاره رأسية على شكل قرص أبيض محيط بزهيرات صفراء، ذات رائحة تفاحية لطيفة مميزة.",
+          "<strong>الموطن:</strong> يُزرع في الحدائق المغربية، وينبت أيضاً برياً في بعض المناطق.",
+          "<strong>الاستعمالات التقليدية:</strong> من أشهر المنقوعات المهدئة. يُساعد على الاسترخاء، وتهدئة التوتر العصبي، وتخفيف آلام البطن الخفيفة، ويُستعمل أحياناً لغسول العين بحذر تام ونقاء عالٍ.",
+          "<strong>طريقة الاستعمال:</strong> منقوع دافئ قبل النوم، زهرتان إلى ثلاث زهرات جافة لكل كأس ماء مغلي، مغطى ٥-٧ دقائق.",
+          "<strong>تحذيرات:</strong> نادراً ما يسبب حساسية لدى البعض، ويُحذر غسول العين إلا باستعمال مُصفّى جداً ونظيف."
+        ]
+      },
+      {
+        id: 8,
+        title: "إكليل الجبل / حصا اللبان (Rosmarinus officinalis) – أكليل الجبل",
+        content: [
+          "<strong>الوصف:</strong> شجيرة دائمة الخضرة، أوراقها إبرية رقيقة ذات رائحة صنوبرية عطرية قوية، أزهارها زرقاء فاتحة جميلة.",
+          "<strong>الموطن:</strong> كثيراً ما يوجد حول المنازل، وعلى التلال الجبلية، وفي بعض الحدائق المغربية.",
+          "<strong>الاستعمالات التقليدية:</strong> يُستعمل مغلياً في بعض الوصفات لتقوية الذاكرة وفق الموروث، ولتنشيط الدورة الدموية الخفيفة، وكذا في غسولات الشعر التقليدية لتقوية فروة الرأس.",
+          "<strong>طريقة الاستعمال:</strong> للاستعمال الداخلي يُستخدم بجرعة خفيفة جداً وباعتدال. أما الخارجي فيُكثر استعماله في غسل الشعر.",
+          "<strong>تحذيرات:</strong> <strong>يجب الحذر الشديد</strong> من الجرعات العالية داخلياً، ويمنع بشدة على المصابين بالصرع، والحوامل الحوامل، ومن يعانون من ارتفاع ضغط شديد دون إشراف طبي."
+        ]
+      },
+      {
+        id: 9,
+        title: "اليانسون (Pimpinella anisum) – اليانسون",
+        content: [
+          "<strong>الوصف:</strong> نبات حولي، ثماره على شكل حبوب صغيرة رمادية مخططة، ذات رائحة حلوة عطرية تشبه عطر عرق السوس.",
+          "<strong>الموطن:</strong> يُزرع في بعض المناطق المغربية، ويُباع بكثرة في العطارين.",
+          "<strong>الاستعمالات التقليدية:</strong> مشهور جداً لتفتيت الغازات، وتخفيف المغص الخفيف، وتهدئة السعال الجاف أو المصحوب بتهيّج خفيف، ويُضاف أحياناً إلى شاي الأعشاب.",
+          "<strong>طريقة الاستعمال:</strong> منقوع دافئ، نصف ملعقة صغيرة من الحبوب المهروسة برفق لكل كأس ماء مغلي، مغطى ٧-١٠ دقائق.",
+          "<strong>تحذيرات:</strong> الاستعمال المعتاد مقبول، لكن الإفراط غير مرغوب، ويُراعى الحذر عند الحساسية تجاهه."
+        ]
+      },
+      {
+        id: 10,
+        title: "الشمر (Foeniculum vulgare) – الشّمار",
+        content: [
+          "<strong>الوصف:</strong> نبات معمّر ذو ساق مجوف، أوراق رقيقة مقسمة، ثماره البيضوية المخططة ذات رائحة عطرية حلوة.",
+          "<strong>الموطن:</strong> بري وزراعي، ينتشر في كثير من جهات المغرب.",
+          "<strong>الاستعمالات التقليدية:</strong> من أفضل ما يُذكر لتفتيت الرياح، وتخفيف انتفاخ البطن، ومساعدة على الهضم، ويُستعمل أيضاً لتهدئة التقلصات الخفيفة.",
+          "<strong>طريقة الاستعمال:</strong> منقوع، ملعقة صغيرة من الثمار المجروشة لكل كأس ماء مغلي، يُغطى ويُترك ٨-١٠ دقائق.",
+          "<strong>تحذيرات:</strong> آمن في المعتاد، ويُفضل الاعتدال خاصة عند الأطفال."
+        ]
+      },
+      {
+        id: 11,
+        title: "الكراوية (Carum carvi) – الكراوية",
+        content: [
+          "<strong>الوصف:</strong> نبات حولي، ثماره منحنية ذات أخاديد، رائحتها دافئة عطرية قوية.",
+          "<strong>الموطن:</strong> يُزرع ويُباع بكثرة في الأسواق المغربية، ويُستعمل في المطبخ أكثر من كونه دواءً وحده.",
+          "<strong>الاستعمالات التقليدية:</strong> ممتازة لتفتيت الغازات، وتسكين المغص المعوي الخفيف، ومساعدة على الهضم بعد الوجبات الغنية.",
+          "<strong>طريقة الاستعمال:</strong> منقوع دافئ بعد الوجبة أو عند الشعور بالانتفاخ، ملعقة صغيرة لكل كأس.",
+          "<strong>تحذيرات:</strong> الاعتدال مطلوب، ومن الأفضل عدم المزج العشوائي مع أدوية أخرى دون استشارة."
+        ]
+      },
+      {
+        id: 12,
+        title: "الحلبة (Trigonella foenum-graecum) – الحلبة",
+        content: [
+          "<strong>الوصف:</strong> نبات حولي، أوراقه ثلاثية، بذوره صفراء مائلة للحمرة، ذات رائحة مميزة وطعم مرّ قليلاً.",
+          "<strong>الموطن:</strong> تُزرع في بعض جهات المغرب، وتُباع بذورها جاهزة في العطارين.",
+          "<strong>الاستعمالات التقليدية:</strong> تُستعمل داخلياً بحذر، وخارجياً بكثرة. خارجياً تصنع لبخة دافئة من مسحوق البذور مع الماء لآلام المفاصل الخفيفة وبعض التورمات الموضعيّة. داخلياً يُذكر في بعض العادات التقليدية.",
+          "<strong>طريقة الاستعمال الخارجي:</strong> ملعقتان من مسحوق الحلبة، يُضاف لهما ماء دافئ حتى يصبح عجينة ناعمة، توضع دافئة (لا حارّة جداً) على المكان المراد، وتُغطى بقطعة قماش.",
+          "<strong>تحذيرات:</strong> <strong>يجب توخي الحذر الشديد للاستعمال الداخلي</strong>، ويُمنع على الحوامل بشدة، وللمنعقدين على أدوية السكر أو مميعات الدم يستشيرون الطبيب أولاً."
+        ]
+      },
+      {
+        id: 13,
+        title: "عرق السوس (Glycyrrhiza glabra) – عرق السوس / عرقسوس",
+        content: [
+          "<strong>الوصف:</strong> نبات معمّر له جذور لحمية غليظة، ذات طعم حلو مميز جداً، تُجفف وتُباع شرائح أو مسحوقاً.",
+          "<strong>الموطن:</strong> يأتي غالباً من مصادر معروفة، ويُعدّ من أكثر ما يُطلب في العطارين المغربية.",
+          "<strong>الاستعمالات التقليدية:</strong> يُستعمل منقوعاً برفق لتهدئة الحنجرة والبلعوم، ويُذكر في بعض الوصفات التقليدية لالتهاب الحلق الخفيف.",
+          "<strong>طريقة الاستعمال:</strong> منقوع خفيف جداً، قطعة صغيرة جداً من الجذر المجروش أو قليل من المسحوق، يُنقع في ماء دافئ لا مغلي بقوة.",
+          "<strong>تحذيرات:</strong> <strong>خطير جداً عند الإفراط</strong>. يُمنع على مرضى ضغط الدم المرتفع، وأمراض الكلى، وقصور القلب، والحوامل والمرضعات، ومن يتناولون مدرات البول أو أدوية القلب، إلا بإشراف طبي صريح."
+        ]
+      },
+      {
+        id: 14,
+        title: "آس (Myrtus communis) – الآس",
+        content: [
+          "<strong>الوصف:</strong> شجيرة دائمة الخضرة ذات أوراق لامعة رقيقة عطرية، وأزهار بيضاء ذات رائحة زكية، ثمارها سوداء عند النضج.",
+          "<strong>الموطن:</strong> ينتشر في الغابات المتوسطية المغربية، ويُزرع أحياناً حول البيوت لأغراض الزينة والطيب.",
+          "<strong>الاستعمالات التقليدية:</strong> أوراق الآس تُستعمل في غسولات الفم التقليدية لانتعاشها، وأحياناً في غسولات للجسم. ويُذكر أيضاً في بعض الوصفات الجلدية الموضعية جداً.",
+          "<strong>طريقة الاستعمال:</strong> غسول خارجي فقط في أغلب الاستعمالات المنزلية، بمغلي مخفف ومُصفّى جيداً.",
+          "<strong>تحذيرات:</strong> <strong>يُستعمل خارجياً غالباً، ولا يُنصح بالاستعمال الداخلي الكثيف</strong>. تجنب ملامسة العين، واستعماله على جروح عميقة."
+        ]
+      },
+      {
+        id: 15,
+        title: "صبر (Aloe vera) – الصّبّار",
+        content: [
+          "<strong>الوصف:</strong> نبات عصاري لحمي، أوراقه سمينة مسننة الحواف، يحتوي على هلام شفاف داخل النصل يُستخرج ويُستعمل.",
+          "<strong>الموطن:</strong> واسع الانتشار في المغرب، يُزرع حول البيوت وعلى الأسطح، ويُعرف كثيراً باسم 'الصبار'.",
+          "<strong>الاستعمالات التقليدية:</strong> أشهر استعمالاته الخارجية، يُوضع هلام الصبار الطازج على الحروق الخفيفة، وتهيج الجلد البسيط، وجفاف البشرة. داخلياً له استعمالات شعبية لكن متفاوتة.",
+          "<strong>طريقة الاستعمال الخارجي:</strong> يُقطع ورقة نظيفة، يُستخرج الهلام الشفاف مباشرةً ويُوضع رقيقاً على المنطقة المراد، ويُترك حتى يمتص أو يُغير حسب الحاجة.",
+          "<strong>تحذيرات:</strong> <strong>يُفضل حصره في الاستعمال الخارجي</strong> ما أمكن، ويمنع على الحوامل والمرضعات الاستعمال الداخلي، ويُحذر من ألوان الصبار الصفراء القريبة من البشرة (الصمغ الأصفر) لأنها غير مرغوب فيها."
+        ]
+      },
+      {
+        id: 16,
+        title: "قشور الرمان (Punica granatum) – قشر الرّمان",
+        content: [
+          "<strong>الوصف:</strong> قشور الرمان المجففة ذات لون بني محمر، قابضة الطعم جداً، تُباع مجففة في العطارين.",
+          "<strong>الموطن:</strong> الرمان معروف في المغرب منذ القدم، ويُستغل قشره في الموروث الشعبي إلى جانب الثمرة.",
+          "<strong>الاستعمالات التقليدية:</strong> يُذكر مغلي قشر الرمان القابض في بعض الاستعمالات الفموية الموضعية، وبكميات شديدة التخفيف في بعض الوصفات القديمة. كما يُستعمل أحياناً خارجيّاً.",
+          "<strong>طريقة الاستعمال:</strong> في الاستعمالات التقليدية جداً يُستعمل بمقادير ضئيلة جداً ومخففاً. أغلب الاستعمالات الآمنة اليوم هي خارجيّة أو غير متكررة.",
+          "<strong>تحذيرات:</strong> <strong>شديد القابض</strong>، يُحذر الاستعمال الداخلي المتكرر أو بكميات كبيرة، ويمنع على الأطفال، والحوامل، ومن يعانون من إمساك حاد، إلا برأي مختص."
+        ]
+      },
+      {
+        id: 17,
+        title: "ورد الجوري / بتلات الورد (Rosa damascena) – الورد",
+        content: [
+          "<strong>الوصف:</strong> أزهار الورد العطرية، بتلاتها المجففة ذات رائحة زكية عذبة، تُستخدم في منقوعات عطرية.",
+          "<strong>الموطن:</strong> يُزرع في الحدائق المغربية، ويُعرف خاصة في بعض المناطق.",
+          "<strong>الاستعمالات التقليدية:</strong> منقوع خفيف مهدئ، يُستعمل في بعض الأحيان لتهدئة خفيفة، ويُضاف أحياناً لخلطات الأعشاب العطرية. كما يُستعمل ماء الورد في العناية التقليدية.",
+          "<strong>طريقة الاستعمال:</strong> بضع بتلات جافة لكل كأس ماء مغلي، يُغطى ويُترك ٣-٥ دقائق فقط لئلا يكتسب مرارة زائدة.",
+          "<strong>تحذيرات:</strong> آمن في الاستعمال المعتاد جداً، مع الانتباه للحساسية النادرة لدى بعض الأشخاص."
+        ]
+      },
+      {
+        id: 18,
+        title: "الغار (Laurus nobilis) – ورق الغار",
+        content: [
+          "<strong>الوصف:</strong> شجرة دائمة الخضرة، أوراقها رمحية لامعة ذات رائحة عطرية دافئة مميزة، تُستعمل في التوابل والموروث معاً.",
+          "<strong>الموطن:</strong> موجود في بعض الغابات المغربية، ويُزرع حول المنازل.",
+          "<strong>الاستعمالات التقليدية:</strong> يُضاف ورق الغار أحياناً لمغلي خفيف مع أعشاب أخرى في بعض الوصفات المنزلية، ويُذكر في الاستعمالات الموضعية التقليدية بحذر.",
+          "<strong>طريقة الاستعمال:</strong> ورقة واحدة فقط لكل إناء كبير جداً، أو نصف ورقة في بعض الخلطات، ويُغلى برفق ويُترك مغطىً.",
+          "<strong>تحذيرات:</strong> <strong>يجب الاستعمال بكمية جد قليلة جداً</strong>. لا يُنصح بالاستعمال المنتظم الداخلي، ويُمنع على الحوامل، والمرضعات، والأطفال الصغار."
+        ]
+      },
+      {
+        id: 19,
+        title: "أعشاب للغذاء الهضمي – خلطات منزلية شائعة",
+        content: [
+          "<strong>خلطة خفيفة بعد الوجبات الدسمة:</strong> مزيج متساوٍ من النعناع، اليانسون، والشمر، يُنقع منه ملعقة صغيرة لكل كأس ماء مغلي، ويُشرب دافئاً باعتدال بعد الطعام.",
+          "<strong>لتهدئة خفيفة قبل النوم:</strong> مزيج من اللويزة، البابونج، وبتلات الورد، منقوع دافئ مغطىً لعدة دقائق، بعيداً عن الإفراط.",
+          "<strong>لفتحة الشهية الخفيفة:</strong> في الموروث المغربي يُذكر مغلي خفيف جداً للنعناع أو الزعتر باعتدال، وليس على الدوام.",
+          "<strong>تنبيه:</strong> هذه خلطات منزلية مُقتبسة من العادة، لا تُعتبر علاجاً لأمراض، بل من باب التلطيف والراحة المعهودة. في حال استمرار الأعراض يجب استشارة الطبيب فوراً."
+        ]
+      },
+      {
+        id: 20,
+        title: "أعشاب للعناية الخارجية التقليدية",
+        content: [
+          "<strong>للشعر:</strong> مغلي أكليل الجبل مخفف جداً يُستخدم لغسل الشعر بشكل عرضي في بعض البيوت، مع شطف جيد بالماء الفاتر.",
+          "<strong>للبشرة المتعبة:</strong> هلام الصبار الطازج يُوضع برفق على الأماكن الجافة، ويُغسل بعد ١٠-١٥ دقيقة.",
+          "<strong>لانتعاش الفم:</strong> مغلي خفيف جداً للآس أو الشيح يُستعمل كغسول للفم <strong>باعتدال شديد</strong> ولا يُبتلع.",
+          "<strong>للقدمين:</strong> منقوع دافئ خفيف لبعض الأعشاب العطرية يُذكر في الحمام التقليدي، مع تجنب الماء الحار جداً لمرضى السكر.",
+          "<strong>قاعدة ذهبية:</strong> <strong>خارجيّاً بحذر، داخليّاً بأقل قدر ممكن، وبالاعتدال دائماً.</strong>"
+        ]
+      },
+      {
+        id: 21,
+        title: "نصائح عامة للاستعمال الآمن",
+        content: [
+          "<strong>١. الاعتدال أساس كل شيء:</strong> أغلب الأخطار تأتي من الإفراط لا من الاستعمال المعتاد.",
+          "<strong>٢. التعرف الدقيق:</strong> تأكد من اسم النبتة وأجزائها، فبعض النباتات المتشابهة تختلف خطأً.",
+          "<strong>٣. الفئات الحرجة:</strong> الحوامل، المرضعات، الأطفال دون السنتين، كبار السن، ومن يعانون من أمراض مزمنة، يجب عليهم استشارة الطبيب قبل أي استعمال داخلي.",
+          "<strong>٤. الأدوية:</strong> إذا كنت تتناول أدوية بانتظام خاصة مميعات الدم، مدرات البول، أدوية الضغط، أدوية السكر، أو أدوية القلب، <strong>لا تخلط</strong> مع أعشاب دون استشارة صيدلي أو طبيب.",
+          "<strong>٥. الجودة:</strong> يفضل الأعشاب النقية، بعيداً عن مخاليط مجهولة، وبكميات قليلة للتجربة.",
+          "<strong>٦. التنبيهات الخطيرة:</strong> في حال ظهور طفح، ضيق تنفس، دوار شديد، غثيان قوي، أو أي عرض غريب، <strong>توقف فوراً وراجع الطوارئ</strong>.",
+          "<strong>٧. لا تستبدل أبداً:</strong> الأعشاب توثق الموروث، ولا تحل محل العلاج الطبي الضروري."
+        ]
+      },
+      {
+        id: 22,
+        title: "فهرس الأسماء الدارجة والمعروفة",
+        content: [
+          "<strong>آشيح / الشيح:</strong> Artemisia herba-alba",
+          "<strong>لويزة:</strong> Lippia citriodora",
+          "<strong>نعناع:</strong> Mentha spp.",
+          "<strong>زعتر:</strong> Thymus satureioides",
+          "<strong>بابونج:</strong> Matricaria chamomilla",
+          "<strong>أكليل الجبل:</strong> Rosmarinus officinalis",
+          "<strong>يانسون:</strong> Pimpinella anisum",
+          "<strong>شمار:</strong> Foeniculum vulgare",
+          "<strong>كراوية:</strong> Carum carvi",
+          "<strong>حلبة:</strong> Trigonella foenum-graecum",
+          "<strong>عرقسوس / عرق السوس:</strong> Glycyrrhiza glabra",
+          "<strong>آس:</strong> Myrtus communis",
+          "<strong>صبار:</strong> Aloe vera",
+          "<strong>قشر الرمان:</strong> Punica granatum",
+          "<strong>ورد:</strong> Rosa damascena",
+          "<strong>ورق الغار:</strong> Laurus nobilis"
+        ]
+      },
+      {
+        id: 23,
+        title: "الخاتمة",
+        content: [
+          "يبقى الموروث العشبي المغربي ثروةً حيةً تستحق الحفظ، والتوثيق، والدرس بموضوعية، بعيداً عن المبالغة والتساهل على حد سواء.",
+          "ما جُمع في هذه الصفحات هو صورة من واقع ما لا يزال يُمارس في كثير من بيوت المغرب، ببراءة واعتدال في أغلبه، وبحذر في بعضه.",
+          "إن توثيق هذا العلم الشعبي يعني صون ذاكرة الأجداد، وإبراز حكمة بسيطة لكنها عميقة، قامت على الملاحظة، والتجربة، والنقل المتوارث عبر الأجيال.",
+          "أخيراً، يبقى واجبنا جميعاً أن نحافظ على هذا التراث، وأن نُربي الأجيال على التمييز بين الفائدة المشروعة، وبين الخطر المحتمل، مستذكرين دائماً: <strong>الوقاية خير من العلاج، والاعتدال أمان، والاستشارة الطبية واجب عند الحاجة.</strong>",
+          "نسأل الله أن ينفع بهذا العمل المتواضع، وأن يحفظ هذا التراث الأصيل للأجيال القادمة."
+        ]
+      },
+      {
+        id: 24,
+        title: "ملاحظات الناشر الإلكتروني",
+        content: [
+          "هذا التطبيق صُمم خصيصاً للقراءة السلسة والبحث السريع داخل الكتاب، مستلهماً روح الكتب المخطوطة المغربية بأناقتها ودفئها.",
+          "يمكنك البحث عن أي اسم نبات، أو عرض، أو مصطلح دارج، وسيتم تظليل النتائج مباشرةً والتنقل بينها بسهولة.",
+          "يدعم التطبيق الوضع الليلي لقراءة مريحة في مختلف الأوقات، ويعمل بشكل كامل على الهاتف والكمبيوتر دون الحاجة لتنصيب.",
+          "<strong>تنبيه هام:</strong> المعلومات الواردة هنا لغرض التوثيق الثقافي والتعريف بالموروث فقط، ولا تُغني عن التشخيص أو العلاج الطبي المتخصص."
+        ]
+      }
+    ];
+
+    const bookContent = document.getElementById('bookContent');
+    const tocList = document.getElementById('tocList');
+    const tocToggle = document.getElementById('tocToggle');
+    const tocIcon = document.getElementById('tocIcon');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearch = document.getElementById('clearSearch');
+    const matchCountEl = document.getElementById('matchCount');
+    const prevMatch = document.getElementById('prevMatch');
+    const nextMatch = document.getElementById('nextMatch');
+    const matchPosition = document.getElementById('matchPosition');
+    const themeToggle = document.getElementById('themeToggle');
+
+    let currentHighlights = [];
+    let activeIndex = -1;
+    let tocCollapsed = false;
+
+    function renderBook() {
+      bookContent.innerHTML = '';
+      tocList.innerHTML = '';
+
+      bookData.forEach((chapter, index) => {
+        const chapterEl = document.createElement('article');
+        chapterEl.className = 'chapter';
+        chapterEl.id = `chapter-${chapter.id}`;
+
+        const header = document.createElement('header');
+        header.className = 'chapter-header';
+
+        const number = document.createElement('span');
+        number.className = 'chapter-number';
+        number.textContent = `الفصل ${String(index + 1).padStart(2, '0')}`;
+
+        const title = document.createElement('h2');
+        title.className = 'chapter-title';
+        title.textContent = chapter.title;
+
+        header.appendChild(number);
+        header.appendChild(title);
+        chapterEl.appendChild(header);
+
+        const content = document.createElement('div');
+        content.className = 'chapter-content';
+
+        chapter.content.forEach(paragraph => {
+          const p = document.createElement('p');
+          p.innerHTML = paragraph;
+          content.appendChild(p);
+        });
+
+        chapterEl.appendChild(content);
+        bookContent.appendChild(chapterEl);
+
+        const tocItem = document.createElement('button');
+        tocItem.className = 'toc-item';
+        tocItem.innerHTML = `<span>${chapter.title}</span><span style="color: var(--text-secondary);">${String(index + 1).padStart(2, '0')}</span>`;
+        tocItem.addEventListener('click', () => {
+          chapterEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          updateActiveToc(chapter.id);
+        });
+        tocList.appendChild(tocItem);
+      });
+
+      updateActiveToc(bookData[0].id);
+    }
+
+    function updateActiveToc(id) {
+      document.querySelectorAll('.toc-item').forEach((item, idx) => {
+        item.classList.toggle('active', bookData[idx].id === id);
+      });
+    }
+
+    tocToggle.addEventListener('click', () => {
+      tocCollapsed = !tocCollapsed;
+      if (tocCollapsed) {
+        tocList.style.display = 'none';
+        tocIcon.style.transform = 'rotate(-90deg)';
+      } else {
+        tocList.style.display = 'grid';
+        tocIcon.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    function clearHighlights() {
+      document.querySelectorAll('.highlight').forEach(el => {
+        const text = document.createTextNode(el.textContent);
+        el.replaceWith(text);
+      });
+      currentHighlights = [];
+      activeIndex = -1;
+      updateMatchUI();
+    }
+
+    function performSearch() {
+      clearHighlights();
+      const query = searchInput.value.trim();
+      if (query.length < 2) {
+        clearSearch.classList.add('hidden');
+        matchCountEl.textContent = '0 نتيجة';
+        matchPosition.textContent = '— / —';
+        prevMatch.disabled = true;
+        nextMatch.disabled = true;
+        return;
+      }
+
+      clearSearch.classList.remove('hidden');
+      const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      const paragraphs = document.querySelectorAll('.chapter-content p');
+
+      paragraphs.forEach(p => {
+        const original = p.innerHTML.replace(/<[^>]+>/g, '');
+        if (regex.test(original)) {
+          regex.lastIndex = 0;
+          const highlighted = original.replace(regex, match => `<mark class="highlight">${match}</mark>`);
+          p.innerHTML = highlighted;
+        }
+        regex.lastIndex = 0;
+      });
+
+      currentHighlights = Array.from(document.querySelectorAll('.highlight'));
+      if (currentHighlights.length > 0) {
+        activeIndex = 0;
+        focusMatch(activeIndex);
+      }
+      updateMatchUI();
+    }
+
+    function focusMatch(index) {
+      currentHighlights.forEach((el, i) => {
+        el.classList.toggle('active-match', i === index);
+      });
+      if (currentHighlights[index]) {
+        currentHighlights[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      updateMatchUI();
+    }
+
+    function updateMatchUI() {
+      const count = currentHighlights.length;
+      matchCountEl.textContent = count === 0 ? '0 نتيجة' : `تم العثور على ${count} ${count === 1 ? 'نتيجة' : 'نتائج'}`;
+      if (count === 0) {
+        matchPosition.textContent = '— / —';
+        prevMatch.disabled = true;
+        nextMatch.disabled = true;
+        return;
+      }
+      matchPosition.textContent = `${activeIndex + 1} / ${count}`;
+      prevMatch.disabled = activeIndex <= 0;
+      nextMatch.disabled = activeIndex >= count - 1;
+    }
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(performSearch, 150);
+    });
+
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      clearSearch.classList.add('hidden');
+      clearHighlights();
+      searchInput.focus();
+    });
+
+    prevMatch.addEventListener('click', () => {
+      if (activeIndex > 0) {
+        activeIndex--;
+        focusMatch(activeIndex);
+      }
+    });
+
+    nextMatch.addEventListener('click', () => {
+      if (activeIndex < currentHighlights.length - 1) {
+        activeIndex++;
+        focusMatch(activeIndex);
+      }
+    });
+
+    const themeKey = 'sijelmassi-a3chab-theme';
+    const applyTheme = theme => {
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = themeToggle.querySelector('i');
+      const label = themeToggle.querySelector('span');
+      if (theme === 'dark') {
+        icon.className = 'bi bi-sun';
+        label.textContent = 'الوضع الفاتح';
+      } else {
+        icon.className = 'bi bi-moon-stars';
+        label.textContent = 'الوضع الليلي';
+      }
+      localStorage.setItem(themeKey, theme);
+    };
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    const savedTheme = localStorage.getItem(themeKey) || 'light';
+    applyTheme(savedTheme);
+
+    renderBook();
   </script>
 </body>
+
 </html>
