@@ -100,3 +100,30 @@ Links:
 - Audit README: https://github.com/ucfzem/ucfzem.github.io/blob/main/tafsir-ibn-taymiyyah/audit/README.md
 - Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/tafsir-ibn-taymiyyah-ocr-fixes-2026-10-23
 - Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-21-tafsir-ibn-taymiyyah.md
+
+## Fix 6:2 / 7:187 / 2:282 quotation — 2026-10-23
+Location: `data/c/3.json`, `سورة الأنعام`, content items 61–62.
+
+Corrections:
+- `يَسْتَلُونَكَ` → `يَسْأَلُونَكَ`
+- `لِوَقِنِهَا` → `لِوَقْتِهَا`
+- `يُجَليها` → `يُجَلِّيهَا`
+- `مُرْسَهَا` → `مُرْسَاهَا`
+- Closed the 6:2 bracket after `عِنْدَهُ` and the 2:282 bracket after `مُّسَمًّى`.
+- Removed the stray `﴿` before `«مسمىً»`.
+- Added `فَاكْتُبُوهُ`; removed the extra waw before `إِذَا` in 2:282.
+- Added `«...»` around the hadith and preserved footnotes `(۳)` / `(٤)`.
+
+Verification:
+- Only content items 61–62 changed; 6 sections and 7,473 content items unchanged.
+- `data/s/3.txt` lines 62–63 updated; 7,472 newline count preserved.
+- 6:2 and 2:282 normalized quotes match the trusted corpus; 7:187 uses the simple-script `مُرْسَاهَا` spelling.
+- Service worker bumped to `tafsir-v1.1.13`.
+- Commit: `868df90`.
+
+Links:
+- App: https://ucfzem.github.io/tafsir-ibn-taymiyyah/
+- Audit summary: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/quran_audit_summary.md
+- Remaining 64: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/needs-review-ocr.json
+- Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/tafsir-ibn-taymiyyah-2026-10-23-araf187
+- Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-21-tafsir-ibn-taymiyyah.md
