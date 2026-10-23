@@ -82,3 +82,18 @@ Backup: `backups/al-a3chab-attebiah-2026-10-23-chih-keep/`.
 Entry 123 renamed from «الطبونة» to «البعيثران» (title, darja and first paragraph). The internal id remains `tebbouna` so existing links/bookmarks (`#/read/tebbouna`) keep working; only the displayed name changed. Latin name (Artemisia judaica) and photo untouched. Asset query strings and SW cache bumped to **1.3.5**; footer shows «الإصدار 1.3.5».
 Verified: 151 TOC items, search «البعيثران» → entry 123, search «الطبونة» → no results, photo loads, no JS errors.
 Backup: `backups/al-a3chab-attebiah-2026-10-23-rename-baitharan/`.
+
+## Fix item 45: السدس → السدر — 2026-10-23
+- Title: `45. السدر (Ziziphus lotus)`.
+- Darja: `سدر` (was `سدر / سدس`).
+- Body: both `السدس` occurrences replaced with `السدر`.
+- Preserved `id: sdess` and `images/sdess.jpg` so `#/read/sdess` and the photo still work.
+- Verified all 151 entries parse; zero `السدس` left.
+- Service worker/assets/footer bumped to `1.3.6`.
+
+Links:
+- App: https://ucfzem.github.io/al-a3chab-attebiah/
+- Item (old stable id): https://ucfzem.github.io/al-a3chab-attebiah/#/read/sdess
+- Sources: https://ucfzem.github.io/al-a3chab-attebiah/#/sources
+- Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/al-a3chab-attebiah-2026-10-23-sidr
+- Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-23-al-a3chab-attebiah.md
