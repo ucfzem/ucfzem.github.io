@@ -121,15 +121,20 @@
 
 
 <div class="max-w-6xl w-full mx-auto flex-1 flex flex-col md:flex-row px-4 py-8 gap-6">
-  <aside class="app-aside w-full md:w-64 shrink-0 border rounded-xl p-3 self-start max-h-[calc(100vh-110px)] overflow-y-auto sticky top-24">
-    <div class="flex items-center gap-2 border-b pb-2 mb-2" style="border-color:var(--border-color)">
-      <span class="app-accent" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
-        </svg>
-      </span>
-      <h2 class="title-font text-base font-bold app-accent">الفهرس</h2>
+  <aside id="tocSidebar" class="app-aside hidden md:block w-full md:w-64 shrink-0 border rounded-xl p-3 self-start max-h-[70vh] md:max-h-[calc(100vh-110px)] overflow-y-auto md:sticky md:top-24">
+    <div class="flex items-center justify-between border-b pb-2 mb-2" style="border-color:var(--border-color)">
+      <div class="flex items-center gap-2">
+        <span class="app-accent" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </span>
+        <h2 class="title-font text-base font-bold app-accent">الفهرس</h2>
+      </div>
+      <button id="closeToc" class="md:hidden p-1 rounded" style="color:var(--text-secondary)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
     </div>
     <nav id="bookIndex" class="space-y-0.5 text-sm" aria-label="فهرس الكتاب"></nav>
   </aside>
@@ -140,6 +145,10 @@
   </main>
 </div>
 
+
+<button id="openToc" type="button" aria-label="فتح الفهرس" class="md:hidden fixed bottom-5 right-5 z-50 p-3 rounded-full border shadow-lg" style="background:var(--card-bg);border-color:var(--border-color);color:var(--primary-accent)">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 
 <footer class="border-t py-5 text-center text-xs app-muted" style="border-color:var(--border-color)">
   <p class="title-font text-sm app-accent mb-1">الموسوعة الرقمية للأعشاب المغربية — 140 مدخلاً</p>
@@ -155,6 +164,17 @@ function applyTheme(t){document.documentElement.setAttribute("data-theme",t);loc
   applyTheme(s||(d?"dark":"light"));})();
 document.getElementById("themeToggle").addEventListener("click",()=>{
   applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");});
+
+/* ================= MOBILE TOC TOGGLE ================= */
+(function(){
+  const sidebar=document.getElementById("tocSidebar");
+  const openBtn=document.getElementById("openToc");
+  const closeBtn=document.getElementById("closeToc");
+  const hide=()=>{if(window.innerWidth<768) sidebar.classList.add("hidden");};
+  const show=()=>{sidebar.classList.remove("hidden"); sidebar.scrollIntoView({block:"start"});};
+  if(openBtn) openBtn.addEventListener("click",show);
+  if(closeBtn) closeBtn.addEventListener("click",hide);
+})();
 
 
 /* ================= DATABASE : 140 ENTRIES ================= */
@@ -367,7 +387,15 @@ function renderIndex(){
       <span class="truncate">${esc(item.title)}</span></button>`).join("");
   indexContainer.addEventListener("click",e=>{
     const btn=e.target.closest("button[data-target]"); if(!btn) return;
-    document.getElementById(btn.dataset.target)?.scrollIntoView({behavior:"smooth",block:"start"});
+    const target = document.getElementById(btn.dataset.target);
+    if(target) {
+      target.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+    // Close sidebar on mobile after selection
+    const sidebar = document.getElementById('tocSidebar');
+    if(sidebar && window.innerWidth < 768) {
+      sidebar.classList.add('hidden');
+    }
   });
 }
 
