@@ -127,3 +127,21 @@ Links:
 - Remaining 64: https://ucfzem.github.io/tafsir-ibn-taymiyyah/audit/needs-review-ocr.json
 - Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/tafsir-ibn-taymiyyah-2026-10-23-araf187
 - Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-21-tafsir-ibn-taymiyyah.md
+
+## Integrity fix — 6:4–11 + 43:84/6:3 brackets — 2026-10-23
+Location: `data/c/3.json`, `سورة الأنعام`, content item 80.
+
+- Replaced the heavily corrupted 6:4–11 block with the verified text and added the missing closing `﴾`.
+- Closed the preceding 43:84 and 6:3 quotations in the same paragraph.
+- Fixed `إِلَهُ` → `إِلَٰهٌ` and `السَّمَوَاتِ` → `السَّمَاوَاتِ`.
+- Removed `مَكَتَهُمْ`, `أَنْبُوا`, `يَسْتَهْزِمُونَ`, `عَلِقِبَةُ`, `فَرْنًا`, `كِتَبا`, `الأَنْهَر`, `تَحْنِهِمْ`, `فَأَهْلَكْتَهُم`, `جَعَلْتَهُ`, `بِرُسُلِ`, etc.
+- Verified 43:84, 6:3, and 6:4–11 against the trusted corpus.
+- Only item 80 changed; 6 sections / 7,473 items unchanged.
+- Search blob line 81 updated; newline count preserved.
+- Service worker: `tafsir-v1.1.14`.
+- Commit: `0c61cd7`.
+
+Links:
+- App: https://ucfzem.github.io/tafsir-ibn-taymiyyah/
+- Backup: https://github.com/ucfzem/ucfzem.github.io/tree/main/backups/tafsir-ibn-taymiyyah-2026-10-23-anam-6-4-11
+- Conversation: https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/CONVERSATION_2026-10-21-tafsir-ibn-taymiyyah.md
