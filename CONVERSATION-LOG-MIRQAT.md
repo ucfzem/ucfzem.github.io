@@ -42,3 +42,11 @@ mirqat-tawhid/
 ## ملاحظات
 - كل التغييرات إضافية/تعديلات محدّدة؛ لم يُحذف أي ملف (سيُتحقق من عدد الملفات بعد النشر).
 - تم النشر عبر GitHub Contents REST API (git clone/fetch/push محجوب على الشبكة).
+
+## 2026-10-30 — نشر نسخة المستخدم النهائية (tawhid-reader.zip)
+- استُلمت الحزمة عبر Droppy: https://ucfzem.github.io/droppy/get.html?id=be920919 (الملف `tawhid-reader.zip`).
+- محتوى الحزمة: `index.html` (28,694 B، يتضمن «مقدمة الشارح»)، `manifest.webmanifest`، `sw.js` (كاش `tawhid-v1`)، `data/toc.json` (67 بابًا حقيقيًا، تصنيف فارغ)، وملفات `data/kitab|fath|fatawa` فارغة (عناصر نائبة)، مع `README.md` و`tools/import_txt.py` و`tools/fetch_shamela.py`.
+- نُشرت الحزمة إلى `/mirqat-tawhid/` مع **الإبقاء على النصوص الحقيقية المستوردة** (kitab 165,297 B، fath 30,804 B، fatawa 42,899 B) بدل الملفات الفارغة، حتى لا تصبح المكتبة فارغة.
+- commits: `index.html` cbf0816، `manifest` 37fe0c5، `sw.js` 9241c17، `toc.json` ef79345، `README` b6acbad، `import_txt.py` 3615bec، `fetch_shamela.py` e5ef700.
+- بطاقة Maktaba والأيقونة موجودتان مسبقًا وتشيران إلى `/mirqat-tawhid/` (لم يُغيّرا).
+- لم تُحذف أي ملفات؛ النصوص الحقيقية محفوظة في تاريخ git وفي نسخة محلية `/tmp/backup_realdata`.
