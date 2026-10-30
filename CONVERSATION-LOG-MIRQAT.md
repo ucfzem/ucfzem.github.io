@@ -50,3 +50,10 @@ mirqat-tawhid/
 - commits: `index.html` cbf0816، `manifest` 37fe0c5، `sw.js` 9241c17، `toc.json` ef79345، `README` b6acbad، `import_txt.py` 3615bec، `fetch_shamela.py` e5ef700.
 - بطاقة Maktaba والأيقونة موجودتان مسبقًا وتشيران إلى `/mirqat-tawhid/` (لم يُغيّرا).
 - لم تُحذف أي ملفات؛ النصوص الحقيقية محفوظة في تاريخ git وفي نسخة محلية `/tmp/backup_realdata`.
+
+## 2026-10-30 — نشر الحزمة المحدّثة (tawhid-reader-1.zip) + أداة find_passages
+- الحزمة الجديدة عبر Droppy: https://ucfzem.github.io/droppy/get.html?id=378049f0 (الملف `tawhid-reader-1.zip`).
+- الفرق الوحيد عن النسخة المنشورة: إضافة `tools/find_passages.py` (5,522 B؛ نُشر بعد إصلاح بسيط لاستخراج الجزء/الصفحة من عنوان الصفحة `جN - صN` → 5,748 B).
+- بقيت ملفات التطبيق والبيانات كما هي (تخطّي تلقائي للملفات المتطابقة)؛ **لم يُحذف أي ملف**.
+- commit: `mirqat-tawhid/tools/find_passages.py` 43b7d31.
+- بدأ تشغيل البحث: الصفحات 3–300 (298 صفحة مخزّنة) → 18 صفحة مرشحة في `passages_report.txt` و`data/fatawa_candidates.json` (verified=false). بقية النطاق 301–910 قيد الإكمال.
