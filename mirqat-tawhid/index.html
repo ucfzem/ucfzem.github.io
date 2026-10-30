@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f5132">
+<title>مكتبة التوحيد</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --bg:#fdfbf7; --panel:#fffdf8; --text:#2d2d2d; --muted:#6b665c; --accent:#0f5132;
+    --accent-soft:#e3efe8; --border:#e6dfd0; --gold:#9a6b12; --mark:#fde68a;
+    --ff:'Amiri', serif; --fs:24px;
+  }
+  html[data-theme="dark"] {
+    --bg:#15171a; --panel:#1d2024; --text:#e7e4dc; --muted:#9a968c; --accent:#5fc59a;
+    --accent-soft:#1f3a2f; --border:#2c3036; --gold:#e0b24f; --mark:#5b4a12;
+  }
+  html, body { height:100%; }
+  body { background:var(--bg); color:var(--text); font-family:'Cairo', system-ui, sans-serif; margin:0; }
+  .bg-paper { background:var(--bg); } .bg-panel { background:var(--panel); }
+  .tx-muted { color:var(--muted); } .tx-accent { color:var(--accent); } .tx-gold { color:var(--gold); }
+  .bd { border-color:var(--border); }
+  .btn { border:1px solid var(--border); background:var(--panel); color:var(--text); border-radius:.5rem; padding:.35rem .7rem; font-size:.85rem; cursor:pointer; transition:background .15s, transform .1s; }
+  .btn:hover { background:var(--accent-soft); } .btn:active { transform:scale(.97); }
+  .btn-accent { background:var(--accent); color:#fff; border-color:var(--accent); }
+  html[data-theme="dark"] .btn-accent { color:#0b1a13; }
+  .btn-accent:hover { filter:brightness(1.1); background:var(--accent); }
+  .read { font-family:var(--ff); font-size:var(--fs); line-height:2.1; }
+  .read p { margin:0 0 .6em; }
+  .fn { font-size:.7em; line-height:1.9; color:var(--muted); border-top:1px dashed var(--border); margin-top:.6em; padding-top:.4em; }
+  .page-tag { font-family:'Cairo', sans-serif; font-size:.72rem; color:var(--muted); background:var(--accent-soft); border-radius:.4rem; padding:.1rem .5rem; display:inline-block; margin:.3rem 0; }
+  .page-tag.warn { background:#fef3c7; color:#92400e; }
+  html[data-theme="dark"] .page-tag.warn { background:#4a3a15; color:#fcd34d; }
+  mark { background:var(--mark); color:inherit; border-radius:.2rem; padding:0 .1rem; }
+  .fade { animation:fade .28s ease both; } @keyframes fade { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:none; } }
+  .item { display:block; width:100%; text-align:right; padding:.5rem .75rem; border-radius:.5rem; font-size:.86rem; line-height:1.55; cursor:pointer; transition:background .15s; background:transparent; border:0; color:var(--text); }
+  .item:hover { background:var(--accent-soft); }
+  .item.active { background:var(--accent-soft); box-shadow:inset -3px 0 0 var(--accent); font-weight:600; }
+  details > summary { list-style:none; cursor:pointer; } details > summary::-webkit-details-marker { display:none; }
+  .scrim { background:rgba(0,0,0,.4); }
+  textarea, input[type=text], select { background:var(--panel); color:var(--text); border:1px solid var(--border); border-radius:.5rem; }
+  ::-webkit-scrollbar { width:8px; height:8px; } ::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  @media print { header, #sidebar, .no-print { display:none !important; } .read { font-size:16pt; } }
+</style>
+</head>
+<body class="flex flex-col">
+
+
+<header class="bg-panel border-b bd sticky top-0 z-30 flex items-center gap-2 px-3 py-2 no-print">
+  <button id="menuBtn" class="btn md:hidden" aria-label="الفهرس">☰</button>
+  <div class="font-bold tx-accent text-lg whitespace-nowrap">مكتبة التوحيد</div>
+  <div class="flex-1"></div>
+  <label class="hidden sm:flex items-center gap-1 text-xs tx-muted">الخط
+    <input id="fsRange" type="range" min="16" max="44" step="1" class="w-20 accent-emerald-700">
+  </label>
+  <select id="ffSelect" class="text-xs px-1 py-1 hidden sm:block" aria-label="نوع الخط">
+    <option value="'Amiri', serif">Amiri</option>
+    <option value="'Scheherazade New', serif">Scheherazade</option>
+    <option value="'Cairo', sans-serif">Cairo</option>
+  </select>
+  <button id="cmpBtn" class="btn hidden lg:inline-block" title="عرض الكتب الثلاثة متجاورة">مقارنة</button>
+  <button id="themeBtn" class="btn" aria-label="السمة">◐</button>
+  <button id="savedBtn" class="btn">★ المحفوظات</button>
+</header>
+
+
+<div class="flex-1 flex min-h-0 relative">
+  <div id="scrim" class="scrim fixed inset-0 z-30 hidden md:hidden"></div>
+  <aside id="sidebar" class="bg-panel border-l bd w-80 max-w-[85vw] flex flex-col fixed md:static inset-y-0 right-0 z-40 transition-transform duration-300 translate-x-full md:translate-x-0">
+    <div class="p-3 border-b bd space-y-2">
+      <div class="flex items-center justify-between md:hidden">
+        <span class="font-bold tx-accent">الفهرس</span><button id="closeMenu" class="btn">✕</button>
+      </div>
+      <input id="q" type="text" placeholder="بحث في الأبواب والنصوص…" class="w-full px-3 py-2 text-sm" autocomplete="off">
+      <div class="flex flex-wrap gap-1 text-xs" id="bookFilters"></div>
+      <div class="flex flex-wrap gap-1 text-xs" id="catFilters"></div>
+    </div>
+    <nav id="tree" class="flex-1 overflow-y-auto p-2"></nav>
+  </aside>
+
+
+  <main id="main" class="flex-1 overflow-y-auto min-w-0">
+    <div id="view" class="max-w-5xl mx-auto p-4 md:p-8"></div>
+  </main>
+</div>
+
+
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 scrim no-print">
+  <div class="bg-panel border bd rounded-xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-4 fade">
+    <div class="flex items-center justify-between mb-3"><h3 class="font-bold tx-accent">المحفوظات والملاحظات</h3><button id="closeModal" class="btn">✕</button></div>
+    <div id="savedList" class="space-y-1 mb-4"></div>
+    <div class="flex flex-wrap gap-2 border-t bd pt-3">
+      <button id="exportBtn" class="btn">تصدير (JSON)</button>
+      <label class="btn cursor-pointer">استيراد<input id="importFile" type="file" accept="application/json" class="hidden"></label>
+    </div>
+  </div>
+</div>
+
+
+<script>
+'use strict';
+/* ============================ helpers ============================ */
+const $ = (s, r = document) => r.querySelector(s);
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function store(key, val) { try { if (val === undefined) { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} return null; }
+function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+
+function norm(str) {
+  let out = '', map = [];
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    if ((c >= 0x064B && c <= 0x065F) || c === 0x0670 || c === 0x0640 || (c >= 0x06D6 && c <= 0x06ED)) continue;
+    let ch = str[i];
+    if ('أإآٱ'.includes(ch)) ch = 'ا'; else if (ch === 'ى') ch = 'ي'; else if (ch === 'ة') ch = 'ه'; else ch = ch.toLowerCase();
+    out += ch; map.push(i);
+  }
+  return { s: out, map };
+}
+
+
+/* ============================ state ============================ */
+const CATS = [['الربوبية', 'الربوبية'], ['الألوهية', 'الألوهية'], ['', 'غير مصنّف']];
+const S = {
+  toc: null, chapters: [], ordered: [],
+  pages: { kitab: new Map(), fath: new Map() }, ids: { kitab: [], fath: [] }, byChapter: { kitab: new Map(), fath: new Map() },
+  fatawa: [],
+  route: { type: 'c', id: 1 }, tab: 'fath', query: '',
+  books: { kitab: true, fath: true, fatawa: true }, cat: 'all',
+  settings: Object.assign({ fs: 24, ff: "'Amiri', serif", theme: 'light', compare: false }, store('tw_settings') || {}),
+  saved: store('tw_saved') || [], notes: store('tw_notes') || {}
+};
+const normCache = new Map();
+function cachedNorm(key, text) { if (!normCache.has(key)) normCache.set(key, norm(text)); return normCache.get(key); }
+
+
+/* ============================ data ============================ */
+async function loadJSON(url, fallback) {
+  try { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) throw new Error(r.status); return await r.json(); }
+  catch (e) { return fallback; }
+}
+async function init() {
+  applySettings();
+  const [toc, kitab, fath, fatawa] = await Promise.all([
+    loadJSON('data/toc.json', null), loadJSON('data/kitab.json', []), loadJSON('data/fath.json', []), loadJSON('data/fatawa.json', [])
+  ]);
+  if (!toc) { $('#view').replaceChildren(el('p', 'tx-gold', 'تعذّر تحميل data/toc.json. شغّل الصفحة عبر خادم محلي (مثلاً: python -m http.server) وليس بفتح الملف مباشرة.')); return; }
+  S.toc = toc;
+  S.chapters = toc.chapters;
+  S.ordered = [...toc.chapters];
+  for (const [key, arr] of [['kitab', kitab], ['fath', fath]]) {
+    for (const p of (Array.isArray(arr) ? arr : [])) {
+      if (!p || typeof p.text !== 'string') continue;
+      if (Number.isFinite(p.chapter)) { if (!S.byChapter[key].has(p.chapter)) S.byChapter[key].set(p.chapter, []); S.byChapter[key].get(p.chapter).push(p); }
+      else if (Number.isFinite(p.id)) S.pages[key].set(p.id, p);
+    }
+    S.ids[key] = [...S.pages[key].keys()].sort((a, b) => a - b);
+  }
+  S.fatawa = (Array.isArray(fatawa) ? fatawa : []).filter(f => f && f.id && typeof f.text === 'string');
+  buildFilters(); renderTree(); route();
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+
+function chapterRange(book, ch) {
+  const start = ch[book]; if (start == null) return null;
+  const idx = S.ordered.indexOf(ch); let end = Infinity;
+  for (let i = idx + 1; i < S.ordered.length; i++) if (S.ordered[i][book] != null) { end = S.ordered[i][book]; break; }
+  return { start, end };
+}
+function pagesFor(book, ch) {
+  if (S.byChapter[book].has(ch.n)) return S.byChapter[book].get(ch.n).map(page => ({ page, shared: false }));
+  const r = chapterRange(book, ch); if (!r) return [];
+  return S.ids[book].filter(id => id >= r.start && id <= r.end).map(id => ({ page: S.pages[book].get(id), shared: id === r.end && r.end !== Infinity && id !== r.start }));
+}
+function chapterByN(n) { return S.ordered.find(c => c.n === n); }
+function fatawaFor(n) { return S.fatawa.filter(f => Array.isArray(f.related) && f.related.includes(n)); }
+function generalFatawa() { return S.fatawa.filter(f => !Array.isArray(f.related) || f.related.length === 0); }
+
+
+/* ============================ settings ============================ */
+function applySettings() {
+  document.documentElement.dataset.theme = S.settings.theme;
+  document.documentElement.style.setProperty('--fs', S.settings.fs + 'px');
+  document.documentElement.style.setProperty('--ff', S.settings.ff);
+  $('#fsRange').value = S.settings.fs; $('#ffSelect').value = S.settings.ff;
+  $('#cmpBtn').classList.toggle('btn-accent', S.settings.compare);
+}
+function saveSettings() { store('tw_settings', S.settings); }
+$('#fsRange').oninput = e => { S.settings.fs = +e.target.value; applySettings(); saveSettings(); };
+$('#ffSelect').onchange = e => { S.settings.ff = e.target.value; applySettings(); saveSettings(); };
+$('#themeBtn').onclick = () => { S.settings.theme = S.settings.theme === 'dark' ? 'light' : 'dark'; applySettings(); saveSettings(); };
+$('#cmpBtn').onclick = () => { S.settings.compare = !S.settings.compare; applySettings(); saveSettings(); renderView(); };
+
+
+/* ============================ drawer ============================ */
+function openMenu() { $('#sidebar').classList.remove('translate-x-full'); $('#scrim').classList.remove('hidden'); }
+function closeMenu() { $('#sidebar').classList.add('translate-x-full'); $('#scrim').classList.add('hidden'); }
+$('#menuBtn').onclick = openMenu; $('#closeMenu').onclick = closeMenu; $('#scrim').onclick = closeMenu;
+
+
+/* ============================ sidebar ============================ */
+function chip(label, active, onclick) { const b = el('button', 'btn' + (active ? ' btn-accent' : ''), label); b.style.padding = '.15rem .55rem'; b.onclick = onclick; return b; }
+function buildFilters() {
+  const bf = $('#bookFilters'); bf.replaceChildren();
+  for (const [k, label] of [['kitab', 'كتاب التوحيد'], ['fath', 'فتح المجيد'], ['fatawa', 'مجموع الفتاوى']])
+    bf.append(chip(label, S.books[k], () => { S.books[k] = !S.books[k]; buildFilters(); onFilterChange(); }));
+  const cf = $('#catFilters'); cf.replaceChildren();
+  for (const [v, label] of [['all', 'الكل'], ['الربوبية', 'الربوبية'], ['الألوهية', 'الألوهية'], ['none', 'غير مصنّف']])
+    cf.append(chip(label, S.cat === v, () => { S.cat = v; buildFilters(); onFilterChange(); }));
+}
+function onFilterChange() { renderTree(); renderView(); }
+function catMatches(c) { return S.cat === 'all' || (S.cat === 'none' ? !c : c === S.cat); }
+function hasText(ch) { return pagesFor('kitab', ch).length > 0 || pagesFor('fath', ch).length > 0; }
+
+
+function renderTree() {
+  const tree = $('#tree'); tree.replaceChildren();
+  const active = S.route;
+  const mk = (label, sub, href, isActive, dim) => {
+    const b = el('button', 'item' + (isActive ? ' active' : '')); b.onclick = () => { location.hash = href; closeMenu(); };
+    b.append(el('div', null, label));
+    if (sub) b.append(el('div', 'text-xs tx-muted', sub));
+    if (dim) b.style.opacity = '.6';
+    return b;
+  };
+  if (S.chapters.every(c => !c.category)) {
+    tree.append(el('div', 'text-xs tx-muted px-2 py-1', 'التصنيف لم يُحدَّد بعد — عدّل حقل category في data/toc.json.'));
+  }
+  for (const [cat, label] of CATS) {
+    if (!catMatches(cat)) continue;
+    const chs = S.chapters.filter(c => (c.category || '') === cat);
+    const gen = generalFatawa().filter(f => (f.category || '') === cat);
+    if (!chs.length && !gen.length) continue;
+    const det = el('details', 'mb-2'); det.open = true;
+    const sum = el('summary', 'flex items-center justify-between px-2 py-2 font-bold tx-accent text-sm');
+    sum.append(el('span', null, (cat ? 'توحيد ' : '') + label), el('span', 'text-xs tx-muted', String(chs.length)));
+    det.append(sum);
+    for (const c of chs) {
+      const f = fatawaFor(c.n).length;
+      const sub = [f ? `فتاوى: ${f}` : '', S.saved.includes('c' + c.n) ? '★' : ''].filter(Boolean).join(' · ');
+      det.append(mk(`${c.n}. ${c.title}`, sub, '#/c/' + c.n, active.type === 'c' && active.id === c.n, !hasText(c)));
+    }
+    if (gen.length) {
+      det.append(el('div', 'text-xs tx-muted px-3 pt-2', 'فتاوى عامة'));
+      for (const g of gen) det.append(mk(g.title || 'فتوى', `م ${g.volume ?? '؟'} · ص ${g.page ?? '؟'}`, '#/f/' + encodeURIComponent(g.id), active.type === 'f' && String(active.id) === String(g.id)));
+    }
+    tree.append(det);
+  }
+}
+
+
+/* ============================ routing ============================ */
+function parseHash() {
+  const m = location.hash.match(/^#\/(c|f)\/(.+)$/);
+  if (!m) return { type: 'c', id: 1 };
+  return m[1] === 'c' ? { type: 'c', id: parseInt(m[2], 10) } : { type: 'f', id: decodeURIComponent(m[2]) };
+}
+function route() { S.route = parseHash(); renderTree(); renderView(); $('#main').scrollTo({ top: 0 }); }
+window.addEventListener('hashchange', () => { S.query = ''; $('#q').value = ''; route(); });
+
+
+/* ============================ views ============================ */
+function renderView() { const v = $('#view'); v.replaceChildren(); (S.query.trim() ? renderSearch : renderRoute)(v); }
+function renderRoute(v) {
+  if (S.route.type === 'f') return renderFatwaPage(v);
+  const ch = chapterByN(S.route.id) || S.ordered[0];
+  renderChapter(v, ch);
+}
+function emptyNote(what) {
+  const d = el('div', 'rounded-xl border bd p-4 text-sm tx-muted bg-panel');
+  d.append(el('div', 'font-bold tx-gold mb-1', `لم يُستورد نص ${what} بعد`), el('div', null, 'استورد النص من المصدر ثم أعد تحميل الصفحة. لا يعرض التطبيق أي نص غير مستورد.'));
+  return d;
+}
+function pagesNode(book, ch, label) {
+  const wrap = el('div', 'read');
+  const pgs = pagesFor(book, ch);
+  if (!pgs.length) return emptyNote(label);
+  for (const { page, shared } of pgs) {
+    const parts = [];
+    if (page.id != null) parts.push(`الشاملة ص ${page.id}`);
+    if (page.printed) parts.push(`المطبوع ${page.printed}`);
+    if (shared) parts.push('صفحة مشتركة مع الباب التالي');
+    wrap.append(el('div', 'page-tag', parts.join(' · ') || 'نص الباب'));
+    if (page.placeholder) wrap.append(el('div', 'page-tag warn', '⚠ نص توضيحي — يُستبدل بنص المصدر عند الاستيراد'));
+    for (const line of page.text.split(/\n+/)) if (line.trim()) wrap.append(el('p', null, line));
+    if (page.footnotes) { const fn = el('div', 'fn'); for (const line of String(page.footnotes).split(/\n+/)) if (line.trim()) fn.append(el('div', null, line)); wrap.append(fn); }
+  }
+  return wrap;
+}
+function fatawaNode(list, emptyMsg) {
+  const wrap = el('div', 'space-y-4');
+  if (!list.length) { wrap.append(el('div', 'rounded-xl border bd p-4 text-sm tx-muted bg-panel', emptyMsg)); return wrap; }
+  for (const f of list) {
+    const card = el('article', 'rounded-xl border bd p-3 bg-panel');
+    const head = el('div', 'flex flex-wrap items-center gap-2 mb-1');
+    head.append(el('span', 'font-bold tx-gold text-sm', f.title || 'فتوى'), el('span', 'page-tag', `مجموع الفتاوى · م ${f.volume ?? '؟'} · ص ${f.page ?? '؟'}`));
+    if (f.category) head.append(el('span', 'page-tag', 'توحيد ' + f.category));
+    if (f.placeholder) head.append(el('span', 'page-tag warn', '⚠ توضيحي'));
+    card.append(head);
+    const body = el('div', 'read'); for (const line of f.text.split(/\n+/)) if (line.trim()) body.append(el('p', null, line));
+    card.append(body); wrap.append(card);
+  }
+  return wrap;
+}
+function panel(title, sub, accentClass, content, scroll) {
+  const p = el('section', 'rounded-xl border bd bg-panel fade overflow-hidden');
+  const h = el('div', 'px-4 py-2 border-b bd flex items-center justify-between');
+  h.append(el('div', 'font-bold ' + accentClass, title), el('div', 'text-xs tx-muted', sub));
+  const b = el('div', 'p-4' + (scroll ? ' lg:max-h-[75vh] overflow-y-auto' : '')); b.append(content);
+  p.append(h, b); return p;
+}
+function navButtons(ch) {
+  const i = S.ordered.indexOf(ch); const bar = el('div', 'flex justify-between gap-2 mt-6 no-print');
+  const prev = S.ordered[i - 1], next = S.ordered[i + 1];
+  const mkb = (c, label) => { const b = el('button', 'btn', c ? `${label}` : ''); if (!c) { b.style.visibility = 'hidden'; } else b.onclick = () => { location.hash = '#/c/' + c.n; }; return b; };
+  bar.append(mkb(prev, '→ الباب السابق'), mkb(next, 'الباب التالي ←')); return bar;
+}
+function notesBox(key) {
+  const box = el('div', 'mt-6 no-print');
+  box.append(el('label', 'text-sm font-bold tx-accent block mb-1', 'ملاحظاتي'));
+  const ta = el('textarea', 'w-full p-3 text-sm'); ta.rows = 4; ta.value = S.notes[key] || ''; ta.placeholder = 'تُحفظ على جهازك فقط…';
+  ta.oninput = debounce(() => { if (ta.value.trim()) S.notes[key] = ta.value; else delete S.notes[key]; store('tw_notes', S.notes); }, 400);
+  box.append(ta); return box;
+}
+function toggleSaved(key) {
+  const i = S.saved.indexOf(key); if (i >= 0) S.saved.splice(i, 1); else S.saved.push(key);
+  store('tw_saved', S.saved); renderTree(); renderView();
+}
+function titleBar(title, key, tagText) {
+  const bar = el('div', 'flex items-start gap-3 mb-4 fade');
+  const col = el('div', 'flex-1');
+  if (tagText) col.append(el('div', 'page-tag', tagText));
+  col.append(el('h1', 'text-xl md:text-2xl font-bold tx-accent leading-relaxed', title));
+  const star = el('button', 'btn' + (S.saved.includes(key) ? ' btn-accent' : ''), S.saved.includes(key) ? '★ محفوظ' : '☆ حفظ');
+  star.onclick = () => toggleSaved(key);
+  bar.append(col, star); return bar;
+}
+
+
+function renderChapter(v, ch) {
+  const key = 'c' + ch.n;
+  v.append(titleBar(ch.n ? `${ch.n}. ${ch.title}` : ch.title, key, ch.category ? 'توحيد ' + ch.category : null));
+  const kitab = ch.kitab != null ? panel('كتاب التوحيد', 'محمد بن عبد الوهاب', 'tx-accent', pagesNode('kitab', ch, 'كتاب التوحيد لهذا الباب'), S.settings.compare) : null;
+  const fathP = panel('فتح المجيد', 'عبد الرحمن بن حسن — شرح', 'tx-accent', pagesNode('fath', ch, 'فتح المجيد لهذا الباب'), S.settings.compare);
+  const fats = fatawaFor(ch.n);
+  const fatP = panel("سياق مجموع الفتاوى", 'ابن تيمية', 'tx-gold', fatawaNode(fats, 'لا توجد فتاوى مرتبطة بهذا الباب.'), S.settings.compare);
+
+
+  const wide = S.settings.compare && window.innerWidth >= 1024;
+  v.classList.toggle('max-w-5xl', !wide); v.classList.toggle('max-w-none', wide);
+  if (wide) {
+    const g = el('div', 'grid grid-cols-3 gap-3 items-start');
+    if (kitab) g.append(kitab); g.append(fathP, fatP); v.append(g);
+  } else {
+    if (kitab) v.append(kitab);
+    const tabs = el('div', 'flex gap-2 my-4 no-print');
+    for (const [k, label] of [['fath', 'شرح فتح المجيد'], ['fatawa', `سياق مجموع الفتاوى (${fats.length})`]]) {
+      const b = el('button', 'btn' + (S.tab === k ? ' btn-accent' : ''), label); b.onclick = () => { S.tab = k; renderView(); }; tabs.append(b);
+    }
+    v.append(tabs, S.tab === 'fatawa' ? fatP : fathP);
+  }
+  v.append(notesBox(key), navButtons(ch));
+}
+function renderFatwaPage(v) {
+  const f = S.fatawa.find(x => String(x.id) === String(S.route.id));
+  if (!f) { v.append(el('p', 'tx-muted', 'الفتوى غير موجودة.')); return; }
+  const key = 'f' + f.id;
+  v.append(titleBar(f.title || 'فتوى', key, `مجموع الفتاوى · م ${f.volume ?? '؟'} · ص ${f.page ?? '؟'}`));
+  v.append(fatawaNode([f], ''), notesBox(key));
+}
+
+
+/* ============================ search ============================ */
+const sq = $('#q');
+sq.oninput = debounce(() => { S.query = sq.value; renderView(); if (S.query.trim()) $('#main').scrollTo({ top: 0 }); }, 200);
+sq.onkeydown = e => { if (e.key === 'Enter') closeMenu(); };
+
+
+function snippet(text, nt, tokenIdx, tokenLen) {
+  const o = nt.map[tokenIdx], oe = nt.map[Math.min(tokenIdx + tokenLen - 1, nt.map.length - 1)] + 1;
+  const a = Math.max(0, o - 70), b = Math.min(text.length, oe + 150);
+  const frag = document.createDocumentFragment();
+  frag.append((a > 0 ? '… ' : '') + text.slice(a, o)); const m = el('mark', null, text.slice(o, oe)); frag.append(m);
+  frag.append(text.slice(oe, b) + (b < text.length ? ' …' : '')); return frag;
+}
+function matchIn(key, text, tokens) {
+  if (!text) return null;
+  const nt = cachedNorm(key, text);
+  let first = -1, flen = 0;
+  for (const t of tokens) { const i = nt.s.indexOf(t); if (i < 0) return null; if (first < 0 || i < first) { first = i; flen = t.length; } }
+  return { text, nt, idx: first, len: flen };
+}
+function renderSearch(v) {
+  const tokens = norm(S.query.trim()).s.split(/\s+/).filter(Boolean);
+  v.append(el('h2', 'font-bold tx-accent mb-3', `نتائج البحث: ${S.query.trim()}`));
+  let count = 0; const list = el('div', 'space-y-3');
+  const add = (title, href, src, m) => {
+    count++; const card = el('button', 'item bg-panel border bd fade'); card.style.padding = '.75rem';
+    card.onclick = () => { if (src === 'فتح المجيد') S.tab = 'fath'; if (src === 'مجموع الفتاوى') S.tab = 'fatawa'; S.query = ''; sq.value = ''; if (location.hash === href) route(); else location.hash = href; closeMenu(); };
+    card.append(el('div', 'font-bold', title), el('div', 'text-xs tx-gold my-1', src));
+    if (m) { const s = el('div', 'text-sm tx-muted'); s.style.fontFamily = 'var(--ff)'; s.style.lineHeight = '2'; s.append(snippet(m.text, m.nt, m.idx, m.len)); card.append(s); }
+    list.append(card);
+  };
+  for (const ch of S.ordered) {
+    if (count >= 100) break;
+    if (!catMatches(ch.category || '')) continue;
+    const label = ch.n ? `${ch.n}. ${ch.title}` : ch.title;
+    const tm = matchIn('t' + ch.n, ch.title, tokens);
+    if (tm && (S.books.kitab || S.books.fath)) add(label, '#/c/' + ch.n, 'عنوان الباب', tm);
+    if (S.books.kitab && ch.kitab != null) { const txt = pagesFor('kitab', ch).map(p => p.page.text).join('\n'); const m = matchIn('k' + ch.n, txt, tokens); if (m) add(label, '#/c/' + ch.n, 'كتاب التوحيد', m); }
+    if (S.books.fath) { const txt = pagesFor('fath', ch).map(p => p.page.text).join('\n'); const m = matchIn('h' + ch.n, txt, tokens); if (m) add(label, '#/c/' + ch.n, 'فتح المجيد', m); }
+  }
+  if (S.books.fatawa) for (const f of S.fatawa) {
+    if (!catMatches(f.category || '')) continue;
+    const m = matchIn('f' + f.id, (f.title ? f.title + '\n' : '') + f.text, tokens);
+    if (m) { const rel = Array.isArray(f.related) && f.related.length ? '#/c/' + f.related[0] : '#/f/' + encodeURIComponent(f.id); add(f.title || 'فتوى', rel, 'مجموع الفتاوى', m); }
+  }
+  if (!count) list.append(el('p', 'tx-muted', S.ordered.length && !S.ids.kitab.length && !S.ids.fath.length ? 'لا نتائج — لم تُستورد نصوص الكتب بعد.' : 'لا نتائج.'));
+  v.append(list);
+}
+
+
+/* ============================ saved / notes ============================ */
+function openModal() {
+  const list = $('#savedList'); list.replaceChildren();
+  const keys = [...new Set([...S.saved, ...Object.keys(S.notes)])];
+  if (!keys.length) list.append(el('p', 'text-sm tx-muted', 'لا محفوظات بعد.'));
+  for (const k of keys) {
+    const isC = k[0] === 'c'; const id = k.slice(1);
+    const ch = isC ? chapterByN(+id) : null; const f = !isC ? S.fatawa.find(x => String(x.id) === id) : null;
+    const title = isC ? (ch ? (ch.n ? `${ch.n}. ${ch.title}` : ch.title) : k) : (f ? f.title || 'فتوى' : k);
+    const b = el('button', 'item'); b.append(el('div', null, (S.saved.includes(k) ? '★ ' : '') + title));
+    if (S.notes[k]) b.append(el('div', 'text-xs tx-muted', '📝 ' + S.notes[k].slice(0, 80)));
+    b.onclick = () => { closeModal(); location.hash = (isC ? '#/c/' : '#/f/') + encodeURIComponent(id); };
+    list.append(b);
+  }
+  $('#modal').classList.remove('hidden'); $('#modal').classList.add('flex');
+}
+function closeModal() { $('#modal').classList.add('hidden'); $('#modal').classList.remove('flex'); }
+$('#savedBtn').onclick = openModal; $('#closeModal').onclick = closeModal;
+$('#modal').onclick = e => { if (e.target.id === 'modal') closeModal(); };
+$('#exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify({ saved: S.saved, notes: S.notes }, null, 2)], { type: 'application/json' });
+  const a = el('a'); a.href = URL.createObjectURL(blob); a.download = 'tawhid-notes.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('#importFile').onchange = async e => {
+  const file = e.target.files[0]; if (!file) return;
+  try {
+    const d = JSON.parse(await file.text());
+    if (Array.isArray(d.saved)) S.saved = [...new Set([...S.saved, ...d.saved.filter(x => typeof x === 'string')])];
+    if (d.notes && typeof d.notes === 'object') for (const [k, val] of Object.entries(d.notes)) if (typeof val === 'string' && !S.notes[k]) S.notes[k] = val;
+    store('tw_saved', S.saved); store('tw_notes', S.notes); renderTree(); openModal();
+  } catch (err) { alert('ملف غير صالح'); }
+  e.target.value = '';
+};
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
+window.addEventListener('resize', debounce(() => { if (S.settings.compare) renderView(); }, 250));
+
+
+init();
+</script>
+</body>
+</html>
