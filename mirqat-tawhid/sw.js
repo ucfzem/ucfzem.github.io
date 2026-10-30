@@ -1,35 +1,20 @@
+// Service worker : fonctionnement hors-ligne.
+// Réseau d'abord (les données changent quand vous réimportez), cache en secours.
 const CACHE = 'tawhid-v1';
-const CORE = [
-  './', './index.html', './manifest.webmanifest',
-  './data/toc.json', './data/kitab.json', './data/fath.json', './data/fatawa.json'
-];
-
+const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'data/toc.json', 'data/kitab.json', 'data/fath.json', 'data/fatawa.json'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
 });
-
-
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-  ).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
-
-
 self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-  if (url.pathname.includes('/data/')) {
-    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-  } else {
-    e.respondWith(
-      fetch(e.request).then(res => {
-        if (res.ok && res.type === 'basic') {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      }).catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
-    );
-  }
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    fetch(e.request).then(res => {
+      if (res && (res.ok || res.type === 'opaque')) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+      return res;
+    }).catch(() => caches.match(e.request))
+  );
 });
