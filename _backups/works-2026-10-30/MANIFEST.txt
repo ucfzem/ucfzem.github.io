@@ -1,0 +1,41 @@
+# Backup of ucfzem.github.io/works — 2026-10-30
+# Local full copy: /root/backup_works_2026-10-30 (35 files, ~2.0 MB)
+# Repo snapshot: _backups/works-2026-10-30/ (index.html, sw.js, fonts.css, this file)
+# All 29 icon URLs verified HTTP 200 on 2026-10-30.
+
+BYTES     SHA256                                                            PATH
+5883      b18a5270a1d0154628b1454568a333e607333c70de5440d8ecb351b623730513  works/CLOUDFLARE-WORKER.md
+3656      2f83c2ca11d593df85f2b4f4f68f637f2acdf07dcdff21c50817878f458938d4  works/CONVERSATION_2026-10-16-rihlat-ibn-battuta-offline.md
+5164      7a3359bcfd40fcd0163439a60e930b87d2adcd450de1e7c24edc27108c60fb41  works/CONVERSATION_2026-10-16-risalat-ibn-fadlan-build.md
+1209      c3dce3e44c6a37473201422c5192b0ecb60da6c2e797b00537c28efbd158d5d5  works/assets/al-tibb-al-nabawi.svg
+508634    fce9b2dbe62071da6b615b5d96e83fd7b293bbfdba1b11f42f23e87c84e8e7cb  works/assets/avatar.png
+2577      4044c982917ccc8217ee5d5cc32895de42e5e286e352e199cb1ff8a7dcbf6ff2  works/assets/barnabas.svg
+134230    35041dd3eeea2113ee1bed25403241df0d1f86b9a666f02ed62ae13e1dc5d9e4  works/assets/cv-icon.png
+19965     43265dc330a94ebcb933fdedf61dea49766a701bb7aa6804f536cb12bcc415d2  works/assets/maktaba-icon.png
+19965     43265dc330a94ebcb933fdedf61dea49766a701bb7aa6804f536cb12bcc415d2  works/assets/maktaba.png
+19965     43265dc330a94ebcb933fdedf61dea49766a701bb7aa6804f536cb12bcc415d2  works/assets/maktaba.svg
+797       6edd5b022f861b3e1d1a126e9f945858d1f10c894ec7643c09efafcdbee4ace2  works/assets/mirqat-tawhid.svg
+152809    9da3fdbc884acfd9f14a18c1b24d6abc32acf347bb042a0456d5acaf6ce76a8b  works/assets/quran.png
+1160      d145e8b975f4cf535d0f8313233e69e92797d399a23f0b1624d40cd0a48bca4c  works/assets/remedy.svg
+37102     bbb3db75f1830f229af1a5ee9ebdc44f9a0f40f8ed25c3c89ad6d3e8bc280f18  works/assets/tanger.png
+930       6453e625a5ea32e4ec4ac1497e5873ae8a4321346a4889aff14ef14bc96146b0  works/assets/tarikh-ibn-khaldun.svg
+295172    2851e794d241a139ba00dde715575be731878d4fd17607f7f40fe7bbd90903df  works/assets/web-dev-logo.png
+5246      fd941ea93670077f6f2fa36028d7c1543a260f80db3bb3a4bc3f42a681608c36  works/fonts.css
+14540     8fc2606f8ae6c569f444e138dba052d9a6e3f0657f9031796503bbb94eced600  works/fonts/cinzel-400-latin-ext.woff2
+25904     09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370  works/fonts/cinzel-400-latin.woff2
+14540     8fc2606f8ae6c569f444e138dba052d9a6e3f0657f9031796503bbb94eced600  works/fonts/cinzel-700-latin-ext.woff2
+25904     09941fb1c169c38fd414536b37690057fc01b3117a5c63dd6571186540c8f370  works/fonts/cinzel-700-latin.woff2
+85068     34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956  works/fonts/inter-300-latin-ext.woff2
+48256     3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62  works/fonts/inter-300-latin.woff2
+85068     34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956  works/fonts/inter-400-latin-ext.woff2
+48256     3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62  works/fonts/inter-400-latin.woff2
+85068     34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956  works/fonts/inter-500-latin-ext.woff2
+48256     3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62  works/fonts/inter-500-latin.woff2
+85068     34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956  works/fonts/inter-600-latin-ext.woff2
+48256     3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62  works/fonts/inter-600-latin.woff2
+85068     34b9c504cab7a73e37b746343a449132e56cf7b5481af2cb81dc74dcff25c956  works/fonts/inter-700-latin-ext.woff2
+48256     3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62  works/fonts/inter-700-latin.woff2
+42491     77619a079de34d47590bcb796dcadd61176bc7145fee0eb6b1624fdf4961fa24  works/index.html
+76        7de111e9648ca3b31838ea9d0647db10ed5663987d46e4791a9cc3bb4026c94d  works/robots.txt
+1450      2cb5907e0a81228549a6cbdaed96dbfa991498e76fcf16b436f6455a51e166dc  works/sitemap.xml
+4918      d6ab6969e1bc809d343d8d802e0c00c41b69c052b314f0d5fd9e7fc0013ef237  works/sw.js
