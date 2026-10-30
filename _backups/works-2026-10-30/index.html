@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Works — UcfZem</title>
+<meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14" />
+<meta name="description" content="UcfZem — découvrez des projets tech : WebHealth, Quran Majeed, Quran Reader, Quran Amp, Tanger d'Antan, Al-Adhkiya, Tarikh Ibn Khaldun, PicPulse, Lingotech English AI, MicroInvoice, Rafeeq Health, ElixirTech Phoenix, et le blog tech UcfZem. Applications web, AI, SaaS.">
+<meta name="robots" content="index, follow">
+<meta property="og:locale" content="fr_FR">
+<link rel="canonical" href="https://ucfzem.github.io/works/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UcfZem">
+<meta property="og:title" content="My Works — UcfZem">
+<meta property="og:description" content="Explorez les projets publics et privés de UcfZem : applications web, AI tools, fintech, health, creative et plus encore.">
+<meta property="og:url" content="https://ucfzem.github.io/works/">
+<meta property="og:image" content="https://ucfzem.github.io/works/assets/avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="My Works — UcfZem">
+<meta name="twitter:description" content="Explorez les projets publics et privés de UcfZem : applications web, AI tools, fintech, health, creative et plus encore.">
+<meta name="twitter:image" content="https://ucfzem.github.io/works/assets/avatar.png">
+<link href="./fonts.css?v=1" rel="stylesheet">
+
+
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg-light: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #f0c866;
+    --text: #e8e0d0;
+    --text-sec: #8a7a5a;
+    --text-light: #1a1a1a;
+    --card-bg: rgba(201,168,76,0.07);
+    --card-border: rgba(201,168,76,0.2);
+    --input-bg: rgba(255,255,255,0.05);
+    --input-border: rgba(201,168,76,0.3);
+    --locked-text: rgba(255,255,255,0.12);
+    --locked-bg: rgba(255,255,255,0.03);
+  }
+
+
+  [data-theme="light"] {
+    --bg: #f5f0e8;
+    --bg-light: #0d0d0d;
+    --text: #1a1a1a;
+    --text-sec: #8a7a5a;
+    --card-bg: rgba(201,168,76,0.12);
+    --card-border: rgba(201,168,76,0.35);
+    --input-bg: rgba(0,0,0,0.04);
+    --input-border: rgba(201,168,76,0.4);
+    --locked-text: rgba(0,0,0,0.15);
+    --locked-bg: rgba(0,0,0,0.03);
+  }
+
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+    position: relative;
+  }
+
+  .main-grid {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .back-link {
+    color: var(--text-sec);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  .back-link:hover { color: var(--gold); }
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text-sec);
+    font-size: 1rem;
+    transition: all 0.3s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    border: 2px solid var(--gold);
+    object-fit: cover;
+    display: block;
+  }
+  .avatar-fallback {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    background: var(--card-bg);
+  }
+  .title {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-sec);
+    font-weight: 400;
+  }
+
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover {
+    box-shadow: 0 0 15px rgba(201,168,76,0.15);
+    border-color: rgba(201,168,76,0.5);
+  }
+  .card-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--text-sec);
+    min-width: 24px;
+    text-align: center;
+  }
+  .card-emoji {
+    font-size: 1.3rem;
+    min-width: 28px;
+    text-align: center;
+  }
+  .card-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    object-fit: cover;
+    min-width: 28px;
+  }
+  .card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .card-credit {
+    font-size: 0.68rem;
+    font-weight: 400;
+    color: var(--text-sec);
+    opacity: 0.85;
+    margin-top: 1px;
+  }
+  .card-tag {
+    font-size: 0.7rem;
+    color: var(--text-sec);
+    background: rgba(201,168,76,0.1);
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+
+  .locked .card {
+    background: var(--locked-bg);
+    border-color: rgba(255,255,255,0.06);
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(60%);
+    transition: opacity 0.6s ease, filter 0.6s ease;
+  }
+  .locked .card-num {
+    font-size: 0.9rem;
+    color: var(--locked-text);
+  }
+  .locked .card-name {
+    color: rgba(255,255,255,0.4);
+  }
+  .locked .card-tag {
+    color: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.06);
+  }
+  [data-theme="light"] .locked .card-name { color: rgba(0,0,0,0.4); }
+  [data-theme="light"] .locked .card-tag { color: rgba(0,0,0,0.35); background: rgba(0,0,0,0.06); }
+
+
+  .folder {
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    overflow: hidden;
+  }
+  .folder-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer; user-select: none;
+    transition: background 0.2s;
+  }
+  .folder-header:hover { background: rgba(201,168,76,0.08); }
+  .folder-icon { font-size: 1.3rem; min-width: 28px; text-align: center; }
+  .folder-icon-img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; min-width: 28px; }
+  .folder-num { min-width: 24px; }
+  .maktaba-num {
+    min-width: 22px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #d97706;
+    text-align: center;
+    letter-spacing: -0.25px;
+  }
+  .folder-title { font-size: 0.9rem; font-weight: 600; color: var(--text); flex: 1; }
+  .folder-count { font-size: 0.7rem; color: var(--text-sec); background: rgba(201,168,76,0.1); padding: 2px 10px; border-radius: 8px; }
+  .folder-arrow { font-size: 0.7rem; color: var(--text-sec); transition: transform 0.25s ease; }
+  .folder.open .folder-arrow { transform: rotate(180deg); }
+  #f-maktaba .folder-header { position: relative; }
+  #f-maktaba .folder-arrow { position: absolute; right: 2px; top: 50%; transform: translateY(-50%); }
+  #f-maktaba.open .folder-arrow { transform: translateY(-50%) rotate(180deg); }
+  .folder-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .folder.open .folder-content { max-height: 2000px; }
+  .folder-content .card { border-radius: 0; border-left: none; border-right: none; margin: 0; border-top: none; }
+  .folder-content .card:last-child { border-bottom: none; }
+  .locked .folder-content .card { opacity: 0.5; filter: grayscale(60%); pointer-events: none; }
+  .unlocked .folder-content .card { opacity: 1; filter: grayscale(0%); pointer-events: auto; }
+  .unlocked .folder-content .card-name { color: var(--text); }
+  .locked .folder { border-color: rgba(255,255,255,0.06); background: var(--locked-bg); }
+  .locked .folder-title { color: rgba(255,255,255,0.4); }
+  [data-theme="light"] .locked .folder-title { color: rgba(0,0,0,0.4); }
+
+
+  .unlocked .card {
+    opacity: 1;
+    filter: grayscale(0%);
+    pointer-events: auto;
+  }
+  .unlocked .card-name { color: var(--text); }
+  .unlocked .card-num { color: var(--text-sec); }
+  .unlocked .card-tag { color: var(--text-sec); background: rgba(201,168,76,0.1); }
+
+
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--text-sec);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .card-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .card-view-btn {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #0d0d0d;
+    background: linear-gradient(135deg, #c9a84c, #f0c866);
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    margin-top: 6px;
+  }
+  .tools-card { align-items: center; }
+  .tools-card .card-info { gap: 2px; }
+
+
+  .unlock-block {
+    margin: 32px 0;
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    text-align: center;
+  }
+  .unlock-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .unlock-desc {
+    font-size: 0.8rem;
+    color: var(--text-sec);
+    margin-bottom: 20px;
+  }
+  .form-group {
+    margin-bottom: 14px;
+    text-align: left;
+  }
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: all 0.3s;
+  }
+  .input-wrap input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(201,168,76,0.2);
+  }
+  .input-wrap input::placeholder { color: var(--text-sec); opacity: 0.7; }
+  .toggle-pw {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-sec);
+    font-size: 1rem;
+    padding: 0;
+  }
+  .toggle-pw:hover { color: var(--gold); }
+  .btn-main {
+    width: 100%;
+    padding: 14px 28px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(135deg, #c9a84c, #f0c866);
+    color: #0d0d0d;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 6px;
+  }
+  .btn-main:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px rgba(201,168,76,0.4);
+  }
+  .btn-main:active { transform: scale(0.98); }
+
+
+  .success-msg {
+    display: none;
+    padding: 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #c9a84c, #f0c866);
+    color: #0d0d0d;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+  }
+  .success-msg.show { display: block; }
+
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+  .shake { animation: shake 0.4s ease; }
+
+
+  .error-text {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 8px;
+    display: none;
+  }
+  .error-text.show { display: block; }
+
+
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none;
+  }
+  .toast {
+    background: #1a1a1a;
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .toast.success { border-color: #27ae60; }
+  .toast.error { border-color: #e74c3c; }
+
+
+  .divider {
+    height: 1px;
+    background: var(--card-border);
+    margin: 28px 0;
+  }
+
+
+  @media (max-width: 480px) {
+    .container { padding: 12px 12px 32px; }
+    .title { font-size: 1.6rem; }
+    .card { padding: 12px 14px; gap: 10px; }
+    .folder-header { padding: 12px 14px; gap: 10px; }
+    .unlock-block { padding: 20px 16px; }
+    .avatar { width: 64px; height: 64px; }
+    .avatar-fallback { width: 64px; height: 64px; font-size: 1.2rem; }
+    .main-grid { max-width: 100%; }
+  }
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    .container { padding: 20px 24px 40px; }
+    .main-grid { max-width: 480px; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container { padding: 28px 32px 48px; }
+    .main-grid { max-width: 600px; }
+    .title { font-size: 2.4rem; }
+    .avatar { width: 96px; height: 96px; }
+    .avatar-fallback { width: 96px; height: 96px; font-size: 1.8rem; }
+    .header { margin-bottom: 40px; }
+    .card { padding: 16px 20px; gap: 14px; }
+    .folder-header { padding: 16px 20px; gap: 14px; }
+    .unlock-block { padding: 32px; }
+  }
+
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    .container { padding: 32px 48px 56px; }
+    .main-grid { max-width: 640px; }
+    .title { font-size: 2.6rem; }
+    .avatar { width: 100px; height: 100px; }
+    .avatar-fallback { width: 100px; height: 100px; font-size: 2rem; }
+    .header { margin-bottom: 44px; }
+    .card { padding: 18px 22px; gap: 16px; }
+    .folder-header { padding: 18px 22px; gap: 16px; }
+    .card:hover { transform: translateX(4px); }
+    .unlock-block { padding: 36px 40px; }
+  }
+
+  @media (min-width: 1440px) {
+    .container { padding: 40px 64px 64px; }
+    .main-grid { max-width: 720px; }
+    .title { font-size: 3rem; }
+    .subtitle { font-size: 1rem; }
+    .avatar { width: 120px; height: 120px; border-width: 3px; }
+    .avatar-fallback { width: 120px; height: 120px; font-size: 2.4rem; border-width: 3px; }
+    .header { margin-bottom: 52px; }
+    .section-title { font-size: 1.3rem; }
+    .card { padding: 20px 24px; gap: 18px; border-radius: 14px; }
+    .folder-header { padding: 20px 24px; gap: 18px; }
+    .card:hover { transform: translateX(6px); box-shadow: 0 0 25px rgba(201,168,76,0.2); }
+    .card-name { font-size: 1.1rem; }
+    .unlock-block { padding: 40px 48px; border-radius: 20px; }
+    .divider { margin: 36px 0; }
+  }
+
+  @media (min-width: 1920px) {
+    .container { padding: 48px 80px 80px; }
+    .main-grid { max-width: 900px; }
+    .title { font-size: 3.4rem; }
+    .avatar { width: 140px; height: 140px; }
+    .avatar-fallback { width: 140px; height: 140px; font-size: 2.8rem; }
+    .header { margin-bottom: 60px; }
+    .card { padding: 22px 28px; gap: 20px; border-radius: 16px; }
+    .folder-header { padding: 22px 28px; gap: 20px; }
+    .card-name { font-size: 1.2rem; }
+    .unlock-block { padding: 48px 56px; }
+    .divider { margin: 40px 0; }
+    .toast { font-size: 1rem; padding: 16px 24px; }
+    #publicProjects, #lockedProjects { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "My Works — UcfZem",
+  "description": "Projets tech UcfZem : Quran Majeed, Tanger d'Antan, Lingotech English AI, MicroInvoice, Rafeeq Health, ElixirTech Phoenix, blog tech. Applications web, AI, SaaS.",
+  "url": "https://ucfzem.github.io/works/",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"url":"https://ucfzem.azer-tyu199p.workers.dev/quran-majeed-v3/","name":"Quran Majeed v3"},
+      {"@type":"ListItem","position":2,"url":"https://ucfzem.github.io/quran-reader/","name":"Quran Reader"},
+      {"@type":"ListItem","position":3,"url":"https://ucfzem.github.io/quran-amp/","name":"Quran Amp"},
+      {"@type":"ListItem","position":4,"url":"https://ucfzem.azer-tyu199p.workers.dev/tanger/","name":"Tanger d'Antan"},
+      {"@type":"ListItem","position":5,"url":"https://ucfzem.github.io/mapamundi/","name":"Mapamundi"},
+      {"@type":"ListItem","position":6,"url":"https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/","name":"UcfZem Tech Blog"},
+      {"@type":"ListItem","position":7,"url":"https://ucfzem.azer-tyu199p.workers.dev/lingotech/","name":"Lingotech English AI"},
+      {"@type":"ListItem","position":8,"url":"https://ucfzem.azer-tyu199p.workers.dev/microinvoice/","name":"MicroInvoice"},
+      {"@type":"ListItem","position":9,"url":"https://ucfzem.github.io/droppy/","name":"Droppy"},
+      {"@type":"ListItem","position":10,"url":"https://ucfzem.azer-tyu199p.workers.dev/rafeeq/","name":"Rafeeq Health"},
+      {"@type":"ListItem","position":11,"url":"https://ucfzem.github.io/remedy/","name":"Remèdes"},
+      {"@type":"ListItem","position":12,"url":"https://ucfzem.github.io/webhealth/","name":"WebHealth"},
+      {"@type":"ListItem","position":13,"url":"https://elixir-techx.vercel.app/","name":"ElixirTech"},
+      {"@type":"ListItem","position":14,"url":"https://ucfzem.github.io/email-collector/","name":"EmailCollector"},
+      {"@type":"ListItem","position":15,"url":"https://ucfzem.github.io/api-job-finder/","name":"API JobFinder"},
+      {"@type":"ListItem","position":16,"url":"https://ucfzem.github.io/childsgame/","name":"SavoirsEnJouant"},
+      {"@type":"ListItem","position":17,"url":"https://ucfzem.github.io/livre-al-istibsar/","name":"Al-Istibsar"},
+      {"@type":"ListItem","position":18,"url":"https://ucfzem.github.io/al-adhkiya/","name":"Al-Adhkiya"},
+      {"@type":"ListItem","position":19,"url":"https://ucfzem.github.io/al-tibb-al-nabawi/","name":"الطب النبوي"},
+      {"@type":"ListItem","position":20,"url":"https://ucfzem.github.io/nuzhat-al-mushtaq/","name":"Nuzhat al-Mushtaq"},
+      {"@type":"ListItem","position":21,"url":"https://ucfzem.github.io/al-mudhish/","name":"المدهش"},
+      {"@type":"ListItem","position":22,"url":"https://ucfzem.github.io/al-jawab-al-kafi/","name":"الداء والدواء"},
+      {"@type":"ListItem","position":23,"url":"https://ucfzem.github.io/asrar-al-kawn/","name":"أسرار الكون"},
+      {"@type":"ListItem","position":24,"url":"https://ucfzem.github.io/al-adhama/","name":"كتاب العظمة"},
+      {"@type":"ListItem","position":25,"url":"https://ucfzem.github.io/tarikh-ibn-khaldun/","name":"Tarikh Ibn Khaldun"},
+      {"@type":"ListItem","position":26,"url":"https://ucfzem.github.io/mujam-al-buldan/","name":"Mujam al-Buldan"}
+    ]
+  }
+}
+</script>
+</head>
+<body data-theme="dark">
+
+
+<div class="container">
+  <div class="top-bar">
+    <div></div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+  </div>
+
+  <div class="main-grid">
+
+  <div class="header">
+    <img src="https://ucfzem.github.io/works/assets/avatar.png" alt="Avatar" class="avatar" id="avatarImg" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
+    <div class="avatar-fallback" id="avatarFallback" style="display:none;">UcfZem</div>
+    <h1 class="title">🌳 My Works</h1>
+    <p class="subtitle">26 projets publics</p>
+  </div>
+
+
+  <h2 class="section-title">Projets publics</h2>
+  <div id="publicProjects"></div>
+
+
+  <div class="divider"></div>
+
+
+  <div class="unlock-block" id="unlockBlock">
+    <div id="unlockForm">
+      <h3 class="unlock-title">🔓 Accès total</h3>
+      <p class="unlock-desc">Entre le mot de passe pour voir tous les projets.</p>
+      <div class="form-group">
+        <div class="input-wrap">
+          <input type="password" id="passwordInput" placeholder="🔑 Mot de passe">
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Afficher/masquer le mot de passe">👁</button>
+        </div>
+      </div>
+      <p class="error-text" id="errorText">❌ Mot de passe incorrect</p>
+      <button class="btn-main" id="unlockBtn">Déverrouiller</button>
+    </div>
+    <div class="success-msg" id="successMsg">✅ Accès total déverrouillé !</div>
+  </div>
+
+
+  <div class="divider"></div>
+
+
+  <h2 class="section-title">Projets verrouillés</h2>
+  <div class="locked" id="lockedProjects"></div>
+
+  </div>
+</div>
+
+
+<div class="toast-container">
+  <div class="toast" id="toast"></div>
+</div>
+
+
+<script>
+  const publicProjects = [
+    { num: 1, emoji: "📖", name: "Quran Majeed v3", tag: "Reading", icon: "https://ucfzem.github.io/works/assets/quran.png", url: "https://ucfzem.azer-tyu199p.workers.dev/quran-majeed-v3/" },
+    { num: 2, emoji: "🎧", name: "Quran Reader", tag: "Audio", icon: null, url: "https://ucfzem.github.io/quran-reader/" },
+    { num: 3, emoji: "📖", name: "Quran Amp", tag: "Quran", icon: null, url: "https://ucfzem.github.io/quran-amp/", newTab: true },
+    { num: 4, emoji: "🗺️", name: "Tanger d'Antan", tag: "Heritage", icon: "https://ucfzem.github.io/works/assets/tanger.png", url: "https://ucfzem.azer-tyu199p.workers.dev/tanger/" },
+    { num: 6, emoji: "🌐", name: "Mapamundi · Urbano Monte (1587)", tag: "Geography", credit: "Made by UcfZem in 2026", icon: "https://ucfzem.github.io/mapamundi/icon.svg", url: "https://ucfzem.github.io/mapamundi/" },
+    { num: 7, emoji: "📝", name: "UcfZem Tech Blog", tag: "Tech", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/" },
+    { num: 8, emoji: "💙", name: "Lingotech", tag: "English AI", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/lingotech/" },
+    { num: 9, emoji: "🧾", name: "MicroInvoice", tag: "Finance", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/microinvoice/" },
+    { num: 10, emoji: "📤", name: "Droppy", tag: "File Share", icon: null, url: "https://ucfzem.github.io/droppy/" },
+    { num: 11, emoji: "💊", name: "Rafeeq", tag: "Health", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/rafeeq/" },
+    { num: 12, emoji: "🌿", name: "Remèdes", tag: "Remedy", icon: "https://ucfzem.github.io/works/assets/remedy.svg", url: "https://ucfzem.github.io/remedy/" },
+    { num: 13, emoji: "🌱", name: "WebHealth", tag: "Health", icon: null, url: "https://ucfzem.github.io/webhealth/" },
+    { num: 14, emoji: "⚡", name: "ElixirTech", tag: "Phoenix", icon: null, url: "https://elixir-techx.vercel.app/" },
+    { num: 15, emoji: "💳", name: "EmailCollector", tag: "Lead Gen", icon: null, url: "https://ucfzem.github.io/email-collector/" },
+    { num: 16, emoji: "🔍", name: "API JobFinder", tag: "Jobs", icon: null, url: "https://ucfzem.github.io/api-job-finder/" },
+    { num: 17, emoji: "🎮", name: "SavoirsEnJouant", tag: "Kids Learning", icon: null, url: "https://ucfzem.github.io/childsgame/", newTab: true }
+  ];
+
+  const maktaba = [
+    { emoji: "🧭", name: "Al-Istibsar", tag: "Geography", icon: null, url: "https://ucfzem.github.io/livre-al-istibsar/", newTab: true },
+    { emoji: "🧠", name: "Al-Adhkiya", tag: "Adab", icon: null, url: "https://ucfzem.github.io/al-adhkiya/", newTab: true },
+    { emoji: "🩺", name: "الطب النبوي", tag: "Medicine", icon: "https://ucfzem.github.io/works/assets/al-tibb-al-nabawi.svg", url: "https://ucfzem.github.io/al-tibb-al-nabawi/", newTab: true },
+    { emoji: "🌍", name: "Nuzhat al-Mushtaq", tag: "Geography", icon: "https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg", url: "https://ucfzem.github.io/nuzhat-al-mushtaq/", newTab: true },
+    { emoji: "🕌", name: "المدهش", tag: "Islamic Literature", icon: "https://ucfzem.github.io/al-mudhish/icon.svg", url: "https://ucfzem.github.io/al-mudhish/", newTab: true },
+    { emoji: "💚", name: "الداء والدواء", tag: "Islamic Literature", icon: "https://ucfzem.github.io/al-jawab-al-kafi/icon.svg", url: "https://ucfzem.github.io/al-jawab-al-kafi/", newTab: true },
+    { emoji: "🔭", name: "أسرار الكون", tag: "Astronomy", icon: "https://ucfzem.github.io/asrar-al-kawn/icon.svg", url: "https://ucfzem.github.io/asrar-al-kawn/", newTab: true },
+    { emoji: "📿", name: "كتاب العظمة", tag: "Hadith", icon: "https://ucfzem.github.io/al-adhama/icon.svg", url: "https://ucfzem.github.io/al-adhama/", newTab: true },
+    { emoji: "📜", name: "Tarikh Ibn Khaldun", tag: "History", icon: "https://ucfzem.github.io/works/assets/tarikh-ibn-khaldun.svg", url: "https://ucfzem.github.io/tarikh-ibn-khaldun/", newTab: true },
+    { emoji: "📚", name: "Mujam al-Buldan", tag: "Geography", icon: null, url: "https://ucfzem.github.io/mujam-al-buldan/", newTab: true },
+    { emoji: "✨", name: "كرامات الأولياء", tag: "Islamic Literature", icon: "https://ucfzem.github.io/karamat-al-awliya/icon.svg", url: "https://ucfzem.github.io/karamat-al-awliya/", newTab: true },
+    { emoji: "📖", name: "صفة الصفوة", tag: "Biographies", icon: "https://ucfzem.github.io/sifat-al-safwa/icon.svg", url: "https://ucfzem.github.io/sifat-al-safwa/", newTab: true },
+    { emoji: "🪐", name: "عجائب المخلوقات", tag: "Cosmography", icon: "https://ucfzem.github.io/ajayib-al-makhluqat/icon.svg", url: "https://ucfzem.github.io/ajayib-al-makhluqat/", newTab: true },
+    { emoji: "🗺️", name: "المسالك والممالك", tag: "Geography", icon: "https://ucfzem.github.io/al-masalik-wa-al-mamalik/icon.svg", url: "https://ucfzem.github.io/al-masalik-wa-al-mamalik/", newTab: true },
+    { emoji: "🌏", name: "خريدة العجائب", tag: "Cosmography", icon: "https://ucfzem.github.io/kharidat-al-ajaib/icon.svg", url: "https://ucfzem.github.io/kharidat-al-ajaib/", newTab: true },
+    { emoji: "🏛️", name: "أخبار الزمان ومروج الذهب", tag: "History", icon: "https://ucfzem.github.io/masoudi-encyclopedia/icon.svg", url: "https://ucfzem.github.io/masoudi-encyclopedia/", newTab: true },
+    { emoji: "🃏", name: "أخبار الحمقى والمغفلين", tag: "Islamic Literature", icon: "https://ucfzem.github.io/akhbar-al-hamqa-wal-mughaffalin/icon.svg", url: "https://ucfzem.github.io/akhbar-al-hamqa-wal-mughaffalin/", newTab: true },
+    { emoji: "🐪", name: "رحلة ابن بطوطة", tag: "Travel", icon: "https://ucfzem.github.io/rihlat-ibn-battuta/icon.svg", url: "https://ucfzem.github.io/rihlat-ibn-battuta/", newTab: true },
+    { emoji: "⛵", name: "رسالة ابن فضلان", tag: "Travel", icon: "https://ucfzem.github.io/risalat-ibn-fadlan/icon.svg", url: "https://ucfzem.github.io/risalat-ibn-fadlan/", newTab: true },
+    { emoji: "📖", name: "إنجيل برنابا", tag: "Religious Text", icon: "https://ucfzem.github.io/works/assets/barnabas.svg", url: "https://ucfzem.github.io/barnabas/", newTab: true },
+    { emoji: "📖", name: "موسوعة القصص والحديث النبوي", tag: "Hadith", icon: "https://ucfzem.github.io/musawa-qasas/icon.svg", url: "https://ucfzem.github.io/musawa-qasas/", newTab: true },
+    { emoji: "💬", name: "الأجوبة المسددة", tag: "Hadith", icon: "https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg", url: "https://ucfzem.github.io/al-ajwiba-al-musaddada/", newTab: true },
+    { emoji: "📖", name: "البشارة بنبي الإسلام", tag: "Islamic Studies", icon: "https://ucfzem.github.io/al-bishara/icon.svg", url: "https://ucfzem.github.io/al-bishara/", newTab: true },
+    { emoji: "📗", name: "الجواب الصحيح لمن بدل دين المسيح", tag: "Islamic Studies", icon: "https://ucfzem.github.io/al-jawab-al-sahih/icon.svg", url: "https://ucfzem.github.io/al-jawab-al-sahih/", newTab: true },
+    { emoji: "🌟", name: "إظهار الحق", tag: "Islamic Studies", icon: "https://ucfzem.github.io/izhar-al-haqq/icon.svg", url: "https://ucfzem.github.io/izhar-al-haqq/", newTab: true },
+    { emoji: "📘", name: "تفسير شيخ الإسلام ابن تيمية", tag: "Tafsir", icon: "https://ucfzem.github.io/tafsir-ibn-taymiyyah/icon.svg", url: "https://ucfzem.github.io/tafsir-ibn-taymiyyah/", newTab: true },
+    { emoji: "🕌", name: "مِرقاة التوحيد", tag: "Tawhid", icon: "https://ucfzem.github.io/works/assets/mirqat-tawhid.svg", url: "https://ucfzem.github.io/mirqat-tawhid/", newTab: true },
+    { emoji: "🌿", name: "المعشبة المغربية", tag: "Herbal", icon: "https://ucfzem.github.io/al-a3chab-attebiah/icon.svg", url: "https://ucfzem.github.io/al-a3chab-attebiah/", newTab: true }
+  ];
+
+
+  const folderMeta = [
+    { id:'tools', icon:'🛠️', label:'Outils Pros' },
+    { id:'ai', icon:'🤖', label:'IA & Vision' },
+    { id:'voice', icon:'🎙️', label:'Audio & Voix' },
+    { id:'creative', icon:'🎨', label:'Design & Créatif' },
+    { id:'career', icon:'💼', label:'Carrière & Finance' },
+    { id:'learning', icon:'📚', label:'Apprentissage' },
+    { id:'media', icon:'📤', label:'Partage & Média' },
+    { id:'premium', icon:'⭐', label:'Premium' },
+    { id:'other', icon:'📎', label:'Autres' }
+  ];
+
+  const lockedProjects = [
+    { folder:'tools', emoji:"📊", name:"Bulletin Scolaire Pro", tag:"Nouveau", desc:"Générateur de bulletins bilingue (FR/AR). Calcul auto, export PDF.", btn:"Voir l'outil", url:"https://ucfzem.github.io/bulletin-scolaire" },
+    { folder:'tools', emoji:"🗳️", name:"Scrutin Pro", tag:"Nouveau", desc:"Vote en direct, stats, PV avec grille d'émargement.", btn:"Voir l'outil", url:"https://ucfzem.github.io/scrutin-pro" },
+    { folder:'ai', emoji:"🎨", name:"NanoGen", tag:"AI Images", url:"https://ucfzem.azer-tyu199p.workers.dev/nanogen/" },
+    { folder:'ai', emoji:"✨", name:"AI Image Enhancer", tag:"Restore", url:"https://ucfzem.azer-tyu199p.workers.dev/ai-image-enhancer/" },
+    { folder:'ai', emoji:"🖼️", name:"Image2Prompt", tag:"AI Prompt", url:"https://ucfzemgithubio.vercel.app/image2prompt/" },
+    { folder:'ai', emoji:"☀️", name:"PicPulse", tag:"AI Vision", url:"https://ucfzem.github.io/PicPulse/app/" },
+    { folder:'ai', emoji:"🕌", name:"Tashkeel", tag:"Arabic AI", url:"https://tashkeel-five.vercel.app/" },
+    { folder:'ai', emoji:"🖼️", name:"Snap Describe", tag:"AI Vision", url:"https://ucfzem.azer-tyu199p.workers.dev/snap-describe/" },
+    { folder:'ai', emoji:"🤖", name:"Mon Assistant IA", tag:"AI Chat", url:"https://ucfzemgithubio.vercel.app/ucfzem-ai/" },
+    { folder:'ai', emoji:"🤖", name:"PromptGenius", tag:"AI", url:"https://promptgenius.azer-tyu199p.workers.dev/" },
+    { folder:'ai', emoji:"🚀", name:"Product Generator", tag:"AI", url:"https://ucf-product-gen.vercel.app/generate" },
+    { folder:'ai', emoji:"🧠", name:"MagiMax", tag:"Rename", url:"https://ucfzem.azer-tyu199p.workers.dev/MagiMax/" },
+    { folder:'voice', emoji:"🔊", name:"Voxcell", tag:"Voice", url:"https://voxcell.vercel.app" },
+    { folder:'voice', emoji:"💾", name:"Voxcell Offline", tag:"Voice", url:"https://voxcell-offline.vercel.app" },
+    { folder:'voice', emoji:"🔮", name:"VoxForge", tag:"Voice+AI", url:"https://ucfzem.github.io/voxforge/" },
+    { folder:'voice', emoji:"🎙️", name:"VoiceForge", tag:"AI Voice", url:"https://voiceforge-delta.vercel.app" },
+    { folder:'creative', emoji:"✨", name:"Pristine", tag:"Photo", url:"https://ucfzem.azer-tyu199p.workers.dev/pristine/" },
+    { folder:'creative', emoji:"✦", name:"PixellApp", tag:"Design", url:"https://ucfzem.github.io/pixellapp/" },
+    { folder:'creative', emoji:"🎨", name:"DrawingSand", tag:"Creative", url:"https://ucfzem.github.io/drawingsand/" },
+    { folder:'creative', emoji:"✨", name:"XtraMagical", tag:"SaaS AI", url:"https://ucfzem.azer-tyu199p.workers.dev/XtraMagical/" },
+    { folder:'career', emoji:"📓", name:"Guide Freelance", tag:"Career", url:"https://guide-freelance.vercel.app" },
+    { folder:'career', emoji:"📋", name:"CV-Maker", tag:"Career", url:"https://ucfzem.azer-tyu199p.workers.dev/cv-maker/" },
+    { folder:'career', emoji:"📄", name:"CV", tag:"Resume", icon:"https://ucfzem.github.io/works/assets/cv-icon.png", url:"https://ucfzem.github.io/ucf-cv/" },
+    { folder:'career', emoji:"📊", name:"ComptaEasy", tag:"Accounting", url:"https://ucfzem.azer-tyu199p.workers.dev/comptaeasy/" },
+    { folder:'learning', emoji:"❓", name:"4lang Quiz", tag:"Languages", url:"https://4lang-quiz.vercel.app" },
+    { folder:'learning', emoji:"🌍", name:"Ultralengua Pro", tag:"Learning", url:"https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/" },
+    { folder:'media', emoji:"📤", name:"Droppy", tag:"File Share", url:"https://ucfzem.github.io/droppy/" },
+    { folder:'media', emoji:"📦", name:"TmpDrop", tag:"File Share", url:"https://ucfzem.azer-tyu199p.workers.dev/tmpdrop/" },
+    { folder:'media', emoji:"⬇️", name:"TikTok Downloader", tag:"Media", url:"https://downloader-sepia-delta.vercel.app" },
+    { folder:'media', emoji:"🌐", name:"Sphere Gallery", tag:"360°", url:"https://ucfzem.azer-tyu199p.workers.dev/sphere-gallery/" },
+    { folder:'premium', emoji:"📜", name:"500 Prompts IA", tag:"Premium", url:"https://ucfzem.github.io/500-prompts/" },
+    { folder:'premium', emoji:"🏆", name:"30 Best Prompts", tag:"Premium", url:"https://ucfzem.github.io/30-best-prompts/" },
+    { folder:'other', emoji:"🌐", name:"Code", tag:"Web Dev", icon:"https://ucfzem.github.io/works/assets/web-dev-logo.png", url:"https://ucfzem.github.io/web-dev/" },
+    { folder:'other', emoji:"💪", name:"Sport", tag:"Fitness", url:"https://ucfzem.github.io/sport/" },
+    { folder:'other', emoji:"🌿", name:"Sounds of Nature", tag:"Nature", url:"https://ucfzem-works.vercel.app/sounds-of-nature/" },
+    { folder:'other', emoji:"🔗", name:"NanoLink", tag:"URL Shortener", url:"https://ucfzem.azer-tyu199p.workers.dev/urlshort/" },
+    { folder:'other', emoji:"🤚", name:"Brand Landing Page", tag:"Landing", url:"https://ucfzem.azer-tyu199p.workers.dev/Brand-Landig-Page/" },
+    { folder:'other', emoji:"📁", name:"Projets", tag:"Archive", url:"https://ucfzem.azer-tyu199p.workers.dev/projets/" }
+  ];
+
+
+  const VALIDATOR_URL = "https://works-validator.azer-tyu199p.workers.dev";
+
+
+  function renderPublic() {
+    const container = document.getElementById('publicProjects');
+    const card = p => `
+      <a href="${p.url || '#'}" class="card"${p.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>
+        <span class="card-num">${p.num}</span>
+        ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+        <div class="card-info">
+          <span class="card-name">${p.name}</span>
+          ${p.credit ? `<span class="card-credit">${p.credit}</span>` : ''}
+        </div>
+        <span class="card-tag">${p.tag}</span>
+      </a>`;
+    const split = 4;
+    const folder = `
+      <div class="folder open" id="f-maktaba">
+        <div class="folder-header" onclick="toggleFolder('maktaba')">
+          <span class="card-num">${split + 1}</span>
+          <img src="https://ucfzem.github.io/works/assets/maktaba.png?v=2026-10-17-3" class="folder-icon-img" alt="" onerror="this.src='https://ucfzem.github.io/works/assets/maktaba-icon.png'; this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+          <span class="folder-icon" style="display:none;">📚</span>
+          <span class="folder-title">Maktaba · المكتبة</span>
+          <span class="card-tag">Library</span>
+          <span class="folder-arrow">▼</span>
+        </div>
+        <div class="folder-content">
+          ${maktaba.map((p, i) => `
+            <a href="${p.url || '#'}" class="card" target="_blank">
+              <span class="maktaba-num">${i+1}</span>
+              ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+              <div class="card-info"><span class="card-name">${p.name}</span></div>
+              <span class="card-tag">${p.tag||''}</span>
+            </a>`).join('')}
+        </div>
+      </div>`;
+    container.innerHTML = publicProjects.slice(0, split).map(card).join('') + folder + publicProjects.slice(split).map(card).join('');
+  }
+
+
+  function renderLocked() {
+    const container = document.getElementById('lockedProjects');
+    let html = '';
+    folderMeta.forEach(f => {
+      const items = lockedProjects.filter(p => p.folder === f.id);
+      if (!items.length) return;
+      html += `<div class="folder" id="f-${f.id}">
+        <div class="folder-header" onclick="toggleFolder('${f.id}')">
+          <span class="folder-icon">${f.icon}</span>
+          <span class="folder-title">${f.label}</span>
+          <span class="folder-count">${items.length}</span>
+          <span class="folder-arrow">▼</span>
+        </div>
+        <div class="folder-content">`;
+      items.forEach(p => {
+        if (p.desc) {
+          html += `<a href="${p.url}" class="card tools-card" target="_blank">
+          ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+          <div class="card-info">
+            <span class="card-name">${p.name}</span>
+            <span class="card-desc">${p.desc}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:110px;">
+            <span class="card-tag">${p.tag||''}</span>
+            <span class="card-price">${p.price}</span>
+            <span class="card-view-btn">${p.btn||"Voir l'outil"}</span>
+          </div>
+        </a>`;
+        } else {
+          html += `<a href="${p.url}" class="card" target="_blank">
+          ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+          <div class="card-info"><span class="card-name">${p.name}</span></div>
+          <span class="card-tag">${p.tag||''}</span>
+        </a>`;
+        }
+      });
+      html += `</div></div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function toggleFolder(id) {
+    const f = document.getElementById('f-'+id);
+    f.classList.toggle('open');
+  }
+
+
+  function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.className = 'toast ' + type;
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const current = document.body.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', next);
+    themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
+  });
+
+
+  const togglePw = document.getElementById('togglePw');
+  const passwordInput = document.getElementById('passwordInput');
+  togglePw.addEventListener('click', () => {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    togglePw.textContent = type === 'password' ? '👁' : '🙈';
+  });
+
+
+  const unlockBtn = document.getElementById('unlockBtn');
+  const errorText = document.getElementById('errorText');
+  const unlockForm = document.getElementById('unlockForm');
+  const successMsg = document.getElementById('successMsg');
+  const lockedContainer = document.getElementById('lockedProjects');
+
+
+  const SS_KEY = 'works_unlocked';
+
+
+  function saveUnlock() {
+    try {
+      sessionStorage.setItem(SS_KEY, 'true');
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+
+  function applyUnlock(unlocked) {
+    if (unlocked) {
+      unlockForm.style.display = 'none';
+      successMsg.classList.add('show');
+      lockedContainer.classList.add('unlocked');
+    } else {
+      unlockForm.style.display = '';
+      successMsg.classList.remove('show');
+      lockedContainer.classList.remove('unlocked');
+    }
+  }
+
+
+  if (sessionStorage.getItem(SS_KEY) === 'true') {
+    applyUnlock(true);
+  }
+
+
+  passwordInput.addEventListener('input', () => {
+    errorText.classList.remove('show');
+  });
+
+
+  renderPublic();
+  renderLocked();
+
+
+  document.getElementById('unlockBtn').addEventListener('click', async () => {
+    const pw = document.getElementById('passwordInput').value.trim();
+    if (!pw) {
+      passwordInput.classList.add('shake');
+      setTimeout(() => passwordInput.classList.remove('shake'), 400);
+      showToast('❌ Veuillez entrer un mot de passe', 'error');
+      return;
+    }
+    try {
+      const r = await fetch(VALIDATOR_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      });
+      const d = await r.json();
+      if (d.success) {
+        saveUnlock();
+        applyUnlock(true);
+        showToast('✅ Accès total déverrouillé !', 'success');
+      } else {
+        errorText.textContent = '❌ Mot de passe incorrect';
+        passwordInput.classList.add('shake');
+        setTimeout(() => passwordInput.classList.remove('shake'), 400);
+        errorText.classList.add('show');
+        showToast('❌ Mot de passe incorrect', 'error');
+      }
+    } catch(e) {
+      showToast('❌ Erreur de validation', 'error');
+    }
+  });
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () {});
+    });
+  }
+</script>
+
+<script data-root-sw="1">if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(function(){})}if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').then(function(reg){function ping(){if(reg.active)reg.active.postMessage({type:'prefetch-book-data'})}function wait(w){if(!w)return;if(w.state==='activated')ping();else w.addEventListener('statechange',function(e){if(e.target.state==='activated')ping()})}if(reg.active)ping();wait(reg.installing);wait(reg.waiting)}).catch(function(){})})}</script>
+</body>
+</html>
