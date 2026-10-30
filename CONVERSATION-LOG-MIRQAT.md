@@ -90,3 +90,4 @@ mirqat-tawhid/
 - `works/sw.js`: أُضيفت 3 أيقونات كانت ناقصة من الكاش (`al-a3chab-attebiah`، `izhar-al-haqq`، `tafsir-ibn-taymiyyah`) ورُفع الكاش إلى `works-v1.0.26` (7bdca72).
 - نسخة احتياطية من works: محليًا `/root/backup_works_2026-10-30` (35 ملفًا، ~2MB) وفي المستودع `_backups/works-2026-10-30/` (index.html 8cea237، sw.js 67c9632، fonts.css 4dab2d5، MANIFEST.txt 90ae620). تحقق: كل 29 رابط أيقونة = 200.
 - تحقق نهائي: build `f31a700` = built؛ **1651 blob**؛ لا حذف. كل روابط الأيقونات (29) = 200. التطبيق 28,694 B، `sw.js` 3,387 B، `manifest` 484 B، `icon.svg` 797 B.
+- `works/index.html`: اسم بطاقة التطبيق صار «مكتبة التوحيد» بدل «مِرقاة التوحيد» (الرابط نفسه).
