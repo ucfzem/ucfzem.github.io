@@ -10,10 +10,16 @@
   "theme_color": "#0f5132",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%230f5132'/%3E%3Ctext x='256' y='330' font-size='260' text-anchor='middle' fill='%23fdfbf7' font-family='serif'%3E%D9%88%3C/text%3E%3C/svg%3E",
+      "src": "icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ]
 }
