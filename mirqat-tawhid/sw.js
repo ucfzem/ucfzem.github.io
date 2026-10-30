@@ -1,6 +1,6 @@
 // Service worker : fonctionnement hors-ligne.
 // Réseau d'abord (les données changent quand vous réimportez), cache en secours.
-const CACHE = 'tawhid-v1';
+const CACHE = 'tawhid-v2';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'data/toc.json', 'data/kitab.json', 'data/fath.json', 'data/fatawa.json'];
 
 self.addEventListener('install', e => {
