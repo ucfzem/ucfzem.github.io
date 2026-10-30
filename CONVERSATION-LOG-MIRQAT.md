@@ -77,3 +77,9 @@ mirqat-tawhid/
 ## 2026-10-30 — ربط المقاطع العشرة بالأبواب
 - طُبِّق حقل `related` على 10 مدخلات: `mf-1-022` [6,2]، `mf-1-024` [6,1]، `mf-1-074` [14,6,33]، `mf-1-089` [6,14,31,33]، `mf-1-091` [4,6,14,31]، `mf-2-037` [6,1]، `mf-2-038` [6,4,31]، `mf-2-433` [6,1]، `mf-2-449` [6,42,67]، `mf-2-459` [6,2,3].
 - رُفع كاش `sw.js` إلى `tawhid-v3`. commits: `fatawa.json` 06630ec، `sw.js` bb2a6d8.
+
+## 2026-10-30 — تشغيل offline كامل + نسخة احتياطية من works
+- `mirqat-tawhid/sw.js`: كاش `tawhid-v4` يخزّن الهيكل + Tailwind CDN + Google Fonts (CSS وwoff2) + البيانات؛ فتح online/offline. commit a8e9abb.
+- `mirqat-tawhid/manifest.webmanifest`: أيقونة حقيقية `icon.svg` (88749d6)، وأُضيف `mirqat-tawhid/icon.svg` (c38576b).
+- `works/sw.js`: أُضيفت 3 أيقونات كانت ناقصة من الكاش (`al-a3chab-attebiah`، `izhar-al-haqq`، `tafsir-ibn-taymiyyah`) ورُفع الكاش إلى `works-v1.0.26` (7bdca72).
+- نسخة احتياطية من works: محليًا `/root/backup_works_2026-10-30` (35 ملفًا، ~2MB) وفي المستودع `_backups/works-2026-10-30/` (index.html 8cea237، sw.js 67c9632، fonts.css 4dab2d5، MANIFEST.txt 90ae620). تحقق: كل 29 رابط أيقونة = 200.
