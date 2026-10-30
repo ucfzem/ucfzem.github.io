@@ -34,8 +34,6 @@
   .read p { margin:0 0 .6em; }
   .fn { font-size:.7em; line-height:1.9; color:var(--muted); border-top:1px dashed var(--border); margin-top:.6em; padding-top:.4em; }
   .page-tag { font-family:'Cairo', sans-serif; font-size:.72rem; color:var(--muted); background:var(--accent-soft); border-radius:.4rem; padding:.1rem .5rem; display:inline-block; margin:.3rem 0; }
-  .page-tag.warn { background:#fef3c7; color:#92400e; }
-  html[data-theme="dark"] .page-tag.warn { background:#4a3a15; color:#fcd34d; }
   mark { background:var(--mark); color:inherit; border-radius:.2rem; padding:0 .1rem; }
   .fade { animation:fade .28s ease both; } @keyframes fade { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:none; } }
   .item { display:block; width:100%; text-align:right; padding:.5rem .75rem; border-radius:.5rem; font-size:.86rem; line-height:1.55; cursor:pointer; transition:background .15s; background:transparent; border:0; color:var(--text); }
@@ -49,7 +47,6 @@
 </style>
 </head>
 <body class="flex flex-col">
-
 
 <header class="bg-panel border-b bd sticky top-0 z-30 flex items-center gap-2 px-3 py-2 no-print">
   <button id="menuBtn" class="btn md:hidden" aria-label="الفهرس">☰</button>
@@ -68,7 +65,6 @@
   <button id="savedBtn" class="btn">★ المحفوظات</button>
 </header>
 
-
 <div class="flex-1 flex min-h-0 relative">
   <div id="scrim" class="scrim fixed inset-0 z-30 hidden md:hidden"></div>
   <aside id="sidebar" class="bg-panel border-l bd w-80 max-w-[85vw] flex flex-col fixed md:static inset-y-0 right-0 z-40 transition-transform duration-300 translate-x-full md:translate-x-0">
@@ -83,12 +79,10 @@
     <nav id="tree" class="flex-1 overflow-y-auto p-2"></nav>
   </aside>
 
-
   <main id="main" class="flex-1 overflow-y-auto min-w-0">
     <div id="view" class="max-w-5xl mx-auto p-4 md:p-8"></div>
   </main>
 </div>
-
 
 <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 scrim no-print">
   <div class="bg-panel border bd rounded-xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-4 fade">
@@ -101,16 +95,15 @@
   </div>
 </div>
 
-
 <script>
 'use strict';
 /* ============================ helpers ============================ */
 const $ = (s, r = document) => r.querySelector(s);
 function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-function store(key, val) { try { if (val === undefined) { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} return null; }
+function store(key, val) { try { if (val === undefined) { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* storage unavailable */ } return null; }
 function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
-
+/* Arabic normalisation with a map back to original offsets */
 function norm(str) {
   let out = '', map = [];
   for (let i = 0; i < str.length; i++) {
@@ -122,7 +115,6 @@ function norm(str) {
   }
   return { s: out, map };
 }
-
 
 /* ============================ state ============================ */
 const CATS = [['الربوبية', 'الربوبية'], ['الألوهية', 'الألوهية'], ['', 'غير مصنّف']];
@@ -138,7 +130,6 @@ const S = {
 const normCache = new Map();
 function cachedNorm(key, text) { if (!normCache.has(key)) normCache.set(key, norm(text)); return normCache.get(key); }
 
-
 /* ============================ data ============================ */
 async function loadJSON(url, fallback) {
   try { const r = await fetch(url, { cache: 'no-cache' }); if (!r.ok) throw new Error(r.status); return await r.json(); }
@@ -152,7 +143,7 @@ async function init() {
   if (!toc) { $('#view').replaceChildren(el('p', 'tx-gold', 'تعذّر تحميل data/toc.json. شغّل الصفحة عبر خادم محلي (مثلاً: python -m http.server) وليس بفتح الملف مباشرة.')); return; }
   S.toc = toc;
   S.chapters = toc.chapters;
-  S.ordered = [...toc.chapters];
+  S.ordered = [{ n: 0, title: 'مقدمة فتح المجيد', kitab: null, fath: toc.fath_intro_start, category: '' }, ...toc.chapters];
   for (const [key, arr] of [['kitab', kitab], ['fath', fath]]) {
     for (const p of (Array.isArray(arr) ? arr : [])) {
       if (!p || typeof p.text !== 'string') continue;
@@ -166,7 +157,7 @@ async function init() {
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
-
+/* chapter -> pages (boundary page included in the previous chapter so no text is lost) */
 function chapterRange(book, ch) {
   const start = ch[book]; if (start == null) return null;
   const idx = S.ordered.indexOf(ch); let end = Infinity;
@@ -182,7 +173,6 @@ function chapterByN(n) { return S.ordered.find(c => c.n === n); }
 function fatawaFor(n) { return S.fatawa.filter(f => Array.isArray(f.related) && f.related.includes(n)); }
 function generalFatawa() { return S.fatawa.filter(f => !Array.isArray(f.related) || f.related.length === 0); }
 
-
 /* ============================ settings ============================ */
 function applySettings() {
   document.documentElement.dataset.theme = S.settings.theme;
@@ -197,12 +187,10 @@ $('#ffSelect').onchange = e => { S.settings.ff = e.target.value; applySettings()
 $('#themeBtn').onclick = () => { S.settings.theme = S.settings.theme === 'dark' ? 'light' : 'dark'; applySettings(); saveSettings(); };
 $('#cmpBtn').onclick = () => { S.settings.compare = !S.settings.compare; applySettings(); saveSettings(); renderView(); };
 
-
 /* ============================ drawer ============================ */
 function openMenu() { $('#sidebar').classList.remove('translate-x-full'); $('#scrim').classList.remove('hidden'); }
 function closeMenu() { $('#sidebar').classList.add('translate-x-full'); $('#scrim').classList.add('hidden'); }
 $('#menuBtn').onclick = openMenu; $('#closeMenu').onclick = closeMenu; $('#scrim').onclick = closeMenu;
-
 
 /* ============================ sidebar ============================ */
 function chip(label, active, onclick) { const b = el('button', 'btn' + (active ? ' btn-accent' : ''), label); b.style.padding = '.15rem .55rem'; b.onclick = onclick; return b; }
@@ -218,19 +206,20 @@ function onFilterChange() { renderTree(); renderView(); }
 function catMatches(c) { return S.cat === 'all' || (S.cat === 'none' ? !c : c === S.cat); }
 function hasText(ch) { return pagesFor('kitab', ch).length > 0 || pagesFor('fath', ch).length > 0; }
 
-
 function renderTree() {
   const tree = $('#tree'); tree.replaceChildren();
   const active = S.route;
+  const intro = S.ordered[0];
   const mk = (label, sub, href, isActive, dim) => {
     const b = el('button', 'item' + (isActive ? ' active' : '')); b.onclick = () => { location.hash = href; closeMenu(); };
-    b.append(el('div', null, label));
-    if (sub) b.append(el('div', 'text-xs tx-muted', sub));
+    const t = el('div', null, label); b.append(t);
+    if (sub) { const s = el('div', 'text-xs tx-muted', sub); b.append(s); }
     if (dim) b.style.opacity = '.6';
     return b;
   };
+  tree.append(mk('مقدمة الشارح (فتح المجيد)', null, '#/c/0', active.type === 'c' && active.id === 0, !hasText(intro)));
   if (S.chapters.every(c => !c.category)) {
-    tree.append(el('div', 'text-xs tx-muted px-2 py-1', 'التصنيف لم يُحدَّد بعد — عدّل حقل category في data/toc.json.'));
+    const note = el('div', 'text-xs tx-muted px-2 py-1', 'التصنيف (ربوبية/ألوهية) لم يُحدَّد بعد — عدّل حقل category في data/toc.json.'); tree.append(note);
   }
   for (const [cat, label] of CATS) {
     if (!catMatches(cat)) continue;
@@ -254,7 +243,6 @@ function renderTree() {
   }
 }
 
-
 /* ============================ routing ============================ */
 function parseHash() {
   const m = location.hash.match(/^#\/(c|f)\/(.+)$/);
@@ -264,17 +252,16 @@ function parseHash() {
 function route() { S.route = parseHash(); renderTree(); renderView(); $('#main').scrollTo({ top: 0 }); }
 window.addEventListener('hashchange', () => { S.query = ''; $('#q').value = ''; route(); });
 
-
 /* ============================ views ============================ */
 function renderView() { const v = $('#view'); v.replaceChildren(); (S.query.trim() ? renderSearch : renderRoute)(v); }
 function renderRoute(v) {
   if (S.route.type === 'f') return renderFatwaPage(v);
-  const ch = chapterByN(S.route.id) || S.ordered[0];
+  const ch = chapterByN(S.route.id) || S.ordered[1];
   renderChapter(v, ch);
 }
 function emptyNote(what) {
   const d = el('div', 'rounded-xl border bd p-4 text-sm tx-muted bg-panel');
-  d.append(el('div', 'font-bold tx-gold mb-1', `لم يُستورد نص ${what} بعد`), el('div', null, 'استورد النص من المصدر ثم أعد تحميل الصفحة. لا يعرض التطبيق أي نص غير مستورد.'));
+  d.append(el('div', 'font-bold tx-gold mb-1', `لم يُستورد نص ${what} بعد`), el('div', null, 'شغّل tools/fetch_shamela.py (أو tools/import_txt.py) ثم أعد تحميل الصفحة. لا يعرض التطبيق أي نص غير مستورد من المصدر.'));
   return d;
 }
 function pagesNode(book, ch, label) {
@@ -286,8 +273,8 @@ function pagesNode(book, ch, label) {
     if (page.id != null) parts.push(`الشاملة ص ${page.id}`);
     if (page.printed) parts.push(`المطبوع ${page.printed}`);
     if (shared) parts.push('صفحة مشتركة مع الباب التالي');
-    wrap.append(el('div', 'page-tag', parts.join(' · ') || 'نص الباب'));
-    if (page.placeholder) wrap.append(el('div', 'page-tag warn', '⚠ نص توضيحي — يُستبدل بنص المصدر عند الاستيراد'));
+    const tag = el('div', 'page-tag', parts.join(' · ') || 'نص الباب');
+    wrap.append(tag);
     for (const line of page.text.split(/\n+/)) if (line.trim()) wrap.append(el('p', null, line));
     if (page.footnotes) { const fn = el('div', 'fn'); for (const line of String(page.footnotes).split(/\n+/)) if (line.trim()) fn.append(el('div', null, line)); wrap.append(fn); }
   }
@@ -301,7 +288,6 @@ function fatawaNode(list, emptyMsg) {
     const head = el('div', 'flex flex-wrap items-center gap-2 mb-1');
     head.append(el('span', 'font-bold tx-gold text-sm', f.title || 'فتوى'), el('span', 'page-tag', `مجموع الفتاوى · م ${f.volume ?? '؟'} · ص ${f.page ?? '؟'}`));
     if (f.category) head.append(el('span', 'page-tag', 'توحيد ' + f.category));
-    if (f.placeholder) head.append(el('span', 'page-tag warn', '⚠ توضيحي'));
     card.append(head);
     const body = el('div', 'read'); for (const line of f.text.split(/\n+/)) if (line.trim()) body.append(el('p', null, line));
     card.append(body); wrap.append(card);
@@ -342,15 +328,13 @@ function titleBar(title, key, tagText) {
   bar.append(col, star); return bar;
 }
 
-
 function renderChapter(v, ch) {
   const key = 'c' + ch.n;
   v.append(titleBar(ch.n ? `${ch.n}. ${ch.title}` : ch.title, key, ch.category ? 'توحيد ' + ch.category : null));
   const kitab = ch.kitab != null ? panel('كتاب التوحيد', 'محمد بن عبد الوهاب', 'tx-accent', pagesNode('kitab', ch, 'كتاب التوحيد لهذا الباب'), S.settings.compare) : null;
-  const fathP = panel('فتح المجيد', 'عبد الرحمن بن حسن — شرح', 'tx-accent', pagesNode('fath', ch, 'فتح المجيد لهذا الباب'), S.settings.compare);
+  const fathP = panel('فتح المجيد', 'عبد الرحمن بن حسن آل الشيخ — شرح', 'tx-accent', pagesNode('fath', ch, 'فتح المجيد لهذا الباب'), S.settings.compare);
   const fats = fatawaFor(ch.n);
-  const fatP = panel("سياق مجموع الفتاوى", 'ابن تيمية', 'tx-gold', fatawaNode(fats, 'لا توجد فتاوى مرتبطة بهذا الباب.'), S.settings.compare);
-
+  const fatP = panel("سياق مجموع الفتاوى", 'ابن تيمية', 'tx-gold', fatawaNode(fats, 'لا توجد فتاوى مرتبطة بهذا الباب في data/fatawa.json (أضفها بحقل related).'), S.settings.compare);
 
   const wide = S.settings.compare && window.innerWidth >= 1024;
   v.classList.toggle('max-w-5xl', !wide); v.classList.toggle('max-w-none', wide);
@@ -375,12 +359,10 @@ function renderFatwaPage(v) {
   v.append(fatawaNode([f], ''), notesBox(key));
 }
 
-
 /* ============================ search ============================ */
 const sq = $('#q');
 sq.oninput = debounce(() => { S.query = sq.value; renderView(); if (S.query.trim()) $('#main').scrollTo({ top: 0 }); }, 200);
 sq.onkeydown = e => { if (e.key === 'Enter') closeMenu(); };
-
 
 function snippet(text, nt, tokenIdx, tokenLen) {
   const o = nt.map[tokenIdx], oe = nt.map[Math.min(tokenIdx + tokenLen - 1, nt.map.length - 1)] + 1;
@@ -421,10 +403,9 @@ function renderSearch(v) {
     const m = matchIn('f' + f.id, (f.title ? f.title + '\n' : '') + f.text, tokens);
     if (m) { const rel = Array.isArray(f.related) && f.related.length ? '#/c/' + f.related[0] : '#/f/' + encodeURIComponent(f.id); add(f.title || 'فتوى', rel, 'مجموع الفتاوى', m); }
   }
-  if (!count) list.append(el('p', 'tx-muted', S.ordered.length && !S.ids.kitab.length && !S.ids.fath.length ? 'لا نتائج — لم تُستورد نصوص الكتب بعد.' : 'لا نتائج.'));
+  if (!count) list.append(el('p', 'tx-muted', S.ordered.length && !S.ids.kitab.length && !S.ids.fath.length ? 'لا نتائج. ملاحظة: لم تُستورد نصوص الكتب بعد، فالبحث يشمل العناوين فقط.' : 'لا نتائج.'));
   v.append(list);
 }
-
 
 /* ============================ saved / notes ============================ */
 function openModal() {
@@ -461,7 +442,6 @@ $('#importFile').onchange = async e => {
 };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
 window.addEventListener('resize', debounce(() => { if (S.settings.compare) renderView(); }, 250));
-
 
 init();
 </script>
