@@ -1,0 +1,13 @@
+{
+  "name": "مكتبة التوحيد",
+  "short_name": "التوحيد",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fdfbf7",
+  "theme_color": "#0f5132",
+  "description": "قارئ كتب التوحيد: كتاب التوحيد، فتح المجيد، ومجموع الفتاوى",
+  "icons": []
+}
