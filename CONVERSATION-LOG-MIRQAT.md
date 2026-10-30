@@ -91,3 +91,11 @@ mirqat-tawhid/
 - نسخة احتياطية من works: محليًا `/root/backup_works_2026-10-30` (35 ملفًا، ~2MB) وفي المستودع `_backups/works-2026-10-30/` (index.html 8cea237، sw.js 67c9632، fonts.css 4dab2d5، MANIFEST.txt 90ae620). تحقق: كل 29 رابط أيقونة = 200.
 - تحقق نهائي: build `f31a700` = built؛ **1651 blob**؛ لا حذف. كل روابط الأيقونات (29) = 200. التطبيق 28,694 B، `sw.js` 3,387 B، `manifest` 484 B، `icon.svg` 797 B.
 - `works/index.html`: اسم بطاقة التطبيق صار «مكتبة التوحيد» بدل «مِرقاة التوحيد» (الرابط نفسه).
+
+## 2026-10-30 — الاعتماد النهائي: «مكتبة التوحيد»
+- النسخة المعتمدة: https://ucfzem.github.io/mirqat-tawhid/ — العنوان «مكتبة التوحيد». النسخة القديمة `mirqat-tawhid.html` مجمّدة وغير مستخدمة.
+- بطاقة works: الاسم صار «مكتبة التوحيد» والرابط نفسه `/mirqat-tawhid/` (commit e8a4851).
+- offline: `tawhid-v4` يخزّن الهيكل + البيانات + Tailwind + خطوط Google (CSS/woff2)؛ manifest بأيقونة `icon.svg`.
+- نسخة works: محليًا `/root/backup_works_2026-10-30` (35 ملفًا) + `_backups/works-2026-10-30/` (لقطة قبل إعادة التسمية، مع MANIFEST وSHA-256).
+- فحص نهائي: كل الملفات الأساسية 200؛ 19 فتوى؛ 29 أيقونة 200؛ **1651 blob؛ لا حذف**. آخر بناء موثّق قبل هذا السطر: `8cc6c37` = built؛ ثم أُعيد البناء لنشر هذا السجل.
+- روابط: التطبيق https://ucfzem.github.io/mirqat-tawhid/ · works https://ucfzem.github.io/works/ · نسخة works https://ucfzem.github.io/_backups/works-2026-10-30/ · السجل https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-LOG-MIRQAT.md
