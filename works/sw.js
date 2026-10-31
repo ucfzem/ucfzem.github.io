@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.26';
+const CACHE = 'works-v1.0.27';
 const CORE = [
   './',
   './index.html',
@@ -97,6 +97,9 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  const path = url.pathname;
+  // The al-a3chab backup under /works/ has its own scoped SW; leave it alone.
+  if (path === '/works/al-a3chab-attebiah' || path.startsWith('/works/al-a3chab-attebiah/')) return;
 
   if (req.mode === 'navigate') {
     event.respondWith(
