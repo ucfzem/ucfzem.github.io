@@ -108,3 +108,11 @@ mirqat-tawhid/
 - `sw.js`: كاش `a3chab-v1.3.9` يعمل دون اتصال (بدل SW كان يلغي نفسه).
 - تحقق: كل الملفات 200؛ الأيقونات PNG صحيحة؛ 149 رابط كومنز = 200؛ **30 blob؛ لا حذف**. build `d058051` = built.
 - روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/manifest.json · https://ucfzem.github.io/al-a3chab-attebiah/sw.js
+
+## 2026-10-31 — «المعشبة المغربية» تعمل دون اتصال بكل الصور
+- أُنشئ `image-manifest.json` (141 صورة فريدة لـ149 مدخلاً، ~34 MB) بروابط ويكيميديا كومنز المباشرة (`thumb.wikimedia.org`/`upload.wikimedia.org`).
+- `app.js` v1.4.0: تحميل تلقائي لكل الصور إلى `Cache Storage` (`a3chab-images-v1`) مع شريط تقدم، إيقاف/متابعة، إعادة محاولة، وتخزين الحالة في `localStorage`.
+- `sw.js` v1.4.0: كاش صور مستقل، تقديم الصور من الكاش أولاً، وتخزين CSS+woff2 لخطوط Google؛ تنظيف آمن يقتصر على `a3chab-*` (لا يمس `tawhid-*` أو `works-*`).
+- تحقق فعلي بمتصفح Chromium: 141/141 صورة في الكاش؛ بعد قطع الشبكة وإعادة التحميل: 151/151 صورة ظاهرة، وصورة البطاقة 960×720، ولا أخطاء شبكة.
+- المستودع: 31 blob (إضافة `image-manifest.json` فقط؛ **لا حذف**). build `0ff5276` = built.
+- روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/image-manifest.json · https://ucfzem.github.io/al-a3chab-attebiah/sw.js
