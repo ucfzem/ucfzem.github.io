@@ -329,6 +329,8 @@ self.addEventListener('fetch', (event) => {
   }
 
   const path = url.pathname;
+  // The works-hosted al-a3chab backup has its own SW; do not treat it as /works.
+  if (path === '/works/al-a3chab-attebiah' || path.startsWith('/works/al-a3chab-attebiah/')) return;
   const first = path.split('/').filter(Boolean)[0] || '';
   if (!APPS.includes(first)) return;
 
