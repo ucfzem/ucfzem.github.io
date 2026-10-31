@@ -495,8 +495,101 @@
       background: var(--surface-2);
       color: var(--text);
       font-size: .74rem;
+      font-weight: 700;
       cursor: pointer;
+      direction: ltr;
+      text-align: left;
     }
+    .lang-select option {
+      font-family: "Cairo", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-weight: 700;
+    }
+    .lang-menu { position: relative; }
+    .lang-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+      direction: ltr;
+    }
+    .lang-trigger:hover,
+    .lang-trigger[aria-expanded="true"] {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .flag {
+      display: block;
+      width: 22px;
+      height: 15px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .22);
+      flex: none;
+    }
+    .lang-code {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .04em;
+    }
+    .lang-chevron {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .7;
+    }
+    .lang-options {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: auto;
+      z-index: 90;
+      min-width: 180px;
+      padding: 5px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    html[dir="ltr"] .lang-options { left: auto; right: 0; }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 7px 8px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: .76rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      direction: ltr;
+    }
+    .lang-option:hover,
+    .lang-option:focus-visible,
+    .lang-option[aria-selected="true"] {
+      background: var(--accent-soft);
+      color: var(--accent-2);
+    }
+    .lang-option .lang-name {
+      margin-inline-start: auto;
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 600;
+    }
+    .lang-option[aria-selected="true"] .lang-name { color: var(--accent); }
     .active-label {
       max-width: 46%;
       margin-inline-start: auto;
@@ -725,12 +818,12 @@
     .searchbar .icon-btn.small:hover { color: var(--accent-2); background: rgba(255, 255, 255, .08); }
     .font-controls, .lang-wrap, .active-label { color: var(--header-muted); }
     .font-size-label { color: var(--header-text); }
-    .font-btn, .lang-select {
+    .font-btn, .lang-select, .lang-trigger {
       background: rgba(255, 255, 255, .08);
       border-color: rgba(245, 238, 218, .22);
       color: var(--header-text);
     }
-    .font-btn:hover, .lang-select:hover { border-color: var(--accent-2); color: var(--accent-2); }
+    .font-btn:hover, .lang-select:hover, .lang-trigger:hover, .lang-trigger[aria-expanded="true"] { border-color: var(--accent-2); color: var(--accent-2); }
     .lang-select option { background: var(--surface); color: var(--text); }
     html[data-theme="light"] .searchbar {
       background: rgba(255, 253, 246, .94);
@@ -930,6 +1023,26 @@
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/><path d="M8 7h8M8 11h8"/></symbol>
+    <symbol id="flag-ma" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#c1272d"/>
+      <path d="M12 4.2l1.1 3.4h3.6l-2.9 2.1 1.1 3.4L12 11.1l-2.9 2.1 1.1-3.4-2.9-2.1h3.6z" fill="none" stroke="#006233" stroke-width="1.2" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="flag-gb" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#012169"/>
+      <path d="M0 0l24 16M24 0L0 16" stroke="#fff" stroke-width="3.2"/>
+      <path d="M0 0l24 16M24 0L0 16" stroke="#c8102e" stroke-width="1.6"/>
+      <path d="M12 0v16M0 8h24" stroke="#fff" stroke-width="5"/>
+      <path d="M12 0v16M0 8h24" stroke="#c8102e" stroke-width="2.6"/>
+    </symbol>
+    <symbol id="flag-fr" viewBox="0 0 24 16">
+      <rect width="8" height="16" fill="#0055a4"/>
+      <rect x="8" width="8" height="16" fill="#fff"/>
+      <rect x="16" width="8" height="16" fill="#ef4135"/>
+    </symbol>
+    <symbol id="flag-es" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#aa151b"/>
+      <rect y="4" width="24" height="8" fill="#f1bf00"/>
+    </symbol>
   </svg>
 
   <div class="progress-track" id="progressTrack" role="progressbar" aria-label="تقدم القراءة" data-i18n-aria="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -1003,12 +1116,35 @@
           </div>
           <div class="lang-wrap">
             <span class="lang-label" data-i18n="language">اللغة</span>
-            <select class="lang-select" id="langSelect" aria-label="لغة الواجهة" data-i18n-aria="language">
-              <option value="ar">العربية</option>
-              <option value="en">English</option>
-              <option value="fr">Français</option>
-              <option value="es">Español</option>
-            </select>
+            <div class="lang-menu">
+              <button class="lang-trigger" id="langTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="لغة الواجهة" data-i18n-aria="language">
+                <svg class="flag" id="langFlag" aria-hidden="true"><use href="#flag-ma"/></svg>
+                <span class="lang-code" id="langCode">AR</span>
+                <svg class="lang-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="lang-options" id="langOptions" role="listbox" aria-label="لغة الواجهة" data-i18n-aria="language" hidden>
+                <button type="button" class="lang-option" role="option" data-lang="ar" aria-selected="true">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-ma"/></svg>
+                  <span class="lang-code">AR</span>
+                  <span class="lang-name">العربية</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="en" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-gb"/></svg>
+                  <span class="lang-code">EN</span>
+                  <span class="lang-name">English</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="fr" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-fr"/></svg>
+                  <span class="lang-code">FR</span>
+                  <span class="lang-name">Français</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="es" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-es"/></svg>
+                  <span class="lang-code">ES</span>
+                  <span class="lang-name">Español</span>
+                </button>
+              </div>
+            </div>
           </div>
           <span class="active-label" id="activeChapterLabel"></span>
         </div>
@@ -1369,7 +1505,16 @@
     const closeDrawerBtn = $("#closeDrawer");
     const overlay = $("#overlay");
     const sidebar = $("#sidebar");
-    const langSelect = $("#langSelect");
+    const langTrigger = $("#langTrigger");
+    const langOptions = $("#langOptions");
+    const langFlag = $("#langFlag");
+    const langCode = $("#langCode");
+    const LANG_META = {
+      ar: { code: "AR", flag: "ma" },
+      en: { code: "EN", flag: "gb" },
+      fr: { code: "FR", flag: "fr" },
+      es: { code: "ES", flag: "es" }
+    };
     const fontMinus = $("#fontMinus");
     const fontPlus = $("#fontPlus");
     const fontSizeLabel = $("#fontSizeLabel");
@@ -1601,6 +1746,28 @@
       searchInput.focus();
     }
 
+    function updateLangMenu() {
+      const meta = LANG_META[state.lang] || LANG_META.ar;
+      langCode.textContent = meta.code;
+      const use = langFlag.querySelector("use");
+      if (use) use.setAttribute("href", "#flag-" + meta.flag);
+      langOptions.querySelectorAll(".lang-option").forEach((btn) => {
+        btn.setAttribute("aria-selected", btn.dataset.lang === state.lang ? "true" : "false");
+      });
+    }
+
+    function closeLangMenu() {
+      langOptions.hidden = true;
+      langTrigger.setAttribute("aria-expanded", "false");
+    }
+
+    function openLangMenu() {
+      langOptions.hidden = false;
+      langTrigger.setAttribute("aria-expanded", "true");
+      const current = langOptions.querySelector('.lang-option[data-lang="' + state.lang + '"]');
+      if (current) current.focus();
+    }
+
     function applyLanguage(lang, persist) {
       state.lang = I18N[lang] ? lang : "ar";
       const t = I18N[state.lang];
@@ -1620,7 +1787,7 @@
         if (t[key] != null) el.setAttribute("aria-label", t[key]);
       });
 
-      langSelect.value = state.lang;
+      updateLangMenu();
       document.title = t.appTitle + " — " + t.readerLabel;
       if (!navigator.onLine) netStatus.textContent = t.offline;
       updateSearchStatus();
@@ -1793,7 +1960,33 @@
       });
       fontMinus.addEventListener("click", () => applyFontSize(state.fontSize - 1, true));
       fontPlus.addEventListener("click", () => applyFontSize(state.fontSize + 1, true));
-      langSelect.addEventListener("change", () => applyLanguage(langSelect.value, true));
+      langTrigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (langOptions.hidden) openLangMenu(); else closeLangMenu();
+      });
+      langOptions.addEventListener("click", (event) => {
+        const btn = event.target.closest(".lang-option");
+        if (!btn) return;
+        applyLanguage(btn.dataset.lang, true);
+        closeLangMenu();
+        langTrigger.focus();
+      });
+      langOptions.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+        event.preventDefault();
+        const items = Array.from(langOptions.querySelectorAll(".lang-option"));
+        const index = items.indexOf(document.activeElement);
+        const next = event.key === "ArrowDown"
+          ? items[(index + 1) % items.length]
+          : items[(index - 1 + items.length) % items.length];
+        if (next) next.focus();
+      });
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".lang-menu")) closeLangMenu();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeLangMenu();
+      });
 
       searchInput.addEventListener("input", () => {
         state.query = searchInput.value;
