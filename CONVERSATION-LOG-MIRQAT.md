@@ -99,3 +99,12 @@ mirqat-tawhid/
 - نسخة works: محليًا `/root/backup_works_2026-10-30` (35 ملفًا) + `_backups/works-2026-10-30/` (لقطة قبل إعادة التسمية، مع MANIFEST وSHA-256).
 - فحص نهائي: كل الملفات الأساسية 200؛ 19 فتوى؛ 29 أيقونة 200؛ **1651 blob؛ لا حذف**. آخر بناء موثّق قبل هذا السطر: `8cc6c37` = built؛ ثم أُعيد البناء لنشر هذا السجل.
 - روابط: التطبيق https://ucfzem.github.io/mirqat-tawhid/ · works https://ucfzem.github.io/works/ · نسخة works https://ucfzem.github.io/_backups/works-2026-10-30/ · السجل https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-LOG-MIRQAT.md
+
+## 2026-10-30 — إصلاح صور «المعشبة المغربية» + PWA
+- الموقع الحي يُخدَم من المستودع `ucfzem/al-a3chab-attebiah` (وليس من مجلد `al-a3chab-attebiah/` في مستودع الموقع). لم يُحذف أي ملف.
+- `app.js` v1.3.9: كل صورة تُحمَّل من `imageSource` الأصلي على ويكيميديا كومنز عبر `Special:FilePath?width=640` (149/151 مدخلاً)؛ عند الفشل: بحث لاتيني مخفّف ثم `icon.svg`. أُصلح `src="./data:image…"` المعطوب.
+- `index.html`: تحميل `wiki-images.js` ورفع الإصدار إلى 1.3.9.
+- `manifest.json` (872 B) وأيقونتان PNG حقيقيتان (192/512) بدل ملفات 404 (14 B).
+- `sw.js`: كاش `a3chab-v1.3.9` يعمل دون اتصال (بدل SW كان يلغي نفسه).
+- تحقق: كل الملفات 200؛ الأيقونات PNG صحيحة؛ 149 رابط كومنز = 200؛ **30 blob؛ لا حذف**. build `d058051` = built.
+- روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/manifest.json · https://ucfzem.github.io/al-a3chab-attebiah/sw.js
