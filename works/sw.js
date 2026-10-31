@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.27';
+const CACHE = 'works-v1.0.28';
 const CORE = [
   './',
   './index.html',
@@ -30,6 +30,7 @@ const CORE = [
   './assets/maktaba.png',
   './assets/maktaba-icon.png',
   './assets/maktaba.svg',
+  'https://ucfzem.github.io/basair/icon.svg',
   'https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg',
   'https://ucfzem.github.io/mapamundi/icon.svg',
   'https://ucfzem.github.io/al-mudhish/icon.svg',
