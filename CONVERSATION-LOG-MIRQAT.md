@@ -116,3 +116,12 @@ mirqat-tawhid/
 - تحقق فعلي بمتصفح Chromium: 141/141 صورة في الكاش؛ بعد قطع الشبكة وإعادة التحميل: 151/151 صورة ظاهرة، وصورة البطاقة 960×720، ولا أخطاء شبكة.
 - المستودع: 31 blob (إضافة `image-manifest.json` فقط؛ **لا حذف**). build `0ff5276` = built.
 - روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/image-manifest.json · https://ucfzem.github.io/al-a3chab-attebiah/sw.js
+
+## 2026-10-31 — أيقونة جديدة لـ«المعشبة المغربية» مع الحفاظ على العمل دون اتصال
+- استُبدل `icon.svg` بصورة نباتية 512×512 (JPEG مضمّن base64) من ملف Droppy `6e87a88a`.
+- رُفع كاش القشرة إلى `a3chab-v1.4.1` لتظهر الأيقونة الجديدة فوراً؛ كاش الصور `a3chab-images-v1` (141) بقي سليماً.
+- تحقق فعلي: 141/141 صورة + الأيقونة في الكاش؛ بعد قطع الشبكة: 151/151 صورة، الأيقونة 512×512، صورة البطاقة 960×720، ولا أخطاء.
+- اختبار ترقية SW من v1.4.0 إلى v1.4.1: حُذفت قشرة v1.4.0 فقط، وبقيت `a3chab-images-v1` ومدخلها التجريبي.
+- المستودع: 31 blob (استبدال `icon.svg` و`sw.js` فقط؛ **لا حذف**). build `6f8de38` = built.
+- ملاحظة: أيقونتا PNG (192/512) بقيتا على التصميم القديم؛ يمكن تحديثهما عند الطلب.
+- روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/icon.svg
