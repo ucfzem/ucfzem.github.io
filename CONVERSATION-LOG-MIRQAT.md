@@ -134,3 +134,26 @@ mirqat-tawhid/
 - تحقق فعلي بهاتف 360×640 وUA لـSamsung A5: صورة المقدمة 512×512 في الفهرس والقارئ، ثم بعد قطع الشبكة 151/151 صورة، ولا أخطاء. كاش الصور 142 (141 من البيان + صورة احتياطية).
 - المستودع: 32 blob (إضافة `intro.jpg`؛ **لا حذف**). build `fcb36a2` = built.
 - روابط: https://ucfzem.github.io/al-a3chab-attebiah/ · https://ucfzem.github.io/al-a3chab-attebiah/intro.jpg
+
+---
+
+## 2026-10-31 — Basa'ir reader deployment
+
+### Basa'ir reader (new)
+- **Live app:** https://ucfzem.github.io/basair/
+- **Repository path:** `basair/`
+- **Files:** 16 total — `index.html`, `sw.js`, `manifest.json`, `icon.svg`, `icon-192.png`, `icon-512.png`, 8 self-hosted WOFF2 fonts (Amiri + Tajawal), and 2 OFL license files.
+- **Blob audit:** 1,663 → 1,679 (+16). No deletions; existing sites untouched.
+- **Commit:** `7512782` — Add Basa'ir reader app under `/basair/`.
+- **Features:** Arabic RTL reader, dark/light themes, 5 chapters / 14 sections, hierarchical TOC, live search with Arabic normalization (diacritics, ta marbuta, alef variants), result count, highlighted matches, next/previous result, 4 interface languages (Arabic, English, French, Spanish), font-size control (15–28 px), progress bar, back-to-top, scroll resume, and offline PWA support.
+- **Offline/PWA:** service worker cache `basair-v1.0.1`; manifest with 192/512 icons; all fonts bundled locally. Scope: `/basair/`.
+- **Tests:** local and live Playwright checks passed for search/normalization, result navigation, TOC, themes, languages, font persistence, mobile drawer, progress, resume, service-worker activation, and offline reload. No external requests; no console errors.
+- **Quick links:** [app](https://ucfzem.github.io/basair/) · [manifest](https://ucfzem.github.io/basair/manifest.json) · [service worker](https://ucfzem.github.io/basair/sw.js) · [icon](https://ucfzem.github.io/basair/icon.svg)
+
+### Works backup (previous task, still live)
+- **Backup:** https://ucfzem.github.io/works/al-a3chab-attebiah/
+- **Original:** https://ucfzem.github.io/al-a3chab-attebiah/
+- 12 backup files; user-site blobs 1,651 → 1,663; live al-a3chab repository stayed at 32 blobs.
+- `works/sw.js` → `works-v1.0.27` with backup-path skip; root `sw.js` skip added.
+- Live and backup SW → v1.4.3 with scoped `a3chab-images-v1` lookup, fixing the opaque-image CORS failure.
+- Page, service worker, manifest, and icons verified live. Note: the automated 141-image preload test still shows an intermittent works-first SW race; no data was lost.
