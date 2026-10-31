@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#121110">
   <meta name="color-scheme" content="dark light">
   <meta name="description" content="كتاب بصائر — قارئ ويب عربي أنيق، سريع، ويعمل دون اتصال. تجربة قراءة هادئة مع فهرس تفاعلي وبحث فوري.">
   <meta name="author" content="مكتبة بصائر">
@@ -12,6 +12,7 @@
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icon-192.png">
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&display=swap");
     @font-face {
       font-family: "Amiri";
       font-style: normal;
@@ -77,45 +78,70 @@
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
 
+    @font-face {
+      font-family: "Cairo";
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url("./fonts/cairo-arabic.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Cairo";
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url("./fonts/cairo-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
     :root {
       color-scheme: dark;
-      --reading-size: 19px;
-      --bg: #121212;
-      --surface: #1e1e1e;
-      --surface-2: #262626;
-      --surface-3: #333333;
-      --text: #e0e0e0;
-      --muted: #a3a3a3;
-      --border: #333333;
-      --accent: #10b981;
-      --accent-2: #d97706;
-      --accent-soft: rgba(16, 185, 129, .12);
-      --mark-bg: #fbbf24;
+      --reading-size: 1.35rem;
+      --bg: #121110;
+      --surface: #1c1917;
+      --surface-2: #231f1c;
+      --surface-3: #2c2621;
+      --text: #f3e9dc;
+      --muted: #b8a88f;
+      --border: rgba(194, 155, 83, .22);
+      --accent: #c29b53;
+      --accent-2: #d4af37;
+      --accent-soft: rgba(194, 155, 83, .12);
+      --emerald: #2d5d46;
+      --emerald-deep: #1b4332;
+      --header-text: #f5eeda;
+      --header-muted: rgba(245, 238, 218, .72);
+      --mark-bg: #d97706;
       --mark-text: #1a1a1a;
-      --mark-active: #f59e0b;
-      --header-bg: rgba(18, 18, 18, .88);
-      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
-      --font-ui: "Tajawal", "Segoe UI", system-ui, -apple-system, Tahoma, Arial, sans-serif;
+      --mark-active: #fef08a;
+      --header-bg: #2d5d46;
+      --shadow: 0 18px 40px rgba(0, 0, 0, .45);
+      --font-ui: "Cairo", "Segoe UI", system-ui, -apple-system, Tahoma, Arial, sans-serif;
       --font-book: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", "Scheherazade New", "Times New Roman", serif;
     }
 
     html[data-theme="light"] {
       color-scheme: light;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-2: #f1f5f9;
-      --surface-3: #e2e8f0;
-      --text: #1e293b;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --accent: #059669;
-      --accent-2: #b45309;
-      --accent-soft: rgba(5, 150, 105, .1);
-      --mark-bg: #fde68a;
-      --mark-text: #1e293b;
-      --mark-active: #f59e0b;
-      --header-bg: rgba(248, 250, 252, .9);
-      --shadow: 0 10px 30px rgba(15, 23, 42, .12);
+      --bg: #fbf8f2;
+      --surface: #fffdf6;
+      --surface-2: #f5f0eb;
+      --surface-3: #ece4d8;
+      --text: #2c221e;
+      --muted: #7a6a50;
+      --border: #d8c9a8;
+      --accent: #a9792f;
+      --accent-2: #c29b53;
+      --accent-soft: rgba(169, 121, 47, .10);
+      --emerald: #1f5c46;
+      --emerald-deep: #143d2e;
+      --header-text: #f5eeda;
+      --header-muted: rgba(245, 238, 218, .78);
+      --mark-bg: #fef08a;
+      --mark-text: #2c221e;
+      --mark-active: #fbbf24;
+      --header-bg: #1f5c46;
+      --shadow: 0 18px 40px rgba(44, 34, 30, .12);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -650,6 +676,183 @@
       transition: opacity .2s ease;
     }
 
+    /* Nuzhat al-Mushtaq-inspired manuscript theme */
+    body {
+      background:
+        radial-gradient(1200px 620px at 100% -10%, rgba(194, 155, 83, .10), transparent 62%),
+        radial-gradient(900px 520px at 0 18%, rgba(45, 93, 70, .08), transparent 58%),
+        var(--bg);
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, var(--emerald-deep), var(--emerald) 35%, var(--accent) 70%, var(--accent-2));
+      box-shadow: 0 0 14px rgba(194, 155, 83, .40);
+    }
+    .header {
+      background: linear-gradient(135deg, var(--emerald-deep), var(--emerald));
+      border-bottom: 1px solid var(--accent);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+      color: var(--header-text);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .title-wrap h1 { color: var(--header-text); }
+    .title-wrap p { color: var(--header-muted); }
+    .header .icon-btn {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(245, 238, 218, .22);
+      color: var(--header-text);
+    }
+    .header .icon-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent-2);
+      color: #1a1208;
+    }
+    .searchbar {
+      background: rgba(18, 17, 16, .42);
+      border-color: rgba(245, 238, 218, .22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+    }
+    .searchbar:focus-within {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, .18);
+    }
+    .search-icon { color: var(--accent-2); }
+    #searchInput { color: var(--header-text); }
+    #searchInput::placeholder { color: var(--header-muted); }
+    .search-count { color: var(--accent-2); }
+    .result-info { color: var(--header-muted); }
+    .searchbar .icon-btn.small { color: var(--header-muted); }
+    .searchbar .icon-btn.small:hover { color: var(--accent-2); background: rgba(255, 255, 255, .08); }
+    .font-controls, .lang-wrap, .active-label { color: var(--header-muted); }
+    .font-size-label { color: var(--header-text); }
+    .font-btn, .lang-select {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(245, 238, 218, .22);
+      color: var(--header-text);
+    }
+    .font-btn:hover, .lang-select:hover { border-color: var(--accent-2); color: var(--accent-2); }
+    .lang-select option { background: var(--surface); color: var(--text); }
+    html[data-theme="light"] .searchbar {
+      background: rgba(255, 253, 246, .94);
+      border-color: rgba(31, 92, 70, .25);
+    }
+    html[data-theme="light"] #searchInput { color: var(--text); }
+    html[data-theme="light"] #searchInput::placeholder { color: var(--muted); }
+    html[data-theme="light"] .result-info { color: var(--muted); }
+    html[data-theme="light"] .searchbar .icon-btn.small { color: var(--muted); }
+    .sidebar {
+      background:
+        linear-gradient(180deg, rgba(194, 155, 83, .06), transparent 38%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 4px),
+        var(--surface);
+      border-inline-end: 1px solid var(--border);
+    }
+    .brand-mark {
+      background: linear-gradient(145deg, var(--emerald), var(--emerald-deep));
+      border: 1px solid rgba(194, 155, 83, .45);
+      color: var(--accent-2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .25);
+    }
+    .brand-title { color: var(--text); }
+    .brand-sub { color: var(--muted); }
+    .toc-label { color: var(--accent); letter-spacing: .16em; }
+    .toc-chapter { color: var(--text) !important; }
+    .toc a:hover { background: var(--surface-2); color: var(--text); }
+    .toc a.active {
+      color: var(--accent-2) !important;
+      background: rgba(194, 155, 83, .12);
+      border-color: rgba(194, 155, 83, .38);
+    }
+    .toc-section.active { border-inline-start-color: var(--accent-2) !important; }
+    .sidebar-foot { border-top-color: var(--border); color: var(--muted); }
+    .demo-mini { color: var(--accent); }
+    .demo-mini::before { background: var(--accent); box-shadow: 0 0 0 4px rgba(194, 155, 83, .12); }
+    .book-content {
+      line-height: 2.2;
+      text-align: justify;
+      text-align-last: right;
+      text-justify: inter-word;
+      hyphens: none;
+    }
+    .chapter { margin-bottom: 60px; }
+    .chapter + .chapter::before {
+      content: "✦";
+      display: block;
+      margin: 0 0 28px;
+      color: var(--accent);
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      letter-spacing: .55em;
+      opacity: .65;
+    }
+    .chapter-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 13px 18px;
+      background: linear-gradient(135deg, var(--emerald-deep), var(--emerald));
+      border: 1px solid rgba(194, 155, 83, .45);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+    }
+    .chapter-head h2 { color: #f5eeda; text-align: right; flex: 1; min-width: 0; }
+    .chapter-num {
+      border-color: var(--accent-2);
+      background: rgba(18, 17, 16, .28);
+      color: var(--accent-2);
+    }
+    .chapter-intro {
+      margin: 0 0 20px;
+      padding: 14px 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-inline-start: 4px solid var(--accent);
+      border-radius: 8px;
+      color: var(--muted);
+      line-height: 2.1;
+    }
+    .section h3 {
+      color: var(--accent);
+      border-inline-start-color: var(--accent);
+      font-weight: 700;
+    }
+    mark.search-hit {
+      background: #d97706;
+      color: #1a1a1a;
+      box-shadow: 0 0 0 1px rgba(194, 155, 83, .35);
+    }
+    mark.search-hit.active {
+      background: #fef08a;
+      color: #2c221e;
+      box-shadow: 0 0 0 2px rgba(194, 155, 83, .45);
+    }
+    .demo-note {
+      background: var(--surface-2);
+      border-color: rgba(194, 155, 83, .45);
+      color: var(--muted);
+    }
+    .site-footer {
+      border-top-color: var(--border);
+      color: var(--muted);
+    }
+    .site-footer .dot { color: var(--accent); }
+    .top-btn {
+      background: var(--accent);
+      color: #1a1208;
+      box-shadow: 0 10px 24px rgba(194, 155, 83, .30);
+    }
+    .top-btn:hover { background: var(--accent-2); }
+    .toast {
+      background: var(--surface-3);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .overlay { background: rgba(18, 17, 16, .68); }
+    ::selection { background: var(--accent); color: #1a1208; }
+    :focus-visible { outline-color: var(--accent-2); }
+
     @media (max-width: 900px) {
       .app { grid-template-columns: 1fr; }
       .sidebar {
@@ -684,7 +887,7 @@
       .book-wrap { padding-top: 20px; }
       .chapter { margin-bottom: 44px; }
       .chapter, .section { scroll-margin-top: 176px; }
-      .book-content { line-height: 2.02; }
+      .book-content { line-height: 2.2; }
     }
 
     @media (max-width: 390px) {
@@ -795,7 +998,7 @@
           <div class="font-controls" role="group" aria-label="حجم الخط" data-i18n-aria="fontSize">
             <span class="font-label" data-i18n="fontSize">حجم الخط</span>
             <button class="font-btn" id="fontMinus" type="button" aria-label="تصغير الخط" data-i18n-aria="fontSmaller">A−</button>
-            <span class="font-size-label" id="fontSizeLabel">19</span>
+            <span class="font-size-label" id="fontSizeLabel">22</span>
             <button class="font-btn" id="fontPlus" type="button" aria-label="تكبير الخط" data-i18n-aria="fontLarger">A+</button>
           </div>
           <div class="lang-wrap">
@@ -1431,7 +1634,7 @@
       document.documentElement.dataset.theme = state.theme;
       document.documentElement.style.colorScheme = state.theme;
       const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute("content", state.theme === "dark" ? "#121212" : "#f8fafc");
+      if (meta) meta.setAttribute("content", state.theme === "dark" ? "#121110" : "#fbf8f2");
       const sun = $(".icon-sun", themeBtn);
       const moon = $(".icon-moon", themeBtn);
       if (sun) sun.style.display = state.theme === "light" ? "block" : "none";
@@ -1440,7 +1643,7 @@
     }
 
     function applyFontSize(size, persist) {
-      state.fontSize = Math.max(15, Math.min(28, size));
+      state.fontSize = Math.max(15, Math.min(30, size));
       document.documentElement.style.setProperty("--reading-size", state.fontSize + "px");
       fontSizeLabel.textContent = String(state.fontSize);
       if (persist) store.set("basair_font", String(state.fontSize));
@@ -1667,11 +1870,11 @@
     function init() {
       const savedTheme = store.get("basair_theme", "dark");
       const savedLang = store.get("basair_lang", "ar");
-      const savedFont = Number.parseInt(store.get("basair_font", "19"), 10);
+      const savedFont = Number.parseInt(store.get("basair_font", "22"), 10);
 
       state.theme = savedTheme === "light" ? "light" : "dark";
       state.lang = I18N[savedLang] ? savedLang : "ar";
-      state.fontSize = Number.isFinite(savedFont) ? Math.max(15, Math.min(28, savedFont)) : 19;
+      state.fontSize = Number.isFinite(savedFont) ? Math.max(15, Math.min(30, savedFont)) : 22;
 
       renderBook();
       applyTheme(state.theme, false);

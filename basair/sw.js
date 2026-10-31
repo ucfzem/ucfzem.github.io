@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE = "basair-v1.0.1";
+const CACHE = "basair-v1.0.2";
 const CORE = [
   "./",
   "./index.html",
@@ -10,12 +10,8 @@ const CORE = [
   "./icon-512.png",
   "./fonts/amiri-arabic-400.woff2",
   "./fonts/amiri-arabic-700.woff2",
-  "./fonts/tajawal-arabic-400.woff2",
-  "./fonts/tajawal-arabic-700.woff2",
-  "./fonts/tajawal-arabic-800.woff2",
-  "./fonts/tajawal-latin-400.woff2",
-  "./fonts/tajawal-latin-700.woff2",
-  "./fonts/tajawal-latin-800.woff2"
+  "./fonts/cairo-arabic.woff2",
+  "./fonts/cairo-latin.woff2"
 ];
 
 self.addEventListener("install", (event) => {
