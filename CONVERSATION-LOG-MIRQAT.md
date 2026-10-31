@@ -157,3 +157,30 @@ mirqat-tawhid/
 - `works/sw.js` → `works-v1.0.27` with backup-path skip; root `sw.js` skip added.
 - Live and backup SW → v1.4.3 with scoped `a3chab-images-v1` lookup, fixing the opaque-image CORS failure.
 - Page, service worker, manifest, and icons verified live. Note: the automated 141-image preload test still shows an intermittent works-first SW race; no data was lost.
+
+
+---
+
+## 2026-10-31 — Basa'ir: Nuzhat redesign, multilingual flags, Maktaba card
+
+### Basa'ir app — final version
+- **Live app:** https://ucfzem.github.io/basair/
+- **Redesign commits:** `a25a250` (Nuzhat-style theme) → `d1f640d` (language flags + new icon). Final app commit: `d1f640d`.
+- **Files:** 19 total — app shell, manifest, SW, 3 icons, 10 self-hosted WOFF2 fonts (Amiri + Cairo), 3 OFL license files. Blob audit **1,682**; **no deletions**.
+- **Theme:** warm manuscript palette — dark `#121110` / `#1c1917` / `#231f1c`, gold `#c29b53` / `#d4af37`, emerald `#2d5d46` / `#1b4332`; light `#fbf8f2` / `#fffdf6` / `#f5f0eb`.
+- **Typography:** Cairo for UI, Amiri for the book; default reading size **1.35rem (22px)**, line-height **2.2**, justified Arabic; emerald chapter banners with gold borders; gold section rules; gold drawer border; amber search highlights; gold/emerald progress bar; discreet footer dots.
+- **Languages:** custom menu with **AR 🇲🇦 (Morocco)**, **EN 🇬🇧**, **FR 🇫🇷**, **ES 🇪🇸**; SVG flags + initials, endonyms, keyboard navigation, selected state, persistence. All four UI languages remain complete.
+- **Icon:** new emerald/gold open-book icon with Moroccan eight-point star; `icon.svg`, `icon-192.png`, `icon-512.png`.
+- **PWA/offline:** SW cache `basair-v1.0.3`; local Cairo + Amiri fonts; manifest and icons cached; offline reload verified.
+- **Tests:** local + live Playwright passed — 5 chapters, 14 sections, 19 TOC links, 9 search results, language switching/persistence, font controls, themes, mobile drawer, progress, resume, SW activation, offline reload; 0 console/page errors.
+
+### Works link tree
+- **Works page:** https://ucfzem.github.io/works/
+- **Placement:** Basa'ir is the **first card in the Maktaba folder**, inside the public/unlocked section; name «كتاب بصائر», tag `Basa'ir`, link to the live app, opens in a new tab. No duplicate card.
+- **Works commit:** `7a0fd96`; `works/sw.js` → `works-v1.0.29`; Basa'ir icon cache-busted with `?v=2026-10-31-3`.
+- **Works test:** 29 Maktaba cards; first card correct; new icon loaded; offline reload shows 29 cards; 0 page errors.
+- **Blob audit:** **1,682**; **no deletions**; existing cards, routes and sites untouched.
+
+### Note
+- The full text of the copyrighted book was **not** injected. The app retains its current demo/sample content; integrating the complete book requires user-provided or licensed text/permission.
+- **Links:** [app](https://ucfzem.github.io/basair/) · [works](https://ucfzem.github.io/works/) · [log](https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-LOG-MIRQAT.md)
