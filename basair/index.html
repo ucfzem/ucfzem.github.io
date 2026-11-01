@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#121110">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="كتاب بصائر — قارئ ويب عربي أنيق، سريع، ويعمل دون اتصال. تجربة قراءة هادئة مع فهرس تفاعلي وبحث فوري.">
+  <meta name="author" content="مكتبة بصائر">
+  <title>كتاب بصائر — قارئ ويب</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&display=swap");
+    @font-face {
+      font-family: "Amiri";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/amiri-arabic-400.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Amiri";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("./fonts/amiri-arabic-700.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/tajawal-arabic-400.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("./fonts/tajawal-arabic-700.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url("./fonts/tajawal-arabic-800.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("./fonts/tajawal-latin-400.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("./fonts/tajawal-latin-700.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: "Tajawal";
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url("./fonts/tajawal-latin-800.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    @font-face {
+      font-family: "Cairo";
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url("./fonts/cairo-arabic.woff2") format("woff2");
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: "Cairo";
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url("./fonts/cairo-latin.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    :root {
+      color-scheme: dark;
+      --reading-size: 1.35rem;
+      --bg: #121110;
+      --surface: #1c1917;
+      --surface-2: #231f1c;
+      --surface-3: #2c2621;
+      --text: #f3e9dc;
+      --muted: #b8a88f;
+      --border: rgba(194, 155, 83, .22);
+      --accent: #c29b53;
+      --accent-2: #d4af37;
+      --accent-soft: rgba(194, 155, 83, .12);
+      --emerald: #2d5d46;
+      --emerald-deep: #1b4332;
+      --header-text: #f5eeda;
+      --header-muted: rgba(245, 238, 218, .72);
+      --mark-bg: #d97706;
+      --mark-text: #1a1a1a;
+      --mark-active: #fef08a;
+      --header-bg: #2d5d46;
+      --shadow: 0 18px 40px rgba(0, 0, 0, .45);
+      --font-ui: "Cairo", "Segoe UI", system-ui, -apple-system, Tahoma, Arial, sans-serif;
+      --font-book: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", "Scheherazade New", "Times New Roman", serif;
+    }
+
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #fbf8f2;
+      --surface: #fffdf6;
+      --surface-2: #f5f0eb;
+      --surface-3: #ece4d8;
+      --text: #2c221e;
+      --muted: #7a6a50;
+      --border: #d8c9a8;
+      --accent: #a9792f;
+      --accent-2: #c29b53;
+      --accent-soft: rgba(169, 121, 47, .10);
+      --emerald: #1f5c46;
+      --emerald-deep: #143d2e;
+      --header-text: #f5eeda;
+      --header-muted: rgba(245, 238, 218, .78);
+      --mark-bg: #fef08a;
+      --mark-text: #2c221e;
+      --mark-active: #fbbf24;
+      --header-bg: #1f5c46;
+      --shadow: 0 18px 40px rgba(44, 34, 30, .12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1100px 560px at 100% -10%, var(--accent-soft), transparent 62%),
+        var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    ::selection { background: var(--accent); color: #04110c; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .sr-only {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0);
+      white-space: nowrap; border: 0;
+    }
+    .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-sm { width: 17px; height: 17px; }
+    .icon-lg { width: 25px; height: 25px; }
+
+    .progress-track {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: transparent;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 12px rgba(16, 185, 129, .45);
+      transition: width .15s linear;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100dvh;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 22px 18px 18px;
+      background: var(--surface);
+      border-inline-end: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      z-index: 80;
+      scrollbar-width: thin;
+      scrollbar-color: var(--surface-3) transparent;
+    }
+
+    .sidebar-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-mark {
+      flex: none;
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: #04110c;
+      background: linear-gradient(145deg, #34d399, #059669 62%, #b45309);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, .22);
+    }
+    .brand-text { min-width: 0; }
+    .brand-title {
+      margin: 0;
+      font-size: 1.14rem;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand-sub {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: .72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .drawer-close { display: none; margin-inline-start: auto; }
+
+    .toc-label {
+      margin: 4px 2px -8px;
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .toc {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      direction: rtl;
+      text-align: right;
+      padding-bottom: 8px;
+    }
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 9px;
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.55;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    .toc a:hover { background: var(--surface-2); color: var(--text); }
+    .toc-chapter {
+      margin-top: 6px;
+      color: var(--text) !important;
+      font-weight: 700;
+      font-size: .9rem !important;
+    }
+    .toc-section {
+      padding-inline-start: 20px !important;
+      font-size: .8rem !important;
+      border-inline-start: 2px solid var(--border) !important;
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+      margin-inline-start: 10px;
+    }
+    .toc a.active {
+      color: var(--accent) !important;
+      background: var(--accent-soft);
+      border-color: rgba(16, 185, 129, .28);
+    }
+    .toc-section.active { border-inline-start-color: var(--accent) !important; }
+
+    .sidebar-foot {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .7rem;
+      line-height: 1.7;
+    }
+    .demo-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+    .demo-mini::before {
+      content: "";
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(217, 119, 6, .12);
+    }
+
+    .main { min-width: 0; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      padding: 13px clamp(14px, 3.4vw, 34px) 12px;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .title-wrap { flex: 1; min-width: 0; }
+    .title-wrap h1 {
+      margin: 0;
+      font-size: clamp(1.02rem, 2.2vw, 1.3rem);
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: rtl;
+      text-align: right;
+    }
+    html[dir="ltr"] .title-wrap h1,
+    html[dir="ltr"] .title-wrap p { direction: ltr; text-align: left; }
+    .title-wrap p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: .72rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: rtl;
+      text-align: right;
+    }
+    .header-actions { display: flex; align-items: center; gap: 7px; flex: none; }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+    }
+    .icon-btn:hover { background: var(--surface-2); border-color: var(--accent); color: var(--accent); }
+    .icon-btn:active { transform: scale(.96); }
+    .icon-btn.small {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: transparent;
+      border-color: transparent;
+      color: var(--muted);
+    }
+    .icon-btn.small:hover { background: var(--surface-2); color: var(--accent); }
+    #searchInput::-webkit-search-cancel-button { display: none; }
+    .icon-btn:disabled { opacity: .35; cursor: default; }
+    .icon-btn:disabled:hover { background: transparent; color: var(--muted); border-color: transparent; }
+
+    .searchbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 980px;
+      margin: 11px auto 0;
+      padding: 5px 8px 5px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .02) inset;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .searchbar:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .search-icon { flex: none; color: var(--muted); }
+    #searchInput {
+      flex: 1 1 150px;
+      min-width: 0;
+      padding: 7px 2px;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: .92rem;
+    }
+    #searchInput::placeholder { color: var(--muted); opacity: .8; }
+    .search-count {
+      flex: none;
+      color: var(--accent);
+      font-size: .72rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .result-info {
+      flex: none;
+      color: var(--muted);
+      font-size: .69rem;
+      white-space: nowrap;
+    }
+    .result-nav { display: flex; align-items: center; gap: 0; flex: none; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      max-width: 980px;
+      margin: 8px auto 0;
+    }
+    .font-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .font-btn {
+      min-width: 28px;
+      height: 26px;
+      padding: 0 7px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: .74rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color .18s ease, color .18s ease, background .18s ease;
+    }
+    .font-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .font-size-label {
+      min-width: 22px;
+      text-align: center;
+      color: var(--text);
+      font-size: .72rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .lang-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .lang-select {
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+      direction: ltr;
+      text-align: left;
+    }
+    .lang-select option {
+      font-family: "Cairo", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+      font-weight: 700;
+    }
+    .lang-menu { position: relative; }
+    .lang-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: .74rem;
+      font-weight: 700;
+      cursor: pointer;
+      direction: ltr;
+    }
+    .lang-trigger:hover,
+    .lang-trigger[aria-expanded="true"] {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .flag {
+      display: block;
+      width: 22px;
+      height: 15px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .22);
+      flex: none;
+    }
+    .lang-code {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .04em;
+    }
+    .lang-chevron {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .7;
+    }
+    .lang-options {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: auto;
+      z-index: 90;
+      min-width: 180px;
+      padding: 5px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    html[dir="ltr"] .lang-options { left: auto; right: 0; }
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 7px 8px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: .76rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      direction: ltr;
+    }
+    .lang-option:hover,
+    .lang-option:focus-visible,
+    .lang-option[aria-selected="true"] {
+      background: var(--accent-soft);
+      color: var(--accent-2);
+    }
+    .lang-option .lang-name {
+      margin-inline-start: auto;
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 600;
+    }
+    .lang-option[aria-selected="true"] .lang-name { color: var(--accent); }
+    .active-label {
+      max-width: 46%;
+      margin-inline-start: auto;
+      color: var(--muted);
+      font-size: .7rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .book-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(20px, 4vw, 44px) clamp(16px, 4vw, 40px) 40px;
+    }
+    .book-content {
+      direction: rtl;
+      text-align: right;
+      font-family: var(--font-book);
+      font-size: var(--reading-size);
+      line-height: 2.1;
+      color: var(--text);
+      overflow-wrap: break-word;
+    }
+    .chapter {
+      margin: 0 0 56px;
+      scroll-margin-top: 178px;
+    }
+    .chapter-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .chapter-num {
+      flex: none;
+      padding: 4px 9px;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      font-variant-numeric: tabular-nums;
+    }
+    .chapter h2 {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: clamp(1.3rem, 2.7vw, 1.72rem);
+      line-height: 1.45;
+      font-weight: 800;
+      letter-spacing: -.01em;
+    }
+    .chapter-intro {
+      margin: 0 0 18px;
+      padding-inline-start: 14px;
+      border-inline-start: 3px solid var(--accent);
+      color: var(--muted);
+      font-size: 1.02em;
+      line-height: 2;
+    }
+    .section { margin-top: 30px; scroll-margin-top: 178px; }
+    .section h3 {
+      margin: 0 0 9px;
+      padding-inline-start: 11px;
+      border-inline-start: 3px solid var(--accent-2);
+      color: var(--accent);
+      font-family: var(--font-ui);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+      line-height: 1.5;
+      font-weight: 800;
+    }
+    .book-content p { margin: 0 0 1.08em; }
+    .book-content p:last-child { margin-bottom: 0; }
+
+    mark.search-hit {
+      padding: 0 .06em;
+      border-radius: 3px;
+      background: var(--mark-bg);
+      color: var(--mark-text);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .05);
+    }
+    mark.search-hit.active {
+      background: var(--mark-active);
+      color: #1a1a1a;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, .35);
+    }
+
+    .demo-note {
+      margin: 34px 0 0;
+      padding: 14px 16px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--muted);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      line-height: 1.8;
+      text-align: center;
+    }
+    .site-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--font-ui);
+      font-size: .73rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+    .site-footer .dot { color: var(--accent-2); }
+    .net-status { color: var(--accent-2); font-weight: 700; }
+
+    .top-btn {
+      position: fixed;
+      inset-inline-end: 18px;
+      bottom: 20px;
+      z-index: 65;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #04110c;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(16, 185, 129, .28);
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease, background .2s ease;
+    }
+    .top-btn:hover { background: #34d399; }
+    .top-btn.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+    .toast {
+      position: fixed;
+      inset-inline-start: 50%;
+      bottom: 22px;
+      z-index: 130;
+      max-width: min(92vw, 420px);
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-3);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      font-family: var(--font-ui);
+      font-size: .82rem;
+      line-height: 1.6;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(-50%) translateY(18px);
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
+
+    /* Nuzhat al-Mushtaq-inspired manuscript theme */
+    body {
+      background:
+        radial-gradient(1200px 620px at 100% -10%, rgba(194, 155, 83, .10), transparent 62%),
+        radial-gradient(900px 520px at 0 18%, rgba(45, 93, 70, .08), transparent 58%),
+        var(--bg);
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, var(--emerald-deep), var(--emerald) 35%, var(--accent) 70%, var(--accent-2));
+      box-shadow: 0 0 14px rgba(194, 155, 83, .40);
+    }
+    .header {
+      background: linear-gradient(135deg, var(--emerald-deep), var(--emerald));
+      border-bottom: 1px solid var(--accent);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+      color: var(--header-text);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .title-wrap h1 { color: var(--header-text); }
+    .title-wrap p { color: var(--header-muted); }
+    .header .icon-btn {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(245, 238, 218, .22);
+      color: var(--header-text);
+    }
+    .header .icon-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent-2);
+      color: #1a1208;
+    }
+    .searchbar {
+      background: rgba(18, 17, 16, .42);
+      border-color: rgba(245, 238, 218, .22);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+    }
+    .searchbar:focus-within {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, .18);
+    }
+    .search-icon { color: var(--accent-2); }
+    #searchInput { color: var(--header-text); }
+    #searchInput::placeholder { color: var(--header-muted); }
+    .search-count { color: var(--accent-2); }
+    .result-info { color: var(--header-muted); }
+    .searchbar .icon-btn.small { color: var(--header-muted); }
+    .searchbar .icon-btn.small:hover { color: var(--accent-2); background: rgba(255, 255, 255, .08); }
+    .font-controls, .lang-wrap, .active-label { color: var(--header-muted); }
+    .font-size-label { color: var(--header-text); }
+    .font-btn, .lang-select, .lang-trigger {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(245, 238, 218, .22);
+      color: var(--header-text);
+    }
+    .font-btn:hover, .lang-select:hover, .lang-trigger:hover, .lang-trigger[aria-expanded="true"] { border-color: var(--accent-2); color: var(--accent-2); }
+    .lang-select option { background: var(--surface); color: var(--text); }
+    html[data-theme="light"] .searchbar {
+      background: rgba(255, 253, 246, .94);
+      border-color: rgba(31, 92, 70, .25);
+    }
+    html[data-theme="light"] #searchInput { color: var(--text); }
+    html[data-theme="light"] #searchInput::placeholder { color: var(--muted); }
+    html[data-theme="light"] .result-info { color: var(--muted); }
+    html[data-theme="light"] .searchbar .icon-btn.small { color: var(--muted); }
+    .sidebar {
+      background:
+        linear-gradient(180deg, rgba(194, 155, 83, .06), transparent 38%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .012) 0 1px, transparent 1px 4px),
+        var(--surface);
+      border-inline-end: 1px solid var(--border);
+    }
+    .brand-mark {
+      background: linear-gradient(145deg, var(--emerald), var(--emerald-deep));
+      border: 1px solid rgba(194, 155, 83, .45);
+      color: var(--accent-2);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .25);
+    }
+    .brand-title { color: var(--text); }
+    .brand-sub { color: var(--muted); }
+    .toc-label { color: var(--accent); letter-spacing: .16em; }
+    .toc-chapter { color: var(--text) !important; }
+    .toc a:hover { background: var(--surface-2); color: var(--text); }
+    .toc a.active {
+      color: var(--accent-2) !important;
+      background: rgba(194, 155, 83, .12);
+      border-color: rgba(194, 155, 83, .38);
+    }
+    .toc-section.active { border-inline-start-color: var(--accent-2) !important; }
+    .sidebar-foot { border-top-color: var(--border); color: var(--muted); }
+    .demo-mini { color: var(--accent); }
+    .demo-mini::before { background: var(--accent); box-shadow: 0 0 0 4px rgba(194, 155, 83, .12); }
+    .book-content {
+      line-height: 2.2;
+      text-align: justify;
+      text-align-last: right;
+      text-justify: inter-word;
+      hyphens: none;
+    }
+    .book-content[dir="ltr"] {
+      text-align: left;
+      text-align-last: auto;
+    }
+    .chapter { margin-bottom: 60px; }
+    .chapter + .chapter::before {
+      content: "✦";
+      display: block;
+      margin: 0 0 28px;
+      color: var(--accent);
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      letter-spacing: .55em;
+      opacity: .65;
+    }
+    .chapter-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 13px 18px;
+      background: linear-gradient(135deg, var(--emerald-deep), var(--emerald));
+      border: 1px solid rgba(194, 155, 83, .45);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+    }
+    .chapter-head h2 { color: #f5eeda; text-align: right; flex: 1; min-width: 0; }
+    .chapter-num {
+      border-color: var(--accent-2);
+      background: rgba(18, 17, 16, .28);
+      color: var(--accent-2);
+    }
+    .chapter-intro {
+      margin: 0 0 20px;
+      padding: 14px 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-inline-start: 4px solid var(--accent);
+      border-radius: 8px;
+      color: var(--muted);
+      line-height: 2.1;
+    }
+    .section h3 {
+      color: var(--accent);
+      border-inline-start-color: var(--accent);
+      font-weight: 700;
+    }
+    mark.search-hit {
+      background: #d97706;
+      color: #1a1a1a;
+      box-shadow: 0 0 0 1px rgba(194, 155, 83, .35);
+    }
+    mark.search-hit.active {
+      background: #fef08a;
+      color: #2c221e;
+      box-shadow: 0 0 0 2px rgba(194, 155, 83, .45);
+    }
+    .demo-note {
+      background: var(--surface-2);
+      border-color: rgba(194, 155, 83, .45);
+      color: var(--muted);
+    }
+    .site-footer {
+      border-top-color: var(--border);
+      color: var(--muted);
+    }
+    .site-footer .dot { color: var(--accent); }
+    .top-btn {
+      background: var(--accent);
+      color: #1a1208;
+      box-shadow: 0 10px 24px rgba(194, 155, 83, .30);
+    }
+    .top-btn:hover { background: var(--accent-2); }
+    .toast {
+      background: var(--surface-3);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .overlay { background: rgba(18, 17, 16, .68); }
+    ::selection { background: var(--accent); color: #1a1208; }
+    :focus-visible { outline-color: var(--accent-2); }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        inset-block: 0;
+        inset-inline-start: 0;
+        width: min(86vw, 330px);
+        height: 100dvh;
+        transform: translateX(105%);
+        transition: transform .24s ease;
+        box-shadow: var(--shadow);
+      }
+      html[dir="ltr"] .sidebar { transform: translateX(-105%); }
+      body.drawer-open .sidebar { transform: translateX(0); }
+      body.drawer-open .overlay { opacity: 1; pointer-events: auto; }
+      body.drawer-open { overflow: hidden; }
+      .drawer-close { display: inline-grid; }
+      .chapter, .section { scroll-margin-top: 192px; }
+    }
+
+    @media (max-width: 620px) {
+      .header { padding: 10px 12px 9px; }
+      .header-top { gap: 8px; }
+      .title-wrap p { display: none; }
+      .searchbar { flex-wrap: wrap; border-radius: 15px; padding: 7px 8px; }
+      #searchInput { flex-basis: 120px; }
+      .search-count { order: 5; margin-inline-start: 26px; }
+      .result-info { order: 6; }
+      .result-nav { margin-inline-start: auto; }
+      .toolbar { gap: 6px; }
+      .active-label { display: none; }
+      .book-wrap { padding-top: 20px; }
+      .chapter { margin-bottom: 44px; }
+      .chapter, .section { scroll-margin-top: 176px; }
+      .book-content { line-height: 2.2; }
+    }
+
+    @media (max-width: 390px) {
+      .font-controls .font-label { display: none; }
+      .lang-wrap .lang-label { display: none; }
+      .search-count { margin-inline-start: 0; }
+      .result-info { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      .progress-track, .sidebar, .header, .top-btn, .toast, .overlay, .demo-note, .site-footer { display: none !important; }
+      .app { display: block; }
+      .book-wrap { max-width: none; padding: 0; }
+      .book-content { color: #000; font-size: 12pt; line-height: 1.8; }
+      .chapter { break-inside: avoid; margin-bottom: 28px; }
+      .chapter h2, .section h3 { color: #000; }
+      .chapter-intro { color: #333; border-color: #000; }
+      mark.search-hit { background: transparent; color: #000; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5z"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16"/><path d="M8 7h8M8 11h8"/></symbol>
+    <symbol id="flag-ma" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#c1272d"/>
+      <path d="M12 4.2l1.1 3.4h3.6l-2.9 2.1 1.1 3.4L12 11.1l-2.9 2.1 1.1-3.4-2.9-2.1h3.6z" fill="none" stroke="#006233" stroke-width="1.2" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="flag-gb" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#012169"/>
+      <path d="M0 0l24 16M24 0L0 16" stroke="#fff" stroke-width="3.2"/>
+      <path d="M0 0l24 16M24 0L0 16" stroke="#c8102e" stroke-width="1.6"/>
+      <path d="M12 0v16M0 8h24" stroke="#fff" stroke-width="5"/>
+      <path d="M12 0v16M0 8h24" stroke="#c8102e" stroke-width="2.6"/>
+    </symbol>
+    <symbol id="flag-fr" viewBox="0 0 24 16">
+      <rect width="8" height="16" fill="#0055a4"/>
+      <rect x="8" width="8" height="16" fill="#fff"/>
+      <rect x="16" width="8" height="16" fill="#ef4135"/>
+    </symbol>
+    <symbol id="flag-es" viewBox="0 0 24 16">
+      <rect width="24" height="16" fill="#aa151b"/>
+      <rect y="4" width="24" height="8" fill="#f1bf00"/>
+    </symbol>
+  </svg>
+
+  <div class="progress-track" id="progressTrack" role="progressbar" aria-label="تقدم القراءة" data-i18n-aria="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="فهرس الكتاب" data-i18n-aria="toc">
+      <div class="sidebar-head">
+        <div class="brand-mark" aria-hidden="true"><svg class="icon icon-lg"><use href="#i-book"/></svg></div>
+        <div class="brand-text">
+          <p class="brand-title">كتاب بصائر</p>
+          <p class="brand-sub" data-i18n="author">مكتبة بصائر</p>
+        </div>
+        <button class="icon-btn drawer-close" id="closeDrawer" type="button" aria-label="إغلاق الفهرس" data-i18n-aria="closeToc">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
+      <p class="toc-label" data-i18n="toc">الفهرس</p>
+      <nav class="toc" id="toc" aria-label="فهرس الكتاب" data-i18n-aria="toc"></nav>
+
+      <div class="sidebar-foot">
+        <div data-i18n="offlineNote">يعمل دون اتصال بعد الزيارة الأولى.</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="header" id="header">
+        <div class="header-top">
+          <button class="icon-btn" id="menuBtn" type="button" aria-label="فتح الفهرس" data-i18n-aria="openToc" aria-controls="sidebar" aria-expanded="false">
+            <svg class="icon"><use href="#i-menu"/></svg>
+          </button>
+          <div class="title-wrap">
+            <h1 data-i18n="appTitle">كتاب بصائر</h1>
+            <p id="appSubtitle" data-i18n="appSubtitle">مختارات في المعرفة والبصيرة</p>
+          </div>
+          <div class="header-actions">
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="تبديل المظهر" data-i18n-aria="toggleTheme">
+              <svg class="icon icon-sun"><use href="#i-sun"/></svg>
+              <svg class="icon icon-moon"><use href="#i-moon"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="searchbar" role="search">
+          <svg class="icon icon-sm search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="searchInput" type="search" dir="auto" autocomplete="off" spellcheck="false" placeholder="ابحث في الكتاب…" aria-label="بحث في الكتاب" data-i18n-placeholder="searchPlaceholder" data-i18n-aria="search">
+          <button class="icon-btn small" id="clearSearch" type="button" aria-label="مسح البحث" data-i18n-aria="clearSearch" hidden>
+            <svg class="icon icon-sm"><use href="#i-close"/></svg>
+          </button>
+          <span class="search-count" id="searchCount" aria-live="polite"></span>
+          <span class="result-info" id="resultInfo"></span>
+          <div class="result-nav">
+            <button class="icon-btn small" id="prevResult" type="button" aria-label="النتيجة السابقة" data-i18n-aria="previousResult" disabled>
+              <svg class="icon icon-sm"><use href="#i-right"/></svg>
+            </button>
+            <button class="icon-btn small" id="nextResult" type="button" aria-label="النتيجة التالية" data-i18n-aria="nextResult" disabled>
+              <svg class="icon icon-sm"><use href="#i-left"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="font-controls" role="group" aria-label="حجم الخط" data-i18n-aria="fontSize">
+            <span class="font-label" data-i18n="fontSize">حجم الخط</span>
+            <button class="font-btn" id="fontMinus" type="button" aria-label="تصغير الخط" data-i18n-aria="fontSmaller">A−</button>
+            <span class="font-size-label" id="fontSizeLabel">22</span>
+            <button class="font-btn" id="fontPlus" type="button" aria-label="تكبير الخط" data-i18n-aria="fontLarger">A+</button>
+          </div>
+          <div class="lang-wrap">
+            <span class="lang-label" data-i18n="language">اللغة</span>
+            <div class="lang-menu">
+              <button class="lang-trigger" id="langTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="لغة الواجهة" data-i18n-aria="language">
+                <svg class="flag" id="langFlag" aria-hidden="true"><use href="#flag-ma"/></svg>
+                <span class="lang-code" id="langCode">AR</span>
+                <svg class="lang-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="lang-options" id="langOptions" role="listbox" aria-label="لغة الواجهة" data-i18n-aria="language" hidden>
+                <button type="button" class="lang-option" role="option" data-lang="ar" aria-selected="true">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-ma"/></svg>
+                  <span class="lang-code">AR</span>
+                  <span class="lang-name">العربية</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="en" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-gb"/></svg>
+                  <span class="lang-code">EN</span>
+                  <span class="lang-name">English</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="fr" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-fr"/></svg>
+                  <span class="lang-code">FR</span>
+                  <span class="lang-name">Français</span>
+                </button>
+                <button type="button" class="lang-option" role="option" data-lang="es" aria-selected="false">
+                  <svg class="flag" aria-hidden="true"><use href="#flag-es"/></svg>
+                  <span class="lang-code">ES</span>
+                  <span class="lang-name">Español</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <span class="active-label" id="activeChapterLabel"></span>
+        </div>
+      </header>
+
+      <div class="book-wrap">
+        <article class="book-content" id="bookContent" dir="rtl" aria-label="نص كتاب بصائر"></article>
+        <footer class="site-footer">
+          <span data-i18n="author">مكتبة بصائر</span>
+          <span class="dot">•</span>
+          <span data-i18n="footer">قارئ ويب هادئ، سريع، ويعمل دون اتصال.</span>
+          <span class="dot">•</span>
+          <span class="net-status" id="netStatus" hidden data-i18n="offline">أنت غير متصل — النسخة المحلية جاهزة.</span>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <button class="top-btn" id="topBtn" type="button" aria-label="العودة إلى الأعلى" data-i18n-aria="backToTop">
+    <svg class="icon"><use href="#i-up"/></svg>
+  </button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="overlay" id="overlay"></div>
+
+  <script>
+    "use strict";
+
+    const I18N = {
+      ar: {
+        appTitle: "كتاب بصائر",
+        appSubtitle: "مختارات في المعرفة والبصيرة",
+        readerLabel: "قارئ ويب",
+        author: "مكتبة بصائر",
+        toc: "الفهرس",
+        searchPlaceholder: "ابحث في الكتاب…",
+        search: "بحث في الكتاب",
+        clearSearch: "مسح البحث",
+        previousResult: "النتيجة السابقة",
+        nextResult: "النتيجة التالية",
+        results: "تم العثور على {n} نتيجة",
+        noResults: "لا توجد نتائج",
+        resultOf: "النتيجة {i} من {n}",
+        toggleTheme: "تبديل المظهر",
+        openToc: "فتح الفهرس",
+        closeToc: "إغلاق الفهرس",
+        fontSize: "حجم الخط",
+        fontSmaller: "تصغير الخط",
+        fontLarger: "تكبير الخط",
+        language: "اللغة",
+        active: "الفصل الحالي",
+        backToTop: "العودة إلى الأعلى",
+        progress: "تقدم القراءة",
+        demo: "محتوى تجريبي",
+        demoNote: "هذا نموذج تجريبي مستقل؛ النصوص أصلية للعرض ولا تمثل كتابًا منشورًا.",
+        offlineNote: "يعمل دون اتصال بعد الزيارة الأولى.",
+        offline: "أنت غير متصل — النسخة المحلية جاهزة.",
+        online: "عاد الاتصال — يمكنك متابعة القراءة.",
+        footer: "قارئ ويب هادئ، سريع، ويعمل دون اتصال."
+      },
+      en: {
+        appTitle: "Kitab Basa'ir",
+        appSubtitle: "Selections on knowledge and insight",
+        readerLabel: "Web Reader",
+        author: "Basa'ir Library",
+        toc: "Contents",
+        searchPlaceholder: "Search the book…",
+        search: "Search the book",
+        clearSearch: "Clear search",
+        previousResult: "Previous result",
+        nextResult: "Next result",
+        results: "{n} results found",
+        noResults: "No results",
+        resultOf: "Result {i} of {n}",
+        toggleTheme: "Toggle theme",
+        openToc: "Open contents",
+        closeToc: "Close contents",
+        fontSize: "Font size",
+        fontSmaller: "Decrease font size",
+        fontLarger: "Increase font size",
+        language: "Language",
+        active: "Current chapter",
+        backToTop: "Back to top",
+        progress: "Reading progress",
+        demo: "Demo content",
+        demoNote: "This is an independent demo; the texts are original samples, not a published book.",
+        offlineNote: "Works offline after your first visit.",
+        offline: "You are offline — the local copy is ready.",
+        online: "Back online — you can continue reading.",
+        footer: "A calm, fast web reader that works offline."
+      },
+      fr: {
+        appTitle: "Kitab Basa'ir",
+        appSubtitle: "Choix sur la connaissance et la clairvoyance",
+        readerLabel: "Lecteur web",
+        author: "Bibliothèque Basa'ir",
+        toc: "Sommaire",
+        searchPlaceholder: "Rechercher dans le livre…",
+        search: "Rechercher dans le livre",
+        clearSearch: "Effacer la recherche",
+        previousResult: "Résultat précédent",
+        nextResult: "Résultat suivant",
+        results: "{n} résultats trouvés",
+        noResults: "Aucun résultat",
+        resultOf: "Résultat {i} sur {n}",
+        toggleTheme: "Changer de thème",
+        openToc: "Ouvrir le sommaire",
+        closeToc: "Fermer le sommaire",
+        fontSize: "Taille du texte",
+        fontSmaller: "Réduire la taille du texte",
+        fontLarger: "Augmenter la taille du texte",
+        language: "Langue",
+        active: "Chapitre actuel",
+        backToTop: "Retour en haut",
+        progress: "Progression de lecture",
+        demo: "Contenu de démonstration",
+        demoNote: "Ceci est une démonstration indépendante ; les textes sont des exemples originaux, pas un livre publié.",
+        offlineNote: "Fonctionne hors ligne après la première visite.",
+        offline: "Vous êtes hors ligne — la copie locale est prête.",
+        online: "Connexion rétablie — vous pouvez continuer.",
+        footer: "Un lecteur web calme et rapide, disponible hors ligne."
+      },
+      es: {
+        appTitle: "Kitab Basa'ir",
+        appSubtitle: "Selecciones sobre conocimiento y clarividencia",
+        readerLabel: "Lector web",
+        author: "Biblioteca Basa'ir",
+        toc: "Índice",
+        searchPlaceholder: "Buscar en el libro…",
+        search: "Buscar en el libro",
+        clearSearch: "Borrar búsqueda",
+        previousResult: "Resultado anterior",
+        nextResult: "Resultado siguiente",
+        results: "{n} resultados encontrados",
+        noResults: "Sin resultados",
+        resultOf: "Resultado {i} de {n}",
+        toggleTheme: "Cambiar tema",
+        openToc: "Abrir índice",
+        closeToc: "Cerrar índice",
+        fontSize: "Tamaño del texto",
+        fontSmaller: "Reducir el tamaño del texto",
+        fontLarger: "Aumentar el tamaño del texto",
+        language: "Idioma",
+        active: "Capítulo actual",
+        backToTop: "Volver arriba",
+        progress: "Progreso de lectura",
+        demo: "Contenido de demostración",
+        demoNote: "Esta es una demostración independiente; los textos son muestras originales, no un libro publicado.",
+        offlineNote: "Funciona sin conexión después de la primera visita.",
+        offline: "Estás sin conexión — la copia local está lista.",
+        online: "Conexión restablecida — puedes continuar.",
+        footer: "Un lector web tranquilo y rápido que funciona sin conexión."
+      }
+    };
+
+    const bookData = [
+      {
+        id: "sec-1",
+        title: {
+          ar: "المقدمة",
+          en: "Introduction",
+          fr: "Introduction",
+          es: "Introducción"
+        },
+        content: {
+          ar: `<p>بسم الله الرحمن الرحيم. الحمد لله رب العالمين، والصلاة والسلام على أشرف الأنبياء والمرسلين. أما بعد، فهذه بصائر ومعالم في طريق المعرفة، أضعها بين يدي القارئ الكريم لتكون دليلًا ومرشدًا في زمن الشبهات والفتن.</p>`,
+          en: `<p>In the name of Allah, the Most Gracious, the Most Merciful. All praise is due to Allah, Lord of the worlds, and peace and blessings be upon the noblest of prophets and messengers. To proceed: these are insights and landmarks on the path of knowledge, which I place before the honorable reader to serve as a guide and a light in a time of doubts and trials.</p>`,
+          fr: `<p>Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux. Louange à Allah, Seigneur des mondes, et paix et bénédictions sur le plus noble des prophètes et des messagers. Cela dit, voici des lumières et des repères sur le chemin de la connaissance, que je place entre les mains du lecteur honorable afin qu’ils soient un guide et une orientation à une époque de doutes et de troubles.</p>`,
+          es: `<p>En el nombre de Allah, el Más Misericordioso, el Compasivo. Alabado sea Allah, Señor de los mundos, y que la paz y las bendiciones sean con el más noble de los profetas y mensajeros. A continuación, estas son luces y hitos en el camino del conocimiento, que pongo ante el honorable lector para que sean una guía y una orientación en una época de dudas y tribulaciones.</p>`
+        }
+      }
+    ];
+
+    function localized(value) {
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        return value[state.lang] || value.ar || "";
+      }
+      return value == null ? "" : String(value);
+    }
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+    const store = {
+      get(key, fallback = null) {
+        try {
+          const value = localStorage.getItem(key);
+          return value === null ? fallback : value;
+        } catch (error) {
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try { localStorage.setItem(key, String(value)); } catch (error) {}
+      }
+    };
+
+    const state = {
+      lang: "ar",
+      theme: "dark",
+      fontSize: 19,
+      query: "",
+      currentMatch: -1
+    };
+
+    let matches = [];
+    const originalText = new Map();
+    let searchTimer = 0;
+    let saveTimer = 0;
+    let toastTimer = 0;
+    let scrollTicking = false;
+
+    const bookEl = $("#bookContent");
+    const tocEl = $("#toc");
+    const searchInput = $("#searchInput");
+    const searchCount = $("#searchCount");
+    const resultInfo = $("#resultInfo");
+    const clearBtn = $("#clearSearch");
+    const prevBtn = $("#prevResult");
+    const nextBtn = $("#nextResult");
+    const themeBtn = $("#themeBtn");
+    const menuBtn = $("#menuBtn");
+    const closeDrawerBtn = $("#closeDrawer");
+    const overlay = $("#overlay");
+    const sidebar = $("#sidebar");
+    const langTrigger = $("#langTrigger");
+    const langOptions = $("#langOptions");
+    const langFlag = $("#langFlag");
+    const langCode = $("#langCode");
+    const LANG_META = {
+      ar: { code: "AR", flag: "ma" },
+      en: { code: "EN", flag: "gb" },
+      fr: { code: "FR", flag: "fr" },
+      es: { code: "ES", flag: "es" }
+    };
+    const fontMinus = $("#fontMinus");
+    const fontPlus = $("#fontPlus");
+    const fontSizeLabel = $("#fontSizeLabel");
+    const activeLabel = $("#activeChapterLabel");
+    const progressTrack = $("#progressTrack");
+    const progressBar = $("#progressBar");
+    const topBtn = $("#topBtn");
+    const toastEl = $("#toast");
+    const netStatus = $("#netStatus");
+
+    const isMobile = () => window.matchMedia("(max-width: 900px)").matches;
+    const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function normalizeChar(ch) {
+      if (/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/.test(ch)) return [];
+      if (/[\u0622\u0623\u0625\u0671]/.test(ch)) return ["\u0627"];
+      if (ch === "\u0649") return ["\u064A"];
+      if (ch === "\u0624") return ["\u0648"];
+      if (ch === "\u0626") return ["\u064A"];
+      if (ch === "\u0629") return ["\u0647"];
+      return Array.from(ch.toLowerCase());
+    }
+
+    function buildNormalized(text) {
+      let normalized = "";
+      const starts = [];
+      const ends = [];
+      for (let i = 0; i < text.length; i++) {
+        const chars = normalizeChar(text[i]);
+        for (const ch of chars) {
+          normalized += ch;
+          starts.push(i);
+          ends.push(i + 1);
+        }
+      }
+      return { text: normalized, starts, ends };
+    }
+
+    function normalizeString(text) {
+      let normalized = "";
+      for (const ch of text) {
+        normalized += normalizeChar(ch).join("");
+      }
+      return normalized;
+    }
+
+    function renderBook() {
+      bookEl.textContent = "";
+      tocEl.textContent = "";
+      originalText.clear();
+
+      bookData.forEach((item, index) => {
+        const chapterEl = document.createElement("section");
+        chapterEl.className = "chapter";
+        chapterEl.id = item.id;
+        chapterEl.dataset.chapter = item.id;
+
+        const head = document.createElement("div");
+        head.className = "chapter-head";
+        const num = document.createElement("span");
+        num.className = "chapter-num";
+        num.textContent = String(index + 1).padStart(2, "0");
+        const heading = document.createElement("h2");
+        heading.textContent = localized(item.title);
+        head.append(num, heading);
+        chapterEl.appendChild(head);
+
+        const body = document.createElement("div");
+        body.className = "section";
+        const content = localized(item.content);
+        if (content) body.innerHTML = content;
+        if (!body.children.length && content.trim()) {
+          const p = document.createElement("p");
+          p.textContent = content;
+          body.appendChild(p);
+        }
+
+        $$("h2, p, h3, h4, h5, li, blockquote", chapterEl).forEach((el) => {
+          const text = el.textContent;
+          if (!text.trim()) return;
+          el.dataset.searchable = "1";
+          originalText.set(el, { html: el.innerHTML, text });
+        });
+
+        chapterEl.appendChild(body);
+        bookEl.appendChild(chapterEl);
+
+        const chapterLink = document.createElement("a");
+        chapterLink.className = "toc-chapter";
+        chapterLink.href = "#" + item.id;
+        chapterLink.dataset.target = item.id;
+        chapterLink.textContent = localized(item.title);
+        tocEl.appendChild(chapterLink);
+      });
+    }
+
+    function updateSearchStatus() {
+      const t = I18N[state.lang];
+      const query = state.query.trim();
+      const hasQuery = query.length > 0;
+      clearBtn.hidden = !hasQuery;
+      prevBtn.disabled = matches.length === 0;
+      nextBtn.disabled = matches.length === 0;
+
+      if (!hasQuery) {
+        searchCount.textContent = "";
+        resultInfo.textContent = "";
+        return;
+      }
+      if (!matches.length) {
+        searchCount.textContent = t.noResults;
+        resultInfo.textContent = "";
+        return;
+      }
+      searchCount.textContent = t.results.replace("{n}", String(matches.length));
+      resultInfo.textContent = t.resultOf
+        .replace("{i}", String(state.currentMatch + 1))
+        .replace("{n}", String(matches.length));
+    }
+
+    function clearHighlights() {
+      originalText.forEach((record, el) => {
+        if (!record) return;
+        if (record.html != null) el.innerHTML = record.html;
+        else if (record.text != null) el.textContent = record.text;
+      });
+      matches = [];
+      state.currentMatch = -1;
+    }
+
+    function highlightRanges(el, ranges) {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      let offset = 0;
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const length = node.nodeValue.length;
+        if (length) nodes.push({ node, start: offset, end: offset + length });
+        offset += length;
+      }
+
+      nodes.forEach(({ node, start, end }) => {
+        const local = [];
+        ranges.forEach(([rangeStart, rangeEnd]) => {
+          const from = Math.max(rangeStart, start);
+          const to = Math.min(rangeEnd, end);
+          if (to > from) local.push([from - start, to - start]);
+        });
+        if (!local.length) return;
+
+        const text = node.nodeValue;
+        const fragment = document.createDocumentFragment();
+        let position = 0;
+        local.forEach(([from, to]) => {
+          if (from > position) fragment.appendChild(document.createTextNode(text.slice(position, from)));
+          const mark = document.createElement("mark");
+          mark.className = "search-hit";
+          mark.dataset.matchIndex = String(matches.length);
+          mark.textContent = text.slice(from, to);
+          fragment.appendChild(mark);
+          matches.push(mark);
+          position = to;
+        });
+        if (position < text.length) fragment.appendChild(document.createTextNode(text.slice(position)));
+        node.replaceWith(fragment);
+      });
+    }
+
+    function runSearch(rawQuery) {
+      clearHighlights();
+      state.query = rawQuery;
+      const query = normalizeString(rawQuery.trim());
+      if (!query) {
+        updateSearchStatus();
+        return;
+      }
+
+      originalText.forEach((record, el) => {
+        const text = record.text || "";
+        const normalized = buildNormalized(text);
+        const ranges = [];
+        let from = 0;
+        let found = normalized.text.indexOf(query, from);
+        while (found !== -1) {
+          const start = normalized.starts[found];
+          const end = normalized.ends[found + query.length - 1];
+          if (end > start) ranges.push([start, end]);
+          from = found + query.length;
+          found = normalized.text.indexOf(query, from);
+        }
+        if (ranges.length) highlightRanges(el, ranges);
+      });
+
+      if (matches.length) {
+        state.currentMatch = 0;
+        setActiveMatch(0, false);
+      } else {
+        state.currentMatch = -1;
+        updateSearchStatus();
+      }
+    }
+
+    function setActiveMatch(index, shouldScroll) {
+      if (!matches.length) return;
+      state.currentMatch = ((index % matches.length) + matches.length) % matches.length;
+      matches.forEach((mark, i) => mark.classList.toggle("active", i === state.currentMatch));
+      if (shouldScroll) {
+        matches[state.currentMatch].scrollIntoView({
+          behavior: prefersReducedMotion() ? "auto" : "smooth",
+          block: "center",
+          inline: "nearest"
+        });
+      }
+      updateSearchStatus();
+    }
+
+    function nextMatch() {
+      if (matches.length) setActiveMatch(state.currentMatch + 1, true);
+    }
+
+    function prevMatch() {
+      if (matches.length) setActiveMatch(state.currentMatch - 1, true);
+    }
+
+    function clearSearch() {
+      searchInput.value = "";
+      state.query = "";
+      window.clearTimeout(searchTimer);
+      clearHighlights();
+      updateSearchStatus();
+      searchInput.focus();
+    }
+
+    function updateLangMenu() {
+      const meta = LANG_META[state.lang] || LANG_META.ar;
+      langCode.textContent = meta.code;
+      const use = langFlag.querySelector("use");
+      if (use) use.setAttribute("href", "#flag-" + meta.flag);
+      langOptions.querySelectorAll(".lang-option").forEach((btn) => {
+        btn.setAttribute("aria-selected", btn.dataset.lang === state.lang ? "true" : "false");
+      });
+    }
+
+    function closeLangMenu() {
+      langOptions.hidden = true;
+      langTrigger.setAttribute("aria-expanded", "false");
+    }
+
+    function openLangMenu() {
+      langOptions.hidden = false;
+      langTrigger.setAttribute("aria-expanded", "true");
+      const current = langOptions.querySelector('.lang-option[data-lang="' + state.lang + '"]');
+      if (current) current.focus();
+    }
+
+    function applyLanguage(lang, persist) {
+      state.lang = I18N[lang] ? lang : "ar";
+      const t = I18N[state.lang];
+      document.documentElement.lang = state.lang;
+      document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
+      bookEl.dir = state.lang === "ar" ? "rtl" : "ltr";
+
+      $$("[data-i18n]").forEach((el) => {
+        const key = el.dataset.i18n;
+        if (t[key] != null) el.textContent = t[key];
+      });
+      $$("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.dataset.i18nPlaceholder;
+        if (t[key] != null) el.placeholder = t[key];
+      });
+      $$("[data-i18n-aria]").forEach((el) => {
+        const key = el.dataset.i18nAria;
+        if (t[key] != null) el.setAttribute("aria-label", t[key]);
+      });
+
+      updateLangMenu();
+      document.title = t.appTitle + " — " + t.readerLabel;
+
+      const hasLocalizedContent = bookData.some((item) => item && (typeof item.title === "object" || typeof item.content === "object"));
+      if (hasLocalizedContent) {
+        const scrollY = window.scrollY;
+        renderBook();
+        if (state.query.trim()) runSearch(state.query);
+        window.scrollTo(0, scrollY);
+      }
+
+      if (!navigator.onLine) netStatus.textContent = t.offline;
+      updateSearchStatus();
+      updateActive();
+      syncDrawerA11y();
+      if (persist) store.set("basair_lang", state.lang);
+    }
+
+    function applyTheme(theme, persist) {
+      state.theme = theme === "light" ? "light" : "dark";
+      document.documentElement.dataset.theme = state.theme;
+      document.documentElement.style.colorScheme = state.theme;
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute("content", state.theme === "dark" ? "#121110" : "#fbf8f2");
+      const sun = $(".icon-sun", themeBtn);
+      const moon = $(".icon-moon", themeBtn);
+      if (sun) sun.style.display = state.theme === "light" ? "block" : "none";
+      if (moon) moon.style.display = state.theme === "dark" ? "block" : "none";
+      if (persist) store.set("basair_theme", state.theme);
+    }
+
+    function applyFontSize(size, persist) {
+      state.fontSize = Math.max(15, Math.min(30, size));
+      document.documentElement.style.setProperty("--reading-size", state.fontSize + "px");
+      fontSizeLabel.textContent = String(state.fontSize);
+      if (persist) store.set("basair_font", String(state.fontSize));
+    }
+
+    function updateActive() {
+      const sections = $$(".section", bookEl);
+      if (!sections.length) return;
+
+      const headerHeight = $("#header") ? $("#header").getBoundingClientRect().height : 160;
+      const chapterThreshold = headerHeight + 42;
+      const sectionThreshold = headerHeight + 122;
+
+      let current = sections[0];
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= sectionThreshold) current = section;
+        else break;
+      }
+
+      let activeChapter = null;
+      for (const chapterEl of $$(".chapter", bookEl)) {
+        if (chapterEl.getBoundingClientRect().top <= chapterThreshold) activeChapter = chapterEl;
+        else break;
+      }
+
+      if (activeChapter && current.closest(".chapter") !== activeChapter) {
+        const firstSection = activeChapter.querySelector(".section");
+        if (firstSection) current = firstSection;
+      }
+
+      const chapter = current.closest(".chapter");
+      $$(".toc a", tocEl).forEach((link) => {
+        link.classList.toggle("active", link.dataset.target === current.id);
+      });
+      $$(".toc-chapter", tocEl).forEach((link) => {
+        link.classList.toggle("active", Boolean(chapter) && link.dataset.target === chapter.id);
+      });
+      const chapterData = chapter ? bookData.find((item) => item.id === chapter.id) : null;
+      const t = I18N[state.lang];
+      activeLabel.textContent = chapterData ? t.active + ": " + localized(chapterData.title) : "";
+    }
+
+    function updateProgress() {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const percent = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
+      progressBar.style.width = percent.toFixed(2) + "%";
+      progressTrack.setAttribute("aria-valuenow", String(Math.round(percent)));
+      topBtn.classList.toggle("show", window.scrollY > 700);
+    }
+
+    function saveScrollNow() {
+      store.set("basair_scroll", String(Math.round(window.scrollY)));
+    }
+
+    function scheduleSave() {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(saveScrollNow, 260);
+    }
+
+    function scrollToTarget(id, updateHash) {
+      const target = document.getElementById(id);
+      if (!target) return;
+      target.scrollIntoView({
+        behavior: prefersReducedMotion() ? "auto" : "smooth",
+        block: "start"
+      });
+      if (updateHash !== false) {
+        try { history.replaceState(null, "", "#" + id); } catch (error) {}
+      }
+      window.setTimeout(updateActive, 380);
+    }
+
+    function restoreScroll() {
+      if (location.hash) {
+        const id = decodeURIComponent(location.hash.slice(1));
+        window.setTimeout(() => scrollToTarget(id, false), 90);
+        return;
+      }
+      const saved = Number.parseInt(store.get("basair_scroll", "0"), 10);
+      if (Number.isFinite(saved) && saved > 0) {
+        window.setTimeout(() => window.scrollTo(0, saved), 90);
+      }
+    }
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toastEl.classList.remove("show"), 3200);
+    }
+
+    function updateNetwork(showMessage) {
+      const t = I18N[state.lang];
+      if (navigator.onLine) {
+        netStatus.hidden = true;
+        if (showMessage) showToast(t.online);
+      } else {
+        netStatus.hidden = false;
+        netStatus.textContent = t.offline;
+        if (showMessage) showToast(t.offline);
+      }
+    }
+
+    function syncDrawerA11y() {
+      if (isMobile()) {
+        const open = document.body.classList.contains("drawer-open");
+        sidebar.setAttribute("aria-hidden", open ? "false" : "true");
+      } else {
+        sidebar.setAttribute("aria-hidden", "false");
+      }
+    }
+
+    function openDrawer() {
+      if (!isMobile()) return;
+      document.body.classList.add("drawer-open");
+      menuBtn.setAttribute("aria-expanded", "true");
+      sidebar.setAttribute("aria-hidden", "false");
+      closeDrawerBtn.focus();
+    }
+
+    function closeDrawer(restoreFocus = true) {
+      document.body.classList.remove("drawer-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      syncDrawerA11y();
+      if (restoreFocus && isMobile()) menuBtn.focus();
+    }
+
+    function onScroll() {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+          updateActive();
+          updateProgress();
+          scrollTicking = false;
+        });
+      }
+      scheduleSave();
+    }
+
+    function setup() {
+      menuBtn.addEventListener("click", openDrawer);
+      closeDrawerBtn.addEventListener("click", () => closeDrawer());
+      overlay.addEventListener("click", () => closeDrawer());
+      themeBtn.addEventListener("click", () => {
+        applyTheme(state.theme === "dark" ? "light" : "dark", true);
+      });
+      fontMinus.addEventListener("click", () => applyFontSize(state.fontSize - 1, true));
+      fontPlus.addEventListener("click", () => applyFontSize(state.fontSize + 1, true));
+      langTrigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (langOptions.hidden) openLangMenu(); else closeLangMenu();
+      });
+      langOptions.addEventListener("click", (event) => {
+        const btn = event.target.closest(".lang-option");
+        if (!btn) return;
+        applyLanguage(btn.dataset.lang, true);
+        closeLangMenu();
+        langTrigger.focus();
+      });
+      langOptions.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+        event.preventDefault();
+        const items = Array.from(langOptions.querySelectorAll(".lang-option"));
+        const index = items.indexOf(document.activeElement);
+        const next = event.key === "ArrowDown"
+          ? items[(index + 1) % items.length]
+          : items[(index - 1 + items.length) % items.length];
+        if (next) next.focus();
+      });
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".lang-menu")) closeLangMenu();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeLangMenu();
+      });
+
+      searchInput.addEventListener("input", () => {
+        state.query = searchInput.value;
+        window.clearTimeout(searchTimer);
+        if (!state.query.trim()) {
+          clearHighlights();
+          updateSearchStatus();
+          return;
+        }
+        searchTimer = window.setTimeout(() => runSearch(searchInput.value), 150);
+      });
+      searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          if (matches.length) {
+            if (event.shiftKey) prevMatch();
+            else nextMatch();
+          } else {
+            runSearch(searchInput.value);
+          }
+        } else if (event.key === "Escape") {
+          event.preventDefault();
+          clearSearch();
+        }
+      });
+      clearBtn.addEventListener("click", clearSearch);
+      prevBtn.addEventListener("click", prevMatch);
+      nextBtn.addEventListener("click", nextMatch);
+
+      tocEl.addEventListener("click", (event) => {
+        const link = event.target.closest("a[data-target]");
+        if (!link) return;
+        event.preventDefault();
+        scrollToTarget(link.dataset.target);
+        closeDrawer(false);
+      });
+
+      topBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      });
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", () => {
+        if (!isMobile()) document.body.classList.remove("drawer-open");
+        syncDrawerA11y();
+        updateActive();
+        updateProgress();
+      });
+      window.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        if (document.body.classList.contains("drawer-open")) {
+          closeDrawer();
+        } else if (state.query) {
+          clearSearch();
+        }
+      });
+      window.addEventListener("online", () => updateNetwork(true));
+      window.addEventListener("offline", () => updateNetwork(true));
+      window.addEventListener("pagehide", saveScrollNow);
+      window.addEventListener("hashchange", () => {
+        if (location.hash) {
+          const id = decodeURIComponent(location.hash.slice(1));
+          scrollToTarget(id, false);
+        }
+      });
+
+      if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+    }
+
+    function init() {
+      const savedTheme = store.get("basair_theme", "dark");
+      const savedLang = store.get("basair_lang", "ar");
+      const savedFont = Number.parseInt(store.get("basair_font", "22"), 10);
+
+      state.theme = savedTheme === "light" ? "light" : "dark";
+      state.lang = I18N[savedLang] ? savedLang : "ar";
+      state.fontSize = Number.isFinite(savedFont) ? Math.max(15, Math.min(30, savedFont)) : 22;
+
+      renderBook();
+      applyTheme(state.theme, false);
+      applyFontSize(state.fontSize, false);
+      applyLanguage(state.lang, false);
+      setup();
+      updateNetwork(false);
+      updateProgress();
+      updateActive();
+      restoreScroll();
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="كتاب بصائر">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#121110"/>
+      <stop offset=".55" stop-color="#191614"/>
+      <stop offset="1" stop-color="#1b4332"/>
+    </linearGradient>
+    <linearGradient id="emerald" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2d5d46"/>
+      <stop offset="1" stop-color="#1b4332"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d4af37"/>
+      <stop offset="1" stop-color="#a9792f"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".42" r=".58">
+      <stop offset="0" stop-color="#c29b53" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#c29b53" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="18" y="18" width="476" height="476" rx="96" fill="none" stroke="#c29b53" stroke-opacity=".35" stroke-width="2"/>
+  <circle cx="256" cy="256" r="188" fill="url(#glow)"/>
+  <g transform="translate(256 110)">
+    <path d="M0-36 10-10 36 0 10 10 0 36-10 10-36 0-10-10Z" fill="#d4af37"/>
+    <path d="M0-24 7-7 24 0 7 7 0 24-7 7-24 0-7-7Z" fill="#121110"/>
+    <circle r="5" fill="#f3e9dc"/>
+  </g>
+  <path d="M256 190c-34-22-78-30-118-30-12 0-22 10-22 22v190c0 12 10 22 22 22 40 0 84 8 118 30 34-22 78-30 118-30 12 0 22-10 22-22V182c0-12-10-22-22-22-40 0-84 8-118 30z" fill="#0f0e0d" stroke="#c29b53" stroke-width="6"/>
+  <path d="M256 196v220" stroke="#c29b53" stroke-width="6" stroke-linecap="round"/>
+  <path d="M138 214c30 0 62 6 86 20v166c-24-14-56-20-86-20z" fill="url(#emerald)"/>
+  <path d="M374 214c-30 0-62 6-86 20v166c24-14 56-20 86-20z" fill="url(#gold)"/>
+  <path d="M162 240c18 0 37 3 52 11v108c-15-8-34-11-52-11z" fill="#f3e9dc" opacity=".14"/>
+  <path d="M350 240c-18 0-37 3-52 11v108c15-8 34-11 52-11z" fill="#f3e9dc" opacity=".20"/>
+  <path d="M256 196v220" stroke="#f3e9dc" stroke-opacity=".28" stroke-width="2" stroke-linecap="round"/>
+</svg>

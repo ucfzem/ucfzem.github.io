@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بصائر | موسوعة نقد الإلحاد</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #09090b; color: #f4f4f5; }
+        .arabic-serif { font-family: 'Amiri', serif; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
+    <!-- Header -->
+    <header class="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-lg arabic-serif">ب</div>
+                <div>
+                    <h1 id="brand-title" class="text-base font-bold text-amber-400 tracking-wide">بصائر</h1>
+                    <p id="brand-subtitle" class="text-[11px] text-zinc-400">موسوعة نقد الإلحاد وبناء اليقين</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Language Selector with Flags/Icons -->
+                <div class="relative flex items-center bg-zinc-800/90 border border-zinc-700/80 rounded-xl px-2.5 py-1.5 focus-within:border-amber-500">
+                    <span class="text-xs text-amber-400 mr-1.5 font-bold">🌐</span>
+                    <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-zinc-200 text-xs focus:outline-none cursor-pointer">
+                        <option value="ar" class="bg-zinc-900">العربية (Arabic)</option>
+                        <option value="en" class="bg-zinc-900">English</option>
+                        <option value="fr" class="bg-zinc-900">Français</option>
+                        <option value="es" class="bg-zinc-900">Español</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
+        <!-- Hero Section / Search Bar -->
+        <div class="mb-8 text-center space-y-3">
+            <h2 id="hero-heading" class="text-2xl sm:text-3xl font-extrabold text-zinc-100 tracking-tight">استكشف الأقسام العلمية والأبواب التوثيقية</h2>
+            <p id="hero-desc" class="text-sm text-zinc-400 max-w-xl mx-auto">فهارس معيارية دقيقة تدمج البراهين العقلية والنقلية للرد على الشبهات وبناء اليقين.</p>
+            <div class="pt-2 max-w-2xl mx-auto">
+                <div class="relative">
+                    <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-zinc-500">🔍</span>
+                    <input type="text" id="search-input" oninput="filterSections(this.value)" placeholder="ابحث في الأقسام، الأبواب، والمواضيع..." class="w-full bg-zinc-900/80 border border-zinc-800 rounded-2xl pr-11 pl-4 py-3.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-inner">
+                </div>
+            </div>
+        </div>
+
+        <!-- Sections Dynamic Container -->
+        <div id="sections-container" class="space-y-8"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-800/80 bg-zinc-900/40 py-6 mt-12 text-center text-xs text-zinc-500">
+        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© 2026 بصائر - المنصة الرقمية الهيكلية المعيارية.</p>
+            <div class="flex items-center gap-4 text-zinc-400">
+                <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> PWA Ready</span>
+                <span>Unicode UTF-8</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Engine Script -->
+    <script src="content-i18n.js"></script>
+    <script>
+        let currentLang = localStorage.getItem('basair_lang') || 'ar';
+        document.getElementById('lang-select').value = currentLang;
+
+        function renderApp(searchQuery = '') {
+            const lang = currentLang;
+            const data = siteData[lang] || siteData['ar'];
+            
+            // Set direction & language tags
+            const root = document.getElementById('html-root');
+            root.lang = lang;
+            root.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+            // Header & Hero Texts
+            document.getElementById('brand-title').innerText = lang === 'ar' ? 'بصائر' : (lang === 'fr' ? 'Al-Basa\'ir' : 'Al-Basa\'ir');
+            document.getElementById('brand-subtitle').innerText = data.subtitle;
+            document.getElementById('hero-heading').innerText = lang === 'ar' ? 'استكشف الأقسام العلمية والأبواب التوثيقية' : (lang === 'en' ? 'Explore Scientific Sections & Chapters' : (lang === 'fr' ? 'Explorez les Sections et Chapitres' : 'Explore Secciones y Capítulos'));
+            document.getElementById('hero-desc').innerText = data.subtitle;
+            document.getElementById('search-input').placeholder = data.searchPlaceholder;
+
+            const container = document.getElementById('sections-container');
+            container.innerHTML = '';
+
+            let hasResults = false;
+
+            data.sections.forEach((sec, secIdx) => {
+                const filteredChapters = sec.chapters.filter(ch => 
+                    ch.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                    ch.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    sec.sectionTitle.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+
+                if (filteredChapters.length > 0) {
+                    hasResults = true;
+                    const secDiv = document.createElement('div');
+                    secDiv.className = "bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all";
+                    
+                    let chaptersHtml = '';
+                    filteredChapters.forEach(ch => {
+                        chaptersHtml += `
+                            <div class="bg-zinc-900/90 border border-zinc-800/80 rounded-xl p-5 hover:border-amber-500/50 hover:bg-zinc-900 transition-all cursor-pointer group shadow-sm flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">${ch.num}</span>
+                                        <span class="text-[11px] bg-zinc-800 text-zinc-300 px-2.5 py-0.5 rounded-md font-medium">${ch.count}</span>
+                                    </div>
+                                    <h3 class="text-base font-bold text-zinc-100 group-hover:text-amber-400 transition-colors">${ch.title}</h3>
+                                    <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">${ch.desc}</p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between text-[11px] text-amber-500/80 font-medium">
+                                    <span>${lang === 'ar' ? 'استعراض المحتوى' : (lang === 'fr' ? 'Explorer' : (lang === 'es' ? 'Explorar' : 'Explore'))}</span>
+                                    <span class="transform group-hover:translate-x-1 transition-transform">${lang === 'ar' ? '←' : '→'}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    secDiv.innerHTML = `
+                        <div class="mb-5 border-b border-zinc-800 pb-3">
+                            <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                ${sec.sectionTitle}
+                            </h2>
+                            <p class="text-xs text-zinc-400 mt-1">${sec.description}</p>
+                        </div>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            ${chaptersHtml}
+                        </div>
+                    `;
+                    container.appendChild(secDiv);
+                }
+            });
+
+            if (!hasResults) {
+                container.innerHTML = `
+                    <div class="text-center py-16 bg-zinc-900/30 border border-zinc-800 rounded-2xl">
+                        <p class="text-zinc-400 text-sm">لم يتم العثور على نتائج مطابقة لبحثك.</p>
+                        <button onclick="document.getElementById('search-input').value=''; filterSections('');" class="mt-3 px-4 py-2 bg-amber-500 text-black text-xs font-bold rounded-xl hover:bg-amber-400 transition-colors">إعادة ضبط البحث</button>
+                    </div>
+                `;
+            }
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('basair_lang', lang);
+            const query = document.getElementById('search-input').value;
+            renderApp(query);
+        }
+
+        function filterSections(query) {
+            renderApp(query);
+        }
+
+        // Initial render
+        renderApp();
+    </script>
+</body>
+</html>
