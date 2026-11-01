@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE = "basair-v1.0.4";
+const CACHE = "basair-v1.0.5";
 const CORE = [
   "./",
   "./index.html",

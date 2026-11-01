@@ -666,11 +666,25 @@
       line-height: 1.5;
       font-weight: 800;
     }
-    .book-content p { margin: 0 0 1.08em; }
+    .book-content p { margin: 0 0 1.15em; }
     .book-content p:last-child { margin-bottom: 0; }
     .book-content[dir="ltr"] {
       text-align: left;
       text-align-last: auto;
+      font-family: var(--font-ui);
+      line-height: 1.85;
+      letter-spacing: -0.01em;
+      word-spacing: normal;
+      hyphens: auto;
+    }
+    .book-content[dir="rtl"] {
+      font-family: var(--font-book);
+      text-align: justify;
+      text-align-last: right;
+      line-height: 2.1;
+      letter-spacing: normal;
+      word-spacing: normal;
+      hyphens: none;
     }
 
     mark.search-hit {
