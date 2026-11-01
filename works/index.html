@@ -753,12 +753,24 @@
   const VALIDATOR_URL = "https://works-validator.azer-tyu199p.workers.dev";
 
 
-  function renderPublic() {
+  unction ico(p) {
+  return p.icon
+    ? `<img src="${p.icon}" class="card-icon" alt="" onerror="this.replaceWith(Object.assign(document.createElement("span"),{className:"card-emoji",textContent:"${p.emoji}"}))>`
+    : `<span class="card-emoji">${p.emoji}</span>`;
+}
+
+unction ico(p) {
+  return p.icon
+    ? `<img src="${p.icon}" class="card-icon" alt="" onerror="this.replaceWith(Object.assign(document.createElement("span"),{className:"card-emoji",textContent:"${p.emoji}"}))>`
+    : `<span class="card-emoji">${p.emoji}</span>`;
+}
+
+function renderPublic() {}
     const container = document.getElementById('publicProjects');
     const card = p => `
       <a href="${p.url || '#'}" class="card"${p.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>
         <span class="card-num">${p.num}</span>
-        ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+        ${ico(p)}
         <div class="card-info">
           <span class="card-name">${p.name}</span>
           ${p.credit ? `<span class="card-credit">${p.credit}</span>` : ''}
@@ -780,7 +792,7 @@
           ${maktaba.map((p, i) => `
             <a href="${p.url || '#'}" class="card" target="_blank">
               <span class="maktaba-num">${i+1}</span>
-              ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+              ${ico(p)}
               <div class="card-info"><span class="card-name">${p.name}</span></div>
               <span class="card-tag">${p.tag||''}</span>
             </a>`).join('')}
@@ -807,7 +819,7 @@
       items.forEach(p => {
         if (p.desc) {
           html += `<a href="${p.url}" class="card tools-card" target="_blank">
-          ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+          ${ico(p)}
           <div class="card-info">
             <span class="card-name">${p.name}</span>
             <span class="card-desc">${p.desc}</span>
@@ -820,7 +832,7 @@
         </a>`;
         } else {
           html += `<a href="${p.url}" class="card" target="_blank">
-          ${p.icon ? `<img src="${p.icon}" class="card-icon" alt="">` : `<span class="card-emoji">${p.emoji}</span>`}
+          ${ico(p)}
           <div class="card-info"><span class="card-name">${p.name}</span></div>
           <span class="card-tag">${p.tag||''}</span>
         </a>`;
