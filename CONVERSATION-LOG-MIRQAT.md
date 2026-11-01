@@ -184,3 +184,41 @@ mirqat-tawhid/
 ### Note
 - The full text of the copyrighted book was **not** injected. The app retains its current demo/sample content; integrating the complete book requires user-provided or licensed text/permission.
 - **Links:** [app](https://ucfzem.github.io/basair/) · [works](https://ucfzem.github.io/works/) · [log](https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-LOG-MIRQAT.md)
+
+---
+
+## 2026-11-01 — Basa'ir: تفعيل ترجمة المحتوى (AR/EN/FR/ES) + تحسين الطباعة اللاتينية
+
+### المشكلة التي كانت على النسخة الحيّة
+- النسخة المنشورة كانت لا تزال تستخدم `const BOOK = [...]` ببيانات عربية فقط، بينما مبدّل اللغة يغيّر نصوص الواجهة `I18N` فقط ولا يعيد رسم المحتوى.
+- كاش الخدمة كان `basair-v1.0.3`، وملف المحتوى لم يكن يحوي أي مفاتيح `en` / `fr` / `es` للمحتوى.
+
+### ما تم تنفيذه
+- إضافة `basair/content-i18n.js` (44,942 B) يحتوي ترجمات EN/FR/ES للفصول الخمسة والمقاطع الأربعة عشر في العرض التجريبي، دون أي نص من الكتاب المحمي.
+- إضافة `mergeBookTranslations()` في `index.html`: تحويل `title` و`intro` و`paragraphs` إلى كائنات `{ar,en,fr,es}` مع الرجوع إلى العربية عند غياب ترجمة.
+- تحديث `localized(field)` ليتعامل مع النص المباشر والكائن متعدد اللغات والمصفوفات، مع الرجوع إلى `ar` ثم أول قيمة متاحة.
+- تحديث `renderBook()` و`updateActive()` و`applyLanguage()` لاستخدام `localized()` وإعادة رسم المحتوى عند تغيير اللغة، مع ضبط `bookEl.dir` والحفاظ على موضع التمرير وإعادة تنفيذ البحث الحالي.
+- إضافة `data-i18n="appTitle"` إلى العنوان، وتحسين CSS للاتينية: `Cairo`، `line-height: 1.85`، `text-align: left`، `text-align-last: auto`، مع إبقاء العربية `Amiri`/`justify` و`line-height: 2.1`.
+- رفع كاش `basair/sw.js` إلى `basair-v1.0.5` وإضافة `./content-i18n.js` إلى `CORE`.
+
+### التحقق
+- اختبار DOM محلي وحيّ: **5 فصول، 14 مقطعًا، 19 رابط فهرس**، التبديل AR/EN/FR/ES، البحث بالعربية والإنجليزية والفرنسية والإسبانية، **0 أخطاء JS**.
+- الصفحة الحيّة تحتوي `content-i18n.js` و`line-height: 1.85`؛ `sw.js` الحيّ يعرض `basair-v1.0.5` مع `?cb=`.
+- كل الروابط الأساسية ترجع **200**: التطبيق، manifest، sw، content-i18n، works، السجل، الجذر.
+- بطاقة «كتاب بصائر» ما زالت أول بطاقة في Maktaba على `works/`.
+
+### الحالة والسلامة
+- commits: `a01cd5a` (الترجمات + كاش v1.0.4) ثم `c0016fc` (تحسين الطباعة + كاش v1.0.5).
+- blob audit: **1,682 → 1,683** (إضافة `content-i18n.js` فقط)؛ **لا حذف** ولا تعديل على مواقع أخرى.
+- لم يُستخدم أي نص من `ar-basaar` المحمي. الترجمة تخص محتوى العرض التجريبي فقط.
+- سكربت `build-data.js` جُرّب على ملف تجريبي اصطناعي فقط؛ لم يُنشر ولم يُشغّل على الكتاب المحمي.
+- ملاحظة CDN: قد يعرض GitHub Pages نسخة قديمة من `sw.js` دون `?cb=` لبعض الوقت؛ القيمة الحالية هي `basair-v1.0.5`.
+
+### روابط مباشرة
+- التطبيق: https://ucfzem.github.io/basair/
+- المحتوى متعدد اللغات: https://ucfzem.github.io/basair/content-i18n.js
+- Service Worker: https://ucfzem.github.io/basair/sw.js
+- Manifest: https://ucfzem.github.io/basair/manifest.json
+- Maktaba: https://ucfzem.github.io/works/
+- السجل: https://ucfzem.github.io/CONVERSATION-LOG-MIRQAT.md
+- الجذر: https://ucfzem.github.io/
