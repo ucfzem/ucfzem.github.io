@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <rect width="28" height="28" fill="#2d5a3d"/>
+  <path fill="#c9a84c" d="M4 8h20v4H4V8zm0 4h20v4H4v-4zm0 4h20v4H4v-4z"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#e8f5e9" font-family="Inter, sans-serif" font-size="16" font-weight="700">📖</text>
+</svg>

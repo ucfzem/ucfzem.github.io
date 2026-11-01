@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <rect width="28" height="28" fill="#0d1b2a"/>
+  <path fill="#c9a84c" d="M4 8h20v4H4V8zm0 4h20v4H4v-4zm0 4h20v4H4v-4z"/>
+  <path fill="#e3f2fd" d="M14 22s4-5 4-9a4 4 0 0 0-8-4 4 4 0 0 0-4 4 4 4 0 0 0 4 4zM14 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Inter, sans-serif" font-size="14" font-weight="700">🌐</text>
+</svg>
