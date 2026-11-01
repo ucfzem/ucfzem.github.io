@@ -1,9 +1,10 @@
 "use strict";
 
-const CACHE = "basair-v1.0.3";
+const CACHE = "basair-v1.0.4";
 const CORE = [
   "./",
   "./index.html",
+  "./content-i18n.js",
   "./manifest.json",
   "./icon.svg",
   "./icon-192.png",

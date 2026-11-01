@@ -668,6 +668,10 @@
     }
     .book-content p { margin: 0 0 1.08em; }
     .book-content p:last-child { margin-bottom: 0; }
+    .book-content[dir="ltr"] {
+      text-align: left;
+      text-align-last: auto;
+    }
 
     mark.search-hit {
       padding: 0 .06em;
@@ -1078,7 +1082,7 @@
             <svg class="icon"><use href="#i-menu"/></svg>
           </button>
           <div class="title-wrap">
-            <h1>كتاب بصائر</h1>
+            <h1 data-i18n="appTitle">كتاب بصائر</h1>
             <p id="appSubtitle" data-i18n="appSubtitle">مختارات في المعرفة والبصيرة</p>
           </div>
           <div class="header-actions">
@@ -1170,6 +1174,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="overlay" id="overlay"></div>
 
+  <script src="./content-i18n.js"></script>
   <script>
     "use strict";
 
@@ -1460,6 +1465,62 @@
       }
     ];
 
+    (function mergeBookTranslations() {
+      const translations = window.BASAIR_TRANSLATIONS;
+      if (!translations) return;
+
+      BOOK.forEach((chapter) => {
+        const chapterTranslations = translations[chapter.id];
+        if (!chapterTranslations) return;
+
+        const arTitle = chapter.title;
+        const arIntro = chapter.intro;
+        chapter.title = {
+          ar: arTitle,
+          en: chapterTranslations.en.title,
+          fr: chapterTranslations.fr.title,
+          es: chapterTranslations.es.title
+        };
+        chapter.intro = {
+          ar: arIntro,
+          en: chapterTranslations.en.intro,
+          fr: chapterTranslations.fr.intro,
+          es: chapterTranslations.es.intro
+        };
+
+        chapter.sections.forEach((section, index) => {
+          const arSectionTitle = section.title;
+          const arParagraphs = section.paragraphs;
+          const enSection = chapterTranslations.en.sections[index];
+          const frSection = chapterTranslations.fr.sections[index];
+          const esSection = chapterTranslations.es.sections[index];
+
+          section.title = {
+            ar: arSectionTitle,
+            en: enSection ? enSection.title : arSectionTitle,
+            fr: frSection ? frSection.title : arSectionTitle,
+            es: esSection ? esSection.title : arSectionTitle
+          };
+          section.paragraphs = arParagraphs.map((paragraph, paragraphIndex) => ({
+            ar: paragraph,
+            en: enSection && enSection.paragraphs[paragraphIndex] != null ? enSection.paragraphs[paragraphIndex] : paragraph,
+            fr: frSection && frSection.paragraphs[paragraphIndex] != null ? frSection.paragraphs[paragraphIndex] : paragraph,
+            es: esSection && esSection.paragraphs[paragraphIndex] != null ? esSection.paragraphs[paragraphIndex] : paragraph
+          }));
+        });
+      });
+    })();
+
+    function localized(field) {
+      if (field == null || field === "") return "";
+      if (typeof field === "string") return field;
+      if (Array.isArray(field)) return field.map(localized).filter(Boolean).join("\n");
+      if (typeof field === "object") {
+        return field[state.lang] || field.ar || Object.values(field)[0] || "";
+      }
+      return String(field);
+    }
+
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
@@ -1565,6 +1626,8 @@
       bookEl.textContent = "";
       tocEl.textContent = "";
       originalText.clear();
+      matches = [];
+      state.currentMatch = -1;
 
       BOOK.forEach((chapter, index) => {
         const chapterEl = document.createElement("section");
@@ -1578,15 +1641,15 @@
         num.className = "chapter-num";
         num.textContent = String(index + 1).padStart(2, "0");
         const heading = document.createElement("h2");
-        heading.textContent = chapter.title;
+        heading.textContent = localized(chapter.title);
         head.append(num, heading);
         chapterEl.appendChild(head);
 
         const intro = document.createElement("p");
         intro.className = "chapter-intro";
         intro.dataset.searchable = "1";
-        intro.textContent = chapter.intro;
-        originalText.set(intro, chapter.intro);
+        intro.textContent = localized(chapter.intro);
+        originalText.set(intro, localized(chapter.intro));
         chapterEl.appendChild(intro);
 
         chapter.sections.forEach((section) => {
@@ -1596,14 +1659,15 @@
           sectionEl.dataset.chapter = chapter.id;
 
           const subheading = document.createElement("h3");
-          subheading.textContent = section.title;
+          subheading.textContent = localized(section.title);
           sectionEl.appendChild(subheading);
 
           section.paragraphs.forEach((text) => {
             const p = document.createElement("p");
             p.dataset.searchable = "1";
-            p.textContent = text;
-            originalText.set(p, text);
+            const localizedText = localized(text);
+            p.textContent = localizedText;
+            originalText.set(p, localizedText);
             sectionEl.appendChild(p);
           });
 
@@ -1616,7 +1680,7 @@
         chapterLink.className = "toc-chapter";
         chapterLink.href = "#" + chapter.id;
         chapterLink.dataset.target = chapter.id;
-        chapterLink.textContent = chapter.title;
+        chapterLink.textContent = localized(chapter.title);
         tocEl.appendChild(chapterLink);
 
         chapter.sections.forEach((section) => {
@@ -1624,7 +1688,7 @@
           sectionLink.className = "toc-section";
           sectionLink.href = "#" + section.id;
           sectionLink.dataset.target = section.id;
-          sectionLink.textContent = section.title;
+          sectionLink.textContent = localized(section.title);
           tocEl.appendChild(sectionLink);
         });
       });
@@ -1790,7 +1854,13 @@
       updateLangMenu();
       document.title = t.appTitle + " — " + t.readerLabel;
       if (!navigator.onLine) netStatus.textContent = t.offline;
-      updateSearchStatus();
+
+      const scrollY = window.scrollY;
+      bookEl.dir = state.lang === "ar" ? "rtl" : "ltr";
+      renderBook();
+      if (state.query.trim()) runSearch(state.query);
+      else updateSearchStatus();
+      window.scrollTo(0, scrollY);
       updateActive();
       syncDrawerA11y();
       if (persist) store.set("basair_lang", state.lang);
@@ -1850,7 +1920,7 @@
       });
       const chapterData = chapter ? BOOK.find((item) => item.id === chapter.id) : null;
       const t = I18N[state.lang];
-      activeLabel.textContent = chapterData ? t.active + ": " + chapterData.title : "";
+      activeLabel.textContent = chapterData ? t.active + ": " + localized(chapterData.title) : "";
     }
 
     function updateProgress() {
