@@ -1,96 +1,92 @@
-# Recovery & Repair Log — 2026-11-02
+# Recovery, Repair & Offline Log — 2026-11-02
 
-Session summary: restored the `works` (Maktaba) page, fixed a broken JavaScript
-edit, converted asset paths to relative, restored 12 project icons, and deployed
-the Remedy webapp to GitHub Pages with offline (PWA) support.
+Accurate summary of this session. No secrets/tokens are stored in this file.
 
-> Note: no secrets/tokens are stored in this file.
+## TL;DR
 
-## Context
+The site `ucfzem.github.io` had been reduced to almost nothing by an earlier
+force-push (a sparse/incomplete clone was pushed over `main`). This session
+recovered the real state from still-reachable old commits, restored the root
+homepage, all Maktaba book folders, all web apps, and both service workers.
 
-- A prior session lost context after an abrupt shutdown, including a GitHub PAT.
-- The repository `ucfzem/ucfzem.github.io` had been left in a reduced state:
-  only `.nojekyll`, `index.html` and `basair02/` were present on `main`.
-- A local clone existed at `/tmp/opencode/ucfzem-site` with a full backup of
-  `works/` at `/root/backup_works_2026-10-30/works`.
+## Root cause
 
-## What was restored
+- The working tree of `main` had been rebuilt from an **older lineage
+  (`4fdee94`)** that contained only icon stubs for most books and a tiny
+  `index.html` that **redirected `/` to `/basair02/index.html`**.
+- A later good state existed at commit `895dd7af7` (2026-11-02 10:28,
+  "Restore root index.html") and `37665e2bb` (2026-11-01 03:52), but `main`
+  was on the older lineage, so those folders/redirect fixes were missing.
+- The app folders still existed in GitHub's object store, reachable by SHA, so
+  nothing was permanently lost.
 
-1. **`works/` (Maktaba / linktree)** — restored from the Oct 30 backup:
-   `index.html`, `sw.js`, `fonts.css`, `fonts/`, `assets/` (avatar, maktaba,
-   remedy, tanger, tarikh-ibn-khaldun, barnabas, mirqat-tawhid, quran, cv, etc.).
-2. **`basair/`** — restored (fonts, icons, index, manifest, sw, content-i18n).
-3. **`mirqat-tawhid/`** — restored from the Mirqat backup.
-4. **12 replacement project icons** at the repo root
-   (`<project>/icon.svg`): sifat-al-safwa, ajayib-al-makhluqat,
-   al-masalik-wa-al-mamalik, kharidat-al-ajaib, masoudi-encyclopedia,
-   musawa-qasas, al-ajwiba-al-musaddada, al-bishara, al-jawab-al-sahih,
-   izhar-al-haqq, tafsir-ibn-taymiyyah, mapamundi.
+## What was restored (from `895dd7af7` and `37665e2bb`)
 
-## Critical bug fixed
+- **Root homepage**: real `UcfZem` landing page (7.7 KB) replacing the
+  `basair02` redirect. `basair02` still lives at its own URL.
+- **12 Maktaba book folders** that were `icon.svg`-only, restored in full:
+  `ajayib-al-makhluqat`, `al-ajwiba-al-musaddada`, `al-bishara`,
+  `al-jawab-al-sahih`, `al-masalik-wa-al-mamalik`, `izhar-al-haqq`,
+  `kharidat-al-ajaib`, `mapamundi`, `masoudi-encyclopedia`, `musawa-qasas`,
+  `sifat-al-safwa`, `tafsir-ibn-taymiyyah`.
+- **Web apps**: `droppy`, `webhealth`, `email-collector`, `barnabas`,
+  `childsgame`, `pixellapp`, `sport`, `voxforge`, `web-dev`, `rafeeq`,
+  `remedy`, plus `cv-maker`, `pristine`, `sounds-of-nature`, `image2prompt`,
+  `ucfzem-ai`, and `chat-socketio` (linked from the homepage).
+- **works page JS**: fixed a corrupted `ico()` (duplicate/missing `f`) and an
+  empty `renderPublic() {}` that made the page render 0 cards. Now 44 cards.
 
-A previous edit corrupted `works/index.html`:
+## Link policy (original origins)
 
-```js
-   unction ico(p) { ... }   // missing "f", duplicated
-unction ico(p) { ... }
-function renderPublic() {}   // empty braces closed the function early
-    const container = ...
-```
+The Cloudflare worker `https://ucfzem.azer-tyu199p.workers.dev` **proxies the
+repo** (its paths 404'd before the folders were restored, 200 after), and it
+also provides the backend for forms/uploads. So the named apps point at their
+original origins, not `github.io`:
 
-The browser threw a SyntaxError and rendered **zero** project cards.
+| App | Original link |
+|---|---|
+| Droppy | https://ucfzem.azer-tyu199p.workers.dev/droppy/ |
+| WebHealth | https://ucfzem.azer-tyu199p.workers.dev/webhealth/ |
+| EmailCollector | https://ucfzem.azer-tyu199p.workers.dev/email-collector/ |
+| Rafeeq | https://ucfzem.azer-tyu199p.workers.dev/rafeeq/ |
+| Al-Istibsar | https://ucfzem.azer-tyu199p.workers.dev/livre-al-istibsar/ |
+| Remèdes | https://remedy-eight.vercel.app/ |
 
-Fixed to a single, valid function and a properly opened `renderPublic()`:
+Book projects remain on `github.io` (the worker returns 404 for several of
+them).
 
-```js
-function ico(p) {
-  return p.icon
-    ? `<img src="${p.icon}" class="card-icon" alt="" onerror="this.replaceWith(Object.assign(document.createElement("span"),{className:"card-emoji",textContent:"${p.emoji}"}))>`
-    : `<span class="card-emoji">${p.emoji}</span>`;
-}
+## Offline mode (PWA)
 
-function renderPublic() {
-    const container = document.getElementById('publicProjects');
-```
+- **Root `/sw.js` was missing (404)** even though the homepage and `/works`
+  both register it → site-wide offline was broken. Restored the 16 KB root
+  worker (scope `/`): precaches every app shell + icons + manifests + CDN fonts
+  + book data, and answers bare `/app` redirects offline.
+- **`/works/sw.js`** bumped to **`v1.0.26`**: CORE now precaches every icon and
+  asset the works page uses (added `al-a3chab-attebiah`, `izhar-al-haqq`,
+  `tafsir-ibn-taymiyyah`; removed 2 dead `sahih-al-qasas` entries). Uses
+  `ignoreSearch` so versioned params (`?v=1`) resolve offline.
+- All CORE URLs and all app `index.html` shells verified `200`; both SWs served
+  as `application/javascript`.
 
-Verified live: 44 project cards, 10 folder sections, 28 Maktaba cards render,
-no JS errors (jsdom test).
+## Verification
 
-## Path fixes (relative instead of domain-absolute)
-
-- `https://ucfzem.github.io/works/assets/...` → `./assets/...` (11 references).
-- Kept `og:image` / `twitter:image` absolute for social/SEO.
-- Result: assets load both locally (`file://`) and under `/works/` on Pages.
-
-## Remedy webapp
-
-- Source: standalone `index.html` (~176 KB), FR/EN/ES/AR, light/dark, search,
-  language persistence; only external dep is the Google "Alexandria" font.
-- Deployed to GitHub Pages at `/remedy/` with offline support:
-  - `manifest.json` (standalone, theme `#708238`, icon)
-  - `sw.js` (`remedy-v1.0.0`, cache-first for assets, network-first navigation)
-  - `icon.svg` (sage green with gold frame)
-  - `index.html` patched with manifest link, theme-color, apple-touch-icon and
-    service-worker registration.
-- The `works` page "Remèdes" entry links to `https://remedy-eight.vercel.app/`
-  and uses `./assets/remedy.svg` for its icon.
-
-## Known 404 projects (separate repos, not in backup)
-
-These pages return 404 because their standalone GitHub repos no longer exist:
-`droppy`, `webhealth`, `email-collector`, `remedy` (GitHub Pages; Vercel copy
-is live), plus `rafeeq-health` and `al-istibsar`. The `ico(p)` fallback shows
-the project emoji for cards without a reachable icon.
+- Root `/` title = `UcfZem`, no redirect.
+- Full works-page link scan: **105/105 return 200** (only
+  `works-validator` = 405, a POST-only API — expected).
+- Note: a true airplane-mode test must be done on a device (no headless browser
+  in the repair environment). Open `/works/` once online to populate the
+  `v1.0.26` cache, then test offline.
 
 ## Live links
 
 | Resource | URL |
 |---|---|
+| Home | https://ucfzem.github.io/ |
 | Works / Maktaba | https://ucfzem.github.io/works/ |
-| Remedy (GitHub Pages, offline) | https://ucfzem.github.io/remedy/ |
-| Remedy (Vercel) | https://remedy-eight.vercel.app/ |
-| Basa'ir | https://ucfzem.github.io/basair/ |
-| Mirqat al-Tawhid | https://ucfzem.github.io/mirqat-tawhid/ |
-| Root hub | https://ucfzem.github.io/ |
 | Repo | https://github.com/ucfzem/ucfzem.github.io |
+| Basa'ir | https://ucfzem.github.io/basair/ |
+| Basa'ir 02 | https://ucfzem.github.io/basair02/ |
+| Mirqat al-Tawhid | https://ucfzem.github.io/mirqat-tawhid/ |
+| Remedy (Vercel) | https://remedy-eight.vercel.app/ |
+| Remedy (Pages) | https://ucfzem.github.io/remedy/ |
 | This log | https://ucfzem.github.io/CONVERSATION-RECOVERY-2026-11-02.md |
