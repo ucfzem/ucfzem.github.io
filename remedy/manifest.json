@@ -1,15 +1,20 @@
 {
-  "name": "Remedy — Remèdes de Grand-Mère",
+  "name": "🌿 Remedy — Remèdes de Grand-Mère",
   "short_name": "Remedy",
-  "description": "Natural remedies encyclopedia — FR, EN, ES, AR",
+  "description": "Remèdes de grand-mère naturels — fonctionne sans Internet (PWA).",
+  "lang": "fr",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#fcfbf7",
   "theme_color": "#708238",
-  "orientation": "portrait-primary",
-  "lang": "fr",
+  "categories": ["health", "lifestyle", "reference"],
   "icons": [
-    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

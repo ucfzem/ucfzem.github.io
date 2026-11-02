@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#1a1410">
+<title>رفيق - Rafeeq</title>
+<style>
+:root {
+  --bg: #1a1410;
+  --surface: #241c15;
+  --card: #2d2219;
+  --border: #3d2e1e;
+  --border2: #4a3826;
+  --muted: #332518;
+  --text: #f5f0e8;
+  --dim: #8a7a6a;
+  --dim2: #b8a58e;
+  --gold: #c8963e;
+  --gold-light: #d4a84b;
+  --gold-dim: rgba(200,150,62,0.15);
+  --gold-glow: rgba(200,150,62,0.08);
+  --green: #4ade80;
+  --blue: #60a5fa;
+  --red: #f87171;
+  --yellow: #d4a830;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-lg: 20px;
+  --transition: 0.2s ease;
+}
+
+[data-theme="light"] {
+  --bg: #f5f0e8;
+  --surface: #e8ddd0;
+  --card: #faf5ee;
+  --border: #d4c8b8;
+  --border2: #c8b8a4;
+  --muted: #e0d4c4;
+  --text: #3d3228;
+  --dim: #8a7a6a;
+  --dim2: #6a5a4a;
+  --gold: #c8963e;
+  --gold-light: #b8862e;
+  --gold-dim: rgba(200,150,62,0.12);
+  --gold-glow: rgba(200,150,62,0.06);
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro Arabic', 'SF Pro Display', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 16px 120px;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  overflow-x: hidden;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* Header */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 480px;
+  padding: 20px 0 8px;
+}
+
+.header-left { display: flex; align-items: center; gap: 8px; }
+
+.theme-btn, .lang-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--dim2);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+}
+.theme-btn:hover, .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.lang-btn { width: auto; padding: 0 10px; border-radius: 20px; gap: 4px; font-size: 13px; }
+.lang-btn .flag { font-size: 16px; }
+
+.app-title-area { text-align: center; width: 100%; max-width: 480px; padding: 8px 0 4px; }
+.app-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--gold) 0%, #b8862e 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 32px; box-shadow: 0 8px 24px rgba(200,150,62,0.25); }
+.app-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; }
+.app-subtitle { font-size: 0.95rem; color: var(--dim2); margin-top: 2px; }
+
+/* Datetime */
+.datetime-widget {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  margin: 12px 0;
+  width: 100%; max-width: 480px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.time-display { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; direction: ltr; }
+.date-display { font-size: 0.9rem; color: var(--dim2); text-align: right; direction: ltr; }
+.date-hijri { font-size: 0.8rem; color: var(--dim); margin-top: 2px; }
+
+/* Pages */
+.page { display: none; width: 100%; max-width: 480px; margin-top: 8px; }
+.page.active { display: block; }
+
+/* Card grid */
+.card-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.card-btn {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 18px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: inherit;
+  box-shadow: var(--shadow);
+}
+.card-btn:active { transform: scale(0.98); border-color: var(--gold); }
+.card-icon {
+  width: 50px; height: 50px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.card-icon.med { background: rgba(96,165,250,0.15); }
+.card-icon.health { background: rgba(74,222,128,0.15); }
+.card-icon.family { background: rgba(212,168,48,0.15); }
+.card-icon.emergency { background: rgba(248,113,113,0.15); }
+.card-icon.sport { background: rgba(200,150,62,0.15); }
+.card-icon.setting { background: rgba(200,150,62,0.1); }
+.card-content { flex: 1; min-width: 0; }
+.card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
+.card-desc { font-size: 0.8rem; color: var(--dim2); }
+.card-arrow { color: var(--dim); font-size: 1.2rem; flex-shrink: 0; }
+.card-btn.danger { border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.06); }
+
+/* Back button */
+.back-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.back-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--dim2);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.back-btn:hover { border-color: var(--gold); color: var(--gold); }
+.page-title { font-size: 1.3rem; font-weight: 700; }
+
+/* Settings */
+.setting-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+.setting-header { padding: 14px 16px; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 0.95rem; color: var(--gold); }
+.setting-row { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.setting-row:last-child { border-bottom: none; }
+.setting-row .info { flex: 1; }
+.setting-row .name { font-weight: 600; font-size: 0.95rem; }
+.setting-row .phone { font-size: 0.8rem; color: var(--dim2); direction: ltr; }
+.del-btn { background: none; border: none; color: var(--red); font-size: 18px; cursor: pointer; padding: 4px; }
+.add-btn {
+  width: 100%; padding: 12px;
+  background: none; border: 1px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--gold); font-size: 0.9rem;
+  cursor: pointer; font-family: inherit;
+  margin-top: 8px; transition: all var(--transition);
+}
+.add-btn:hover { border-color: var(--gold); background: var(--gold-dim); }
+
+/* Modal */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none; align-items: center; justify-content: center;
+  z-index: 200; padding: 24px;
+  backdrop-filter: blur(4px);
+}
+.modal-bg.active { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%; max-width: 380px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; }
+.modal-field { margin-bottom: 12px; }
+.modal-field label { display: block; font-size: 0.85rem; color: var(--dim2); margin-bottom: 4px; }
+.modal-field input, .modal-field select {
+  width: 100%; padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+}
+.modal-field input:focus { border-color: var(--gold); }
+.modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+.modal-actions button {
+  flex: 1; padding: 10px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+  transition: all var(--transition);
+}
+.btn-primary { background: var(--gold); color: #1a1410; }
+.btn-primary:active { opacity: 0.8; }
+.btn-secondary { background: var(--card); color: var(--dim2); border: 1px solid var(--border) !important; }
+.btn-secondary:active { border-color: var(--gold); }
+
+/* SOS */
+.country-grid { display: flex; flex-direction: column; gap: 8px; }
+.country-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.country-card .flag { font-size: 28px; }
+.country-card .info { flex: 1; }
+.country-card .cname { font-weight: 600; font-size: 0.95rem; }
+.country-card .num { font-size: 1.1rem; font-weight: 700; color: var(--red); direction: ltr; }
+.country-card .num a { color: var(--red); text-decoration: none; }
+.country-card .desc { font-size: 0.75rem; color: var(--dim2); }
+
+/* Medication */
+.med-list { display: flex; flex-direction: column; gap: 8px; }
+.med-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.med-card .med-icon { font-size: 28px; }
+.med-card .info { flex: 1; }
+.med-card .mname { font-weight: 600; font-size: 0.95rem; }
+.med-card .mtime { font-size: 0.8rem; color: var(--dim2); }
+.med-card .minst { font-size: 0.8rem; color: var(--gold); }
+.med-card .del-btn { color: var(--red); }
+
+/* Health advice */
+.section-title { font-size: 1rem; font-weight: 700; color: var(--gold); margin: 16px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.advice-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex; gap: 12px;
+}
+.advice-card .icon { font-size: 24px; flex-shrink: 0; }
+.advice-card .content { flex: 1; }
+.advice-card .title { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+.advice-card .desc { font-size: 0.85rem; color: var(--dim2); line-height: 1.6; }
+
+/* Reminder panel */
+.reminder-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none; align-items: center; justify-content: center;
+  z-index: 150; padding: 24px;
+  backdrop-filter: blur(4px);
+}
+.reminder-overlay.active { display: flex; }
+.reminder-card {
+  background: var(--surface);
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 100%; max-width: 360px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(200,150,62,0.2);
+}
+.reminder-card .icon { font-size: 48px; margin-bottom: 8px; }
+.reminder-card .title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+.reminder-card .detail { font-size: 0.9rem; color: var(--dim2); margin-bottom: 16px; }
+.reminder-card .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.reminder-card .actions button {
+  flex: 1; min-width: 80px; padding: 10px 14px;
+  border-radius: var(--radius-sm); border: none;
+  font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; font-family: inherit;
+}
+.reminder-card .taken { background: var(--green); color: #000; }
+.reminder-card .snooze { background: var(--yellow); color: #000; }
+.reminder-card .dismiss { background: var(--card); color: var(--dim2); border: 1px solid var(--border); }
+
+/* Toast */
+.toast {
+  position: fixed; top: 20px; left: 50%;
+  transform: translateX(-50%) translateY(-120px);
+  background: var(--card); color: var(--text);
+  padding: 14px 24px;
+  border-radius: 100px;
+  font-weight: 600; font-size: 0.9rem;
+  z-index: 300;
+  transition: transform 0.3s ease;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  pointer-events: none;
+  text-align: center;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(--green); }
+.toast.warning { border-color: var(--yellow); }
+.toast.error { border-color: var(--red); }
+
+/* Tabs */
+.lang-selector {
+  display: flex; gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  margin: 8px 0 12px;
+  width: 100%; max-width: 480px;
+}
+.lang-tab {
+  flex: 1; padding: 6px 4px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--dim2);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  gap: 3px;
+  font-family: inherit;
+  transition: all var(--transition);
+}
+.lang-tab.active { background: var(--gold); color: #1a1410; }
+.lang-tab .flag { font-size: 14px; }
+.lang-tab .code { font-size: 10px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+@media (min-width: 480px) {
+  .card-btn { padding: 20px 20px; }
+  .card-title { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- Reminder overlay -->
+<div class="reminder-overlay" id="reminderOverlay">
+  <div class="reminder-card">
+    <div class="icon">⏰</div>
+    <div class="title" id="remTitle">تذكير الدواء</div>
+    <div class="detail" id="remDetail">حان وقت دواء الضغط</div>
+    <div class="actions">
+      <button class="taken" onclick="medTaken()">✅ تم</button>
+      <button class="snooze" onclick="medSnooze()">🔔 لاحقاً</button>
+      <button class="dismiss" onclick="medDismiss()">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+    <button class="lang-btn" id="langBtn" onclick="cycleLang()">
+      <span class="flag">🇫🇷</span>
+      <span style="font-size:11px">FR</span>
+    </button>
+  </div>
+  <div class="app-title-area" style="text-align:center;margin:0 auto;padding:0">
+    <span class="app-title" style="font-size:1.4rem">رفيق</span>
+  </div>
+  <div style="width:90px"></div>
+</div>
+
+<div class="app-title-area">
+  <div class="app-icon">🤲</div>
+  <h1 class="app-title" id="appTitle">رفيق</h1>
+  <p class="app-subtitle" id="appSubtitle">مساعدك الشخصي الذكي</p>
+</div>
+
+<!-- Lang tabs -->
+<div class="lang-selector" id="langSelector">
+  <button class="lang-tab" data-lang="fr" onclick="setLang('fr')"><span class="flag">🇫🇷</span><span class="code">FR</span></button>
+  <button class="lang-tab" data-lang="en" onclick="setLang('en')"><span class="flag">🇬🇧</span><span class="code">EN</span></button>
+  <button class="lang-tab" data-lang="es" onclick="setLang('es')"><span class="flag">🇪🇸</span><span class="code">ES</span></button>
+  <button class="lang-tab active" data-lang="ar" onclick="setLang('ar')"><span class="flag">🇲🇦</span><span class="code">AR</span></button>
+</div>
+
+<!-- Datetime -->
+<div class="datetime-widget">
+  <div><div class="time-display" id="timeDisplay">12:00</div></div>
+  <div><div class="date-display" id="dateDisplay"></div><div class="date-hijri" id="hijriDisplay"></div></div>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="card-grid">
+    <button class="card-btn" onclick="showPage('meds')">
+      <div class="card-icon med">💊</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="medTitle">إدارة الأدوية</div>
+        <div class="card-desc" data-i18n="medDesc">جدول الأدوية والتذكيرات</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+    <button class="card-btn" onclick="showPage('sos')">
+      <div class="card-icon emergency">🆘</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="sosTitle">طوارئ وإسعاف</div>
+        <div class="card-desc" data-i18n="sosDesc">أرقام الطوارئ والمساعدة الفورية</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+    <button class="card-btn" onclick="showPage('family')">
+      <div class="card-icon family">👨‍👩‍👧‍👦</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="famTitle">العائلة</div>
+        <div class="card-desc" data-i18n="famDesc">جهات الاتصال السريعة بالعائلة</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+    <button class="card-btn" onclick="showPage('health')">
+      <div class="card-icon sport">💪</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="healthTitle">نصائح صحية</div>
+        <div class="card-desc" data-i18n="healthDesc">رياضة، تغذية، نوم، نصائح لكبار السن</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+    <button class="card-btn" onclick="findCenters()">
+      <div class="card-icon health">🏥</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="centersTitle">مراكز صحية</div>
+        <div class="card-desc" data-i18n="centersDesc">البحث عن مستشفيات وعيادات قريبة</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+    <button class="card-btn" onclick="showPage('settings')">
+      <div class="card-icon setting">⚙️</div>
+      <div class="card-content">
+        <div class="card-title" data-i18n="settingsTitle">الإعدادات</div>
+        <div class="card-desc" data-i18n="settingsDesc">إدارة أفراد العائلة والإعدادات</div>
+      </div>
+      <span class="card-arrow">›</span>
+    </button>
+  </div>
+</div>
+
+<!-- MEDICATIONS PAGE -->
+<div class="page" id="page-meds">
+  <div class="back-row">
+    <button class="back-btn" onclick="showPage('home')">‹</button>
+    <span class="page-title" data-i18n="medTitle">إدارة الأدوية</span>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="medSchedule">جدول الأدوية</div>
+    <div id="medList"></div>
+    <button class="add-btn" onclick="addMed()" data-i18n="addMed">+ إضافة دواء</button>
+  </div>
+</div>
+
+<!-- SOS PAGE -->
+<div class="page" id="page-sos">
+  <div class="back-row">
+    <button class="back-btn" onclick="showPage('home')">‹</button>
+    <span class="page-title" data-i18n="sosTitle">طوارئ وإسعاف</span>
+  </div>
+  <div class="card-btn danger" style="margin-bottom:12px" onclick="sosNow()">
+    <div class="card-icon emergency">🆘</div>
+    <div class="card-content">
+      <div class="card-title" data-i18n="sosNow">إرسال استغاثة فورية</div>
+      <div class="card-desc" data-i18n="sosNowDesc">رسالة واتساب للطوارئ إلى العائلة</div>
+    </div>
+    <span class="card-arrow">›</span>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="emergencyNumbers">أرقام الطوارئ حسب البلد</div>
+    <div class="country-grid" id="countryGrid"></div>
+  </div>
+</div>
+
+<!-- FAMILY PAGE -->
+<div class="page" id="page-family">
+  <div class="back-row">
+    <button class="back-btn" onclick="showPage('home')">‹</button>
+    <span class="page-title" data-i18n="famTitle">العائلة</span>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="famMembers">أفراد العائلة</div>
+    <div id="familyList"></div>
+    <button class="add-btn" onclick="addFamily()" data-i18n="addMember">+ إضافة فرد</button>
+  </div>
+</div>
+
+<!-- HEALTH PAGE -->
+<div class="page" id="page-health">
+  <div class="back-row">
+    <button class="back-btn" onclick="showPage('home')">‹</button>
+    <span class="page-title" data-i18n="healthTitle">نصائح صحية</span>
+  </div>
+
+  <div class="section-title" data-i18n="exerciseSec">🏃 تمارين رياضية</div>
+  <div id="exerciseList"></div>
+
+  <div class="section-title" data-i18n="foodSec">🥗 تغذية ونظام غذائي</div>
+  <div id="foodList"></div>
+
+  <div class="section-title" data-i18n="drinkSec">💧 شرب الماء</div>
+  <div id="drinkList"></div>
+
+  <div class="section-title" data-i18n="sleepSec">😴 نوم وراحة</div>
+  <div id="sleepList"></div>
+</div>
+
+<!-- SETTINGS PAGE -->
+<div class="page" id="page-settings">
+  <div class="back-row">
+    <button class="back-btn" onclick="showPage('home')">‹</button>
+    <span class="page-title" data-i18n="settingsTitle">الإعدادات</span>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="language">اللغة</div>
+    <div style="padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap">
+      <button class="lang-tab" data-lang="fr" onclick="setLang('fr')"><span class="flag">🇫🇷</span> Français</button>
+      <button class="lang-tab" data-lang="en" onclick="setLang('en')"><span class="flag">🇬🇧</span> English</button>
+      <button class="lang-tab" data-lang="es" onclick="setLang('es')"><span class="flag">🇪🇸</span> Español</button>
+      <button class="lang-tab active" data-lang="ar" onclick="setLang('ar')"><span class="flag">🇲🇦</span> العربية</button>
+    </div>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="theme">المظهر</div>
+    <div class="setting-row">
+      <span style="font-size:20px">🌙</span>
+      <span class="info"><span class="name" data-i18n="darkMode">الوضع الداكن</span><br><span class="phone" data-i18n="darkModeDesc">ألوان دافئة مريحة للعين</span></span>
+      <span id="themeToggle" style="font-size:24px;cursor:pointer" onclick="toggleTheme()">🌙</span>
+    </div>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="familyMgmt">إدارة العائلة</div>
+    <div class="setting-row" onclick="showPage('family')" style="cursor:pointer">
+      <span style="font-size:20px">👨‍👩‍👧‍👦</span>
+      <span class="info"><span class="name" data-i18n="famMembers">أفراد العائلة</span><br><span class="phone" data-i18n="famMgmtDesc">إضافة أو إزالة أفراد العائلة</span></span>
+      <span class="card-arrow">›</span>
+    </div>
+  </div>
+  <div class="setting-group">
+    <div class="setting-header" data-i18n="about">حول التطبيق</div>
+    <div class="setting-row">
+      <span style="font-size:20px">🤲</span>
+      <span class="info"><span class="name">Rafeeq v1.0</span><br><span class="phone" data-i18n="aboutDesc">تطبيق مساعد شخصي للعائلة والصحة</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">إضافة</div>
+    <div class="modal-field">
+      <label id="modalLabel1">الاسم</label>
+      <input id="modalInput1" placeholder="">
+    </div>
+    <div class="modal-field" id="modalField2">
+      <label id="modalLabel2">رقم الهاتف</label>
+      <input id="modalInput2" placeholder="+212" type="tel">
+    </div>
+    <div class="modal-field" id="modalField3" style="display:none">
+      <label id="modalLabel3">الجرعة</label>
+      <input id="modalInput3" placeholder="">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()" data-i18n="cancel">إلغاء</button>
+      <button class="btn-primary" id="modalSave" onclick="saveModal()" data-i18n="save">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════ LANG ═══════════════
+const LANG = {
+  fr: { code:'FR', flag:'🇫🇷', dir:'ltr', name:'Français' },
+  en: { code:'EN', flag:'🇬🇧', dir:'ltr', name:'English' },
+  es: { code:'ES', flag:'🇪🇸', dir:'ltr', name:'Español' },
+  ar: { code:'AR', flag:'🇲🇦', dir:'rtl', name:'العربية' }
+};
+
+const I18N = {
+  medTitle: { fr:'Médicaments', en:'Medications', es:'Medicamentos', ar:'إدارة الأدوية' },
+  medDesc: { fr:'Gestion des médicaments et rappels', en:'Medication schedule & reminders', es:'Horario de medicamentos y recordatorios', ar:'جدول الأدوية والتذكيرات' },
+  sosTitle: { fr:'Urgences', en:'Emergency', es:'Emergencias', ar:'طوارئ وإسعاف' },
+  sosDesc: { fr:'Numéros d\'urgence et aide immédiate', en:'Emergency numbers & immediate help', es:'Números de emergencia y ayuda inmediata', ar:'أرقام الطوارئ والمساعدة الفورية' },
+  famTitle: { fr:'Famille', en:'Family', es:'Familia', ar:'العائلة' },
+  famDesc: { fr:'Contacts rapides de la famille', en:'Quick family contacts', es:'Contactos rápidos familiares', ar:'جهات الاتصال السريعة بالعائلة' },
+  healthTitle: { fr:'Conseils Santé', en:'Health Tips', es:'Consejos de Salud', ar:'نصائح صحية' },
+  healthDesc: { fr:'Sport, nutrition, sommeil pour seniors', en:'Exercise, nutrition, sleep for seniors', es:'Ejercicio, nutrición, sueño para mayores', ar:'رياضة، تغذية، نوم، نصائح لكبار السن' },
+  centersTitle: { fr:'Centres de Santé', en:'Health Centers', es:'Centros de Salud', ar:'مراكز صحية' },
+  centersDesc: { fr:'Recherche d\'hôpitaux et cliniques proches', en:'Find nearby hospitals & clinics', es:'Buscar hospitales y clínicas cercanas', ar:'البحث عن مستشفيات وعيادات قريبة' },
+  settingsTitle: { fr:'Paramètres', en:'Settings', es:'Ajustes', ar:'الإعدادات' },
+  settingsDesc: { fr:'Gestion familiale et configuration', en:'Family management & configuration', es:'Gestión familiar y configuración', ar:'إدارة أفراد العائلة والإعدادات' },
+  medSchedule: { fr:'Calendrier des médicaments', en:'Medication Schedule', es:'Horario de medicamentos', ar:'جدول الأدوية' },
+  addMed: { fr:'+ Ajouter un médicament', en:'+ Add medication', es:'+ Añadir medicamento', ar:'+ إضافة دواء' },
+  sosNow: { fr:'🆘 Appel d\'urgence immédiat', en:'🆘 Send SOS Now', es:'🆘 Enviar SOS ahora', ar:'🆘 إرسال استغاثة فورية' },
+  sosNowDesc: { fr:'Message WhatsApp d\'urgence à la famille', en:'Emergency WhatsApp to family', es:'Mensaje WhatsApp de emergencia a la familia', ar:'رسالة واتساب للطوارئ إلى العائلة' },
+  emergencyNumbers: { fr:'Numéros d\'urgence par pays', en:'Emergency Numbers by Country', es:'Números de emergencia por país', ar:'أرقام الطوارئ حسب البلد' },
+  famMembers: { fr:'Membres de la famille', en:'Family Members', es:'Miembros de la familia', ar:'أفراد العائلة' },
+  addMember: { fr:'+ Ajouter un membre', en:'+ Add member', es:'+ Añadir miembro', ar:'+ إضافة فرد' },
+  exerciseSec: { fr:'🏃 Exercices physiques', en:'🏃 Physical Exercises', es:'🏃 Ejercicios físicos', ar:'🏃 تمارين رياضية' },
+  foodSec: { fr:'🥗 Nutrition et régime', en:'🥗 Nutrition & Diet', es:'🥗 Nutrición y dieta', ar:'🥗 تغذية ونظام غذائي' },
+  drinkSec: { fr:'💧 Hydratation', en:'💧 Hydration', es:'💧 Hidratación', ar:'💧 شرب الماء' },
+  sleepSec: { fr:'😴 Sommeil et repos', en:'😴 Sleep & Rest', es:'😴 Sueño y descanso', ar:'😴 نوم وراحة' },
+  language: { fr:'Langue', en:'Language', es:'Idioma', ar:'اللغة' },
+  theme: { fr:'Thème', en:'Theme', es:'Tema', ar:'المظهر' },
+  darkMode: { fr:'Mode sombre', en:'Dark mode', es:'Modo oscuro', ar:'الوضع الداكن' },
+  darkModeDesc: { fr:'Couleurs chaudes apaisantes', en:'Warm comfortable colors', es:'Colores cálidos y cómodos', ar:'ألوان دافئة مريحة للعين' },
+  familyMgmt: { fr:'Gestion familiale', en:'Family Management', es:'Gestión familiar', ar:'إدارة العائلة' },
+  familyMgmtDesc: { fr:'Ajouter ou retirer des membres', en:'Add or remove family members', es:'Añadir o eliminar miembros', ar:'إضافة أو إزالة أفراد العائلة' },
+  about: { fr:'À propos', en:'About', es:'Acerca de', ar:'حول التطبيق' },
+  aboutDesc: { fr:'Assistant personnel pour la famille et la santé', en:'Personal assistant for family & health', es:'Asistente personal para la familia y la salud', ar:'تطبيق مساعد شخصي للعائلة والصحة' },
+  cancel: { fr:'Annuler', en:'Cancel', es:'Cancelar', ar:'إلغاء' },
+  save: { fr:'Enregistrer', en:'Save', es:'Guardar', ar:'حفظ' },
+  name: { fr:'Nom', en:'Name', es:'Nombre', ar:'الاسم' },
+  phone: { fr:'Numéro de téléphone', en:'Phone number', es:'Número de teléfono', ar:'رقم الهاتف' },
+  dosage: { fr:'Instructions de dosage', en:'Dosage instructions', es:'Instrucciones de dosis', ar:'تعليمات الجرعة' },
+  medName: { fr:'Nom du médicament', en:'Medication name', es:'Nombre del medicamento', ar:'اسم الدواء' },
+  medTime: { fr:'Heure (HH:MM)', en:'Time (HH:MM)', es:'Hora (HH:MM)', ar:'الوقت (ساعة:دقيقة)' },
+  noMeds: { fr:'Aucun médicament ajouté', en:'No medications added', es:'Sin medicamentos añadidos', ar:'لا توجد أدوية مضافة' },
+  noFamily: { fr:'Aucun membre ajouté', en:'No family members added', es:'Sin miembros añadidos', ar:'لا يوجد أفراد عائلة مضافة' },
+  edit: { fr:'Modifier', en:'Edit', es:'Editar', ar:'تعديل' },
+  delete: { fr:'Supprimer', en:'Delete', es:'Eliminar', ar:'حذف' },
+  appSubtitle: { fr:'Votre assistant personnel intelligent', en:'Your smart personal assistant', es:'Su asistente personal inteligente', ar:'مساعدك الشخصي الذكي' },
+  at: { fr:'à', en:'at', es:'a las', ar:'الساعة' },
+  reminderTitle: { fr:'💊 Rappel de médicament', en:'💊 Medication Reminder', es:'💊 Recordatorio de medicamentos', ar:'💊 تذكير الدواء' },
+  taken: { fr:'✅ Pris', en:'✅ Taken', es:'✅ Tomado', ar:'✅ تم' },
+  later: { fr:'🔔 Plus tard', en:'🔔 Later', es:'🔔 Más tarde', ar:'🔔 لاحقاً' },
+  close: { fr:'✕ Fermer', en:'✕ Close', es:'✕ Cerrar', ar:'✕ إغلاق' },
+  sosSent: { fr:'🚨 Alarme envoyée!', en:'🚨 SOS sent!', es:'🚨 ¡SOS enviado!', ar:'🚨 تم إرسال الاستغاثة!' },
+  sosConfirm: { fr:'🆘 Envoyer une alerte d\'urgence?\nUn message WhatsApp sera envoyé.', en:'🆘 Send emergency alert?\nA WhatsApp message will be sent.', es:'🆘 ¿Enviar alerta de emergencia?\nSe enviará un mensaje de WhatsApp.', ar:'🆘 هل أنت متأكد من إرسال استغاثة طوارئ؟\nسيتم إرسال رسالة واتساب.' },
+  hello: { fr:'Bonjour', en:'Hello', es:'Hola', ar:'مرحباً' },
+  goodMorning: { fr:'Bonjour', en:'Good morning', es:'Buenos días', ar:'صباح الخير' },
+  goodAfternoon: { fr:'Bon après-midi', en:'Good afternoon', es:'Buenas tardes', ar:'مساء الخير' },
+  goodEvening: { fr:'Bonsoir', en:'Good evening', es:'Buenas noches', ar:'مساء الخير' },
+  voice: { fr:'🎤 Assistant vocal', en:'🎤 Voice Assistant', es:'🎤 Asistente de voz', ar:'🎤 المساعد الصوتي' },
+  listening: { fr:'🔴 Écoute...', en:'🔴 Listening...', es:'🔴 Escuchando...', ar:'🔴 جاري الاستماع...' },
+};
+
+// ═══════════════ COUNTRY SOS ═══════════════
+const COUNTRIES = [
+  { flag:'🇲🇦', name:{ fr:'Maroc', en:'Morocco', es:'Marruecos', ar:'المغرب' }, ambulance:'15', police:'19', fire:'15' },
+  { flag:'🇫🇷', name:{ fr:'France', en:'France', es:'Francia', ar:'فرنسا' }, ambulance:'15', police:'17', fire:'18', europe:'112' },
+  { flag:'🇪🇸', name:{ fr:'Espagne', en:'Spain', es:'España', ar:'إسبانيا' }, ambulance:'061', police:'091', fire:'080', europe:'112' },
+  { flag:'🇬🇧', name:{ fr:'Royaume-Uni', en:'United Kingdom', es:'Reino Unido', ar:'المملكة المتحدة' }, ambulance:'999', police:'999', fire:'999' },
+  { flag:'🇩🇪', name:{ fr:'Allemagne', en:'Germany', es:'Alemania', ar:'ألمانيا' }, ambulance:'112', police:'110', fire:'112' },
+  { flag:'🇮🇹', name:{ fr:'Italie', en:'Italy', es:'Italia', ar:'إيطاليا' }, ambulance:'118', police:'113', fire:'115', europe:'112' },
+  { flag:'🇧🇪', name:{ fr:'Belgique', en:'Belgium', es:'Bélgica', ar:'بلجيكا' }, ambulance:'100', police:'101', fire:'100', europe:'112' },
+  { flag:'🇳🇱', name:{ fr:'Pays-Bas', en:'Netherlands', es:'Países Bajos', ar:'هولندا' }, ambulance:'112', police:'112', fire:'112' },
+  { flag:'🇨🇦', name:{ fr:'Canada', en:'Canada', es:'Canadá', ar:'كندا' }, ambulance:'911', police:'911', fire:'911' },
+  { flag:'🇺🇸', name:{ fr:'États-Unis', en:'United States', es:'Estados Unidos', ar:'الولايات المتحدة' }, ambulance:'911', police:'911', fire:'911' },
+  { flag:'🇦🇪', name:{ fr:'Émirats Arabes Unis', en:'UAE', es:'EAU', ar:'الإمارات' }, ambulance:'998', police:'999', fire:'997' },
+  { flag:'🇸🇦', name:{ fr:'Arabie Saoudite', en:'Saudi Arabia', es:'Arabia Saudí', ar:'المملكة العربية السعودية' }, ambulance:'997', police:'999', fire:'998' },
+  { flag:'🇪🇬', name:{ fr:'Égypte', en:'Egypt', es:'Egipto', ar:'مصر' }, ambulance:'123', police:'122', fire:'180' },
+  { flag:'🇹🇳', name:{ fr:'Tunisie', en:'Tunisia', es:'Túnez', ar:'تونس' }, ambulance:'190', police:'197', fire:'198' },
+  { flag:'🇩🇿', name:{ fr:'Algérie', en:'Algeria', es:'Argelia', ar:'الجزائر' }, ambulance:'14', police:'17', fire:'14' },
+  { flag:'🇱🇾', name:{ fr:'Libye', en:'Libya', es:'Libia', ar:'ليبيا' }, ambulance:'1515', police:'1515', fire:'1515' },
+];
+
+// Health advice content
+const EXERCISES = {
+  fr: [
+    { icon:'🚶', title:'Marche douce', desc:'15-30 min de marche par jour. Commencez par 5 min, augmentez progressivement. Idéal pour la circulation sanguine.' },
+    { icon:'🧘', title:'Étirements assis', desc:'Étirements doux en position assise : cou, épaules, poignets, chevilles. Maintenez chaque étirement 15-30 secondes.' },
+    { icon:'💪', title:'Renforcement des jambes', desc:'Assis sur une chaise, levez et abaissez lentement chaque jambe 10 fois. Renforce les muscles sans risques de chute.' },
+    { icon:'🤲', title:'Rotation des poignets', desc:'Asseyez-vous confortablement, faites tourner vos poignets 10 fois dans chaque sens. Soulage l\'arthrite et améliore la flexibilité.' },
+    { icon:'🦶', title:'Soulèvement des talons', desc:'Debout en tenant une chaise, levez et abaissez les talons 15 fois. Renforce les chevilles et améliore l\'équilibre.' },
+  ],
+  en: [
+    { icon:'🚶', title:'Gentle Walking', desc:'15-30 min of walking daily. Start with 5 min, increase gradually. Great for blood circulation.' },
+    { icon:'🧘', title:'Seated Stretches', desc:'Gentle stretches while seated: neck, shoulders, wrists, ankles. Hold each stretch 15-30 seconds.' },
+    { icon:'💪', title:'Leg Strengthening', desc:'Sitting on a chair, slowly lift and lower each leg 10 times. Strengthens muscles without fall risk.' },
+    { icon:'🤲', title:'Wrist Rotations', desc:'Sit comfortably, rotate wrists 10 times each direction. Relieves arthritis, improves flexibility.' },
+    { icon:'🦶', title:'Heel Raises', desc:'Stand holding a chair, raise and lower heels 15 times. Strengthens ankles and improves balance.' },
+  ],
+  es: [
+    { icon:'🚶', title:'Caminata suave', desc:'15-30 min de caminata diaria. Empiece con 5 min, aumente gradualmente. Ideal para la circulación.' },
+    { icon:'🧘', title:'Estiramientos sentado', desc:'Estiramientos suaves sentado: cuello, hombros, muñecas, tobillos. Mantenga cada estiramiento 15-30 segundos.' },
+    { icon:'💪', title:'Fortalecimiento de piernas', desc:'Sentado en una silla, levante y baje cada pierna 10 veces. Fortalece sin riesgo de caídas.' },
+    { icon:'🤲', title:'Rotación de muñecas', desc:'Siéntese cómodamente, gire las muñecas 10 veces en cada dirección. Alivia la artritis.' },
+    { icon:'🦶', title:'Elevación de talones', desc:'De pie sujetando una silla, eleve y baje los talones 15 veces. Fortalece tobillos y equilibrio.' },
+  ],
+  ar: [
+    { icon:'🚶', title:'المشي اللطيف', desc:'15-30 دقيقة مشي يومياً. ابدأ بـ 5 دقائق وزدد بالتدريج. مفيد للدورة الدموية.' },
+    { icon:'🧘', title:'تمارين تمدد أثناء الجلوس', desc:'تمددات لطيفة أثناء الجلوس: الرقبة، الكتفين، المعصمين، الكاحلين. أمسك كل تمدد 15-30 ثانية.' },
+    { icon:'💪', title:'تقوية الساقين', desc:'اجلس على كرسي، ارفع واخفض كل ساق ببطء 10 مرات. يقوي العضلات دون خطر السقوط.' },
+    { icon:'🤲', title:'تدوير المعصمين', desc:'اجلس براحة، دحرج معصميك 10 مرات في كل اتجاه. يخفف التهاب المفاصل ويحسن المرونة.' },
+    { icon:'🦶', title:'رفع الكعبين', desc:'قف ممسكاً بكرسي، ارفع واخفض كعبيك 15 مرة. يقوي الكاحلين ويحسن التوازن.' },
+  ]
+};
+
+const FOOD = {
+  fr: [
+    { icon:'🥦', title:'Légumes verts', desc:'Brocoli, épinards, courgettes - riches en vitamines et fibres. Consommez-en à chaque repas.' },
+    { icon:'🐟', title:'Poissons gras', desc:'Sardines, maquereau, saumon - riches en oméga-3 bons pour le cœur et le cerveau. 2 fois par semaine.' },
+    { icon:'🥛', title:'Produits laitiers', desc:'Lait, yaourt, fromage - essentiels pour le calcium et la santé des os. Privilégiez les versions allégées.' },
+    { icon:'🌾', title:'Céréales complètes', desc:'Pain complet, riz brun, avoine - riches en fibres pour une bonne digestion et l\'énergie durable.' },
+    { icon:'🥜', title:'Fruits secs', desc:'Amandes, noix, dattes - une poignée par jour pour les bons gras et les minéraux.' },
+  ],
+  en: [
+    { icon:'🥦', title:'Green Vegetables', desc:'Broccoli, spinach, zucchini - rich in vitamins and fiber. Have them with every meal.' },
+    { icon:'🐟', title:'Fatty Fish', desc:'Sardines, mackerel, salmon - rich in omega-3 for heart and brain health. Twice a week.' },
+    { icon:'🥛', title:'Dairy Products', desc:'Milk, yogurt, cheese - essential for calcium and bone health. Choose low-fat options.' },
+    { icon:'🌾', title:'Whole Grains', desc:'Whole wheat bread, brown rice, oats - rich in fiber for digestion and sustained energy.' },
+    { icon:'🥜', title:'Nuts & Seeds', desc:'Almonds, walnuts, dates - a handful daily for healthy fats and minerals.' },
+  ],
+  es: [
+    { icon:'🥦', title:'Verduras verdes', desc:'Brócoli, espinacas, calabacín - ricos en vitaminas y fibra. Consuma en cada comida.' },
+    { icon:'🐟', title:'Pescado azul', desc:'Sardinas, caballa, salmón - ricos en omega-3 para corazón y cerebro. 2 veces por semana.' },
+    { icon:'🥛', title:'Lácteos', desc:'Leche, yogur, queso - esenciales para el calcio y huesos. Elija opciones bajas en grasa.' },
+    { icon:'🌾', title:'Cereales integrales', desc:'Pan integral, arroz integral, avena - ricos en fibra para digestión y energía.' },
+    { icon:'🥜', title:'Frutos secos', desc:'Almendras, nueces, dátiles - un puñado al día para grasas saludables y minerales.' },
+  ],
+  ar: [
+    { icon:'🥦', title:'الخضروات الخضراء', desc:'بروكلي، سبانخ، كوسة - غنية بالفيتامينات والألياف. تناولها مع كل وجبة.' },
+    { icon:'🐟', title:'الأسماك الدهنية', desc:'سردين، ماكريل، سلمون - غنية بأوميغا 3 لصحة القلب والدماغ. مرتين أسبوعياً.' },
+    { icon:'🥛', title:'منتجات الألبان', desc:'حليب، زبادي، جبن - أساسية للكالسيوم وصحة العظام. اختر الأنواع قليلة الدسم.' },
+    { icon:'🌾', title:'الحبوب الكاملة', desc:'خبز كامل، أرز بني، شوفان - غنية بالألياف للهضم والطاقة المستدامة.' },
+    { icon:'🥜', title:'المكسرات', desc:'لوز، جوز، تمر - حفنة يومياً للدهون الصحية والمعادن.' },
+  ]
+};
+
+const DRINK = {
+  fr: [
+    { icon:'💧', title:'Eau (8 verres/jour)', desc:'Buvez au moins 8 verres d\'eau par jour. Évitez la déshydratation, surtout en été. Ajoutez du citron pour le goût.' },
+    { icon:'🍵', title:'Tisanes', desc:'Camomille, menthe, verveine - excellentes pour la digestion et la relaxation. Sans caféine.' },
+    { icon:'🥤', title:'Jus naturels', desc:'Jus d\'orange, de grenade ou de carotte frais. Riches en vitamines, sans sucre ajouté. Un verre par jour.' },
+    { icon:'🚫', title:'Boissons à éviter', desc:'Limitez le café (max 2/jour), évitez les sodas et boissons sucrées. Préférez l\'eau et les tisanes.' },
+  ],
+  en: [
+    { icon:'💧', title:'Water (8 glasses/day)', desc:'Drink at least 8 glasses of water daily. Avoid dehydration, especially in summer. Add lemon for flavor.' },
+    { icon:'🍵', title:'Herbal Teas', desc:'Chamomile, mint, verbena - great for digestion and relaxation. Caffeine-free.' },
+    { icon:'🥤', title:'Natural Juices', desc:'Fresh orange, pomegranate or carrot juice. Rich in vitamins, no added sugar. One glass daily.' },
+    { icon:'🚫', title:'Drinks to avoid', desc:'Limit coffee (max 2/day), avoid sodas and sugary drinks. Prefer water and herbal teas.' },
+  ],
+  es: [
+    { icon:'💧', title:'Agua (8 vasos/día)', desc:'Beba al menos 8 vasos de agua al día. Evite la deshidratación, especialmente en verano.' },
+    { icon:'🍵', title:'Tés de hierbas', desc:'Manzanilla, menta, verbena - excelentes para digestión y relajación. Sin cafeína.' },
+    { icon:'🥤', title:'Jugos naturales', desc:'Jugo fresco de naranja, granada o zanahoria. Rico en vitaminas, sin azúcar. Un vaso al día.' },
+    { icon:'🚫', title:'Bebidas a evitar', desc:'Limite el café (máx 2/día), evite refrescos y bebidas azucaradas. Prefiera agua e infusiones.' },
+  ],
+  ar: [
+    { icon:'💧', title:'الماء (8 أكواب/يوم)', desc:'اشرب 8 أكواب ماء يومياً على الأقل. تجنب الجفاف خاصة في الصيف. أضف الليمون للنكهة.' },
+    { icon:'🍵', title:'شاي الأعشاب', desc:'بابونج، نعناع، لويزة - ممتازة للهضم والاسترخاء. خالية من الكافيين.' },
+    { icon:'🥤', title:'العصائر الطبيعية', desc:'عصير برتقال طازج، رمان أو جزر. غني بالفيتامينات دون سكر مضاف. كوب واحد يومياً.' },
+    { icon:'🚫', title:'مشروبات يجب تجنبها', desc:'قلل القهوة (2 كوب/يوم كحد أقصى)، تجنب المشروبات الغازية والمحلاة. اختر الماء والأعشاب.' },
+  ]
+};
+
+const SLEEP = {
+  fr: [
+    { icon:'🛏️', title:'Heures régulières', desc:'Couchez-vous et levez-vous à la même heure chaque jour. 7-8 heures de sommeil par nuit.' },
+    { icon:'📱', title:'Évitez les écrans', desc:'Éteignez téléphone et TV 1h avant le coucher. La lumière bleue perturbe le sommeil.' },
+    { icon:'🌡️', title:'Température de la chambre', desc:'Maintenez une température fraîche (18-20°C). Une chambre bien aérée favorise le sommeil.' },
+    { icon:'🧘', title:'Rituel de relaxation', desc:'Lecture douce, prière, respiration profonde ou musique calme avant le coucher. Évitez les discussions stressantes.' },
+    { icon:'☕', title:'Évitez la caféine', desc:'Pas de café, thé fort ou chocolat après 16h. Préférez une tisane apaisante le soir.' },
+  ],
+  en: [
+    { icon:'🛏️', title:'Regular Schedule', desc:'Go to bed and wake up at the same time daily. 7-8 hours of sleep per night.' },
+    { icon:'📱', title:'Avoid Screens', desc:'Turn off phone and TV 1 hour before bed. Blue light disrupts sleep.' },
+    { icon:'🌡️', title:'Room Temperature', desc:'Keep a cool temperature (18-20°C). A well-ventilated room promotes sleep.' },
+    { icon:'🧘', title:'Relaxation Routine', desc:'Gentle reading, prayer, deep breathing or calm music before bed. Avoid stressful discussions.' },
+    { icon:'☕', title:'Avoid Caffeine', desc:'No coffee, strong tea or chocolate after 4pm. Prefer a soothing herbal tea in the evening.' },
+  ],
+  es: [
+    { icon:'🛏️', title:'Horario regular', desc:'Acuéstese y levántese a la misma hora cada día. 7-8 horas de sueño por noche.' },
+    { icon:'📱', title:'Evite pantallas', desc:'Apague el teléfono y TV 1 hora antes de dormir. La luz azul altera el sueño.' },
+    { icon:'🌡️', title:'Temperatura ambiente', desc:'Mantenga una temperatura fresca (18-20°C). Una habitación ventilada favorece el sueño.' },
+    { icon:'🧘', title:'Rutina de relajación', desc:'Lectura suave, oración, respiración profunda o música tranquila. Evite discusiones estresantes.' },
+    { icon:'☕', title:'Evite la cafeína', desc:'Nada de café, té fuerte o chocolate después de las 16h. Prefiera una infusión relajante.' },
+  ],
+  ar: [
+    { icon:'🛏️', title:'مواعيد منتظمة', desc:'نم واستيقظ في نفس الوقت يومياً. 7-8 ساعات نوم كل ليلة.' },
+    { icon:'📱', title:'تجنب الشاشات', desc:'أغلق الهاتف والتلفاز قبل النوم بساعة. الضوء الأزرق يزعج النوم.' },
+    { icon:'🌡️', title:'درجة حرارة الغرفة', desc:'حافظ على درجة حرارة معتدلة (18-20°م). غرفة جيدة التهوية تساعد على النوم.' },
+    { icon:'🧘', title:'طقوس الاسترخاء', desc:'قراءة خفيفة، صلاة، تنفس عميق أو موسيقى هادئة قبل النوم. تجب النقاشات المجهدة.' },
+    { icon:'☕', title:'تجنب الكافيين', desc:'لا قهوة أو شاي قوي أو شوكولاتة بعد الساعة 4 مساءً. اشرب شاي أعشاب مهدئ مساءً.' },
+  ]
+};
+
+// ═══════════════ STATE ═══════════════
+let currentLang = localStorage.getItem('rafeeq_lang') || 'ar';
+let currentTheme = localStorage.getItem('rafeeq_theme') || 'dark';
+let familyMembers = JSON.parse(localStorage.getItem('rafeeq_family') || '[]');
+let medications = JSON.parse(localStorage.getItem('rafeeq_meds') || '[]');
+let modalMode = '';
+let modalEditIdx = -1;
+let reminderTimeout = null;
+
+// ═══════════════ INIT ═══════════════
+setLang(currentLang);
+setTheme(currentTheme);
+updateDateTime();
+setInterval(updateDateTime, 10000);
+checkMedTimes();
+setInterval(checkMedTimes, 30000);
+renderAll();
+
+setTimeout(() => {
+  const h = new Date().getHours();
+  let gk = 'hello';
+  if (h < 12) gk = 'goodMorning';
+  else if (h < 17) gk = 'goodAfternoon';
+  else gk = 'goodEvening';
+  showToast(t(gk) + '! 🤲', 'success');
+}, 1500);
+
+// ═══════════════ LANG FUNCTIONS ═══════════════
+function t(key) { return I18N[key]?.[currentLang] || key; }
+
+function setLang(l) {
+  currentLang = l;
+  localStorage.setItem('rafeeq_lang', l);
+  document.documentElement.dir = LANG[l].dir;
+  document.documentElement.lang = l === 'ar' ? 'ar' : l;
+  document.querySelectorAll('.lang-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === l);
+  });
+  document.getElementById('langBtn').innerHTML = `<span class="flag">${LANG[l].flag}</span><span style="font-size:11px">${LANG[l].code}</span>`;
+  applyI18n();
+  renderAll();
+}
+
+function cycleLang() {
+  const langs = ['fr','en','es','ar'];
+  const idx = langs.indexOf(currentLang);
+  setLang(langs[(idx + 1) % langs.length]);
+}
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (I18N[key]) el.textContent = t(key);
+  });
+}
+
+// ═══════════════ THEME ═══════════════
+function setTheme(t) {
+  currentTheme = t;
+  localStorage.setItem('rafeeq_theme', t);
+  document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+  const icon = t === 'light' ? '☀️' : '🌙';
+  document.getElementById('themeBtn').textContent = icon;
+  document.getElementById('themeToggle').textContent = icon;
+  document.querySelector('meta[name="theme-color"]').content = t === 'light' ? '#f5f0e8' : '#1a1410';
+}
+
+function toggleTheme() {
+  setTheme(currentTheme === 'light' ? 'dark' : 'light');
+}
+
+// ═══════════════ DATE/TIME ═══════════════
+function updateDateTime() {
+  const now = new Date();
+  document.getElementById('timeDisplay').textContent = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const opt = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  const loc = currentLang === 'ar' ? 'ar-SA' : currentLang + '-US';
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString(loc, opt);
+  // Approx Hijri
+  const jd = Math.floor(now.getTime() / 86400000 + 2440587.5);
+  const l = jd - 1948440 + 10632;
+  const n = Math.floor((l - 1) / 10631);
+  const l2 = l - 10631 * n + 354;
+  const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719) + Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
+  const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+  const hm = Math.floor((24 * l3) / 709);
+  const hd = l3 - Math.floor((709 * hm) / 24);
+  const hy = 30 * n + j - 30;
+  const hmonths = ['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+  const hmonth = hmonths[(hm - 1 + 12) % 12] || '';
+  if (currentLang === 'ar') document.getElementById('hijriDisplay').textContent = hd + ' ' + hmonth + ' ' + hy + ' هـ';
+  else document.getElementById('hijriDisplay').textContent = '';
+}
+
+// ═══════════════ TOAST ═══════════════
+let toastTimeout;
+function showToast(msg, type) {
+  clearTimeout(toastTimeout);
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (type || '');
+  toastTimeout = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ═══════════════ PAGE ROUTING ═══════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (name === 'meds') renderMeds();
+  if (name === 'family') renderFamily();
+  if (name === 'sos') renderSOS();
+  if (name === 'health') renderHealth();
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════ RENDER ALL ═══════════════
+function renderAll() {
+  document.getElementById('appTitle').textContent = currentLang === 'ar' ? 'رفيق' : currentLang === 'fr' ? 'Rafeeq' : currentLang === 'es' ? 'Rafeeq' : 'Rafeeq';
+  document.getElementById('appSubtitle').textContent = t('appSubtitle');
+  applyI18n();
+}
+
+// ═══════════════ FAMILY ═══════════════
+function renderFamily() {
+  const el = document.getElementById('familyList');
+  if (!familyMembers.length) {
+    el.innerHTML = `<div class="setting-row"><span class="info"><span class="name">${t('noFamily')}</span></span></div>`;
+    return;
+  }
+  el.innerHTML = familyMembers.map((m, i) =>
+    `<div class="setting-row">
+      <span style="font-size:20px">👤</span>
+      <span class="info"><span class="name">${esc(m.name)}</span><br><span class="phone">${esc(m.phone)}</span></span>
+      <button class="del-btn" onclick="delFamily(${i})">🗑️</button>
+      <a href="tel:${m.phone}" style="text-decoration:none;font-size:22px">📞</a>
+    </div>`
+  ).join('');
+}
+
+function addFamily() {
+  modalMode = 'family';
+  modalEditIdx = -1;
+  document.getElementById('modalTitle').textContent = t('addMember');
+  document.getElementById('modalLabel1').textContent = t('name');
+  document.getElementById('modalInput1').value = '';
+  document.getElementById('modalLabel2').textContent = t('phone');
+  document.getElementById('modalInput2').value = '+';
+  document.getElementById('modalField3').style.display = 'none';
+  document.getElementById('modalBg').classList.add('active');
+  document.getElementById('modalInput1').focus();
+}
+
+function delFamily(idx) {
+  familyMembers.splice(idx, 1);
+  localStorage.setItem('rafeeq_family', JSON.stringify(familyMembers));
+  renderFamily();
+  showToast('🗑️ ' + t('delete'), '');
+}
+
+// ═══════════════ MEDICATIONS ═══════════════
+function renderMeds() {
+  const el = document.getElementById('medList');
+  if (!medications.length) {
+    el.innerHTML = `<div class="setting-row"><span class="info"><span class="name">${t('noMeds')}</span></span></div>`;
+    return;
+  }
+  el.innerHTML = medications.map((m, i) =>
+    `<div class="setting-row">
+      <span style="font-size:20px">💊</span>
+      <span class="info">
+        <span class="name">${esc(m.name)}</span><br>
+        <span class="phone">${t('at')} ${esc(m.time)} - ${esc(m.dose || '')}</span>
+      </span>
+      <button class="del-btn" onclick="delMed(${i})">🗑️</button>
+    </div>`
+  ).join('');
+}
+
+function addMed() {
+  modalMode = 'med';
+  modalEditIdx = -1;
+  document.getElementById('modalTitle').textContent = t('addMed');
+  document.getElementById('modalLabel1').textContent = t('medName');
+  document.getElementById('modalInput1').value = '';
+  document.getElementById('modalLabel2').textContent = t('medTime');
+  document.getElementById('modalInput2').value = '08:00';
+  document.getElementById('modalField3').style.display = 'block';
+  document.getElementById('modalLabel3').textContent = t('dosage');
+  document.getElementById('modalInput3').value = '';
+  document.getElementById('modalBg').classList.add('active');
+  document.getElementById('modalInput1').focus();
+}
+
+function delMed(idx) {
+  medications.splice(idx, 1);
+  localStorage.setItem('rafeeq_meds', JSON.stringify(medications));
+  renderMeds();
+  showToast('🗑️ ' + t('delete'), '');
+}
+
+function checkMedTimes() {
+  if (document.getElementById('reminderOverlay').classList.contains('active')) return;
+  const now = new Date();
+  const cur = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  medications.forEach(m => {
+    if (m.time === cur) {
+      showMedReminder(m);
+    }
+  });
+}
+
+let currentReminderMed = null;
+function showMedReminder(med) {
+  currentReminderMed = med;
+  document.getElementById('remTitle').textContent = t('reminderTitle');
+  document.getElementById('remDetail').textContent = med.name + ' - ' + med.time + ' | ' + (med.dose || '');
+  document.getElementById('reminderOverlay').classList.add('active');
+}
+
+function medTaken() {
+  document.getElementById('reminderOverlay').classList.remove('active');
+  showToast('✅ ' + t('taken'), 'success');
+  currentReminderMed = null;
+}
+
+function medSnooze() {
+  document.getElementById('reminderOverlay').classList.remove('active');
+  showToast('🔔 ' + t('later'), 'warning');
+  if (currentReminderMed) {
+    clearTimeout(reminderTimeout);
+    reminderTimeout = setTimeout(() => showMedReminder(currentReminderMed), 900000);
+  }
+}
+
+function medDismiss() {
+  document.getElementById('reminderOverlay').classList.remove('active');
+  currentReminderMed = null;
+}
+
+// ═══════════════ SOS ═══════════════
+function renderSOS() {
+  const el = document.getElementById('countryGrid');
+  el.innerHTML = COUNTRIES.map(c => {
+    const name = c.name[currentLang] || c.name.en;
+    return `<div class="country-card">
+      <span class="flag">${c.flag}</span>
+      <div class="info">
+        <div class="cname">${esc(name)}</div>
+        <div class="num">
+          🚑 <a href="tel:${c.ambulance}">${c.ambulance}</a>
+          ${c.police ? ' | 👮 <a href="tel:' + c.police + '">' + c.police + '</a>' : ''}
+          ${c.europe ? ' | 🇪🇺 <a href="tel:' + c.europe + '">' + c.europe + '</a>' : ''}
+        </div>
+        <div class="desc">🚑 ${t('sosDesc')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function sosNow() {
+  if (!confirm(t('sosConfirm'))) return;
+  const msg = encodeURIComponent('🆘 ' + t('sosSent') + ' - Rafeeq App');
+  let phone = '+33612345678';
+  if (familyMembers.length) phone = familyMembers[0].phone;
+  window.open('https://wa.me/' + phone.replace(/[^0-9]/g,'') + '?text=' + msg, '_blank');
+  showToast(t('sosSent'), 'error');
+}
+
+function findCenters() {
+  const q = currentLang === 'ar' ? encodeURIComponent('مستشفى أو مركز صحي قريب مني') :
+           currentLang === 'fr' ? encodeURIComponent('hôpital ou centre de santé près de moi') :
+           currentLang === 'es' ? encodeURIComponent('hospital o centro de salud cerca de mí') :
+           encodeURIComponent('hospital or health center near me');
+  window.open('https://www.google.com/maps/search/' + q, '_blank');
+}
+
+// ═══════════════ HEALTH ═══════════════
+function renderHealth() {
+  const lang = currentLang;
+  const ex = EXERCISES[lang] || EXERCISES.en;
+  const fd = FOOD[lang] || FOOD.en;
+  const dr = DRINK[lang] || DRINK.en;
+  const sl = SLEEP[lang] || SLEEP.en;
+
+  document.getElementById('exerciseList').innerHTML = ex.map(e =>
+    `<div class="advice-card"><div class="icon">${e.icon}</div><div class="content"><div class="title">${esc(e.title)}</div><div class="desc">${esc(e.desc)}</div></div></div>`
+  ).join('');
+
+  document.getElementById('foodList').innerHTML = fd.map(e =>
+    `<div class="advice-card"><div class="icon">${e.icon}</div><div class="content"><div class="title">${esc(e.title)}</div><div class="desc">${esc(e.desc)}</div></div></div>`
+  ).join('');
+
+  document.getElementById('drinkList').innerHTML = dr.map(e =>
+    `<div class="advice-card"><div class="icon">${e.icon}</div><div class="content"><div class="title">${esc(e.title)}</div><div class="desc">${esc(e.desc)}</div></div></div>`
+  ).join('');
+
+  document.getElementById('sleepList').innerHTML = sl.map(e =>
+    `<div class="advice-card"><div class="icon">${e.icon}</div><div class="content"><div class="title">${esc(e.title)}</div><div class="desc">${esc(e.desc)}</div></div></div>`
+  ).join('');
+}
+
+// ═══════════════ MODAL ═══════════════
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('active');
+}
+
+function saveModal() {
+  const v1 = document.getElementById('modalInput1').value.trim();
+  const v2 = document.getElementById('modalInput2').value.trim();
+  if (!v1) return showToast(t('name') + '?', 'warning');
+  if (modalMode === 'family') {
+    if (!v2) return showToast(t('phone') + '?', 'warning');
+    familyMembers.push({ name: v1, phone: v2 });
+    localStorage.setItem('rafeeq_family', JSON.stringify(familyMembers));
+    renderFamily();
+    showToast('✅ ' + t('save'), 'success');
+  } else if (modalMode === 'med') {
+    if (!v2) return showToast(t('medTime') + '?', 'warning');
+    medications.push({ name: v1, time: v2, dose: document.getElementById('modalInput3').value.trim() });
+    localStorage.setItem('rafeeq_meds', JSON.stringify(medications));
+    renderMeds();
+    showToast('✅ ' + t('save'), 'success');
+  }
+  closeModal();
+}
+
+// ═══════════════ UTILS ═══════════════
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ═══════════════ KEYBOARD SHORTCUTS ═══════════════
+document.addEventListener('keydown', e => {
+  if (e.key === 'm') showPage('meds');
+  if (e.key === 's') showPage('sos');
+  if (e.key === 'f') showPage('family');
+  if (e.key === 'h') showPage('health');
+  if (e.key === 't') toggleTheme();
+  if (e.key === 'l') cycleLang();
+  if (e.key === 'Escape') { closeModal(); document.getElementById('reminderOverlay').classList.remove('active'); }
+});
+
+console.log('🤲 Rafeeq v1.0 - Assistant personnel');
+console.log('⌨️  m=meds s=sos f=family h=health t=theme l=lang');
+</script>
+</body>
+</html>

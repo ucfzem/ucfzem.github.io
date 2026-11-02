@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SavoirsEnJouant Pro - مغامرة المعرفة</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Cairo:wght@400;600;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --text: #1a202c;
+      --text-secondary: #4a5568;
+      --primary: #ff6b6b;
+      --primary-dark: #e74c3c;
+      --secondary: #4ecdc4;
+      --accent: #ffe66d;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --border: #e2e8f0;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,0.15);
+      --radius: 18px;
+      --font-main: 'Poppins', sans-serif;
+      --font-heading: 'Baloo 2', cursive;
+      --font-ar: 'Cairo', sans-serif;
+      --transition: 0.2s ease;
+    }
+
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #263445;
+      --text: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --primary: #ff6b6b;
+      --primary-dark: #ef4444;
+      --secondary: #34d399;
+      --accent: #fbbf24;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --border: #334155;
+      --shadow: 0 8px 20px rgba(0,0,0,0.4);
+      --shadow-hover: 0 12px 28px rgba(0,0,0,0.6);
+    }
+
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background var(--transition), color var(--transition);
+    }
+
+
+    #app {
+      width: 100%;
+      max-width: 800px;
+      background: var(--surface);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-top: 5px;
+      min-height: calc(100vh - 30px);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+
+
+    /* En-tête */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      padding: 10px 18px;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+
+    .icon-btn {
+      background: none;
+      border: 2px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all var(--transition);
+    }
+
+
+    .icon-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--primary);
+    }
+
+
+    .score-badge {
+      background: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #1a202c;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+
+    /* Navigation */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+
+    .nav-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      padding: 14px 10px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      outline: none;
+      position: relative;
+    }
+
+
+    .nav-btn:hover, .nav-btn:focus-visible {
+      background: var(--surface-hover);
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+
+    .nav-btn.active {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+      box-shadow: 0 6px 12px rgba(78, 205, 196, 0.4);
+    }
+
+
+    .nav-btn .icon { font-size: 1.8rem; pointer-events: none; }
+
+
+    /* Écrans de jeu */
+    .game-screen {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+    }
+
+
+    .game-screen.active { display: flex; }
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+
+
+    .visual-display {
+      font-size: clamp(3rem, 10vw, 5rem);
+      margin: 15px 0;
+      line-height: 1.2;
+      user-select: none;
+      animation: float 3s ease-in-out infinite;
+    }
+
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+
+    /* Boutons choix */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+
+    .btn-option {
+      background: var(--surface-hover);
+      border: 2px solid var(--border);
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      outline: none;
+      text-align: center;
+    }
+
+
+    .btn-option:hover, .btn-option:focus-visible {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+
+    .btn-option.correct {
+      background: var(--success) !important;
+      color: white !important;
+      border-color: var(--success) !important;
+    }
+
+
+    .btn-option.wrong {
+      background: var(--danger) !important;
+      color: white !important;
+      border-color: var(--danger) !important;
+      animation: shake 0.4s;
+    }
+
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+
+    /* Constructeur de phrases */
+    .sentence-builder {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+
+    .target-zone {
+      min-height: 60px;
+      background: var(--surface-hover);
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      direction: rtl;
+    }
+
+
+    .words-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+
+    .word-chip {
+      background: var(--secondary);
+      color: white;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: all var(--transition);
+      font-size: 1rem;
+      outline: none;
+    }
+
+
+    .word-chip:hover, .word-chip:focus-visible {
+      background: var(--primary);
+      transform: scale(1.05);
+    }
+
+
+    /* Histoires */
+    .story-selector {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      width: 100%;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) transparent;
+    }
+
+
+    .story-chip {
+      white-space: nowrap;
+      background: var(--surface);
+      padding: 10px 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      color: var(--text);
+      outline: none;
+    }
+
+
+    .story-chip:hover, .story-chip:focus-visible {
+      background: var(--surface-hover);
+    }
+
+
+    .story-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+
+    .story-box {
+      text-align: left;
+      width: 100%;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 16px;
+      background: var(--surface-hover);
+      border-radius: 14px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+
+
+    .story-paragraph { margin-bottom: 14px; line-height: 1.6; }
+    .story-fr { font-size: 0.95rem; color: var(--text); }
+    .story-ar {
+      font-size: 1.05rem;
+      color: var(--secondary);
+      text-align: right;
+      direction: rtl;
+      font-family: var(--font-ar);
+      margin-top: 4px;
+    }
+
+
+    /* Bouton action */
+    .action-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all var(--transition);
+      outline: none;
+    }
+
+
+    .action-btn:hover, .action-btn:focus-visible {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+
+    /* Écran de bienvenue */
+    .welcome-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--surface);
+      border-radius: 24px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.5s;
+    }
+
+
+    .welcome-overlay.hidden { display: none; }
+
+
+    .welcome-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+
+    .welcome-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 400px;
+    }
+
+
+    .welcome-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+
+    .welcome-btn {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+
+    .welcome-btn:hover { background: var(--primary); }
+
+
+    /* Paramètres */
+    .settings-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+
+    .settings-overlay.hidden { display: none; }
+
+
+    .settings-panel {
+      background: var(--surface);
+      color: var(--text);
+      padding: 24px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: var(--shadow);
+    }
+
+
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background: var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+
+    .toggle-switch.active { background: var(--secondary); }
+
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      background: white;
+      border-radius: 50%;
+      transition: transform var(--transition);
+    }
+
+
+    .toggle-switch.active::after { transform: translateX(22px); }
+
+
+    /* Barre de progression */
+    .progress-section {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+
+    .progress-item {
+      margin-bottom: 10px;
+    }
+
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+
+    .progress-fill {
+      height: 100%;
+      background: var(--secondary);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+
+    .star-pop {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 6rem;
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+      z-index: 1000;
+      filter: drop-shadow(0 0 20px rgba(255, 230, 109, 0.8));
+    }
+
+
+    .star-pop.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+
+    /* Media queries grands écrans (TV) */
+    @media (min-width: 1200px) {
+      #app { max-width: 1000px; padding: 30px; }
+      .nav-grid { grid-template-columns: repeat(4, 1fr); }
+      .options-grid { grid-template-columns: repeat(2, 1fr); max-width: 800px; }
+      .btn-option { padding: 20px; }
+    }
+
+
+    @media (max-width: 400px) {
+      #app { padding: 10px; }
+      .logo { font-size: 1.1rem; }
+      .nav-btn { padding: 10px 6px; font-size: 0.8rem; }
+      .nav-btn .icon { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <!-- En-tête -->
+  <header>
+    <div class="logo">🌟 SavoirsEnJouant Pro</div>
+    <div class="header-actions">
+      <button class="icon-btn" id="settings-btn" aria-label="Paramètres">⚙️</button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Basculer le thème">🌓</button>
+      <div class="score-badge">⭐ <span id="score">0</span></div>
+    </div>
+  </header>
+
+
+  <!-- Écran de bienvenue -->
+  <div id="welcome-overlay" class="welcome-overlay">
+    <div class="welcome-title">🎓 SavoirsEnJouant Pro</div>
+    <div class="welcome-subtitle">
+      Apprends en t'amusant ! Vocabulaire, nombres, phrases et histoires en français et en arabe.
+    </div>
+    <div class="welcome-buttons">
+      <button class="welcome-btn" onclick="startApp()">🚀 Commencer</button>
+    </div>
+  </div>
+
+
+  <!-- Navigation -->
+  <nav class="nav-grid">
+    <button class="nav-btn active" data-tab="vocab" tabindex="0">
+      <span class="icon">🖼️</span> Mots & Thèmes
+    </button>
+    <button class="nav-btn" data-tab="numbers" tabindex="0">
+      <span class="icon">🔢</span> Nombres 1-10
+    </button>
+    <button class="nav-btn" data-tab="sentences" tabindex="0">
+      <span class="icon">🧩</span> Phrases 2 Langues
+    </button>
+    <button class="nav-btn" data-tab="stories" tabindex="0">
+      <span class="icon">📚</span> 15 Histoires
+    </button>
+  </nav>
+
+
+  <!-- 1. Vocabulaire -->
+  <section id="screen-vocab" class="game-screen active">
+    <div class="category-filter" id="vocab-cats" style="display: flex; gap: 6px; margin-bottom: 12px; width: 100%; overflow-x: auto;">
+      <button class="cat-btn active" data-cat="all" tabindex="0">Tous</button>
+      <button class="cat-btn" data-cat="animaux" tabindex="0">🐾 Animaux</button>
+      <button class="cat-btn" data-cat="nature" tabindex="0">🌱 Nature</button>
+      <button class="cat-btn" data-cat="pays" tabindex="0">🌍 Pays/Lieux</button>
+      <button class="cat-btn" data-cat="maison" tabindex="0">🏠 Maison</button>
+    </div>
+    <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 10px;">
+      <button class="icon-btn" id="direction-toggle" onclick="toggleDirection()">🔄 FR → AR</button>
+      <button class="icon-btn" onclick="speakCurrentVocab()">🔊 Écouter</button>
+    </div>
+    <div class="card">
+      <div id="vocab-emoji" class="visual-display">🦁</div>
+      <h3 id="vocab-prompt" style="margin-bottom: 15px;">Que veut dire ce mot en arabe ?</h3>
+      <div class="options-grid" id="vocab-options"></div>
+    </div>
+    <div class="progress-section" id="vocab-progress"></div>
+  </section>
+
+
+  <!-- 2. Nombres -->
+  <section id="screen-numbers" class="game-screen">
+    <div class="card">
+      <h3>Comptons ensemble ! / كم عدد الأشياء؟</h3>
+      <div id="numbers-emoji" class="visual-display">🍎🍎🍎</div>
+      <div class="options-grid" id="numbers-options"></div>
+    </div>
+  </section>
+
+
+  <!-- 3. Phrases -->
+  <section id="screen-sentences" class="game-screen">
+    <div class="card">
+      <h3>Trouve le sens / رتّب الجملة</h3>
+      <p id="sentence-translation" style="margin: 10px 0; font-weight: bold; color: var(--secondary);"></p>
+      <div class="sentence-builder">
+        <div class="target-zone" id="target-words"></div>
+        <div class="words-pool" id="source-words"></div>
+      </div>
+      <button class="action-btn" onclick="checkSentence()">Vérifier / تحقق</button>
+    </div>
+  </section>
+
+
+  <!-- 4. Histoires -->
+  <section id="screen-stories" class="game-screen">
+    <div class="story-selector" id="story-list"></div>
+    <div class="card">
+      <h3 id="story-title" style="margin-bottom: 10px;"></h3>
+      <div class="story-box" id="story-content"></div>
+      <div id="story-quiz" style="width: 100%;">
+        <p id="story-question" style="font-weight: bold; margin-bottom: 10px;"></p>
+        <div class="options-grid" id="story-options"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- Paramètres -->
+<div id="settings-overlay" class="settings-overlay hidden">
+  <div class="settings-panel">
+    <h2 style="margin-bottom: 20px;">⚙️ Paramètres</h2>
+    <div class="settings-item">
+      <span>🔊 Sons</span>
+      <div class="toggle-switch active" id="sound-toggle" onclick="toggleSetting('sound')"></div>
+    </div>
+    <div class="settings-item">
+      <span>📳 Vibrations</span>
+      <div class="toggle-switch active" id="vibration-toggle" onclick="toggleSetting('vibration')"></div>
+    </div>
+    <div class="settings-item">
+      <span>🔄 Direction du vocabulaire</span>
+      <span id="direction-label">FR → AR</span>
+    </div>
+    <button class="action-btn" onclick="resetScore()">🔄 Réinitialiser le score</button>
+    <button class="action-btn" style="background: var(--border); color: var(--text);" onclick="closeSettings()">Fermer</button>
+  </div>
+</div>
+
+
+<div id="star-animation" class="star-pop">⭐</div>
+
+
+<script>
+/* ==========================================================================
+   DONNÉES DU JEU (enrichies)
+   ========================================================================== */
+
+
+// Audio + vibration
+let audioCtx = null;
+let soundEnabled = true;
+let vibrationEnabled = true;
+
+
+function storeGet(key) {
+  try { return localStorage.getItem(key); } catch(e) { return null; }
+}
+
+
+function storeSet(key, val) {
+  try { localStorage.setItem(key, val); } catch(e) {}
+}
+
+
+function storeRemove(key) {
+  try { localStorage.removeItem(key); } catch(e) {}
+}
+
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      try {
+        audioCtx = new AC();
+      } catch(e) {
+        audioCtx = null;
+      }
+    }
+  }
+  return audioCtx;
+}
+
+
+function playSound(type) {
+  if (!soundEnabled) return;
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    if (type === 'correct') {
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.3);
+    } else if (type === 'wrong') {
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.setValueAtTime(180, ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.3);
+    }
+    if (vibrationEnabled && navigator.vibrate) {
+      navigator.vibrate(type === 'correct' ? 100 : [50, 50, 50]);
+    }
+  } catch(e) {}
+}
+
+
+let score = 0;
+function addScore(pts = 10) {
+  score += pts;
+  document.getElementById('score').innerText = score;
+  storeSet('savoirsEnJouant_score', score);
+  showStar();
+}
+
+
+function showStar() {
+  const star = document.getElementById('star-animation');
+  star.classList.add('show');
+  setTimeout(() => star.classList.remove('show'), 600);
+}
+
+
+/* --- 1. VOCABULAIRE --- */
+const vocabData = [
+  // Animaux
+  { emoji: "🦁", fr: "Lion", ar: "أسد", cat: "animaux", distractors: ["فيل", "قرد"] },
+  { emoji: "🐘", fr: "Éléphant", ar: "فيل", cat: "animaux", distractors: ["أسد", "زرافة"] },
+  { emoji: "🐱", fr: "Chat", ar: "قطة", cat: "animaux", distractors: ["كلب", "أرنب"] },
+  { emoji: "🦅", fr: "Aigle", ar: "نسر", cat: "animaux", distractors: ["عصفور", "بطة"] },
+  { emoji: "🐬", fr: "Dauphin", ar: "دلفين", cat: "animaux", distractors: ["قرش", "حوت"] },
+  // Nature
+  { emoji: "🌲", fr: "Arbre", ar: "شجرة", cat: "nature", distractors: ["زهرة", "جبل"] },
+  { emoji: "🌸", fr: "Fleur", ar: "زهرة", cat: "nature", distractors: ["ورقة", "شمس"] },
+  { emoji: "🏔️", fr: "Montagne", ar: "جبل", cat: "nature", distractors: ["نهر", "بحر"] },
+  { emoji: "☀️", fr: "Soleil", ar: "شمس", cat: "nature", distractors: ["قمر", "نجمة"] },
+  { emoji: "🌧️", fr: "Pluie", ar: "مطر", cat: "nature", distractors: ["ثلج", "ريح"] },
+  // Pays & Lieux
+  { emoji: "🇲🇦", fr: "Maroc", ar: "المغرب", cat: "pays", distractors: ["فرنسا", "مصر"] },
+  { emoji: "🇫🇷", fr: "France", ar: "فرنسا", cat: "pays", distractors: ["إسبانيا", "المغرب"] },
+  { emoji: "🏜️", fr: "Désert", ar: "صحراء", cat: "pays", distractors: ["غابة", "مدينة"] },
+  { emoji: "🏖️", fr: "Plage", ar: "شاطئ", cat: "pays", distractors: ["جبل", "حديقة"] },
+  // Maison
+  { emoji: "🏠", fr: "Maison", ar: "منزل", cat: "maison", distractors: ["مدرسة", "مكتب"] },
+  { emoji: "🚪", fr: "Porte", ar: "باب", cat: "maison", distractors: ["نافذة", "سرير"] },
+  { emoji: "🪟", fr: "Fenêtre", ar: "نافذة", cat: "maison", distractors: ["باب", "طاولة"] },
+  { emoji: "🛏️", fr: "Lit", ar: "سرير", cat: "maison", distractors: ["كرسي", "خزانة"] },
+  { emoji: "🍎", fr: "Pomme", ar: "تفاحة", cat: "maison", distractors: ["موزة", "برتقالة"] },
+  { emoji: "📚", fr: "Livre", ar: "كتاب", cat: "maison", distractors: ["قلم", "حقيبة"] }
+];
+
+
+let currentVocabFilter = 'all';
+let currentVocabIndex = 0;
+let filteredVocab = [...vocabData];
+let vocabDirection = 'fr-to-ar'; // 'fr-to-ar' or 'ar-to-fr'
+let vocabCorrectCount = {}; // pour suivi
+
+
+// Initialiser les compteurs
+vocabData.forEach(item => { vocabCorrectCount[item.cat] = 0; });
+
+
+function toggleDirection() {
+  vocabDirection = vocabDirection === 'fr-to-ar' ? 'ar-to-fr' : 'fr-to-ar';
+  const btn = document.getElementById('direction-toggle');
+  btn.innerText = vocabDirection === 'fr-to-ar' ? '🔄 FR → AR' : '🔄 AR → FR';
+  document.getElementById('direction-label').innerText = vocabDirection === 'fr-to-ar' ? 'FR → AR' : 'AR → FR';
+  loadVocabQuestion();
+}
+
+
+function filterVocab(cat) {
+  currentVocabFilter = cat;
+  document.querySelectorAll('#vocab-cats .cat-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('#vocab-cats .cat-btn[data-cat="' + cat + '"]').classList.add('active');
+  filteredVocab = cat === 'all' ? [...vocabData] : vocabData.filter(item => item.cat === cat);
+  currentVocabIndex = 0;
+  loadVocabQuestion();
+}
+
+
+function loadVocabQuestion() {
+  if (filteredVocab.length === 0) return;
+  const item = filteredVocab[currentVocabIndex % filteredVocab.length];
+  document.getElementById('vocab-emoji').innerText = item.emoji;
+
+
+  let prompt, correctAnswer, distractors;
+  if (vocabDirection === 'fr-to-ar') {
+    prompt = `Comment dit-on "${item.fr}" en arabe ?`;
+    correctAnswer = item.ar;
+    distractors = item.distractors;
+  } else {
+    prompt = `Comment dit-on "${item.ar}" en français ?`;
+    correctAnswer = item.fr;
+    // Distracteurs français : on prend des fr d'autres items de la même catégorie
+    const sameCat = vocabData.filter(v => v.cat === item.cat && v.fr !== item.fr);
+    distractors = sameCat.slice(0, 2).map(v => v.fr);
+  }
+
+
+  document.getElementById('vocab-prompt').innerText = prompt;
+
+
+  const options = [correctAnswer, ...distractors].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('vocab-options');
+  container.innerHTML = '';
+
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = opt;
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => handleVocabAnswer(btn, opt === correctAnswer, item.cat);
+    container.appendChild(btn);
+  });
+
+
+  updateVocabProgress();
+}
+
+
+function handleVocabAnswer(btn, isCorrect, cat) {
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playSound('correct');
+    addScore(10);
+    vocabCorrectCount[cat] = (vocabCorrectCount[cat] || 0) + 1;
+    storeSet('vocab_progress', JSON.stringify(vocabCorrectCount));
+    setTimeout(() => {
+      currentVocabIndex++;
+      loadVocabQuestion();
+    }, 1200);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+  }
+}
+
+
+function updateVocabProgress() {
+  const progressDiv = document.getElementById('vocab-progress');
+  if (!progressDiv) return;
+  progressDiv.innerHTML = '';
+  const categories = ['animaux', 'nature', 'pays', 'maison'];
+  categories.forEach(cat => {
+    const total = vocabData.filter(v => v.cat === cat).length;
+    const correct = vocabCorrectCount[cat] || 0;
+    const pct = total > 0 ? Math.min(100, (correct / total) * 100) : 0;
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'progress-item';
+    itemDiv.innerHTML = `
+      <div class="progress-label">
+        <span>${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
+        <span>${correct}/${total}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${pct}%"></div>
+      </div>
+    `;
+    progressDiv.appendChild(itemDiv);
+  });
+}
+
+
+function speakCurrentVocab() {
+  const item = filteredVocab[currentVocabIndex % filteredVocab.length];
+  if (vocabDirection === 'fr-to-ar') {
+    speak(item.fr, 'fr-FR');
+    setTimeout(() => speak(item.ar, 'ar-SA'), 1000);
+  } else {
+    speak(item.ar, 'ar-SA');
+    setTimeout(() => speak(item.fr, 'fr-FR'), 1000);
+  }
+}
+
+
+// Synthèse vocale
+function speak(text, lang) {
+  if (!('speechSynthesis' in window)) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = 0.8;
+  speechSynthesis.speak(utterance);
+}
+
+
+/* --- 2. NOMBRES --- */
+const numberEmojis = ["🍎", "⭐", "🎈", "🐱", "🚗", "🌸", "🐟", "🐥"];
+let currentNumberTarget = 0;
+
+
+function loadNumberQuestion() {
+  currentNumberTarget = Math.floor(Math.random() * 10) + 1;
+  const randomEmoji = numberEmojis[Math.floor(Math.random() * numberEmojis.length)];
+  document.getElementById('numbers-emoji').innerText = randomEmoji.repeat(currentNumberTarget);
+
+
+  let choices = [currentNumberTarget];
+  while (choices.length < 3) {
+    let r = Math.floor(Math.random() * 10) + 1;
+    if (!choices.includes(r)) choices.push(r);
+  }
+  choices.sort(() => Math.random() - 0.5);
+
+
+  const container = document.getElementById('numbers-options');
+  container.innerHTML = '';
+
+
+  choices.forEach(num => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = `${num} (${getNumberAr(num)})`;
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => handleNumberAnswer(btn, num === currentNumberTarget);
+    container.appendChild(btn);
+  });
+}
+
+
+function getNumberAr(n) {
+  const arNums = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة"];
+  return arNums[n] || n;
+}
+
+
+function handleNumberAnswer(btn, isCorrect) {
+  if (isCorrect) {
+    btn.classList.add('correct');
+    playSound('correct');
+    addScore(10);
+    setTimeout(loadNumberQuestion, 1200);
+  } else {
+    btn.classList.add('wrong');
+    playSound('wrong');
+  }
+}
+
+
+/* --- 3. PHRASES --- */
+const sentenceData = [
+  { fr: "Le chat mange le poisson", arWords: ["القط", "يأكل", "السمكة"] },
+  { fr: "Le lion vit dans la forêt", arWords: ["الأسد", "يعيش", "في", "الغابة"] },
+  { fr: "La fleur est très belle", arWords: ["الزهرة", "جميلة", "جداً"] },
+  { fr: "L'enfant joue dans le jardin", arWords: ["الطفل", "يلعب", "في", "الحديقة"] },
+  { fr: "Le soleil brille aujourd'hui", arWords: ["الشمس", "تشرق", "اليوم"] }
+];
+
+
+let currentSentenceIndex = 0;
+let userBuiltWords = [];
+
+
+function loadSentenceQuestion() {
+  const data = sentenceData[currentSentenceIndex % sentenceData.length];
+  document.getElementById('sentence-translation').innerText = `🇫🇷 "${data.fr}"`;
+  userBuiltWords = [];
+  updateSentenceUI(data);
+}
+
+
+function updateSentenceUI(data) {
+  const targetZone = document.getElementById('target-words');
+  const sourceZone = document.getElementById('source-words');
+  targetZone.innerHTML = '';
+  sourceZone.innerHTML = '';
+
+
+  userBuiltWords.forEach((word, index) => {
+    const chip = document.createElement('span');
+    chip.className = 'word-chip';
+    chip.innerText = word;
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      userBuiltWords.splice(index, 1);
+      updateSentenceUI(data);
+    };
+    targetZone.appendChild(chip);
+  });
+
+
+  let available = [...data.arWords];
+  userBuiltWords.forEach(w => {
+    let idx = available.indexOf(w);
+    if (idx > -1) available.splice(idx, 1);
+  });
+
+
+  available.sort(() => Math.random() - 0.5);
+
+
+  available.forEach(word => {
+    const chip = document.createElement('span');
+    chip.className = 'word-chip';
+    chip.innerText = word;
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      userBuiltWords.push(word);
+      updateSentenceUI(data);
+    };
+    sourceZone.appendChild(chip);
+  });
+}
+
+
+function checkSentence() {
+  const data = sentenceData[currentSentenceIndex % sentenceData.length];
+  if (JSON.stringify(userBuiltWords) === JSON.stringify(data.arWords)) {
+    playSound('correct');
+    addScore(15);
+    setTimeout(() => {
+      currentSentenceIndex++;
+      loadSentenceQuestion();
+    }, 800);
+  } else {
+    playSound('wrong');
+  }
+}
+
+
+/* --- 4. HISTOIRES (5 originales + 10 générées) --- */
+const stories = [
+  {
+    title: "1. Le Renard et le Corbeau / الثعلب والغراب",
+    content: [
+      { fr: "Un corbeau est assis sur un arbre avec un fromage. 🧀", ar: "غراب يجلس على شجرة ومعه جبن." },
+      { fr: "Un renard affamé arrive et le regarde. 🦊", ar: "جاء ثعلب جائع ونظر إليه." },
+      { fr: "Le renard dit : 'Quelle belle voix tu as !' 🎶", ar: "قال الثعلب: 'ما أجمل صوتك!'" },
+      { fr: "Le corbeau ouvre son bec pour chanter. 🎤", ar: "فتح الغراب نقاره ليغني." },
+      { fr: "Le fromage tombe et le renard le mange ! 😋", ar: "سقط الجبن وأكله الثعلب!" }
+    ],
+    q: "Qui a mangé le fromage ? / من أكل الجبن؟",
+    options: ["Le renard / الثعلب", "Le corbeau / الغراب", "Le chat / القط"],
+    ans: 0
+  },
+  {
+    title: "2. Le Dauphin Amical / الدلفين اللطيف",
+    content: [
+      { fr: "Sami nage dans la mer bleue. 🌊", ar: "سامي يسبح في البحر الأزرق." },
+      { fr: "Un petit dauphin vient jouer avec lui. 🐬", ar: "دلفين صغير جاء ليلعب معه." },
+      { fr: "Le dauphin fait d'incroyables sauts. 🤸", ar: "الدلفين يقوم بقفزات مذهلة." },
+      { fr: "Sami rit et applaudit joyeusement. 👏", ar: "سامي يضحك ويصفق بفرح." }
+    ],
+    q: "Où nage Sami ? / أين يسبح سامي؟",
+    options: ["Dans la mer / في البحر", "Dans la piscine / في المسبح", "Dans la rivière / في النهر"],
+    ans: 0
+  },
+  {
+    title: "3. La Petite Abeille / النحلة النشيطة",
+    content: [
+      { fr: "Maya la petite abeille adore les fleurs. 🌸", ar: "مايا النحلة الصغير تحب الزهور." },
+      { fr: "Elle collecte du doux nectar tous les matins. 🍯", ar: "تجمع الرحيق الحلو كل صباح." },
+      { fr: "Elle fabrique du délicieux miel dans la ruche. 🐝", ar: "تصنع العسل اللذيذ في الخلية." }
+    ],
+    q: "Que fabrique Maya ? / ماذا تصنع مايا؟",
+    options: ["Du miel / عسلاً", "Du lait / حليباً", "Du jus / عصيراً"],
+    ans: 0
+  },
+  {
+    title: "4. Le Lion et la Souris / الأسد والفأر",
+    content: [
+      { fr: "Le lion dort sous un grand arbre. 🦁", ar: "الأسد ينام تحت شجرة كبيرة." },
+      { fr: "Une petite souris marche sur son nez. 🐭", ar: "فأر صغير مشى على أنفه." },
+      { fr: "Le lion se réveille mais la laisse partir. 🌿", ar: "استيقظ الأسد لكنه تركه يرحل." },
+      { fr: "Plus tard, la souris sauve le lion d'un filet. 🕸️", ar: "لاحقاً، أنقذ الفأر الأسد من شبكة." }
+    ],
+    q: "Qui a sauvé le lion ? / من أنقذ الأسد؟",
+    options: ["La souris / الفأر", "L'éléphant / الفيل", "Le chasseur / الصياد"],
+    ans: 0
+  },
+  {
+    title: "5. Voyage au Désert / رحلة إلى الصحراء",
+    content: [
+      { fr: "Karim visite le désert du Sahara. 🏜️", ar: "كريم يزور صحراء الكبرى." },
+      { fr: "Il monte sur un dromadaire fort. 🐪", ar: "ركب على جمل قوي." },
+      { fr: "Le soir, il regarde les magnifiques étoiles. ✨", ar: "في المساء، شاهد النجوم الجميلة." }
+    ],
+    q: "Quel animal Karim a-t-il monté ? / ما الحيوان الذي ركبه كريم؟",
+    options: ["Un dromadaire / جملاً", "Un cheval / حصاناً", "Un éléphant / فيلاً"],
+    ans: 0
+  }
+];
+
+
+// Génération automatique pour compléter jusqu'à 15
+for (let i = stories.length + 1; i <= 15; i++) {
+  stories.push({
+    title: `${i}. L'Aventure de la Nature ${i} / مغامرة الطبيعة`,
+    content: [
+      { fr: `C'est une belle journée en nature numéro ${i}. 🌳`, ar: `إنه يوم جميل في الطبيعة رقم ${i}.` },
+      { fr: "Les oiseaux chantent dans les arbres. 🐦", ar: "الطيور تغرد على الأشجار." },
+      { fr: "Nous protégeons notre belle planète ! 🌍", ar: "نحن نحمي كوكبنا الجميل!" }
+    ],
+    q: "Où sommes-nous ? / أين نحن؟",
+    options: ["En nature / في الطبيعة", "À la maison / في المنزل", "Dans la lune / في القمر"],
+    ans: 0
+  });
+}
+
+
+let currentStoryIndex = 0;
+
+
+function renderStorySelector() {
+  const container = document.getElementById('story-list');
+  container.innerHTML = '';
+  stories.forEach((st, idx) => {
+    const chip = document.createElement('div');
+    chip.className = `story-chip ${idx === currentStoryIndex ? 'active' : ''}`;
+    chip.innerText = `Histoire ${idx + 1}`;
+    chip.setAttribute('tabindex', '0');
+    chip.onclick = () => {
+      currentStoryIndex = idx;
+      renderStorySelector();
+      loadStory();
+    };
+    container.appendChild(chip);
+  });
+}
+
+
+function loadStory() {
+  const st = stories[currentStoryIndex];
+  document.getElementById('story-title').innerText = st.title;
+  const box = document.getElementById('story-content');
+  box.innerHTML = '';
+  st.content.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'story-paragraph';
+    div.innerHTML = `<div class="story-fr">${p.fr}</div><div class="story-ar">${p.ar}</div>`;
+    box.appendChild(div);
+  });
+  document.getElementById('story-question').innerText = st.q;
+  const optionsBox = document.getElementById('story-options');
+  optionsBox.innerHTML = '';
+  st.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn-option';
+    btn.innerText = opt;
+    btn.setAttribute('tabindex', '0');
+    btn.onclick = () => {
+      if (idx === st.ans) {
+        btn.classList.add('correct');
+        playSound('correct');
+        addScore(20);
+      } else {
+        btn.classList.add('wrong');
+        playSound('wrong');
+      }
+    };
+    optionsBox.appendChild(btn);
+  });
+}
+
+
+/* --- GESTION DES ONGLETS --- */
+function switchTab(tabName, clickedBtn) {
+  document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+
+  document.getElementById(`screen-${tabName}`).classList.add('active');
+  if (clickedBtn) clickedBtn.classList.add('active');
+  else document.querySelector(`.nav-btn[data-tab="${tabName}"]`).classList.add('active');
+
+
+  if (tabName === 'vocab') loadVocabQuestion();
+  if (tabName === 'numbers') loadNumberQuestion();
+  if (tabName === 'sentences') loadSentenceQuestion();
+  if (tabName === 'stories') { renderStorySelector(); loadStory(); }
+}
+
+
+/* --- PARAMÈTRES --- */
+function toggleTheme() {
+  const html = document.documentElement;
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    storeSet('theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    storeSet('theme', 'dark');
+  }
+}
+
+
+function openSettings() {
+  document.getElementById('settings-overlay').classList.remove('hidden');
+}
+
+
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.add('hidden');
+}
+
+
+function toggleSetting(type) {
+  if (type === 'sound') {
+    soundEnabled = !soundEnabled;
+    document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
+    storeSet('sound_enabled', soundEnabled);
+  } else if (type === 'vibration') {
+    vibrationEnabled = !vibrationEnabled;
+    document.getElementById('vibration-toggle').classList.toggle('active', vibrationEnabled);
+    storeSet('vibration_enabled', vibrationEnabled);
+  }
+}
+
+
+function resetScore() {
+  if (confirm('Voulez-vous vraiment réinitialiser le score ?')) {
+    score = 0;
+    document.getElementById('score').innerText = score;
+    storeRemove('savoirsEnJouant_score');
+    // Réinitialiser aussi les progrès vocabulaire
+    vocabCorrectCount = {};
+    vocabData.forEach(item => { vocabCorrectCount[item.cat] = 0; });
+    storeRemove('vocab_progress');
+    updateVocabProgress();
+  }
+}
+
+
+/* --- ÉCRAN DE BIENVENUE --- */
+function startApp() {
+  document.getElementById('welcome-overlay').classList.add('hidden');
+}
+
+
+/* --- NAVIGATION CLAVIER (remote friendly) --- */
+document.addEventListener('keydown', (e) => {
+  const focusable = Array.from(document.querySelectorAll('button, [tabindex="0"]'))
+    .filter(el => el.offsetParent !== null || el === document.activeElement);
+  const currentIndex = focusable.indexOf(document.activeElement);
+
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    const next = (currentIndex + 1) % focusable.length;
+    focusable[next].focus();
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prev = (currentIndex - 1 + focusable.length) % focusable.length;
+    focusable[prev].focus();
+  } else if (e.key === 'Enter') {
+    const active = document.activeElement;
+    if (active && active.click) active.click();
+  }
+});
+
+
+/* --- INITIALISATION --- */
+function init() {
+  // Charger thème
+  const savedTheme = storeGet('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+
+
+  // Charger score
+  const savedScore = storeGet('savoirsEnJouant_score');
+  if (savedScore) {
+    score = parseInt(savedScore, 10);
+    document.getElementById('score').innerText = score;
+  }
+
+
+  // Charger progrès vocabulaire
+  const savedProgress = storeGet('vocab_progress');
+  if (savedProgress) {
+    vocabCorrectCount = JSON.parse(savedProgress);
+  }
+
+
+  // Charger paramètres
+  const savedSound = storeGet('sound_enabled');
+  if (savedSound !== null) {
+    soundEnabled = savedSound === 'true';
+    document.getElementById('sound-toggle').classList.toggle('active', soundEnabled);
+  }
+  const savedVibration = storeGet('vibration_enabled');
+  if (savedVibration !== null) {
+    vibrationEnabled = savedVibration === 'true';
+    document.getElementById('vibration-toggle').classList.toggle('active', vibrationEnabled);
+  }
+
+
+  // Écouteurs d'événements
+  document.getElementById('settings-btn').addEventListener('click', openSettings);
+  document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
+
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      switchTab(this.dataset.tab, this);
+    });
+  });
+
+
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterVocab(this.dataset.cat);
+    });
+  });
+
+
+  // Charger les jeux initiaux
+  loadVocabQuestion();
+  loadNumberQuestion();
+  loadSentenceQuestion();
+  renderStorySelector();
+  loadStory();
+}
+
+
+window.onload = init;
+</script>
+<script data-sw-reg="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}</script>
+<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+</body>
+</html>
