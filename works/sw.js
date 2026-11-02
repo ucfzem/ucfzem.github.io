@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.25';
+const CACHE = 'works-v1.0.26';
 const CORE = [
   './',
   './index.html',
@@ -50,8 +50,9 @@ const CORE = [
   'https://ucfzem.github.io/rihlat-ibn-battuta/icon-192.png',
   'https://ucfzem.github.io/risalat-ibn-fadlan/icon.svg',
   'https://ucfzem.github.io/risalat-ibn-fadlan/icon-192.png',
-  'https://ucfzem.github.io/sahih-al-qasas/icon.svg',
-  'https://ucfzem.github.io/sahih-al-qasas/icon-192.png',
+  'https://ucfzem.github.io/al-a3chab-attebiah/icon.svg',
+  'https://ucfzem.github.io/izhar-al-haqq/icon.svg',
+  'https://ucfzem.github.io/tafsir-ibn-taymiyyah/icon.svg',
   'https://ucfzem.github.io/musawa-qasas/icon.svg',
   'https://ucfzem.github.io/musawa-qasas/icon-192.png',
   'https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg',
