@@ -1,12 +1,202 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=./basair02/index.html">
-    <title>بصائر | تحويل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UcfZem — développeur web et créateur de solutions digitales. Applications web, AI tools et projets tech innovants.">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="UcfZem">
+    <meta property="og:title" content="UcfZem — Développeur Web & Créateur Digital">
+    <meta property="og:description" content="Applications web, AI tools, fintech, health, et projets tech innovants par UcfZem.">
+    <meta property="og:url" content="https://ucfzem.github.io/">
+    <meta property="og:image" content="https://ucfzem.github.io/works/assets/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="UcfZem — Développeur Web & Créateur Digital">
+    <meta name="twitter:description" content="Applications web, AI tools, fintech, health, et projets tech innovants par UcfZem.">
+    <meta name="twitter:image" content="https://ucfzem.github.io/works/assets/avatar.png">
+    <link rel="canonical" href="https://ucfzem.github.io/">
+    <title>UcfZem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d0d0d; --gold: #c9a84c; --text: #e8e0d0; --muted: #8a7a5a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            margin: 0 auto 24px;
+            object-fit: cover;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        p {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: rgba(201,168,76,0.07);
+        }
+        .link:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201,168,76,0.2);
+        }
+        .link.primary {
+            background: linear-gradient(135deg, #c9a84c, #f0c866);
+            color: #0d0d0d;
+            font-weight: 700;
+            border: none;
+        }
+        .link.primary:hover {
+            filter: brightness(1.1);
+        }
+        .linktree-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            max-width: 420px;
+            margin: 28px auto 0;
+        }
+        .linktree-container .link-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            background: rgba(201,168,76,0.07);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .linktree-container .link-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201,168,76,0.2);
+            transform: translateY(-2px);
+        }
+        .linktree-container .link-card.active {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(240,200,102,0.1));
+        }
+        .linktree-container .link-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        .linktree-container .link-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .linktree-container .link-content p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+        .linktree-container .badge {
+            margin-left: auto;
+            background: var(--gold);
+            color: #0d0d0d;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+    <script type="application/ld+json">{
+      "@context":"https://schema.org",
+      "@type":"Person",
+      "name":"UcfZem",
+      "url":"https://ucfzem.github.io/",
+      "description":"Web developer and creative coder building apps, AI tools, and digital solutions.",
+      "image":"https://ucfzem.github.io/works/assets/avatar.png",
+      "sameAs":["https://github.com/ucfzem"]
+    }</script>
 </head>
-<body style="background:#09090b; color:#fff; font-family:sans-serif; text-align:center; padding-top:50px;">
-    <p>جاري توجيهك إلى موسوعة بصائر...</p>
-    <script>window.location.href = "./basair02/index.html";</script>
+<body>
+    <div class="container">
+        <img src="https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/avatar.png" alt="Avatar" class="avatar" onerror="this.style.display='none'">
+        <h1>UcfZem</h1>
+        <p>Web developer & creative coder</p>
+        <div class="links">
+            <a href="works/" class="link primary">🌳 My Works</a>
+            <a href="chat-socketio/public/" class="link">💬 UzChat</a>
+        </div>
+        <div class="linktree-container">
+
+
+            <!-- 1. Retro Quran Reader (Primary / Top Link) -->
+            <a href="https://ucfzem.github.io/quran-reader" class="link-card active" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">📻</div>
+              <div class="link-content">
+                <h3>Retro Quran Reader</h3>
+                <p>Vintage cassette player interface • Auto-fetching reciters API</p>
+              </div>
+              <span class="badge">NEW</span>
+            </a>
+
+
+            <!-- 2. Quran Majeed v3 (Opened right after) -->
+            <a href="https://ucfzem.github.io/quran-majeed-v3" class="link-card" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">📖</div>
+              <div class="link-content">
+                <h3>Quran Majeed v3</h3>
+                <p>Interactive Quran web application</p>
+              </div>
+            </a>
+
+
+            <!-- 3. Works Directory -->
+            <a href="https://ucfzem.github.io/works" class="link-card" target="_blank" rel="noopener noreferrer">
+              <div class="link-icon">💼</div>
+              <div class="link-content">
+                <h3>All Works</h3>
+                <p>Explore full project directory</p>
+              </div>
+            </a>
+
+
+        </div>
+    </div>
+<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
 </body>
 </html>
