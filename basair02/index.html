@@ -162,8 +162,28 @@
             renderApp(query);
         }
 
-        // Initial render
-        renderApp();
+        // Initial render — guard so a failed data script never blanks the page
+        if (typeof siteData !== 'undefined') {
+            renderApp();
+        } else {
+            var _c = document.getElementById('sections-container');
+            if (_c) _c.innerHTML = '<div class="text-center py-16 bg-zinc-900/30 border border-zinc-800 rounded-2xl"><p class="text-zinc-400 text-sm">تعذّر تحميل المحتوى. يرجى إعادة المحاولة.</p></div>';
+        }
+    </script>
+    <script>
+        // Retry the data script once if it failed (offline / transient error)
+        if (typeof siteData === 'undefined') {
+            var _s = document.createElement('script');
+            _s.src = 'content-i18n.js';
+            _s.onload = function () { if (typeof renderApp === 'function') renderApp(); };
+            document.head.appendChild(_s);
+        }
+        // Register the offline worker so content-i18n.js is cached for offline use
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
+            });
+        }
     </script>
 </body>
 </html>
