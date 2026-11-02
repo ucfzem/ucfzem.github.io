@@ -9,6 +9,11 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; background-color: #09090b; color: #f4f4f5; }
         .arabic-serif { font-family: 'Amiri', serif; }
+        .chapter-card { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .chapter-card:active { transform: scale(0.98); }
+        .chapter-card:focus-visible { outline: 2px solid #f59e0b; outline-offset: 2px; }
+        .chapter-modal-overlay { animation: fadeIn .15s ease-out; }
+        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
@@ -72,6 +77,129 @@
         let currentLang = localStorage.getItem('basair_lang') || 'ar';
         document.getElementById('lang-select').value = currentLang;
 
+        function escapeHtmlAttr(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function openChapter(sectionIdx, chapterIdx) {
+          const lang = (typeof currentLang === 'string' && currentLang) || 'ar';
+          const data = siteData[lang] || siteData['ar'];
+          const section = data && data.sections && data.sections[sectionIdx];
+          if (!section) return;
+          const chapter = section.chapters && section.chapters[chapterIdx];
+          if (!chapter) return;
+
+          const overlay = document.createElement('div');
+          overlay.className = 'chapter-modal-overlay fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4';
+          overlay.setAttribute('role', 'dialog');
+          overlay.setAttribute('aria-modal', 'true');
+          overlay.setAttribute('aria-labelledby', 'chapter-modal-title');
+
+          const panel = document.createElement('div');
+          panel.className = 'bg-zinc-900 border border-zinc-700 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 space-y-4 shadow-2xl';
+
+          const header = document.createElement('div');
+          header.className = 'flex items-center justify-between gap-3';
+
+          const titleEl = document.createElement('h2');
+          titleEl.id = 'chapter-modal-title';
+          titleEl.className = 'text-amber-400 text-xl font-bold arabic-serif';
+          titleEl.textContent = chapter.title || '';
+
+          const closeBtn = document.createElement('button');
+          closeBtn.className = 'text-zinc-400 hover:text-zinc-100 text-2xl leading-none px-2';
+          closeBtn.setAttribute('aria-label', 'إغلاق');
+          closeBtn.textContent = '×';
+
+          header.appendChild(titleEl);
+          header.appendChild(closeBtn);
+          panel.appendChild(header);
+
+          if (section.title) {
+            const s = document.createElement('p');
+            s.className = 'text-xs text-zinc-500';
+            s.textContent = section.title;
+            panel.appendChild(s);
+          }
+          if (chapter.desc) {
+            const d = document.createElement('p');
+            d.className = 'text-sm text-zinc-300 leading-relaxed';
+            d.textContent = chapter.desc;
+            panel.appendChild(d);
+          }
+
+          function renderFallback() {
+            const wrap = document.createElement('div');
+            wrap.className = 'text-center py-8 space-y-3';
+            const m = document.createElement('p');
+            m.className = 'text-zinc-200 text-base';
+            m.textContent = 'المحتوى الكامل لهذا الفصل قيد الإعداد. تابعنا قريبًا.';
+            wrap.appendChild(m);
+            if (chapter.count) {
+              const cnt = document.createElement('p');
+              cnt.className = 'text-xs text-zinc-500';
+              cnt.textContent = 'عدد الفقرات: ' + chapter.count;
+              wrap.appendChild(cnt);
+            }
+            panel.appendChild(wrap);
+          }
+
+          if (typeof chapter.content === 'string' && chapter.content.trim()) {
+            const body = document.createElement('div');
+            body.className = 'space-y-3 text-zinc-200 leading-relaxed text-base';
+            chapter.content.split(/\n{2,}/).map(x => x.trim()).filter(Boolean).forEach(par => {
+              const p = document.createElement('p');
+              p.className = 'text-justify';
+              p.textContent = par;
+              body.appendChild(p);
+            });
+            panel.appendChild(body);
+          } else if (Array.isArray(chapter.content) && chapter.content.length) {
+            const body = document.createElement('div');
+            body.className = 'space-y-3 text-zinc-200 leading-relaxed text-base';
+            chapter.content.forEach(par => {
+              if (typeof par !== 'string') return;
+              const p = document.createElement('p');
+              p.className = 'text-justify';
+              p.textContent = par.trim();
+              if (p.textContent) body.appendChild(p);
+            });
+            if (body.childNodes.length) panel.appendChild(body);
+            else renderFallback();
+          } else if (typeof chapter.url === 'string' && chapter.url.trim()) {
+            const wrap = document.createElement('div');
+            wrap.className = 'text-center py-6';
+            const a = document.createElement('a');
+            a.href = chapter.url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'inline-block px-6 py-3 rounded-xl bg-amber-500 text-zinc-900 font-bold hover:bg-amber-400 transition';
+            a.textContent = 'فتح الفصل';
+            wrap.appendChild(a);
+            panel.appendChild(wrap);
+          } else {
+            renderFallback();
+          }
+
+          overlay.appendChild(panel);
+          document.body.appendChild(overlay);
+          document.body.style.overflow = 'hidden';
+
+          function onKey(e) { if (e.key === 'Escape') closeModal(); }
+          function closeModal() {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', onKey);
+            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+          }
+          closeBtn.addEventListener('click', closeModal);
+          overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+          document.addEventListener('keydown', onKey);
+          setTimeout(() => closeBtn.focus(), 0);
+        }
+
         function renderApp(searchQuery = '') {
             const lang = currentLang;
             const data = siteData[lang] || siteData['ar'];
@@ -106,23 +234,30 @@
                     secDiv.className = "bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all";
                     
                     let chaptersHtml = '';
-                    filteredChapters.forEach(ch => {
+                    filteredChapters.forEach((ch) => {
+                        const originalIdx = sec.chapters.indexOf(ch);
+                        if (originalIdx < 0) return;
+
                         chaptersHtml += `
-                            <div class="bg-zinc-900/90 border border-zinc-800/80 rounded-xl p-5 hover:border-amber-500/50 hover:bg-zinc-900 transition-all cursor-pointer group shadow-sm flex flex-col justify-between">
+                            <div class="chapter-card bg-zinc-900/90 border border-zinc-800/80 rounded-xl p-5 hover:border-amber-500/50 hover:bg-zinc-900 transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
+                                 data-section="${secIdx}"
+                                 data-chapter="${originalIdx}"
+                                 role="button"
+                                 tabindex="0"
+                                 aria-label="${escapeHtmlAttr(ch.title || '')}">
                                 <div>
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">${ch.num}</span>
-                                        <span class="text-[11px] bg-zinc-800 text-zinc-300 px-2.5 py-0.5 rounded-md font-medium">${ch.count}</span>
+                                        <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">${escapeHtmlAttr(ch.num || '')}</span>
+                                        <span class="text-[11px] bg-zinc-800 text-zinc-300 px-2.5 py-0.5 rounded-md font-medium">${escapeHtmlAttr(ch.count || '')}</span>
                                     </div>
-                                    <h3 class="text-base font-bold text-zinc-100 group-hover:text-amber-400 transition-colors">${ch.title}</h3>
-                                    <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">${ch.desc}</p>
+                                    <h3 class="text-base font-bold text-zinc-100 group-hover:text-amber-400 transition-colors">${escapeHtmlAttr(ch.title || '')}</h3>
+                                    <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">${escapeHtmlAttr(ch.desc || '')}</p>
                                 </div>
                                 <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between text-[11px] text-amber-500/80 font-medium">
                                     <span>${lang === 'ar' ? 'استعراض المحتوى' : (lang === 'fr' ? 'Explorer' : (lang === 'es' ? 'Explorar' : 'Explore'))}</span>
                                     <span class="transform group-hover:translate-x-1 transition-transform">${lang === 'ar' ? '←' : '→'}</span>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
 
                     secDiv.innerHTML = `
@@ -140,6 +275,28 @@
                     container.appendChild(secDiv);
                 }
             });
+
+            if (!container.dataset.basairListener) {
+                container.dataset.basairListener = '1';
+                container.addEventListener('click', function (e) {
+                    const card = e.target.closest('.chapter-card');
+                    if (!card) return;
+                    const s = parseInt(card.dataset.section, 10);
+                    const c = parseInt(card.dataset.chapter, 10);
+                    if (Number.isNaN(s) || Number.isNaN(c)) return;
+                    openChapter(s, c);
+                });
+                container.addEventListener('keydown', function (e) {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    const card = e.target.closest('.chapter-card');
+                    if (!card) return;
+                    e.preventDefault();
+                    const s = parseInt(card.dataset.section, 10);
+                    const c = parseInt(card.dataset.chapter, 10);
+                    if (Number.isNaN(s) || Number.isNaN(c)) return;
+                    openChapter(s, c);
+                });
+            }
 
             if (!hasResults) {
                 container.innerHTML = `
