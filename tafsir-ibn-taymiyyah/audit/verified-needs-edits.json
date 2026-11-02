@@ -1,0 +1,110 @@
+[
+ {
+  "vol": 1,
+  "section": "سورة البقرة",
+  "para": 232,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 10,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 12,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 16,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 16,
+  "old": "جعلته",
+  "new": "جعلناه",
+  "ref": "43:3",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 104,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة يوسف",
+  "para": 109,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة طه",
+  "para": 259,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 4,
+  "section": "سورة طه",
+  "para": 277,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "20:113",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 5,
+  "section": "سورة فصلت",
+  "para": 209,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 5,
+  "section": "سورة الزخرف",
+  "para": 16,
+  "old": "انزلته",
+  "new": "انزلناه",
+  "ref": "12:2",
+  "reason": "verified verbatim ayah match"
+ },
+ {
+  "vol": 7,
+  "section": "سورة البينة",
+  "para": 204,
+  "old": "جعلته",
+  "new": "جعلناه",
+  "ref": "43:3",
+  "reason": "verified verbatim ayah match"
+ }
+]

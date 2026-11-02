@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>الأجوبة المسددة: روائع الحوارات النبوية والردود المعجزة</title>
+  <meta name="description" content="قارئ كتاب الأجوبة المسددة: روائع الحوارات النبوية والردود المعجزة — بحث فوري، تظليل، ووضع بدون إنترنت.">
+  <meta name="theme-color" content="#1f5c46">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script id="themeBoot">
+    (function () {
+      var t = 'dark';
+      try {
+        t = localStorage.getItem('ajwiba_theme') ||
+          (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site">
+    <div class="brand">
+      <h1>📜 الأجوبة المسددة</h1>
+      <p>روائع الحوارات النبوية والردود المعجزة</p>
+    </div>
+    <div class="actions">
+      <button id="themeToggle" aria-label="تبديل الوضع النهاري/الليلي" title="تبديل الوضع النهاري/الليلي">🌙</button>
+    </div>
+  </header>
+
+  <div id="updateBar">تحديث متوفر <button id="updateReload">إعادة التحميل</button></div>
+
+  <div id="searchBar">
+    <div class="row1">
+      <input id="searchInput" type="text" placeholder="ابحث في الكتاب: كلمة، اسم، أو عبارة..." aria-label="بحث في الكتاب" autocomplete="off">
+      <button id="clearSearch" title="مسح البحث">✕</button>
+    </div>
+    <div class="opts">
+      <label><input type="checkbox" id="optWhole"> كلمة كاملة</label>
+      <label><input type="checkbox" id="optDiacritics" checked> تجاهل التشكيل</label>
+      <span id="searchCount"></span>
+      <span style="margin-inline-start:auto;display:flex;gap:6px;align-items:center">
+        <button id="prevOcc" title="النتيجة السابقة">▲</button>
+        <span id="navCounter"></span>
+        <button id="nextOcc" title="النتيجة التالية">▼</button>
+      </span>
+    </div>
+  </div>
+
+  <div id="progressWrap"><div id="progressBar"></div></div>
+
+  <main id="content"></main>
+
+  <footer class="site">
+    <p>📜 <b>الأجوبة المسددة: روائع الحوارات النبوية والردود المعجزة</b></p>
+    <p>النصوص معروضة كما وردت من المصدر؛ لا يُضاف نص غير مؤكد. راجع الأحاديث وتخريجها في المصادر المعتمدة قبل الاعتماد النهائي.</p>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script type="module" src="./app.js"></script>
+  <script>
+    // تبديل السمة (مطابق لمنطق الموقع المرجعي)
+    (function () {
+      var btn = document.getElementById('themeToggle');
+      var get = function () { return document.documentElement.getAttribute('data-theme') || 'dark'; };
+      var upd = function () { btn.textContent = get() === 'dark' ? '☀️' : '🌙'; };
+      upd();
+      btn.addEventListener('click', function () {
+        var next = get() === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        upd();
+        try { localStorage.setItem('ajwiba_theme', next); } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>
