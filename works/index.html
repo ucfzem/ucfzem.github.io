@@ -598,7 +598,7 @@
   <div class="main-grid">
 
   <div class="header">
-    <img src="https://ucfzem.github.io/works/assets/avatar.png" alt="Avatar" class="avatar" id="avatarImg" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
+    <img src="./assets/avatar.png" alt="Avatar" class="avatar" id="avatarImg" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
     <div class="avatar-fallback" id="avatarFallback" style="display:none;">UcfZem</div>
     <h1 class="title">🌳 My Works</h1>
     <p class="subtitle">26 projets publics</p>
@@ -646,17 +646,17 @@
 
 <script>
   const publicProjects = [
-    { num: 1, emoji: "📖", name: "Quran Majeed v3", tag: "Reading", icon: "https://ucfzem.github.io/works/assets/quran.png", url: "https://ucfzem.azer-tyu199p.workers.dev/quran-majeed-v3/" },
+    { num: 1, emoji: "📖", name: "Quran Majeed v3", tag: "Reading", icon: "./assets/quran.png", url: "https://ucfzem.azer-tyu199p.workers.dev/quran-majeed-v3/" },
     { num: 2, emoji: "🎧", name: "Quran Reader", tag: "Audio", icon: null, url: "https://ucfzem.github.io/quran-reader/" },
     { num: 3, emoji: "📖", name: "Quran Amp", tag: "Quran", icon: null, url: "https://ucfzem.github.io/quran-amp/", newTab: true },
-    { num: 4, emoji: "🗺️", name: "Tanger d'Antan", tag: "Heritage", icon: "https://ucfzem.github.io/works/assets/tanger.png", url: "https://ucfzem.azer-tyu199p.workers.dev/tanger/" },
+    { num: 4, emoji: "🗺️", name: "Tanger d'Antan", tag: "Heritage", icon: "./assets/tanger.png", url: "https://ucfzem.azer-tyu199p.workers.dev/tanger/" },
     { num: 6, emoji: "🌐", name: "Mapamundi · Urbano Monte (1587)", tag: "Geography", credit: "Made by UcfZem in 2026", icon: "https://ucfzem.github.io/mapamundi/icon.svg", url: "https://ucfzem.github.io/mapamundi/" },
     { num: 7, emoji: "📝", name: "UcfZem Tech Blog", tag: "Tech", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/ucfzem-blog/" },
     { num: 8, emoji: "💙", name: "Lingotech", tag: "English AI", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/lingotech/" },
     { num: 9, emoji: "🧾", name: "MicroInvoice", tag: "Finance", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/microinvoice/" },
     { num: 10, emoji: "📤", name: "Droppy", tag: "File Share", icon: null, url: "https://ucfzem.github.io/droppy/" },
     { num: 11, emoji: "💊", name: "Rafeeq", tag: "Health", icon: null, url: "https://ucfzem.azer-tyu199p.workers.dev/rafeeq/" },
-    { num: 12, emoji: "🌿", name: "Remèdes", tag: "Remedy", icon: "https://ucfzem.github.io/works/assets/remedy.svg", url: "https://remedy-eight.vercel.app/" },
+    { num: 12, emoji: "🌿", name: "Remèdes", tag: "Remedy", icon: "./assets/remedy.svg", url: "https://remedy-eight.vercel.app/" },
     { num: 13, emoji: "🌱", name: "WebHealth", tag: "Health", icon: null, url: "https://ucfzem.github.io/webhealth/" },
     { num: 14, emoji: "⚡", name: "ElixirTech", tag: "Phoenix", icon: null, url: "https://elixir-techx.vercel.app/" },
     { num: 15, emoji: "💳", name: "EmailCollector", tag: "Lead Gen", icon: null, url: "https://ucfzem.github.io/email-collector/" },
@@ -667,13 +667,13 @@
   const maktaba = [
     { emoji: "🧭", name: "Al-Istibsar", tag: "Geography", icon: null, url: "https://ucfzem.github.io/livre-al-istibsar/", newTab: true },
     { emoji: "🧠", name: "Al-Adhkiya", tag: "Adab", icon: null, url: "https://ucfzem.github.io/al-adhkiya/", newTab: true },
-    { emoji: "🩺", name: "الطب النبوي", tag: "Medicine", icon: "https://ucfzem.github.io/works/assets/al-tibb-al-nabawi.svg", url: "https://ucfzem.github.io/al-tibb-al-nabawi/", newTab: true },
+    { emoji: "🩺", name: "الطب النبوي", tag: "Medicine", icon: "./assets/al-tibb-al-nabawi.svg", url: "https://ucfzem.github.io/al-tibb-al-nabawi/", newTab: true },
     { emoji: "🌍", name: "Nuzhat al-Mushtaq", tag: "Geography", icon: "https://ucfzem.github.io/nuzhat-al-mushtaq/icon.svg", url: "https://ucfzem.github.io/nuzhat-al-mushtaq/", newTab: true },
     { emoji: "🕌", name: "المدهش", tag: "Islamic Literature", icon: "https://ucfzem.github.io/al-mudhish/icon.svg", url: "https://ucfzem.github.io/al-mudhish/", newTab: true },
     { emoji: "💚", name: "الداء والدواء", tag: "Islamic Literature", icon: "https://ucfzem.github.io/al-jawab-al-kafi/icon.svg", url: "https://ucfzem.github.io/al-jawab-al-kafi/", newTab: true },
     { emoji: "🔭", name: "أسرار الكون", tag: "Astronomy", icon: "https://ucfzem.github.io/asrar-al-kawn/icon.svg", url: "https://ucfzem.github.io/asrar-al-kawn/", newTab: true },
     { emoji: "📿", name: "كتاب العظمة", tag: "Hadith", icon: "https://ucfzem.github.io/al-adhama/icon.svg", url: "https://ucfzem.github.io/al-adhama/", newTab: true },
-    { emoji: "📜", name: "Tarikh Ibn Khaldun", tag: "History", icon: "https://ucfzem.github.io/works/assets/tarikh-ibn-khaldun.svg", url: "https://ucfzem.github.io/tarikh-ibn-khaldun/", newTab: true },
+    { emoji: "📜", name: "Tarikh Ibn Khaldun", tag: "History", icon: "./assets/tarikh-ibn-khaldun.svg", url: "https://ucfzem.github.io/tarikh-ibn-khaldun/", newTab: true },
     { emoji: "📚", name: "Mujam al-Buldan", tag: "Geography", icon: null, url: "https://ucfzem.github.io/mujam-al-buldan/", newTab: true },
     { emoji: "✨", name: "كرامات الأولياء", tag: "Islamic Literature", icon: "https://ucfzem.github.io/karamat-al-awliya/icon.svg", url: "https://ucfzem.github.io/karamat-al-awliya/", newTab: true },
     { emoji: "📖", name: "صفة الصفوة", tag: "Biographies", icon: "https://ucfzem.github.io/sifat-al-safwa/icon.svg", url: "https://ucfzem.github.io/sifat-al-safwa/", newTab: true },
@@ -684,14 +684,14 @@
     { emoji: "🃏", name: "أخبار الحمقى والمغفلين", tag: "Islamic Literature", icon: "https://ucfzem.github.io/akhbar-al-hamqa-wal-mughaffalin/icon.svg", url: "https://ucfzem.github.io/akhbar-al-hamqa-wal-mughaffalin/", newTab: true },
     { emoji: "🐪", name: "رحلة ابن بطوطة", tag: "Travel", icon: "https://ucfzem.github.io/rihlat-ibn-battuta/icon.svg", url: "https://ucfzem.github.io/rihlat-ibn-battuta/", newTab: true },
     { emoji: "⛵", name: "رسالة ابن فضلان", tag: "Travel", icon: "https://ucfzem.github.io/risalat-ibn-fadlan/icon.svg", url: "https://ucfzem.github.io/risalat-ibn-fadlan/", newTab: true },
-    { emoji: "📖", name: "إنجيل برنابا", tag: "Religious Text", icon: "https://ucfzem.github.io/works/assets/barnabas.svg", url: "https://ucfzem.github.io/barnabas/", newTab: true },
+    { emoji: "📖", name: "إنجيل برنابا", tag: "Religious Text", icon: "./assets/barnabas.svg", url: "https://ucfzem.github.io/barnabas/", newTab: true },
     { emoji: "📖", name: "موسوعة القصص والحديث النبوي", tag: "Hadith", icon: "https://ucfzem.github.io/musawa-qasas/icon.svg", url: "https://ucfzem.github.io/musawa-qasas/", newTab: true },
     { emoji: "💬", name: "الأجوبة المسددة", tag: "Hadith", icon: "https://ucfzem.github.io/al-ajwiba-al-musaddada/icon.svg", url: "https://ucfzem.github.io/al-ajwiba-al-musaddada/", newTab: true },
     { emoji: "📖", name: "البشارة بنبي الإسلام", tag: "Islamic Studies", icon: "https://ucfzem.github.io/al-bishara/icon.svg", url: "https://ucfzem.github.io/al-bishara/", newTab: true },
     { emoji: "📗", name: "الجواب الصحيح لمن بدل دين المسيح", tag: "Islamic Studies", icon: "https://ucfzem.github.io/al-jawab-al-sahih/icon.svg", url: "https://ucfzem.github.io/al-jawab-al-sahih/", newTab: true },
     { emoji: "🌟", name: "إظهار الحق", tag: "Islamic Studies", icon: "https://ucfzem.github.io/izhar-al-haqq/icon.svg", url: "https://ucfzem.github.io/izhar-al-haqq/", newTab: true },
     { emoji: "📘", name: "تفسير شيخ الإسلام ابن تيمية", tag: "Tafsir", icon: "https://ucfzem.github.io/tafsir-ibn-taymiyyah/icon.svg", url: "https://ucfzem.github.io/tafsir-ibn-taymiyyah/", newTab: true },
-    { emoji: "🕌", name: "مِرقاة التوحيد", tag: "Tawhid", icon: "https://ucfzem.github.io/works/assets/mirqat-tawhid.svg", url: "https://ucfzem.github.io/mirqat-tawhid/", newTab: true },
+    { emoji: "🕌", name: "مِرقاة التوحيد", tag: "Tawhid", icon: "./assets/mirqat-tawhid.svg", url: "https://ucfzem.github.io/mirqat-tawhid/", newTab: true },
     { emoji: "🌿", name: "المعشبة المغربية", tag: "Herbal", icon: "https://ucfzem.github.io/al-a3chab-attebiah/icon.svg", url: "https://ucfzem.github.io/al-a3chab-attebiah/", newTab: true }
   ];
 
@@ -731,7 +731,7 @@
     { folder:'creative', emoji:"✨", name:"XtraMagical", tag:"SaaS AI", url:"https://ucfzem.azer-tyu199p.workers.dev/XtraMagical/" },
     { folder:'career', emoji:"📓", name:"Guide Freelance", tag:"Career", url:"https://guide-freelance.vercel.app" },
     { folder:'career', emoji:"📋", name:"CV-Maker", tag:"Career", url:"https://ucfzem.azer-tyu199p.workers.dev/cv-maker/" },
-    { folder:'career', emoji:"📄", name:"CV", tag:"Resume", icon:"https://ucfzem.github.io/works/assets/cv-icon.png", url:"https://ucfzem.github.io/ucf-cv/" },
+    { folder:'career', emoji:"📄", name:"CV", tag:"Resume", icon:"./assets/cv-icon.png", url:"https://ucfzem.github.io/ucf-cv/" },
     { folder:'career', emoji:"📊", name:"ComptaEasy", tag:"Accounting", url:"https://ucfzem.azer-tyu199p.workers.dev/comptaeasy/" },
     { folder:'learning', emoji:"❓", name:"4lang Quiz", tag:"Languages", url:"https://4lang-quiz.vercel.app" },
     { folder:'learning', emoji:"🌍", name:"Ultralengua Pro", tag:"Learning", url:"https://ucfzem.azer-tyu199p.workers.dev/ultralengua-pro/" },
@@ -741,7 +741,7 @@
     { folder:'media', emoji:"🌐", name:"Sphere Gallery", tag:"360°", url:"https://ucfzem.azer-tyu199p.workers.dev/sphere-gallery/" },
     { folder:'premium', emoji:"📜", name:"500 Prompts IA", tag:"Premium", url:"https://ucfzem.github.io/500-prompts/" },
     { folder:'premium', emoji:"🏆", name:"30 Best Prompts", tag:"Premium", url:"https://ucfzem.github.io/30-best-prompts/" },
-    { folder:'other', emoji:"🌐", name:"Code", tag:"Web Dev", icon:"https://ucfzem.github.io/works/assets/web-dev-logo.png", url:"https://ucfzem.github.io/web-dev/" },
+    { folder:'other', emoji:"🌐", name:"Code", tag:"Web Dev", icon:"./assets/web-dev-logo.png", url:"https://ucfzem.github.io/web-dev/" },
     { folder:'other', emoji:"💪", name:"Sport", tag:"Fitness", url:"https://ucfzem.github.io/sport/" },
     { folder:'other', emoji:"🌿", name:"Sounds of Nature", tag:"Nature", url:"https://ucfzem-works.vercel.app/sounds-of-nature/" },
     { folder:'other', emoji:"🔗", name:"NanoLink", tag:"URL Shortener", url:"https://ucfzem.azer-tyu199p.workers.dev/urlshort/" },
@@ -776,7 +776,7 @@ function renderPublic() {
       <div class="folder open" id="f-maktaba">
         <div class="folder-header" onclick="toggleFolder('maktaba')">
           <span class="card-num">${split + 1}</span>
-          <img src="https://ucfzem.github.io/works/assets/maktaba.png?v=2026-10-17-3" class="folder-icon-img" alt="" onerror="this.src='https://ucfzem.github.io/works/assets/maktaba-icon.png'; this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+          <img src="./assets/maktaba.png?v=2026-10-17-3" class="folder-icon-img" alt="" onerror="this.src='./assets/maktaba-icon.png'; this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
           <span class="folder-icon" style="display:none;">📚</span>
           <span class="folder-title">Maktaba · المكتبة</span>
           <span class="card-tag">Library</span>
