@@ -37,6 +37,11 @@
         }
         .fs-btn:hover { background: #065f46; }
         :focus-visible { outline: 3px solid #fbbf24; outline-offset: 2px; border-radius: 8px; }
+        #doors-grid:not(.hidden) { display: grid; grid-template-columns: 1fr; gap: .5rem; }
+        #reader-card p[data-p] { scroll-margin-top: 5rem; }
+        .flash { animation: basairFlash 1.2s ease; }
+        @keyframes basairFlash { 0% { background-color: rgba(251, 191, 36, .45); } 100% { background-color: transparent; } }
+        button[disabled] { opacity: .4; cursor: not-allowed; }
     </style>
 </head>
 <body class="dark ui-font transition-all duration-300 min-h-screen flex flex-col" style="--card-bg: rgba(13, 27, 22, 0.85); --card-border: #134e4a;">
@@ -76,13 +81,13 @@
                 </div>
                 <span id="index-arrow" class="text-xs text-amber-500 font-bold transition-transform duration-300">▼</span>
             </div>
-            <div id="doors-grid" class="hidden grid grid-cols-1 gap-2 mt-3 pt-3 border-t border-emerald-900/30 max-h-64 overflow-y-auto">
+            <div id="doors-grid" class="hidden mt-3 pt-3 border-t border-emerald-900/30 max-h-64 overflow-y-auto">
             </div>
         </div>
 
         <div class="theme-card border rounded-xl p-3 shadow-md">
             <div class="flex gap-2">
-                <input type="text" id="search-input" autocomplete="off" placeholder="ابحث في الموسوعة (كلمة أو رقم)..." oninput="handleSearch(this.value)" class="flex-1 bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                <input type="text" id="search-input" autocomplete="off" placeholder="ابحث في الموسوعة (كلمة أو رقم)..." oninput="onSearchInput(this.value)" class="flex-1 bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
                 <button id="btn-clear" onclick="clearSearch()" class="bg-emerald-900 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs transition-colors">مسح</button>
             </div>
             <div id="search-stats" class="text-xs text-amber-400 mt-2 px-1 font-mono"></div>
@@ -90,9 +95,9 @@
 
         <div class="theme-card border rounded-xl p-3 shadow-md flex justify-between items-center gap-3">
             <div class="flex items-center gap-2 w-full sm:w-auto">
-                <button id="btn-prev" onclick="changePage(currentPage - 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">السابق ←</button>
+                <button id="btn-prev" onclick="changePage(currentPage - 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">السابق →</button>
                 <select id="page-select" autocomplete="off" onchange="changePage(parseInt(this.value))" class="flex-1 sm:flex-none bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-1.5 text-xs text-center focus:outline-none"></select>
-                <button id="btn-next" onclick="changePage(currentPage + 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">→ التالي</button>
+                <button id="btn-next" onclick="changePage(currentPage + 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">← التالي</button>
             </div>
             <div id="total-info" class="text-xs text-amber-500 font-mono"></div>
         </div>
@@ -104,20 +109,24 @@
 
     <footer class="border-t border-emerald-900/50 py-4 text-center text-xs text-emerald-600 dark:text-emerald-400/70">
         <p id="footer-text">موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت</p>
-        <p class="mt-1 opacity-40 font-mono text-[10px]">build v9</p>
+        <p class="mt-1 opacity-40 font-mono text-[10px]">build v10</p>
     </footer>
 
     <script>
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
         const allParagraphs = [
             "بسم الله الرحمن الرحيم. الحمد لله رب العالمين، والصلاة والسلام على أشرف الأنبياء والمرسلين.",
             "أما بعد، فهذه بصائر ومعالم في طريق المعرفة، أضعها بين يدي القارئ الكريم لتكون دليلاً ومُرشداً.",
             "الباب الأول: مدخل دراسة الإلحاد الجديد وتفكيك مقولاته المركزية في الفكر المعاصر.",
             "يشهد العصر الحديث موجات متكررة من التشكيك المنظم الذي يستهدف الثوابت العقدية والأخلاقية.",
-            "إن الإلحاد الجديد لم يعد مجرد قناعة شخصية بالفراغ الوجودي، بل تحول إلى خطاب ايديولوجي حجاجي.",
+            "إن الإلحاد الجديد لم يعد مجرد قناعة شخصية بالفراغ الوجودي، بل تحول إلى خطاب أيديولوجي حجاجي.",
             "تتغذى هذه الموجات على سوء فهم للفلسفة الطبيعية وتوظيف مغلوط لاكتشافات العلوم التجريبية.",
             "من أهم قواعد التناول النقدي لهذه الشبهات التفريق الدقيق بين العلم التجريبي والإيديولوجيا المادية.",
-            "فالعلم يبحث في كيف تعمل الاشياء، بينما تحاول المادية الإجابة عن لماذا و من أين جاءت.",
-            "إن العقل البشري مفطور على البحث عن العلنية والغاية، وغياب المعنى يورث اضطراباً نفسياً عميقاً.",
+            "فالعلم يبحث في كيف تعمل الأشياء، بينما تحاول المادية الإجابة عن لماذا و من أين جاءت.",
+            "إن العقل البشري مفطور على البحث عن العلّة والغاية، وغياب المعنى يورث اضطراباً نفسياً عميقاً.",
             "لذا فإن تفكيك هذه الخطابات يبدأ بتعرية التناقضات المنطقية الكامنة في أصل الطرح المادي.",
             "الباب الثاني: نقد أصول المادية العلمية وإبطال دعوى الاكتفاء الذاتي للكون.",
             "تدعي المادية أن الكون لا يحتاج إلى علة مفارقة لأنه وُجد صدفة أو نتيجة قوانين فيزيائية أزلية.",
@@ -148,7 +157,7 @@
             "في العالم المادي الصرف لا توجد قيم مطلقة، بل هي مجرد انعكاس لتطور بيولوجي أو رغبة للبقاء.",
             "لكن الضمير الإنساني يشعر بإلزام حقيقي وموضوعي للخير والعدل بغض النظر عن المنفعة الشخصية.",
             "من أين جاءت هذه الإلزامات الأخلاقية في كون مادي أصم لا يعرف خيراً ولا شراً؟",
-            "إن الإقرار بوجود قيم أخلاقية موضوعية ومطلقة يستلزم بالضرورة مصدراً إلهاً عليماً آمراً وناهياً.",
+            "إن الإقرار بوجود قيم أخلاقية موضوعية ومطلقة يستلزم بالضرورة مصدراً إلهياً عليماً آمراً وناهياً.",
             "الباب السادس: قضايا النبوات والرسالات وحاجة البشرية الملحة إليها.",
             "العقل البشري مع أهميته وقدراته محدود، ولا يمكنه إدراك تفاصيل الغيب والتشريعات وحدها.",
             "من هنا جاءت الحكمة الإلهية بإرسال الأنبياء والرسل لهداية البشر وإخراجهم من الظلمات إلى النور.",
@@ -165,154 +174,147 @@
             "الباب العاشر: خلاصات ومنهجية الرد السليم على الشبهات المعاصرة.",
             "التعامل مع الشبهات يحتاج إلى علم وحلم وأناة وتفكيك هادئ لمفاصل الإشكال لا الانفعال.",
             "الباب الحادي عشر: الخاتمة والآفاق المستقبلية لليقين الإيماني الراسخ.",
-            "يبقى الإيمان الحق هو الحصن الحصين والمنارة المضيئة التي تهدى النفوس في دياجير الفتن."
-        ];
+            "يبقى الإيمان الحق هو الحصن الحصين والمنارة المضيئة التي تهدي النفوس في دياجير الفتن."
+];
 
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
+        const PAGE_SIZE = 5;
+        const STORE = {
+            theme: 'basair-theme',
+            lang: 'basair-lang',
+            font: 'basair-font-px',
+            page: 'basair-page'
+        };
 
-        const DOORS = [
-            { p: 0,  ar: "الباب الأول: مدخل دراسة الإلحاد الجديد", en: "Part 1: Introduction to the Study of New Atheism", fr: "Partie 1 : Introduction à l'étude du nouvel athéisme", es: "Parte 1: Introducción al estudio del nuevo ateísmo" },
-            { p: 2,  ar: "الباب الثاني: نقد أصول المادية العلمية", en: "Part 2: Critique of Scientific Materialism", fr: "Partie 2 : Critique du matérialisme scientifique", es: "Parte 2: Crítica del materialismo científico" },
-            { p: 4,  ar: "الباب الثالث: شبهات أصل الحياة والكون", en: "Part 3: Questions on the Origin of Life and the Universe", fr: "Partie 3 : Questions sur l'origine de la vie et de l'univers", es: "Parte 3: Cuestiones sobre el origen de la vida y el universo" },
-            { p: 6,  ar: "الباب الرابع: معضلة الوعي والخلق", en: "Part 4: The Problem of Consciousness and Creation", fr: "Partie 4 : Le problème de la conscience et de la création", es: "Parte 4: El problema de la conciencia y la creación" },
-            { p: 8,  ar: "الباب الخامس: الأخلاق وقانون الإلزام", en: "Part 5: Morality and the Law of Obligation", fr: "Partie 5 : La morale et la loi de l'obligation", es: "Parte 5: La moral y la ley de la obligación" },
-            { p: 10, ar: "الباب السادس: قضايا النبوات والرسالات", en: "Part 6: Prophethood and Divine Messages", fr: "Partie 6 : Prophétie et messages divins", es: "Parte 6: Profecía y mensajes divinos" },
-            { p: 12, ar: "الباب السابع: الرد على الشبهات التاريخية", en: "Part 7: Answering Historical Objections", fr: "Partie 7 : Réponse aux objections historiques", es: "Parte 7: Respuesta a las objeciones históricas" },
-            { p: 14, ar: "الباب الثامن: حجية القرآن الكريم", en: "Part 8: The Authority of the Holy Quran", fr: "Partie 8 : L'autorité du Saint Coran", es: "Parte 8: La autoridad del Sagrado Corán" },
-            { p: 16, ar: "الباب التاسع: براهين النبوة المحمدية", en: "Part 9: Proofs of Muhammad's Prophethood", fr: "Partie 9 : Preuves de la prophétie de Muhammad", es: "Parte 9: Pruebas de la profecía de Muhammad" },
-            { p: 18, ar: "الباب العاشر: خلاصات ومنهجية الرد", en: "Part 10: Conclusions and Methodology of Response", fr: "Partie 10 : Conclusions et méthodologie de la réponse", es: "Parte 10: Conclusiones y metodología de la respuesta" },
-            { p: 20, ar: "الباب الحادي عشر: الخاتمة والآفاق", en: "Part 11: Conclusion and Outlook", fr: "Partie 11 : Conclusion et perspectives", es: "Parte 11: Conclusión y perspectivas" }
-        ];
+        const DOOR_TITLES = {
+            ar: [
+                "الباب الأول: مدخل دراسة الإلحاد الجديد",
+                "الباب الثاني: نقد أصول المادية العلمية",
+                "الباب الثالث: شبهات أصل الحياة والكون",
+                "الباب الرابع: معضلة الوعي والخلق",
+                "الباب الخامس: الأخلاق وقانون الإلزام",
+                "الباب السادس: قضايا النبوات والرسالات",
+                "الباب السابع: الرد على الشبهات التاريخية",
+                "الباب الثامن: حجية القرآن الكريم",
+                "الباب التاسع: براهين النبوة المحمدية",
+                "الباب العاشر: خلاصات ومنهجية الرد",
+                "الباب الحادي عشر: الخاتمة والآفاق"
+            ],
+            en: [
+                "Part 1: Introduction to the Study of New Atheism",
+                "Part 2: Critique of Scientific Materialism",
+                "Part 3: Questions on the Origin of Life and the Universe",
+                "Part 4: The Problem of Consciousness and Creation",
+                "Part 5: Morality and the Law of Obligation",
+                "Part 6: Prophethood and Divine Messages",
+                "Part 7: Answering Historical Objections",
+                "Part 8: The Authority of the Holy Quran",
+                "Part 9: Proofs of Muhammad's Prophethood",
+                "Part 10: Conclusions and Methodology of Response",
+                "Part 11: Conclusion and Outlook"
+            ],
+            fr: [
+                "Partie 1 : Introduction à l'étude du nouvel athéisme",
+                "Partie 2 : Critique du matérialisme scientifique",
+                "Partie 3 : Questions sur l'origine de la vie et de l'univers",
+                "Partie 4 : Le problème de la conscience et de la création",
+                "Partie 5 : La morale et la loi de l'obligation",
+                "Partie 6 : Prophétie et messages divins",
+                "Partie 7 : Réponse aux objections historiques",
+                "Partie 8 : L'autorité du Saint Coran",
+                "Partie 9 : Preuves de la prophétie de Muhammad",
+                "Partie 10 : Conclusions et méthodologie de la réponse",
+                "Partie 11 : Conclusion et perspectives"
+            ],
+            es: [
+                "Parte 1: Introducción al estudio del nuevo ateísmo",
+                "Parte 2: Crítica del materialismo científico",
+                "Parte 3: Cuestiones sobre el origen de la vida y el universo",
+                "Parte 4: El problema de la conciencia y la creación",
+                "Parte 5: La moral y la ley de la obligación",
+                "Parte 6: Profecía y mensajes divinos",
+                "Parte 7: Respuesta a las objeciones históricas",
+                "Parte 8: La autoridad del Sagrado Corán",
+                "Parte 9: Pruebas de la profecía de Muhammad",
+                "Parte 10: Conclusiones y metodología de la respuesta",
+                "Parte 11: Conclusión y perspectivas"
+            ]
+        };
 
-        function renderDoors(lang) {
-            const grid = document.getElementById('doors-grid');
-            if (!grid) return;
-            const key = (lang === 'en' || lang === 'fr' || lang === 'es') ? lang : 'ar';
-            const align = (key === 'ar') ? 'text-right' : 'text-left';
-            grid.innerHTML = '';
-            DOORS.forEach(function (door, i) {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = align + ' text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center gap-2';
-                btn.setAttribute('data-door', String(door.p));
-                const label = document.createElement('span');
-                label.textContent = door[key] || door.ar;
-                const num = document.createElement('span');
-                num.className = 'text-amber-400 font-mono text-[10px]';
-                num.textContent = String(i + 1).padStart(2, '0');
-                btn.appendChild(label);
-                btn.appendChild(num);
-                btn.addEventListener('click', function () { jumpToDoor(door.p); });
-                grid.appendChild(btn);
-            });
-        }
-
-        let filteredParagraphs = allParagraphs;
-        let currentPage = 0;
-        const pageSize = 5;
-        let currentQuery = "";
-        let userNavigated = false;
-
-        function init() {
-            try {
-                filteredParagraphs = allParagraphs;
-                currentPage = 0;
-                currentQuery = "";
-                try { applyFontSize(localStorage.getItem('basair-font-px') || 16); } catch (e) { applyFontSize(16); }
-                const searchInput = document.getElementById('search-input');
-                if (searchInput) searchInput.value = '';
-                let savedLang = 'ar';
-                try { savedLang = localStorage.getItem('basair-lang') || 'ar'; } catch (e) { savedLang = 'ar'; }
-                const langSelect = document.getElementById('lang-select');
-                if (langSelect) langSelect.value = savedLang;
-                changeLanguage(savedLang);
-            } catch (err) {
-                document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
+        const TEXT = {
+            ar: {
+                noResults: 'لا توجد نتائج مطابقة للبحث.',
+                total: function (n) { return 'إجمالي الفقرات: ' + n; },
+                page: function (i, n) { return 'الصفحة ' + i + ' من ' + n; },
+                result: function (n, q) { return 'تم العثور على ' + n + ' نتيجة مطابقة لـ "' + q + '"'; },
+                jump: function (n) { return 'الانتقال إلى الفقرة [' + n + ']'; },
+                noTranslation: '⚠️ الترجمة غير متاحة حالياً (ربما بدون إنترنت). يتم عرض النص العربي.',
+                prev: 'السابق →',
+                next: '← التالي'
+            },
+            en: {
+                noResults: 'No matching results.',
+                total: function (n) { return 'Total paragraphs: ' + n; },
+                page: function (i, n) { return 'Page ' + i + ' of ' + n; },
+                result: function (n, q) { return 'Found ' + n + ' results for "' + q + '"'; },
+                jump: function (n) { return 'Jump to paragraph [' + n + ']'; },
+                noTranslation: '⚠️ Translation is currently unavailable (possibly offline). Showing Arabic text.',
+                prev: '← Prev',
+                next: 'Next →'
+            },
+            fr: {
+                noResults: 'Aucun résultat correspondant.',
+                total: function (n) { return 'Total paragraphes : ' + n; },
+                page: function (i, n) { return 'Page ' + i + ' sur ' + n; },
+                result: function (n, q) { return n + ' résultats trouvés pour "' + q + '"'; },
+                jump: function (n) { return 'Aller au paragraphe [' + n + ']'; },
+                noTranslation: '⚠️ La traduction est indisponible (hors ligne ?). Texte arabe affiché.',
+                prev: '← Précédent',
+                next: 'Suivant →'
+            },
+            es: {
+                noResults: 'No hay resultados coincidentes.',
+                total: function (n) { return 'Total párrafos: ' + n; },
+                page: function (i, n) { return 'Página ' + i + ' de ' + n; },
+                result: function (n, q) { return 'Se encontraron ' + n + ' resultados para "' + q + '"'; },
+                jump: function (n) { return 'Ir al párrafo [' + n + ']'; },
+                noTranslation: '⚠️ La traducción no está disponible (¿sin conexión?). Se muestra el texto árabe.',
+                prev: '← Anterior',
+                next: 'Siguiente →'
             }
-        }
+        };
 
-        function forceTop() {
+        function storeGet(key, fallback) {
             try {
-                document.documentElement.scrollTop = 0;
-                document.body.scrollTop = 0;
-                window.scrollTo(0, 0);
-            } catch (e) {}
-        }
-
-        function forceFirstDoor() {
-            try {
-                if (userNavigated) { forceTop(); return; }
-                currentPage = 0;
-                buildPageSelect();
-                const pageSelect = document.getElementById('page-select');
-                if (pageSelect) pageSelect.value = '0';
-                renderPage();
-                forceTop();
-            } catch (e) {}
-        }
-
-        window.addEventListener('load', function () {
-            forceTop();
-            setTimeout(forceTop, 50);
-            setTimeout(forceTop, 200);
-        });
-
-        window.addEventListener('pageshow', function (e) {
-            if (!userNavigated) {
-                currentPage = 0;
-                forceFirstDoor();
-                setTimeout(forceTop, 50);
-                setTimeout(forceTop, 200);
-            }
-        });
-
-        document.addEventListener('visibilitychange', function () {
-            if (document.visibilityState === 'visible') forceTop();
-        });
-
-        function buildPageSelect() {
-            const select = document.getElementById('page-select');
-            select.innerHTML = '';
-            const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
-            const lang = document.getElementById('lang-select').value;
-            for (let i = 0; i < totalPages; i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                if (lang === 'es') opt.textContent = `Página ${i + 1} de ${totalPages}`;
-                else if (lang === 'en') opt.textContent = `Page ${i + 1} of ${totalPages}`;
-                else if (lang === 'fr') opt.textContent = `Page ${i + 1} sur ${totalPages}`;
-                else opt.textContent = `الصفحة ${i + 1} من ${totalPages}`;
-                select.appendChild(opt);
-            }
-            const totalText = (lang === 'es') ? `Total párrafos: ${filteredParagraphs.length}` :
-                              (lang === 'en') ? `Total paragraphs: ${filteredParagraphs.length}` :
-                              (lang === 'fr') ? `Total paragraphes: ${filteredParagraphs.length}` :
-                              `إجمالي الفقرات: ${filteredParagraphs.length}`;
-            document.getElementById('total-info').textContent = totalText;
-        }
-
-        const translationCache = new Map();
-
-        async function translateText(text, targetLang) {
-            if (targetLang === 'ar') return text;
-            const cacheKey = targetLang + '|' + text;
-            if (translationCache.has(cacheKey)) return translationCache.get(cacheKey);
-            const controller = new AbortController();
-            const timer = setTimeout(function () { controller.abort(); }, 4000);
-            try {
-                const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=${targetLang}&dt=t&q=` + encodeURIComponent(text), { signal: controller.signal });
-                if (!res || !res.ok) throw new Error('bad response');
-                const json = await res.json();
-                const out = json[0].map(function (item) { return item[0]; }).join('');
-                translationCache.set(cacheKey, out);
-                return out;
+                const v = localStorage.getItem(key);
+                return (v === null || v === undefined) ? fallback : v;
             } catch (e) {
-                return text;
-            } finally {
-                clearTimeout(timer);
+                return fallback;
             }
+        }
+
+        function storeSet(key, value) {
+            try { localStorage.setItem(key, String(value)); } catch (e) {}
+        }
+
+        function currentLang() {
+            const sel = document.getElementById('lang-select');
+            const v = sel ? sel.value : 'ar';
+            return (v === 'en' || v === 'fr' || v === 'es') ? v : 'ar';
+        }
+
+        function text(key) {
+            return TEXT[currentLang()][key];
+        }
+
+        function normalizeArabic(str) {
+            return String(str)
+                .replace(/[\u064B-\u0652\u0670\u0640]/g, '')
+                .replace(/[أإآٱ]/g, 'ا')
+                .replace(/ى/g, 'ي')
+                .replace(/ئ/g, 'ي')
+                .replace(/ؤ/g, 'و')
+                .replace(/ة/g, 'ه')
+                .toLowerCase();
         }
 
         function escapeHtml(str) {
@@ -321,144 +323,342 @@
             });
         }
 
-        function fillParagraph(p, text, absoluteIndex) {
-            let safe = escapeHtml(text);
-            if (currentQuery) {
-                const pattern = currentQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                try {
-                    safe = safe.replace(new RegExp('(' + pattern + ')', 'gi'), '<span class="highlight">$1</span>');
-                } catch (e) {}
-            }
-            p.innerHTML = '<span class="text-xs text-amber-500/70 font-mono ml-2">[' + absoluteIndex + ']</span> ' + safe;
+        const DOOR_STARTS = [];
+        (function () {
+            allParagraphs.forEach(function (t, i) {
+                if (/^الباب\s/.test(String(t).trim())) DOOR_STARTS.push(i);
+            });
+        })();
+
+        let doorEntries = [];
+        let filteredIndices = allParagraphs.map(function (_, i) { return i; });
+        let currentPage = 0;
+        let currentQuery = '';
+        let renderToken = 0;
+        let pendingFocus = null;
+        let searchTimer = null;
+        const translationCache = new Map();
+
+        function totalPages() {
+            return Math.max(1, Math.ceil(filteredIndices.length / PAGE_SIZE));
         }
 
-        async function renderPage() {
-            const card = document.getElementById('reader-card');
-            const start = currentPage * pageSize;
-            const end = Math.min(start + pageSize, filteredParagraphs.length);
-            const slice = filteredParagraphs.slice(start, end);
-            const lang = document.getElementById('lang-select').value;
-
-            if (slice.length === 0) {
-                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد نتائج مطابقة للبحث.</p>';
-                document.getElementById('page-select').value = String(currentPage);
-                return;
-            }
-
-            const localTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
-
-            card.innerHTML = '';
-            const items = [];
-            for (let idx = 0; idx < slice.length; idx++) {
-                const p = document.createElement('p');
-                p.className = "leading-relaxed border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
-                const absoluteIndex = start + idx + 1;
-                const originalIndex = allParagraphs.indexOf(slice[idx]);
-                const localText = localTable && originalIndex >= 0 ? localTable[originalIndex] : null;
-                const shown = (localText && localText !== slice[idx]) ? localText : slice[idx];
-                fillParagraph(p, shown, absoluteIndex);
-                card.appendChild(p);
-                items.push({ el: p, text: slice[idx], index: absoluteIndex, done: shown !== slice[idx] });
-            }
-
-            document.getElementById('page-select').value = String(currentPage);
-            forceTop();
-
-            if (lang !== 'ar') {
-                const jobs = items.filter(function (it) { return !it.done; }).map(function (it) {
-                    return translateText(it.text, lang).then(function (translated) {
-                        if (translated && translated !== it.text && document.body.contains(it.el)) {
-                            fillParagraph(it.el, translated, it.index);
-                        }
-                    }).catch(function () {});
-                });
-                Promise.all(jobs).catch(function () {});
-            }
+        function buildDoorEntries() {
+            doorEntries = DOOR_STARTS.map(function (p, i) {
+                return {
+                    p: p,
+                    ar: DOOR_TITLES.ar[i] || allParagraphs[p],
+                    en: DOOR_TITLES.en[i] || allParagraphs[p],
+                    fr: DOOR_TITLES.fr[i] || allParagraphs[p],
+                    es: DOOR_TITLES.es[i] || allParagraphs[p]
+                };
+            });
         }
 
-        function changePage(pageIndex) {
-            userNavigated = true;
-            const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
-            if (pageIndex < 0 || pageIndex >= totalPages) return;
-            currentPage = pageIndex;
-            renderPage();
+        function renderDoors(lang) {
+            const grid = document.getElementById('doors-grid');
+            if (!grid) return;
+            const key = (lang === 'en' || lang === 'fr' || lang === 'es') ? lang : 'ar';
+            grid.innerHTML = '';
+            doorEntries.forEach(function (door, i) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = (key === 'ar' ? 'text-right' : 'text-left') + ' w-full text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center gap-2';
+                btn.setAttribute('data-door', String(i));
+                const label = document.createElement('span');
+                label.textContent = door[key] || door.ar;
+                const num = document.createElement('span');
+                num.className = 'text-amber-400 font-mono text-[10px]';
+                num.textContent = String(i + 1).padStart(2, '0');
+                btn.appendChild(label);
+                btn.appendChild(num);
+                btn.addEventListener('click', function () { jumpToDoor(i); });
+                grid.appendChild(btn);
+            });
         }
 
         function toggleIndexPanel() {
             const grid = document.getElementById('doors-grid');
             const arrow = document.getElementById('index-arrow');
+            if (!grid) return;
             if (grid.classList.contains('hidden')) {
                 grid.classList.remove('hidden');
-                arrow.style.transform = 'rotate(180deg)';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             } else {
                 grid.classList.add('hidden');
-                arrow.style.transform = 'rotate(0deg)';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
             }
         }
 
-        function jumpToDoor(paragraphIndex) {
-            userNavigated = true;
-            const targetPage = Math.floor(parseInt(paragraphIndex) / pageSize);
-            changePage(targetPage);
-            document.getElementById('doors-grid').classList.add('hidden');
-            document.getElementById('index-arrow').style.transform = 'rotate(0deg)';
+        function closeDoors() {
+            const grid = document.getElementById('doors-grid');
+            const arrow = document.getElementById('index-arrow');
+            if (grid) grid.classList.add('hidden');
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
         }
 
-        function handleSearch(query) {
-            userNavigated = true;
-            currentQuery = query.trim();
-            const lang = document.getElementById('lang-select').value;
-            if (!currentQuery) {
-                filteredParagraphs = allParagraphs;
-                document.getElementById('search-stats').textContent = '';
+        function fillParagraph(el, rawText, number) {
+            let safe = escapeHtml(rawText);
+            const q = currentQuery;
+            if (q && !/^\d+$/.test(q) && String(rawText).toLowerCase().indexOf(q.toLowerCase()) !== -1) {
+                const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                try {
+                    safe = safe.replace(new RegExp('(' + escapeHtml(pattern) + ')', 'gi'), '<span class="highlight">$1</span>');
+                } catch (e) {}
+            }
+            el.innerHTML = '<span class="text-xs text-amber-500/70 font-mono ml-2">[' + number + ']</span> ' + safe;
+        }
+
+        async function translateText(text, lang) {
+            const cacheKey = lang + '|' + text;
+            if (translationCache.has(cacheKey)) return translationCache.get(cacheKey);
+            const controller = new AbortController();
+            const timer = setTimeout(function () { controller.abort(); }, 6000);
+            try {
+                const res = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=' + lang + '&dt=t&q=' + encodeURIComponent(text), { signal: controller.signal });
+                if (!res || !res.ok) throw new Error('bad response');
+                const json = await res.json();
+                const out = json[0].map(function (item) { return item[0]; }).join('');
+                translationCache.set(cacheKey, out);
+                return out;
+            } catch (e) {
+                return null;
+            } finally {
+                clearTimeout(timer);
+            }
+        }
+
+        function updatePageSelector() {
+            const lang = currentLang();
+            const select = document.getElementById('page-select');
+            const total = totalPages();
+            if (select) {
+                select.innerHTML = '';
+                for (let i = 0; i < total; i++) {
+                    const opt = document.createElement('option');
+                    opt.value = String(i);
+                    opt.textContent = TEXT[lang].page(i + 1, total);
+                    select.appendChild(opt);
+                }
+                select.value = String(Math.min(currentPage, total - 1));
+            }
+            const totalInfo = document.getElementById('total-info');
+            if (totalInfo) totalInfo.textContent = TEXT[lang].total(filteredIndices.length);
+            const prev = document.getElementById('btn-prev');
+            const next = document.getElementById('btn-next');
+            if (prev) prev.disabled = currentPage <= 0;
+            if (next) next.disabled = currentPage >= total - 1;
+        }
+
+        function focusParagraph(realIndex) {
+            const card = document.getElementById('reader-card');
+            if (!card) return;
+            const el = card.querySelector('[data-p="' + realIndex + '"]');
+            if (!el) { window.scrollTo(0, 0); return; }
+            setTimeout(function () {
+                try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { el.scrollIntoView(); }
+                el.classList.remove('flash');
+                void el.offsetWidth;
+                el.classList.add('flash');
+                setTimeout(function () { el.classList.remove('flash'); }, 1400);
+            }, 30);
+        }
+
+        async function renderPage() {
+            const token = ++renderToken;
+            const card = document.getElementById('reader-card');
+            if (!card) return;
+            const lang = currentLang();
+            const start = currentPage * PAGE_SIZE;
+            const end = Math.min(start + PAGE_SIZE, filteredIndices.length);
+            const indices = filteredIndices.slice(start, end);
+
+            if (indices.length === 0) {
+                card.innerHTML = '<p class="text-center text-zinc-500 py-8">' + escapeHtml(TEXT[lang].noResults) + '</p>';
+                updatePageSelector();
+                return;
+            }
+
+            const localTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
+            const jobs = [];
+
+            card.innerHTML = '';
+            indices.forEach(function (realIndex) {
+                const original = allParagraphs[realIndex];
+                const el = document.createElement('p');
+                el.className = 'leading-relaxed border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0';
+                el.setAttribute('data-p', String(realIndex));
+                let shown = original;
+                let hasLocal = false;
+                if (lang !== 'ar' && localTable && localTable[realIndex]) {
+                    shown = localTable[realIndex];
+                    hasLocal = true;
+                }
+                fillParagraph(el, shown, realIndex + 1);
+                card.appendChild(el);
+                if (lang !== 'ar' && !hasLocal) {
+                    jobs.push({ el: el, original: original, number: realIndex + 1 });
+                }
+            });
+
+            updatePageSelector();
+
+            if (pendingFocus !== null) {
+                const target = pendingFocus;
+                pendingFocus = null;
+                focusParagraph(target);
             } else {
-                const searchTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
-                const needle = currentQuery.toLowerCase();
-                filteredParagraphs = allParagraphs.filter(function (p, i) {
-                    if (p.includes(currentQuery)) return true;
-                    if (searchTable && searchTable[i] && String(searchTable[i]).toLowerCase().indexOf(needle) !== -1) return true;
-                    return false;
-                });
-                if (lang === 'es') document.getElementById('search-stats').textContent = `Se encontraron ${filteredParagraphs.length} resultados para "${currentQuery}"`;
-                else if (lang === 'en') document.getElementById('search-stats').textContent = `Found ${filteredParagraphs.length} results for "${currentQuery}"`;
-                else if (lang === 'fr') document.getElementById('search-stats').textContent = `${filteredParagraphs.length} résultats trouvés pour "${currentQuery}"`;
-                else document.getElementById('search-stats').textContent = `تم العثور على ${filteredParagraphs.length} نتيجة مطابقة لـ "${currentQuery}"`;
+                window.scrollTo(0, 0);
             }
-            currentPage = 0;
-            buildPageSelect();
+
+            if (jobs.length) {
+                const results = await Promise.all(jobs.map(function (job) {
+                    return translateText(job.original, lang).then(function (translated) {
+                        return { job: job, translated: translated };
+                    });
+                }));
+                if (token !== renderToken) return;
+                let failed = false;
+                results.forEach(function (r) {
+                    if (r.translated && document.body.contains(r.job.el)) {
+                        fillParagraph(r.job.el, r.translated, r.job.number);
+                    } else if (!r.translated) {
+                        failed = true;
+                    }
+                });
+                if (failed && token === renderToken) {
+                    const notice = document.createElement('p');
+                    notice.className = 'text-xs text-amber-400 bg-amber-500/10 border border-amber-600/30 rounded-lg p-2 mb-2';
+                    notice.textContent = TEXT[lang].noTranslation;
+                    card.insertBefore(notice, card.firstChild);
+                }
+            }
+        }
+
+        function changePage(pageIndex) {
+            if (pageIndex < 0 || pageIndex >= totalPages()) return;
+            currentPage = pageIndex;
+            storeSet(STORE.page, currentPage);
             renderPage();
         }
 
-        function clearSearch() {
-            document.getElementById('search-input').value = '';
-            handleSearch('');
+        function jumpToDoor(doorIdx) {
+            const door = doorEntries[doorIdx];
+            if (!door) return;
+            const input = document.getElementById('search-input');
+            if (input) input.value = '';
+            currentQuery = '';
+            document.getElementById('search-stats').textContent = '';
+            filteredIndices = allParagraphs.map(function (_, i) { return i; });
+            currentPage = Math.floor(door.p / PAGE_SIZE);
+            pendingFocus = door.p;
+            storeSet(STORE.page, currentPage);
+            closeDoors();
+            renderPage();
         }
 
-        function toggleTheme() {
+        function buildSearchStats(count, query) {
+            const lang = currentLang();
+            const stats = document.getElementById('search-stats');
+            if (stats) stats.textContent = TEXT[lang].result(count, query);
+        }
+
+        function applySearch(rawQuery) {
+            const lang = currentLang();
+            currentQuery = String(rawQuery).trim();
+            const stats = document.getElementById('search-stats');
+
+            if (!currentQuery) {
+                filteredIndices = allParagraphs.map(function (_, i) { return i; });
+                if (stats) stats.textContent = '';
+                currentPage = 0;
+                updatePageSelector();
+                renderPage();
+                return;
+            }
+
+            if (/^\d+$/.test(currentQuery)) {
+                const n = parseInt(currentQuery, 10);
+                if (n >= 1 && n <= allParagraphs.length) {
+                    filteredIndices = allParagraphs.map(function (_, i) { return i; });
+                    currentPage = Math.floor((n - 1) / PAGE_SIZE);
+                    pendingFocus = n - 1;
+                    if (stats) stats.textContent = TEXT[lang].jump(n);
+                    storeSet(STORE.page, currentPage);
+                    updatePageSelector();
+                    renderPage();
+                    return;
+                }
+                filteredIndices = [];
+                if (stats) stats.textContent = TEXT[lang].noResults;
+                currentPage = 0;
+                updatePageSelector();
+                renderPage();
+                return;
+            }
+
+            const needle = normalizeArabic(currentQuery);
+            const localTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
+            filteredIndices = allParagraphs.map(function (_, i) { return i; }).filter(function (i) {
+                if (normalizeArabic(allParagraphs[i]).indexOf(needle) !== -1) return true;
+                if (localTable && localTable[i] && normalizeArabic(localTable[i]).indexOf(needle) !== -1) return true;
+                return false;
+            });
+
+            buildSearchStats(filteredIndices.length, currentQuery);
+            currentPage = 0;
+            storeSet(STORE.page, 0);
+            updatePageSelector();
+            renderPage();
+        }
+
+        function onSearchInput(value) {
+            if (searchTimer) clearTimeout(searchTimer);
+            searchTimer = setTimeout(function () { applySearch(value); }, 250);
+        }
+
+        function handleSearch(value) {
+            if (searchTimer) clearTimeout(searchTimer);
+            applySearch(value);
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('search-input');
+            if (input) input.value = '';
+            applySearch('');
+        }
+
+        function applyTheme(theme) {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
-            if (body.classList.contains('dark')) {
+            if (theme === 'light') {
                 body.classList.remove('dark');
                 body.classList.add('light');
-                icon.textContent = '🌙';
+                if (icon) icon.textContent = '🌙';
             } else {
                 body.classList.remove('light');
                 body.classList.add('dark');
-                icon.textContent = '☀️';
+                if (icon) icon.textContent = '☀️';
             }
+        }
+
+        function toggleTheme() {
+            const next = document.body.classList.contains('dark') ? 'light' : 'dark';
+            applyTheme(next);
+            storeSet(STORE.theme, next);
         }
 
         function applyFontSize(px) {
             px = Math.max(12, Math.min(32, parseInt(px, 10) || 16));
             document.documentElement.style.setProperty('--reader-font-size', px + 'px');
-            try { localStorage.setItem('basair-font-px', String(px)); } catch (e) {}
+            storeSet(STORE.font, px);
             const label = document.getElementById('font-size-label');
             if (label) label.textContent = px;
         }
 
         function changeFontSize(step) {
             let px = 16;
-            try { px = parseInt(localStorage.getItem('basair-font-px') || '16', 10); } catch (e) {}
+            try { px = parseInt(storeGet(STORE.font, '16'), 10) || 16; } catch (e) { px = 16; }
             applyFontSize(px + step);
         }
 
@@ -466,7 +666,57 @@
             applyFontSize(16);
         }
 
+        function changeLanguage(lang) {
+            const key = (lang === 'en' || lang === 'fr' || lang === 'es') ? lang : 'ar';
+            storeSet(STORE.lang, key);
+            const langSelect = document.getElementById('lang-select');
+            if (langSelect) langSelect.value = key;
+            const html = document.getElementById('html-root');
+            html.lang = key;
+            html.dir = (key === 'ar') ? 'rtl' : 'ltr';
+
+            if (key === 'es') {
+                document.getElementById('app-title').textContent = "Enciclopedia Basair";
+                document.getElementById('app-subtitle').textContent = "Plataforma digital avanzada";
+                document.getElementById('label-doors').textContent = "Índice de puertas y ejes (11 puertas):";
+                document.getElementById('search-input').placeholder = "Buscar en la enciclopedia...";
+                document.getElementById('btn-clear').textContent = "Limpiar";
+                document.getElementById('footer-text').textContent = "Enciclopedia digital Basair — Lectura fluida sin conexión";
+            } else if (key === 'en') {
+                document.getElementById('app-title').textContent = "Basair Encyclopedia";
+                document.getElementById('app-subtitle').textContent = "Advanced Digital Platform";
+                document.getElementById('label-doors').textContent = "Index of Doors & Chapters (11 doors):";
+                document.getElementById('search-input').placeholder = "Search in encyclopedia...";
+                document.getElementById('btn-clear').textContent = "Clear";
+                document.getElementById('footer-text').textContent = "Basair Digital Encyclopedia — Offline comfortable reading";
+            } else if (key === 'fr') {
+                document.getElementById('app-title').textContent = "Encyclopédie Basair";
+                document.getElementById('app-subtitle').textContent = "Plateforme numérique avancée";
+                document.getElementById('label-doors').textContent = "Index des portes et chapitres (11 portes) :";
+                document.getElementById('search-input').placeholder = "Rechercher dans l'encyclopédie...";
+                document.getElementById('btn-clear').textContent = "Effacer";
+                document.getElementById('footer-text').textContent = "Encyclopédie numérique Basair — Lecture hors-ligne confortable";
+            } else {
+                document.getElementById('app-title').textContent = "موسوعة بصائر";
+                document.getElementById('app-subtitle').textContent = "المنصة الرقمية المتقدمة";
+                document.getElementById('label-doors').textContent = "فهرس الأبواب والمحاور (11 باباً)";
+                document.getElementById('search-input').placeholder = "ابحث في الموسوعة (كلمة أو رقم)...";
+                document.getElementById('btn-clear').textContent = "مسح";
+                document.getElementById('footer-text').textContent = "موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت";
+            }
+
+            const prev = document.getElementById('btn-prev');
+            const next = document.getElementById('btn-next');
+            if (prev) prev.textContent = TEXT[key].prev;
+            if (next) next.textContent = TEXT[key].next;
+
+            renderDoors(key);
+            updatePageSelector();
+            renderPage();
+        }
+
         document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
             const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
             if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
             const rtl = document.documentElement.dir === 'rtl';
@@ -476,65 +726,35 @@
             else if (key === '+' || key === '=') { changeFontSize(1); e.preventDefault(); }
             else if (key === '-' || key === '_') { changeFontSize(-1); e.preventDefault(); }
             else if (key === '0') { resetFontSize(); e.preventDefault(); }
-            else if (key === '/' ) { const s = document.getElementById('search-input'); if (s) { s.focus(); e.preventDefault(); } }
+            else if (key === '/') { const s = document.getElementById('search-input'); if (s) { s.focus(); e.preventDefault(); } }
             else if (key.toLowerCase() === 't') { toggleTheme(); }
             else if (key.toLowerCase() === 'd') { toggleIndexPanel(); }
         });
 
-        function changeLanguage(lang) {
-            try { localStorage.setItem('basair-lang', lang); } catch (e) {}
-            const langSelect = document.getElementById('lang-select');
-            if (langSelect) langSelect.value = lang;
-            const html = document.getElementById('html-root');
-            html.lang = lang;
-            html.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-            if (lang === 'es') {
-                document.getElementById('app-title').textContent = "Enciclopedia Basair";
-                document.getElementById('app-subtitle').textContent = "Plataforma digital avanzada";
-                document.getElementById('label-doors').textContent = "Índice de puertas y ejes (11 puertas):";
-                document.getElementById('search-input').placeholder = "Buscar en la enciclopedia...";
-                document.getElementById('btn-clear').textContent = "Limpiar";
-                document.getElementById('btn-prev').textContent = "← Anterior";
-                document.getElementById('btn-next').textContent = "Siguiente →";
-                document.getElementById('footer-text').textContent = "Enciclopedia digital Basair — Lectura fluida sin conexión";
-            } else if (lang === 'en') {
-                document.getElementById('app-title').textContent = "Basair Encyclopedia";
-                document.getElementById('app-subtitle').textContent = "Advanced Digital Platform";
-                document.getElementById('label-doors').textContent = "Index of Doors & Chapters (11 doors):";
-                document.getElementById('search-input').placeholder = "Search in encyclopedia...";
-                document.getElementById('btn-clear').textContent = "Clear";
-                document.getElementById('btn-prev').textContent = "← Prev";
-                document.getElementById('btn-next').textContent = "Next →";
-                document.getElementById('footer-text').textContent = "Basair Digital Encyclopedia — Offline comfortable reading";
-            } else if (lang === 'fr') {
-                document.getElementById('app-title').textContent = "Encyclopédie Basair";
-                document.getElementById('app-subtitle').textContent = "Plateforme numérique avancée";
-                document.getElementById('label-doors').textContent = "Index des portes et chapitres (11 portes) :";
-                document.getElementById('search-input').placeholder = "Rechercher dans l'encyclopédie...";
-                document.getElementById('btn-clear').textContent = "Effacer";
-                document.getElementById('btn-prev').textContent = "← Précédent";
-                document.getElementById('btn-next').textContent = "Suivant →";
-                document.getElementById('footer-text').textContent = "Encyclopédie numérique Basair — Lecture hors-ligne confortable";
-            } else {
-                document.getElementById('app-title').textContent = "موسوعة بصائر";
-                document.getElementById('app-subtitle').textContent = "المنصة الرقمية المتقدمة";
-                document.getElementById('label-doors').textContent = "فهرس الأبواب والمحاور (11 باباً)";
-                document.getElementById('search-input').placeholder = "ابحث في الموسوعة (كلمة أو رقم)...";
-                document.getElementById('btn-clear').textContent = "مسح";
-                document.getElementById('btn-prev').textContent = "السابق ←";
-                document.getElementById('btn-next').textContent = "→ التالي";
-                document.getElementById('footer-text').textContent = "موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت";
+        function init() {
+            try {
+                buildDoorEntries();
+                filteredIndices = allParagraphs.map(function (_, i) { return i; });
+                currentQuery = '';
+                applyTheme(storeGet(STORE.theme, 'dark'));
+                applyFontSize(storeGet(STORE.font, '16'));
+                const savedLang = storeGet(STORE.lang, 'ar');
+                const langSelect = document.getElementById('lang-select');
+                if (langSelect) langSelect.value = savedLang;
+                const savedPage = parseInt(storeGet(STORE.page, '0'), 10) || 0;
+                currentPage = Math.min(Math.max(0, savedPage), totalPages() - 1);
+                changeLanguage(savedLang);
+            } catch (err) {
+                const card = document.getElementById('reader-card');
+                if (card) card.innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
             }
-            renderDoors(lang);
-            buildPageSelect();
-            renderPage();
         }
 
         init();
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./sw.js?v=9', { updateViaCache: 'none' }).then(function (reg) {
+                navigator.serviceWorker.register('./sw.js?v=10', { updateViaCache: 'none' }).then(function (reg) {
                     if (reg && reg.update) reg.update().catch(function () {});
                 }).catch(function () {});
                 var swReloaded = false;
@@ -542,14 +762,15 @@
                     if (swReloaded) return;
                     swReloaded = true;
                     try {
-                        if (!sessionStorage.getItem('basair-sw-reloaded')) {
-                            sessionStorage.setItem('basair-sw-reloaded', '1');
+                        if (!sessionStorage.getItem('basair-sw-reloaded-v10')) {
+                            sessionStorage.setItem('basair-sw-reloaded-v10', '1');
                             location.reload();
                         }
                     } catch (e) {}
                 });
             });
         }
+
     </script>
 </body>
 </html>
