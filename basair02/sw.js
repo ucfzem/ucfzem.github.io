@@ -3,6 +3,7 @@
 const CACHE = 'basair02-v4';
 const ASSETS = ['./', './index.html', './content-i18n.js', './manifest.json'];
 
+
 self.addEventListener('install', (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) =>
@@ -14,6 +15,7 @@ self.addEventListener('install', (e) => {
   ));
 });
 
+
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
@@ -24,9 +26,11 @@ self.addEventListener('activate', (e) => {
   );
 });
 
+
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
+
 
   let url;
   try {
@@ -35,10 +39,13 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
+
   if (url.origin !== self.location.origin) return;
+
 
   const scopePath = new URL(self.registration.scope).pathname.replace(/\/$/, '');
   if (!url.pathname.startsWith(scopePath)) { return; }
+
 
   // Force network-first retrieval for dynamic content data with offline fallback
   if (url.pathname.endsWith('/content-data.js')) {
@@ -55,6 +62,7 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
+
   // Navigation: try network first, fall back to cached index
   if (req.mode === 'navigate') {
     e.respondWith(
@@ -68,6 +76,7 @@ self.addEventListener('fetch', (e) => {
     );
     return;
   }
+
 
   // Static assets: cache-first, update in background
   e.respondWith(
