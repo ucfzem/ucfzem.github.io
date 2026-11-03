@@ -1,6 +1,6 @@
 // basair02 offline worker — scope: /basair02/
 // Caches the app shell + the i18n data so text works offline.
-const CACHE = 'basair02-v3';
+const CACHE = 'basair02-v4';
 const ASSETS = ['./', './index.html', './content-i18n.js', './manifest.json'];
 
 self.addEventListener('install', (e) => {
@@ -28,29 +28,65 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
 
-  // Navigations: network-first so updates land immediately; cache is the offline fallback.
-  if (req.mode === 'navigate') {
+  let url;
+  try {
+    url = new URL(req.url);
+  } catch {
+    return;
+  }
+
+  if (url.origin !== self.location.origin) return;
+
+  const scopePath = new URL(self.registration.scope).pathname.replace(/\/$/, '');
+  if (!url.pathname.startsWith(scopePath)) { return; }
+
+  // Force network-first retrieval for dynamic content data with offline fallback
+  if (url.pathname.endsWith('/content-data.js')) {
     e.respondWith(
-      fetch(req, { cache: 'no-cache' })
+      fetch(req, { cache: 'reload' })
         .then((res) => {
-          if (res && res.ok) caches.open(CACHE).then((c) => c.put('./index.html', res.clone()));
+          if (res && res.ok) {
+            caches.open(CACHE).then((c) => c.put(req, res.clone()));
+          }
           return res;
         })
-        .catch(() => caches.match('./index.html').then((h) => h || caches.match('./')))
+        .catch(() => caches.match(req))
     );
     return;
   }
 
-  // Assets (content-i18n.js, manifest, etc.): cache-first, refresh in background.
+  // Navigation: try network first, fall back to cached index
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req).then((res) => {
+        if (res && res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then((c) => c.put('./index.html', clone));
+        }
+        return res;
+      }).catch(() => caches.match('./index.html').then((r) => r || caches.match('./')))
+    );
+    return;
+  }
+
+  // Static assets: cache-first, update in background
   e.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((cached) => {
-      const network = fetch(req)
-        .then((res) => {
-          if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
+    caches.match(req).then((cached) => {
+      if (cached) {
+        const fetchPromise = fetch(req).then((res) => {
+          if (res && res.ok) {
+            caches.open(CACHE).then((c) => c.put(req, res.clone()));
+          }
           return res;
-        })
-        .catch(() => cached);
-      return cached || network;
+        }).catch(() => {});
+        return cached;
+      }
+      return fetch(req).then((res) => {
+        if (res && res.ok) {
+          caches.open(CACHE).then((c) => c.put(req, res.clone()));
+        }
+        return res;
+      });
     })
   );
 });
