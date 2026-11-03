@@ -1,7 +1,7 @@
 // basair02 offline worker — scope: /basair02/
 // Caches the app shell, local data and the external UI libraries so the
 // encyclopedia keeps working with no connection.
-const CACHE = 'basair02-v7';
+const CACHE = 'basair02-v8';
 
 const ASSETS = [
   './',
@@ -96,7 +96,7 @@ self.addEventListener('fetch', (e) => {
   // Navigation: network first, fall back to cached shell.
   if (req.mode === 'navigate') {
     e.respondWith(
-      fetch(req).then((res) => {
+      fetch(req, { cache: 'no-store' }).then((res) => {
         if (res && res.ok) {
           const clone = res.clone();
           caches.open(CACHE).then((c) => c.put('./index.html', clone));

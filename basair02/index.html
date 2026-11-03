@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <script>try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}</script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موسوعة بصائر - Basair</title>
     <meta name="theme-color" content="#064e3b">
@@ -112,6 +114,7 @@
 
     <footer class="border-t border-emerald-900/50 py-4 text-center text-xs text-emerald-600 dark:text-emerald-400/70">
         <p id="footer-text">موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت</p>
+        <p class="mt-1 opacity-40 font-mono text-[10px]">build v8</p>
     </footer>
 
     <script>
@@ -183,6 +186,7 @@
         let currentPage = 0;
         const pageSize = 5;
         let currentQuery = "";
+        let userNavigated = false;
 
         function init() {
             try {
@@ -192,11 +196,11 @@
                 try { applyFontSize(localStorage.getItem('basair-font-px') || 16); } catch (e) { applyFontSize(16); }
                 const searchInput = document.getElementById('search-input');
                 if (searchInput) searchInput.value = '';
-                buildPageSelect();
-                const pageSelect = document.getElementById('page-select');
-                if (pageSelect) pageSelect.value = '0';
-                renderPage();
-                forceTop();
+                let savedLang = 'ar';
+                try { savedLang = localStorage.getItem('basair-lang') || 'ar'; } catch (e) { savedLang = 'ar'; }
+                const langSelect = document.getElementById('lang-select');
+                if (langSelect) langSelect.value = savedLang;
+                changeLanguage(savedLang);
             } catch (err) {
                 document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
             }
@@ -212,30 +216,28 @@
 
         function forceFirstDoor() {
             try {
-                const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
-                if (currentPage !== 0 || (totalPages > 0 && document.getElementById('page-select').value !== '0')) {
-                    currentPage = 0;
-                    buildPageSelect();
-                    renderPage();
-                }
+                if (userNavigated) { forceTop(); return; }
+                currentPage = 0;
+                buildPageSelect();
+                const pageSelect = document.getElementById('page-select');
+                if (pageSelect) pageSelect.value = '0';
+                renderPage();
                 forceTop();
             } catch (e) {}
         }
 
         window.addEventListener('load', function () {
-            forceFirstDoor();
+            forceTop();
             setTimeout(forceTop, 50);
             setTimeout(forceTop, 200);
-            setTimeout(forceFirstDoor, 400);
         });
 
         window.addEventListener('pageshow', function (e) {
-            currentPage = 0;
-            forceFirstDoor();
-            setTimeout(forceTop, 50);
-            setTimeout(forceTop, 200);
-            if (e && e.persisted) {
-                setTimeout(function () { try { buildPageSelect(); renderPage(); } catch (err) {} }, 50);
+            if (!userNavigated) {
+                currentPage = 0;
+                forceFirstDoor();
+                setTimeout(forceTop, 50);
+                setTimeout(forceTop, 200);
             }
         });
 
@@ -264,51 +266,85 @@
             document.getElementById('total-info').textContent = totalText;
         }
 
+        const translationCache = new Map();
+
         async function translateText(text, targetLang) {
             if (targetLang === 'ar') return text;
+            const cacheKey = targetLang + '|' + text;
+            if (translationCache.has(cacheKey)) return translationCache.get(cacheKey);
+            const controller = new AbortController();
+            const timer = setTimeout(function () { controller.abort(); }, 4000);
             try {
-                const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=${targetLang}&dt=t&q=` + encodeURIComponent(text));
+                const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=${targetLang}&dt=t&q=` + encodeURIComponent(text), { signal: controller.signal });
+                if (!res || !res.ok) throw new Error('bad response');
                 const json = await res.json();
-                return json[0].map(item => item[0]).join('');
+                const out = json[0].map(function (item) { return item[0]; }).join('');
+                translationCache.set(cacheKey, out);
+                return out;
             } catch (e) {
                 return text;
+            } finally {
+                clearTimeout(timer);
             }
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, function (c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        }
+
+        function fillParagraph(p, text, absoluteIndex) {
+            let safe = escapeHtml(text);
+            if (currentQuery) {
+                const pattern = currentQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                try {
+                    safe = safe.replace(new RegExp('(' + pattern + ')', 'gi'), '<span class="highlight">$1</span>');
+                } catch (e) {}
+            }
+            p.innerHTML = '<span class="text-xs text-amber-500/70 font-mono ml-2">[' + absoluteIndex + ']</span> ' + safe;
         }
 
         async function renderPage() {
             const card = document.getElementById('reader-card');
-            card.innerHTML = '<p class="text-center text-amber-500 animate-pulse">جاري تحميل وتجهيز الصفحة...</p>';
             const start = currentPage * pageSize;
             const end = Math.min(start + pageSize, filteredParagraphs.length);
             const slice = filteredParagraphs.slice(start, end);
             const lang = document.getElementById('lang-select').value;
 
             if (slice.length === 0) {
-                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد resultados مطابقة للبحث.</p>';
+                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد نتائج مطابقة للبحث.</p>';
+                document.getElementById('page-select').value = String(currentPage);
                 return;
             }
+
             card.innerHTML = '';
+            const items = [];
             for (let idx = 0; idx < slice.length; idx++) {
-                let text = slice[idx];
-                const absoluteIndex = start + idx + 1;
-                if (lang !== 'ar') {
-                    text = await translateText(text, lang);
-                }
                 const p = document.createElement('p');
                 p.className = "leading-relaxed border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
-                if (currentQuery) {
-                    const regex = new RegExp('(' + currentQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-                    p.innerHTML = `<span class="text-xs text-amber-500 font-mono ml-2">[${absoluteIndex}]</span> ` + text.replace(regex, '<span class="highlight">$1</span>');
-                } else {
-                    p.innerHTML = `<span class="text-xs text-amber-500/70 font-mono ml-2">[${absoluteIndex}]</span> ` + text;
-                }
+                fillParagraph(p, slice[idx], start + idx + 1);
                 card.appendChild(p);
+                items.push({ el: p, text: slice[idx], index: start + idx + 1 });
             }
-            document.getElementById('page-select').value = currentPage;
-            window.scrollTo(0, 0);
+
+            document.getElementById('page-select').value = String(currentPage);
+            forceTop();
+
+            if (lang !== 'ar') {
+                const jobs = items.map(function (it) {
+                    return translateText(it.text, lang).then(function (translated) {
+                        if (translated && translated !== it.text && document.body.contains(it.el)) {
+                            fillParagraph(it.el, translated, it.index);
+                        }
+                    }).catch(function () {});
+                });
+                Promise.all(jobs).catch(function () {});
+            }
         }
 
         function changePage(pageIndex) {
+            userNavigated = true;
             const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
             if (pageIndex < 0 || pageIndex >= totalPages) return;
             currentPage = pageIndex;
@@ -328,6 +364,7 @@
         }
 
         function jumpToDoor(paragraphIndex) {
+            userNavigated = true;
             const targetPage = Math.floor(parseInt(paragraphIndex) / pageSize);
             changePage(targetPage);
             document.getElementById('doors-grid').classList.add('hidden');
@@ -335,6 +372,7 @@
         }
 
         function handleSearch(query) {
+            userNavigated = true;
             currentQuery = query.trim();
             const lang = document.getElementById('lang-select').value;
             if (!currentQuery) {
@@ -405,6 +443,9 @@
         });
 
         function changeLanguage(lang) {
+            try { localStorage.setItem('basair-lang', lang); } catch (e) {}
+            const langSelect = document.getElementById('lang-select');
+            if (langSelect) langSelect.value = lang;
             const html = document.getElementById('html-root');
             html.lang = lang;
             html.dir = (lang === 'ar') ? 'rtl' : 'ltr';
@@ -453,7 +494,20 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./sw.js').catch(function () {});
+                navigator.serviceWorker.register('./sw.js?v=8', { updateViaCache: 'none' }).then(function (reg) {
+                    if (reg && reg.update) reg.update().catch(function () {});
+                }).catch(function () {});
+                var swReloaded = false;
+                navigator.serviceWorker.addEventListener('controllerchange', function () {
+                    if (swReloaded) return;
+                    swReloaded = true;
+                    try {
+                        if (!sessionStorage.getItem('basair-sw-reloaded')) {
+                            sessionStorage.setItem('basair-sw-reloaded', '1');
+                            location.reload();
+                        }
+                    } catch (e) {}
+                });
             });
         }
     </script>
