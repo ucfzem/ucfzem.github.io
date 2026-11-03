@@ -29,9 +29,9 @@
         <div class="flex items-center gap-2">
             <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-2 py-1 text-xs focus:outline-none cursor-pointer">
                 <option value="ar">🇲🇦 العربية</option>
-                <option value="es">🇪🇸 Español</option>
                 <option value="en">🇬🇧 English</option>
                 <option value="fr">🇫🇷 Français</option>
+                <option value="es">🇪🇸 Español</option>
             </select>
             <button onclick="toggleTheme()" class="p-2 rounded-lg bg-emerald-900 hover:bg-emerald-800 text-xs transition-colors border border-emerald-700 shadow" title="تبديل المظهر">
                 <span id="theme-icon">☀️</span>
@@ -50,16 +50,16 @@
             </div>
             <div id="doors-grid" class="hidden grid grid-cols-1 gap-2 mt-3 pt-3 border-t border-emerald-900/30 max-h-64 overflow-y-auto">
                 <button onclick="jumpToDoor(0)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الأول: مدخل دراسة الإلحاد الجديد</span><span class="text-amber-400 font-mono text-[10px]">01</span></button>
-                <button onclick="jumpToDoor(20)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثاني: نقد أصول المادية العلمية</span><span class="text-amber-400 font-mono text-[10px]">02</span></button>
-                <button onclick="jumpToDoor(40)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثالث: شبهات أصل الحياة والكون</span><span class="text-amber-400 font-mono text-[10px]">03</span></button>
-                <button onclick="jumpToDoor(60)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الرابع: معضلة الوعي والخلق</span><span class="text-amber-400 font-mono text-[10px]">04</span></button>
-                <button onclick="jumpToDoor(80)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الخامس: الأخلاق وقانون الإلزام</span><span class="text-amber-400 font-mono text-[10px]">05</span></button>
-                <button onclick="jumpToDoor(100)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السادس: قضايا النبوات والرسالات</span><span class="text-amber-400 font-mono text-[10px]">06</span></button>
-                <button onclick="jumpToDoor(120)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السابع: الرد على الشبهات التاريخية</span><span class="text-amber-400 font-mono text-[10px]">07</span></button>
-                <button onclick="jumpToDoor(140)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثامن: حجية القرآن الكريم</span><span class="text-amber-400 font-mono text-[10px]">08</span></button>
-                <button onclick="jumpToDoor(160)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب التاسع: براهين النبوة المحمدية</span><span class="text-amber-400 font-mono text-[10px]">09</span></button>
-                <button onclick="jumpToDoor(180)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب العاشر: خلاصات ومنهجية الرد</span><span class="text-amber-400 font-mono text-[10px]">10</span></button>
-                <button onclick="jumpToDoor(200)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الحادي عشر: الخاتمة والآفاق</span><span class="text-amber-400 font-mono text-[10px]">11</span></button>
+                <button onclick="jumpToDoor(2)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثاني: نقد أصول المادية العلمية</span><span class="text-amber-400 font-mono text-[10px]">02</span></button>
+                <button onclick="jumpToDoor(4)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثالث: شبهات أصل الحياة والكون</span><span class="text-amber-400 font-mono text-[10px]">03</span></button>
+                <button onclick="jumpToDoor(6)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الرابع: معضلة الوعي والخلق</span><span class="text-amber-400 font-mono text-[10px]">04</span></button>
+                <button onclick="jumpToDoor(8)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الخامس: الأخلاق وقانون الإلزام</span><span class="text-amber-400 font-mono text-[10px]">05</span></button>
+                <button onclick="jumpToDoor(10)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السادس: قضايا النبوات والرسالات</span><span class="text-amber-400 font-mono text-[10px]">06</span></button>
+                <button onclick="jumpToDoor(12)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السابع: الرد على الشبهات التاريخية</span><span class="text-amber-400 font-mono text-[10px]">07</span></button>
+                <button onclick="jumpToDoor(14)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثامن: حجية القرآن الكريم</span><span class="text-amber-400 font-mono text-[10px]">08</span></button>
+                <button onclick="jumpToDoor(16)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب التاسع: براهين النبوة المحمدية</span><span class="text-amber-400 font-mono text-[10px]">09</span></button>
+                <button onclick="jumpToDoor(18)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب العاشر: خلاصات ومنهجية الرد</span><span class="text-amber-400 font-mono text-[10px]">10</span></button>
+                <button onclick="jumpToDoor(20)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الحادي عشر: الخاتمة والآفاق</span><span class="text-amber-400 font-mono text-[10px]">11</span></button>
             </div>
         </div>
 
@@ -119,11 +119,40 @@
             "الكون يتميز بضبط دقيق (Fine-Tuning) مذهل للثوابت الفيزيائية؛ كقوة الجاذبية والنووية.",
             "لو تغيرت هذه الثوابت بنسبة أجزاء من ترليون ترليون لما استقرت النجوم ولا قامت حياة.",
             "هذا التوافق الكوني المحكم يشهد بحدة على أن وراء هذا الخلق تصميماً هادفاً وحكمة بالغة.",
-            "ولا يمكن تفسير هذا التوافق بالكون المتعدد (Multiverse) londerly; 이 hecho}}'];
+            "ولا يمكن تفسير هذا التوافق بالكون المتعدد (Multiverse) لكونه مجرد هروب نظري بلا دليل تجريبي.",
+            "الباب الرابع: معضلة الوعي والخلق وإثبات مباينة الروح للمادة.",
+            "يعجز التفسير المادي تماماً عن تفسير حقيقة الوعي والإدراك والتجربة الذاتية للشعور (Qualia).",
+            "كيف تتحول تجمعات الذرات الصماء والجسيمات المادية إلى كائن يدرك ويفرح ويحزن ويتأمل؟",
+            "المادة بطبيعتها خالية من الإدراك والمعنى، وما تفاعلات الخلايا العصبية إلا مظاهر وظائفية.",
+            "الإنسان يمتلك جوهراً روحياً مفارقاً يتجاوز حدود الجسد المادي والخلايا المتجددة.",
+            "هذا الوعي المستمر وثبات الهوية الشخصية رغم تغير خلايا البدن عبر السنين دليل قاطع على جوهر الروح.",
+            "الباب الخامس: الأخلاق وقانون الإلزام ومأزق النسبية الأخلاقية.",
+            "في العالم المادي الصرف لا توجد قيم مطلقة، بل هي مجرد انعكاس لتطور بيولوجي أو رغبة للبقاء.",
+            "لكن الضمير الإنساني يشعر بإلزام حقيقي وموضوعي للخير والعدل بغض النظر عن المنفعة الشخصية.",
+            "من أين جاءت هذه الإلزامات الأخلاقية في كون مادي أصم لا يعرف خيراً ولا شراً؟",
+            "إن الإقرار بوجود قيم أخلاقية موضوعية ومطلقة يستلزم بالضرورة مصدراً إلهاً عليماً آمراً وناهياً.",
+            "الباب السادس: قضايا النبوات والرسالات وحاجة البشرية الملحة إليها.",
+            "العقل البشري مع أهميته وقدراته محدود، ولا يمكنه إدراك تفاصيل الغيب والتشريعات وحدها.",
+            "من هنا جاءت الحكمة الإلهية بإرسال الأنبياء والرسل لهداية البشر وإخراجهم من الظلمات إلى النور.",
+            "الرسالات السماوية تلبي أشواق الروح البشرية وتقدم الأجوبة الشافية عن الأسئلة الكبرى.",
+            "الباب السابع: الرد على الشبهات التاريخية والاستشراقية حول النصوص.",
+            "حاول بعض المستشرقين التشكيك في سلامة النصوص المقدسة وسيرة الأنبياء عبر التاريخ.",
+            "وقد سقطت هذه الشبهات أمام المناهج العلمية الدقيقة في التوثيق والحفظ والاستفاضة.",
+            "حفظ القرآن الكريم بنصه وحروفه على مدى الأجيال عبر التواتر القاطع معجزة خالصة.",
+            "الباب الثامن: حجية القرآن الكريم وإعجازه العلمي والتشريعي والبياني.",
+            "تحدى القرآن الكريم الإنس والجن أن يأتوا بمثل سورة منه فعجزوا ولن يزالوا عاجزين.",
+            "إعجازه البياني والتشريعي والعلمي يشهد بأنه كلام رب العالمين المنزل على نبيه الأمين.",
+            "الباب التاسع: براهين النبوة المحمدية ودلائل الصدق في سيرته العطرة.",
+            "سيرة النبي صلى الله عليه وسلم وأخلاقه العالية وبشائر الأنبياء السابقين به أدلة ساطعة على نبوته.",
+            "الباب العاشر: خلاصات ومنهجية الرد السليم على الشبهات المعاصرة.",
+            "التعامل مع الشبهات يحتاج إلى علم وحلم وأناة وتفكيك هادئ لمفاصل الإشكال لا الانفعال.",
+            "الباب الحادي عشر: الخاتمة والآفاق المستقبلية لليقين الإيماني الراسخ.",
+            "يبقى الإيمان الحق هو الحصن الحصين والمنارة المضيئة التي تهدى النفوس في دياجير الفتن."
+        ];
 
         let filteredParagraphs = allParagraphs;
         let currentPage = 0;
-        const pageSize = 50;
+        const pageSize = 5;
         let currentQuery = "";
 
         function init() {
@@ -132,58 +161,68 @@
                 buildPageSelect();
                 renderPage();
             } catch (err) {
-                document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ in loading file data.</p>';
+                document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
             }
         }
 
         function buildPageSelect() {
-            const select = document.getId('page-select');
+            const select = document.getElementById('page-select');
             select.innerHTML = '';
             const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
             const lang = document.getElementById('lang-select').value;
             for (let i = 0; i < totalPages; i++) {
                 const opt = document.createElement('option');
                 opt.value = i;
-                opt.textContent = (lang === 'es') ? 'Página' + i + 1 + ' de' + totalPages : (lang === 'en') 'Page' + i + 1 + ' of' + totalPages : (lang === 'fr') 'Page' + i + 1 + ' sur' + totalPages : 'الصفحة' + i + 1 + ' من' + totalPages;
+                if (lang === 'es') opt.textContent = `Página ${i + 1} de ${totalPages}`;
+                else if (lang === 'en') opt.textContent = `Page ${i + 1} of ${totalPages}`;
+                else if (lang === 'fr') opt.textContent = `Page ${i + 1} sur ${totalPages}`;
+                else opt.textContent = `الصفحة ${i + 1} من ${totalPages}`;
                 select.appendChild(opt);
             }
-            document.getElementById('total-info').textContent = (lang === 'ar') ? 'إجمالي الفقرات: ' + filteredParagraphs.length : (lang === 'en') 'Total paragraphs: ' + filteredParagraphs.length : (lang === 'es') 'Total párrafos: ' + filteredParagraphs.length : 'Total paragraphes: ' + filteredParagraphs.length;
+            const totalText = (lang === 'es') ? `Total párrafos: ${filteredParagraphs.length}` :
+                              (lang === 'en') ? `Total paragraphs: ${filteredParagraphs.length}` :
+                              (lang === 'fr') ? `Total paragraphes: ${filteredParagraphs.length}` :
+                              `إجمالي الفقرات: ${filteredParagraphs.length}`;
+            document.getElementById('total-info').textContent = totalText;
         }
 
-        function translateText(text, targetLang) {
+        async function translateText(text, targetLang) {
             if (targetLang === 'ar') return text;
             try {
-                const res = fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl' + targetLang + '&dt=t&q=' + encodeURIComponent(text));
-                const json = res.json();
-                return json[0].map(item => item[0].join(''));
-            } catch(e) {
+                const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=${targetLang}&dt=t&q=` + encodeURIComponent(text));
+                const json = await res.json();
+                return json[0].map(item => item[0]).join('');
+            } catch (e) {
                 return text;
             }
         }
 
-        function renderPage() {
+        async function renderPage() {
             const card = document.getElementById('reader-card');
             card.innerHTML = '<p class="text-center text-amber-500 animate-pulse">جاري تحميل وتجهيز الصفحة...</p>';
             const start = currentPage * pageSize;
-            const end = min(start + pageSize, filteredParagraphs.length);
+            const end = Math.min(start + pageSize, filteredParagraphs.length);
             const slice = filteredParagraphs.slice(start, end);
             const lang = document.getElementById('lang-select').value;
+
             if (slice.length === 0) {
-                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد نتائج مطابقة للبحث.</p>';
+                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد resultados مطابقة للبحث.</p>';
                 return;
             }
             card.innerHTML = '';
             for (let idx = 0; idx < slice.length; idx++) {
                 let text = slice[idx];
                 const absoluteIndex = start + idx + 1;
-                if (lang !== 'ar') text = translateText(text, lang);
+                if (lang !== 'ar') {
+                    text = await translateText(text, lang);
+                }
                 const p = document.createElement('p');
                 p.className = "leading-relaxed text-sm md:text-base border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
                 if (currentQuery) {
-                    const regex = new RegExp('(' + currentQuery + ')', 'gi');
-                    p.innerHTML = '<span class="text-xs text-amber-500 font-mono ml-2">[' + absoluteIndex + ']</span>' + text.replace(regex, '<span class="highlight"> $1</span>');
+                    const regex = new RegExp('(' + currentQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+                    p.innerHTML = `<span class="text-xs text-amber-500 font-mono ml-2">[${absoluteIndex}]</span> ` + text.replace(regex, '<span class="highlight">$1</span>');
                 } else {
-                    p.innerHTML = '<span class="text-xs text-amber-500/70 font-mono ml-2">[' + absoluteIndex + ']</span>' + text;
+                    p.innerHTML = `<span class="text-xs text-amber-500/70 font-mono ml-2">[${absoluteIndex}]</span> ` + text;
                 }
                 card.appendChild(p);
             }
@@ -193,7 +232,7 @@
 
         function changePage(pageIndex) {
             const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
-            if (pageIndex < 0 or pageIndex >= totalPages) return;
+            if (pageIndex < 0 || pageIndex >= totalPages) return;
             currentPage = pageIndex;
             renderPage();
         }
@@ -202,10 +241,10 @@
             const grid = document.getElementById('doors-grid');
             const arrow = document.getElementById('index-arrow');
             if (grid.classList.contains('hidden')) {
-                grid.removeClass('hidden');
+                grid.classList.remove('hidden');
                 arrow.style.transform = 'rotate(180deg)';
             } else {
-                grid.addClass('hidden');
+                grid.classList.add('hidden');
                 arrow.style.transform = 'rotate(0deg)';
             }
         }
@@ -225,7 +264,10 @@
                 document.getElementById('search-stats').textContent = '';
             } else {
                 filteredParagraphs = allParagraphs.filter(p => p.includes(currentQuery));
-                document.getElementById('search-stats').textContent = (lang === 'ar') ? 'تم العثور على ' + filteredParagraphs.length + ' نتيجة مطابقة لـ "' + currentQuery + '"' : (lang === 'en') 'Found ' + filteredParagraphs.length + ' results for "' + currentQuery + '"' : (lang === 'es') 'Se encontraron ' + filteredParagraphs.length + ' resultados para "' + currentQuery + '"' : filteredParagraphs.length + ' résultats trouvés pour "' + currentQuery + '"';
+                if (lang === 'es') document.getElementById('search-stats').textContent = `Se encontraron ${filteredParagraphs.length} resultados para "${currentQuery}"`;
+                else if (lang === 'en') document.getElementById('search-stats').textContent = `Found ${filteredParagraphs.length} results for "${currentQuery}"`;
+                else if (lang === 'fr') document.getElementById('search-stats').textContent = `${filteredParagraphs.length} résultats trouvés pour "${currentQuery}"`;
+                else document.getElementById('search-stats').textContent = `تم العثور على ${filteredParagraphs.length} نتيجة مطابقة لـ "${currentQuery}"`;
             }
             currentPage = 0;
             buildPageSelect();
@@ -241,12 +283,12 @@
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             if (body.classList.contains('dark')) {
-                body.removeClass('dark');
-                body.addClass('light');
+                body.classList.remove('dark');
+                body.classList.add('light');
                 icon.textContent = '🌙';
             } else {
-                body.removeClass('light');
-                body.addClass('dark');
+                body.classList.remove('light');
+                body.classList.add('dark');
                 icon.textContent = '☀️';
             }
         }
@@ -256,41 +298,41 @@
             html.lang = lang;
             html.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             if (lang === 'es') {
-                document.getElementById('app-title').textContent = 'Enciclopedia Basair';
-                document.getElementById('app-subtitle').textContent = 'Plataforma digital avanzada';
-                document.getElementById('label-doors').textContent = 'Índice de puertas y ejes (11 puertas):';
-                document.getElementById('search-input').placeholder = 'Buscar en la enciclopedia...';
-                document.getElementById('btn-clear').textContent = 'Limpiar';
-                document.getElementById('btn-prev').textContent = '← Anterior';
-                document.getElementById('btn-next').textContent = 'Siguiente →';
-                document.getElementById('footer-text').textContent = 'Enciclopedia digital Basair — Lectura fluida sin conexión';
+                document.getElementById('app-title').textContent = "Enciclopedia Basair";
+                document.getElementById('app-subtitle').textContent = "Plataforma digital avanzada";
+                document.getElementById('label-doors').textContent = "Índice de puertas y ejes (11 puertas):";
+                document.getElementById('search-input').placeholder = "Buscar en la enciclopedia...";
+                document.getElementById('btn-clear').textContent = "Limpiar";
+                document.getElementById('btn-prev').textContent = "← Anterior";
+                document.getElementById('btn-next').textContent = "Siguiente →";
+                document.getElementById('footer-text').textContent = "Enciclopedia digital Basair — Lectura fluida sin conexión";
             } else if (lang === 'en') {
-                document.getElementById('app-title').textContent = 'Basair Encyclopedia';
-                document.getElementById('app-subtitle').textContent = 'Advanced Digital Platform';
-                document.getElementById('label-doors').textContent = 'Index of Doors & Chapters (11 doors):';
-                document.getElementById('search-input').placeholder = 'Search in encyclopedia...';
-                document.getElementById('btn-clear').textContent = 'Clear';
-                document.getElementById('btn-prev').textContent = '← Prev';
-                document.getElementById('btn-next').textContent = 'Next →';
-                document.getElementById('footer-text').textContent = 'Basair Digital Encyclopedia — Offline comfortable reading';
+                document.getElementById('app-title').textContent = "Basair Encyclopedia";
+                document.getElementById('app-subtitle').textContent = "Advanced Digital Platform";
+                document.getElementById('label-doors').textContent = "Index of Doors & Chapters (11 doors):";
+                document.getElementById('search-input').placeholder = "Search in encyclopedia...";
+                document.getElementById('btn-clear').textContent = "Clear";
+                document.getElementById('btn-prev').textContent = "← Prev";
+                document.getElementById('btn-next').textContent = "Next →";
+                document.getElementById('footer-text').textContent = "Basair Digital Encyclopedia — Offline comfortable reading";
             } else if (lang === 'fr') {
-                document.getElementById('app-title').textContent = 'Encyclopédie Basair';
-                document.getElementById('app-subtitle').textContent = 'Plateforme numérique avancée';
-                document.getElementById('label-doors').textContent = 'Index des portes et chapitres (11 portes) :';
-                document.getElementById('search-input').placeholder = 'Rechercher dans l'encyclopédie\';';
-                document.getElementById('btn-clear').textContent = 'Effacer';
-                document.getElementById('btn-prev').textContent = '← Précédent';
-                document.getElementById('btn-next').textContent = 'Suivant →';
-                document.getElementById('footer-text').textContent = 'Encyclopédie numérique Basair — Lecture hors-ligne confortable';
+                document.getElementById('app-title').textContent = "Encyclopédie Basair";
+                document.getElementById('app-subtitle').textContent = "Plateforme numérique avancée";
+                document.getElementById('label-doors').textContent = "Index des portes et chapitres (11 portes) :";
+                document.getElementById('search-input').placeholder = "Rechercher dans l'encyclopédie...";
+                document.getElementById('btn-clear').textContent = "Effacer";
+                document.getElementById('btn-prev').textContent = "← Précédent";
+                document.getElementById('btn-next').textContent = "Suivant →";
+                document.getElementById('footer-text').textContent = "Encyclopédie numérique Basair — Lecture hors-ligne confortable";
             } else {
-                document.getElementById('app-title').textContent = 'موسوعة بصائر';
-                document.getElementById('app-subtitle').textContent = 'المنصة الرقمية المتقدمة';
-                document.getElementById('label-doors').textContent = 'فهرس الأبواب والمحاور (11 باباً)';
-                document.getElementById('search-input').placeholder = 'ابحث في الموسوعة (كلمة أو رقم)...';
-                document.getElementById('btn-clear').textContent = 'مسح';
-                document.getElementById('btn-prev').textContent = 'السابق ←';
-                document.getElementById('btn-next').textContent = '→ التالي';
-                document.getElementById('footer-text').textContent = 'موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت';
+                document.getElementById('app-title').textContent = "موسوعة بصائر";
+                document.getElementById('app-subtitle').textContent = "المنصة الرقمية المتقدمة";
+                document.getElementById('label-doors').textContent = "فهرس الأبواب والمحاور (11 باباً)";
+                document.getElementById('search-input').placeholder = "ابحث في الموسوعة (كلمة أو رقم)...";
+                document.getElementById('btn-clear').textContent = "مسح";
+                document.getElementById('btn-prev').textContent = "السابق ←";
+                document.getElementById('btn-next').textContent = "→ التالي";
+                document.getElementById('footer-text').textContent = "موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت";
             }
             buildPageSelect();
             renderPage();
