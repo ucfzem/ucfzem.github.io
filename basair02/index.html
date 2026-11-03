@@ -150,6 +150,10 @@
             "يبقى الإيمان الحق هو الحصن الحصين والمنارة المضيئة التي تهدى النفوس في دياجير الفتن."
         ];
 
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
         let filteredParagraphs = allParagraphs;
         let currentPage = 0;
         const pageSize = 5;
@@ -158,12 +162,25 @@
         function init() {
             try {
                 filteredParagraphs = allParagraphs;
+                currentPage = 0;
+                currentQuery = "";
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) searchInput.value = '';
                 buildPageSelect();
                 renderPage();
+                window.scrollTo(0, 0);
             } catch (err) {
                 document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
             }
         }
+
+        window.addEventListener('load', function () {
+            window.scrollTo(0, 0);
+        });
+
+        window.addEventListener('pageshow', function () {
+            window.scrollTo(0, 0);
+        });
 
         function buildPageSelect() {
             const select = document.getElementById('page-select');
@@ -227,7 +244,7 @@
                 card.appendChild(p);
             }
             document.getElementById('page-select').value = currentPage;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
         }
 
         function changePage(pageIndex) {
