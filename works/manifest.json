@@ -1,0 +1,18 @@
+{
+  "id": "/works/",
+  "name": "My Works — UcfZem",
+  "short_name": "Works",
+  "description": "Tous les projets et applications web de UcfZem, consultables hors ligne.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "categories": ["portfolio", "productivity", "books"],
+  "icons": [
+    { "src": "assets/maktaba-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/maktaba-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/avatar.png", "sizes": "864x794", "type": "image/png", "purpose": "any" }
+  ]
+}

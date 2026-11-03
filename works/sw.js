@@ -1,7 +1,8 @@
-const CACHE = 'works-v1.0.26';
+const CACHE = 'works-v1.0.27';
 const CORE = [
   './',
   './index.html',
+  './manifest.json',
   './fonts.css?v=1',
   './fonts/cinzel-400-latin-ext.woff2',
   './fonts/cinzel-400-latin.woff2',
@@ -27,6 +28,7 @@ const CORE = [
   './assets/web-dev-logo.png',
   './assets/barnabas.svg',
   './assets/mirqat-tawhid.svg',
+  './assets/basair02.svg',
   './assets/maktaba.png',
   './assets/maktaba-icon.png',
   './assets/maktaba.svg',
