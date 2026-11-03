@@ -16,6 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
     <link rel="apple-touch-icon" href="./assets/favicon.svg">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="./content-translations.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         .ui-font { font-family: 'Tajawal', sans-serif; }
@@ -76,17 +77,6 @@
                 <span id="index-arrow" class="text-xs text-amber-500 font-bold transition-transform duration-300">▼</span>
             </div>
             <div id="doors-grid" class="hidden grid grid-cols-1 gap-2 mt-3 pt-3 border-t border-emerald-900/30 max-h-64 overflow-y-auto">
-                <button onclick="jumpToDoor(0)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الأول: مدخل دراسة الإلحاد الجديد</span><span class="text-amber-400 font-mono text-[10px]">01</span></button>
-                <button onclick="jumpToDoor(2)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثاني: نقد أصول المادية العلمية</span><span class="text-amber-400 font-mono text-[10px]">02</span></button>
-                <button onclick="jumpToDoor(4)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثالث: شبهات أصل الحياة والكون</span><span class="text-amber-400 font-mono text-[10px]">03</span></button>
-                <button onclick="jumpToDoor(6)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الرابع: معضلة الوعي والخلق</span><span class="text-amber-400 font-mono text-[10px]">04</span></button>
-                <button onclick="jumpToDoor(8)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الخامس: الأخلاق وقانون الإلزام</span><span class="text-amber-400 font-mono text-[10px]">05</span></button>
-                <button onclick="jumpToDoor(10)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السادس: قضايا النبوات والرسالات</span><span class="text-amber-400 font-mono text-[10px]">06</span></button>
-                <button onclick="jumpToDoor(12)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السابع: الرد على الشبهات التاريخية</span><span class="text-amber-400 font-mono text-[10px]">07</span></button>
-                <button onclick="jumpToDoor(14)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثامن: حجية القرآن الكريم</span><span class="text-amber-400 font-mono text-[10px]">08</span></button>
-                <button onclick="jumpToDoor(16)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب التاسع: براهين النبوة المحمدية</span><span class="text-amber-400 font-mono text-[10px]">09</span></button>
-                <button onclick="jumpToDoor(18)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب العاشر: خلاصات ومنهجية الرد</span><span class="text-amber-400 font-mono text-[10px]">10</span></button>
-                <button onclick="jumpToDoor(20)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الحادي عشر: الخاتمة والآفاق</span><span class="text-amber-400 font-mono text-[10px]">11</span></button>
             </div>
         </div>
 
@@ -114,7 +104,7 @@
 
     <footer class="border-t border-emerald-900/50 py-4 text-center text-xs text-emerald-600 dark:text-emerald-400/70">
         <p id="footer-text">موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت</p>
-        <p class="mt-1 opacity-40 font-mono text-[10px]">build v8</p>
+        <p class="mt-1 opacity-40 font-mono text-[10px]">build v9</p>
     </footer>
 
     <script>
@@ -180,6 +170,43 @@
 
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
+        }
+
+        const DOORS = [
+            { p: 0,  ar: "الباب الأول: مدخل دراسة الإلحاد الجديد", en: "Part 1: Introduction to the Study of New Atheism", fr: "Partie 1 : Introduction à l'étude du nouvel athéisme", es: "Parte 1: Introducción al estudio del nuevo ateísmo" },
+            { p: 2,  ar: "الباب الثاني: نقد أصول المادية العلمية", en: "Part 2: Critique of Scientific Materialism", fr: "Partie 2 : Critique du matérialisme scientifique", es: "Parte 2: Crítica del materialismo científico" },
+            { p: 4,  ar: "الباب الثالث: شبهات أصل الحياة والكون", en: "Part 3: Questions on the Origin of Life and the Universe", fr: "Partie 3 : Questions sur l'origine de la vie et de l'univers", es: "Parte 3: Cuestiones sobre el origen de la vida y el universo" },
+            { p: 6,  ar: "الباب الرابع: معضلة الوعي والخلق", en: "Part 4: The Problem of Consciousness and Creation", fr: "Partie 4 : Le problème de la conscience et de la création", es: "Parte 4: El problema de la conciencia y la creación" },
+            { p: 8,  ar: "الباب الخامس: الأخلاق وقانون الإلزام", en: "Part 5: Morality and the Law of Obligation", fr: "Partie 5 : La morale et la loi de l'obligation", es: "Parte 5: La moral y la ley de la obligación" },
+            { p: 10, ar: "الباب السادس: قضايا النبوات والرسالات", en: "Part 6: Prophethood and Divine Messages", fr: "Partie 6 : Prophétie et messages divins", es: "Parte 6: Profecía y mensajes divinos" },
+            { p: 12, ar: "الباب السابع: الرد على الشبهات التاريخية", en: "Part 7: Answering Historical Objections", fr: "Partie 7 : Réponse aux objections historiques", es: "Parte 7: Respuesta a las objeciones históricas" },
+            { p: 14, ar: "الباب الثامن: حجية القرآن الكريم", en: "Part 8: The Authority of the Holy Quran", fr: "Partie 8 : L'autorité du Saint Coran", es: "Parte 8: La autoridad del Sagrado Corán" },
+            { p: 16, ar: "الباب التاسع: براهين النبوة المحمدية", en: "Part 9: Proofs of Muhammad's Prophethood", fr: "Partie 9 : Preuves de la prophétie de Muhammad", es: "Parte 9: Pruebas de la profecía de Muhammad" },
+            { p: 18, ar: "الباب العاشر: خلاصات ومنهجية الرد", en: "Part 10: Conclusions and Methodology of Response", fr: "Partie 10 : Conclusions et méthodologie de la réponse", es: "Parte 10: Conclusiones y metodología de la respuesta" },
+            { p: 20, ar: "الباب الحادي عشر: الخاتمة والآفاق", en: "Part 11: Conclusion and Outlook", fr: "Partie 11 : Conclusion et perspectives", es: "Parte 11: Conclusión y perspectivas" }
+        ];
+
+        function renderDoors(lang) {
+            const grid = document.getElementById('doors-grid');
+            if (!grid) return;
+            const key = (lang === 'en' || lang === 'fr' || lang === 'es') ? lang : 'ar';
+            const align = (key === 'ar') ? 'text-right' : 'text-left';
+            grid.innerHTML = '';
+            DOORS.forEach(function (door, i) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = align + ' text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center gap-2';
+                btn.setAttribute('data-door', String(door.p));
+                const label = document.createElement('span');
+                label.textContent = door[key] || door.ar;
+                const num = document.createElement('span');
+                num.className = 'text-amber-400 font-mono text-[10px]';
+                num.textContent = String(i + 1).padStart(2, '0');
+                btn.appendChild(label);
+                btn.appendChild(num);
+                btn.addEventListener('click', function () { jumpToDoor(door.p); });
+                grid.appendChild(btn);
+            });
         }
 
         let filteredParagraphs = allParagraphs;
@@ -318,21 +345,27 @@
                 return;
             }
 
+            const localTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
+
             card.innerHTML = '';
             const items = [];
             for (let idx = 0; idx < slice.length; idx++) {
                 const p = document.createElement('p');
                 p.className = "leading-relaxed border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
-                fillParagraph(p, slice[idx], start + idx + 1);
+                const absoluteIndex = start + idx + 1;
+                const originalIndex = allParagraphs.indexOf(slice[idx]);
+                const localText = localTable && originalIndex >= 0 ? localTable[originalIndex] : null;
+                const shown = (localText && localText !== slice[idx]) ? localText : slice[idx];
+                fillParagraph(p, shown, absoluteIndex);
                 card.appendChild(p);
-                items.push({ el: p, text: slice[idx], index: start + idx + 1 });
+                items.push({ el: p, text: slice[idx], index: absoluteIndex, done: shown !== slice[idx] });
             }
 
             document.getElementById('page-select').value = String(currentPage);
             forceTop();
 
             if (lang !== 'ar') {
-                const jobs = items.map(function (it) {
+                const jobs = items.filter(function (it) { return !it.done; }).map(function (it) {
                     return translateText(it.text, lang).then(function (translated) {
                         if (translated && translated !== it.text && document.body.contains(it.el)) {
                             fillParagraph(it.el, translated, it.index);
@@ -379,7 +412,13 @@
                 filteredParagraphs = allParagraphs;
                 document.getElementById('search-stats').textContent = '';
             } else {
-                filteredParagraphs = allParagraphs.filter(p => p.includes(currentQuery));
+                const searchTable = (lang !== 'ar' && window.BASAIR_TRANSLATIONS && window.BASAIR_TRANSLATIONS[lang]) ? window.BASAIR_TRANSLATIONS[lang] : null;
+                const needle = currentQuery.toLowerCase();
+                filteredParagraphs = allParagraphs.filter(function (p, i) {
+                    if (p.includes(currentQuery)) return true;
+                    if (searchTable && searchTable[i] && String(searchTable[i]).toLowerCase().indexOf(needle) !== -1) return true;
+                    return false;
+                });
                 if (lang === 'es') document.getElementById('search-stats').textContent = `Se encontraron ${filteredParagraphs.length} resultados para "${currentQuery}"`;
                 else if (lang === 'en') document.getElementById('search-stats').textContent = `Found ${filteredParagraphs.length} results for "${currentQuery}"`;
                 else if (lang === 'fr') document.getElementById('search-stats').textContent = `${filteredParagraphs.length} résultats trouvés pour "${currentQuery}"`;
@@ -486,6 +525,7 @@
                 document.getElementById('btn-next').textContent = "→ التالي";
                 document.getElementById('footer-text').textContent = "موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت";
             }
+            renderDoors(lang);
             buildPageSelect();
             renderPage();
         }
@@ -494,7 +534,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./sw.js?v=8', { updateViaCache: 'none' }).then(function (reg) {
+                navigator.serviceWorker.register('./sw.js?v=9', { updateViaCache: 'none' }).then(function (reg) {
                     if (reg && reg.update) reg.update().catch(function () {});
                 }).catch(function () {});
                 var swReloaded = false;
