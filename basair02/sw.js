@@ -1,7 +1,7 @@
 // basair02 offline worker — scope: /basair02/
 // Caches the app shell, local data and the external UI libraries so the
 // encyclopedia keeps working with no connection.
-const CACHE = 'basair02-v5';
+const CACHE = 'basair02-v6';
 
 const ASSETS = [
   './',

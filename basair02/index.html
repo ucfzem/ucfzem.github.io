@@ -23,31 +23,47 @@
         .theme-card { background-color: var(--card-bg); border-color: var(--card-border); }
         body.dark { --card-bg: rgba(13, 27, 22, 0.85); --card-border: #134e4a; --input-bg: #061a14; --input-border: #115e59; }
         body.light { --card-bg: #ffffff; --card-border: #cbd5e1; --input-bg: #f8fafc; --input-border: #94a3b8; }
+        :root { --reader-font-size: 16px; }
+        #reader-card { font-size: var(--reader-font-size); transition: font-size .2s ease; }
+        #reader-card p { font-size: inherit; }
+        .fs-btn {
+            background: #064e3b; border: 1px solid #065f46; border-radius: .5rem;
+            padding: .15rem .4rem; font-size: .72rem; line-height: 1.2;
+            color: #fcd34d; cursor: pointer; font-family: inherit;
+        }
+        .fs-btn:hover { background: #065f46; }
+        :focus-visible { outline: 3px solid #fbbf24; outline-offset: 2px; border-radius: 8px; }
     </style>
 </head>
 <body class="dark ui-font transition-all duration-300 min-h-screen flex flex-col" style="--card-bg: rgba(13, 27, 22, 0.85); --card-border: #134e4a;">
-    <header class="nuzhat-header text-white px-4 py-3 sticky top-0 z-50 shadow-lg flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <span class="text-2xl">📖</span>
-            <div>
-                <h1 id="app-title" class="font-bold text-base text-amber-300">موسوعة بصائر</h1>
-                <p id="app-subtitle" class="text-[10px] text-emerald-200 opacity-80">المنصة الرقمية المتقدمة</p>
+    <header class="nuzhat-header text-white px-2 sm:px-4 py-2 sticky top-0 z-50 shadow-lg flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+        <div class="flex items-center gap-2 min-w-0">
+            <span class="text-xl leading-none">📖</span>
+            <div class="min-w-0">
+                <h1 id="app-title" class="font-bold text-sm sm:text-base text-amber-300 truncate leading-tight">موسوعة بصائر</h1>
+                <p id="app-subtitle" class="text-[9px] sm:text-[10px] text-emerald-200 opacity-80 truncate leading-tight">المنصة الرقمية المتقدمة</p>
             </div>
         </div>
-        <div class="flex items-center gap-2">
-            <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-2 py-1 text-xs focus:outline-none cursor-pointer">
+        <div class="flex items-center gap-1 flex-wrap justify-end">
+            <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-1.5 py-1 text-[11px] focus:outline-none cursor-pointer">
                 <option value="ar">🇲🇦 العربية</option>
                 <option value="en">🇬🇧 English</option>
                 <option value="fr">🇫🇷 Français</option>
                 <option value="es">🇪🇸 Español</option>
             </select>
-            <button onclick="toggleTheme()" class="p-2 rounded-lg bg-emerald-900 hover:bg-emerald-800 text-xs transition-colors border border-emerald-700 shadow" title="تبديل المظهر">
+            <div class="flex items-center gap-0.5" role="group" aria-label="حجم الخط">
+                <button type="button" onclick="changeFontSize(-1)" class="fs-btn" title="تصغير الخط (A-)" aria-label="تصغير الخط">A−</button>
+                <button type="button" onclick="resetFontSize()" class="fs-btn" title="حجم افتراضي (A)" aria-label="حجم الخط الافتراضي">A</button>
+                <button type="button" onclick="changeFontSize(1)" class="fs-btn" title="تكبير الخط (A+)" aria-label="تكبير الخط">A+</button>
+                <span id="font-size-label" class="text-[9px] text-emerald-200 font-mono w-6 text-center">16</span>
+            </div>
+            <button onclick="toggleTheme()" class="p-1.5 rounded-lg bg-emerald-900 hover:bg-emerald-800 text-xs transition-colors border border-emerald-700 shadow" title="تبديل المظهر">
                 <span id="theme-icon">☀️</span>
             </button>
         </div>
     </header>
 
-    <main class="flex-1 max-w-3xl w-full mx-auto p-4 space-y-4">
+    <main class="flex-1 max-w-3xl w-full mx-auto p-2 sm:p-4 space-y-2 sm:space-y-4">
         <div class="theme-card border rounded-xl p-4 shadow-md backdrop-blur">
             <div class="flex justify-between items-center cursor-pointer mb-2" onclick="toggleIndexPanel()">
                 <div class="flex items-center gap-2">
@@ -88,7 +104,7 @@
             <div id="total-info" class="text-xs text-amber-500 font-mono"></div>
         </div>
 
-        <div id="reader-card" class="theme-card border rounded-2xl p-6 space-y-6 shadow-xl">
+        <div id="reader-card" class="theme-card border rounded-2xl p-4 sm:p-6 space-y-4 sm:space-y-6 shadow-xl">
             <p class="text-center text-zinc-400">جاري تحميل بيانات الموسوعة...</p>
         </div>
     </main>
@@ -172,6 +188,7 @@
                 filteredParagraphs = allParagraphs;
                 currentPage = 0;
                 currentQuery = "";
+                try { applyFontSize(localStorage.getItem('basair-font-px') || 16); } catch (e) { applyFontSize(16); }
                 const searchInput = document.getElementById('search-input');
                 if (searchInput) searchInput.value = '';
                 buildPageSelect();
@@ -242,7 +259,7 @@
                     text = await translateText(text, lang);
                 }
                 const p = document.createElement('p');
-                p.className = "leading-relaxed text-sm md:text-base border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
+                p.className = "leading-relaxed border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
                 if (currentQuery) {
                     const regex = new RegExp('(' + currentQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
                     p.innerHTML = `<span class="text-xs text-amber-500 font-mono ml-2">[${absoluteIndex}]</span> ` + text.replace(regex, '<span class="highlight">$1</span>');
@@ -317,6 +334,39 @@
                 icon.textContent = '☀️';
             }
         }
+
+        function applyFontSize(px) {
+            px = Math.max(12, Math.min(32, parseInt(px, 10) || 16));
+            document.documentElement.style.setProperty('--reader-font-size', px + 'px');
+            try { localStorage.setItem('basair-font-px', String(px)); } catch (e) {}
+            const label = document.getElementById('font-size-label');
+            if (label) label.textContent = px;
+        }
+
+        function changeFontSize(step) {
+            let px = 16;
+            try { px = parseInt(localStorage.getItem('basair-font-px') || '16', 10); } catch (e) {}
+            applyFontSize(px + step);
+        }
+
+        function resetFontSize() {
+            applyFontSize(16);
+        }
+
+        document.addEventListener('keydown', function (e) {
+            const tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
+            if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+            const rtl = document.documentElement.dir === 'rtl';
+            const key = e.key;
+            if (key === 'ArrowRight') { changePage(currentPage + (rtl ? -1 : 1)); e.preventDefault(); }
+            else if (key === 'ArrowLeft') { changePage(currentPage + (rtl ? 1 : -1)); e.preventDefault(); }
+            else if (key === '+' || key === '=') { changeFontSize(1); e.preventDefault(); }
+            else if (key === '-' || key === '_') { changeFontSize(-1); e.preventDefault(); }
+            else if (key === '0') { resetFontSize(); e.preventDefault(); }
+            else if (key === '/' ) { const s = document.getElementById('search-input'); if (s) { s.focus(); e.preventDefault(); } }
+            else if (key.toLowerCase() === 't') { toggleTheme(); }
+            else if (key.toLowerCase() === 'd') { toggleIndexPanel(); }
+        });
 
         function changeLanguage(lang) {
             const html = document.getElementById('html-root');
