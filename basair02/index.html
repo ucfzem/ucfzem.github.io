@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl" id="html-root">
 <head>
     <meta charset="UTF-8">
+    <script>try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موسوعة بصائر - Basair</title>
     <meta name="theme-color" content="#064e3b">
@@ -45,7 +46,7 @@
             </div>
         </div>
         <div class="flex items-center gap-1 flex-wrap justify-end">
-            <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-1.5 py-1 text-[11px] focus:outline-none cursor-pointer">
+            <select id="lang-select" autocomplete="off" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-1.5 py-1 text-[11px] focus:outline-none cursor-pointer">
                 <option value="ar">🇲🇦 العربية</option>
                 <option value="en">🇬🇧 English</option>
                 <option value="fr">🇫🇷 Français</option>
@@ -89,7 +90,7 @@
 
         <div class="theme-card border rounded-xl p-3 shadow-md">
             <div class="flex gap-2">
-                <input type="text" id="search-input" placeholder="ابحث في الموسوعة (كلمة أو رقم)..." oninput="handleSearch(this.value)" class="flex-1 bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                <input type="text" id="search-input" autocomplete="off" placeholder="ابحث في الموسوعة (كلمة أو رقم)..." oninput="handleSearch(this.value)" class="flex-1 bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
                 <button id="btn-clear" onclick="clearSearch()" class="bg-emerald-900 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs transition-colors">مسح</button>
             </div>
             <div id="search-stats" class="text-xs text-amber-400 mt-2 px-1 font-mono"></div>
@@ -98,7 +99,7 @@
         <div class="theme-card border rounded-xl p-3 shadow-md flex justify-between items-center gap-3">
             <div class="flex items-center gap-2 w-full sm:w-auto">
                 <button id="btn-prev" onclick="changePage(currentPage - 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">السابق ←</button>
-                <select id="page-select" onchange="changePage(parseInt(this.value))" class="flex-1 sm:flex-none bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-1.5 text-xs text-center focus:outline-none"></select>
+                <select id="page-select" autocomplete="off" onchange="changePage(parseInt(this.value))" class="flex-1 sm:flex-none bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-1.5 text-xs text-center focus:outline-none"></select>
                 <button id="btn-next" onclick="changePage(currentPage + 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">→ التالي</button>
             </div>
             <div id="total-info" class="text-xs text-amber-500 font-mono"></div>
@@ -192,19 +193,54 @@
                 const searchInput = document.getElementById('search-input');
                 if (searchInput) searchInput.value = '';
                 buildPageSelect();
+                const pageSelect = document.getElementById('page-select');
+                if (pageSelect) pageSelect.value = '0';
                 renderPage();
-                window.scrollTo(0, 0);
+                forceTop();
             } catch (err) {
                 document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ في تحميل ملف البيانات.</p>';
             }
         }
 
+        function forceTop() {
+            try {
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                window.scrollTo(0, 0);
+            } catch (e) {}
+        }
+
+        function forceFirstDoor() {
+            try {
+                const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
+                if (currentPage !== 0 || (totalPages > 0 && document.getElementById('page-select').value !== '0')) {
+                    currentPage = 0;
+                    buildPageSelect();
+                    renderPage();
+                }
+                forceTop();
+            } catch (e) {}
+        }
+
         window.addEventListener('load', function () {
-            window.scrollTo(0, 0);
+            forceFirstDoor();
+            setTimeout(forceTop, 50);
+            setTimeout(forceTop, 200);
+            setTimeout(forceFirstDoor, 400);
         });
 
-        window.addEventListener('pageshow', function () {
-            window.scrollTo(0, 0);
+        window.addEventListener('pageshow', function (e) {
+            currentPage = 0;
+            forceFirstDoor();
+            setTimeout(forceTop, 50);
+            setTimeout(forceTop, 200);
+            if (e && e.persisted) {
+                setTimeout(function () { try { buildPageSelect(); renderPage(); } catch (err) {} }, 50);
+            }
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') forceTop();
         });
 
         function buildPageSelect() {
