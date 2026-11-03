@@ -3,344 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بصائر | موسوعة نقد الإلحاد</title>
+    <title>موسوعة بصائر - Basair</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #09090b; color: #f4f4f5; }
-        .arabic-serif { font-family: 'Amiri', serif; }
-        .chapter-card { -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
-        .chapter-card:active { transform: scale(0.98); }
-        .chapter-card:focus-visible { outline: 2px solid #f59e0b; outline-offset: 2px; }
-        .chapter-modal-overlay { animation: fadeIn .15s ease-out; }
-        @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .ui-font { font-family: 'Tajawal', sans-serif; }
+        .highlight { background-color: rgba(217, 119, 6, 0.35); color: inherit; padding: 0 4px; border-radius: 4px; font-weight: bold; }
+        body.dark { background-color: #0c1512; color: #e2e8f0; }
+        body.light { background-color: #f4f6f4; color: #1e293b; }
+        .nuzhat-header { background: linear-gradient(135deg, #064e3b 0%, #065f46 100%); border-bottom: 2px solid #b45309; }
+        .theme-card { background-color: var(--card-bg); border-color: var(--card-border); }
+        body.dark { --card-bg: rgba(13, 27, 22, 0.85); --card-border: #134e4a; --input-bg: #061a14; --input-border: #115e59; }
+        body.light { --card-bg: #ffffff; --card-border: #cbd5e1; --input-bg: #f8fafc; --input-border: #94a3b8; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-black">
-    <!-- Header -->
-    <header class="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-bold text-lg arabic-serif">ب</div>
-                <div>
-                    <h1 id="brand-title" class="text-base font-bold text-amber-400 tracking-wide">بصائر</h1>
-                    <p id="brand-subtitle" class="text-[11px] text-zinc-400">موسوعة نقد الإلحاد وبناء اليقين</p>
-                </div>
+<body class="dark ui-font transition-all duration-300 min-h-screen flex flex-col" style="--card-bg: rgba(13, 27, 22, 0.85); --card-border: #134e4a;">
+    <header class="nuzhat-header text-white px-4 py-3 sticky top-0 z-50 shadow-lg flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">📖</span>
+            <div>
+                <h1 id="app-title" class="font-bold text-base text-amber-300">موسوعة بصائر</h1>
+                <p id="app-subtitle" class="text-[10px] text-emerald-200 opacity-80">المنصة الرقمية المتقدمة</p>
             </div>
-            <div class="flex items-center gap-3">
-                <!-- Language Selector with Flags/Icons -->
-                <div class="relative flex items-center bg-zinc-800/90 border border-zinc-700/80 rounded-xl px-2.5 py-1.5 focus-within:border-amber-500">
-                    <span class="text-xs text-amber-400 mr-1.5 font-bold">🌐</span>
-                    <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-zinc-200 text-xs focus:outline-none cursor-pointer">
-                        <option value="ar" class="bg-zinc-900">العربية (Arabic)</option>
-                        <option value="en" class="bg-zinc-900">English</option>
-                        <option value="fr" class="bg-zinc-900">Français</option>
-                        <option value="es" class="bg-zinc-900">Español</option>
-                    </select>
-                </div>
-            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-200 border border-emerald-700 rounded-lg px-2 py-1 text-xs focus:outline-none cursor-pointer">
+                <option value="ar">🇲🇦 العربية</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+            </select>
+            <button onclick="toggleTheme()" class="p-2 rounded-lg bg-emerald-900 hover:bg-emerald-800 text-xs transition-colors border border-emerald-700 shadow" title="تبديل المظهر">
+                <span id="theme-icon">☀️</span>
+            </button>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full">
-        <!-- Hero Section / Search Bar -->
-        <div class="mb-8 text-center space-y-3">
-            <h2 id="hero-heading" class="text-2xl sm:text-3xl font-extrabold text-zinc-100 tracking-tight">استكشف الأقسام العلمية والأبواب التوثيقية</h2>
-            <p id="hero-desc" class="text-sm text-zinc-400 max-w-xl mx-auto">فهارس معيارية دقيقة تدمج البراهين العقلية والنقلية للرد على الشبهات وبناء اليقين.</p>
-            <div class="pt-2 max-w-2xl mx-auto">
-                <div class="relative">
-                    <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-zinc-500">🔍</span>
-                    <input type="text" id="search-input" oninput="filterSections(this.value)" placeholder="ابحث في الأقسام، الأبواب، والمواضيع..." class="w-full bg-zinc-900/80 border border-zinc-800 rounded-2xl pr-11 pl-4 py-3.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-inner">
+    <main class="flex-1 max-w-3xl w-full mx-auto p-4 space-y-4">
+        <div class="theme-card border rounded-xl p-4 shadow-md backdrop-blur">
+            <div class="flex justify-between items-center cursor-pointer mb-2" onclick="toggleIndexPanel()">
+                <div class="flex items-center gap-2">
+                    <span class="text-amber-500 text-base">🚪</span>
+                    <h2 id="label-doors" class="text-xs text-amber-400 font-bold">فهرس الأبواب والمحاور (11 باباً)</h2>
                 </div>
+                <span id="index-arrow" class="text-xs text-amber-500 font-bold transition-transform duration-300">▼</span>
+            </div>
+            <div id="doors-grid" class="hidden grid grid-cols-1 gap-2 mt-3 pt-3 border-t border-emerald-900/30 max-h-64 overflow-y-auto">
+                <button onclick="jumpToDoor(0)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الأول: مدخل دراسة الإلحاد الجديد</span><span class="text-amber-400 font-mono text-[10px]">01</span></button>
+                <button onclick="jumpToDoor(20)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثاني: نقد أصول المادية العلمية</span><span class="text-amber-400 font-mono text-[10px]">02</span></button>
+                <button onclick="jumpToDoor(40)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثالث: شبهات أصل الحياة والكون</span><span class="text-amber-400 font-mono text-[10px]">03</span></button>
+                <button onclick="jumpToDoor(60)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الرابع: معضلة الوعي والخلق</span><span class="text-amber-400 font-mono text-[10px]">04</span></button>
+                <button onclick="jumpToDoor(80)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الخامس: الأخلاق وقانون الإلزام</span><span class="text-amber-400 font-mono text-[10px]">05</span></button>
+                <button onclick="jumpToDoor(100)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السادس: قضايا النبوات والرسالات</span><span class="text-amber-400 font-mono text-[10px]">06</span></button>
+                <button onclick="jumpToDoor(120)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب السابع: الرد على الشبهات التاريخية</span><span class="text-amber-400 font-mono text-[10px]">07</span></button>
+                <button onclick="jumpToDoor(140)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الثامن: حجية القرآن الكريم</span><span class="text-amber-400 font-mono text-[10px]">08</span></button>
+                <button onclick="jumpToDoor(160)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب التاسع: براهين النبوة المحمدية</span><span class="text-amber-400 font-mono text-[10px]">09</span></button>
+                <button onclick="jumpToDoor(180)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب العاشر: خلاصات ومنهجية الرد</span><span class="text-amber-400 font-mono text-[10px]">10</span></button>
+                <button onclick="jumpToDoor(200)" class="text-right text-xs bg-emerald-950/50 hover:bg-emerald-900/80 border border-emerald-800/60 p-2.5 rounded-lg text-zinc-200 transition-colors flex justify-between items-center"><span>الباب الحادي عشر: الخاتمة والآفاق</span><span class="text-amber-400 font-mono text-[10px]">11</span></button>
             </div>
         </div>
 
-        <!-- Sections Dynamic Container -->
-        <div id="sections-container" class="space-y-8"></div>
+        <div class="theme-card border rounded-xl p-3 shadow-md">
+            <div class="flex gap-2">
+                <input type="text" id="search-input" placeholder="ابحث في الموسوعة (كلمة أو رقم)..." oninput="handleSearch(this.value)" class="flex-1 bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                <button id="btn-clear" onclick="clearSearch()" class="bg-emerald-900 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-xs transition-colors">مسح</button>
+            </div>
+            <div id="search-stats" class="text-xs text-amber-400 mt-2 px-1 font-mono"></div>
+        </div>
+
+        <div class="theme-card border rounded-xl p-3 shadow-md flex justify-between items-center gap-3">
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <button id="btn-prev" onclick="changePage(currentPage - 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">السابق ←</button>
+                <select id="page-select" onchange="changePage(parseInt(this.value))" class="flex-1 sm:flex-none bg-[var(--input-bg)] border border-[var(--input-border)] rounded-lg px-3 py-1.5 text-xs text-center focus:outline-none"></select>
+                <button id="btn-next" onclick="changePage(currentPage + 1)" class="bg-emerald-900 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs transition-colors">→ التالي</button>
+            </div>
+            <div id="total-info" class="text-xs text-amber-500 font-mono"></div>
+        </div>
+
+        <div id="reader-card" class="theme-card border rounded-2xl p-6 space-y-6 shadow-xl">
+            <p class="text-center text-zinc-400">جاري تحميل بيانات الموسوعة...</p>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-zinc-800/80 bg-zinc-900/40 py-6 mt-12 text-center text-xs text-zinc-500">
-        <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© 2026 بصائر - المنصة الرقمية الهيكلية المعيارية.</p>
-            <div class="flex items-center gap-4 text-zinc-400">
-                <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> PWA Ready</span>
-                <span>Unicode UTF-8</span>
-            </div>
-        </div>
+    <footer class="border-t border-emerald-900/50 py-4 text-center text-xs text-emerald-600 dark:text-emerald-400/70">
+        <p id="footer-text">موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت</p>
     </footer>
 
-    <!-- App Engine Script -->
-    <script src="content-i18n.js"></script>
     <script>
-        let currentLang = localStorage.getItem('basair_lang') || 'ar';
-        document.getElementById('lang-select').value = currentLang;
+        const allParagraphs = [
+            "بسم الله الرحمن الرحيم. الحمد لله رب العالمين، والصلاة والسلام على أشرف الأنبياء والمرسلين.",
+            "أما بعد، فهذه بصائر ومعالم في طريق المعرفة، أضعها بين يدي القارئ الكريم لتكون دليلاً ومُرشداً.",
+            "الباب الأول: مدخل دراسة الإلحاد الجديد وتفكيك مقولاته المركزية في الفكر المعاصر.",
+            "يشهد العصر الحديث موجات متكررة من التشكيك المنظم الذي يستهدف الثوابت العقدية والأخلاقية.",
+            "إن الإلحاد الجديد لم يعد مجرد قناعة شخصية بالفراغ الوجودي، بل تحول إلى خطاب ايديولوجي حجاجي.",
+            "تتغذى هذه الموجات على سوء فهم للفلسفة الطبيعية وتوظيف مغلوط لاكتشافات العلوم التجريبية.",
+            "من أهم قواعد التناول النقدي لهذه الشبهات التفريق الدقيق بين العلم التجريبي والإيديولوجيا المادية.",
+            "فالعلم يبحث في كيف تعمل الاشياء، بينما تحاول المادية الإجابة عن لماذا و من أين جاءت.",
+            "إن العقل البشري مفطور على البحث عن العلنية والغاية، وغياب المعنى يورث اضطراباً نفسياً عميقاً.",
+            "لذا فإن تفكيك هذه الخطابات يبدأ بتعرية التناقضات المنطقية الكامنة في أصل الطرح المادي.",
+            "الباب الثاني: نقد أصول المادية العلمية وإبطال دعوى الاكتفاء الذاتي للكون.",
+            "تدعي المادية أن الكون لا يحتاج إلى علة مفارقة لأنه وُجد صدفة أو نتيجة قوانين فيزيائية أزلية.",
+            "غير أن الفيزياء المعاصرة نفسها أثبتت أن الكون له بداية زمنية ومكانية محددة فيما يعرف بالانفجار العظيم.",
+            "وما دام الكون حادثاً ومخلوقاً في الزمان، فهو محتاج بلا ريب إلى موجد حكيم عليم خارج نطاقه.",
+            "إن القوانين الطبيعية ليست سوى وصف لانتظام الأفعال وليست هي الفاعلة بذاتها أو الخالقة لغيرها.",
+            "فالجاذبية أو الديناميكا الحرارية لا تفكر ولا تريد، بل هي نواميس مسخرة ومنتظمة بإحكام.",
+            "القول بأن الصدفة وحدها أنشأت هذا التعقيد المذهل في الخلايا الحية يطرد العقل ويصطدم بقوانين الاحتمالات.",
+            "إن تعقيد الحمض النووي (DNA) يشبه كتابة موسوعة ضخمة بلغة دقيقة جداً عن طريق رمي حروف عشوائية.",
+            "وهذا محال عقلاً ورياضياً، فالحروف لا ترتب نفسها بنفسها لتشكل دلالات ومعاني محكمة.",
+            "من هنا يظهر بطلان الاختزال المادي السطحي لتفسير الظواهر الواعية والنفسية المعقدة.",
+            "الباب الثالث: شبهات أصل الحياة والكون والرد عليها بالبراهين العقلية.",
+            "تطرح المادية الحيوية فرضية نشوء الحياة تلقائياً من مواد غير حيّة عبر تفاعلات كيميائية عشوائية.",
+            "وقد أثبتت تجارب التخلق المتساقطة استحالة حدوث ذلك في ظروف طبيعية دون إرادة وتوجيه.",
+            "إن الخلية الحية أبسطها مكونة من آليات معقدة متكاملة لا يمكنها العمل جزئياً أو تدريجياً.",
+            "فنظريات التطور الموجه وغير الموجه عجزت عن تفسير أصل الوعي والظهور المفاجئ للشفرة الوراثية.",
+            "الكون يتميز بضبط دقيق (Fine-Tuning) مذهل للثوابت الفيزيائية؛ كقوة الجاذبية والنووية.",
+            "لو تغيرت هذه الثوابت بنسبة أجزاء من ترليون ترليون لما استقرت النجوم ولا قامت حياة.",
+            "هذا التوافق الكوني المحكم يشهد بحدة على أن وراء هذا الخلق تصميماً هادفاً وحكمة بالغة.",
+            "ولا يمكن تفسير هذا التوافق بالكون المتعدد (Multiverse) londerly; 이 hecho}}'];
 
-        function escapeHtmlAttr(s) {
-            return String(s == null ? '' : s)
-                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
+        let filteredParagraphs = allParagraphs;
+        let currentPage = 0;
+        const pageSize = 50;
+        let currentQuery = "";
 
-        function openChapter(sectionIdx, chapterIdx) {
-          const lang = (typeof currentLang === 'string' && currentLang) || 'ar';
-          const data = siteData[lang] || siteData['ar'];
-          const section = data && data.sections && data.sections[sectionIdx];
-          if (!section) return;
-          const chapter = section.chapters && section.chapters[chapterIdx];
-          if (!chapter) return;
-
-          const overlay = document.createElement('div');
-          overlay.className = 'chapter-modal-overlay fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4';
-          overlay.setAttribute('role', 'dialog');
-          overlay.setAttribute('aria-modal', 'true');
-          overlay.setAttribute('aria-labelledby', 'chapter-modal-title');
-
-          const panel = document.createElement('div');
-          panel.className = 'bg-zinc-900 border border-zinc-700 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 space-y-4 shadow-2xl';
-
-          const header = document.createElement('div');
-          header.className = 'flex items-center justify-between gap-3';
-
-          const titleEl = document.createElement('h2');
-          titleEl.id = 'chapter-modal-title';
-          titleEl.className = 'text-amber-400 text-xl font-bold arabic-serif';
-          titleEl.textContent = chapter.title || '';
-
-          const closeBtn = document.createElement('button');
-          closeBtn.className = 'text-zinc-400 hover:text-zinc-100 text-2xl leading-none px-2';
-          closeBtn.setAttribute('aria-label', 'إغلاق');
-          closeBtn.textContent = '×';
-
-          header.appendChild(titleEl);
-          header.appendChild(closeBtn);
-          panel.appendChild(header);
-
-          if (section.title) {
-            const s = document.createElement('p');
-            s.className = 'text-xs text-zinc-500';
-            s.textContent = section.title;
-            panel.appendChild(s);
-          }
-          if (chapter.desc) {
-            const d = document.createElement('p');
-            d.className = 'text-sm text-zinc-300 leading-relaxed';
-            d.textContent = chapter.desc;
-            panel.appendChild(d);
-          }
-
-          function renderFallback() {
-            const wrap = document.createElement('div');
-            wrap.className = 'text-center py-8 space-y-3';
-            const m = document.createElement('p');
-            m.className = 'text-zinc-200 text-base';
-            m.textContent = 'المحتوى الكامل لهذا الفصل قيد الإعداد. تابعنا قريبًا.';
-            wrap.appendChild(m);
-            if (chapter.count) {
-              const cnt = document.createElement('p');
-              cnt.className = 'text-xs text-zinc-500';
-              cnt.textContent = 'عدد الفقرات: ' + chapter.count;
-              wrap.appendChild(cnt);
+        function init() {
+            try {
+                filteredParagraphs = allParagraphs;
+                buildPageSelect();
+                renderPage();
+            } catch (err) {
+                document.getElementById('reader-card').innerHTML = '<p class="text-red-500 text-center">خطأ in loading file data.</p>';
             }
-            panel.appendChild(wrap);
-          }
-
-          if (typeof chapter.content === 'string' && chapter.content.trim()) {
-            const body = document.createElement('div');
-            body.className = 'space-y-3 text-zinc-200 leading-relaxed text-base';
-            chapter.content.split(/\n{2,}/).map(x => x.trim()).filter(Boolean).forEach(par => {
-              const p = document.createElement('p');
-              p.className = 'text-justify';
-              p.textContent = par;
-              body.appendChild(p);
-            });
-            panel.appendChild(body);
-          } else if (Array.isArray(chapter.content) && chapter.content.length) {
-            const body = document.createElement('div');
-            body.className = 'space-y-3 text-zinc-200 leading-relaxed text-base';
-            chapter.content.forEach(par => {
-              if (typeof par !== 'string') return;
-              const p = document.createElement('p');
-              p.className = 'text-justify';
-              p.textContent = par.trim();
-              if (p.textContent) body.appendChild(p);
-            });
-            if (body.childNodes.length) panel.appendChild(body);
-            else renderFallback();
-          } else if (typeof chapter.url === 'string' && chapter.url.trim()) {
-            const wrap = document.createElement('div');
-            wrap.className = 'text-center py-6';
-            const a = document.createElement('a');
-            a.href = chapter.url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.className = 'inline-block px-6 py-3 rounded-xl bg-amber-500 text-zinc-900 font-bold hover:bg-amber-400 transition';
-            a.textContent = 'فتح الفصل';
-            wrap.appendChild(a);
-            panel.appendChild(wrap);
-          } else {
-            renderFallback();
-          }
-
-          overlay.appendChild(panel);
-          document.body.appendChild(overlay);
-          document.body.style.overflow = 'hidden';
-
-          function onKey(e) { if (e.key === 'Escape') closeModal(); }
-          function closeModal() {
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', onKey);
-            if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-          }
-          closeBtn.addEventListener('click', closeModal);
-          overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-          document.addEventListener('keydown', onKey);
-          setTimeout(() => closeBtn.focus(), 0);
         }
 
-        function renderApp(searchQuery = '') {
-            const lang = currentLang;
-            const data = siteData[lang] || siteData['ar'];
-            
-            // Set direction & language tags
-            const root = document.getElementById('html-root');
-            root.lang = lang;
-            root.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        function buildPageSelect() {
+            const select = document.getId('page-select');
+            select.innerHTML = '';
+            const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
+            const lang = document.getElementById('lang-select').value;
+            for (let i = 0; i < totalPages; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = (lang === 'es') ? 'Página' + i + 1 + ' de' + totalPages : (lang === 'en') 'Page' + i + 1 + ' of' + totalPages : (lang === 'fr') 'Page' + i + 1 + ' sur' + totalPages : 'الصفحة' + i + 1 + ' من' + totalPages;
+                select.appendChild(opt);
+            }
+            document.getElementById('total-info').textContent = (lang === 'ar') ? 'إجمالي الفقرات: ' + filteredParagraphs.length : (lang === 'en') 'Total paragraphs: ' + filteredParagraphs.length : (lang === 'es') 'Total párrafos: ' + filteredParagraphs.length : 'Total paragraphes: ' + filteredParagraphs.length;
+        }
 
-            // Header & Hero Texts
-            document.getElementById('brand-title').innerText = lang === 'ar' ? 'بصائر' : (lang === 'fr' ? 'Al-Basa\'ir' : 'Al-Basa\'ir');
-            document.getElementById('brand-subtitle').innerText = data.subtitle;
-            document.getElementById('hero-heading').innerText = lang === 'ar' ? 'استكشف الأقسام العلمية والأبواب التوثيقية' : (lang === 'en' ? 'Explore Scientific Sections & Chapters' : (lang === 'fr' ? 'Explorez les Sections et Chapitres' : 'Explore Secciones y Capítulos'));
-            document.getElementById('hero-desc').innerText = data.subtitle;
-            document.getElementById('search-input').placeholder = data.searchPlaceholder;
+        function translateText(text, targetLang) {
+            if (targetLang === 'ar') return text;
+            try {
+                const res = fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl' + targetLang + '&dt=t&q=' + encodeURIComponent(text));
+                const json = res.json();
+                return json[0].map(item => item[0].join(''));
+            } catch(e) {
+                return text;
+            }
+        }
 
-            const container = document.getElementById('sections-container');
-            container.innerHTML = '';
-
-            let hasResults = false;
-
-            data.sections.forEach((sec, secIdx) => {
-                const filteredChapters = sec.chapters.filter(ch => 
-                    ch.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                    ch.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    sec.sectionTitle.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-
-                if (filteredChapters.length > 0) {
-                    hasResults = true;
-                    const secDiv = document.createElement('div');
-                    secDiv.className = "bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm transition-all";
-                    
-                    let chaptersHtml = '';
-                    filteredChapters.forEach((ch) => {
-                        const originalIdx = sec.chapters.indexOf(ch);
-                        if (originalIdx < 0) return;
-
-                        chaptersHtml += `
-                            <div class="chapter-card bg-zinc-900/90 border border-zinc-800/80 rounded-xl p-5 hover:border-amber-500/50 hover:bg-zinc-900 transition-all cursor-pointer group shadow-sm flex flex-col justify-between"
-                                 data-section="${secIdx}"
-                                 data-chapter="${originalIdx}"
-                                 role="button"
-                                 tabindex="0"
-                                 aria-label="${escapeHtmlAttr(ch.title || '')}">
-                                <div>
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="text-xs font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">${escapeHtmlAttr(ch.num || '')}</span>
-                                        <span class="text-[11px] bg-zinc-800 text-zinc-300 px-2.5 py-0.5 rounded-md font-medium">${escapeHtmlAttr(ch.count || '')}</span>
-                                    </div>
-                                    <h3 class="text-base font-bold text-zinc-100 group-hover:text-amber-400 transition-colors">${escapeHtmlAttr(ch.title || '')}</h3>
-                                    <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">${escapeHtmlAttr(ch.desc || '')}</p>
-                                </div>
-                                <div class="mt-4 pt-3 border-t border-zinc-800/50 flex items-center justify-between text-[11px] text-amber-500/80 font-medium">
-                                    <span>${lang === 'ar' ? 'استعراض المحتوى' : (lang === 'fr' ? 'Explorer' : (lang === 'es' ? 'Explorar' : 'Explore'))}</span>
-                                    <span class="transform group-hover:translate-x-1 transition-transform">${lang === 'ar' ? '←' : '→'}</span>
-                                </div>
-                            </div>`;
-                    });
-
-                    secDiv.innerHTML = `
-                        <div class="mb-5 border-b border-zinc-800 pb-3">
-                            <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                                ${sec.sectionTitle}
-                            </h2>
-                            <p class="text-xs text-zinc-400 mt-1">${sec.description}</p>
-                        </div>
-                        <div class="grid gap-4 sm:grid-cols-2">
-                            ${chaptersHtml}
-                        </div>
-                    `;
-                    container.appendChild(secDiv);
+        function renderPage() {
+            const card = document.getElementById('reader-card');
+            card.innerHTML = '<p class="text-center text-amber-500 animate-pulse">جاري تحميل وتجهيز الصفحة...</p>';
+            const start = currentPage * pageSize;
+            const end = min(start + pageSize, filteredParagraphs.length);
+            const slice = filteredParagraphs.slice(start, end);
+            const lang = document.getElementById('lang-select').value;
+            if (slice.length === 0) {
+                card.innerHTML = '<p class="text-center text-zinc-500 py-8">لا توجد نتائج مطابقة للبحث.</p>';
+                return;
+            }
+            card.innerHTML = '';
+            for (let idx = 0; idx < slice.length; idx++) {
+                let text = slice[idx];
+                const absoluteIndex = start + idx + 1;
+                if (lang !== 'ar') text = translateText(text, lang);
+                const p = document.createElement('p');
+                p.className = "leading-relaxed text-sm md:text-base border-b border-emerald-900/20 dark:border-emerald-800/40 pb-4 last:border-b-0";
+                if (currentQuery) {
+                    const regex = new RegExp('(' + currentQuery + ')', 'gi');
+                    p.innerHTML = '<span class="text-xs text-amber-500 font-mono ml-2">[' + absoluteIndex + ']</span>' + text.replace(regex, '<span class="highlight"> $1</span>');
+                } else {
+                    p.innerHTML = '<span class="text-xs text-amber-500/70 font-mono ml-2">[' + absoluteIndex + ']</span>' + text;
                 }
-            });
-
-            if (!container.dataset.basairListener) {
-                container.dataset.basairListener = '1';
-                container.addEventListener('click', function (e) {
-                    const card = e.target.closest('.chapter-card');
-                    if (!card) return;
-                    const s = parseInt(card.dataset.section, 10);
-                    const c = parseInt(card.dataset.chapter, 10);
-                    if (Number.isNaN(s) || Number.isNaN(c)) return;
-                    openChapter(s, c);
-                });
-                container.addEventListener('keydown', function (e) {
-                    if (e.key !== 'Enter' && e.key !== ' ') return;
-                    const card = e.target.closest('.chapter-card');
-                    if (!card) return;
-                    e.preventDefault();
-                    const s = parseInt(card.dataset.section, 10);
-                    const c = parseInt(card.dataset.chapter, 10);
-                    if (Number.isNaN(s) || Number.isNaN(c)) return;
-                    openChapter(s, c);
-                });
+                card.appendChild(p);
             }
+            document.getElementById('page-select').value = currentPage;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-            if (!hasResults) {
-                container.innerHTML = `
-                    <div class="text-center py-16 bg-zinc-900/30 border border-zinc-800 rounded-2xl">
-                        <p class="text-zinc-400 text-sm">لم يتم العثور على نتائج مطابقة لبحثك.</p>
-                        <button onclick="document.getElementById('search-input').value=''; filterSections('');" class="mt-3 px-4 py-2 bg-amber-500 text-black text-xs font-bold rounded-xl hover:bg-amber-400 transition-colors">إعادة ضبط البحث</button>
-                    </div>
-                `;
+        function changePage(pageIndex) {
+            const totalPages = Math.ceil(filteredParagraphs.length / pageSize);
+            if (pageIndex < 0 or pageIndex >= totalPages) return;
+            currentPage = pageIndex;
+            renderPage();
+        }
+
+        function toggleIndexPanel() {
+            const grid = document.getElementById('doors-grid');
+            const arrow = document.getElementById('index-arrow');
+            if (grid.classList.contains('hidden')) {
+                grid.removeClass('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                grid.addClass('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function jumpToDoor(paragraphIndex) {
+            const targetPage = Math.floor(parseInt(paragraphIndex) / pageSize);
+            changePage(targetPage);
+            document.getElementById('doors-grid').classList.add('hidden');
+            document.getElementById('index-arrow').style.transform = 'rotate(0deg)';
+        }
+
+        function handleSearch(query) {
+            currentQuery = query.trim();
+            const lang = document.getElementById('lang-select').value;
+            if (!currentQuery) {
+                filteredParagraphs = allParagraphs;
+                document.getElementById('search-stats').textContent = '';
+            } else {
+                filteredParagraphs = allParagraphs.filter(p => p.includes(currentQuery));
+                document.getElementById('search-stats').textContent = (lang === 'ar') ? 'تم العثور على ' + filteredParagraphs.length + ' نتيجة مطابقة لـ "' + currentQuery + '"' : (lang === 'en') 'Found ' + filteredParagraphs.length + ' results for "' + currentQuery + '"' : (lang === 'es') 'Se encontraron ' + filteredParagraphs.length + ' resultados para "' + currentQuery + '"' : filteredParagraphs.length + ' résultats trouvés pour "' + currentQuery + '"';
+            }
+            currentPage = 0;
+            buildPageSelect();
+            renderPage();
+        }
+
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            handleSearch('');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (body.classList.contains('dark')) {
+                body.removeClass('dark');
+                body.addClass('light');
+                icon.textContent = '🌙';
+            } else {
+                body.removeClass('light');
+                body.addClass('dark');
+                icon.textContent = '☀️';
             }
         }
 
         function changeLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('basair_lang', lang);
-            const query = document.getElementById('search-input').value;
-            renderApp(query);
+            const html = document.getElementById('html-root');
+            html.lang = lang;
+            html.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            if (lang === 'es') {
+                document.getElementById('app-title').textContent = 'Enciclopedia Basair';
+                document.getElementById('app-subtitle').textContent = 'Plataforma digital avanzada';
+                document.getElementById('label-doors').textContent = 'Índice de puertas y ejes (11 puertas):';
+                document.getElementById('search-input').placeholder = 'Buscar en la enciclopedia...';
+                document.getElementById('btn-clear').textContent = 'Limpiar';
+                document.getElementById('btn-prev').textContent = '← Anterior';
+                document.getElementById('btn-next').textContent = 'Siguiente →';
+                document.getElementById('footer-text').textContent = 'Enciclopedia digital Basair — Lectura fluida sin conexión';
+            } else if (lang === 'en') {
+                document.getElementById('app-title').textContent = 'Basair Encyclopedia';
+                document.getElementById('app-subtitle').textContent = 'Advanced Digital Platform';
+                document.getElementById('label-doors').textContent = 'Index of Doors & Chapters (11 doors):';
+                document.getElementById('search-input').placeholder = 'Search in encyclopedia...';
+                document.getElementById('btn-clear').textContent = 'Clear';
+                document.getElementById('btn-prev').textContent = '← Prev';
+                document.getElementById('btn-next').textContent = 'Next →';
+                document.getElementById('footer-text').textContent = 'Basair Digital Encyclopedia — Offline comfortable reading';
+            } else if (lang === 'fr') {
+                document.getElementById('app-title').textContent = 'Encyclopédie Basair';
+                document.getElementById('app-subtitle').textContent = 'Plateforme numérique avancée';
+                document.getElementById('label-doors').textContent = 'Index des portes et chapitres (11 portes) :';
+                document.getElementById('search-input').placeholder = 'Rechercher dans l'encyclopédie\';';
+                document.getElementById('btn-clear').textContent = 'Effacer';
+                document.getElementById('btn-prev').textContent = '← Précédent';
+                document.getElementById('btn-next').textContent = 'Suivant →';
+                document.getElementById('footer-text').textContent = 'Encyclopédie numérique Basair — Lecture hors-ligne confortable';
+            } else {
+                document.getElementById('app-title').textContent = 'موسوعة بصائر';
+                document.getElementById('app-subtitle').textContent = 'المنصة الرقمية المتقدمة';
+                document.getElementById('label-doors').textContent = 'فهرس الأبواب والمحاور (11 باباً)';
+                document.getElementById('search-input').placeholder = 'ابحث في الموسوعة (كلمة أو رقم)...';
+                document.getElementById('btn-clear').textContent = 'مسح';
+                document.getElementById('btn-prev').textContent = 'السابق ←';
+                document.getElementById('btn-next').textContent = '→ التالي';
+                document.getElementById('footer-text').textContent = 'موسوعة بصائر الرقمية — قراءة مريحة بدون انترنت';
+            }
+            buildPageSelect();
+            renderPage();
         }
 
-        function filterSections(query) {
-            renderApp(query);
-        }
-
-        // Initial render — guard so a failed data script never blanks the page
-        if (typeof siteData !== 'undefined') {
-            renderApp();
-        } else {
-            var _c = document.getElementById('sections-container');
-            if (_c) _c.innerHTML = '<div class="text-center py-16 bg-zinc-900/30 border border-zinc-800 rounded-2xl"><p class="text-zinc-400 text-sm">تعذّر تحميل المحتوى. يرجى إعادة المحاولة.</p></div>';
-        }
-    </script>
-    <script>
-        // Retry the data script once if it failed (offline / transient error)
-        if (typeof siteData === 'undefined') {
-            var _s = document.createElement('script');
-            _s.src = 'content-i18n.js';
-            _s.onload = function () { if (typeof renderApp === 'function') renderApp(); };
-            document.head.appendChild(_s);
-        }
-        // Register the offline worker so content-i18n.js is cached for offline use
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function () {});
-            });
-        }
+        init();
     </script>
 </body>
 </html>
