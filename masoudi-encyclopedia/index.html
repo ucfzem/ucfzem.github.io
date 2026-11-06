@@ -262,9 +262,9 @@
   var $ = function(s){ return document.querySelector(s); };
   var DATA = { sections: [], byId: {}, books: null };
   var LASTKEY = "masoudi-last";
-  var APP_VERSION = "v7";
+  var APP_VERSION = "v8";
   var SIZES = ["1.05rem","1.2rem","1.35rem","1.5rem","1.7rem","1.9rem"];
-  var state = { q: "", sizeIdx: 2 };
+  var state = { q: "", sizeIdx: 2, pxPerChar: 0.62 };
 
   var root = document.documentElement;
 
@@ -352,6 +352,14 @@
 
   // ---------- Render (lazy: only build a section's paragraphs when it nears the viewport) ----------
   var container = $("#bookContainer"), counter = $("#matchCount");
+  function sectionChars(s){
+    var n = 0;
+    if(s && s.x) for(var i = 0; i < s.x.length; i++) n += (s.x[i] || "").length;
+    return n;
+  }
+  function estHeight(s){
+    return Math.max(120, Math.round(sectionChars(s) * (state.pxPerChar || 0.62)) + 90);
+  }
   var bodyIO = null;
   function ensureIO(){
     if(bodyIO || typeof IntersectionObserver === "undefined") return bodyIO;
@@ -370,6 +378,12 @@
     var q = state.q.trim();
     var re = q ? hiRegex(q) : null;
     el.innerHTML = s.x.map(function(p){ return "<p>" + (q ? highlight(esc(p), re) : esc(p)) + "</p>"; }).join("");
+    sec.style.minHeight = "";
+    var chars = sectionChars(s);
+    if(chars > 500){
+      var measured = Math.max(0, (sec.offsetHeight || 0) - 90) / chars;
+      if(measured >= 0.30 && measured <= 1.50) state.pxPerChar = measured;
+    }
     sec.setAttribute("data-built", "1");
   }
 
@@ -402,7 +416,7 @@
       var s = item.s;
       var sid = s.id;
       var title = q ? highlight(esc(s.t), re) : esc(s.t);
-      return '<section class="chapter-card" id="card-' + sid + '" data-id="' + sid + '" data-built="0">' +
+      return '<section class="chapter-card" id="card-' + sid + '" data-id="' + sid + '" data-built="0" style="min-height:' + estHeight(s) + 'px">' +
         '<h2 id="' + sid + '" data-title="' + esc(s.t) + '"><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj" && s.v) ? "ج " + esc(s.v) + " ص " + esc(s.p) : "ص " + esc(s.p)) + '</span></h2>' +
         '<div class="chapter-text"></div>' +
         '<div class="sec-actions">' +
@@ -550,6 +564,25 @@
     return best;
   }
   function cardForId(id){ return id ? document.getElementById("card-" + id) : null; }
+  function settleOn(id){
+    var h2 = document.getElementById(id);
+    if(!h2) return;
+    var stop = false;
+    var t0 = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    function cancel(){ stop = true; }
+    window.addEventListener("touchstart", cancel, { once:true, passive:true });
+    window.addEventListener("wheel", cancel, { once:true, passive:true });
+    (function tick(){
+      if(stop) return;
+      var now = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+      if(now - t0 > 1500) return;
+      var top = h2.getBoundingClientRect().top;
+      if(Math.abs(top - headerOffsetPx()) > 2){
+        h2.scrollIntoView({ block:"start", behavior:"auto" });
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
   function goSec(id, opts){
     opts = opts || {};
     var card = cardForId(id);
@@ -566,7 +599,8 @@
     var el = document.getElementById(id) || card;
     syncAnchorOffset();
     afterPaint(function(){
-      el.scrollIntoView({ behavior:"smooth", block:"start" });
+      el.scrollIntoView({ behavior:"auto", block:"start" });
+      settleOn(id);
       flash(el);
       if(opts.updateHash !== false){
         var hash = "#" + id;
