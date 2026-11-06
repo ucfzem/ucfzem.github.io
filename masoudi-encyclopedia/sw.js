@@ -7,7 +7,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'masoudi-v8';
+const VERSION = 'masoudi-v9';
 const SHELL = 'masoudi-shell-' + VERSION;
 const RUNTIME = 'masoudi-runtime-' + VERSION;
 
