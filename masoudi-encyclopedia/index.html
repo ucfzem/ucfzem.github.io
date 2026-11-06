@@ -110,7 +110,14 @@
     display:inline-block; margin:8px 12px 0; padding:1px 9px; border-radius:99px;
     font-size:.66rem; font-weight:700; border:1px solid; font-family:'Cairo',sans-serif;
   }
-  .chapter-card h3 .wt{margin:0; font-size:.7rem; padding:2px 10px}
+  .index-group{
+    list-style:none; position:sticky; top:0; z-index:2;
+    margin:10px 0 8px; padding:7px 12px;
+    background:var(--sidebar); border-bottom:1px solid var(--border);
+    font-family:'Cairo',sans-serif; font-size:.78rem; font-weight:800; color:var(--primary);
+  }
+  .index-group:first-child{margin-top:0}
+  .chapter-card h2 .wt{margin:0; font-size:.7rem; padding:2px 10px}
   .wt.w-akhbar{color:#0e6b63; background:#e4f4f0; border-color:#bfe0d9}
   .wt.w-muruj{color:#7d5a12; background:#fbf3df; border-color:#ecd9a8}
   html[data-theme="dark"] .wt.w-akhbar{color:#5cc7ba; background:#0f2f2b; border-color:#1d4a45}
@@ -136,12 +143,13 @@
     background:var(--card); padding:30px; border:1px solid var(--border); border-radius:14px;
     box-shadow:var(--shadow); margin-bottom:26px; scroll-margin-top:96px;
   }
-  .chapter-card h3{
+  .chapter-card h2{
     font-family:'Aref Ruqaa',serif; font-size:clamp(1.4rem,4vw,2rem); color:var(--primary);
     margin-bottom:16px; border-bottom:1px dashed var(--border); padding-bottom:10px;
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   }
-  .chapter-card h3 .pg{font-family:'Amiri',serif; font-size:.72rem; font-weight:700; color:var(--muted); background:var(--sidebar); border:1px solid var(--border); padding:2px 9px; border-radius:99px}
+  .chapter-card h2 .pg{font-family:'Amiri',serif; font-size:.72rem; font-weight:700; color:var(--muted); background:var(--sidebar); border:1px solid var(--border); padding:2px 9px; border-radius:99px}
+  [id^="akhbar-chap"], [id^="muruj-chap"]{scroll-margin-top:96px}
   .chapter-card{content-visibility:auto; contain-intrinsic-size:auto 700px}
   .chapter-text{font-family:var(--content-font); font-size:var(--content-font-size); text-align:justify; text-justify:inter-word; line-height:2.15}
   .chapter-text p{margin-bottom:14px}
@@ -251,7 +259,7 @@
 (function(){
   "use strict";
   var $ = function(s){ return document.querySelector(s); };
-  var DATA = { sections: [] };
+  var DATA = { sections: [], byId: {}, books: null };
   var LASTKEY = "masoudi-last";
   var SIZES = ["1.05rem","1.2rem","1.35rem","1.5rem","1.7rem","1.9rem"];
   var state = { q: "", sizeIdx: 2 };
@@ -319,8 +327,8 @@
   }
   function buildBody(sec){
     if(!sec || sec.getAttribute("data-built") === "1") return;
-    var idx = +sec.getAttribute("data-idx");
-    var s = DATA.sections[idx]; if(!s) return;
+    var id = sec.getAttribute("data-id");
+    var s = DATA.byId[id] || DATA.sections[+sec.getAttribute("data-idx")]; if(!s) return;
     var el = sec.querySelector(".chapter-text"); if(!el) return;
     var q = state.q.trim();
     var re = q ? hiRegex(q) : null;
@@ -332,7 +340,7 @@
     var q = state.q.trim();
     var qn = norm(q);
     var re = q ? hiRegex(q) : null;
-    var secs = DATA.sections;
+    var secs = DATA.sections.filter(function(s){ return !s.hidden; });
     var total = 0, shown = [];
 
     if(qn){
@@ -344,7 +352,7 @@
       });
       counter.textContent = total + " نتيجة";
     } else {
-      shown = secs.map(function(s, i){ return { s: s, i: i }; });
+      shown = secs.map(function(s){ return { s: s }; });
       counter.textContent = "";
     }
 
@@ -355,14 +363,14 @@
 
     container.innerHTML = shown.map(function(item){
       var s = item.s;
-      var idx = qn ? secs.indexOf(s) : item.i;
+      var sid = s.id;
       var title = q ? highlight(esc(s.t), re) : esc(s.t);
-      return '<section class="chapter-card" id="sec-' + idx + '" data-idx="' + idx + '" data-built="0">' +
-        '<h3><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj") ? "ج " : "ص ") + esc(s.p) + '</span></h3>' +
+      return '<section class="chapter-card" id="card-' + sid + '" data-id="' + sid + '" data-built="0">' +
+        '<h2 id="' + sid + '"><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj") ? "ج " : "ص ") + esc(s.p) + '</span></h2>' +
         '<div class="chapter-text"></div>' +
         '<div class="sec-actions">' +
-          '<button class="mini" data-act="copy" data-idx="' + idx + '">📋 نسخ الباب</button>' +
-          '<button class="mini" data-act="share" data-idx="' + idx + '">🔗 مشاركة</button>' +
+          '<button class="mini" data-act="copy" data-id="' + sid + '">📋 نسخ الباب</button>' +
+          '<button class="mini" data-act="share" data-id="' + sid + '">🔗 مشاركة</button>' +
         '</div></section>';
     }).join("");
 
@@ -377,7 +385,7 @@
     if(qn){
       var target = null;
       for(var si=0; si<shown.length; si++){ if(shown[si].c > 0){ target = shown[si].s; break; } }
-      if(target){ var card = document.getElementById("sec-" + secs.indexOf(target)); if(card) buildBody(card); }
+      if(target){ var card = document.getElementById("card-" + target.id); if(card) buildBody(card); }
       var firstMark = container.querySelector("mark");
       if(firstMark) firstMark.scrollIntoView({block:"center"});
     }
@@ -398,7 +406,7 @@
   }
   container.addEventListener("click", function(ev){
     var btn = ev.target.closest("button[data-act]"); if(!btn) return;
-    var s = DATA.sections[+btn.getAttribute("data-idx")]; if(!s) return;
+    var s = DATA.byId[btn.getAttribute("data-id")]; if(!s) return;
     if(btn.getAttribute("data-act") === "copy"){ copyText(sectionText(s)).then(function(){ toast(btn, "✅ تم النسخ"); }).catch(function(){ toast(btn, "⚠️ تعذّر"); }); }
     else shareSection(s);
   });
@@ -416,17 +424,38 @@
   // ---------- Index (TOC) ----------
   var index = $("#index"), overlay = $("#overlay"), menuBtn = $("#menuBtn");
   function buildIndex(){
-    $("#indexList").innerHTML = DATA.sections.map(function(s, i){
-      var w = (s.w === "muruj") ? "muruj" : "akhbar";
-      return '<li class="index-item" data-idx="' + i + '" data-w="' + w + '" tabindex="0" role="button">' +
-        '<span class="wt w-' + w + '">' + (w === "muruj" ? "مروج الذهب" : "أخبار الزمان") + '</span>' +
-        '<span class="index-title">' + esc(s.t) + ' <span class="pg">' + (w === "muruj" ? "ج" : "ص") + esc(s.p) + '</span></span>' +
-        '</li>';
-    }).join("");
+    var groups = [];
+    if(DATA.books){
+      ["akhbar", "muruj"].forEach(function(w){
+        var ids = (DATA.books[w] && DATA.books[w].chapters) || [];
+        if(ids.length) groups.push({ w: w, ids: ids });
+      });
+    } else {
+      var seen = {};
+      DATA.sections.forEach(function(s){
+        if(s.hidden) return;
+        if(!seen[s.w]){ seen[s.w] = []; groups.push({ w: s.w, ids: seen[s.w] }); }
+        seen[s.w].push(s.id);
+      });
+    }
+    var html = "";
+    groups.forEach(function(g){
+      var label = (g.w === "muruj") ? "مروج الذهب" : "أخبار الزمان";
+      html += '<li class="index-group" data-w="' + g.w + '">' + label + '</li>';
+      g.ids.forEach(function(id){
+        var s = DATA.byId[id]; if(!s) return;
+        var w = (s.w === "muruj") ? "muruj" : "akhbar";
+        html += '<li class="index-item" data-target="' + esc(id) + '" data-id="' + esc(id) + '" data-w="' + w + '" tabindex="0" role="button">' +
+          '<span class="wt w-' + w + '">' + (w === "muruj" ? "مروج الذهب" : "أخبار الزمان") + '</span>' +
+          '<span class="index-title">' + esc(s.t) + ' <span class="pg">' + (w === "muruj" ? "ج" : "ص") + esc(s.p) + '</span></span>' +
+          '</li>';
+      });
+    });
+    $("#indexList").innerHTML = html;
   }
   var workFilter = "all";
   function applyFilter(){
-    [].slice.call(document.querySelectorAll(".index-item")).forEach(function(li){
+    [].slice.call(document.querySelectorAll("#indexList > li")).forEach(function(li){
       var w = li.getAttribute("data-w");
       li.style.display = (workFilter === "all" || w === workFilter) ? "" : "none";
     });
@@ -445,8 +474,8 @@
   $("#indexList").addEventListener("click", function(ev){
     var li = ev.target.closest(".index-item"); if(!li) return;
     closeToc();
-    var i = +li.getAttribute("data-idx");
-    setTimeout(function(){ goSec(i); }, 120);
+    var target = li.getAttribute("data-target") || li.getAttribute("data-id");
+    setTimeout(function(){ goSec(target); }, 120);
   });
   // The index is a dismissible off-canvas overlay at every width (tablet AND desktop),
   // so keep aria-hidden in sync with the open state.
@@ -457,7 +486,7 @@
   syncLayout();
 
   // ---------- Smart TV / clavier : D-Pad, Enter, Back / Escape ----------
-  function activateItem(li){ if(!li) return; var i = +li.getAttribute("data-idx"); closeToc(); setTimeout(function(){ goSec(i); }, 120); }
+  function activateItem(li){ if(!li) return; var target = li.getAttribute("data-target") || li.getAttribute("data-id"); closeToc(); setTimeout(function(){ goSec(target); }, 120); }
   $("#indexList").addEventListener("keydown", function(ev){
     var li = ev.target.closest(".index-item"); if(!li) return;
     var items = [].slice.call(document.querySelectorAll(".index-item")).filter(function(x){ return x.style.display !== "none"; });
@@ -473,20 +502,38 @@
 
   // ---------- prev / next / top + active index ----------
   function visibleSecs(){ return [].slice.call(container.querySelectorAll(".chapter-card")); }
-  function currentIdx(){
-    var secs = visibleSecs(), best = 0, bestTop = -1e9, y = window.scrollY + 120;
-    for(var i=0;i<secs.length;i++){ var top = secs[i].getBoundingClientRect().top + window.scrollY; if(top <= y && top > bestTop){ bestTop = top; best = +secs[i].getAttribute("data-idx"); } }
+  function currentId(){
+    var secs = visibleSecs(), best = null, bestTop = -1e9, y = window.scrollY + 120;
+    for(var i=0;i<secs.length;i++){ var top = secs[i].getBoundingClientRect().top + window.scrollY; if(top <= y && top > bestTop){ bestTop = top; best = secs[i].getAttribute("data-id"); } }
     return best;
   }
-  function goSec(idx){ var el = document.getElementById("sec-" + idx); if(el){ buildBody(el); el.scrollIntoView({ behavior:"smooth", block:"start" }); } }
-  $("#fabNext").addEventListener("click", function(){ goSec(currentIdx() + 1); });
-  $("#fabPrev").addEventListener("click", function(){ goSec(Math.max(0, currentIdx() - 1)); });
+  function cardForId(id){ return id ? document.getElementById("card-" + id) : null; }
+  function goSec(id){
+    var card = cardForId(id);
+    if(!card && state.q){
+      state.q = ""; qInput.value = ""; clearBtn.classList.remove("show"); render();
+      card = cardForId(id);
+    }
+    if(!card) return;
+    buildBody(card);
+    var el = document.getElementById(id) || card;
+    el.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+  function goRelative(delta){
+    var secs = visibleSecs(), id = currentId(), at = -1;
+    for(var i=0;i<secs.length;i++){ if(secs[i].getAttribute("data-id") === id){ at = i; break; } }
+    if(at < 0) at = 0;
+    var next = secs[Math.max(0, Math.min(secs.length - 1, at + delta))];
+    if(next) goSec(next.getAttribute("data-id"));
+  }
+  $("#fabNext").addEventListener("click", function(){ goRelative(1); });
+  $("#fabPrev").addEventListener("click", function(){ goRelative(-1); });
   $("#fabTop").addEventListener("click", function(){ window.scrollTo({ top:0, behavior:"smooth" }); });
 
   function markActive(){
-    var idx = currentIdx();
+    var id = currentId();
     var items = document.querySelectorAll(".index-item");
-    for(var i=0;i<items.length;i++) items[i].classList.toggle("active", +items[i].getAttribute("data-idx") === idx);
+    for(var i=0;i<items.length;i++) items[i].classList.toggle("active", items[i].getAttribute("data-target") === id);
   }
 
   // ---------- Restore / save position ----------
@@ -494,14 +541,22 @@
   window.addEventListener("scroll", function(){
     if(saveTmr) clearTimeout(saveTmr);
     saveTmr = setTimeout(function(){
-      try { localStorage.setItem(LASTKEY, JSON.stringify({ idx: currentIdx(), y: Math.round(window.scrollY) })); } catch(e){}
+      try { localStorage.setItem(LASTKEY, JSON.stringify({ id: currentId(), y: Math.round(window.scrollY) })); } catch(e){}
       markActive();
     }, 300);
   }, { passive:true });
   function restorePos(){
     var raw = null; try { raw = localStorage.getItem(LASTKEY); } catch(e){}
     if(!raw) return;
-    try { var o = JSON.parse(raw); var el = document.getElementById("sec-" + (o.idx || 0)); if(el){ buildBody(el); window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 110 }); } } catch(e){}
+    try {
+      var o = JSON.parse(raw), card = null;
+      if(o.id) card = cardForId(o.id);
+      else if(typeof o.idx === "number"){
+        var vis = DATA.sections.filter(function(s){ return !s.hidden; });
+        if(vis[o.idx]) card = cardForId(vis[o.idx].id);
+      }
+      if(card){ buildBody(card); var el = document.getElementById(card.getAttribute("data-id")) || card; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 110 }); }
+    } catch(e){}
   }
 
   // ---------- Offline indicator (in title card src line) ----------
@@ -522,9 +577,15 @@
     .then(function(r){ if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then(function(json){
       DATA.sections = (json && json.sections) || [];
+      DATA.books = (json && json.books) || null;
+      DATA.byId = {};
+      DATA.sections.forEach(function(s){ if(s && s.id) DATA.byId[s.id] = s; });
       var m = json.meta || {};
       var wk = m.works || {};
-      var meta = DATA.sections.length + " بابًا وفصلًا";
+      var vis = DATA.sections.filter(function(s){ return !s.hidden; });
+      var meta = vis.length + " بابًا وفصلًا";
+      if(DATA.books && DATA.books.akhbar) meta += " · أخبار الزمان " + DATA.books.akhbar.chapters.length;
+      if(DATA.books && DATA.books.muruj) meta += " · مروج الذهب " + DATA.books.muruj.chapters.length;
       if (wk.akhbar && wk.akhbar.title) meta += " · " + wk.akhbar.title;
       if (wk.muruj && wk.muruj.title) meta += " · " + wk.muruj.title;
       $("#bookmeta").textContent = meta;
