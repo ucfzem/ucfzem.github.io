@@ -91,9 +91,12 @@ def main() -> None:
     for needle in (
         '<h2 id="',
         "scrollIntoView({ behavior:\"smooth\", block:\"start\" })",
-        '[id^="akhbar-chap"], [id^="muruj-chap"]{scroll-margin-top:96px}',
+        '[id^="akhbar-chap"], [id^="muruj-chap"]{scroll-margin-top:var(--anchor-offset,96px)}',
         "DATA.byId",
         "data-target",
+        "async function robustJumpToSection",
+        "data-title=",
+        "window.addEventListener(\"hashchange\", goHash)",
     ):
         if needle not in html:
             fail(f"index.html missing: {needle}")

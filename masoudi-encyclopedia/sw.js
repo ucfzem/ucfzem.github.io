@@ -1,12 +1,13 @@
 /* Service Worker — موسوعة المسعودي: أخبار الزمان ومروج الذهب (PWA offline-first)
    Strategy:
-   - App shell (index.html, data.json, manifest, icons): cache-first, precached on install.
+   - App shell: network-first online for index.html/data.json, cache fallback offline.
+   - Other shell assets (manifest, icons): cache-first, precached on install.
    - Google Fonts CSS: stale-while-revalidate.
    - Google Fonts files (gstatic woff2): cache-first (opaque allowed).
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'masoudi-v4';
+const VERSION = 'masoudi-v5';
 const SHELL = 'masoudi-shell-' + VERSION;
 const RUNTIME = 'masoudi-runtime-' + VERSION;
 
@@ -75,6 +76,17 @@ async function cacheFirst(cacheName, req) {
   }
 }
 
+async function networkFirst(cacheName, req, fallbackKey) {
+  const cache = await caches.open(cacheName);
+  try {
+    const res = await fetch(req);
+    if (res && res.ok) cache.put(fallbackKey || req, res.clone());
+    return res;
+  } catch (e) {
+    return (await cache.match(fallbackKey || req, { ignoreSearch: true })) || Response.error();
+  }
+}
+
 async function staleWhileRevalidate(cacheName, req) {
   const cache = await caches.open(cacheName);
   const hit = await cache.match(req);
@@ -95,15 +107,10 @@ self.addEventListener('fetch', (event) => {
   // Same-origin app shell + data.
   if (url.origin === self.location.origin) {
     if (req.mode === 'navigate' || req.destination === 'document') {
-      event.respondWith((async () => {
-        const cache = await caches.open(SHELL);
-        const cached = await cache.match('./index.html');
-        const fresh = fetch(req).then((res) => {
-          if (res && res.ok) cache.put('./index.html', res.clone());
-          return res;
-        }).catch(() => null);
-        return cached || (await fresh) || Response.error();
-      })());
+      // Network-first so a deploy is visible on the next online load; offline falls back.
+      event.respondWith(networkFirst(SHELL, req, './index.html'));
+    } else if (url.pathname.endsWith('/data.json')) {
+      event.respondWith(networkFirst(SHELL, req, './data.json'));
     } else {
       event.respondWith(cacheFirst(SHELL, req));
     }
