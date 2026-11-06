@@ -150,7 +150,7 @@
   }
   .chapter-card h2 .pg{font-family:'Amiri',serif; font-size:.72rem; font-weight:700; color:var(--muted); background:var(--sidebar); border:1px solid var(--border); padding:2px 9px; border-radius:99px}
   [id^="akhbar-chap"], [id^="muruj-chap"]{scroll-margin-top:var(--anchor-offset,96px)}
-  .chapter-card h2.flash{background:rgba(255,215,0,.28); border-radius:8px; transition:background-color .5s}
+  .chapter-card h2.flash, .flash{background:rgba(255,215,0,.28); border-radius:8px; transition:background-color .5s}
   .chapter-card{content-visibility:auto; contain-intrinsic-size:auto 700px}
   .chapter-text{font-family:var(--content-font); font-size:var(--content-font-size); text-align:justify; text-justify:inter-word; line-height:2.15}
   .chapter-text p{margin-bottom:14px}
@@ -262,7 +262,7 @@
   var $ = function(s){ return document.querySelector(s); };
   var DATA = { sections: [], byId: {}, books: null };
   var LASTKEY = "masoudi-last";
-  var APP_VERSION = "v6";
+  var APP_VERSION = "v7";
   var SIZES = ["1.05rem","1.2rem","1.35rem","1.5rem","1.7rem","1.9rem"];
   var state = { q: "", sizeIdx: 2 };
 
@@ -314,30 +314,14 @@
     }
     return null;
   }
+  function jumpToId(id){
+    if(!id || !DATA.byId[id]) return;
+    goSec(id, { updateHash:true });
+  }
   async function robustJumpToSection(sectionTitle, pageNum, sectionId){
-    // Our reader builds the target card synchronously; yield once so layout is ready.
-    if(typeof renderPageOrChunk === "function"){
-      await renderPageOrChunk(pageNum);
-    } else {
-      await new Promise(function(res){ setTimeout(res, 0); });
-    }
-    var id = sectionId || findIdByTitle(sectionTitle);
-    if(id && DATA.byId[id]){ goSec(id, { updateHash:true }); return; }
-    // DOM fallback for legacy/cached data: compare normalized titles, not raw text.
-    var nt = normTitle(sectionTitle), target = null;
-    var nodes = document.querySelectorAll("h1,h2,h3,p,div,span");
-    for(var i=0;i<nodes.length;i++){
-      var el = nodes[i];
-      var et = normTitle(el.getAttribute("data-title") || el.textContent);
-      if((et === nt || et === "[" + nt + "]") && el.textContent.trim().length < 220){ target = el; break; }
-    }
-    if(!target){ console.warn("[Navigation] title not found:", sectionTitle); return; }
-    syncAnchorOffset();
-    afterPaint(function(){
-      var top = target.getBoundingClientRect().top + window.pageYOffset - headerOffsetPx();
-      window.scrollTo({ top: top, behavior:"smooth" });
-      flash(target);
-    });
+    // Index navigation is ID-only: never resolve by title, page, or table position.
+    if(sectionId && DATA.byId[sectionId]){ jumpToId(sectionId); return; }
+    console.warn("[Navigation] missing stable id:", sectionId || sectionTitle);
   }
   function headerOffsetPx(){
     var h = document.querySelector("header.ctrl");
@@ -528,10 +512,7 @@
     var li = ev.target.closest(".index-item"); if(!li) return;
     closeToc();
     var target = li.getAttribute("data-target") || li.getAttribute("data-id");
-    var s = DATA.byId[target];
-    var title = s ? s.t : (li.getAttribute("data-title") || li.innerText || "");
-    var page = s ? s.p : li.getAttribute("data-page");
-    robustJumpToSection(title, page, target);
+    jumpToId(target);
   });
   // The index is a dismissible off-canvas overlay at every width (tablet AND desktop),
   // so keep aria-hidden in sync with the open state.
@@ -545,9 +526,8 @@
   function activateItem(li){
     if(!li) return;
     var target = li.getAttribute("data-target") || li.getAttribute("data-id");
-    var s = DATA.byId[target];
     closeToc();
-    robustJumpToSection(s ? s.t : (li.getAttribute("data-title") || li.innerText || ""), s ? s.p : li.getAttribute("data-page"), target);
+    jumpToId(target);
   }
   $("#indexList").addEventListener("keydown", function(ev){
     var li = ev.target.closest(".index-item"); if(!li) return;
