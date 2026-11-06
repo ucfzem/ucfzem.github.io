@@ -245,7 +245,7 @@
     <footer>
       <div class="orn">﷽</div>
       <p>أخبار الزمان ومروج الذهب — لأبي الحسن المسعودي (ت 346 هـ) · قراءة بدون إنترنت (PWA)<br>
-      أخبار الزمان: المكتبة الشاملة (كتاب 8620) · مروج الذهب: أرشيف الإنترنت (تحقيق أسعد داغر، 4 أجزاء) — عبر ملف بيانات محلي داخل التطبيق.</p>
+      أخبار الزمان ومروج الذهب: نسخة جامع الكتب الإسلامية (كتابتا 6117 و16498) — عبر ملف بيانات محلي داخل التطبيق.</p>
     </footer>
   </div>
 </main>
@@ -262,7 +262,7 @@
   var $ = function(s){ return document.querySelector(s); };
   var DATA = { sections: [], byId: {}, books: null };
   var LASTKEY = "masoudi-last";
-  var APP_VERSION = "v5";
+  var APP_VERSION = "v6";
   var SIZES = ["1.05rem","1.2rem","1.35rem","1.5rem","1.7rem","1.9rem"];
   var state = { q: "", sizeIdx: 2 };
 
@@ -419,7 +419,7 @@
       var sid = s.id;
       var title = q ? highlight(esc(s.t), re) : esc(s.t);
       return '<section class="chapter-card" id="card-' + sid + '" data-id="' + sid + '" data-built="0">' +
-        '<h2 id="' + sid + '" data-title="' + esc(s.t) + '"><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj") ? "ج " : "ص ") + esc(s.p) + '</span></h2>' +
+        '<h2 id="' + sid + '" data-title="' + esc(s.t) + '"><span class="wt w-' + ((s.w === "muruj") ? "muruj" : "akhbar") + '">' + ((s.w === "muruj") ? "مروج الذهب" : "أخبار الزمان") + '</span>' + title + '<span class="pg">' + ((s.w === "muruj" && s.v) ? "ج " + esc(s.v) + " ص " + esc(s.p) : "ص " + esc(s.p)) + '</span></h2>' +
         '<div class="chapter-text"></div>' +
         '<div class="sec-actions">' +
           '<button class="mini" data-act="copy" data-id="' + sid + '">📋 نسخ الباب</button>' +
@@ -500,7 +500,7 @@
         var w = (s.w === "muruj") ? "muruj" : "akhbar";
         html += '<li class="index-item" data-target="' + esc(id) + '" data-id="' + esc(id) + '" data-page="' + esc(s.p) + '" data-title="' + esc(s.t) + '" data-w="' + w + '" tabindex="0" role="button">' +
           '<span class="wt w-' + w + '">' + (w === "muruj" ? "مروج الذهب" : "أخبار الزمان") + '</span>' +
-          '<span class="index-title">' + esc(s.t) + ' <span class="pg">' + (w === "muruj" ? "ج" : "ص") + esc(s.p) + '</span></span>' +
+          '<span class="index-title">' + esc(s.t) + ' <span class="pg">' + ((w === "muruj" && s.v) ? "ج" + esc(s.v) + " ص" + esc(s.p) : "ص" + esc(s.p)) + '</span></span>' +
           '</li>';
       });
     });
