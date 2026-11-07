@@ -322,6 +322,7 @@
       .replace(/^-|-$/g, "")
       .toLowerCase();
   }
+  window.slugify = slugify;
   function escReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
   function hiRegex(q){
     var diac = "[\\u064B-\\u0652\\u0670\\u06D6-\\u06ED\\u0640]*";
@@ -743,19 +744,6 @@
     var target = document.getElementById('list');
     if (!btn || !panel || !indexList) return;
 
-    function slugify(s) {
-      return String(s || "")
-        .replace(/[\u064B-\u0652\u0670\u06D6-\u06ED\u0640]/g, "")
-        .replace(/[أإآٱ]/g, "ا")
-        .replace(/ى/g, "ي")
-        .replace(/ؤ/g, "و")
-        .replace(/ئ/g, "ي")
-        .replace(/[^\u0600-\u06FFa-zA-Z0-9]+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-        .toLowerCase();
-    }
-
     function headerH() {
       return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 73;
     }
@@ -822,6 +810,8 @@
         anchor = document.getElementById('cat-' + slug);
       }
       var firstCard = anchor ? anchor.nextElementSibling : null;
+      // Cards are rendered with id="entry-<id>". The entry fallback covers a category
+      // whose #cat-<slug> anchor is not present in the current #list render.
       var destination = anchor || document.getElementById('entry-' + entryId) || target;
       setOpen(false);
       scrollToEl(destination);
