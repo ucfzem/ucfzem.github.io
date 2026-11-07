@@ -6,7 +6,7 @@
    - Navigations: serve cached index.html so the app opens fully offline.
 */
 
-const VERSION = 'sifat-v8';
+const VERSION = 'sifat-v9';
 const SHELL = 'sifat-shell-' + VERSION;
 const RUNTIME = 'sifat-runtime-' + VERSION;
 

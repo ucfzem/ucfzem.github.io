@@ -608,7 +608,7 @@
     outline-offset: 2px;
   }
 
-  #controls {
+  #list {
     scroll-margin-top: var(--head-h, 73px);
   }
 
@@ -628,20 +628,14 @@
   }
 </style>
 
-<a href="#top" id="back-to-index" aria-label="Retour à l'index">
-  ↑ Retour à l'index
-</a>
+<a href="#list" id="back-to-index" aria-label="العودة إلى الفهرس">↑ Retour à l'index</a>
 
 <script>
   (function () {
     const btn = document.getElementById('back-to-index');
     if (!btn) return;
 
-    const targetIds = ['sommaire', 'index', 'toc', 'table-des-matieres', 'controls', 'top'];
-    const target = targetIds
-      .map(function (id) { return document.getElementById(id); })
-      .find(function (el) { return el !== null; });
-
+    const target = document.getElementById('list');
     if (target) {
       btn.setAttribute('href', '#' + target.id);
     } else {
