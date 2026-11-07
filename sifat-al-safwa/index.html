@@ -565,5 +565,103 @@
   boot();
 })();
 </script>
+
+<!-- ============================================================
+     Navigation flottante : retour à l'index / sommaire / haut
+     ============================================================ -->
+<style>
+  #back-to-index {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: #1f2937;
+    color: #ffffff;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease,
+                background-color 0.2s ease, visibility 0.25s;
+  }
+
+  #back-to-index.is-visible {
+    opacity: 0.9;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  #back-to-index:hover,
+  #back-to-index:focus-visible {
+    opacity: 1;
+    background: #111827;
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #back-to-index {
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #back-to-index {
+      bottom: 14px;
+      right: 14px;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+  }
+</style>
+
+<a href="#top" id="back-to-index" aria-label="Retour à l'index">
+  ↑ Retour à l'index
+</a>
+
+<script>
+  (function () {
+    const btn = document.getElementById('back-to-index');
+    if (!btn) return;
+
+    const targetIds = ['sommaire', 'index', 'toc', 'table-des-matieres', 'controls', 'top'];
+    const target = targetIds
+      .map(function (id) { return document.getElementById(id); })
+      .find(function (el) { return el !== null; });
+
+    if (target) {
+      btn.setAttribute('href', '#' + target.id);
+    } else {
+      btn.setAttribute('href', '#');
+    }
+
+    function toggleButton() {
+      if (window.scrollY > 300) {
+        btn.classList.add('is-visible');
+      } else {
+        btn.classList.remove('is-visible');
+      }
+    }
+
+    window.addEventListener('scroll', toggleButton, { passive: true });
+    toggleButton();
+
+    btn.addEventListener('click', function (e) {
+      if (!target) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  })();
+</script>
 </body>
 </html>
