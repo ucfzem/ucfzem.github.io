@@ -608,6 +608,10 @@
     outline-offset: 2px;
   }
 
+  #controls {
+    scroll-margin-top: var(--head-h, 73px);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     #back-to-index {
       transition: opacity 0.15s ease;
@@ -656,10 +660,15 @@
     toggleButton();
 
     btn.addEventListener('click', function (e) {
+      e.preventDefault();
       if (!target) {
-        e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
       }
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 73;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerH;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      try { history.replaceState(null, '', '#' + target.id); } catch (err) {}
     });
   })();
 </script>
