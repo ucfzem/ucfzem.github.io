@@ -1,4 +1,4 @@
-const VERSION = 'masail-v1';
+const VERSION = 'masail-v2';
 const SHELL = 'masail-shell-' + VERSION;
 const RUNTIME = 'masail-runtime-' + VERSION;
 const CORE = ['./','./index.html','./masail.json','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png'];

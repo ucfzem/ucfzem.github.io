@@ -72,18 +72,12 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;border
 <header>
   <div class="wrap bar">
     <button class="brand" id="homeBtn" aria-label="الرئيسية">
-      <h1 data-i18n="app_title">مسائل نافع بن الأزرق</h1>
-      <p data-i18n="app_subtitle">غريب القرآن في شعر العرب</p>
+      <h1>مسائل نافع بن الأزرق</h1>
+      <p>غريب القرآن في شعر العرب</p>
     </button>
     <div class="controls">
-      <span class="offline" id="offline"><i></i><span data-i18n="online">متصل</span></span>
+      <span class="offline" id="offline"><i></i><span>متصل</span></span>
       <button class="theme" id="themeBtn" aria-label="تبديل المظهر">🌙</button>
-      <select class="lang" id="langSel" aria-label="Language">
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-        <option value="es">Español</option>
-      </select>
     </div>
   </div>
 </header>
@@ -97,20 +91,20 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;border
 
 <main class="wrap">
   <section class="hero" id="home">
-    <div class="kicker" data-i18n="home_count">250 مسألة</div>
-    <h2 data-i18n="app_title">مسائل نافع بن الأزرق</h2>
-    <div class="sub" data-i18n="app_subtitle">غريب القرآن في شعر العرب</div>
-    <p data-i18n="home_intro">أسئلة نافع بن الأزرق لعبد الله بن عباس في تفسير غريب القرآن، مع شاهد من شعر العرب.</p>
+    <div class="kicker">250 مسألة</div>
+    <h2>مسائل نافع بن الأزرق</h2>
+    <div class="sub">غريب القرآن في شعر العرب</div>
+    <p>أسئلة نافع بن الأزرق لعبد الله بن عباس في تفسير غريب القرآن، مع شاهد من شعر العرب.</p>
     <div class="actions">
-      <button class="primary navbtn" id="startBtn" data-i18n="start_reading">ابدأ القراءة</button>
-      <button class="navbtn" id="indexBtn" data-i18n="index">الفهرس</button>
+      <button class="primary navbtn" id="startBtn">ابدأ القراءة</button>
+      <button class="navbtn" id="indexBtn">الفهرس</button>
     </div>
   </section>
 
   <div class="index-tools" id="indexTools">
-    <button data-mode="word" class="on" data-i18n="index_by_word">حسب الكلمة</button>
-    <button data-mode="root" data-i18n="index_by_root">حسب الجذر</button>
-    <button data-mode="number" data-i18n="index_by_number">حسب الرقم</button>
+    <button data-mode="word" class="on">حسب الكلمة</button>
+    <button data-mode="root">حسب الجذر</button>
+    <button data-mode="number">حسب الرقم</button>
   </div>
 
   <div id="index" class="grid"></div>
@@ -118,28 +112,18 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;border
 </main>
 
 <footer>
-  <span data-i18n="footer">مسائل نافع بن الأزرق — غريب القرآن في شعر العرب — نص في الملك العام</span>
+  <span>مسائل نافع بن الأزرق — غريب القرآن في شعر العرب — نص في الملك العام</span>
 </footer>
 
 <script>
-const I18N = {
-  ar: {app_title:'مسائل نافع بن الأزرق',app_subtitle:'غريب القرآن في شعر العرب',home_count:'250 مسألة',home_intro:'أسئلة نافع بن الأزرق لعبد الله بن عباس في تفسير غريب القرآن، مع شاهد من شعر العرب.',start_reading:'ابدأ القراءة',index:'الفهرس',index_by_word:'حسب الكلمة',index_by_root:'حسب الجذر',index_by_number:'حسب الرقم',search_placeholder:'ابحث في الكلمات، الآيات، الشعر…',results_count:'نتيجة',previous:'السابق',next:'التالي',verse:'الآية',answer:'الجواب',poetry:'الشاهد الشعري',notes:'ملاحظات',online:'متصل',offline:'غير متصل',footer:'مسائل نافع بن الأزرق — غريب القرآن في شعر العرب — نص في الملك العام'},
-  fr: {app_title:'Masāʾil Nāfiʿ ibn al-Azraq',app_subtitle:'Le rare du Coran dans la poésie arabe',home_count:'250 masāʾil',home_intro:'Questions de Nāfiʿ ibn al-Azraq à ʿAbd Allāh ibn ʿAbbās sur les mots rares du Coran, avec des preuves poétiques arabes.',start_reading:'Commencer la lecture',index:'Index',index_by_word:'Par mot',index_by_root:'Par racine',index_by_number:'Par numéro',search_placeholder:'Rechercher un mot, un verset, un poème…',results_count:'résultat(s)',previous:'Précédent',next:'Suivant',verse:'Verset',answer:'Réponse',poetry:'Preuve poétique',notes:'Notes',online:'En ligne',offline:'Hors ligne',footer:'Masāʾil Nāfiʿ ibn al-Azraq — texte du domaine public'},
-  en: {app_title:'Masāʾil Nāfiʿ ibn al-Azraq',app_subtitle:'The rare of the Qur’an in Arabic poetry',home_count:'250 masāʾil',home_intro:'Questions by Nāfiʿ ibn al-Azraq to ʿAbd Allāh ibn ʿAbbās on rare Qur’anic words, with Arabic poetic evidence.',start_reading:'Start reading',index:'Index',index_by_word:'By word',index_by_root:'By root',index_by_number:'By number',search_placeholder:'Search a word, verse, poem…',results_count:'result(s)',previous:'Previous',next:'Next',verse:'Verse',answer:'Answer',poetry:'Poetic evidence',notes:'Notes',online:'Online',offline:'Offline',footer:'Masāʾil Nāfiʿ ibn al-Azraq — public-domain text'},
-  es: {app_title:'Masāʾil Nāfiʿ ibn al-Azraq',app_subtitle:'Lo extraño del Corán en la poesía árabe',home_count:'250 masāʾil',home_intro:'Preguntas de Nāfiʿ ibn al-Azraq a ʿAbd Allāh ibn ʿAbbās sobre las palabras raras del Corán, con pruebas poéticas árabes.',start_reading:'Comenzar la lectura',index:'Índice',index_by_word:'Por palabra',index_by_root:'Por raíz',index_by_number:'Por número',search_placeholder:'Buscar una palabra, un versículo, un poema…',results_count:'resultado(s)',previous:'Anterior',next:'Siguiente',verse:'Versículo',answer:'Respuesta',poetry:'Prueba poética',notes:'Notas',online:'En línea',offline:'Sin conexión',footer:'Masāʾil Nāfiʿ ibn al-Azraq — texto de dominio público'}
-};
-let lang = localStorage.getItem('masail-lang') || 'ar';
-const t = k => (I18N[lang] && I18N[lang][k]) || I18N.ar[k] || k;
+const STRINGS = {appTitle:'مسائل نافع بن الأزرق',appSubtitle:'غريب القرآن في شعر العرب',homeIntro:'أسئلة نافع بن الأزرق لعبد الله بن عباس في تفسير غريب القرآن، مع شاهد من شعر العرب. كتاب مجاني في الملك العام.',startReading:'ابدأ القراءة',searchPlaceholder:'ابحث في الكلمات، الآيات، الشعر…',resultsCount:'نتيجة',index:'الفهرس',indexByWord:'حسب الكلمة',indexByRoot:'حسب الجذر',indexByNumber:'حسب الرقم',previous:'السابق',next:'التالي',backHome:'العودة إلى الرئيسية',offline:'غير متصل — يمكنك المتابعة',online:'متصل',masala:'المسألة',verse:'الآية',poetry:'الشاهد الشعري',answer:'الجواب',notes:'ملاحظات',noResults:'لا نتائج',footer:'مسائل نافع بن الأزرق — غريب القرآن في شعر العرب — نص في الملك العام',root:'الجذر'};
 const $ = s => document.querySelector(s);
 const DATA = { items: [] };
 let mode = 'word';
 
 function applyLang(){
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
-  $('#q').placeholder = t('search_placeholder');
-  $('#langSel').value = lang;
+  document.documentElement.lang = 'ar';
+  document.documentElement.dir = 'rtl';
 }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function norm(s){ return String(s||'').replace(/[\u064B-\u0652\u0670\u06D6-\u06ED\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ة/g,'ه').toLowerCase().trim(); }
@@ -165,19 +149,19 @@ function renderIndex(items){
   if(mode === 'root') sorted.sort((a,b)=>norm(a.racine).localeCompare(norm(b.racine),'ar'));
   if(mode === 'number') sorted.sort((a,b)=>a.id-b.id);
   $('#index').innerHTML = sorted.map(m=>`<button class="index-item" data-id="${m.id}"><span class="word">${highlight(m.mot, $('#q').value)}</span><span class="meta">${mode==='root' ? esc(m.racine) : '#'+m.numero}</span></button>`).join('');
-  $('#count').textContent = items.length ? `${items.length} ${t('results_count')}` : '';
+  $('#count').textContent = items.length ? `${items.length} ${STRINGS.resultsCount}` : '';
 }
 function card(m, q){
   const prev = DATA.items.find(x=>x.id===m.id-1), next = DATA.items.find(x=>x.id===m.id+1);
   return `<article class="card" id="masala-${m.id}">
-    <div class="kicker">${t('masala') || 'المسألة'} ${m.numero} · #${m.id}</div>
+    <div class="kicker">${STRINGS.masala || 'المسألة'} ${m.numero} · #${m.id}</div>
     <h3>${highlight(m.mot, q)}</h3>
     ${m.racine ? `<div class="root">الجذر: ${esc(m.racine)}</div>` : ''}
     <div class="verse">${highlight(m.verset, q)}</div>
     <div class="body">${highlight(m.reponse, q)}</div>
     ${(m.poesie||[]).map(p=>`<div class="poetry"><div>${highlight(p.vers, q)}</div><div class="poet">${esc(p.poete||'')}</div></div>`).join('')}
     ${m.notes ? `<div class="notes">${highlight(m.notes, q)}</div>` : ''}
-    <div class="pager"><button data-goto="${m.id-1}" ${prev?'':'disabled'}>← ${t('previous')}</button><button data-goto="${m.id+1}" ${next?'':'disabled'}>${t('next')} →</button></div>
+    <div class="pager"><button data-goto="${m.id-1}" ${prev?'':'disabled'}>← ${STRINGS.previous}</button><button data-goto="${m.id+1}" ${next?'':'disabled'}>${STRINGS.next} →</button></div>
   </article>`;
 }
 function render(){
@@ -200,11 +184,10 @@ $('#indexTools').addEventListener('click', e=>{ const b=e.target.closest('button
 $('#homeBtn').addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
 $('#startBtn').addEventListener('click', ()=>{ if(DATA.items.length) open(1); });
 $('#indexBtn').addEventListener('click', ()=>$('#index').scrollIntoView({behavior:'smooth'}));
-$('#langSel').addEventListener('change', e=>{ lang=e.target.value; localStorage.setItem('masail-lang',lang); applyLang(); render(); });
 $('#themeBtn').addEventListener('click', ()=>{ const d=document.documentElement; d.dataset.theme = d.dataset.theme==='dark' ? 'light' : 'dark'; $('#themeBtn').textContent = d.dataset.theme==='dark' ? '☀️' : '🌙'; });
-function setOnline(){ const on=navigator.onLine; const el=$('#offline'); el.classList.toggle('off',!on); el.querySelector('span').textContent = on ? t('online') : t('offline'); }
+function setOnline(){ const on=navigator.onLine; const el=$('#offline'); el.classList.toggle('off',!on); el.querySelector('span').textContent = on ? STRINGS.online : STRINGS.offline; }
 window.addEventListener('online', setOnline); window.addEventListener('offline', setOnline);
-fetch('masail.json', {cache:'no-cache'}).then(r=>r.json()).then(json=>{ DATA.items=json; applyLang(); setOnline(); render(); }).catch(()=>{ $('#reader').innerHTML='<p style="text-align:center;color:var(--muted)">تعذّر تحميل البيانات.</p>'; });
+fetch('masail.json', {cache:'no-cache'}).then(r=>r.json()).then(json=>{ DATA.items=json; setOnline(); render(); }).catch(()=>{ $('#reader').innerHTML='<p style="text-align:center;color:var(--muted)">تعذّر تحميل البيانات.</p>'; });
 (function(){ const h=document.querySelector('header'); const set=()=>document.documentElement.style.setProperty('--head-h', h.offsetHeight+'px'); set(); window.addEventListener('resize', set); })();
 if('serviceWorker' in navigator) window.addEventListener('load', ()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script>
