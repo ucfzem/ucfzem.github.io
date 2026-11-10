@@ -160,7 +160,11 @@ class CheckersGame {
       e.preventDefault();
       const touch = e.touches[0];
       const rect = this.canvas.getBoundingClientRect();
-      this.processClick(touch.clientX - rect.left, touch.clientY - rect.top);
+      const scaleX = this.canvas.width / rect.width;
+      const scaleY = this.canvas.height / rect.height;
+      const x = (touch.clientX - rect.left) * scaleX;
+      const y = (touch.clientY - rect.top) * scaleY;
+      this.processClick(x, y);
     }, { passive: false });
 
 
