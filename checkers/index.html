@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1e293b">
+  <meta name="description" content="Jeu de dames américain complet et jouable hors-ligne">
+  <title>Checkers Master</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="app-title">Checkers Master</h1>
+    </header>
+
+
+    <!-- ÉCRAN DU MENU PRINCIPAL -->
+    <div id="mainMenu" class="menu-screen">
+      <div class="menu-card">
+        <h2>Menu Principal</h2>
+        <div class="control-group">
+          <label for="menuGameMode">Mode de jeu</label>
+          <select id="menuGameMode" class="select-input">
+            <option value="ai">Joueur vs IA</option>
+            <option value="pvp">Joueur vs Joueur (Local)</option>
+          </select>
+        </div>
+
+
+        <div class="control-group" id="menuDifficultyGroup">
+          <label for="menuAiDifficulty">Difficulté de l'IA</label>
+          <select id="menuAiDifficulty" class="select-input">
+            <option value="1">Niveau 1 - Débutant</option>
+            <option value="2">Niveau 2 - Facile</option>
+            <option value="3" selected>Niveau 3 - Moyen</option>
+            <option value="4">Niveau 4 - Difficile</option>
+            <option value="5">Niveau 5 - Expert</option>
+          </select>
+        </div>
+
+
+        <button id="btnStartGame" class="btn btn-primary" style="margin-top: 10px;">Jouer</button>
+      </div>
+    </div>
+
+
+    <!-- ÉCRAN DU JEU (Masqué par défaut) -->
+    <main class="main-content" id="gameScreen" style="display: none;">
+      <div class="board-container">
+        <canvas id="board" width="600" height="600"></canvas>
+      </div>
+
+
+      <aside class="sidebar">
+        <!-- Score Card -->
+        <div class="status-card" id="scoreCard">
+          <div style="display: flex; justify-content: space-around; align-items: center; font-weight: 700;">
+            <div style="text-align: center;">
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Blancs</div>
+              <div id="scoreWhite" style="font-size: 1.5rem; color: var(--piece-white);">0</div>
+            </div>
+            <div style="font-size: 1.2rem; color: var(--text-secondary);">-</div>
+            <div style="text-align: center;">
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">Noirs</div>
+              <div id="scoreBlack" style="font-size: 1.5rem; color: #94a3b8;">0</div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Tour Actuel -->
+        <div class="status-card">
+          <div class="turn-indicator" id="turnIndicator">
+            <span class="turn-dot white-dot"></span>
+            <span id="turnText">Tour des Blancs</span>
+          </div>
+        </div>
+
+
+        <!-- Contrôles -->
+        <div class="controls-card">
+          <button id="btnBackToMenu" class="btn btn-secondary">🏠 Menu Principal</button>
+          <button id="btnMute" class="btn btn-secondary">🔊 Sons : Activés</button>
+          <button id="btnNewGame" class="btn btn-primary">Recommencer</button>
+        </div>
+
+
+        <!-- Messages -->
+        <div class="message-card">
+          <div id="gameMessage" class="message-text">Prêt à jouer ! Sélectionnez un pion.</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+
+  <script src="ai.js"></script>
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => console.log('ServiceWorker OK:', registration.scope))
+          .catch(err => console.log('Erreur ServiceWorker:', err));
+      });
+    }
+  </script>
+</body>
+</html>
