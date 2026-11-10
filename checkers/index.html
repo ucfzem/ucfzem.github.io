@@ -8,6 +8,7 @@
   <title>Checkers Master</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
   <div class="app-container">
@@ -25,6 +26,7 @@
           <select id="menuGameMode" class="select-input">
             <option value="ai">Joueur vs IA</option>
             <option value="pvp">Joueur vs Joueur (Local)</option>
+            <option value="online">En ligne</option>
           </select>
         </div>
 
@@ -40,6 +42,16 @@
           </select>
         </div>
 
+
+        <div class="control-group" id="menuOnlineGroup" style="display:none;">
+          <label for="menuRoomCode">Code de salon</label>
+          <input type="text" id="menuRoomCode" class="select-input" placeholder="ABCD" maxlength="4">
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button id="btnCreateRoom" class="btn btn-primary">Créer une partie</button>
+            <button id="btnJoinRoom" class="btn btn-secondary">Rejoindre</button>
+          </div>
+          <div id="menuRoomCodeDisplay" style="margin-top:8px; font-family:monospace; font-weight:bold; color:var(--accent-color);"></div>
+        </div>
 
         <button id="btnStartGame" class="btn btn-primary" style="margin-top: 10px;">Jouer</button>
       </div>

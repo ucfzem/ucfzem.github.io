@@ -94,6 +94,14 @@ class CheckersGame {
     this.isAnimating = false;
 
 
+    // Peer-to-peer multiplayer
+    this.peer = null;
+    this.peerConnection = null;
+    this.myColor = COLOR_WHITE;
+    this.isHost = false;
+    this.roomCode = null;
+
+
     this.soundManager = new SoundManager();
     this.aiEngine = new CheckersAI(this);
 
@@ -108,6 +116,9 @@ class CheckersGame {
     this.menuGameMode = document.getElementById('menuGameMode');
     this.menuAiDifficulty = document.getElementById('menuAiDifficulty');
     this.menuDifficultyGroup = document.getElementById('menuDifficultyGroup');
+    this.menuOnlineGroup = document.getElementById('menuOnlineGroup');
+    this.menuRoomCode = document.getElementById('menuRoomCode');
+    this.menuRoomCodeDisplay = document.getElementById('menuRoomCodeDisplay');
     this.btnStartGame = document.getElementById('btnStartGame');
     this.btnBackToMenu = document.getElementById('btnBackToMenu');
     this.turnIndicator = document.getElementById('turnIndicator');
@@ -115,6 +126,8 @@ class CheckersGame {
     this.gameMessage = document.getElementById('gameMessage');
     this.btnNewGame = document.getElementById('btnNewGame');
     this.btnMute = document.getElementById('btnMute');
+    this.btnCreateRoom = document.getElementById('btnCreateRoom');
+    this.btnJoinRoom = document.getElementById('btnJoinRoom');
 
 
     this.initEvents();
@@ -169,7 +182,9 @@ class CheckersGame {
 
 
     this.menuGameMode.addEventListener('change', (e) => {
-      this.menuDifficultyGroup.style.display = e.target.value === 'pvp' ? 'none' : 'flex';
+      const mode = e.target.value;
+      this.menuDifficultyGroup.style.display = mode === 'ai' ? 'flex' : 'none';
+      this.menuOnlineGroup.style.display = mode === 'online' ? 'flex' : 'none';
     });
 
 
@@ -185,6 +200,11 @@ class CheckersGame {
     this.btnBackToMenu.addEventListener('click', () => {
       this.gameScreen.style.display = 'none';
       this.mainMenu.style.display = 'flex';
+      if (this.peer) {
+        this.peer.destroy();
+        this.peer = null;
+        this.peerConnection = null;
+      }
     });
 
 
@@ -194,6 +214,110 @@ class CheckersGame {
       this.soundManager.toggleMute();
       this.updateMuteButtonUI();
     });
+
+    this.btnCreateRoom.addEventListener('click', () => this.createRoom());
+    this.btnJoinRoom.addEventListener('click', () => this.joinRoom());
+  }
+
+
+  createRoom() {
+    const code = this.generateRoomCode();
+    this.roomCode = code;
+    if (this.menuRoomCodeDisplay) {
+      this.menuRoomCodeDisplay.textContent = "Code de salon : " + code;
+      this.menuRoomCodeDisplay.style.display = 'block';
+    }
+
+    this.peer = new Peer(code);
+    this.setupPeerEvents();
+    this.isHost = true;
+    this.myColor = COLOR_WHITE;
+    this.gameMessage.textContent = "En attente d'un adversaire (code : " + code + ")...";
+  }
+
+
+  joinRoom() {
+    const code = this.menuRoomCode.value.trim().toUpperCase();
+    if (!code || code.length < 3) {
+      this.gameMessage.textContent = "Code de salon invalide";
+      return;
+    }
+    this.roomCode = code;
+    this.peer = new Peer();
+    this.setupPeerEvents();
+    this.isHost = false;
+    this.myColor = COLOR_BLACK;
+
+    this.peerConnection = this.peer.connect(code);
+    this.setupConnectionEvents(this.peerConnection);
+  }
+
+
+  setupPeerEvents() {
+    this.peer.on('open', (id) => {
+      console.log('Peer ID:', id);
+      if (this.isHost) {
+        this.gameMessage.textContent = "En attente d'un adversaire (code : " + this.roomCode + ")...";
+      }
+    });
+
+    this.peer.on('connection', (conn) => {
+      if (this.peerConnection) {
+        conn.close();
+        return;
+      }
+      this.peerConnection = conn;
+      this.setupConnectionEvents(conn);
+    });
+
+    this.peer.on('error', (err) => {
+      console.error('Peer error:', err);
+      this.gameMessage.textContent = "Erreur de connexion PeerJS";
+    });
+
+    this.peer.on('disconnected', () => {
+      this.gameMessage.textContent = "Adversaire déconnecté";
+    });
+
+    this.peer.on('close', () => {
+      this.peer = null;
+    });
+  }
+
+
+  setupConnectionEvents(conn) {
+    conn.on('open', () => {
+      console.log('Connected to peer');
+      this.gameMessage.textContent = "Partie connectée !";
+      if (!this.isHost) {
+        this.myColor = COLOR_BLACK;
+      }
+    });
+
+    conn.on('data', (data) => {
+      if (data.type === 'move') {
+        this.handleRemoteMove(data.move);
+      }
+    });
+
+    conn.on('close', () => {
+      this.gameMessage.textContent = "Connexion fermée";
+      this.peerConnection = null;
+    });
+
+    conn.on('error', (err) => {
+      console.error('Connection error:', err);
+    });
+  }
+
+
+  generateRoomCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
   }
 
 
@@ -309,6 +433,7 @@ class CheckersGame {
   handleCanvasClick(e) {
     if (this.isGameOver || this.isAnimating) return;
     if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) return;
+    if (this.gameMode === 'online' && this.turn !== this.myColor) return;
     const rect = this.canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
     const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
@@ -382,7 +507,6 @@ class CheckersGame {
       const easeProgress = progress * (2 - progress);
       this.render();
       
-      // Dessin manuel de la pièce en mouvement pour l'animation
       const currentX = startX + (endX - startX) * easeProgress;
       const currentY = startY + (endY - startY) * easeProgress;
       
@@ -439,18 +563,100 @@ class CheckersGame {
 
 
     this.activeMultiJumpPiece = null; this.selectedPiece = null; this.validMoves = [];
-    this.switchTurn();
+    this.switchTurn(move);
   }
 
 
-  switchTurn() {
+  switchTurn(move) {
     this.turn = this.turn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
     this.updateTurnUI(); this.checkMandatoryCaptures(); this.render();
     if (this.checkGameOver()) return;
+    
     if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) {
       this.gameMessage.textContent = "Réflexion de l'IA...";
       setTimeout(() => this.triggerAIMove(), 400);
     }
+    
+    if (this.gameMode === 'online' && this.peerConnection && move) {
+      try {
+        this.peerConnection.send({ type: 'move', move: move });
+      } catch (err) {
+        console.error('Send error:', err);
+      }
+    }
+  }
+
+
+  handleRemoteMove(move) {
+    this.isAnimating = true;
+    const piece = this.board[move.fromR][move.fromC];
+    this.board[move.fromR][move.fromC] = null;
+
+    const tileSize = this.canvas.width / BOARD_SIZE;
+    const startX = move.fromC * tileSize + tileSize / 2;
+    const startY = move.fromR * tileSize + tileSize / 2;
+    const endX = move.toC * tileSize + tileSize / 2;
+    const endY = move.toR * tileSize + tileSize / 2;
+    const duration = 220;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const easeProgress = progress * (2 - progress);
+      this.render();
+      
+      const currentX = startX + (endX - startX) * easeProgress;
+      const currentY = startY + (endY - startY) * easeProgress;
+      
+      this.ctx.save();
+      this.ctx.beginPath();
+      this.ctx.arc(currentX + 2, currentY + 4, tileSize * 0.38, 0, Math.PI * 2);
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      this.ctx.fill();
+      const gradient = this.ctx.createRadialGradient(currentX - tileSize*0.1, currentY - tileSize*0.1, tileSize*0.04, currentX, currentY, tileSize*0.38);
+      if (piece.couleur === COLOR_WHITE) { gradient.addColorStop(0,'#fff'); gradient.addColorStop(0.8,'#e2e8f0'); gradient.addColorStop(1,'#cbd5e1'); }
+      else { gradient.addColorStop(0,'#4b5563'); gradient.addColorStop(0.7,'#1f2937'); gradient.addColorStop(1,'#111827'); }
+      this.ctx.beginPath(); this.ctx.arc(currentX, currentY, tileSize*0.38, 0, Math.PI*2);
+      this.ctx.fillStyle = gradient; this.ctx.fill();
+      this.ctx.strokeStyle = piece.couleur === COLOR_WHITE ? '#94a3b8' : '#000000'; this.ctx.lineWidth = 2; this.ctx.stroke();
+      this.ctx.restore();
+
+      if (progress < 1) requestAnimationFrame(animate);
+      else {
+        this.board[move.toR][move.toC] = piece;
+        this.isAnimating = false;
+        this.finalizeRemoteMove(move, piece);
+      }
+    };
+    requestAnimationFrame(animate);
+  }
+
+
+  finalizeRemoteMove(move, piece) {
+    if (move.captured) this.board[move.captured.r][move.captured.c] = null;
+
+    let newlyCrowned = false;
+    if (!piece.estDame) {
+      if ((piece.couleur === COLOR_WHITE && move.toR === 0) || (piece.couleur === COLOR_BLACK && move.toR === BOARD_SIZE - 1)) {
+        piece.estDame = true; newlyCrowned = true;
+      }
+    }
+
+    if (move.captured && !newlyCrowned) {
+      const furtherCaptures = this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured);
+      if (furtherCaptures.length > 0) {
+        this.selectedPiece = { r: move.toR, c: move.toC };
+        this.validMoves = furtherCaptures;
+        this.activeMultiJumpPiece = { r: move.toR, c: move.toC };
+        this.mustCapture = true;
+        this.gameMessage.textContent = "Rafle en cours ! Continuez à capturer.";
+        this.render();
+        return;
+      }
+    }
+
+    this.activeMultiJumpPiece = null; this.selectedPiece = null; this.validMoves = [];
+    this.switchTurn();
   }
 
 
@@ -458,6 +664,9 @@ class CheckersGame {
     this.mustCapture = this.getAllLegalMoves(this.turn, this.board).some(m => m.captured);
     if (this.gameMode === 'pvp') {
       this.gameMessage.textContent = this.mustCapture ? "Capture obligatoire !" : "Sélectionnez une pièce.";
+    }
+    if (this.gameMode === 'online') {
+      this.gameMessage.textContent = this.mustCapture ? "Capture obligatoire !" : "Tour de " + (this.turn === this.myColor ? "vous" : "l'adversaire");
     }
   }
 
