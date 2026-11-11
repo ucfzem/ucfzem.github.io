@@ -9,6 +9,8 @@ class CheckersAI {  constructor(gameInstance) {
     const maxDepth = Math.max(2, (depthMap[level] || 4) - spanishPenalty);
     const budgetMs = level >= 5 ? 6000 : level === 4 ? 3000 : 1200;
     this.deadline = Date.now() + budgetMs;
+    this._diag = { eval: false, quies: false, depthEnd: false };
+    console.log("IA - Niveau demandé:", level, "Profondeur calculée:", depthMap[level] || 4);
     if (level >= 5) console.log(`IA Expert : réflexion jusqu'à ${maxDepth} coups (budget ${budgetMs} ms max)...`);
     const allMoves = this.game.getAllLegalMoves(aiColor, boardState);
     
@@ -18,6 +20,7 @@ class CheckersAI {  constructor(gameInstance) {
 
     let bestScore = -Infinity;
     let bestMoves = [];
+    console.log("IA - Nombre de coups légaux à évaluer:", allMoves.length);
 
 
     for (const move of allMoves) {
@@ -34,6 +37,7 @@ class CheckersAI {  constructor(gameInstance) {
         bestMoves.push(move);
       }
     }
+    console.log("IA - Meilleur score trouvé:", bestScore, "Nombre de meilleurs coups:", bestMoves.length);
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];
   }
 
@@ -42,7 +46,13 @@ class CheckersAI {  constructor(gameInstance) {
     if (this.deadline && Date.now() > this.deadline) return this.evaluateBoard(boardState, aiColor);
     const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
     if (legalMoves.length === 0) return this.evaluateBoard(boardState, aiColor);
-    if (depth === 0) return this.quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, 0);
+    if (depth === 0) {
+      if (this._diag && !this._diag.depthEnd) {
+        console.log("Fin de profondeur atteinte, lancement Quiescence");
+        this._diag.depthEnd = true;
+      }
+      return this.quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, 0);
+    }
 
 
     if (maximizingPlayer) {
@@ -82,6 +92,10 @@ class CheckersAI {  constructor(gameInstance) {
 
     const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
     const captures = legalMoves.filter(m => m.captured);
+    if (this._diag && !this._diag.quies) {
+      console.log("Quiescence - Profondeur:", qDepth, "Captures possibles:", captures.length);
+      this._diag.quies = true;
+    }
     if (captures.length === 0) return this.evaluateBoard(boardState, aiColor);
 
     const maximizing = currentTurn === aiColor;
@@ -164,6 +178,14 @@ class CheckersAI {  constructor(gameInstance) {
 
     score -= aiThreatPawn * 50 + aiThreatKing * 150;
     score += oppThreatPawn * 50 + oppThreatKing * 150;
+    let totalPieces = 0;
+    for (let rr = 0; rr < BOARD_SIZE; rr++) {
+      for (let cc = 0; cc < BOARD_SIZE; cc++) if (boardState[rr][cc]) totalPieces++;
+    }
+    if (totalPieces === 24 && this._diag && !this._diag.eval) {
+      console.log("IA - Évaluation du plateau de départ:", score, "(aiColor:", aiColor + ", pièces: 24)");
+      this._diag.eval = true;
+    }
     return score;
   }
 
