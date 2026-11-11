@@ -168,17 +168,10 @@ class CheckersGame {
 
 
   initEvents() {
-    this.canvas.addEventListener('click', (e) => this.handleCanvasClick(e));
-    this.canvas.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      const touch = e.touches[0];
-      const rect = this.canvas.getBoundingClientRect();
-      const scaleX = this.canvas.width / rect.width;
-      const scaleY = this.canvas.height / rect.height;
-      const x = (touch.clientX - rect.left) * scaleX;
-      const y = (touch.clientY - rect.top) * scaleY;
-      this.processClick(x, y);
-    }, { passive: false });
+    this.canvas.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        this.handlePointerDown(e);
+    });
 
 
     this.menuGameMode.addEventListener('change', (e) => {
@@ -430,13 +423,21 @@ class CheckersGame {
   }
 
 
-  handleCanvasClick(e) {
+  handlePointerDown(e) {
     if (this.isGameOver || this.isAnimating) return;
     if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) return;
-    if (this.gameMode === 'online' && this.turn !== this.myColor) return;
+
+
     const rect = this.canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-    const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+
+
+    // Coordonnées du clic ramenées à l'échelle interne du canvas
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+
     this.processClick(x, y);
   }
 
@@ -445,6 +446,7 @@ class CheckersGame {
     const tileSize = this.canvas.width / BOARD_SIZE;
     const c = Math.floor(x / tileSize);
     const r = Math.floor(y / tileSize);
+    console.log(`Clic reçu: X=${Math.round(x)}, Y=${Math.round(y)} | Case: Ligne ${r}, Colonne ${c}`);
     if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) return;
 
 
