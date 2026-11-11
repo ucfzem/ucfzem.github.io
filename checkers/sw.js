@@ -1,4 +1,4 @@
-const CACHE_NAME = 'checkers-master-v1';const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'checkers-master-v2';const ASSETS_TO_CACHE = [
   './index.html',
   './style.css',
   './game.js',

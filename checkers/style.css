@@ -126,6 +126,7 @@ body {
   border-radius: 8px;
   cursor: pointer;
   display: block;
+  touch-action: none;
 }
 
 
