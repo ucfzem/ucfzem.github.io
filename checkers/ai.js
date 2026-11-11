@@ -4,31 +4,40 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   getBestMove(boardState, aiColor, level) {
-    const depthMap = { 1: 2, 2: 3, 3: 4, 4: 7, 5: 8 };
-    const spanishPenalty = (this.game.variant === 'spanish' && level >= 4) ? 1 : 0; // dames volantes = plus de coups
-    const maxDepth = Math.max(2, (depthMap[level] || 4) - spanishPenalty);
-    const budgetMs = level >= 5 ? 6000 : level === 4 ? 3000 : 1200;
-    this.deadline = Date.now() + budgetMs;
-    this._diag = { eval: false, quies: false, depthEnd: false };
-    console.log("IA - Niveau demandé:", level, "Profondeur calculée:", depthMap[level] || 4);
-    if (level >= 5) console.log(`IA Expert : réflexion jusqu'à ${maxDepth} coups (budget ${budgetMs} ms max)...`);
     const allMoves = this.game.getAllLegalMoves(aiColor, boardState);
-    
-    if (allMoves.length === 0) return null;
-    if (level === 1 && Math.random() < 0.25) return allMoves[Math.floor(Math.random() * allMoves.length)];
+    return this.searchWithMoves(boardState, aiColor, level, allMoves);
+  }
 
 
+  getBestMoveFromList(boardState, aiColor, level, moves) {
+    return this.searchWithMoves(boardState, aiColor, level, moves || []);
+  }
+
+
+  orderMoves(boardState, moves) {
+    return moves.slice().sort((a, b) => {
+      const sa = (a.captured ? 1000 : 0) + (boardState[a.toR] && boardState[a.toR][a.toC] ? 500 : 0) - Math.abs(3.5 - a.toC);
+      const sb = (b.captured ? 1000 : 0) + (boardState[b.toR] && boardState[b.toR][b.toC] ? 500 : 0) - Math.abs(3.5 - b.toC);
+      return sb - sa;
+    });
+  }
+
+
+  searchRoot(boardState, aiColor, depth, moves) {
+    let alpha = -Infinity;
+    const beta = Infinity;
+    const nextTurn = aiColor === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
     let bestScore = -Infinity;
     let bestMoves = [];
-    console.log("IA - Nombre de coups légaux à évaluer:", allMoves.length);
 
-
-    for (const move of allMoves) {
+    for (let i = 0; i < moves.length; i++) {
+      if (Date.now() > this.deadline) {
+        return { completed: false, move: bestMoves[0] || null, score: bestScore, bestMoves };
+      }
+      const move = moves[i];
       const simulatedBoard = this.cloneBoard(boardState);
       this.applyMoveOnSimulation(simulatedBoard, move);
-      const nextTurn = aiColor === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
-      const score = this.minimax(simulatedBoard, maxDepth - 1, -Infinity, Infinity, false, nextTurn, aiColor);
-
+      const score = this.minimax(simulatedBoard, depth - 1, alpha, beta, false, nextTurn, aiColor);
 
       if (score > bestScore) {
         bestScore = score;
@@ -36,9 +45,47 @@ class CheckersAI {  constructor(gameInstance) {
       } else if (score === bestScore) {
         bestMoves.push(move);
       }
+      if (bestScore > alpha) alpha = bestScore;
+
+      if (Date.now() > this.deadline && i < moves.length - 1) {
+        return { completed: false, move: bestMoves[0] || null, score: bestScore, bestMoves };
+      }
     }
-    console.log("IA - Meilleur score trouvé:", bestScore, "Nombre de meilleurs coups:", bestMoves.length);
-    return bestMoves[Math.floor(Math.random() * bestMoves.length)];
+    return { completed: true, move: bestMoves[Math.floor(Math.random() * bestMoves.length)], score: bestScore, bestMoves };
+  }
+
+
+  searchWithMoves(boardState, aiColor, level, allMoves) {
+    if (!allMoves || allMoves.length === 0) return null;
+    if (level === 1 && Math.random() < 0.5) return allMoves[Math.floor(Math.random() * allMoves.length)];
+
+    const depthMap = { 1: 2, 2: 3, 3: 4, 4: 7, 5: 8 };
+    const spanishPenalty = (this.game.variant === 'spanish' && level >= 4) ? 1 : 0; // dames volantes = plus de coups
+    const maxDepth = Math.max(2, (depthMap[level] || 4) - spanishPenalty);
+    const budgetMs = level >= 5 ? 6000 : level === 4 ? 3000 : 1200;
+    this.deadline = Date.now() + budgetMs;
+    this._diag = { eval: false, quies: false, depthEnd: false };
+    console.log("IA - Niveau demandé:", level, "Profondeur calculée:", maxDepth, "Coups:", allMoves.length);
+    if (level >= 5) console.log(`IA Expert : réflexion jusqu'à ${maxDepth} coups (budget ${budgetMs} ms max)...`);
+
+    let ordered = this.orderMoves(boardState, allMoves);
+    let bestMove = ordered[0];
+    let bestScore = -Infinity;
+
+    for (let depth = 2; depth <= maxDepth; depth++) {
+      const result = this.searchRoot(boardState, aiColor, depth, ordered);
+      if (result.completed) {
+        bestMove = result.move;
+        bestScore = result.score;
+        ordered = [bestMove].concat(ordered.filter(m => m !== bestMove));
+      } else {
+        break;
+      }
+      if (Date.now() > this.deadline) break;
+    }
+
+    console.log("IA - Meilleur score trouvé:", bestScore, "coup:", JSON.stringify(bestMove));
+    return bestMove;
   }
 
 

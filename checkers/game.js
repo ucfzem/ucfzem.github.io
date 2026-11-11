@@ -1249,7 +1249,7 @@ class CheckersGame {
   triggerAIMove() {
     if (this.isGameOver) return;
     if (this.activeMultiJumpPiece) {
-      const move = this.validMoves[Math.floor(Math.random() * this.validMoves.length)];
+      const move = this.aiEngine.getBestMoveFromList(this.board, this.turn, this.aiLevel, this.validMoves);
       if (move) this.executeMove(move);
       return;
     }
