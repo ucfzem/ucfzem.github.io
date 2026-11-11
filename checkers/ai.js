@@ -4,9 +4,12 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   getBestMove(boardState, aiColor, level) {
-    const depthMap = { 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 };
+    const depthMap = { 1: 2, 2: 3, 3: 4, 4: 7, 5: 8 };
     const spanishPenalty = (this.game.variant === 'spanish' && level >= 4) ? 1 : 0; // dames volantes = plus de coups
     const maxDepth = Math.max(2, (depthMap[level] || 4) - spanishPenalty);
+    const budgetMs = level >= 5 ? 6000 : level === 4 ? 3000 : 1200;
+    this.deadline = Date.now() + budgetMs;
+    if (level >= 5) console.log(`IA Expert : réflexion jusqu'à ${maxDepth} coups (budget ${budgetMs} ms max)...`);
     const allMoves = this.game.getAllLegalMoves(aiColor, boardState);
     
     if (allMoves.length === 0) return null;
@@ -36,6 +39,7 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   minimax(boardState, depth, alpha, beta, maximizingPlayer, currentTurn, aiColor) {
+    if (this.deadline && Date.now() > this.deadline) return this.evaluateBoard(boardState, aiColor);
     const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
     if (legalMoves.length === 0) return this.evaluateBoard(boardState, aiColor);
     if (depth === 0) return this.quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, 0);
@@ -73,6 +77,7 @@ class CheckersAI {  constructor(gameInstance) {
   }
 
   quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, qDepth) {
+    if (this.deadline && Date.now() > this.deadline) return this.evaluateBoard(boardState, aiColor);
     if (qDepth >= 4) return this.evaluateBoard(boardState, aiColor);
 
     const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
