@@ -2,25 +2,35 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1e293b">
-  <meta name="description" content="Jeu de dames américain complet et jouable hors-ligne">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#3b1d0e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="Jeu de dames (américaines et espagnoles) complet et jouable hors-ligne">
   <title>Checkers Master</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
   <div class="app-container">
-    <header class="app-header">
-      <h1 class="app-title">Checkers Master</h1>
-    </header>
-
 
     <!-- ÉCRAN DU MENU PRINCIPAL -->
     <div id="mainMenu" class="menu-screen">
+      <div class="menu-hero">
+        <div class="hero-pieces">
+          <span class="hp hp-cream"></span>
+          <span class="hp hp-copper"></span>
+          <span class="hp hp-cream small"></span>
+        </div>
+        <h1 class="app-title gold-text">Checkers Master</h1>
+        <p class="app-sub">Jeu de dames · UCF ZEM</p>
+      </div>
+
       <div class="menu-card">
-        <h2>Menu Principal</h2>
         <div class="control-group">
           <label for="menuGameMode">Mode de jeu</label>
           <select id="menuGameMode" class="select-input">
@@ -30,6 +40,13 @@
           </select>
         </div>
 
+        <div class="control-group">
+          <label for="menuVariant">Règles</label>
+          <select id="menuVariant" class="select-input">
+            <option value="american">Dames américaines (Checkers)</option>
+            <option value="spanish">Dames espagnoles (plateau inversé)</option>
+          </select>
+        </div>
 
         <div class="control-group" id="menuDifficultyGroup">
           <label for="menuAiDifficulty">Difficulté de l'IA</label>
@@ -42,7 +59,6 @@
           </select>
         </div>
 
-
         <div class="control-group" id="menuOnlineGroup" style="display:none;">
           <label for="menuRoomCode">Code de salon</label>
           <input type="text" id="menuRoomCode" class="select-input" placeholder="ABCD" maxlength="4">
@@ -50,62 +66,75 @@
             <button id="btnCreateRoom" class="btn btn-primary">Créer une partie</button>
             <button id="btnJoinRoom" class="btn btn-secondary">Rejoindre</button>
           </div>
-          <div id="menuRoomCodeDisplay" style="margin-top:8px; font-family:monospace; font-weight:bold; color:var(--accent-color);"></div>
+          <div id="menuRoomCodeDisplay" class="room-code"></div>
         </div>
 
-        <button id="btnStartGame" class="btn btn-primary" style="margin-top: 10px;">Jouer</button>
+        <div class="control-group">
+          <label>Thème de couleurs</label>
+          <div class="theme-picker" data-theme-picker></div>
+        </div>
+
+        <button id="btnStartGame" class="btn btn-play">Jouer</button>
       </div>
     </div>
 
 
-    <!-- ÉCRAN DU JEU (Masqué par défaut) -->
-    <main class="main-content" id="gameScreen" style="display: none;">
-      <div class="board-container">
-        <canvas id="board" width="600" height="600"></canvas>
+    <!-- ÉCRAN DU JEU (masqué par défaut) -->
+    <main class="game-screen" id="gameScreen" style="display: none;">
+
+      <div class="topbar">
+        <div class="player-card" id="playerWhite">
+          <div class="avatar" id="avatarWhite"></div>
+          <div class="pname" id="nameWhite">Vous</div>
+          <div class="pscore">🏆 <span id="scoreWhite">0</span></div>
+        </div>
+        <div class="vs gold-text">VS</div>
+        <div class="player-card" id="playerBlack">
+          <div class="avatar" id="avatarBlack"></div>
+          <div class="pname" id="nameBlack">IA</div>
+          <div class="pscore">🏆 <span id="scoreBlack">0</span></div>
+        </div>
       </div>
 
+      <section class="chalkboard">
+        <div class="chalk-title gold-text" id="bannerTitle">Moyen</div>
+        <div class="chalk-msg" id="gameMessage">Prêt à jouer ! Sélectionnez un pion.</div>
+        <div class="chalk-variant" id="variantBadge"></div>
+      </section>
 
-      <aside class="sidebar">
-        <!-- Score Card -->
-        <div class="status-card" id="scoreCard">
-          <div style="display: flex; justify-content: space-around; align-items: center; font-weight: 700;">
-            <div style="text-align: center;">
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Blancs</div>
-              <div id="scoreWhite" style="font-size: 1.5rem; color: var(--piece-white);">0</div>
-            </div>
-            <div style="font-size: 1.2rem; color: var(--text-secondary);">-</div>
-            <div style="text-align: center;">
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Noirs</div>
-              <div id="scoreBlack" style="font-size: 1.5rem; color: #94a3b8;">0</div>
-            </div>
-          </div>
+      <div class="board-wrap">
+        <div class="board-inner">
+          <canvas id="board" width="600" height="600"></canvas>
         </div>
+      </div>
 
-
-        <!-- Tour Actuel -->
-        <div class="status-card">
-          <div class="turn-indicator" id="turnIndicator">
-            <span class="turn-dot white-dot"></span>
-            <span id="turnText">Tour des Blancs</span>
-          </div>
+      <footer class="bottombar">
+        <button id="btnMenu" class="icon-btn" aria-label="Menu">☰</button>
+        <div class="coin-counter" aria-label="Pièces">
+          <span class="coin">👑</span>
+          <span id="coinCount">0</span>
         </div>
-
-
-        <!-- Contrôles -->
-        <div class="controls-card">
-          <button id="btnBackToMenu" class="btn btn-secondary">🏠 Menu Principal</button>
-          <button id="btnMute" class="btn btn-secondary">🔊 Sons : Activés</button>
-          <button id="btnNewGame" class="btn btn-primary">Recommencer</button>
-        </div>
-
-
-        <!-- Messages -->
-        <div class="message-card">
-          <div id="gameMessage" class="message-text">Prêt à jouer ! Sélectionnez un pion.</div>
-        </div>
-      </aside>
+        <button id="btnUndo" class="icon-btn" aria-label="Annuler le dernier coup">↶</button>
+      </footer>
     </main>
   </div>
+
+
+  <!-- MENU EN JEU -->
+  <div id="menuSheet" class="sheet" aria-hidden="true">
+    <div class="sheet-panel">
+      <h3 class="sheet-title gold-text">Menu</h3>
+      <div class="theme-picker" data-theme-picker></div>
+      <button id="btnResume" class="btn btn-secondary">▶ Reprendre</button>
+      <button id="btnNewGame" class="btn btn-primary">↻ Recommencer</button>
+      <button id="btnMute" class="btn btn-secondary">🔊 Sons : Activés</button>
+      <button id="btnBackToMenu" class="btn btn-secondary">🏠 Menu principal</button>
+    </div>
+  </div>
+
+  <!-- PRÉSENTATION « VS » ET RÉSULTAT -->
+  <div id="introOverlay" class="overlay" style="display:none;"></div>
+  <div id="resultModal" class="overlay dim" style="display:none;"></div>
 
 
   <script src="ai.js"></script>

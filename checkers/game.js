@@ -1,5 +1,85 @@
-const BOARD_SIZE = 8;const COLOR_WHITE = 'blanc';
+const BOARD_SIZE = 8;
+const COLOR_WHITE = 'blanc';
 const COLOR_BLACK = 'noir';
+
+// white / black = [reflet, milieu, bord, contour]
+const THEMES = {
+  wood: {
+    name: 'Bois', light: '#f1dfae', dark: '#b4572a',
+    hl: 'rgba(255, 230, 90, 0.55)', mv: 'rgba(255, 240, 170, 0.9)',
+    white: ['#fff7df', '#f2dca8', '#dcbb7c', '#a98544'],
+    black: ['#f59a58', '#d96a22', '#b24a12', '#6b2a08'],
+    frame: ['#d19a52', '#8a5524'], pat: ['#e5461e', '#d63c14'], chalk: ['#2a6a24', '#143c12'],
+    page: { bg: '#c4361a', card: '#3b1d0e', card2: '#5a2f17', accent: '#2e9e3f', accentHover: '#238a33' }
+  },
+  classic: {
+    name: 'Classique', light: '#f5e6d3', dark: '#3b2314',
+    hl: 'rgba(234, 179, 8, 0.6)', mv: 'rgba(34, 197, 94, 0.6)',
+    white: ['#ffffff', '#e2e8f0', '#cbd5e1', '#94a3b8'],
+    black: ['#4b5563', '#1f2937', '#111827', '#000000'],
+    frame: ['#7a5a3c', '#3f2b19'], pat: ['#1e293b', '#18222f'], chalk: ['#1e293b', '#0f172a'],
+    page: { bg: '#0f172a', card: '#1e293b', card2: '#334155', accent: '#2563eb', accentHover: '#1d4ed8' }
+  },
+  ocean: {
+    name: 'Océan', light: '#dbeafe', dark: '#1d4ed8',
+    hl: 'rgba(251, 146, 60, 0.65)', mv: 'rgba(250, 204, 21, 0.85)',
+    white: ['#ffffff', '#e2e8f0', '#cbd5e1', '#94a3b8'],
+    black: ['#475569', '#1e293b', '#0f172a', '#020617'],
+    frame: ['#3b82f6', '#1e3a8a'], pat: ['#17408a', '#133677'], chalk: ['#1d4f91', '#0f2f5e'],
+    page: { bg: '#0b2a5c', card: '#0f2347', card2: '#1d3a6b', accent: '#0ea5e9', accentHover: '#0284c7' }
+  },
+  forest: {
+    name: 'Forêt', light: '#eef0d5', dark: '#4d7c3a',
+    hl: 'rgba(234, 88, 12, 0.55)', mv: 'rgba(250, 204, 21, 0.9)',
+    white: ['#fffdf5', '#f1ead2', '#d9cfa8', '#a89b6a'],
+    black: ['#52525b', '#27272a', '#18181b', '#000000'],
+    frame: ['#8a6b3a', '#4a3a1c'], pat: ['#1f6b3a', '#1a5c32'], chalk: ['#2d6a2a', '#16401a'],
+    page: { bg: '#1a5c32', card: '#15281c', card2: '#24402d', accent: '#16a34a', accentHover: '#15803d' }
+  },
+  royal: {
+    name: 'Royal', light: '#ede9fe', dark: '#6d28d9',
+    hl: 'rgba(244, 114, 182, 0.65)', mv: 'rgba(250, 204, 21, 0.9)',
+    white: ['#ffffff', '#e2e8f0', '#cbd5e1', '#94a3b8'],
+    black: ['#52525b', '#27272a', '#18181b', '#000000'],
+    frame: ['#8b5cf6', '#4c1d95'], pat: ['#4c2a9a', '#43238a'], chalk: ['#4c1d95', '#2e1065'],
+    page: { bg: '#43238a', card: '#211645', card2: '#372a6b', accent: '#8b5cf6', accentHover: '#7c3aed' }
+  },
+  ruby: {
+    name: 'Rubis', light: '#fbeaea', dark: '#8f1d1d',
+    hl: 'rgba(250, 204, 21, 0.7)', mv: 'rgba(255, 255, 255, 0.8)',
+    white: ['#ffffff', '#f1f5f9', '#cbd5e1', '#94a3b8'],
+    black: ['#4b5563', '#1f2937', '#111827', '#000000'],
+    frame: ['#b91c1c', '#6b0f0f'], pat: ['#b3261e', '#a02019'], chalk: ['#7f1d1d', '#450a0a'],
+    page: { bg: '#a02019', card: '#2b1316', card2: '#47222a', accent: '#dc2626', accentHover: '#b91c1c' }
+  },
+  slate: {
+    name: 'Ardoise', light: '#e7e5e4', dark: '#44403c',
+    hl: 'rgba(245, 158, 11, 0.65)', mv: 'rgba(250, 204, 21, 0.9)',
+    white: ['#ffffff', '#f5f5f4', '#d6d3d1', '#a8a29e'],
+    black: ['#57534e', '#292524', '#1c1917', '#000000'],
+    frame: ['#78716c', '#292524'], pat: ['#3b3633', '#34302d'], chalk: ['#44403c', '#1c1917'],
+    page: { bg: '#34302d', card: '#1c1917', card2: '#292524', accent: '#f59e0b', accentHover: '#d97706' }
+  }
+};
+
+const LEVEL_NAMES = ['Débutant', 'Facile', 'Moyen', 'Difficile', 'Expert'];
+
+function avatarSvg(kind) {
+  if (kind === 'bot') {
+    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" fill="#475569"/>' +
+      '<rect y="42" width="64" height="22" fill="#334155"/><line x1="32" y1="8" x2="32" y2="16" stroke="#e2e8f0" stroke-width="3"/>' +
+      '<circle cx="32" cy="8" r="3.5" fill="#f59e0b"/><rect x="13" y="15" width="38" height="30" rx="9" fill="#cbd5e1"/>' +
+      '<circle cx="24" cy="30" r="5" fill="#0ea5e9"/><circle cx="40" cy="30" r="5" fill="#0ea5e9"/>' +
+      '<rect x="23" y="38" width="18" height="3" rx="1.5" fill="#64748b"/><rect x="22" y="47" width="20" height="8" rx="3" fill="#94a3b8"/></svg>';
+  }
+  const shirt = kind === 'p2' ? '#2563eb' : '#15803d';
+  const hair = kind === 'p2' ? '#7c4a21' : '#1f2937';
+  const skin = kind === 'p2' ? '#e0ac86' : '#f1c9a0';
+  return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" fill="#94a3b8"/>' +
+    `<path d="M8 64c2-15 12-21 24-21s22 6 24 21z" fill="${shirt}"/>` +
+    `<rect x="27" y="36" width="10" height="9" rx="3" fill="${skin}"/><circle cx="32" cy="26" r="12" fill="${skin}"/>` +
+    `<path d="M20 26c0-10 5-14 12-14s12 4 12 14c-3-6-7-8-12-8s-9 2-12 8z" fill="${hair}"/></svg>`;
+}
 
 
 class SoundManager {
@@ -92,6 +172,15 @@ class CheckersGame {
     this.isGameOver = false;
     this.activeMultiJumpPiece = null;
     this.isAnimating = false;
+    this.variant = localStorage.getItem('checkers_variant') === 'spanish' ? 'spanish' : 'american';
+    this.themeKey = 'classic';
+    this.theme = THEMES.wood;
+    this.lastMove = null;
+    this.history = [];
+    this.boardCache = null;
+    this.coins = parseInt(localStorage.getItem('checkers_coins') || '0', 10);
+    this.introTimer = null;
+    this.resultTimer = null;
 
 
     // Peer-to-peer multiplayer
@@ -128,6 +217,23 @@ class CheckersGame {
     this.btnMute = document.getElementById('btnMute');
     this.btnCreateRoom = document.getElementById('btnCreateRoom');
     this.btnJoinRoom = document.getElementById('btnJoinRoom');
+    this.menuVariant = document.getElementById('menuVariant');
+    this.variantBadge = document.getElementById('variantBadge');
+    if (this.menuVariant) this.menuVariant.value = this.variant;
+
+    this.bannerTitle = document.getElementById('bannerTitle');
+    this.btnMenu = document.getElementById('btnMenu');
+    this.btnUndo = document.getElementById('btnUndo');
+    this.btnResume = document.getElementById('btnResume');
+    this.menuSheet = document.getElementById('menuSheet');
+    this.coinCount = document.getElementById('coinCount');
+    this.introOverlay = document.getElementById('introOverlay');
+    this.resultModal = document.getElementById('resultModal');
+    if (this.coinCount) this.coinCount.textContent = this.coins;
+
+    this.buildThemePickers();
+    const savedTheme = localStorage.getItem('checkers_theme');
+    this.setTheme(THEMES[savedTheme] ? savedTheme : 'wood');
 
 
     this.initEvents();
@@ -184,13 +290,20 @@ class CheckersGame {
     this.btnStartGame.addEventListener('click', () => {
       this.gameMode = this.menuGameMode.value;
       this.aiLevel = parseInt(this.menuAiDifficulty.value, 10);
+      this.variant = this.menuVariant.value === 'spanish' ? 'spanish' : 'american';
+      localStorage.setItem('checkers_variant', this.variant);
       this.mainMenu.style.display = 'none';
       this.gameScreen.style.display = 'flex';
+      this.resizeCanvas();
       this.resetGame();
+      this.sendConfig();
+      this.showIntro();
     });
 
 
     this.btnBackToMenu.addEventListener('click', () => {
+      this.closeSheet();
+      this.hideOverlays();
       this.gameScreen.style.display = 'none';
       this.mainMenu.style.display = 'flex';
       if (this.peer) {
@@ -201,7 +314,23 @@ class CheckersGame {
     });
 
 
-    this.btnNewGame.addEventListener('click', () => this.resetGame());
+    this.btnNewGame.addEventListener('click', () => {
+      this.closeSheet();
+      this.hideOverlays();
+      this.resetGame();
+    });
+
+    this.btnMenu.addEventListener('click', () => this.menuSheet.classList.add('open'));
+    this.btnResume.addEventListener('click', () => this.closeSheet());
+    this.menuSheet.addEventListener('click', (e) => { if (e.target === this.menuSheet) this.closeSheet(); });
+    this.btnUndo.addEventListener('click', () => this.undo());
+    this.introOverlay.addEventListener('click', () => this.hideOverlays());
+    this.resultModal.addEventListener('click', (e) => {
+      if (e.target.closest('[data-act="again"]')) { this.hideOverlays(); this.resetGame(); }
+      else if (e.target.closest('[data-act="menu"]')) { this.btnBackToMenu.click(); }
+    });
+    window.addEventListener('resize', () => this.resizeCanvas());
+
     
     this.btnMute.addEventListener('click', () => {
       this.soundManager.toggleMute();
@@ -285,11 +414,14 @@ class CheckersGame {
       if (!this.isHost) {
         this.myColor = COLOR_BLACK;
       }
+      if (this.isHost) this.sendConfig();
     });
 
     conn.on('data', (data) => {
       if (data.type === 'move') {
         this.handleRemoteMove(data.move);
+      } else if (data.type === 'config') {
+        this.applyRemoteConfig(data);
       }
     });
 
@@ -323,20 +455,26 @@ class CheckersGame {
     this.isGameOver = false;
     this.activeMultiJumpPiece = null;
     this.isAnimating = false;
+    this.lastMove = null;
+    this.boardCache = null;
+    clearTimeout(this.resultTimer);
 
 
     for (let r = 0; r < 3; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
-        if ((r + c) % 2 === 1) this.board[r][c] = { couleur: COLOR_BLACK, estDame: false };
+        if (this.isDarkSquare(r, c)) this.board[r][c] = { couleur: COLOR_BLACK, estDame: false };
       }
     }
     for (let r = 5; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
-        if ((r + c) % 2 === 1) this.board[r][c] = { couleur: COLOR_WHITE, estDame: false };
+        if (this.isDarkSquare(r, c)) this.board[r][c] = { couleur: COLOR_WHITE, estDame: false };
       }
     }
 
 
+    this.updateVariantBadge();
+    this.updatePlayers();
+    this.history = [this.snapshot()];
     this.updateTurnUI();
     this.checkMandatoryCaptures();
     this.render();
@@ -345,34 +483,333 @@ class CheckersGame {
 
 
   updateTurnUI() {
-    const dot = this.turnIndicator.querySelector('.turn-dot');
-    if (this.turn === COLOR_WHITE) {
-      dot.className = 'turn-dot white-dot';
-      this.turnText.textContent = "Tour des Blancs";
-    } else {
-      dot.className = 'turn-dot black-dot';
-      this.turnText.textContent = "Tour des Noirs";
+    const w = document.getElementById('playerWhite');
+    const b = document.getElementById('playerBlack');
+    if (w) w.classList.toggle('active', !this.isGameOver && this.turn === COLOR_WHITE);
+    if (b) b.classList.toggle('active', !this.isGameOver && this.turn === COLOR_BLACK);
+    this.updateUndoState();
+  }
+
+
+  isDarkSquare(r, c) {
+    // Américaines : case sombre en bas à gauche. Espagnoles : plateau inversé (sombre en bas à droite).
+    return this.variant === 'spanish' ? (r + c) % 2 === 0 : (r + c) % 2 === 1;
+  }
+
+
+  buildThemePickers() {
+    document.querySelectorAll('[data-theme-picker]').forEach((box) => {
+      box.innerHTML = '';
+      Object.entries(THEMES).forEach(([key, t]) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'theme-swatch';
+        b.dataset.theme = key;
+        b.title = t.name;
+        b.setAttribute('aria-label', 'Thème ' + t.name);
+        b.style.background = `linear-gradient(135deg, ${t.light} 50%, ${t.dark} 50%)`;
+        b.addEventListener('click', () => this.setTheme(key));
+        box.appendChild(b);
+      });
+    });
+  }
+
+
+  setTheme(key) {
+    if (!THEMES[key]) key = 'wood';
+    this.themeKey = key;
+    this.theme = THEMES[key];
+    localStorage.setItem('checkers_theme', key);
+
+    const t = this.theme, p = t.page;
+    const root = document.documentElement.style;
+    root.setProperty('--bg-primary', p.bg);
+    root.setProperty('--bg-secondary', p.card);
+    root.setProperty('--bg-card', p.card2);
+    root.setProperty('--accent-color', p.accent);
+    root.setProperty('--accent-hover', p.accentHover);
+    root.setProperty('--board-light', t.light);
+    root.setProperty('--board-dark', t.dark);
+    root.setProperty('--piece-white', t.white[0]);
+    root.setProperty('--piece-black', t.black[1]);
+    root.setProperty('--pat-1', t.pat[0]);
+    root.setProperty('--pat-2', t.pat[1]);
+    root.setProperty('--chalk-1', t.chalk[0]);
+    root.setProperty('--chalk-2', t.chalk[1]);
+    root.setProperty('--frame-1', t.frame[0]);
+    root.setProperty('--frame-2', t.frame[1]);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', p.card);
+
+    document.querySelectorAll('.theme-swatch').forEach((b) => {
+      b.classList.toggle('active', b.dataset.theme === key);
+    });
+    this.boardCache = null;
+    this.render();
+  }
+
+
+  variantName() {
+    return this.variant === 'spanish' ? 'Dames espagnoles' : 'Dames américaines';
+  }
+
+
+  updateVariantBadge() {
+    if (!this.variantBadge) return;
+    this.variantBadge.textContent = this.variant === 'spanish'
+      ? "Dames espagnoles · dames volantes · prise maximale"
+      : "Dames américaines";
+  }
+
+
+  modeLabel() {
+    if (this.gameMode === 'ai') return LEVEL_NAMES[(this.aiLevel || 3) - 1];
+    if (this.gameMode === 'online') return 'En ligne';
+    return 'Deux joueurs';
+  }
+
+
+  playerInfo() {
+    if (this.gameMode === 'ai') return { white: 'Vous', black: 'IA · ' + LEVEL_NAMES[(this.aiLevel || 3) - 1], wk: 'p1', bk: 'bot' };
+    if (this.gameMode === 'online') {
+      return {
+        white: this.myColor === COLOR_WHITE ? 'Vous' : 'Adversaire',
+        black: this.myColor === COLOR_BLACK ? 'Vous' : 'Adversaire',
+        wk: 'p1', bk: 'p2'
+      };
+    }
+    return { white: 'Joueur 1', black: 'Joueur 2', wk: 'p1', bk: 'p2' };
+  }
+
+
+  updatePlayers() {
+    const info = this.playerInfo();
+    const set = (id, html, text) => { const el = document.getElementById(id); if (el) { if (html !== null) el.innerHTML = html; else el.textContent = text; } };
+    set('avatarWhite', avatarSvg(info.wk));
+    set('avatarBlack', avatarSvg(info.bk));
+    set('nameWhite', null, info.white);
+    set('nameBlack', null, info.black);
+    if (this.bannerTitle) this.bannerTitle.textContent = this.modeLabel();
+  }
+
+
+  playerPanel(color) {
+    const info = this.playerInfo();
+    const white = color === COLOR_WHITE;
+    return `<div class="intro-player"><div class="avatar">${avatarSvg(white ? info.wk : info.bk)}</div>` +
+      `<div class="pname">${white ? info.white : info.black}</div>` +
+      `<div class="pscore">🏆 ${white ? this.scoreWhite : this.scoreBlack}</div></div>`;
+  }
+
+
+  piecesDecor() {
+    return '<div class="intro-pieces"><span class="hp hp-cream"></span><span class="hp hp-copper"></span><span class="hp hp-cream small"></span></div>';
+  }
+
+
+  showIntro() {
+    if (!this.introOverlay) return;
+    this.introOverlay.innerHTML = `<div class="intro-card">${this.piecesDecor()}` +
+      `<div class="intro-title gold-text">${this.modeLabel()}</div>` +
+      `<div class="intro-vs">${this.playerPanel(COLOR_WHITE)}<div class="vs-small">VS</div>${this.playerPanel(COLOR_BLACK)}</div>` +
+      `<div class="intro-sub">${this.variantName()}</div></div>`;
+    this.introOverlay.style.display = 'flex';
+    clearTimeout(this.introTimer);
+    this.introTimer = setTimeout(() => this.hideOverlays(), 1800);
+  }
+
+
+  showResult(winner, reward) {
+    if (!this.resultModal) return;
+    const mine = this.gameMode === 'ai' ? winner === COLOR_WHITE
+      : this.gameMode === 'online' ? winner === this.myColor : null;
+    const title = mine === true ? 'Victoire !' : mine === false ? 'Défaite'
+      : (winner === COLOR_WHITE ? 'Les Blancs gagnent !' : 'Les Noirs gagnent !');
+    this.resultModal.innerHTML = `<div class="result-card">${this.piecesDecor()}` +
+      `<div class="intro-title gold-text">${title}</div>` +
+      `<div class="intro-vs">${this.playerPanel(COLOR_WHITE)}<div class="vs-small">VS</div>${this.playerPanel(COLOR_BLACK)}</div>` +
+      (reward > 0 ? `<div class="reward">+${reward} 👑</div>` : '') +
+      `<div class="result-actions"><button class="btn btn-play" data-act="again">Rejouer</button>` +
+      `<button class="btn btn-secondary" data-act="menu">Menu principal</button></div></div>`;
+    this.resultModal.style.display = 'flex';
+  }
+
+
+  hideOverlays() {
+    clearTimeout(this.introTimer);
+    clearTimeout(this.resultTimer);
+    if (this.introOverlay) this.introOverlay.style.display = 'none';
+    if (this.resultModal) this.resultModal.style.display = 'none';
+  }
+
+
+  closeSheet() {
+    if (this.menuSheet) this.menuSheet.classList.remove('open');
+  }
+
+
+  addCoins(n) {
+    this.coins += n;
+    localStorage.setItem('checkers_coins', this.coins);
+    if (this.coinCount) {
+      this.coinCount.textContent = this.coins;
+      const box = this.coinCount.parentElement;
+      box.classList.remove('pulse');
+      void box.offsetWidth;
+      box.classList.add('pulse');
     }
   }
 
 
-  render() {
-    const tileSize = this.canvas.width / BOARD_SIZE;
+  vibrate(pattern) {
+    try {
+      if (!this.soundManager.muted && navigator.vibrate) navigator.vibrate(pattern);
+    } catch (e) { /* non supporté */ }
+  }
+
+
+  // --- Historique / annulation ---
+  snapshot() {
+    return { board: this.cloneBoard(this.board), turn: this.turn, lastMove: this.lastMove };
+  }
+
+
+  canUndo() {
+    if (this.gameMode === 'online' || this.isGameOver || this.isAnimating) return false;
+    if (this.gameMode === 'ai') return this.turn === COLOR_WHITE && this.history.length >= 3;
+    return this.history.length >= 2;
+  }
+
+
+  updateUndoState() {
+    if (this.btnUndo) this.btnUndo.disabled = !this.canUndo();
+  }
+
+
+  undo() {
+    if (!this.canUndo()) return;
+    const steps = this.gameMode === 'ai' ? 2 : 1;
+    for (let i = 0; i < steps; i++) this.history.pop();
+    const s = this.history[this.history.length - 1];
+    this.board = this.cloneBoard(s.board);
+    this.turn = s.turn;
+    this.lastMove = s.lastMove;
+    this.selectedPiece = null;
+    this.validMoves = [];
+    this.activeMultiJumpPiece = null;
+    this.updateTurnUI();
+    this.checkMandatoryCaptures();
+    this.render();
+    this.gameMessage.textContent = "Coup annulé. À vous de jouer !";
+  }
+
+
+  // --- Online ---
+  sendConfig() {
+    if (this.gameMode === 'online' && this.isHost && this.peerConnection && this.peerConnection.open) {
+      try { this.peerConnection.send({ type: 'config', variant: this.variant }); } catch (err) { console.error('Send error:', err); }
+    }
+  }
+
+
+  applyRemoteConfig(data) {
+    const variant = data.variant === 'spanish' ? 'spanish' : 'american';
+    if (variant === this.variant) return;
+    this.variant = variant;
+    if (this.menuVariant) this.menuVariant.value = variant;
+    if (this.gameScreen.style.display !== 'none') this.resetGame();
+  }
+
+
+  // --- Dessin ---
+  resizeCanvas() {
+    const rect = this.canvas.getBoundingClientRect();
+    if (!rect.width) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    let size = Math.round((rect.width * dpr) / BOARD_SIZE) * BOARD_SIZE;
+    size = Math.max(320, Math.min(1200, size));
+    if (size === this.canvas.width) return;
+    this.canvas.width = size;
+    this.canvas.height = size;
+    this.boardCache = null;
+    this.render();
+  }
+
+
+  shade(hex, amt) {
+    const n = parseInt(hex.slice(1), 16);
+    const target = amt < 0 ? 0 : 255, p = Math.abs(amt);
+    const mix = (v) => Math.round((target - v) * p + v);
+    return `rgb(${mix(n >> 16)},${mix((n >> 8) & 255)},${mix(n & 255)})`;
+  }
+
+
+  buildBoardCache() {
+    const size = this.canvas.width, tile = size / BOARD_SIZE;
+    const cv = document.createElement('canvas');
+    cv.width = size; cv.height = size;
+    const x = cv.getContext('2d');
+    const t = this.theme;
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
-        this.ctx.fillStyle = ((r + c) % 2 === 1) ? '#3b2314' : '#f5e6d3';
-        this.ctx.fillRect(c * tileSize, r * tileSize, tileSize, tileSize);
-        if (this.selectedPiece && this.selectedPiece.r === r && this.selectedPiece.c === c) {
-          this.ctx.fillStyle = 'rgba(234, 179, 8, 0.6)';
-          this.ctx.fillRect(c * tileSize, r * tileSize, tileSize, tileSize);
+        const px = c * tile, py = r * tile;
+        const base = this.isDarkSquare(r, c) ? t.dark : t.light;
+        const grad = x.createLinearGradient(px, py, px + tile, py + tile);
+        grad.addColorStop(0, this.shade(base, 0.08));
+        grad.addColorStop(1, this.shade(base, -0.08));
+        x.fillStyle = grad;
+        x.fillRect(px, py, tile, tile);
+
+        // Veines du bois (aléatoire déterministe par case)
+        let seed = (r * 8 + c + 1) * 9301 + 49297;
+        const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+        x.save();
+        x.beginPath(); x.rect(px, py, tile, tile); x.clip();
+        for (let i = 0; i < 14; i++) {
+          const y = py + rnd() * tile;
+          x.strokeStyle = rnd() < 0.5 ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+          x.lineWidth = 1 + rnd() * tile * 0.025;
+          x.beginPath();
+          x.moveTo(px, y);
+          x.bezierCurveTo(px + tile * 0.3, y + (rnd() - 0.5) * tile * 0.1, px + tile * 0.7, y + (rnd() - 0.5) * tile * 0.1, px + tile, y + (rnd() - 0.5) * tile * 0.06);
+          x.stroke();
         }
+        x.restore();
+        x.strokeStyle = 'rgba(0,0,0,0.14)';
+        x.lineWidth = 1;
+        x.strokeRect(px + 0.5, py + 0.5, tile - 1, tile - 1);
       }
     }
+    this.boardCache = cv;
+  }
+
+
+  render() {
+    if (!this.board.length) return;
+    const t = this.theme;
+    const tileSize = this.canvas.width / BOARD_SIZE;
+    if (!this.boardCache || this.boardCache.width !== this.canvas.width) this.buildBoardCache();
+    this.ctx.drawImage(this.boardCache, 0, 0);
+
+    if (this.lastMove) {
+      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+      for (const [r, c] of [[this.lastMove.fromR, this.lastMove.fromC], [this.lastMove.toR, this.lastMove.toC]]) {
+        this.ctx.fillRect(c * tileSize, r * tileSize, tileSize, tileSize);
+      }
+    }
+    if (this.selectedPiece) {
+      this.ctx.fillStyle = t.hl;
+      this.ctx.fillRect(this.selectedPiece.c * tileSize, this.selectedPiece.r * tileSize, tileSize, tileSize);
+    }
     for (const move of this.validMoves) {
-      this.ctx.fillStyle = 'rgba(34, 197, 94, 0.5)';
+      const cx = move.toC * tileSize + tileSize / 2, cy = move.toR * tileSize + tileSize / 2;
       this.ctx.beginPath();
-      this.ctx.arc(move.toC * tileSize + tileSize / 2, move.toR * tileSize + tileSize / 2, tileSize * 0.2, 0, Math.PI * 2);
+      this.ctx.arc(cx, cy, tileSize * 0.17, 0, Math.PI * 2);
+      this.ctx.fillStyle = t.mv;
       this.ctx.fill();
+      this.ctx.lineWidth = Math.max(1.5, tileSize * 0.025);
+      this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+      this.ctx.stroke();
     }
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
@@ -383,43 +820,57 @@ class CheckersGame {
 
 
   drawPiece(r, c, piece, tileSize) {
-    const centerX = c * tileSize + tileSize / 2;
-    const centerY = r * tileSize + tileSize / 2;
-    const radius = tileSize * 0.38;
+    const lifted = this.selectedPiece && this.selectedPiece.r === r && this.selectedPiece.c === c;
+    this.drawPieceAt(c * tileSize + tileSize / 2, r * tileSize + tileSize / 2 - (lifted ? tileSize * 0.04 : 0), piece, tileSize, { glow: lifted });
+  }
 
 
-    this.ctx.save();
-    this.ctx.beginPath();
-    this.ctx.arc(centerX + 2, centerY + 4, radius, 0, Math.PI * 2);
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-    this.ctx.fill();
+  drawPieceAt(cx, cy, piece, tile, opts = {}) {
+    const ctx = this.ctx, R = tile * 0.4;
+    const s = piece.couleur === COLOR_WHITE ? this.theme.white : this.theme.black;
+    ctx.save();
 
+    // ombre portée + tranche du pion
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = tile * 0.1;
+    ctx.shadowOffsetY = tile * 0.06;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fillStyle = s[3]; ctx.fill();
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 0.97, 0, Math.PI * 2);
+    ctx.fillStyle = s[2]; ctx.fill();
 
-    const gradient = this.ctx.createRadialGradient(centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.1, centerX, centerY, radius);
-    if (piece.couleur === COLOR_WHITE) {
-      gradient.addColorStop(0, '#ffffff'); gradient.addColorStop(0.8, '#e2e8f0'); gradient.addColorStop(1, '#cbd5e1');
-    } else {
-      gradient.addColorStop(0, '#4b5563'); gradient.addColorStop(0.7, '#1f2937'); gradient.addColorStop(1, '#111827');
+    // dessus bombé
+    const top = cy - R * 0.03;
+    const grad = ctx.createRadialGradient(cx - R * 0.35, top - R * 0.4, R * 0.05, cx, top, R * 0.95);
+    grad.addColorStop(0, s[0]); grad.addColorStop(0.65, s[1]); grad.addColorStop(1, s[2]);
+    ctx.beginPath(); ctx.arc(cx, top, R * 0.9, 0, Math.PI * 2);
+    ctx.fillStyle = grad; ctx.fill();
+
+    // anneaux concentriques (ombre + reflet)
+    const lw = Math.max(1.5, tile * 0.028);
+    for (const k of [0.7, 0.48, 0.26]) {
+      ctx.lineWidth = lw;
+      ctx.beginPath(); ctx.arc(cx, top, R * k, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.22)'; ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx - lw * 0.4, top - lw * 0.5, R * k, Math.PI * 0.9, Math.PI * 1.7);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'; ctx.stroke();
     }
 
-
-    this.ctx.beginPath();
-    this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    this.ctx.fillStyle = gradient;
-    this.ctx.fill();
-    this.ctx.strokeStyle = piece.couleur === COLOR_WHITE ? '#94a3b8' : '#000000';
-    this.ctx.lineWidth = 2;
-    this.ctx.stroke();
-
+    if (opts.glow) {
+      ctx.beginPath(); ctx.arc(cx, cy, R * 1.06, 0, Math.PI * 2);
+      ctx.lineWidth = tile * 0.05;
+      ctx.strokeStyle = 'rgba(255, 230, 90, 0.95)'; ctx.stroke();
+    }
 
     if (piece.estDame) {
-      this.ctx.fillStyle = '#f59e0b';
-      this.ctx.textAlign = 'center';
-      this.ctx.textBaseline = 'middle';
-      this.ctx.font = `bold ${tileSize * 0.4}px sans-serif`;
-      this.ctx.fillText('👑', centerX, centerY + 2);
+      ctx.fillStyle = '#f59e0b';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `bold ${tile * 0.38}px sans-serif`;
+      ctx.fillText('👑', cx, top + 2);
     }
-    this.ctx.restore();
+    ctx.restore();
   }
 
 
@@ -427,6 +878,7 @@ class CheckersGame {
     console.log("CLIC DETECTE");
     if (this.isGameOver || this.isAnimating) return;
     if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) return;
+    if (this.gameMode === 'online' && this.peerConnection && this.turn !== this.myColor) return;
 
 
     const rect = this.canvas.getBoundingClientRect();
@@ -444,7 +896,6 @@ class CheckersGame {
 
 
   processClick(x, y) {
-    console.log("Coordonnées reçues:", x, y);
     const tileSize = this.canvas.width / BOARD_SIZE;
     const c = Math.floor(x / tileSize);
     const r = Math.floor(y / tileSize);
@@ -452,7 +903,8 @@ class CheckersGame {
     if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) return;
 
 
-    if (this.activeMultiJumpPiece && (this.activeMultiJumpPiece.r !== r || this.activeMultiJumpPiece.c !== c)) {
+    // Rafle en cours : seul un des coups proposés est possible
+    if (this.activeMultiJumpPiece) {
       const move = this.validMoves.find(m => m.toR === r && m.toC === c);
       if (move) this.executeMove(move);
       return;
@@ -460,16 +912,14 @@ class CheckersGame {
 
 
     const clickedPiece = this.board[r][c];
-    console.log("Pièce cliquée:", clickedPiece ? clickedPiece.couleur : "vide", "Tour actuel:", this.turn);
     if (clickedPiece && clickedPiece.couleur === this.turn) {
-      const moves = this.getLegalMovesForPiece(r, c, this.board);
-      if (this.mustCapture) {
-        const captureMoves = moves.filter(m => m.captured);
-        if (captureMoves.length > 0) {
-          this.selectedPiece = { r, c }; this.validMoves = captureMoves;
-        } else {
-          this.gameMessage.textContent = "Capture obligatoire !";
-        }
+      // Coups autorisés par les règles (capture obligatoire, prise maximale en espagnol)
+      const allowed = this.getAllLegalMoves(this.turn, this.board);
+      const moves = this.getLegalMovesForPiece(r, c, this.board).filter(m => allowed.some(a => this.sameMove(a, m)));
+      if (moves.length === 0 && this.mustCapture) {
+        this.gameMessage.textContent = this.variant === 'spanish'
+          ? "Capture obligatoire : prenez le maximum de pièces !"
+          : "Capture obligatoire !";
       } else {
         this.selectedPiece = { r, c }; this.validMoves = moves;
       }
@@ -481,9 +931,7 @@ class CheckersGame {
     if (this.selectedPiece) {
       const move = this.validMoves.find(m => m.toR === r && m.toC === c);
       if (move) this.executeMove(move);
-      else if (!this.activeMultiJumpPiece) {
-        this.selectedPiece = null; this.validMoves = []; this.render();
-      }
+      else { this.selectedPiece = null; this.validMoves = []; this.render(); }
     }
   }
 
@@ -495,6 +943,8 @@ class CheckersGame {
 
     if (move.captured) this.soundManager.playCapture();
     else this.soundManager.playMove();
+    this.vibrate(move.captured ? 30 : 12);
+    this.lastMove = { fromR: move.fromR, fromC: move.fromC, toR: move.toR, toC: move.toC };
 
 
     const tileSize = this.canvas.width / BOARD_SIZE;
@@ -514,18 +964,7 @@ class CheckersGame {
       const currentX = startX + (endX - startX) * easeProgress;
       const currentY = startY + (endY - startY) * easeProgress;
       
-      this.ctx.save();
-      this.ctx.beginPath();
-      this.ctx.arc(currentX + 2, currentY + 4, tileSize * 0.38, 0, Math.PI * 2);
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-      this.ctx.fill();
-      const gradient = this.ctx.createRadialGradient(currentX - tileSize*0.1, currentY - tileSize*0.1, tileSize*0.04, currentX, currentY, tileSize*0.38);
-      if (piece.couleur === COLOR_WHITE) { gradient.addColorStop(0,'#fff'); gradient.addColorStop(0.8,'#e2e8f0'); gradient.addColorStop(1,'#cbd5e1'); }
-      else { gradient.addColorStop(0,'#4b5563'); gradient.addColorStop(0.7,'#1f2937'); gradient.addColorStop(1,'#111827'); }
-      this.ctx.beginPath(); this.ctx.arc(currentX, currentY, tileSize*0.38, 0, Math.PI*2);
-      this.ctx.fillStyle = gradient; this.ctx.fill();
-      this.ctx.strokeStyle = piece.couleur === COLOR_WHITE ? '#94a3b8' : '#000000'; this.ctx.lineWidth = 2; this.ctx.stroke();
-      this.ctx.restore();
+      this.drawPieceAt(currentX, currentY, piece, tileSize);
 
 
       if (progress < 1) requestAnimationFrame(animate);
@@ -560,7 +999,7 @@ class CheckersGame {
 
 
     if (move.captured && !newlyCrowned) {
-      const furtherCaptures = this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured);
+      const furtherCaptures = this.keepMaxCaptures(this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured), this.board);
       if (furtherCaptures.length > 0) {
         this.selectedPiece = { r: move.toR, c: move.toC };
         this.validMoves = furtherCaptures;
@@ -580,15 +1019,7 @@ class CheckersGame {
 
 
   switchTurn(move) {
-    this.turn = this.turn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
-    this.updateTurnUI(); this.checkMandatoryCaptures(); this.render();
-    if (this.checkGameOver()) return;
-    
-    if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) {
-      this.gameMessage.textContent = "Réflexion de l'IA...";
-      setTimeout(() => this.triggerAIMove(), 400);
-    }
-    
+    // Envoi du coup à l'adversaire AVANT le test de fin de partie (sinon le dernier coup est perdu)
     if (this.gameMode === 'online' && this.peerConnection && move) {
       try {
         this.peerConnection.send({ type: 'move', move: move });
@@ -596,11 +1027,22 @@ class CheckersGame {
         console.error('Send error:', err);
       }
     }
+
+    this.turn = this.turn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
+    this.history.push(this.snapshot());
+    this.updateTurnUI(); this.checkMandatoryCaptures(); this.render();
+    if (this.checkGameOver()) return;
+
+    if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) {
+      this.gameMessage.textContent = "Réflexion de l'IA...";
+      setTimeout(() => this.triggerAIMove(), 400);
+    }
   }
 
 
   handleRemoteMove(move) {
     this.isAnimating = true;
+    this.lastMove = { fromR: move.fromR, fromC: move.fromC, toR: move.toR, toC: move.toC };
     const piece = this.board[move.fromR][move.fromC];
     this.board[move.fromR][move.fromC] = null;
 
@@ -620,18 +1062,7 @@ class CheckersGame {
       const currentX = startX + (endX - startX) * easeProgress;
       const currentY = startY + (endY - startY) * easeProgress;
       
-      this.ctx.save();
-      this.ctx.beginPath();
-      this.ctx.arc(currentX + 2, currentY + 4, tileSize * 0.38, 0, Math.PI * 2);
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-      this.ctx.fill();
-      const gradient = this.ctx.createRadialGradient(currentX - tileSize*0.1, currentY - tileSize*0.1, tileSize*0.04, currentX, currentY, tileSize*0.38);
-      if (piece.couleur === COLOR_WHITE) { gradient.addColorStop(0,'#fff'); gradient.addColorStop(0.8,'#e2e8f0'); gradient.addColorStop(1,'#cbd5e1'); }
-      else { gradient.addColorStop(0,'#4b5563'); gradient.addColorStop(0.7,'#1f2937'); gradient.addColorStop(1,'#111827'); }
-      this.ctx.beginPath(); this.ctx.arc(currentX, currentY, tileSize*0.38, 0, Math.PI*2);
-      this.ctx.fillStyle = gradient; this.ctx.fill();
-      this.ctx.strokeStyle = piece.couleur === COLOR_WHITE ? '#94a3b8' : '#000000'; this.ctx.lineWidth = 2; this.ctx.stroke();
-      this.ctx.restore();
+      this.drawPieceAt(currentX, currentY, piece, tileSize);
 
       if (progress < 1) requestAnimationFrame(animate);
       else {
@@ -655,7 +1086,7 @@ class CheckersGame {
     }
 
     if (move.captured && !newlyCrowned) {
-      const furtherCaptures = this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured);
+      const furtherCaptures = this.keepMaxCaptures(this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured), this.board);
       if (furtherCaptures.length > 0) {
         this.selectedPiece = { r: move.toR, c: move.toC };
         this.validMoves = furtherCaptures;
@@ -688,9 +1119,28 @@ class CheckersGame {
     if (!piece) return [];
     const moves = [];
     const directions = piece.estDame ? [[-1,-1],[-1,1],[1,-1],[1,1]] : (piece.couleur === COLOR_WHITE ? [[-1,-1],[-1,1]] : [[1,-1],[1,1]]);
+    const flying = this.variant === 'spanish' && piece.estDame;
 
 
     for (const [dr, dc] of directions) {
+      if (flying) {
+        // Dame volante : glisse sur toute la diagonale, capture à distance
+        let nr = r + dr, nc = c + dc;
+        while (this.isValidSquare(nr, nc) && !boardState[nr][nc]) {
+          moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, captured: null });
+          nr += dr; nc += dc;
+        }
+        if (this.isValidSquare(nr, nc) && boardState[nr][nc].couleur !== piece.couleur) {
+          let lr = nr + dr, lc = nc + dc;
+          while (this.isValidSquare(lr, lc) && !boardState[lr][lc]) {
+            moves.push({ fromR: r, fromC: c, toR: lr, toC: lc, captured: { r: nr, c: nc } });
+            lr += dr; lc += dc;
+          }
+        }
+        continue;
+      }
+
+
       const nextR = r + dr, nextC = c + dc;
       if (this.isValidSquare(nextR, nextC) && !boardState[nextR][nextC]) {
         moves.push({ fromR: r, fromC: c, toR: nextR, toC: nextC, captured: null });
@@ -717,7 +1167,59 @@ class CheckersGame {
       }
     }
     const captures = allMoves.filter(m => m.captured);
-    return captures.length > 0 ? captures : allMoves;
+    return captures.length > 0 ? this.keepMaxCaptures(captures, boardState) : allMoves;
+  }
+
+
+  sameMove(a, b) {
+    return a.fromR === b.fromR && a.fromC === b.fromC && a.toR === b.toR && a.toC === b.toC;
+  }
+
+
+  // --- Prise maximale (dames espagnoles) ---
+  keepMaxCaptures(captures, boardState) {
+    if (this.variant !== 'spanish' || captures.length < 2) return captures;
+    const scored = captures.map(m => ({ m, n: this.sequenceLength(m, boardState) }));
+    const best = Math.max(...scored.map(s => s.n));
+    return scored.filter(s => s.n === best).map(s => s.m);
+  }
+
+
+  sequenceLength(move, boardState) {
+    const b = this.cloneBoard(boardState);
+    const crowned = this.applySimulatedMove(b, move);
+    return 1 + (crowned ? 0 : this.chainAfter(b, move.toR, move.toC));
+  }
+
+
+  chainAfter(boardState, r, c) {
+    let best = 0;
+    for (const m of this.getLegalMovesForPiece(r, c, boardState)) {
+      if (!m.captured) continue;
+      const b = this.cloneBoard(boardState);
+      const crowned = this.applySimulatedMove(b, m);
+      const n = 1 + (crowned ? 0 : this.chainAfter(b, m.toR, m.toC));
+      if (n > best) best = n;
+    }
+    return best;
+  }
+
+
+  cloneBoard(boardState) {
+    return boardState.map(row => row.map(cell => cell ? { couleur: cell.couleur, estDame: cell.estDame } : null));
+  }
+
+
+  applySimulatedMove(boardState, move) {
+    const piece = boardState[move.fromR][move.fromC];
+    boardState[move.fromR][move.fromC] = null;
+    boardState[move.toR][move.toC] = piece;
+    if (move.captured) boardState[move.captured.r][move.captured.c] = null;
+    if (!piece.estDame && ((piece.couleur === COLOR_WHITE && move.toR === 0) || (piece.couleur === COLOR_BLACK && move.toR === BOARD_SIZE - 1))) {
+      piece.estDame = true;
+      return true;
+    }
+    return false;
   }
 
 
@@ -725,12 +1227,19 @@ class CheckersGame {
 
 
   checkGameOver() {
+    if (this.isGameOver) return true;
     if (this.getAllLegalMoves(this.turn, this.board).length === 0) {
       this.isGameOver = true;
       const winner = this.turn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
       this.addWin(winner);
+      const reward = (this.gameMode === 'ai' && winner === COLOR_WHITE) ? this.aiLevel * 10 : 0;
+      if (reward) this.addCoins(reward);
       this.soundManager.playVictory();
+      this.vibrate([40, 60, 40]);
       this.gameMessage.textContent = `Victoire ! ${winner === COLOR_WHITE ? "Les Blancs gagnent !" : "Les Noirs gagnent !"}`;
+      this.updateTurnUI();
+      clearTimeout(this.resultTimer);
+      this.resultTimer = setTimeout(() => this.showResult(winner, reward), 900);
       return true;
     }
     return false;

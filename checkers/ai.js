@@ -5,7 +5,8 @@ class CheckersAI {  constructor(gameInstance) {
 
   getBestMove(boardState, aiColor, level) {
     const depthMap = { 1: 2, 2: 3, 3: 4, 4: 5, 5: 6 };
-    const maxDepth = depthMap[level] || 4;
+    const spanishPenalty = (this.game.variant === 'spanish' && level >= 4) ? 1 : 0; // dames volantes = plus de coups
+    const maxDepth = Math.max(2, (depthMap[level] || 4) - spanishPenalty);
     const allMoves = this.game.getAllLegalMoves(aiColor, boardState);
     
     if (allMoves.length === 0) return null;

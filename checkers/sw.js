@@ -1,11 +1,11 @@
-const CACHE_NAME = 'checkers-master-v3';const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'checkers-master-v5';
+const ASSETS_TO_CACHE = [
   './index.html',
   './style.css',
   './game.js',
   './ai.js',
   './manifest.json'
 ];
-
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -14,7 +14,6 @@ self.addEventListener('install', (event) => {
       .then(() => self.skipWaiting())
   );
 });
-
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -27,7 +26,6 @@ self.addEventListener('activate', (event) => {
     }).then(() => self.clients.claim())
   );
 });
-
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
