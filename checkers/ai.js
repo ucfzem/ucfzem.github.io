@@ -73,7 +73,12 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   evaluateBoard(boardState, aiColor) {
+    const opponentColor = aiColor === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
+    const backRow = { [COLOR_WHITE]: 7, [COLOR_BLACK]: 0 };
+    const diagDirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
     let score = 0;
+    let aiThreatPawn = 0, aiThreatKing = 0, oppThreatPawn = 0, oppThreatKing = 0;
+
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {
         const piece = boardState[r][c];
@@ -84,11 +89,52 @@ class CheckersAI {  constructor(gameInstance) {
           else pieceValue += r * 10;
           if (c === 0 || c === 7) pieceValue += 12;
           if (c >= 2 && c <= 5 && r >= 2 && r <= 5) pieceValue += 15;
+
+          if (r === backRow[piece.couleur]) pieceValue += 10;
+
+          let connected = false;
+          for (const [dr, dc] of diagDirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr >= 0 && nr < BOARD_SIZE && nc >= 0 && nc < BOARD_SIZE) {
+              const neighbor = boardState[nr][nc];
+              if (neighbor && neighbor.couleur === piece.couleur) { connected = true; break; }
+            }
+          }
+          if (connected) pieceValue += 5;
         }
         score += (piece.couleur === aiColor) ? pieceValue : -pieceValue;
+
+        const threatenedBy = piece.couleur === aiColor ? opponentColor : aiColor;
+        if (this.isThreatened(boardState, r, c, piece, threatenedBy)) {
+          if (piece.couleur === aiColor) {
+            if (piece.estDame) aiThreatKing++; else aiThreatPawn++;
+          } else {
+            if (piece.estDame) oppThreatKing++; else oppThreatPawn++;
+          }
+        }
       }
     }
+
+    score -= aiThreatPawn * 50 + aiThreatKing * 150;
+    score += oppThreatPawn * 50 + oppThreatKing * 150;
     return score;
+  }
+
+  isThreatened(boardState, r, c, piece, enemyColor) {
+    const dirs = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+    for (const [dr, dc] of dirs) {
+      const er = r + dr, ec = c + dc;
+      if (er < 0 || er >= BOARD_SIZE || ec < 0 || ec >= BOARD_SIZE) continue;
+      const enemy = boardState[er][ec];
+      if (!enemy || enemy.couleur !== enemyColor) continue;
+      const landingR = r - dr, landingC = c - dc;
+      if (landingR < 0 || landingR >= BOARD_SIZE || landingC < 0 || landingC >= BOARD_SIZE) continue;
+      if (boardState[landingR][landingC]) continue;
+      if (enemy.estDame) return true;
+      const enemyForward = enemy.couleur === COLOR_WHITE ? -1 : 1;
+      if (-dr === enemyForward) return true;
+    }
+    return false;
   }
 
 
