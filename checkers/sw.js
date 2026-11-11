@@ -1,4 +1,4 @@
-const CACHE_NAME = 'checkers-master-v2';const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'checkers-master-v3';const ASSETS_TO_CACHE = [
   './index.html',
   './style.css',
   './game.js',
@@ -30,13 +30,18 @@ self.addEventListener('activate', (event) => {
 
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  // Réseau d'abord : garantit le code le plus récent quand en ligne.
   event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        if (cachedResponse) return cachedResponse;
-        return fetch(event.request).then((networkResponse) => {
-          return networkResponse;
-        }).catch(() => {
+    fetch(event.request)
+      .then((networkResponse) => {
+        const copy = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        return networkResponse;
+      })
+      .catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) return cachedResponse;
           if (event.request.mode === 'navigate') return caches.match('./index.html');
         });
       })

@@ -141,7 +141,6 @@ body {
 
 
 .status-card, .controls-card, .message-card {
-  pointer-events: none;
   background-color: var(--bg-secondary);
   padding: 18px;
   border-radius: var(--radius-lg);
@@ -242,6 +241,7 @@ body {
 
 
 .message-card {
+  pointer-events: none;
   min-height: 80px;
   display: flex;
   align-items: center;

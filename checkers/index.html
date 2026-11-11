@@ -113,8 +113,11 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(registration => console.log('ServiceWorker OK:', registration.scope))
+        navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+          .then(registration => {
+            console.log('ServiceWorker OK:', registration.scope);
+            registration.update();
+          })
           .catch(err => console.log('Erreur ServiceWorker:', err));
       });
     }
