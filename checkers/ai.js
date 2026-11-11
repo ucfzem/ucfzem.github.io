@@ -4,20 +4,97 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   getBestMove(boardState, aiColor, level) {
-    const allMoves = this.game.getAllLegalMoves(aiColor, boardState);
-    return this.searchWithMoves(boardState, aiColor, level, allMoves);
+    const turnMoves = this.getTurnMoves(aiColor, boardState);
+    return this.searchWithMoves(boardState, aiColor, level, turnMoves);
   }
 
 
   getBestMoveFromList(boardState, aiColor, level, moves) {
-    return this.searchWithMoves(boardState, aiColor, level, moves || []);
+    if (!moves || moves.length === 0) return null;
+    const sequences = [];
+    for (const move of moves) {
+      if (!move.captured) {
+        sequences.push(this.makeSequence([move]));
+        continue;
+      }
+      const simulatedBoard = this.cloneBoard(boardState);
+      this.applyMoveOnSimulation(simulatedBoard, move);
+      const crowned = this.justCrowned(boardState, move);
+      this.expandCaptureSequences(simulatedBoard, move, [move], sequences, crowned);
+    }
+    return this.searchWithMoves(boardState, aiColor, level, sequences);
+  }
+
+
+  makeSequence(steps) {
+    const last = steps[steps.length - 1];
+    return {
+      steps: steps.slice(),
+      first: steps[0],
+      toR: last.toR,
+      toC: last.toC,
+      captured: steps.some(s => s.captured)
+    };
+  }
+
+
+  justCrowned(boardBefore, move) {
+    const piece = boardBefore[move.fromR][move.fromC];
+    if (!piece || piece.estDame) return false;
+    return (piece.couleur === COLOR_WHITE && move.toR === 0) ||
+           (piece.couleur === COLOR_BLACK && move.toR === BOARD_SIZE - 1);
+  }
+
+
+  getTurnMoves(color, boardState) {
+    const baseMoves = this.game.getAllLegalMoves(color, boardState);
+    const sequences = [];
+    for (const move of baseMoves) {
+      if (!move.captured) {
+        sequences.push(this.makeSequence([move]));
+        continue;
+      }
+      const simulatedBoard = this.cloneBoard(boardState);
+      this.applyMoveOnSimulation(simulatedBoard, move);
+      const crowned = this.justCrowned(boardState, move);
+      this.expandCaptureSequences(simulatedBoard, move, [move], sequences, crowned);
+    }
+    return sequences;
+  }
+
+
+  expandCaptureSequences(boardAfter, lastMove, steps, out, crowned) {
+    let further = [];
+    if (!crowned) {
+      further = this.game.getLegalMovesForPiece(lastMove.toR, lastMove.toC, boardAfter).filter(m => m.captured);
+      if (this.game.variant === 'spanish' && typeof this.game.keepMaxCaptures === 'function' && further.length > 1) {
+        further = this.game.keepMaxCaptures(further, boardAfter);
+      }
+    }
+    if (further.length === 0) {
+      out.push(this.makeSequence(steps));
+      return;
+    }
+    for (const next of further) {
+      const simulatedBoard = this.cloneBoard(boardAfter);
+      this.applyMoveOnSimulation(simulatedBoard, next);
+      const crownedNext = this.justCrowned(boardAfter, next);
+      steps.push(next);
+      this.expandCaptureSequences(simulatedBoard, next, steps, out, crownedNext);
+      steps.pop();
+    }
+  }
+
+
+  applySequence(boardState, sequence) {
+    for (const step of sequence.steps) this.applyMoveOnSimulation(boardState, step);
   }
 
 
   orderMoves(boardState, moves) {
     return moves.slice().sort((a, b) => {
-      const sa = (a.captured ? 1000 : 0) + (boardState[a.toR] && boardState[a.toR][a.toC] ? 500 : 0) - Math.abs(3.5 - a.toC);
-      const sb = (b.captured ? 1000 : 0) + (boardState[b.toR] && boardState[b.toR][b.toC] ? 500 : 0) - Math.abs(3.5 - b.toC);
+      const sa = (a.captured ? 1000 : 0) + (a.steps ? a.steps.length * 50 : 0) - Math.abs(3.5 - a.toC);
+      const sb = (b.captured ? 1000 : 0) + (b.steps ? b.steps.length * 50 : 0) - Math.abs(3.5 - b.toC);
       return sb - sa;
     });
   }
@@ -28,36 +105,36 @@ class CheckersAI {  constructor(gameInstance) {
     const beta = Infinity;
     const nextTurn = aiColor === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
     let bestScore = -Infinity;
-    let bestMoves = [];
+    let bestSequences = [];
 
     for (let i = 0; i < moves.length; i++) {
       if (Date.now() > this.deadline) {
-        return { completed: false, move: bestMoves[0] || null, score: bestScore, bestMoves };
+        return { completed: false, sequence: bestSequences[0] || null, score: bestScore };
       }
-      const move = moves[i];
+      const sequence = moves[i];
       const simulatedBoard = this.cloneBoard(boardState);
-      this.applyMoveOnSimulation(simulatedBoard, move);
+      this.applySequence(simulatedBoard, sequence);
       const score = this.minimax(simulatedBoard, depth - 1, alpha, beta, false, nextTurn, aiColor);
 
       if (score > bestScore) {
         bestScore = score;
-        bestMoves = [move];
+        bestSequences = [sequence];
       } else if (score === bestScore) {
-        bestMoves.push(move);
+        bestSequences.push(sequence);
       }
       if (bestScore > alpha) alpha = bestScore;
 
-      if (Date.now() > this.deadline && i < moves.length - 1) {
-        return { completed: false, move: bestMoves[0] || null, score: bestScore, bestMoves };
+      if (Date.now() > this.deadline) {
+        return { completed: false, sequence: bestSequences[0] || null, score: bestScore };
       }
     }
-    return { completed: true, move: bestMoves[Math.floor(Math.random() * bestMoves.length)], score: bestScore, bestMoves };
+    return { completed: true, sequence: bestSequences[Math.floor(Math.random() * bestSequences.length)], score: bestScore };
   }
 
 
   searchWithMoves(boardState, aiColor, level, allMoves) {
     if (!allMoves || allMoves.length === 0) return null;
-    if (level === 1 && Math.random() < 0.5) return allMoves[Math.floor(Math.random() * allMoves.length)];
+    if (level === 1 && Math.random() < 0.5) return allMoves[Math.floor(Math.random() * allMoves.length)].first;
 
     const depthMap = { 1: 2, 2: 3, 3: 4, 4: 7, 5: 8 };
     const spanishPenalty = (this.game.variant === 'spanish' && level >= 4) ? 1 : 0; // dames volantes = plus de coups
@@ -69,29 +146,29 @@ class CheckersAI {  constructor(gameInstance) {
     if (level >= 5) console.log(`IA Expert : réflexion jusqu'à ${maxDepth} coups (budget ${budgetMs} ms max)...`);
 
     let ordered = this.orderMoves(boardState, allMoves);
-    let bestMove = ordered[0];
+    let bestSequence = ordered[0];
     let bestScore = -Infinity;
 
     for (let depth = 2; depth <= maxDepth; depth++) {
       const result = this.searchRoot(boardState, aiColor, depth, ordered);
       if (result.completed) {
-        bestMove = result.move;
+        bestSequence = result.sequence;
         bestScore = result.score;
-        ordered = [bestMove].concat(ordered.filter(m => m !== bestMove));
+        ordered = [bestSequence].concat(ordered.filter(m => m !== bestSequence));
       } else {
         break;
       }
       if (Date.now() > this.deadline) break;
     }
 
-    console.log("IA - Meilleur score trouvé:", bestScore, "coup:", JSON.stringify(bestMove));
-    return bestMove;
+    console.log("IA - Meilleur score trouvé:", bestScore, "coup:", JSON.stringify(bestSequence.first));
+    return bestSequence.first;
   }
 
 
   minimax(boardState, depth, alpha, beta, maximizingPlayer, currentTurn, aiColor) {
     if (this.deadline && Date.now() > this.deadline) return this.evaluateBoard(boardState, aiColor);
-    const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
+    const legalMoves = this.getTurnMoves(currentTurn, boardState);
     if (legalMoves.length === 0) return this.evaluateBoard(boardState, aiColor);
     if (depth === 0) {
       if (this._diag && !this._diag.depthEnd) {
@@ -101,16 +178,14 @@ class CheckersAI {  constructor(gameInstance) {
       return this.quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, 0);
     }
 
+    const nextTurn = currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
 
     if (maximizingPlayer) {
       let maxEval = -Infinity;
       for (const move of legalMoves) {
         const simulatedBoard = this.cloneBoard(boardState);
-        this.applyMoveOnSimulation(simulatedBoard, move);
-        const nextTurn = currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
-        const isMultiJump = move.captured && this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
-        const nextMaximizing = isMultiJump ? maximizingPlayer : false;
-        const evaluation = this.minimax(simulatedBoard, depth - 1, alpha, beta, nextMaximizing, nextTurn, aiColor);
+        this.applySequence(simulatedBoard, move);
+        const evaluation = this.minimax(simulatedBoard, depth - 1, alpha, beta, false, nextTurn, aiColor);
         maxEval = Math.max(maxEval, evaluation);
         alpha = Math.max(alpha, evaluation);
         if (beta <= alpha) break;
@@ -120,11 +195,8 @@ class CheckersAI {  constructor(gameInstance) {
       let minEval = Infinity;
       for (const move of legalMoves) {
         const simulatedBoard = this.cloneBoard(boardState);
-        this.applyMoveOnSimulation(simulatedBoard, move);
-        const nextTurn = currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
-        const isMultiJump = move.captured && this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
-        const nextMaximizing = isMultiJump ? maximizingPlayer : true;
-        const evaluation = this.minimax(simulatedBoard, depth - 1, alpha, beta, nextMaximizing, nextTurn, aiColor);
+        this.applySequence(simulatedBoard, move);
+        const evaluation = this.minimax(simulatedBoard, depth - 1, alpha, beta, true, nextTurn, aiColor);
         minEval = Math.min(minEval, evaluation);
         beta = Math.min(beta, evaluation);
         if (beta <= alpha) break;
@@ -133,11 +205,12 @@ class CheckersAI {  constructor(gameInstance) {
     }
   }
 
+
   quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, qDepth) {
     if (this.deadline && Date.now() > this.deadline) return this.evaluateBoard(boardState, aiColor);
     if (qDepth >= 4) return this.evaluateBoard(boardState, aiColor);
 
-    const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
+    const legalMoves = this.getTurnMoves(currentTurn, boardState);
     const captures = legalMoves.filter(m => m.captured);
     if (this._diag && !this._diag.quies) {
       console.log("Quiescence - Profondeur:", qDepth, "Captures possibles:", captures.length);
@@ -146,6 +219,7 @@ class CheckersAI {  constructor(gameInstance) {
     if (captures.length === 0) return this.evaluateBoard(boardState, aiColor);
 
     const maximizing = currentTurn === aiColor;
+    const nextTurn = currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE;
     let best = this.evaluateBoard(boardState, aiColor);
 
     if (maximizing) {
@@ -153,9 +227,7 @@ class CheckersAI {  constructor(gameInstance) {
       alpha = Math.max(alpha, best);
       for (const move of captures) {
         const simulatedBoard = this.cloneBoard(boardState);
-        this.applyMoveOnSimulation(simulatedBoard, move);
-        const isMultiJump = this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
-        const nextTurn = isMultiJump ? currentTurn : (currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE);
+        this.applySequence(simulatedBoard, move);
         const evaluation = this.quiescenceSearch(simulatedBoard, alpha, beta, nextTurn, aiColor, qDepth + 1);
         best = Math.max(best, evaluation);
         alpha = Math.max(alpha, evaluation);
@@ -167,9 +239,7 @@ class CheckersAI {  constructor(gameInstance) {
       beta = Math.min(beta, best);
       for (const move of captures) {
         const simulatedBoard = this.cloneBoard(boardState);
-        this.applyMoveOnSimulation(simulatedBoard, move);
-        const isMultiJump = this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
-        const nextTurn = isMultiJump ? currentTurn : (currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE);
+        this.applySequence(simulatedBoard, move);
         const evaluation = this.quiescenceSearch(simulatedBoard, alpha, beta, nextTurn, aiColor, qDepth + 1);
         best = Math.min(best, evaluation);
         beta = Math.min(beta, evaluation);
@@ -261,10 +331,11 @@ class CheckersAI {  constructor(gameInstance) {
 
   applyMoveOnSimulation(boardState, move) {
     const piece = boardState[move.fromR][move.fromC];
+    if (!piece) return;
     boardState[move.fromR][move.fromC] = null;
     boardState[move.toR][move.toC] = piece;
     if (move.captured) boardState[move.captured.r][move.captured.c] = null;
-    
+
     if (!piece.estDame) {
       if ((piece.couleur === COLOR_WHITE && move.toR === 0) || (piece.couleur === COLOR_BLACK && move.toR === BOARD_SIZE - 1)) {
         piece.estDame = true;
