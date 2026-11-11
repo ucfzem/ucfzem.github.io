@@ -999,7 +999,16 @@ class CheckersGame {
 
 
     if (move.captured && !newlyCrowned) {
-      const furtherCaptures = this.keepMaxCaptures(this.getLegalMovesForPiece(move.toR, move.toC, this.board).filter(m => m.captured), this.board);
+      const capturedPieces = Array.isArray(move.capturedPieces)
+        ? move.capturedPieces
+        : [{ r: move.captured.r, c: move.captured.c }];
+      const visitedSquares = Array.isArray(move.visitedSquares) && move.visitedSquares.length
+        ? move.visitedSquares
+        : [{ r: move.fromR, c: move.fromC }, { r: move.toR, c: move.toC }];
+      const furtherCaptures = this.keepMaxCaptures(
+        this.getLegalMovesForPiece(move.toR, move.toC, this.board, capturedPieces, visitedSquares).filter(m => m.captured),
+        this.board
+      );
       if (furtherCaptures.length > 0) {
         this.selectedPiece = { r: move.toR, c: move.toC };
         this.validMoves = furtherCaptures;
@@ -1114,9 +1123,13 @@ class CheckersGame {
   }
 
 
-  getLegalMovesForPiece(r, c, boardState) {
+  getLegalMovesForPiece(r, c, boardState, capturedPieces = [], visitedSquares = null) {
     const piece = boardState[r][c];
     if (!piece) return [];
+    const captured = Array.isArray(capturedPieces) ? capturedPieces : [];
+    const visited = Array.isArray(visitedSquares) && visitedSquares.length
+      ? visitedSquares
+      : [{ r, c }];
     const moves = [];
     const directions = piece.estDame ? [[-1,-1],[-1,1],[1,-1],[1,1]] : (piece.couleur === COLOR_WHITE ? [[-1,-1],[-1,1]] : [[1,-1],[1,1]]);
     const flying = this.variant === 'spanish' && piece.estDame;
@@ -1127,13 +1140,23 @@ class CheckersGame {
         // Dame volante : glisse sur toute la diagonale, capture à distance
         let nr = r + dr, nc = c + dc;
         while (this.isValidSquare(nr, nc) && !boardState[nr][nc]) {
-          moves.push({ fromR: r, fromC: c, toR: nr, toC: nc, captured: null });
+          moves.push({
+            fromR: r, fromC: c, toR: nr, toC: nc, captured: null,
+            capturedPieces: captured.slice(),
+            visitedSquares: visited.concat([{ r: nr, c: nc }])
+          });
           nr += dr; nc += dc;
         }
-        if (this.isValidSquare(nr, nc) && boardState[nr][nc].couleur !== piece.couleur) {
+        if (this.isValidSquare(nr, nc) && boardState[nr][nc].couleur !== piece.couleur && !this.isCapturedPiece(captured, nr, nc)) {
           let lr = nr + dr, lc = nc + dc;
           while (this.isValidSquare(lr, lc) && !boardState[lr][lc]) {
-            moves.push({ fromR: r, fromC: c, toR: lr, toC: lc, captured: { r: nr, c: nc } });
+            if (!this.isVisitedSquare(visited, lr, lc)) {
+              moves.push({
+                fromR: r, fromC: c, toR: lr, toC: lc, captured: { r: nr, c: nc },
+                capturedPieces: captured.concat([{ r: nr, c: nc }]),
+                visitedSquares: visited.concat([{ r: lr, c: lc }])
+              });
+            }
             lr += dr; lc += dc;
           }
         }
@@ -1143,17 +1166,37 @@ class CheckersGame {
 
       const nextR = r + dr, nextC = c + dc;
       if (this.isValidSquare(nextR, nextC) && !boardState[nextR][nextC]) {
-        moves.push({ fromR: r, fromC: c, toR: nextR, toC: nextC, captured: null });
+        moves.push({
+          fromR: r, fromC: c, toR: nextR, toC: nextC, captured: null,
+          capturedPieces: captured.slice(),
+          visitedSquares: visited.concat([{ r: nextR, c: nextC }])
+        });
       }
       const jumpR = r + 2 * dr, jumpC = c + 2 * dc;
       if (this.isValidSquare(jumpR, jumpC)) {
         const midPiece = boardState[nextR][nextC];
-        if (midPiece && midPiece.couleur !== piece.couleur && !boardState[jumpR][jumpC]) {
-          moves.push({ fromR: r, fromC: c, toR: jumpR, toC: jumpC, captured: { r: nextR, c: nextC } });
+        if (midPiece && midPiece.couleur !== piece.couleur && !boardState[jumpR][jumpC]
+            && !this.isCapturedPiece(captured, nextR, nextC)
+            && !this.isVisitedSquare(visited, jumpR, jumpC)) {
+          moves.push({
+            fromR: r, fromC: c, toR: jumpR, toC: jumpC, captured: { r: nextR, c: nextC },
+            capturedPieces: captured.concat([{ r: nextR, c: nextC }]),
+            visitedSquares: visited.concat([{ r: jumpR, c: jumpC }])
+          });
         }
       }
     }
     return moves;
+  }
+
+
+  isCapturedPiece(capturedPieces, r, c) {
+    return capturedPieces.some(p => p.r === r && p.c === c);
+  }
+
+
+  isVisitedSquare(visitedSquares, r, c) {
+    return visitedSquares.some(p => p.r === r && p.c === c);
   }
 
 
@@ -1188,17 +1231,17 @@ class CheckersGame {
   sequenceLength(move, boardState) {
     const b = this.cloneBoard(boardState);
     const crowned = this.applySimulatedMove(b, move);
-    return 1 + (crowned ? 0 : this.chainAfter(b, move.toR, move.toC));
+    return 1 + (crowned ? 0 : this.chainAfter(b, move.toR, move.toC, move.capturedPieces, move.visitedSquares));
   }
 
 
-  chainAfter(boardState, r, c) {
+  chainAfter(boardState, r, c, capturedPieces = [], visitedSquares = null) {
     let best = 0;
-    for (const m of this.getLegalMovesForPiece(r, c, boardState)) {
+    for (const m of this.getLegalMovesForPiece(r, c, boardState, capturedPieces, visitedSquares)) {
       if (!m.captured) continue;
       const b = this.cloneBoard(boardState);
       const crowned = this.applySimulatedMove(b, m);
-      const n = 1 + (crowned ? 0 : this.chainAfter(b, m.toR, m.toC));
+      const n = 1 + (crowned ? 0 : this.chainAfter(b, m.toR, m.toC, m.capturedPieces, m.visitedSquares));
       if (n > best) best = n;
     }
     return best;

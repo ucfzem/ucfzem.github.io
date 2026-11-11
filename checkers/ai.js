@@ -46,6 +46,27 @@ class CheckersAI {  constructor(gameInstance) {
   }
 
 
+  collectCapturedPieces(steps, lastMove) {
+    if (lastMove && Array.isArray(lastMove.capturedPieces)) return lastMove.capturedPieces.slice();
+    const out = [];
+    for (const step of steps) {
+      if (step.captured) out.push({ r: step.captured.r, c: step.captured.c });
+    }
+    return out;
+  }
+
+
+  collectVisitedSquares(steps, lastMove) {
+    if (lastMove && Array.isArray(lastMove.visitedSquares) && lastMove.visitedSquares.length) {
+      return lastMove.visitedSquares.slice();
+    }
+    if (steps.length === 0) return [];
+    const out = [{ r: steps[0].fromR, c: steps[0].fromC }];
+    for (const step of steps) out.push({ r: step.toR, c: step.toC });
+    return out;
+  }
+
+
   getTurnMoves(color, boardState) {
     const baseMoves = this.game.getAllLegalMoves(color, boardState);
     const sequences = [];
@@ -66,7 +87,9 @@ class CheckersAI {  constructor(gameInstance) {
   expandCaptureSequences(boardAfter, lastMove, steps, out, crowned) {
     let further = [];
     if (!crowned) {
-      further = this.game.getLegalMovesForPiece(lastMove.toR, lastMove.toC, boardAfter).filter(m => m.captured);
+      const capturedPieces = this.collectCapturedPieces(steps, lastMove);
+      const visitedSquares = this.collectVisitedSquares(steps, lastMove);
+      further = this.game.getLegalMovesForPiece(lastMove.toR, lastMove.toC, boardAfter, capturedPieces, visitedSquares).filter(m => m.captured);
       if (this.game.variant === 'spanish' && typeof this.game.keepMaxCaptures === 'function' && further.length > 1) {
         further = this.game.keepMaxCaptures(further, boardAfter);
       }
