@@ -37,7 +37,8 @@ class CheckersAI {  constructor(gameInstance) {
 
   minimax(boardState, depth, alpha, beta, maximizingPlayer, currentTurn, aiColor) {
     const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
-    if (depth === 0 || legalMoves.length === 0) return this.evaluateBoard(boardState, aiColor);
+    if (legalMoves.length === 0) return this.evaluateBoard(boardState, aiColor);
+    if (depth === 0) return this.quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, 0);
 
 
     if (maximizingPlayer) {
@@ -68,6 +69,47 @@ class CheckersAI {  constructor(gameInstance) {
         if (beta <= alpha) break;
       }
       return minEval;
+    }
+  }
+
+  quiescenceSearch(boardState, alpha, beta, currentTurn, aiColor, qDepth) {
+    if (qDepth >= 4) return this.evaluateBoard(boardState, aiColor);
+
+    const legalMoves = this.game.getAllLegalMoves(currentTurn, boardState);
+    const captures = legalMoves.filter(m => m.captured);
+    if (captures.length === 0) return this.evaluateBoard(boardState, aiColor);
+
+    const maximizing = currentTurn === aiColor;
+    let best = this.evaluateBoard(boardState, aiColor);
+
+    if (maximizing) {
+      if (best >= beta) return best;
+      alpha = Math.max(alpha, best);
+      for (const move of captures) {
+        const simulatedBoard = this.cloneBoard(boardState);
+        this.applyMoveOnSimulation(simulatedBoard, move);
+        const isMultiJump = this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
+        const nextTurn = isMultiJump ? currentTurn : (currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE);
+        const evaluation = this.quiescenceSearch(simulatedBoard, alpha, beta, nextTurn, aiColor, qDepth + 1);
+        best = Math.max(best, evaluation);
+        alpha = Math.max(alpha, evaluation);
+        if (beta <= alpha) break;
+      }
+      return best;
+    } else {
+      if (best <= alpha) return best;
+      beta = Math.min(beta, best);
+      for (const move of captures) {
+        const simulatedBoard = this.cloneBoard(boardState);
+        this.applyMoveOnSimulation(simulatedBoard, move);
+        const isMultiJump = this.game.getLegalMovesForPiece(move.toR, move.toC, simulatedBoard).some(m => m.captured);
+        const nextTurn = isMultiJump ? currentTurn : (currentTurn === COLOR_WHITE ? COLOR_BLACK : COLOR_WHITE);
+        const evaluation = this.quiescenceSearch(simulatedBoard, alpha, beta, nextTurn, aiColor, qDepth + 1);
+        best = Math.min(best, evaluation);
+        beta = Math.min(beta, evaluation);
+        if (beta <= alpha) break;
+      }
+      return best;
     }
   }
 
