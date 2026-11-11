@@ -424,6 +424,7 @@ class CheckersGame {
 
 
   handlePointerDown(e) {
+    console.log("CLIC DETECTE");
     if (this.isGameOver || this.isAnimating) return;
     if (this.gameMode === 'ai' && this.turn === COLOR_BLACK) return;
 
@@ -443,6 +444,7 @@ class CheckersGame {
 
 
   processClick(x, y) {
+    console.log("Coordonnées reçues:", x, y);
     const tileSize = this.canvas.width / BOARD_SIZE;
     const c = Math.floor(x / tileSize);
     const r = Math.floor(y / tileSize);
@@ -458,6 +460,7 @@ class CheckersGame {
 
 
     const clickedPiece = this.board[r][c];
+    console.log("Pièce cliquée:", clickedPiece ? clickedPiece.couleur : "vide", "Tour actuel:", this.turn);
     if (clickedPiece && clickedPiece.couleur === this.turn) {
       const moves = this.getLegalMovesForPiece(r, c, this.board);
       if (this.mustCapture) {
@@ -489,7 +492,6 @@ class CheckersGame {
     this.isAnimating = true;
     const piece = this.board[move.fromR][move.fromC];
     this.board[move.fromR][move.fromC] = null;
-
 
     if (move.captured) this.soundManager.playCapture();
     else this.soundManager.playMove();
@@ -529,11 +531,19 @@ class CheckersGame {
       if (progress < 1) requestAnimationFrame(animate);
       else {
         this.board[move.toR][move.toC] = piece;
+        clearTimeout(safetyTimeout);
         this.isAnimating = false;
         this.finalizeMove(move, piece);
       }
     };
+
+
     requestAnimationFrame(animate);
+
+    // Filet de sécurité : si l'animation ne se termine pas dans les 500ms, forcer le reset
+    const safetyTimeout = setTimeout(() => {
+      this.isAnimating = false;
+    }, 500);
   }
 
 

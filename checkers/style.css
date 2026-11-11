@@ -141,6 +141,7 @@ body {
 
 
 .status-card, .controls-card, .message-card {
+  pointer-events: none;
   background-color: var(--bg-secondary);
   padding: 18px;
   border-radius: var(--radius-lg);
