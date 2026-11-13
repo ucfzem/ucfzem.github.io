@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.33';
+const CACHE = 'maktaba-v8';
 const CORE = [
   './',
   './index.html',
@@ -89,7 +89,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('works-')).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('maktaba-')).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
