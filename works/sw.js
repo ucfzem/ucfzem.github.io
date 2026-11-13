@@ -1,4 +1,4 @@
-const CACHE = 'works-v1.0.32';
+const CACHE = 'works-v1.0.33';
 const CORE = [
   './',
   './index.html',
@@ -99,7 +99,14 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
+  // The Maktaba subpages are a separate app with their own service worker.
+  // Never answer their navigations with the Works index.
+  if (url.pathname === '/works/Maktaba' || url.pathname.startsWith('/works/Maktaba/')) return;
+
   if (req.mode === 'navigate') {
+    // Only the Works root is the Works app. Subpage navigations must reach
+    // the network (or the subpage's own service worker), never this cache.
+    if (url.pathname !== '/works/' && url.pathname !== '/works/index.html') return;
     event.respondWith(
       caches.open(CACHE).then((c) => c.match('./index.html').then((cached) => {
         const fresh = fetch(req).then((res) => {

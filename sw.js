@@ -354,6 +354,9 @@ self.addEventListener('fetch', (event) => {
   const path = url.pathname;
   // The works-hosted al-a3chab backup has its own SW; do not treat it as /works.
   if (path === '/works/al-a3chab-attebiah' || path.startsWith('/works/al-a3chab-attebiah/')) return;
+  // Maktaba has its own landing page, library, and service worker. It must
+  // never be cached as the "works" app shell.
+  if (path === '/works/Maktaba' || path.startsWith('/works/Maktaba/')) return;
   const first = path.split('/').filter(Boolean)[0] || '';
   if (!APPS.includes(first)) return;
 
