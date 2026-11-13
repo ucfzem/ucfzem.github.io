@@ -19,6 +19,7 @@ const SHELL_CACHE = 'ucfzem-shells-v1';
 const CDN_CACHE = 'ucfzem-cdn-v1';
 
 // Library apps whose shell (index.html + icons) is precached for offline use.
+// Keep this list and APPS in sync with the maktaba list in works/index.html.
 const SHELLS = [
   'al-tibb-al-nabawi',
   'nuzhat-al-mushtaq',
@@ -52,7 +53,15 @@ const SHELLS = [
   'al-bishara',
   'al-jawab-al-sahih',
   'izhar-al-haqq',
-  'tafsir-ibn-taymiyyah'
+  'tafsir-ibn-taymiyyah',
+  'masail-nafi-ibn-azraq',
+  'risalat-ibn-fadlan',
+  'barnabas',
+  'musawa-qasas',
+  'al-ajwiba-al-musaddada',
+  'basair02',
+  'al-a3chab-attebiah',
+  'earth-proofs-pwa'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -89,7 +98,15 @@ const APPS = [
   'al-bishara',
   'al-jawab-al-sahih',
   'izhar-al-haqq',
-  'tafsir-ibn-taymiyyah'
+  'tafsir-ibn-taymiyyah',
+  'masail-nafi-ibn-azraq',
+  'risalat-ibn-fadlan',
+  'barnabas',
+  'musawa-qasas',
+  'al-ajwiba-al-musaddada',
+  'basair02',
+  'al-a3chab-attebiah',
+  'earth-proofs-pwa'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -154,9 +171,9 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v34';
+const DATA_MARKER = '/__bookdata-v36';
 
-const ASSET_EXT = /\.(?:html?|css|js|mjs|json|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
+const ASSET_EXT = /\.(?:html?|css|js|mjs|json|md|txt|csv|xml|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
 // Resolve a referenced URL (relative or absolute, query preserved) to an
 // app-local path under /<s>/, or null when it is not a local app asset.
