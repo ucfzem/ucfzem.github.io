@@ -114,11 +114,11 @@
   }
   .webapps { margin-bottom:26px; }
   .webapp-stack { display:flex; flex-direction:column; gap:8px; }
-  .webapp-pair {
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+.webapp-pair {
+    display:flex;
+    flex-direction:column;
     gap:8px;
-  }
+}
   .webapp-card {
     display:flex;
     align-items:center;
@@ -595,5 +595,27 @@
     <footer class="footer">UcfZem · Maktaba</footer>
   </main>
 </div>
+
+<!-- Defensively normalise any future apps array so a missing number/icon can never produce a “+” ghost row -->
+<script>
+  // If a global apps array ever appears, normalise it immediately:
+  if (typeof apps !== 'undefined') {
+    const normalizedApps = apps.map((a, i) => ({
+      ...a,
+      number: Number.isInteger(a.number) && a.number > 0 ? a.number : i + 1,
+      icon:   typeof a.icon === 'string' && a.icon.trim() ? a.icon : '📖',
+      title:  a.title   || 'Untitled',
+      tag:    a.tag     || '',
+    }));
+    // Replace the rendered .app-row elements with the normalised set:
+    document.querySelectorAll('.app-row').forEach((row, idx) => {
+      const a = normalizedApps[idx];
+      if (!a) return;
+      row.querySelector('.app-num'  ).textContent = a.number;
+      row.querySelector('.app-icon' ).outerHTML = a.icon  ? `<img class="app-icon" src="${a.icon}" alt="${a.title}" width="30" height="30" loading="lazy">` : row.querySelector('.app-icon').outerHTML;
+      row.querySelector('.app-title').innerHTML = `${a.title} <span class="app-alt">· ${a.tag || ''}</span>`;
+    });
+  }
+</script>
 </body>
 </html>
