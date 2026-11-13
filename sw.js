@@ -171,7 +171,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v36';
+const DATA_MARKER = '/__bookdata-v37';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|md|txt|csv|xml|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 
@@ -256,8 +256,14 @@ async function cacheAppData(shell, cdn, s) {
     if (r && r.ok) {
       const list = await r.clone().json();
       await shell.put('/' + s + '/data/index.json', r);
-      const files = [...new Set((list || []).map((x) => x.file).filter(Boolean))];
-      await precache(shell, files.map((f) => '/' + s + '/data/' + f + '.json'), 6);
+      const files = new Set();
+      const add = (f) => { if (typeof f === 'string' && f) files.add(f); };
+      if (Array.isArray(list)) list.forEach((x) => add(x && x.file));
+      else if (list && Array.isArray(list.chapters)) list.chapters.forEach((x) => {
+        add(x && x.file);
+        add(x && x.search);
+      });
+      await precache(shell, [...files].map((f) => '/' + s + '/data/' + f + (/\.[a-z0-9]+$/i.test(f) ? '' : '.json')), 6);
     }
   } catch (e) {}
   try {
