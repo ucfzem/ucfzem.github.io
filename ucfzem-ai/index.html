@@ -761,6 +761,9 @@
     const chatInput = document.getElementById('chat-input');
     const sendBtn = document.getElementById('send-btn');
     const STORAGE_KEY = 'ucfzem_chat_history';
+    const API_URL = 'https://text.pollinations.ai/openai';
+    const AI_MODEL = 'openai-fast';
+    const SYSTEM_PROMPT = "Tu es un assistant IA utile, concis et professionnel. Réponds en français sauf si l'utilisateur écrit dans une autre langue.";
 
     function saveMessages() {
       const bubbles = chatBody.querySelectorAll('.bubble:not(.typing-indicator)');
@@ -855,22 +858,46 @@
       const message = chatInput.value.trim();
       if (!message) return;
 
+      const history = [];
+      chatBody.querySelectorAll('.bubble:not(.typing-indicator):not(.demo)').forEach(b => {
+        const role = b.classList.contains('user') ? 'user' : 'assistant';
+        const text = role === 'assistant' ? (b.querySelector('span')?.textContent || '') : b.textContent;
+        if (text.trim()) history.push({ role, content: text.trim() });
+      });
+
       document.querySelector('.demo')?.remove();
       chatInput.value = '';
       addBubble(message, 'user');
       const typing = showTyping();
 
       try {
-        const res = await fetch('/api/chat', {
+        const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
+          body: JSON.stringify({
+            model: AI_MODEL,
+            messages: [
+              { role: 'system', content: SYSTEM_PROMPT },
+              ...history,
+              { role: 'user', content: message }
+            ],
+            stream: true
+          })
         });
 
         if (!res.ok) {
           typing.remove();
           const data = await res.json().catch(() => ({}));
-          addBubble(data.error || 'Erreur de connexion', 'ai');
+          addBubble(data.error?.message || data.error || `Erreur de connexion (${res.status})`, 'ai');
+          return;
+        }
+
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json().catch(() => ({}));
+          typing.remove();
+          const text = data.reply || data.choices?.[0]?.message?.content || data.error?.message || data.error;
+          addBubble(text || 'Réponse vide du service IA.', 'ai');
           return;
         }
 
@@ -884,6 +911,7 @@
         const decoder = new TextDecoder();
         let buffer = '';
         let full = '';
+        let reasoning = '';
 
         while (true) {
           const { value, done } = await reader.read();
@@ -898,13 +926,18 @@
             if (payload === '[DONE]') continue;
             try {
               const json = JSON.parse(payload);
-              if (json.delta) full += json.delta;
+              const delta = json.choices?.[0]?.delta;
+              if (delta?.content) full += delta.content;
+              else if (json.delta) full += json.delta;
+              else if (json.response) full += json.response;
+              if (delta?.reasoning) reasoning += delta.reasoning;
             } catch {}
           }
           span.textContent = full;
           chatBody.scrollTop = chatBody.scrollHeight;
         }
 
+        if (!full && reasoning) span.textContent = reasoning.trim();
         typing.remove();
         saveMessages();
       } catch {
