@@ -1,9 +1,9 @@
-const CACHE = 'maktaba-v10';
+const CACHE = 'maktaba-v11';
 const CORE = [
   './',
   './index.html',
   './manifest.json',
-  './Maktaba/maktaba-qr-v2.png',
+  './Maktaba/maktaba-qr-v3.png',
   './Maktaba/icons/herbal.png',
   './fonts.css?v=1',
   './fonts/cinzel-400-latin-ext.woff2',
