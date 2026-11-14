@@ -35,15 +35,16 @@
 - Fixed `al-ajwiba-al-musaddada/app.js`
   - `initPWA()` now registers immediately when `document.readyState === 'complete'`, otherwise on `load` with `{ once: true }`.
 
-### `ucfzem/tanger` — commit `ca0a202`
+### `ucfzem/tanger` — commits `ca0a202`, `af59cb4`
 
 - Added `tanger/sw.js`
   - Cache: `tanger-v1`
   - Precaches `./`, `./index.html`, `./favicon.ico`.
-  - Runtime-caches same-origin images, music, and history assets with stale-while-revalidate.
+  - Cache-first runtime caching for same-origin images, music, and history assets, with no background re-download.
   - Network-first navigation with an offline `index.html` fallback.
   - Runtime-caches cross-origin assets such as Google Fonts.
 - Registered the service worker from `tanger/index.html`.
+- Storage footprint: the 60 referenced gallery images total about 10.5 MB. Music is cached only when played, up to about 21 MB if every track is played.
 
 ## Verification
 
@@ -58,6 +59,7 @@ Local Playwright checks passed for both fixes before deployment. Live Playwright
 - Quran Majeed v3 (Cloudflare): offline reload `200`; caches `qmv3-shell-v5`, `qmv3-data-v5`.
 - Mapamundi (GitHub): offline reload `200`; cache `mapamundi-cache-v1.0.5`.
 - Tanger d'Antan, GitHub and Cloudflare: offline reload `200`, all 60 gallery images loaded; cache `tanger-v1`.
+- Local request-count check: 60 image downloads total across first load, second online load, and offline reload — cached images are not re-downloaded.
 
 ## Live links
 
@@ -69,6 +71,6 @@ Local Playwright checks passed for both fixes before deployment. Live Playwright
 - Tanger: https://ucfzem.github.io/tanger/
 - Tanger (Cloudflare): https://ucfzem.azer-tyu199p.workers.dev/tanger/
 - Tanger service worker: https://ucfzem.github.io/tanger/sw.js
-- Tanger commit: https://github.com/ucfzem/tanger/commit/ca0a202
+- Tanger commits: https://github.com/ucfzem/tanger/commit/ca0a202 · https://github.com/ucfzem/tanger/commit/af59cb4
 - Quran Majeed v3: https://ucfzem.azer-tyu199p.workers.dev/quran-majeed-v3/
 - Mapamundi: https://ucfzem.github.io/mapamundi/
