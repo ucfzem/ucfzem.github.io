@@ -340,7 +340,7 @@ async function loadOrFetchBook() {
 /* ---------- PWA ---------- */
 function initPWA() {
   if (!('serviceWorker' in navigator)) return;
-  window.addEventListener('load', async () => {
+  const register = async () => {
     try {
       const reg = await navigator.serviceWorker.register('./sw.js');
       reg.addEventListener('updatefound', () => {
@@ -353,7 +353,12 @@ function initPWA() {
         });
       });
     } catch (e) {}
-  });
+  };
+  if (document.readyState === 'complete') {
+    register();
+  } else {
+    window.addEventListener('load', register, { once: true });
+  }
 }
 function showUpdateBar(reg) {
   const bar = el('updateBar');
