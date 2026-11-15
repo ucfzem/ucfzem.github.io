@@ -544,6 +544,15 @@
         });
     </script>
 
+    <!-- Force Service Worker Update -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js?v=21').then(function(reg) {
+                reg.update(); // Demande au navigateur de vérifier les mises à jour
+            });
+        }
+    </script>
+
 
 </body>
 </html>
