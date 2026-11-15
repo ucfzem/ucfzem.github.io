@@ -1,4 +1,4 @@
-const CACHE = 'maktaba-main-v3';
+const CACHE = 'maktaba-main-v4';
 const CORE = [
   './',
   './index.html',
@@ -27,6 +27,7 @@ const CORE = [
   '../fonts/inter-700-latin.woff2'
 ];
 const EXTERNAL = [
+  'https://ucfzem.github.io/a3lam-al-dawa/icon.svg',
   'https://ucfzem.github.io/mapamundi/icon.svg',
   'https://ucfzem.github.io/works/assets/quran.png',
   'https://ucfzem.github.io/works/assets/tanger.png'
