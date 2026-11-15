@@ -1,4 +1,4 @@
-const CACHE = 'a3lam-al-dawa-2026-11-15-1';
+const CACHE = 'a3lam-al-dawa-2026-11-15-2';
 const SHELL = [
   './',
   './index.html',
@@ -20,7 +20,9 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.map(key => key === CACHE ? null : caches.delete(key))))
+      .then(keys => Promise.all(keys
+        .filter(key => key.startsWith('a3lam-al-dawa-') && key !== CACHE)
+        .map(key => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });

@@ -1,4 +1,4 @@
-const CACHE = 'maktaba-v12';
+const CACHE = 'maktaba-v13';
 const CORE = [
   './',
   './index.html',
@@ -92,7 +92,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('maktaba-')).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE && k.startsWith('maktaba-v')).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
