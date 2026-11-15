@@ -1,4 +1,4 @@
-const CACHE = 'maktaba-main-v1';
+const CACHE = 'maktaba-main-v2';
 const CORE = [
   './',
   './index.html',
@@ -27,10 +27,8 @@ const CORE = [
 ];
 const EXTERNAL = [
   'https://ucfzem.github.io/mapamundi/icon.svg',
-  'https://ucfzem.github.io/works/assets/maktaba-icon.png',
   'https://ucfzem.github.io/works/assets/quran.png',
-  'https://ucfzem.github.io/works/assets/tanger.png',
-  'https://ucfzem.azer-tyu199p.workers.dev/droppy/dl/4851aaca/1794599242989.jpg'
+  'https://ucfzem.github.io/works/assets/tanger.png'
 ];
 
 function fetchTO(url, opts, ms = 8000) {
