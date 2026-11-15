@@ -100,3 +100,20 @@ Live checks after GitHub Pages deployment:
 - Works hub (Cloudflare): https://ucfzem.azer-tyu199p.workers.dev/works/
 - Commit: https://github.com/ucfzem/ucfzem.github.io/commit/4d74604
 - Cache-scope fix: https://github.com/ucfzem/ucfzem.github.io/commit/4a57d9c
+
+## Update — Cloudflare proxy links
+
+**Commit:** `3154eae` — Link A3lam al-Dawa through Cloudflare proxy
+
+- Updated the Maktaba webapp card to open the app through the Cloudflare proxy:
+  `https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/`
+- Updated the Works hub `num: 19` entry to the same Cloudflare URL.
+- Bumped Maktaba cache to `maktaba-main-v5`.
+- Bumped Works cache to `maktaba-v14`.
+- Verified live:
+  - Maktaba still has 4 webapp cards and 29 library rows.
+  - Maktaba card link targets the Cloudflare app URL.
+  - Works entry `#19` targets the Cloudflare app URL and its icon loads.
+  - Cloudflare app URL returns `200` with 12 figures and 4 languages.
+  - No page or console errors.
+- Commit: https://github.com/ucfzem/ucfzem.github.io/commit/3154eae
