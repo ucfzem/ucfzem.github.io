@@ -186,11 +186,11 @@
         .drawer-content { padding: 14px; overflow-y: auto; }
         .drawer-list { list-style: none; }
         .drawer-list li { margin-bottom: 8px; }
-        .drawer-list a, .drawer-list button { 
+        .drawer-list button { 
             display: block; width: 100%; text-align: right; padding: 8px; color: var(--text-main); 
-            border-radius: 6px; text-decoration: none; background: transparent; border: none; font-family: inherit; font-size: 1rem; cursor: pointer;
+            border-radius: 6px; background: transparent; border: none; font-family: inherit; font-size: 1rem; cursor: pointer;
         }
-        .drawer-list a:hover, .drawer-list button:hover { background: var(--primary-emerald); color: white; }
+        .drawer-list button:hover { background: var(--primary-emerald); color: white; }
     </style>
 </head>
 <body>
@@ -225,7 +225,7 @@
 
 
     <main>
-        <p class="intro-text" id="ui-intro">خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر في العصر الرقمي.</p>
+        <p class="intro-text" id="ui-intro">أعلام ميادين الدعوة والمناظرة والفكر في العصر الرقمي.</p>
         <div class="cards-grid" id="cardsContainer"></div>
     </main>
 
@@ -238,7 +238,7 @@
         </div>
         <div class="drawer-content">
             <ul class="drawer-list">
-                <li><button type="button" onclick="filterByCategory('all')">📚 كل الشخصيات (35)</button></li>
+                <li><button type="button" onclick="filterByCategory('all')">📚 كل الشخصيات</button></li>
                 <li><button type="button" onclick="filterByCategory('01')">01 دعاة ومبادئون</button></li>
                 <li><button type="button" onclick="filterByCategory('02')">02 محاضرون ومناظرون</button></li>
                 <li><button type="button" onclick="filterByCategory('03')">03 باحثون في العقيدة</button></li>
@@ -251,59 +251,69 @@
 
 
     <script>
-        // قاعدة البيانات الحقيقية والمنظمة (تحتوي على الأسماء الحقيقية والتصنيفات)
+        // قاعدة البيانات الحقيقية والموثقة (بدون أي أسماء وهمية)
         const scholarsData = [
             {
                 id: 1,
                 category: "02",
-                ar: { name: "الشيخ أحمد ديدات", badge: "مناظر", bio: "من أشهر المناظرين في مقارنة الأديان وحوار الأديان عالمياً." },
-                en: { name: "Sheikh Ahmed Deedat", badge: "Debater", bio: "One of the most famous debaters in comparative religion." }
+                ar: { name: "الشيخ أحمد ديدات", badge: "مناظر عالمي", bio: "من أشهر المناظرين في مقارنة الأديان ومؤلف كتب الحوار الإسلامي المسيحي." },
+                en: { name: "Sheikh Ahmed Deedat", badge: "Global Debater", bio: "Renowned debater in comparative religion and author." }
             },
             {
                 id: 2,
                 category: "02",
-                ar: { name: "د. ذاكر نايك", badge: "محاضر", bio: "باحث ومحاضر شهير في مقارنة الأديان وعلوم القرآن." },
-                en: { name: "Dr. Zakir Naik", badge: "Lecturer", bio: "Renowned researcher and lecturer in comparative religion." }
+                ar: { name: "د. ذاكر نايك", badge: "محاضر ومناظر", bio: "داعية إسلامي هندي وباحث بارز في مقارنة الأديان والعلوم المقارنة." },
+                en: { name: "Dr. Zakir Naik", badge: "Lecturer", bio: "Indian Islamic preacher and comparative religion researcher." }
             },
             {
                 id: 3,
                 category: "03",
-                ar: { name: "الشيخ عثمان الخميس", badge: "باحث وعقيدة", bio: "مناظر وباحث بارز في العقيدة الإسلامية والرد على الفرق." },
-                en: { name: "Sheikh Othman Al-Khamis", badge: "Researcher", bio: "Prominent researcher and debater in Islamic creed." }
+                ar: { name: "الشيخ عثمان الخميس", badge: "باحث في العقيدة", bio: "محدث وباحث ومناظر كويتي بارز في تقرير العقيدة والرد على الشبهات والفرق." },
+                en: { name: "Sheikh Othman Al-Khamis", badge: "Creed Researcher", bio: "Prominent Kuwaiti researcher and debater in Islamic creed." }
             },
             {
                 id: 4,
                 category: "04",
-                ar: { name: "أ.د. سامي عامري", badge: "مفكر وباحث", bio: "باحث متحصّص في نقد الإلحاد ودفع الشبهات المعاصرة." },
-                en: { name: "Dr. Sami Amerii", badge: "Thinker", bio: "Specialized researcher in refuting atheism and contemporary doubts." }
+                ar: { name: "أ.د. سامي عامري", badge: "باحث في نقد الإلحاد", bio: "مفكر وباحث متخصص في دراسات العهدين، نقد الإلحاد، وإثبات النبوات." },
+                en: { name: "Dr. Sami Amerii", badge: "Atheism Critic", bio: "Thinker and researcher specialized in refuting atheism and proofs of prophecy." }
             },
             {
                 id: 5,
                 category: "05",
-                ar: { name: "الشيخ محمد حجاب", badge: "مناظر شوارع", bio: "داعية ومناظر أكاديمي وشارع باللغة الإنجليزية في الغرب." },
-                en: { name: "Sheikh Mohammed Hijab", badge: "Debater", bio: "Academic and street debater in the West." }
+                ar: { name: "الشيخ محمد حجاب", badge: "مناظر شوارع وأكاديمي", bio: "داعية وباحث ومناظر أكاديمي بريطاني من أصل مصري، متخصص في مقارنة الأديان والفلسفة." },
+                en: { name: "Sheikh Mohammed Hijab", badge: "Street Debater", bio: "British-Egyptian academic debater and researcher in philosophy and religion." }
             },
             {
                 id: 6,
-                category: "06",
-                ar: { name: "الشيخ عبد الرحمن السحيم", badge: "داعية", bio: "داعية ومؤصل شرعي له جهود واسعة في الدعوة عبر الشبكات." },
-                en: { name: "Sheikh Abdulrahman Al-Suhaim", badge: "Preacher", bio: "Preacher with extensive efforts in online da'wah." }
+                category: "01",
+                ar: { name: "الشيخ عبد الرحمن السحيم", badge: "داعية ومؤصل", bio: "داعية سعودي له جهود واسعة ومباركة في التأصيل الشرعي والدعوة عبر الإنترنت." },
+                en: { name: "Sheikh Abdulrahman Al-Suhaim", badge: "Preacher", bio: "Saudi preacher with extensive online da'wah and scholarly efforts." }
+            },
+            {
+                id: 7,
+                category: "01",
+                ar: { name: "الشيخ عبد الحميد كشك", badge: "خطيب الإسلام", bio: "من أشهر خطباء العصر الحديث في العالم الإسلامي، عُرف بقوة الطرح وجرأة الحق." },
+                en: { name: "Sheikh Abdul Hamid Kishk", badge: "Preacher", bio: "One of the most famous preachers of the modern Islamic world." }
+            },
+            {
+                id: 8,
+                category: "02",
+                ar: { name: "الشيخ إبراهيم أبو ربيع", badge: "مناظر", bio: "باحث ومحاضر في مقارنة الأديان وحوار الحضارات." },
+                en: { name: "Sheikh Ibrahim Abu Rabi", badge: "Debater", bio: "Researcher and lecturer in comparative religion." }
+            },
+            {
+                id: 9,
+                category: "04",
+                ar: { name: "د. إياد قنيبي", badge: "باحث ومفكر", bio: "باحث ومحاضر في دراسة توافق العلم التجريبي مع الإيمان، وناقد للإلحاد والمعايير المزدوجة." },
+                en: { name: "Dr. Eyad Qunaibi", badge: "Researcher", bio: "Lecturer studying the harmony of empirical science with faith and critic of atheism." }
+            },
+            {
+                id: 10,
+                category: "05",
+                ar: { name: "المناظر عاصم الحكيم", badge: "داعية ومحاضر", bio: "داعية ومحاضر باللغة الإنجليزية يشتهر بالإجابات المباشرة والردود على الشبهات." },
+                en: { name: "Sheikh Assim Al-Hakeem", badge: "Preacher", bio: "English-speaking preacher known for direct answers and refuting doubts." }
             }
-            // يمكنك إضافة باقي الشخصيات هنا حتى تصل إلى 35 بنفس الهيكل ودقة التصنيف (category: "01" إلى "06")
         ];
-
-
-        // توليد باقي الشخصيات تلقائياً إذا أردت إكمال العدد إلى 35 في حال لم تضفها يدوياً بعد
-        for (let i = 7; i <= 35; i++) {
-            scholarsData.push({
-                id: i,
-                category: "0" + ((i % 6) + 1),
-                ar: { name: `العالم الجليل الشيخ فلان (${i})`, badge: "عالم وباحث", bio: "شخصية علمية بارزة في ميادين الدعوة والمناظرة والفكر المعاصر." },
-                en: { name: `Scholar Figure (${i})`, badge: "Scholar", bio: "Prominent scientific figure in da'wah and contemporary thought." },
-                fr: { name: `Érudit Figure (${i})`, badge: "Érudit", bio: "Figure scientifique éminente dans la da'wa." },
-                es: { name: `Erudito Figura (${i})`, badge: "Erudito", bio: "Figura científica prominente en la da'wa." }
-            });
-        }
 
 
         let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
@@ -364,7 +374,6 @@
         }
 
 
-        // دالة تصفية الفهرس
         window.filterByCategory = function(cat) {
             currentCategory = cat;
             toggleDrawer(false);
@@ -379,7 +388,6 @@
             });
 
 
-            // تغيير اللغات
             document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'));
@@ -393,7 +401,6 @@
             });
 
 
-            // الثيمات
             const themeBtns = document.querySelectorAll('#themeGroup .control-btn');
             const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia';
             htmlEl.setAttribute('data-theme', savedTheme);
@@ -414,7 +421,6 @@
             });
 
 
-            // القائمة الجانبية
             const drawer = document.getElementById('sidebarDrawer');
             const overlay = document.getElementById('drawerOverlay');
             
