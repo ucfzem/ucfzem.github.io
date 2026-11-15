@@ -1,7 +1,8 @@
-const CACHE = 'maktaba-main-v2';
+const CACHE = 'maktaba-main-v3';
 const CORE = [
   './',
   './index.html',
+  './avatar.jpg',
   './maktaba-qr-v3.png',
   './icons/herbal.png',
   './library/',
