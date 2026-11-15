@@ -87,6 +87,7 @@
             font-size: 0.9rem;
             font-family: var(--font-title);
             cursor: pointer;
+            border: none;
         }
 
 
@@ -120,6 +121,7 @@
             border-inline-end: 1px solid var(--border-color);
             background: transparent;
             cursor: pointer;
+            border-top: none; border-bottom: none; border-inline-start: none;
         }
         .control-btn:last-child { border-inline-end: none; }
         .control-btn.active, .control-btn:hover {
@@ -151,14 +153,14 @@
         }
 
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
         .card-title { font-family: var(--font-title); font-size: 1.25rem; color: var(--primary-emerald); font-weight: 700; }
-        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; }
+        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
         .card-body { font-size: 1.05rem; color: var(--text-main); margin-bottom: 12px; flex-grow: 1; }
         .card-actions { display: flex; gap: 8px; }
         
         .btn-action {
-            flex: 1; padding: 6px; border-radius: 6px; font-size: 0.9rem;
+            flex: 1; padding: 6px; border-radius: 6x; font-size: 0.9rem;
             background: var(--bg-parchemin); border: 1px solid var(--border-color); color: var(--text-main);
             text-align: center;
             cursor: pointer;
@@ -175,11 +177,18 @@
 
 
         .drawer {
-            position: fixed !important; top: 0 !important; right: 0 !important; width: 280px !important; height: 100vh !important;
+            position: fixed !important; top: 0 !important; right: 0 !important; left: auto !important;
+            width: 82vw !important; max-width: 310px !important; height: 100vh !important;
             background: var(--bg-ivoire) !important; z-index: 9999 !important; box-shadow: -5px 0 20px rgba(0,0,0,0.3) !important;
             transform: translateX(100%) !important; transition: transform 0.3s ease !important; display: flex !important; flex-direction: column !important;
         }
         .drawer.open { transform: translateX(0) !important; }
+        [dir="ltr"] .drawer {
+            right: auto !important; left: 0 !important;
+            transform: translateX(-100%) !important;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.3) !important;
+        }
+        [dir="ltr"] .drawer.open { transform: translateX(0) !important; }
         
         .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-parchemin); border-bottom: 1px solid var(--border-color); }
         .close-btn { background: #fee2e2; color: #dc2626; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
@@ -187,10 +196,11 @@
         .drawer-list { list-style: none; }
         .drawer-list li { margin-bottom: 8px; }
         .drawer-list button { 
-            display: block; width: 100%; text-align: right; padding: 8px; color: var(--text-main); 
-            border-radius: 6px; background: transparent; border: none; font-family: inherit; font-size: 1rem; cursor: pointer;
+            display: block; width: 100%; text-align: start; padding: 10px; color: var(--text-main); 
+            border-radius: 6x; background: transparent; border: none; font-family: inherit; font-size: 0.98rem; cursor: pointer;
+            line-height: 1.4;
         }
-        .drawer-list button:hover { background: var(--primary-emerald); color: white; }
+        .drawer-list button:hover, .drawer-list button.active-cat { background: var(--primary-emerald); color: white; }
     </style>
 </head>
 <body>
@@ -225,7 +235,7 @@
 
 
     <main>
-        <p class="intro-text" id="ui-intro">أعلام ميادين الدعوة والمناظرة والفكر في العصر الرقمي.</p>
+        <p class="intro-text" id="ui-intro">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).</p>
         <div class="cards-grid" id="cardsContainer"></div>
     </main>
 
@@ -233,87 +243,383 @@
     <div class="overlay" id="drawerOverlay"></div>
     <aside class="drawer" id="sidebarDrawer">
         <div class="drawer-header">
-            <h3 style="color:var(--primary-emerald); font-family:var(--font-title); margin:0;">الفهرس</h3>
+            <h3 id="ui-drawer-title" style="color:var(--primary-emerald); font-family:var(--font-title); margin:0;">الفهرس</h3>
             <button class="close-btn" id="closeDrawerBtn" type="button">✕</button>
         </div>
         <div class="drawer-content">
-            <ul class="drawer-list">
-                <li><button type="button" onclick="filterByCategory('all')">📚 كل الشخصيات</button></li>
-                <li><button type="button" onclick="filterByCategory('01')">01 دعاة ومبادئون</button></li>
-                <li><button type="button" onclick="filterByCategory('02')">02 محاضرون ومناظرون</button></li>
-                <li><button type="button" onclick="filterByCategory('03')">03 باحثون في العقيدة</button></li>
-                <li><button type="button" onclick="filterByCategory('04')">04 نقد الإلحاد والفكر</button></li>
-                <li><button type="button" onclick="filterByCategory('05')">05 مناظرو الشارع</button></li>
-                <li><button type="button" onclick="filterByCategory('06')">06 علماء حضور عالمي</button></li>
-            </ul>
+            <ul class="drawer-list" id="drawerList"></ul>
         </div>
     </aside>
 
 
     <script>
-        // قاعدة البيانات الحقيقية والموثقة (بدون أي أسماء وهمية)
         const scholarsData = [
+            // =========================================
+            // 01 مناظرة الملحدين واللادينيين والرد على الشبهات
+            // =========================================
             {
-                id: 1,
-                category: "02",
-                ar: { name: "الشيخ أحمد ديدات", badge: "مناظر عالمي", bio: "من أشهر المناظرين في مقارنة الأديان ومؤلف كتب الحوار الإسلامي المسيحي." },
-                en: { name: "Sheikh Ahmed Deedat", badge: "Global Debater", bio: "Renowned debater in comparative religion and author." }
+                id: 1, category: "01",
+                ar: { name: "د. إياد قنيبي", badge: "نقد الإلحاد والتطور", bio: "يشتهر بسلاسل علمية متخصصة في نقد نظرية التطور، والرد على الإلحاد المعاصر، وترسيخ اليقين." },
+                en: { name: "Dr. Eyad Qunaibi", badge: "Atheism & Evolution", bio: "Known for specialized scientific series critiquing evolution, refuting modern atheism, and grounding certainty." },
+                fr: { name: "Dr Eyad Qunaibi", badge: "Athéisme & Évolution", bio: "Connu pour ses séries scientifiques critiquant l'évolution et réfutant l'athéisme contemporain." },
+                es: { name: "Dr. Eyad Qunaibi", badge: "Ateísmo y Evolución", bio: "Conocido por sus series científicas que critican la evolución y refutan el ateísmo." }
             },
             {
-                id: 2,
-                category: "02",
-                ar: { name: "د. ذاكر نايك", badge: "محاضر ومناظر", bio: "داعية إسلامي هندي وباحث بارز في مقارنة الأديان والعلوم المقارنة." },
-                en: { name: "Dr. Zakir Naik", badge: "Lecturer", bio: "Indian Islamic preacher and comparative religion researcher." }
+                id: 2, category: "01",
+                ar: { name: "د. سامي عامري", badge: "نقد الإلحاد والاستشراق", bio: "باحث متخصص في نقد الإلحاد، ومقارنة الأديان، والرد على شبهات المستشرقين." },
+                en: { name: "Dr. Sami Ameri", badge: "Atheism & Orientalism", bio: "Researcher specialized in critiquing atheism, comparative religion, and refuting Orientalist doubts." },
+                fr: { name: "Dr Sami Ameri", badge: "Athéisme & Orientalisme", bio: "Chercheur spécialisé dans la critique de l'athéisme, la religion comparée et l'orientalisme." },
+                es: { name: "Dr. Sami Ameri", badge: "Ateísmo y Orientalismo", bio: "Investigador especializado en crítica del ateísmo, religión comparada y orientalismo." }
             },
             {
-                id: 3,
-                category: "03",
-                ar: { name: "الشيخ عثمان الخميس", badge: "باحث في العقيدة", bio: "محدث وباحث ومناظر كويتي بارز في تقرير العقيدة والرد على الشبهات والفرق." },
-                en: { name: "Sheikh Othman Al-Khamis", badge: "Creed Researcher", bio: "Prominent Kuwaiti researcher and debater in Islamic creed." }
+                id: 3, category: "01",
+                ar: { name: "د. عبدالله العجيري", badge: "الفكر المعاصر", bio: "باحث ومفكر يركز على القضايا الفكرية المعاصرة، ونقد الإلحاد، والتأسيس العقدي." },
+                en: { name: "Dr. Abdullah Al-Ajiri", badge: "Contemporary Thought", bio: "Researcher and thinker focusing on contemporary intellectual issues, critiquing atheism, and creedal grounding." },
+                fr: { name: "Dr Abdullah Al-Ajiri", badge: "Pensée Contemporaine", bio: "Chercheur et penseur axé sur les questions intellectuelles contemporaines et la critique de l'athéisme." },
+                es: { name: "Dr. Abdullah Al-Ajiri", badge: "Pensamiento Contemporáneo", bio: "Investigador centrado en temas intelectuales contemporáneos y crítica del ateísmo." }
             },
             {
-                id: 4,
-                category: "04",
-                ar: { name: "أ.د. سامي عامري", badge: "باحث في نقد الإلحاد", bio: "مفكر وباحث متخصص في دراسات العهدين، نقد الإلحاد، وإثبات النبوات." },
-                en: { name: "Dr. Sami Amerii", badge: "Atheism Critic", bio: "Thinker and researcher specialized in refuting atheism and proofs of prophecy." }
+                id: 4, category: "01",
+                ar: { name: "أحمد السيد", badge: "البناء الفكري والعقدي", bio: "يُعنى ببناء الشباب فكريًا وعقديًا، والرد على الشبهات المثارة حول الإسلام والسنة." },
+                en: { name: "Ahmed Al-Sayed", badge: "Intellectual Building", bio: "Dedicated to building youth intellectually and creedally, and refuting doubts raised against Islam and the Sunnah." },
+                fr: { name: "Ahmed Al-Sayed", badge: "Construction Intellectuelle", bio: "Dédié à la formation intellectuelle et doctrinale de la jeunesse et à la réfutation des doutes." },
+                es: { name: "Ahmed Al-Sayed", badge: "Formación Intelectual", bio: "Dedicado a la formación intelectual de los jóvenes y a refutar dudas sobre el Islam." }
             },
             {
-                id: 5,
-                category: "05",
-                ar: { name: "الشيخ محمد حجاب", badge: "مناظر شوارع وأكاديمي", bio: "داعية وباحث ومناظر أكاديمي بريطاني من أصل مصري، متخصص في مقارنة الأديان والفلسفة." },
-                en: { name: "Sheikh Mohammed Hijab", badge: "Street Debater", bio: "British-Egyptian academic debater and researcher in philosophy and religion." }
+                id: 5, category: "01",
+                ar: { name: "مهند السويدان (أبو عمر الباحث)", badge: "مناظرات فلسفية", bio: "يشتهر بالمناظرات المباشرة والحوارات الفلسفية والعقلية مع الملحدين واللادينيين." },
+                en: { name: "Muhannad Al-Suwaidan", badge: "Philosophical Debates", bio: "Known for live debates and philosophical, rational dialogues with atheists and agnostics." },
+                fr: { name: "Muhannad Al-Suwaidan", badge: "Débats Philosophiques", bio: "Connu pour ses débats en direct et ses dialogues philosophiques avec les athées." },
+                es: { name: "Muhannad Al-Suwaidan", badge: "Debates Filosóficos", bio: "Conocido por sus debates en vivo y diálogos filosóficos con ateos." }
             },
             {
-                id: 6,
-                category: "01",
-                ar: { name: "الشيخ عبد الرحمن السحيم", badge: "داعية ومؤصل", bio: "داعية سعودي له جهود واسعة ومباركة في التأصيل الشرعي والدعوة عبر الإنترنت." },
-                en: { name: "Sheikh Abdulrahman Al-Suhaim", badge: "Preacher", bio: "Saudi preacher with extensive online da'wah and scholarly efforts." }
+                id: 6, category: "01",
+                ar: { name: "محمد شاهين (التاعب)", badge: "مناظرات ونقد الإلحاد", bio: "باحث متمرس في مقارنة الأديان ونقد الإلحاد، وله مئات المناظرات والحوارات الصوتية والمرئية." },
+                en: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Debates & Atheism", bio: "Seasoned researcher in comparative religion and refuting atheism with hundreds of audio and video debates." },
+                fr: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Débats & Athéisme", bio: "Chercheur chevronné en religion comparée et critique de l'athéisme avec des centaines de débats." },
+                es: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Debates y Ateísmo", bio: "Investigador experimentado en religión comparada con cientos de debates." }
             },
             {
-                id: 7,
-                category: "01",
-                ar: { name: "الشيخ عبد الحميد كشك", badge: "خطيب الإسلام", bio: "من أشهر خطباء العصر الحديث في العالم الإسلامي، عُرف بقوة الطرح وجرأة الحق." },
-                en: { name: "Sheikh Abdul Hamid Kishk", badge: "Preacher", bio: "One of the most famous preachers of the modern Islamic world." }
+                id: 7, category: "01",
+                ar: { name: "أحمد سبيع", badge: "مقارنة أديان وشبهات", bio: "باحث متخصص في مقارنة الأديان، والرد على الشبهات حول الإسلام، ومحاورة الملحدين والنصارى." },
+                en: { name: "Ahmed Sabea", badge: "Comparative Religion", bio: "Researcher specialized in comparative religion, refuting doubts about Islam, and debating atheists and Christians." },
+                fr: { name: "Ahmed Sabea", badge: "Religion Comparée", bio: "Chercheur spécialisé en religion comparée et dialogue avec athées et chrétiens." },
+                es: { name: "Ahmed Sabea", badge: "Religión Comparada", bio: "Investigador especializado en religión comparada y diálogo con ateos y cristianos." }
             },
             {
-                id: 8,
-                category: "02",
-                ar: { name: "الشيخ إبراهيم أبو ربيع", badge: "مناظر", bio: "باحث ومحاضر في مقارنة الأديان وحوار الحضارات." },
-                en: { name: "Sheikh Ibrahim Abu Rabi", badge: "Debater", bio: "Researcher and lecturer in comparative religion." }
+                id: 8, category: "01",
+                ar: { name: "عبدالله الشهري", badge: "فلسفة ومنطق", bio: "متخصص في الفلسفة، والمنطق، والرد على الشبهات الفكرية والإلحادية." },
+                en: { name: "Abdullah Al-Shahri", badge: "Philosophy & Logic", bio: "Specialized in philosophy, logic, and refuting intellectual and atheistic doubts." },
+                fr: { name: "Abdullah Al-Shahri", badge: "Philosophie & Logique", bio: "Spécialisé en philosophie, logique et réfutation des doutes athées." },
+                es: { name: "Abdullah Al-Shahri", badge: "Filosofía y Lógica", bio: "Especializado en filosofía, lógica y refutación de dudas ateas." }
             },
             {
-                id: 9,
-                category: "04",
-                ar: { name: "د. إياد قنيبي", badge: "باحث ومفكر", bio: "باحث ومحاضر في دراسة توافق العلم التجريبي مع الإيمان، وناقد للإلحاد والمعايير المزدوجة." },
-                en: { name: "Dr. Eyad Qunaibi", badge: "Researcher", bio: "Lecturer studying the harmony of empirical science with faith and critic of atheism." }
+                id: 9, category: "01",
+                ar: { name: "حمزة تزورتزيس (Hamza Tzortzis)", badge: "حوارات فلسفية", bio: "داعية ومحاور بريطاني شهير يركز على الحوارات الفلسفية مع الملحدين في الغرب." },
+                en: { name: "Hamza Tzortzis", badge: "Philosophical Dialogues", bio: "Renowned British preacher and debater focusing on philosophical dialogues with atheists in the West." },
+                fr: { name: "Hamza Tzortzis", badge: "Dialogues Philosophiques", bio: "Célèbre prédicateur britannique axé sur les dialogues philosophiques avec les athées en Occident." },
+                es: { name: "Hamza Tzortzis", badge: "Diálogos Filosóficos", bio: "Reconocido predicador británico centrado en diálogos filosóficos con ateos." }
             },
             {
-                id: 10,
-                category: "05",
-                ar: { name: "المناظر عاصم الحكيم", badge: "داعية ومحاضر", bio: "داعية ومحاضر باللغة الإنجليزية يشتهر بالإجابات المباشرة والردود على الشبهات." },
-                en: { name: "Sheikh Assim Al-Hakeem", badge: "Preacher", bio: "English-speaking preacher known for direct answers and refuting doubts." }
+                id: 10, category: "01",
+                ar: { name: "محمد حجاب (Mohammed Hijab)", badge: "مناظر هايد بارك", bio: "محاور ومناظر بريطاني بارز، يشتهر بمناظراته القوية في هايد بارك وعلى المنصات الرقمية مع الملحدين والنصارى." },
+                en: { name: "Mohammed Hijab", badge: "Speakers' Corner Debater", bio: "Prominent British debater famous for powerful debates at Speakers' Corner and online with atheists and Christians." },
+                fr: { name: "Mohammed Hijab", badge: "Débatteur Hyde Park", bio: "Débatteur britannique de premier plan célèbre pour ses débats à Hyde Park et en ligne." },
+                es: { name: "Mohammed Hijab", badge: "Debatiente Hyde Park", bio: "Destacado debatiente británico famoso por sus debates en Hyde Park y en línea." }
+            },
+
+
+            // =========================================
+            // 02 مقارنة الأديان (الرد على النصارى واليهود)
+            // =========================================
+            {
+                id: 11, category: "02",
+                ar: { name: "د. منقذ السقار", badge: "أستاذ مقارنة الأديان", bio: "أستاذ مقارنة الأديان، وله مؤلفات ومناظرات شهيرة في الرد على شبهات النصارى." },
+                en: { name: "Dr. Munqidh Al-Saqqar", badge: "Comparative Religion", bio: "Professor of comparative religion with famous books and debates refuting Christian polemics." },
+                fr: { name: "Dr Munqidh Al-Saqqar", badge: "Religion Comparée", bio: "Professeur de religion comparée auteur de nombreux ouvrages réfutant les doutes chrétiens." },
+                es: { name: "Dr. Munqidh Al-Saqqar", badge: "Religión Comparada", bio: "Profesor de religión comparada con libros y debates famosos." }
+            },
+            {
+                id: 12, category: "02",
+                ar: { name: "معاذ عليان", badge: "نقد النصوص الكتابية", bio: "باحث ومناظر متخصص في الرد على شبهات النصارى ونقد النصوص الكتابية." },
+                en: { name: "Moaz Olayan", badge: "Textual Criticism", bio: "Researcher and debater specialized in refuting Christian doubts and biblical textual criticism." },
+                fr: { name: "Moaz Olayan", badge: "Critique Textuelle", bio: "Chercheur et débatteur spécialisé dans la critique textuelle biblique." },
+                es: { name: "Moaz Olayan", badge: "Crítica Textual", bio: "Investigador y debatiente especializado en crítica textual bíblica." }
+            },
+            {
+                id: 13, category: "02",
+                ar: { name: "محمود داود", badge: "مناظر رقمي", bio: "من أبرز المحاورين في الغرف الصوتية والمنصات الرقمية لمناظرة النصارى والرد على شبهاتهم." },
+                en: { name: "Mahmoud Daoud", badge: "Digital Debater", bio: "Prominent interlocutor in audio rooms and digital platforms debating Christians." },
+                fr: { name: "Mahmoud Daoud", badge: "Débatteur Numérique", bio: "Interlocuteur de premier plan sur les plateformes numériques débattant avec les chrétiens." },
+                es: { name: "Mahmoud Daoud", badge: "Debatiente Digital", bio: "Destacado interlocutor en plataformas digitales debatiendo con cristianos." }
+            },
+            {
+                id: 14, category: "02",
+                ar: { name: "أبو منتصر شاهين", badge: "نقد الكتاب المقدس", bio: "باحث في مقارنة الأديان وله شروحات ومناظرات مطولة في نقد الكتاب المقدس والرد على المنصرين." },
+                en: { name: "Abu Montaser Shaheen", badge: "Biblical Critique", bio: "Comparative religion researcher with extensive lectures and debates critiquing the Bible." },
+                fr: { name: "Abu Montaser Shaheen", badge: "Critique Biblique", bio: "Chercheur en religion comparée avec de longs débats sur la critique biblique." },
+                es: { name: "Abu Montaser Shaheen", badge: "Crítica Bíblica", bio: "Investigador en religión comparada con extensos debates bíblicos." }
+            },
+            {
+                id: 15, category: "02",
+                ar: { name: "إبراهيم خليل فيلوبوس", badge: "قس مصري سابق", bio: "قس مصري سابق أسلم، وله محاضرات وحوارات في مقارنة الأديان." },
+                en: { name: "Ibrahim Khalil Philobus", badge: "Former Priest", bio: "Former Egyptian priest who embraced Islam, delivering lectures and dialogues in comparative religion." },
+                fr: { name: "Ibrahim Khalil Philobus", badge: "Ancien Prêtre", bio: "Ancien prêtre égyptien converti à l'islam, conférencier en religion comparée." },
+                es: { name: "Ibrahim Khalil Philobus", badge: "Ex Sacerdote", bio: "Ex sacerdote egipcio convertido al Islam, conferenciante en religión comparada." }
+            },
+            {
+                id: 16, category: "02",
+                ar: { name: "يوسف إستس (Yusuf Estes)", badge: "قس أمريكي سابق", bio: "قس أمريكي سابق أسلم، ويُعد من أشهر الدعاة المحاورين للنصارى باللغة الإنجليزية." },
+                en: { name: "Yusuf Estes", badge: "Former Pastor", bio: "Former American pastor who embraced Islam, one of the best-known English-speaking preachers." },
+                fr: { name: "Yusuf Estes", badge: "Ancien Pasteur", bio: "Ancien pasteur américain converti à l'islam, célèbre prédicateur anglophone." },
+                es: { name: "Yusuf Estes", badge: "Ex Pastor", bio: "Ex pastor estadounidense convertido al Islam, famoso predicador en inglés." }
+            },
+            {
+                id: 17, category: "02",
+                ar: { name: "د. ذاكر نايك (Zakir Naik)", badge: "مقارنة الأديان", bio: "من أشهر المناظرين في العالم الإسلامي في مجال مقارنة الأديان والرد على غير المسلمين." },
+                en: { name: "Dr. Zakir Naik", badge: "Comparative Religion", bio: "One of the Muslim world's most famous debaters in comparative religion." },
+                fr: { name: "Dr Zakir Naik", badge: "Religion Comparée", bio: "L'un des débatteurs les plus célèbres du monde musulman en religion comparée." },
+                es: { name: "Dr. Zakir Naik", badge: "Religión Comparada", bio: "Uno de los debatientes más famosos del mundo islámico en religión comparada." }
+            },
+            {
+                id: 18, category: "02",
+                ar: { name: "أحمد ديدات (رحمه الله)", badge: "رائد المناظرة", bio: "رغم وفاته، لا تزال مناظراته تُبث وتُترجم وتُعد المرجع الأساسي للكثير من المحاورين المعاصرين." },
+                en: { name: "Ahmed Deedat", badge: "Debate Pioneer", bio: "His translated debates remain the foundational reference for modern comparative religion debaters." },
+                fr: { name: "Ahmed Deedat", badge: "Pionnier du Débat", bio: "Ses débats traduits restent la référence fondamentale pour les débatteurs contemporains." },
+                es: { name: "Ahmed Deedat", badge: "Pionero del Debate", bio: "Sus debates traducidos siguen siendo la referencia fundamental para los debatientes actuales." }
+            },
+
+
+            // =========================================
+            // 03 الرد على الشيعة (الفرق والمذاهب)
+            // =========================================
+            {
+                id: 19, category: "03",
+                ar: { name: "الشيخ عثمان الخميس", badge: "العقيدة والردود", bio: "يُعد من أبرز وأشهر المشايخ المتخصصين في الرد العلمي والهادئ على شبهات الشيعة الإمامية." },
+                en: { name: "Sheikh Othman Al-Khamis", badge: "Creed & Refutations", bio: "One of the most prominent scholars known for calm, scholarly refutations of Twelver Shia polemics." },
+                fr: { name: "Cheikh Othman Al-Khamis", badge: "Croyance & Réfutations", bio: "L'un des savants les plus éminents pour ses réfutations scientifiques et posées." },
+                es: { name: "Jeque Othman Al-Khamis", badge: "Credo y Refutaciones", bio: "Uno de los eruditos más destacados por ses refutaciones científicas y serenas." }
+            },
+            {
+                id: 20, category: "03",
+                ar: { name: "الشيخ عدنان العرعور", badge: "مناظرات الفرق", bio: "اشتهر بمناظراته التلفزيونية والرقمية الطويلة مع علماء الشيعة." },
+                en: { name: "Sheikh Adnan Al-Arour", badge: "Sectarian Debates", bio: "Famous for his extensive televised and digital debates with Shia scholars." },
+                fr: { name: "Cheikh Adnan Al-Arour", badge: "Débats Doctrinaux", bio: "Célèbre pour ses longs débats télévisés et numériques." },
+                es: { name: "Jeque Adnan Al-Arour", badge: "Debates Doctrinales", bio: "Famoso por sus extensos debates televisivos y digitales." }
+            },
+            {
+                id: 21, category: "03",
+                ar: { name: "الشيخ أبو المنتصر البلوشي", badge: "باحث ومناظر", bio: "باحث ومناظر متخصص في الرد على الشيعة الإثني عشرية." },
+                en: { name: "Sheikh Abu Al-Muntasir Al-Balushi", badge: "Researcher & Debater", bio: "Researcher and debater specialized in refuting Twelver Shiism." },
+                fr: { name: "Cheikh Abu Al-Muntasir Al-Balushi", badge: "Chercheur & Débatteur", bio: "Chercheur et débatteur spécialisé dans la réfutation du chiisme duodécimain." },
+                es: { name: "Jeque Abu Al-Muntasir Al-Balushi", badge: "Investigador y Debatiente", bio: "Investigador y debatiente especializado en el chiismo duodecimano." }
+            },
+            {
+                id: 22, category: "03",
+                ar: { name: "الشيخ أشرف غريب", badge: "حوارات direkte", bio: "ينشط بشكل كبير على منصات التواصل واليوتيوب في الحوارات المباشرة مع الشيعة." },
+                en: { name: "Sheikh Ashraf Gharib", badge: "Live Dialogues", bio: "Highly active on social media and YouTube in live dialogues with Shia interlocutors." },
+                fr: { name: "Cheikh Ashraf Gharib", badge: "Dialogues en Direct", bio: "Très actif sur les réseaux sociaux et YouTube dans les dialogues en direct." },
+                es: { name: "Jeque Ashraf Gharib", badge: "Diálogos en Vivo", bio: "Muy activo en redes sociales y YouTube en diálogos en vivo." }
+            },
+            {
+                id: 23, category: "03",
+                ar: { name: "الشيخ فراج الصهيبي", badge: "بثوث حية", bio: "يشتهر بحواراته ومناظراته المباشرة عبر البثوث الحية مع الشيعة." },
+                en: { name: "Sheikh Farraj Al-Suhaibi", badge: "Live Streams", bio: "Known for his live-streamed dialogues and debates on doctrinal differences." },
+                fr: { name: "Cheikh Farraj Al-Suhaibi", badge: "Diffusions en Direct", bio: "Connu pour ses dialogues et débats en direct sur les réseaux." },
+                es: { name: "Jeque Farraj Al-Suhaibi", badge: "Transmisiones en Vivo", bio: "Conocido por sus diálogos y debates en vivo." }
+            },
+            {
+                id: 24, category: "03",
+                ar: { name: "الشيخ محمد بن شمس الدين", badge: "ردود direkte", bio: "ينشط في الرد على المخالفين من شيعة وملحدين ومنكري السنة بأسلوب مباشر." },
+                en: { name: "Sheikh Mohamed bin Shams Al-Din", badge: "Direct Refutations", bio: "Active in refuting Shia, atheist, and Quranist claims with a direct style." },
+                fr: { name: "Cheikh Mohamed bin Shams Al-Din", badge: "Réfutations Directes", bio: "Actif dans la réfutation des allégations avec un style direct." },
+                es: { name: "Jeque Mohamed bin Shams Al-Din", badge: "Refutaciones Directas", bio: "Activo en refutar alegaciones con un estilo directo." }
+            },
+            {
+                id: 25, category: "03",
+                ar: { name: "الشيخ عبدالله الخليفي", badge: "العقيدة والفرق", bio: "باحث متخصص في العقيدة والرد على الفرق المخالفة والشيعة ومنكري السنة." },
+                en: { name: "Sheikh Abdullah Al-Khulaifi", badge: "Creed & Sects", bio: "Researcher specialized in creed and refuting heterodox sects and Hadith rejectors." },
+                fr: { name: "Cheikh Abdullah Al-Khulaifi", badge: "Croyance & Sectes", bio: "Chercheur spécialisé en croyance et réfutation des courants dissidents." },
+                es: { name: "Jeque Abdullah Al-Khulaifi", badge: "Credo y Sectas", bio: "Investigador especializado en credo y refutación de corrientes disidentes." }
+            },
+            {
+                id: 26, category: "03",
+                ar: { name: "خالد الوصابي (رحمه الله)", badge: "مناظر بارز", bio: "أحد أبرز المناظرين في هذا الباب، ولا تزال مقاطعه ومناظراته منتشرة بكثرة." },
+                en: { name: "Khaled Al-Wasabi", badge: "Prominent Debater", bio: "One of the most prominent debaters in this field, whose clips remain widely circulated." },
+                fr: { name: "Khaled Al-Wasabi", badge: "Débatteur Éminent", bio: "L'un des débatteurs les plus marquants dans ce domaine." },
+                es: { name: "Khaled Al-Wasabi", badge: "Debatiente Destacado", bio: "Uno de los debatientes más destacados en este campo." }
+            },
+
+
+            // =========================================
+            // 04 الدفاع عن السنة النبوية والرد على "القرآنيين"
+            // =========================================
+            {
+                id: 27, category: "04",
+                ar: { name: "الشيخ أبو إسحاق الحويني", badge: "علوم الحديث", bio: "من أبرز علماء الحديث المعاصرين الذين تصدوا لشبهات منكري السنة والطعن في الصحابة." },
+                en: { name: "Sheikh Abu Ishaq Al-Heweny", badge: "Hadith Sciences", bio: "Prominent contemporary Hadith scholar who countered Hadith rejectors and attacks on the Companions." },
+                fr: { name: "Cheikh Abu Ishaq Al-Heweny", badge: "Sciences du Hadith", bio: "Éminent savant du hadith ayant contré les négateurs de la Sunnah." },
+                es: { name: "Jeque Abu Ishaq Al-Heweny", badge: "Ciencias del Hadiz", bio: "Destacado erudito del hadiz que refutó a los negadores de la Sunnah." }
+            },
+            {
+                id: 28, category: "04",
+                ar: { name: "د. حاتم العوني", badge: "علوم الحديث", bio: "متخصص في علوم الحديث، وله أبحاث وردود علمية رصينة على شبهات منكري السنة." },
+                en: { name: "Dr. Hatem Al-Awni", badge: "Hadith Sciences", bio: "Specialist in Hadith sciences with rigorous scholarly refutations of Hadith rejectors." },
+                fr: { name: "Dr Hatem Al-Awni", badge: "Sciences du Hadith", bio: "Spécialiste des sciences du hadith avec des réfutations rigoureuses." },
+                es: { name: "Dr. Hatem Al-Awni", badge: "Ciencias del Hadiz", bio: "Especialista en ciencias del hadiz con refutaciones académicas rigurosas." }
+            },
+            {
+                id: 29, category: "04",
+                ar: { name: "د. عمرو بسيوني", badge: "الدفاع عن السنة", bio: "باحث متخصص في علوم الحديث والدفاع عن السنة النبوية والرد على المشككين فيها." },
+                en: { name: "Dr. Amr Bassiouni", badge: "Defense of Sunnah", bio: "Researcher specialized in Hadith sciences, defending the Prophetic Sunnah against skeptics." },
+                fr: { name: "Dr Amr Bassiouni", badge: "Défense de la Sunnah", bio: "Chercheur spécialisé dans les sciences du hadith et la défense de la Sunnah." },
+                es: { name: "Dr. Amr Bassiouni", badge: "Defensa de la Sunnah", bio: "Investigador especializado en ciencias del hadiz y defensa de la Sunnah." }
+            },
+            {
+                id: 30, category: "04",
+                ar: { name: "الشيخ عبدالرحمن دمشقية", badge: "الرد على الشبهات", bio: "له باع طويل في الرد على الفرق المخالفة ومنكري السنة والمستشرقين." },
+                en: { name: "Sheikh Abdulrahman Dimashqiah", badge: "Refuting Doubts", bio: "Extensive experience refuting heterodox groups, Hadith rejectors, and Orientalists." },
+                fr: { name: "Cheikh Abdulrahman Dimashqiah", badge: "Réfutation des Doutes", bio: "Longue expérience dans la réfutation des négateurs de la Sunnah et des orientalistes." },
+                es: { name: "Jeque Abdulrahman Dimashqiah", badge: "Refutación de Dudas", bio: "Amplia experiencia refutando a negadores de la Sunnah y orientalistas." }
+            },
+            {
+                id: 31, category: "04",
+                ar: { name: "مشاري راشد (الباحث)", badge: "الرد على القرآنيين", bio: "ينشط في الرد على شبهات منكري السنة والقرآنيين على منصات التواصل." },
+                en: { name: "Mishari Rashid (The Researcher)", badge: "Sunnah Defense", bio: "Active on social platforms refuting doubts raised by Hadith rejectors." },
+                fr: { name: "Mishari Rashid (Le Chercheur)", badge: "Défense de la Sunnah", bio: "Actif sur les plateformes sociales pour réfuter les négateurs de la Sunnah." },
+                es: { name: "Mishari Rashid (El Investigador)", badge: "Defensa de la Sunnah", bio: "Activo en redes sociales refutando dudas de los negadores de la Sunnah." }
+            },
+            {
+                id: 32, category: "04",
+                ar: { name: "عبدالله رشدي", badge: "حوارات إعلامية", bio: "يشتهر بمداخلات التلفزيونية وحواراته على منصات التواصل في الرد على منكري السنة والملحدين." },
+                en: { name: "Abdullah Rushdy", badge: "Media Dialogues", bio: "Known for televised interventions and social media debates refuting Hadith rejectors and atheists." },
+                fr: { name: "Abdullah Rushdy", badge: "Dialogues Médiatiques", bio: "Connu pour ses interventions télévisées et ses débats sur les réseaux sociaux." },
+                es: { name: "Abdullah Rushdy", badge: "Diálogos Mediáticos", bio: "Conocido por sus intervenciones télévisivas et debats en redes sociales." }
+            },
+            {
+                id: 33, category: "04",
+                ar: { name: "د. محمد بن رزق الطرهوني", badge: "علوم الحديث", bio: "متخصص في علوم الحديث وله ردود مفصلة على شبهات القرآنيين." },
+                en: { name: "Dr. Mohamed bin Rizq Al-Tarhouni", badge: "Hadith Sciences", bio: "Specialist in Hadith sciences with detailed refutations of Quranist claims." },
+                fr: { name: "Dr Mohamed bin Rizq Al-Tarhouni", badge: "Sciences du Hadith", bio: "Spécialiste des sciences du hadith avec des réfutations détaillées." },
+                es: { name: "Dr. Mohamed bin Rizq Al-Tarhouni", badge: "Ciencias del Hadiz", bio: "Especialista en ciencias del hadiz con refutaciones detalladas." }
+            },
+
+
+            // =========================================
+            // 05 يجمعون بين التخصصات (الرد العام والمناظرات المفتوحة)
+            // =========================================
+            {
+                id: 34, category: "05",
+                ar: { name: "شمس الدين الجزائري", badge: "مناظرات مفتوحة", bio: "ينشط في البثوث المباشرة والحوارات المفتوحة مع مختلف الطوائف (شيعة، نصارى، ملحدين، ومنكري سنة)." },
+                en: { name: "Shams Al-Din Al-Jazairi", badge: "Open Debates", bio: "Active in live broadcasts and open dialogues across various groups (Shia, Christians, atheists, Quranists)." },
+                fr: { name: "Shams Al-Din Al-Jazairi", badge: "Débats Ouverts", bio: "Actif dans les diffusions en direct et dialogues ouverts avec divers courants." },
+                es: { name: "Shams Al-Din Al-Jazairi", badge: "Debates Abiertos", bio: "Activo en transmisiones en vivo y diálogos abiertos con diversos grupos." }
+            },
+            {
+                id: 35, category: "05",
+                ar: { name: "أبو عمر الباحث (مكافح الشبهات)", badge: "مكافح الشبهات", bio: "يدير منصة وموقعاً شهيراً للرد على الشبهات بشتى أنواعها (إلحادية، تنصيرية، شيعية، وقرآنية)." },
+                en: { name: "Abu Omar Al-Bahith", badge: "Countering Doubts", bio: "Runs a prominent platform and website refuting atheistic, missionary, Shia, and Quranist claims." },
+                fr: { name: "Abu Omar Al-Bahith", badge: "Réfutation Générale", bio: "Dirige une plateforme reconnue réfutant les doutes athées, missionnaires et sectaires." },
+                es: { name: "Abu Omar Al-Bahith", badge: "Refutación General", bio: "Dirige una plataforma reconocida que refuta dudas ateas, misioneras y sectarias." }
+            },
+            {
+                id: 36, category: "05",
+                ar: { name: "علي دواه (Ali Dawah)", badge: "مناظرات الشارع", bio: "محاور بريطاني ينشط في الشوارع وعلى اليوتيوب لمحاورة غير المسلمين والملحدين." },
+                en: { name: "Ali Dawah", badge: "Street Debates", bio: "British interlocutor active on the streets and YouTube debating non-Muslims and atheists." },
+                fr: { name: "Ali Dawah", badge: "Débats de Rue", bio: "Interlocuteur britannique actif dans la rue et sur YouTube avec les non-musulmans et athées." },
+                es: { name: "Ali Dawah", badge: "Debates Callejeros", bio: "Interlocutor británico activo en las calles y YouTube debatiendo con no musulmanes." }
+            },
+            {
+                id: 37, category: "05",
+                ar: { name: "أبو بكر الشطي", badge: "الشبهات العقدية", bio: "ينشط في الرد على الشبهات العقدية ومحاورة المخالفين." },
+                en: { name: "Abu Bakr Al-Shatti", badge: "Creedal Doubts", bio: "Active in refuting doctrinal doubts and debating opponents." },
+                fr: { name: "Abu Bakr Al-Shatti", badge: "Doutes Doctrinaux", bio: "Actif dans la réfutation des doutes doctrinaux." },
+                es: { name: "Abu Bakr Al-Shatti", badge: "Dudas Doctrinales", bio: "Activo en la refutación de dudas doctrinales." }
+            },
+            {
+                id: 38, category: "05",
+                ar: { name: "محمود شعبان", badge: "مناظرات فكرية", bio: "اشتهر بظهوره الإعلامي ومناظراته مع العلمانيين ومنكري السنة." },
+                en: { name: "Mahmoud Shaaban", badge: "Intellectual Debates", bio: "Known for his media appearances and debates with secularists and Hadith rejectors." },
+                fr: { name: "Mahmoud Shaaban", badge: "Débats Intellectuels", bio: "Connu pour ses apparitions médiatiques et ses débats avec les laïcs et négateurs de la Sunnah." },
+                es: { name: "Mahmoud Shaaban", badge: "Debates Intelectuales", bio: "Conocido por sus apariciones mediáticas y debates con secularistas." }
             }
         ];
+
+
+        const uiText = {
+            ar: {
+                title: "أعلام الدعوة والفكر",
+                menuBtn: "☰ الفهرس",
+                searchPlaceholder: "ابحث بالاسم أو التخصص...",
+                intro: "دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).",
+                drawerTitle: "الفهرس",
+                btnBio: "السيرة",
+                btnYoutube: "يوتيوب",
+                noResults: "لا توجد نتائج مطابقة.",
+                categories: [
+                    { id: "all", label: "📚 كل الشخصيات (38)" },
+                    { id: "01", label: "01 مناظرة الملحدين والرد على الشبهات" },
+                    { id: "02", label: "02 مقارنة الأديان (النصارى واليهود)" },
+                    { id: "03", label: "03 الرد على الشيعة والفرق" },
+                    { id: "04", label: "04 الدفاع عن السنة والرد على القرآنيين" },
+                    { id: "05", label: "05 الرد العام والمناظرات المفتوحة" }
+                ]
+            },
+            en: {
+                title: "Flags of Da'wah & Thought",
+                menuBtn: "☰ Index",
+                searchPlaceholder: "Search by name or specialty...",
+                intro: "Directory of contemporary preachers, debaters, and researchers in comparative religion and refuting doubts (38 figures).",
+                drawerTitle: "Index",
+                btnBio: "Biography",
+                btnYoutube: "YouTube",
+                noResults: "No matching results found.",
+                categories: [
+                    { id: "all", label: "📚 All Figures (38)" },
+                    { id: "01", label: "01 Debating Atheists & Refuting Doubts" },
+                    { id: "02", label: "02 Comparative Religion" },
+                    { id: "03", label: "03 Refuting Shia & Sects" },
+                    { id: "04", label: "04 Defending Sunnah & Hadith" },
+                    { id: "05", label: "05 General & Open Debates" }
+                ]
+            },
+            fr: {
+                title: "Figures de la Da'wa & Pensée",
+                menuBtn: "☰ Index",
+                searchPlaceholder: "Rechercher par nom ou spécialité...",
+                intro: "Répertoire des prédicateurs, débatteurs et chercheurs contemporains en religion comparée (38 figures).",
+                drawerTitle: "Index",
+                btnBio: "Biographie",
+                btnYoutube: "YouTube",
+                noResults: "Aucun résultat trouvé.",
+                categories: [
+                    { id: "all", label: "📚 Toutes les figures (38)" },
+                    { id: "01", label: "01 Débats avec les athées" },
+                    { id: "02", label: "02 Religion comparée" },
+                    { id: "03", label: "03 Réfutation du chiisme" },
+                    { id: "04", label: "04 Défense de la Sunnah" },
+                    { id: "05", label: "05 Débats ouverts & généraux" }
+                ]
+            },
+            es: {
+                title: "Figuras de la Da'wa",
+                menuBtn: "☰ Índice",
+                searchPlaceholder: "Buscar por nombre o especialidad...",
+                intro: "Directorio de predicadores, debatientes e investigadores contemporáneos en religión comparada (38 figuras).",
+                drawerTitle: "Índice",
+                btnBio: "Biografía",
+                btnYoutube: "YouTube",
+                noResults: "No se encontraron resultados.",
+                categories: [
+                    { id: "all", label: "📚 Todas las figuras (38)" },
+                    { id: "01", label: "01 Debate con ateos y dudas" },
+                    { id: "02", label: "02 Religión comparada" },
+                    { id: "03", label: "03 Refutación del chiismo" },
+                    { id: "04", label: "04 Defensa de la Sunnah" },
+                    { id: "05", label: "05 Debates abiertos y generales" }
+                ]
+            }
+        };
 
 
         let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
@@ -326,18 +632,57 @@
         const htmlEl = document.documentElement;
 
 
+        function normalizeArabic(text) {
+            return text.replace(/[\u064B-\u065F\u0670]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").toLowerCase().trim();
+        }
+
+
+        function renderDrawerMenu() {
+            const t = uiText[currentLang] || uiText['ar'];
+            const listEl = document.getElementById('drawerList');
+            listEl.innerHTML = '';
+            t.categories.forEach(cat => {
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = cat.label;
+                if (currentCategory === cat.id) btn.classList.add('active-cat');
+                btn.addEventListener('click', () => {
+                    currentCategory = cat.id;
+                    toggleDrawer(false);
+                    renderDrawerMenu();
+                    renderCards();
+                });
+                li.appendChild(btn);
+                listEl.appendChild(li);
+            });
+        }
+
+
         function renderCards() {
-            container.innerHTML = '';
+            const t = uiText[currentLang] || uiText['ar'];
+            container.innerHTML = ''
+
+
             const filtered = scholarsData.filter(item => {
                 const d = item[currentLang] || item['ar'];
-                const matchesQuery = d.name.toLowerCase().includes(currentQuery.toLowerCase()) || d.bio.toLowerCase().includes(currentQuery.toLowerCase());
                 const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
-                return matchesQuery && matchesCategory;
+                if (!matchesCategory) return false;
+                if (!currentQuery) return true;
+
+
+                if (currentLang === 'ar') {
+                    const q = normalizeArabic(currentQuery);
+                    return normalizeArabic(d.name).includes(q) || normalizeArabic(d.bio).includes(q) || normalizeArabic(d.badge).includes(q);
+                } else {
+                    const q = currentQuery.toLowerCase();
+                    return d.name.toLowerCase().includes(q) || d.bio.toLowerCase().includes(q) || d.badge.toLowerCase().includes(q);
+                }
             });
 
 
             if (filtered.length === 0) {
-                container.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">لا توجد نتائج مطابقة.</p>';
+                container.innerHTML = `<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">${t.noResults}</p>`;
                 return;
             }
 
@@ -353,14 +698,14 @@
                     </div>
                     <p class="card-body">${d.bio}</p>
                     <div class="card-actions">
-                        <button class="btn-action btn-bio" type="button">السيرة</button>
-                        <button class="btn-action btn-youtube" type="button">يوتيوب</button>
+                        <button class="btn-action btn-bio" type="button">${t.btnBio}</button>
+                        <button class="btn-action btn-youtube" type="button">${t.btnYoutube}</button>
                     </div>
                 `;
 
 
                 card.querySelector('.btn-bio').addEventListener('click', () => {
-                    alert(`${d.name}\n\n${d.bio}`);
+                    alert(`${d.name}\n[${d.badge}]\n\n${d.bio}`);
                 });
 
 
@@ -374,11 +719,18 @@
         }
 
 
-        window.filterByCategory = function(cat) {
-            currentCategory = cat;
-            toggleDrawer(false);
+        function updateInterfaceLanguage() {
+            const t = uiText[currentLang] || uiText['ar'];
+            document.getElementById('ui-title').textContent = t.title;
+            document.getElementById('openDrawerBtn').textContent = t.menuBtn;
+            document.getElementById('ui-intro').textContent = t.intro;
+            document.getElementById('ui-drawer-title').textContent = t.drawerTitle;
+            searchInput.placeholder = t.searchPlaceholder;
+            htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            htmlEl.setAttribute('lang', currentLang);
+            renderDrawerMenu();
             renderCards();
-        };
+        }
 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -394,9 +746,7 @@
                     e.currentTarget.classList.add('active');
                     currentLang = e.currentTarget.getAttribute('data-lang');
                     localStorage.setItem('a3lam-lang', currentLang);
-                    htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-                    htmlEl.setAttribute('lang', currentLang);
-                    renderCards();
+                    updateInterfaceLanguage();
                 });
             });
 
@@ -405,8 +755,7 @@
             const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia';
             htmlEl.setAttribute('data-theme', savedTheme);
             themeBtns.forEach(b => {
-                if(b.getAttribute('data-theme') === savedTheme) b.classList.add('active');
-                else b.classList.remove('active');
+                b.classList.toggle('active', b.getAttribute('data-theme') === savedTheme);
             });
 
 
@@ -425,13 +774,8 @@
             const overlay = document.getElementById('drawerOverlay');
             
             window.toggleDrawer = function(open) {
-                if(open) {
-                    drawer.classList.add('open');
-                    overlay.classList.add('active');
-                } else {
-                    drawer.classList.remove('open');
-                    overlay.classList.remove('active');
-                }
+                drawer.classList.toggle('open', open);
+                overlay.classList.toggle('active', open);
             };
 
 
@@ -440,9 +784,10 @@
             overlay.addEventListener('click', () => toggleDrawer(false));
 
 
-            htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            document.querySelector(`#langGroup .control-btn[data-lang="${currentLang}"]`)?.classList.add('active');
-            renderCards();
+            document.querySelectorAll('#langGroup .control-btn').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-lang') === currentLang);
+            });
+            updateInterfaceLanguage();
         });
     </script>
 </body>
