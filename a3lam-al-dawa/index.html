@@ -1,315 +1,573 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="sepia">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f8f4e8">
-  <meta name="description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة في العصر الرقمي: 35 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
-  <meta property="og:title" content="أعلام الدعوة والفكر والمناظرة في العصر الرقمي">
-  <meta property="og:description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة: 35 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="./icon-512.png">
-  <title>أعلام الدعوة والفكر والمناظرة في العصر الرقمي</title>
-  <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./icon-180.png">
-  <link rel="manifest" href="./manifest.json">
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>أعلام الدعوة والمناظرة في العصر الرقمي</title>
+    
+    <!-- الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 
 
-/* nuzhat-al-mushtaq colour palette */
-/* Drawer open state on body */
-body.drawer-open {
-  overflow: hidden;
-  padding-right: 14px; /* scrollbar compensation */
-}
-:root {
-  --parchemin: #f4ecd8;
-  --ivoire: #fcf8f0;
-  --emerald: #15472a;
-  --bronze: #9c722e;
-  --border: #d9ccb2;
-  --search-highlight: #fde047;
-  --ink-black: #1a1a1a;
-}
-
-[data-theme="sepia"] {
-  --bg: var(--parchemin);
-  --bg-deep: #e8dcca;
-  --surface: rgba(252, 248, 240, 0.9);
-  --surface-solid: var(--ivoire);
-  --surface-soft: #f0e4d0;
-  --ink: var(--emerald);
-  --ink-soft: #5a4a3a;
-  --line: var(--border);
-  --gold-soft: #fde047;
-  --gold-hard: #f5c26d;
-  --muted: #7a6b5c;
-}
-
-[data-theme="light"] {
-  --bg: #ffffff;
-  --bg-deep: #f8f8f8;
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-solid: #ffffff;
-  --surface-soft: #fafafa;
-  --ink: #1a1a1a;
-  --ink-soft: #555;
-  --line: #e0e0e0;
-}
-
-[data-theme="dark"] {
-  --bg: #1a1a1a;
-  --bg-deep: #121212;
-  --surface: rgba(18, 18, 18, 0.88);
-  --surface-solid: #121212;
-  --surface-soft: #1e1e1e;
-  --ink: #f0f0f0;
-  --ink-soft: #aaa;
-  --line: #333;
-}
-
-/* Typography */
-@font-face {
-  font-family: 'Amiri';
-  src: url(data:font/woff2;base64,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
-}
-
-@font-face {
-  font-family: 'Scheherazade New';
-  src: url(data:font/woff2;base64,....);
-}
-
-/* Fallback system fonts */
-@font-face {
-  font-family: 'Cairo';
-  src: url(data:font/woff2;base64,...);
-}
-
-/* Base styles */
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 120px; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);
-  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
-  color: var(--ink);
-  transition: background .3s, color .3s;
-}
-
-/* Fix mobile overflow */
-body.no-overflow { overflow-x: hidden; }
-
-/* ... continue with rest of CSS using new variables ... */
-
-/* Header */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 80%, transparent);
-  backdrop-filter: blur(8px);
-}
-
-/* ... etc */
-/* Sidebar / drawer fix - nuzhat style */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 280px;
-  transform: translateX(100%);
-  transition: transform .3s ease;
-  z-index: 150;
-  background: var(--ivoire);
-  border-right: 1px solid var(--border);
-  color: var(--ink);
-}
-
-.sidebar.open {
-  transform: translateX(0);
-}
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s, visibility .3s;
-  z-index: 140;
-}
-
-.overlay.open {
-  opacity: 1;
-  visibility: visible;
-}
-
-.drawer-toggle {
-  padding: .5rem;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  z-index: 160;
-}
-
-/* No horizontal overflow on mobile */
-.no-overflow { overflow-x: hidden; }
+    <style>
+        :root {
+            --bg-parchemin: #f4ecd8;
+            --bg-ivoire: #fcf8f0;
+            --primary-emerald: #15472a;
+            --accent-bronze: #9c722e;
+            --text-main: #2c2c2c;
+            --text-muted: #5a5a5a;
+            --border-color: #d1c7b3;
+            
+            --font-title: 'Amiri', serif;
+            --font-body: 'Scheherazade New', 'Amiri', serif;
+            --font-size-base: 16px;
+            
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
 
-</style>
+        [data-theme="light"] {
+            --bg-parchemin: #ffffff;
+            --bg-ivoire: #f8f9fa;
+            --text-main: #111111;
+            --text-muted: #444444;
+            --border-color: #dddddd;
+        }
+
+
+        [data-theme="dark"] {
+            --bg-parchemin: #1a1a1a;
+            --bg-ivoire: #2a2a2a;
+            --primary-emerald: #4ade80;
+            --accent-bronze: #d4af37;
+            --text-main: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --border-color: #444444;
+        }
+
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { font-size: var(--font-size-base); scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-parchemin);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+
+        h1, h2, h3, h4, p { margin-block-end: var(--spacing-sm); text-align: start; }
+        a { color: var(--primary-emerald); text-decoration: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
+
+
+        header {
+            background-color: var(--bg-ivoire);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            border-bottom: 2px solid var(--accent-bronze);
+        }
+
+
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+
+
+        .app-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+            color: var(--primary-emerald);
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+
+        .header-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+
+        .control-group {
+            display: flex;
+            background: var(--bg-parchemin);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+
+        .control-btn {
+            padding: 4px 10px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            border-inline-end: 1px solid var(--border-color);
+            transition: background 0.2s;
+        }
+        .control-btn:last-child { border-inline-end: none; }
+        .control-btn:hover, .control-btn.active { background: var(--accent-bronze); color: white; }
+
+
+        .menu-toggle-btn {
+            background: var(--primary-emerald);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+
+        .search-container { width: 100%; max-width: 600px; margin: 0 auto; }
+        .search-box { position: relative; width: 100%; }
+        .search-input {
+            width: 100%; padding: 12px 16px; font-family: var(--font-body);
+            font-size: 1.1rem; border: 2px solid var(--border-color);
+            border-radius: 25px; background: var(--bg-ivoire); color: var(--text-main);
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { outline: none; border-color: var(--primary-emerald); }
+
+
+        main { padding: var(--spacing-md); max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        .intro-text { text-align: center; margin-bottom: var(--spacing-lg); color: var(--text-muted); font-size: 1.1rem; }
+
+
+        .cards-grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-md); }
+        @media (min-width: 600px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 900px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+
+        .card {
+            background: var(--bg-ivoire); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: var(--spacing-md); box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-bronze); }
+
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm); }
+        .card-title { font-family: var(--font-title); font-size: 1.3rem; color: var(--primary-emerald); font-weight: bold; }
+        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+        .card-body { flex-grow: 1; font-size: 1rem; color: var(--text-main); margin-bottom: var(--spacing-md); }
+        .card-actions { display: flex; gap: var(--spacing-sm); margin-top: auto; }
+
+
+        .btn-action {
+            flex: 1; padding: 8px; border-radius: 6px; font-size: 0.9rem; text-align: center;
+            background: var(--bg-parchemin); border: 1px solid var(--border-color);
+            color: var(--text-main); transition: 0.2s;
+        }
+        .btn-action:hover { background: var(--primary-emerald); color: white; border-color: var(--primary-emerald); }
+
+
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px); opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s; z-index: 999;
+        }
+        .overlay.active { opacity: 1; visibility: visible; }
+
+
+        .drawer {
+            position: fixed; top: 0; 
+            inset-inline-end: 0; 
+            width: 300px; max-width: 85vw; height: 100dvh;
+            background: var(--bg-ivoire); box-shadow: -4px 0 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateX(100%); 
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column; overflow-y: auto;
+            border-inline-start: 3px solid var(--primary-emerald);
+        }
+        
+        [dir="ltr"] .drawer { transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
+
+
+        .drawer.open { transform: translateX(0) !important; }
+
+
+        .drawer-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: var(--spacing-md); border-bottom: 1px solid var(--border-color); background: var(--bg-parchemin);
+        }
+        .drawer-title { font-family: var(--font-title); font-size: 1.2rem; font-weight: bold; color: var(--primary-emerald); margin: 0; }
+        .close-btn { font-size: 1.5rem; color: var(--text-muted); padding: 4px; line-height: 1; }
+        .close-btn:hover { color: #ff4d4d; }
+        .drawer-content { padding: var(--spacing-md); }
+        .drawer-list { list-style: none; }
+        .drawer-list li { margin-bottom: var(--spacing-sm); }
+        .drawer-list a { display: block; padding: 8px 12px; border-radius: 6px; color: var(--text-main); font-size: 1rem; transition: background 0.2s; }
+        .drawer-list a:hover { background: var(--bg-parchemin); color: var(--primary-emerald); font-weight: bold; }
+    </style>
 </head>
 <body>
-  <a class="skip-link" href="#catalog" id="skipLink">تجاوز إلى الدليل</a>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <button class="menu-toggle" id="menuToggle" type="button" aria-controls="toc" aria-expanded="false" aria-label="فتح الفهرس">
-        <span aria-hidden="true">☰</span>
-        <span id="menuLabel">الفهرس</span>
-      </button>
-      <a class="brand" href="./" aria-label="أعلام الدعوة والفكر والمناظرة">
-        <img src="./icon.svg" alt="" width="42" height="42">
-        <span class="brand-copy">
-          <span class="brand-title" id="brandTitle">أعلام الدعوة والفكر</span>
-          <span class="brand-sub" id="brandSub">UcfZem · Maktaba</span>
-        </span>
-      </a>
-      <div class="header-controls">
-        <div class="control-group" id="langGroup" role="group" aria-label="اختيار اللغة">
-          <button class="lang-btn" type="button" data-lang="ar" aria-pressed="true"><span class="flag" aria-hidden="true">🇲🇦</span>AR</button>
-          <button class="lang-btn" type="button" data-lang="en" aria-pressed="false"><span class="flag" aria-hidden="true">🇬🇧</span>EN</button>
-          <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false"><span class="flag" aria-hidden="true">🇫🇷</span>FR</button>
-          <button class="lang-btn" type="button" data-lang="es" aria-pressed="false"><span class="flag" aria-hidden="true">🇪🇸</span>ES</button>
-        </div>
-        <div class="control-group" id="themeGroup" role="group" aria-label="اختيار المظهر">
-          <button class="theme-btn" type="button" data-theme-value="sepia" aria-pressed="true" aria-label="مظهر بارشمان" title="مظهر بارشمان">◐</button>
-          <button class="theme-btn" type="button" data-theme-value="light" aria-pressed="false" aria-label="مظهر نهاري" title="مظهر نهاري">☀</button>
-          <button class="theme-btn" type="button" data-theme-value="dark" aria-pressed="false" aria-label="مظهر ليلي" title="مظهر ليلي">☾</button>
-        </div>
-        <div class="control-group" id="fontGroup" role="group" aria-label="حجم القراءة">
-          <button class="font-btn" id="fontMinus" type="button" aria-label="تصغير الخط">A−</button>
-          <span class="font-readout" id="fontReadout">100%</span>
-          <button class="font-btn" id="fontReset" type="button" aria-label="إعادة حجم الخط">Reset</button>
-          <button class="font-btn" id="fontPlus" type="button" aria-label="تكبير الخط">A+</button>
-        </div>
-        <span class="net-badge" id="netBadge" role="status" aria-live="polite">🟢 متصل</span>
-      </div>
-    </div>
-  </header>
 
-  <main id="mainContent">
-    <section class="hero">
-      <div class="hero-shell">
-        <div class="hero-content">
-          <span class="eyebrow" id="eyebrow">دليل تفاعلي · نسخة 2026</span>
-          <h1 class="hero-title" id="heroTitle">أعلام الدعوة والفكر والمناظرة في العصر الرقمي</h1>
-          <p class="hero-lede" id="heroLede">خمسة وثلاثون علمًا من ميادين الدعوة والمناظرة والفكر، في دليل واحد يجمع السيرة المختصرة، والبحث الذكي، وتجربة قراءة تعمل دون اتصال.</p>
-          <div class="hero-meta">
-            <span class="meta-pill" id="metaProfiles">35 بطاقة</span>
-            <span class="meta-pill gold" id="metaCategories">6 مسارات</span>
-            <span class="meta-pill" id="metaLangs">AR · EN · FR · ES</span>
-          </div>
-          <div class="search-panel">
+    <header>
+        <div class="header-top">
+            <h1 class="app-title" id="ui-title">أعلام الدعوة والفكر</h1>
+            <button class="menu-toggle-btn" id="openDrawerBtn">
+                <span id="ui-menu-btn">☰ الفهرس</span>
+            </button>
+        </div>
+        
+        <div class="search-container">
             <div class="search-box">
-              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.35-4.35M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
-              <input class="search-input" id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="ابحث بالاسم، التخصص، البلد أو كلمة مفتاحية…" aria-label="البحث في الدليل">
-              <button class="search-clear" id="searchClear" type="button">مسح</button>
+                <input type="search" id="searchInput" class="search-input" placeholder="ابحث بالاسم، التخصص، البلد..." autocomplete="off">
             </div>
-            <div class="search-status">
-              <span class="status-item result-summary" id="resultSummary">35 علمًا · 6 مسارات</span>
-              <div class="match-nav" id="searchNav">
-                <button class="match-btn" id="prevMatch" type="button">◀ <span id="prevLabel">السابق</span></button>
-                <span class="match-counter" id="matchCounter" aria-live="polite"></span>
-                <button class="match-btn" id="nextMatch" type="button"><span id="nextLabel">التالي</span> ▶</button>
-              </div>
-              <span class="search-hint" id="searchHint">البحث يتجاهل التشكيل وفروق الهمزات ويعمل داخل النصوص المترجمة.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="layout">
-      <aside class="toc" id="toc" aria-label="فهرس الشخصيات والأقسام">
-        <div class="toc-head">
-          <h2 class="toc-title" id="tocTitle">الفهرس</h2>
-          <button class="toc-close" id="tocClose" type="button" aria-label="إغلاق الفهرس">✕</button>
-        </div>
-        <p class="toc-note" id="tocNote">انتقل مباشرة إلى الشخصية أو القسم</p>
-        <nav class="toc-list" id="tocList" aria-label="فهرس الشخصيات والأقسام"></nav>
-        <div class="toc-foot" id="tocFoot">35 علمًا · 6 مسارات</div>
-      </aside>
-      <div class="toc-overlay" id="tocOverlay"></div>
-
-      <div class="content">
-        <section class="section-card" id="about">
-          <div class="about-grid">
-            <div>
-              <span class="section-kicker" id="introKicker">بين الميدان والمنصة</span>
-              <h2 class="about-title" id="introTitle">منارات في زمن الضجيج</h2>
-              <p class="prose" id="introP1">يجمع هذا الدليل نخبة من الدعاة والمحاورين والباحثين الذين صنعوا حضورًا مؤثرًا في الفضاء الرقمي والمعرفي. تتنوع ميادينهم بين العمل الميداني، ومناظرات الأديان، والرد على الشبهات، ونقد الإلحاد، والمحاضرات العالمية.</p>
-              <p class="prose" id="introP2" style="margin-top:.75rem">صُمم الدليل ليكون مدخلًا سريعًا للتعرف على هذه الشخصيات وأبرز مجالاتها، مع بحث يعمل بالعربية والإنجليزية والفرنسية والإسبانية، وروابط مباشرة لمحتواها المرئي، وإمكانية النسخ والمشاركة.</p>
-            </div>
-            <div class="bio-card" id="bio">
-              <div class="bio-mark" aria-hidden="true">هـ</div>
-              <div class="bio-profile">
-                <div class="bio-avatar" aria-hidden="true">هـ</div>
-                <div>
-                  <h3 id="bioName">هشام صدقي الإبراشي</h3>
-                  <p class="bio-role" id="bioRole">مؤسس الدليل · UcfZem</p>
-                </div>
-              </div>
-              <p id="bioText">عمل على جمع هذا الدليل وتنسيقه بوصفه مرجعًا رقميًا مختصرًا لأعلام الدعوة والفكر والمناظرة. يهتم بالتنظيم المعرفي، وتيسير الوصول إلى المحتوى الموثوق، وبناء أدوات عربية تعمل دون اتصال وتصل إلى القارئ حيث كان.</p>
-              <div class="bio-actions">
-                
-                
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div class="catalog-head" id="catalog">
-          <div>
-            <span class="section-kicker" id="catalogKicker">الدليل</span>
-            <h2 class="catalog-title" id="catalogTitle">الدليل</h2>
-          </div>
-          <span class="catalog-note" id="catalogNote">35 علمًا · 6 مسارات</span>
         </div>
 
-        <div id="categories"></div>
 
-        <div class="empty-state" id="emptyState">
-          <div class="empty-icon" aria-hidden="true">⌕</div>
-          <h3 class="empty-title" id="emptyTitle">لا توجد نتائج</h3>
-          <p class="empty-hint" id="emptyHint">جرّب اسمًا آخر، أو امسح البحث لعرض كل الشخصيات.</p>
+        <div class="header-controls">
+            <div class="control-group" id="langGroup">
+                <button class="control-btn active" data-lang="ar">AR</button>
+                <button class="control-btn" data-lang="en">EN</button>
+                <button class="control-btn" data-lang="fr">FR</button>
+                <button class="control-btn" data-lang="es">ES</button>
+            </div>
+            
+            <div class="control-group" id="themeGroup">
+                <button class="control-btn active" data-theme="sepia" title="سيبيا">📜</button>
+                <button class="control-btn" data-theme="light" title="فاتح">☀️</button>
+                <button class="control-btn" data-theme="dark" title="داكن">🌙</button>
+            </div>
+
+
+            <div class="control-group" id="zoomGroup">
+                <button class="control-btn" id="zoomOut" title="تصغير">A-</button>
+                <button class="control-btn" id="zoomReset" title="إعادة ضبط">Reset</button>
+                <button class="control-btn" id="zoomIn" title="تكبير">A+</button>
+            </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </header>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-copy" id="footerCopy">أعلام الدعوة والفكر · دليل رقمي يعمل دون اتصال</div>
-      <div class="footer-links">
-        <a class="footer-link" id="footerMaktaba" href="https://ucfzem.github.io/works/Maktaba/">المكتبة</a>
-        <a class="footer-link" id="footer</footer>
 
-  <a class="top-link" id="topLink" href="#mainContent" aria-label="العودة إلى الأعلى">↑</a>
+    <main>
+        <p class="intro-text" id="ui-intro">
+            خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر، في دليل واحد...
+        </p>
+        
+        <div class="cards-grid" id="cardsContainer">
+            <!-- سيتم حقن البطاقات هنا عبر JavaScript -->
+        </div>
+    </main>
 
-  <script src="./data.js" defer></script>
-  <script src="./app.js" defer></script>
 
-    <!-- Theme from localStorage -->
+    <div class="overlay" id="drawerOverlay"></div>
+
+
+    <aside class="drawer" id="sidebarDrawer" aria-label="القائمة الجانبية">
+        <div class="drawer-header">
+            <h2 class="drawer-title" id="ui-drawer-title">الفهرس</h2>
+            <button class="close-btn" id="closeDrawerBtn" aria-label="إغلاق">✕</button>
+        </div>
+        <div class="drawer-content">
+            <ul class="drawer-list" id="ui-drawer-list">
+                <!-- سيتم تحديث روابط القائمة بناءً على اللغة -->
+            </ul>
+        </div>
+    </aside>
+
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const stored = localStorage.getItem("a3lam-theme");
-        if (stored) document.documentElement.dataset.theme = stored;
-      });
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const scholarsData = [
+                {
+                    id: 1,
+                    ar: { name: "الشيخ أحمد ديدات", badge: "مناظر", bio: "من أشهر المناظرين في مقارنة الأديان." },
+                    en: { name: "Sheikh Ahmed Deedat", badge: "Debater", bio: "One of the most famous debaters in comparative religion." },
+                    fr: { name: "Cheikh Ahmed Deedat", badge: "Débatteur", bio: "L'un des débatteurs les plus célèbres en religion comparée." },
+                    es: { name: "Jeque Ahmed Deedat", badge: "Debatiente", bio: "Uno de los debatientes más famosos en religión comparada." }
+                },
+                {
+                    id: 2,
+                    ar: { name: "د. ذاكر نايك", badge: "محاضر", bio: "باحث ومحاضر في الأديان المقارنة." },
+                    en: { name: "Dr. Zakir Naik", badge: "Lecturer", bio: "Researcher and lecturer in comparative religion." },
+                    fr: { name: "Dr Zakir Naik", badge: "Conférencier", bio: "Chercheur et conférencier en religion comparée." },
+                    es: { name: "Dr. Zakir Naik", badge: "Conferenciante", bio: "Investigador y conferenciante en religión comparada." }
+                }
+                // باقي الشخصيات الـ 33 ستبدأ من هنا بنمط مماثل
+            ];
+
+
+            const uiText = {
+                ar: {
+                    title: "أعلام الدعوة والفكر",
+                    menu: "☰ الفهرس",
+                    searchPlaceholder: "ابحث بالاسم، التخصص، البلد...",
+                    intro: "خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر، في دليل واحد يجمع السيرة المختصرة، والبحث الذكي، وتجربة قراءة تعمل دون اتصال.",
+                    drawerTitle: "الفهرس",
+                    drawerItems: [
+                        "تقديم · سيرة المؤسس",
+                        "01 دعاة ومبادئون ودعوة غير المسلمين",
+                        "02 محاضرون ومناظرون في مقارنة الأديان",
+                        "03 باحثون ومناظرون في العقيدة والرد على الشيعة",
+                        "04 باحثون ومفكرون في نقد الإلحاد والفكر المعاصر",
+                        "05 مناظرو الشارع والجامعات باللغة الإنجليزية",
+                        "06 علماء ودعاة ذوو حضور عالمي"
+                    ],
+                    btnBio: "السيرة",
+                    btnYoutube: "يوتيوب",
+                    noResults: "لا توجد نتائج مطابقة."
+                },
+                en: {
+                    title: "Flags of Da'wah and Thought",
+                    menu: "☰ Index",
+                    searchPlaceholder: "Search by name, specialty, country...",
+                    intro: "Thirty-five figures from the fields of Da'wah, debate, and thought, in one guide that combines brief biographies, smart search, and an offline reading experience.",
+                    drawerTitle: "Index",
+                    drawerItems: [
+                        "Introduction · Founder's Biography",
+                        "01 Preachers and Callers to Islam",
+                        "02 Lecturers and Debaters in Comparative Religion",
+                        "03 Researchers and Debaters in Creed and Shia Refutation",
+                        "04 Researchers and Thinkers in Atheism Refutation",
+                        "05 Street and University Debaters in English",
+                        "06 Scholars with Global Presence"
+                    ],
+                    btnBio: "Biography",
+                    btnYoutube: "YouTube",
+                    noResults: "No matching results found."
+                },
+                fr: {
+                    title: "Figures de la Da'wa et de la Pensée",
+                    menu: "☰ Index",
+                    searchPlaceholder: "Rechercher par nom, spécialité, pays...",
+                    intro: "Trente-cinq figures des domaines de la Da'wa, du débat et de la pensée, dans un seul guide qui combine de brèves biographies, une recherche intelligente et une expérience de lecture hors ligne.",
+                    drawerTitle: "Index",
+                    drawerItems: [
+                        "Introduction · Biographie du fondateur",
+                        "01 Prédicateurs et appelants à l'Islam",
+                        "02 Conférenciers et débatteurs en religion comparée",
+                        "03 Chercheurs et débatteurs en religion comparée",
+                        "04 Chercheurs et penseurs dans la réfutation de l'athéisme",
+                        "05 Débatteurs de rue et universitaires en anglais",
+                        "06 Érudits avec une présence mondiale"
+                    ],
+                    btnBio: "Biographie",
+                    btnYoutube: "YouTube",
+                    noResults: "Aucun résultat trouvé."
+                },
+                es: {
+                    title: "Figuras de la Da'wa y el Pensamiento",
+                    menu: "☰ Índice",
+                    searchPlaceholder: "Buscar por nombre, especialidad, país...",
+                    intro: "Treinta y cinco figuras de los campos de la Da'wa, el debate y el pensamiento، en una guía que combina breves biografías、智能搜索和离线阅读体验。",
+                    drawerTitle: "Índice",
+                    drawerItems: [
+                        "Introducción · Biografía del fundador",
+                        "01 Predicadores y llamadores al Islam",
+                        "02 Conferenciantes y debatientes en religión comparada",
+                        "03 Investigadores y debatientes en religión comparada",
+                        "04 Investigadores y pensadores en la refutación del ateísmo",
+                        "05 Debatientes callejeros y universitarios en inglés",
+                        "06 Eruditos con presencia global"
+                    ],
+                    btnBio: "Biografía",
+                    btnYoutube: "YouTube",
+                    noResults: "No se encontraron resultados."
+                }
+            };
+
+
+            let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
+            let currentQuery = ''
+
+
+            const container = document.getElementById('cardsContainer')
+            const searchInput = document.getElementById('searchInput')
+            const htmlEl = document.documentElement
+
+
+            function normalizeArabic(text) {
+                return text
+                    .replace(/[ً-ٰٟ]/g, "") 
+                    .replace(/[أإآ]/g, "a") 
+                    .replace(/ة/g, "h")
+                    .replace(/ى/g, "y")
+                    .toLowerCase()
+                    .trim()
+            }
+
+
+            function renderCards() {
+                container.innerHTML = ''
+                const t = uiText[currentLang]
+                
+                const filtered = scholarsData.filter(scholar => {
+                    const data = scholar[currentLang]
+                    if (!data) return false
+                    
+                    if (currentLang === 'ar') {
+                        const name = normalizeArabic(data.name)
+                        const bio = normalizeArabic(data.bio)
+                        const q = normalizeArabic(currentQuery)
+                        return name.includes(q) || bio.includes(q)
+                    } else {
+                        const name = data.name.toLowerCase()
+                        const bio = data.bio.toLowerCase()
+                        const q = currentQuery.toLowerCase()
+                        return name.includes(q) || bio.includes(q)
+                    }
+                })
+
+
+                if (filtered.length === 0) {
+                    container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">${t.noResults}</p>`
+                    return
+                }
+
+
+                filtered.forEach(scholar => {
+                    const data = scholar[currentLang]
+                    const card = document.createElement('article')
+                    card.className = 'card'
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <h3 class="card-title">${data.name}</h3>
+                            <span class="card-badge">${data.badge}</span>
+                        </div>
+                        <p class="card-body">${data.bio}</p>
+                        <div class="card-actions">
+                            <button class="btn-action" onclick="alert('${t.btnBio}: ${data.name}')">${t.btnBio}</button>
+                            <button class="btn-action" onclick="alert('${t.btnYoutube}: ${data.name}')">${t.btnYoutube}</button>
+                        </div>
+                    `
+                    container.appendChild(card)
+                })
+            }
+
+
+            function updateUI() {
+                const t = uiText[currentLang]
+                
+                document.getElementById('ui-title').textContent = t.title
+                document.getElementById('ui-menu-btn').textContent = t.menu
+                document.getElementById('ui-intro').textContent = t.intro
+                document.getElementById('ui-drawer-title').textContent = t.drawerTitle
+                searchInput.placeholder = t.searchPlaceholder
+                
+                const drawerList = document.getElementById('ui-drawer-list')
+                drawerList.innerHTML = t.drawerItems.map(item => `<li><a href="#">${item}</a></li>`).join('')
+                
+                if (currentLang === 'ar') {
+                    htmlEl.setAttribute('dir', 'rtl')
+                    htmlEl.setAttribute('lang', 'ar')
+                    document.body.style.fontFamily = "'Scheherazade New', 'Amiri', serif"
+                } else {
+                    htmlEl.setAttribute('dir', 'ltr')
+                    htmlEl.setAttribute('lang', currentLang)
+                    document.body.style.fontFamily = "'Amiri', serif"
+                }
+                
+                renderCards()
+            }
+
+
+            searchInput.addEventListener('input', (e) => {
+                currentQuery = e.target.value
+                renderCards()
+            })
+
+
+            document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'))
+                    e.target.classList.add('active')
+                    currentLang = e.target.getAttribute('data-lang')
+                    localStorage.setItem('a3lam-lang', currentLang)
+                    updateUI()
+                })
+            })
+
+
+            const drawer = document.getElementById('sidebarDrawer')
+            const overlay = document.getElementById('drawerOverlay')
+
+
+            function openDrawer() {
+                drawer.classList.add('open')
+                overlay.classList.add('active')
+                document.body.style.overflow = 'hidden'
+            }
+
+
+            function closeDrawer() {
+                drawer.classList.remove('open')
+                overlay.classList.remove('active')
+                document.body.style.overflow = ''
+            }
+
+
+            document.getElementById('openDrawerBtn').addEventListener('click', openDrawer)
+            document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer)
+            overlay.addEventListener('click', closeDrawer)
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer() })
+
+
+            const themeBtns = document.querySelectorAll('#themeGroup .control-btn')
+            const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia'
+            htmlEl.setAttribute('data-theme', savedTheme)
+            document.querySelector(`#themeGroup .control-btn[data-theme="${savedTheme}"]`).classList.add('active')
+
+
+            themeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.getAttribute('data-theme')
+                    htmlEl.setAttribute('data-theme', theme)
+                    localStorage.setItem('a3lam-theme', theme)
+                    themeBtns.forEach(b => b.classList.remove('active'))
+                    btn.classList.add('active')
+                })
+            })
+
+
+            let currentFontSize = parseInt(localStorage.getItem('a3lam-fontsize')) || 16
+            function applyFontSize(size) {
+                if (size < 12) size = 12
+                if (size > 24) size = 24
+                currentFontSize = size
+                htmlEl.style.fontSize = `${size}px`
+                localStorage.setItem('a3lam-fontsize', size)
+            }
+            applyFontSize(currentFontSize)
+            document.getElementById('zoomIn').addEventListener('click', () => applyFontSize(currentFontSize + 1))
+            document.getElementById('zoomOut').addEventListener('click', () => applyFontSize(currentFontSize - 1))
+            document.getElementById('zoomReset').addEventListener('click', () => applyFontSize(16))
+
+
+            document.querySelector(`#langGroup .control-btn[data-lang="${currentLang}"]`).classList.add('active')
+            updateUI()
+
+
+        })
     </script>
 </body>
-
 </html>
