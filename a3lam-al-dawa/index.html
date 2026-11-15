@@ -26,21 +26,22 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
 
         h1 {
             color: var(--text-primary);
             font-size: 1.5rem;
-            margin: 0 0 15px 0;
+            margin: 0 0 10px 0;
         }
 
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
 
 
@@ -60,7 +61,6 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
 
@@ -106,7 +106,7 @@
 
 
         .scholar-name {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: var(--accent-color);
             margin: 0;
@@ -124,17 +124,17 @@
 
 
         .scholar-desc {
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.5;
-            margin: 8px 0 12px 0;
+            margin: 6px 0 10px 0;
         }
 
 
         .card-actions {
             display: flex;
             gap: 10px;
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
 
@@ -148,7 +148,6 @@
             background: #252525;
             color: var(--text-primary);
             cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -156,13 +155,15 @@
         }
 
 
-        .action-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
+        .action-btn:focus-visible,
+        .close-btn:focus-visible,
+        .tab-btn:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
         }
 
 
-        /* Modal Video Viewer Styles */
+        /* Modal Viewer Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -226,7 +227,6 @@
             font-size: 0.85rem;
             cursor: pointer;
             color: var(--text-secondary);
-            transition: color 0.2s, background 0.2s;
         }
         .tab-btn.active {
             color: var(--accent-color);
@@ -236,9 +236,8 @@
         .media-viewer {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Landscape */
+            padding-top: 56.25%;
             background: #000;
-            transition: padding 0.2s ease, height 0.2s ease;
         }
         .media-viewer iframe {
             position: absolute;
@@ -259,6 +258,14 @@
             height: 100%;
             aspect-ratio: 9 / 16;
         }
+
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -266,7 +273,7 @@
 
     <header>
         <h1>أعلام الدعوة والفكر</h1>
-        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والربcontre الشبهات (38 شخصية).</div>
+        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).</div>
     </header>
 
 
@@ -275,7 +282,7 @@
     </main>
 
 
-    <!-- Modal Video Viewer -->
+    <!-- Modal Viewer -->
     <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <div class="modal-header">
@@ -283,8 +290,8 @@
                 <button type="button" class="close-btn" id="closeModal" aria-label="إغلاق">&times;</button>
             </div>
             <div class="modal-tabs" id="modalTabs" role="tablist">
-                <button type="button" class="tab-btn active" id="tabYoutube" role="tab" aria-selected="true" aria-controls="mediaContainer">🎥 يوتيوب (محاضرات)</button>
-                <button type="button" class="tab-btn" id="tabTiktok" role="tab" aria-selected="false" aria-controls="mediaContainer">📱 تيك توك (مقاطع قصيرة)</button>
+                <button type="button" class="tab-btn active" id="tabYoutube" role="tab" aria-selected="true" aria-controls="mediaContainer">🎥 يوتيوب</button>
+                <button type="button" class="tab-btn" id="tabTiktok" role="tab" aria-selected="false" aria-controls="mediaContainer">📱 تيك توك</button>
             </div>
             <div class="media-viewer" id="mediaContainer"></div>
         </div>
@@ -338,12 +345,11 @@
         }
 
 
-        // Complete 38 scholars list with descriptions, tags, and optional YouTube/TikTok IDs
         const scholars = [
-            { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث المصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية.", tag: "نقد الإلحاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
-            { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات البث المباشر حول مقارنة الأديان وإثبات العقيدة.", tag: "مناظرات البث المباشر", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
-            { n: "03", name: "د. سامي عامري", desc: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين.", tag: "مقارنة أديان واستشراق", yt: "dQw4w9WgXcQ" },
-            { n: "04", name: "وليد إسماعيل", desc: "باحث وداعية متخصص في الحوارات العقدية المباشرة ورد الشبهات.", tag: "حوارات عقدية" },
+            { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية.", tag: "نقد الإلحاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+            { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات البث المباشر autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات البث المباشر", yt: "dQw4w9WgXcQ" },
+            { n: "03", name: "د. سامي عامري", desc: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين.", tag: "مقارنة أديان", tt: "7200000000000000000" },
+            { n: "04", name: "وليد إسماعيل", desc: "باحث وداعية متخصص في الحوارات العقدية directe et le réponse aux doutes.", tag: "حوارات عقدية" },
             { n: "05", name: "رامي عيسى", desc: "", tag: "" },
             { n: "06", name: "د. خالد الحايك", desc: "", tag: "" },
             { n: "07", name: "خالد الوصابي", desc: "", tag: "" },
@@ -369,9 +375,9 @@
             { n: "27", name: "الشيخ عثمان الخميس", desc: "", tag: "" },
             { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "", tag: "" },
             { n: "29", name: "الشيخ أشرف غريب", desc: "", tag: "" },
-            { n: "30", name: "الشيخ فراجierz", desc: "", tag: "" },
+            { n: "30", name: "الشيخ فراجenzi", desc: "", tag: "" },
             { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "", tag: "" },
-            { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", tag: "", note: "(nouvelle nomination)" },
+            { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", note: "(nouvelle nomination)" },
             { n: "33", name: "د. حاتم العوني", desc: "", tag: "" },
             { n: "34", name: "د. عمرو بسيوني", desc: "", tag: "" },
             { n: "35", name: "شمس الدين الجزائري", desc: "", tag: "" },
@@ -385,7 +391,6 @@
             ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" }[c]));
 
 
-        // Render Cards with Description, Tags, and Conditional Media Buttons
         document.getElementById("grid").innerHTML = scholars.map(s => {
             const img = s.img || generateInitialsAvatar(s.name);
             const note = s.note ? `<br><small dir="ltr" style="color:#d4af37;">${esc(s.note)}</small>` : "";
@@ -416,7 +421,6 @@
         }).join("");
 
 
-        // Modal and Player State Management
         const modal = document.getElementById("mediaModal");
         const modalTitle = document.getElementById("modalTitle");
         const mediaContainer = document.getElementById("mediaContainer");
