@@ -1,202 +1,540 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="UcfZem — développeur web et créateur de solutions digitales. Applications web, AI tools et projets tech innovants.">
-    <meta name="robots" content="index, follow">
-    <meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14">
-    <meta property="og:locale" content="fr_FR">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="UcfZem">
-    <meta property="og:title" content="UcfZem — Développeur Web & Créateur Digital">
-    <meta property="og:description" content="Applications web, AI tools, fintech, health, et projets tech innovants par UcfZem.">
-    <meta property="og:url" content="https://ucfzem.github.io/">
-    <meta property="og:image" content="https://ucfzem.github.io/works/assets/avatar.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="UcfZem — Développeur Web & Créateur Digital">
-    <meta name="twitter:description" content="Applications web, AI tools, fintech, health, et projets tech innovants par UcfZem.">
-    <meta name="twitter:image" content="https://ucfzem.github.io/works/assets/avatar.png">
-    <link rel="canonical" href="https://ucfzem.github.io/">
-    <title>UcfZem</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>أعلام الدعوة والفكر</title>
     <style>
-        :root { --bg: #0d0d0d; --gold: #c9a84c; --text: #e8e0d0; --muted: #8a7a5a; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-color: #d4af37;
+            --border-color: #2a2a2a;
+        }
+
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 15px;
+        }
+
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+
+        h1 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+        }
+
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+
+        .scholar-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+
+        .image-container {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #2a2a2a;
+            border: 2px solid var(--accent-color);
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .container {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 2px solid var(--gold);
-            margin: 0 auto 24px;
+
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 12px;
+
+
+        .scholar-info {
+            flex-grow: 1;
         }
-        p {
-            color: var(--muted);
-            font-size: 1rem;
-            margin-bottom: 32px;
-        }
-        .links {
+
+
+        .scholar-header-row {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 5px;
         }
-        .link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 28px;
-            border: 1px solid rgba(201,168,76,0.3);
-            border-radius: 12px;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: rgba(201,168,76,0.07);
+
+
+        .scholar-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 0;
         }
-        .link:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(201,168,76,0.2);
-        }
-        .link.primary {
-            background: linear-gradient(135deg, #c9a84c, #f0c866);
-            color: #0d0d0d;
-            font-weight: 700;
-            border: none;
-        }
-        .link.primary:hover {
-            filter: brightness(1.1);
-        }
-        .linktree-container {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            width: 100%;
-            max-width: 420px;
-            margin: 28px auto 0;
-        }
-        .linktree-container .link-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 20px;
-            background: rgba(201,168,76,0.07);
-            border: 1px solid rgba(201,168,76,0.3);
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text);
-            transition: all 0.3s;
-            text-align: left;
-        }
-        .linktree-container .link-card:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(201,168,76,0.2);
-            transform: translateY(-2px);
-        }
-        .linktree-container .link-card.active {
-            border-color: var(--gold);
-            background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(240,200,102,0.1));
-        }
-        .linktree-container .link-icon {
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-        .linktree-container .link-content h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .linktree-container .link-content p {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-bottom: 0;
-        }
-        .linktree-container .badge {
-            margin-left: auto;
-            background: var(--gold);
-            color: #0d0d0d;
-            font-size: 0.65rem;
-            font-weight: 700;
+
+
+        .scholar-tag {
+            background-color: #2c2416;
+            color: var(--accent-color);
+            font-size: 0.75rem;
             padding: 3px 8px;
-            border-radius: 20px;
-            letter-spacing: 0.5px;
+            border-radius: 6px;
+            border: 1px solid #483b1f;
+        }
+
+
+        .scholar-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 6px 0 10px 0;
+        }
+
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #252525;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+
+        .action-btn:focus-visible,
+        .close-btn:focus-visible,
+        .tab-btn:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+
+        /* Modal Viewer Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            width: 92%;
+            max-width: 550px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-tabs {
+            display: flex;
+            background: #161616;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .tab-btn.active {
+            color: var(--accent-color);
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .media-viewer {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+        }
+        .media-viewer iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .media-viewer.portrait {
+            padding-top: 0;
+            height: min(65vh, 500px);
+            display: flex;
+            justify-content: center;
+        }
+        .media-viewer.portrait iframe {
+            position: relative;
+            width: auto;
+            height: 100%;
+            aspect-ratio: 9 / 16;
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
         }
     </style>
-    <script type="application/ld+json">{
-      "@context":"https://schema.org",
-      "@type":"Person",
-      "name":"UcfZem",
-      "url":"https://ucfzem.github.io/",
-      "description":"Web developer and creative coder building apps, AI tools, and digital solutions.",
-      "image":"https://ucfzem.github.io/works/assets/avatar.png",
-      "sameAs":["https://github.com/ucfzem"]
-    }</script>
 </head>
 <body>
-    <div class="container">
-        <img src="https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/works/assets/avatar.png" alt="Avatar" class="avatar" onerror="this.style.display='none'">
-        <h1>UcfZem</h1>
-        <p>Web developer & creative coder</p>
-        <div class="links">
-            <a href="works/" class="link primary">🌳 My Works</a>
-            <a href="chat-socketio/public/" class="link">💬 UzChat</a>
-        </div>
-        <div class="linktree-container">
 
 
-            <!-- 1. Retro Quran Reader (Primary / Top Link) -->
-            <a href="https://ucfzem.github.io/quran-reader" class="link-card active" target="_blank" rel="noopener noreferrer">
-              <div class="link-icon">📻</div>
-              <div class="link-content">
-                <h3>Retro Quran Reader</h3>
-                <p>Vintage cassette player interface • Auto-fetching reciters API</p>
-              </div>
-              <span class="badge">NEW</span>
-            </a>
+    <header>
+        <h1>أعلام الدعوة والفكر</h1>
+        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).</div>
+    </header>
 
 
-            <!-- 2. Quran Majeed v3 (Opened right after) -->
-            <a href="https://ucfzem.github.io/quran-majeed-v3" class="link-card" target="_blank" rel="noopener noreferrer">
-              <div class="link-icon">📖</div>
-              <div class="link-content">
-                <h3>Quran Majeed v3</h3>
-                <p>Interactive Quran web application</p>
-              </div>
-            </a>
+    <main>
+        <div class="grid-container" id="grid"></div>
+    </main>
 
 
-            <!-- 3. Works Directory -->
-            <a href="https://ucfzem.github.io/works" class="link-card" target="_blank" rel="noopener noreferrer">
-              <div class="link-icon">💼</div>
-              <div class="link-content">
-                <h3>All Works</h3>
-                <p>Explore full project directory</p>
-              </div>
-            </a>
-
-
+    <!-- Modal Viewer -->
+    <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">عنوان المحتوى</h3>
+                <button type="button" class="close-btn" id="closeModal" aria-label="إغلاق">&times;</button>
+            </div>
+            <div class="modal-tabs" id="modalTabs" role="tablist">
+                <button type="button" class="tab-btn active" id="tabYoutube" role="tab" aria-selected="true" aria-controls="mediaContainer">🎥 يوتيوب</button>
+                <button type="button" class="tab-btn" id="tabTiktok" role="tab" aria-selected="false" aria-controls="mediaContainer">📱 تيك توك</button>
+            </div>
+            <div class="media-viewer" id="mediaContainer"></div>
         </div>
     </div>
-<script data-root-sw="1">if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}</script>
+
+
+    <script>
+        const AVATAR_CACHE = new Map();
+
+
+        function generateInitialsAvatar(name) {
+            if (AVATAR_CACHE.has(name)) return AVATAR_CACHE.get(name);
+            const SIZE = 200;
+            const canvas = document.createElement('canvas');
+            canvas.width = canvas.height = SIZE;
+            const ctx = canvas.getContext('2d');
+
+
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = (hash * 31 + name.charCodeAt(i)) | 0;
+            }
+            const hue = Math.abs(hash) % 360;
+            ctx.fillStyle = `hsl(${hue}, 40%, 25%)`;
+            ctx.fillRect(0, 0, SIZE, SIZE);
+
+
+            const TITLE = /^(?:الشيخ|الدكتور|الدكتورة|الأستاذ|الاستاذ|أ\.\s*د\.|د\.|dr\.|prof\.)\s*/i;
+            let core = name.trim(), prev;
+            do {
+                prev = core;
+                core = core.replace(TITLE, '').trim();
+            } while (core !== prev);
+
+
+            const first = Array.from(core)[0] || '؟';
+            ctx.fillStyle = '#d4af37';
+            ctx.font = 'bold 90px "Segoe UI", Tahoma, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+
+            const m = ctx.measureText(first);
+            const y = SIZE / 2 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+            ctx.fillText(first, SIZE / 2, y);
+
+
+            const uri = canvas.toDataURL('image/png');
+            AVATAR_CACHE.set(name, uri);
+            return uri;
+        }
+
+
+        const scholars = [
+            { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية.", tag: "نقد الإلحاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+            { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات البث المباشر autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات البث المباشر", yt: "dQw4w9WgXcQ" },
+            { n: "03", name: "د. سامي عامري", desc: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين.", tag: "مقارنة أديان", tt: "7200000000000000000" },
+            { n: "04", name: "وليد إسماعيل", desc: "باحث وداعية متخصص في الحوارات العقدية directe et le réponse aux doutes.", tag: "حوارات عقدية" },
+            { n: "05", name: "رامي عيسى", desc: "", tag: "" },
+            { n: "06", name: "د. خالد الحايك", desc: "", tag: "" },
+            { n: "07", name: "خالد الوصابي", desc: "", tag: "" },
+            { n: "08", name: "عدنان العرعور", desc: "", tag: "" },
+            { n: "09", name: "شمائل الندوي", desc: "", tag: "" },
+            { n: "10", name: "د. إياد قنيبي", desc: "", tag: "" },
+            { n: "11", name: "د. عبدالله العجيري", desc: "", tag: "" },
+            { n: "12", name: "أحمد السيد", desc: "", tag: "" },
+            { n: "13", name: "مهند السويدان (أبو عمر الباحث)", desc: "", tag: "" },
+            { n: "14", name: "محمد شاهين (التاعب)", desc: "", tag: "" },
+            { n: "15", name: "أحمد سبيع", desc: "", tag: "" },
+            { n: "16", name: "عبدالله الشهري", desc: "", tag: "" },
+            { n: "17", name: "حمزة تزورتزيس", desc: "", tag: "" },
+            { n: "18", name: "محمد حجاب", desc: "", tag: "" },
+            { n: "19", name: "د. منقذ السقار", desc: "", tag: "" },
+            { n: "20", name: "معاذ عليان", desc: "", tag: "" },
+            { n: "21", name: "محمود داود", desc: "", tag: "" },
+            { n: "22", name: "أبو منتصر شاهين", desc: "", tag: "" },
+            { n: "23", name: "إبراهيم خليل فيلوبوس", desc: "", tag: "" },
+            { n: "24", name: "يوسف إستس", desc: "", tag: "" },
+            { n: "25", name: "د. ذاكر نايك", desc: "", tag: "" },
+            { n: "26", name: "أحمد ديدات", desc: "", tag: "" },
+            { n: "27", name: "الشيخ عثمان الخميس", desc: "", tag: "" },
+            { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "", tag: "" },
+            { n: "29", name: "الشيخ أشرف غريب", desc: "", tag: "" },
+            { n: "30", name: "الشيخ فراجenzi", desc: "", tag: "" },
+            { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "", tag: "" },
+            { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", note: "(nouvelle nomination)" },
+            { n: "33", name: "د. حاتم العوني", desc: "", tag: "" },
+            { n: "34", name: "د. عمرو بسيوني", desc: "", tag: "" },
+            { n: "35", name: "شمس الدين الجزائري", desc: "", tag: "" },
+            { n: "36", name: "أبو عمر الباحث", desc: "", tag: "" },
+            { n: "37", name: "علي دواه", desc: "", tag: "" },
+            { n: "38", name: "محمود شعبان", desc: "", tag: "" }
+        ];
+
+
+        const esc = s => String(s).replace(/[&<>"']/g, c =>
+            ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" }[c]));
+
+
+        document.getElementById("grid").innerHTML = scholars.map(s => {
+            const img = s.img || generateInitialsAvatar(s.name);
+            const note = s.note ? `<br><small dir="ltr" style="color:#d4af37;">${esc(s.note)}</small>` : "";
+            const tagHtml = s.tag ? `<span class="scholar-tag">${esc(s.tag)}</span>` : "";
+            const descHtml = s.desc ? `<p class="scholar-desc">${esc(s.desc)}</p>` : "";
+            
+            const ytBtn = s.yt ? `<button type="button" class="action-btn" data-open="yt" data-number="${esc(s.n)}">🎥 يوتيوب</button>` : "";
+            const ttBtn = s.tt ? `<button type="button" class="action-btn" data-open="tt" data-number="${esc(s.n)}">📱 تيك توك</button>` : "";
+            const actions = (ytBtn || ttBtn) ? `<div class="card-actions">${ytBtn}${ttBtn}</div>` : "";
+
+
+            return `
+                <div class="scholar-card">
+                    <div class="card-top">
+                        <div class="image-container">
+                            <img src="${esc(img)}" alt="" width="65" height="65" loading="lazy" decoding="async" class="scholar-img" data-name="${esc(s.name)}">
+                        </div>
+                        <div class="scholar-info">
+                            <div class="scholar-header-row">
+                                <h2 class="scholar-name">${esc(s.name)}${note}</h2>
+                                ${tagHtml}
+                            </div>
+                            ${descHtml}
+                        </div>
+                    </div>
+                    ${actions}
+                </div>`;
+        }).join("");
+
+
+        const modal = document.getElementById("mediaModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const mediaContainer = document.getElementById("mediaContainer");
+        const closeModal = document.getElementById("closeModal");
+        const tabYoutube = document.getElementById("tabYoutube");
+        const tabTiktok = document.getElementById("tabTiktok");
+        const modalTabs = document.getElementById("modalTabs");
+        const headerEl = document.querySelector("header");
+        const mainEl = document.querySelector("main");
+
+
+        let activeScholar = null;
+        let activeType = "yt";
+        let lastFocus = null;
+
+
+        function renderPlayer(type) {
+            activeType = type;
+            const isTikTok = type === "tt";
+            
+            mediaContainer.classList.toggle("portrait", isTikTok);
+            tabYoutube.classList.toggle("active", !isTikTok);
+            tabTiktok.classList.toggle("active", isTikTok);
+            
+            tabYoutube.setAttribute("aria-selected", String(!isTikTok));
+            tabTiktok.setAttribute("aria-selected", String(isTikTok));
+
+
+            modalTabs.style.display = (activeScholar.yt && activeScholar.tt) ? "flex" : "none";
+
+
+            if (isTikTok) {
+                mediaContainer.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${activeScholar.tt}" title="مقطع ${esc(activeScholar.name)} على تيك توك" frameborder="0" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+            } else {
+                mediaContainer.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${activeScholar.yt}" title="محاضرة ${esc(activeScholar.name)} على يوتيوب" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+            }
+        }
+
+
+        function openModal(scholar, type) {
+            activeScholar = scholar;
+            lastFocus = document.activeElement;
+            modalTitle.textContent = scholar.name;
+            
+            headerEl.inert = true;
+            mainEl.inert = true;
+
+
+            modal.classList.add("active");
+            renderPlayer(type);
+            closeModal.focus();
+        }
+
+
+        function closeModalFn() {
+            modal.classList.remove("active");
+            mediaContainer.innerHTML = "";
+            mediaContainer.classList.remove("portrait");
+
+
+            headerEl.inert = false;
+            mainEl.inert = false;
+
+
+            activeScholar = null;
+            if (lastFocus) lastFocus.focus();
+        }
+
+
+        document.getElementById("grid").addEventListener("click", e => {
+            const btn = e.target.closest("[data-open]");
+            if (!btn) return;
+            const scholar = scholars.find(s => s.n === btn.dataset.number);
+            if (!scholar) return;
+            openModal(scholar, btn.dataset.open);
+        });
+
+
+        tabYoutube.addEventListener("click", () => { if (activeScholar?.yt) renderPlayer("yt"); });
+        tabTiktok.addEventListener("click", () => { if (activeScholar?.tt) renderPlayer("tt"); });
+
+
+        closeModal.addEventListener("click", closeModalFn);
+        modal.addEventListener("click", e => { if (e.target === modal) closeModalFn(); });
+
+
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeModalFn();
+            }
+            if (e.key === "Tab" && modal.classList.contains("active")) {
+                const focusables = [...modal.querySelectorAll('button, iframe')].filter(el => el.offsetParent !== null);
+                if (!focusables.length) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    last.focus();
+                    e.preventDefault();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    first.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
+
+        document.getElementById("grid").addEventListener("error", function(e) {
+            const img = e.target;
+            if (!img.matches(".scholar-img")) return;
+            const scholarName = img.getAttribute("data-name") || "";
+            img.src = generateInitialsAvatar(scholarName);
+        }, true);
+    </script>
+
+
 </body>
 </html>
