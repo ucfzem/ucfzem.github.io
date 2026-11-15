@@ -1,4 +1,4 @@
-const CACHE = 'a3lam-al-dawa-2026-11-17-v8';
+const CACHE = 'a3lam-al-dawa-2026-11-17-v9';
 const SHELL = [
   './',
   './index.html',
