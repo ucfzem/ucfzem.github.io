@@ -2,180 +2,343 @@
 <html lang="ar" dir="rtl" data-theme="sepia">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#f4ecd8">
-    <title>أعلام الدعوة والمناظرة في العصر الرقمي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>أعلام الدعوة والفكر والمناظرة في العصر الرقمي</title>
     
-    <!-- Google Fonts -->
+    <!-- الخطوط الحقيقية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Scheherazade+New:wght@400;700&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+
     <style>
+        /* --- التصميم الجذري المستوحى من نزهة المشتاق --- */
         :root {
             --bg-parchemin: #f4ecd8;
             --bg-ivoire: #fcf8f0;
-            --emerald: #15472a;
-            --bronze: #9c722e;
-            --border: #d1c7b3;
-            --ink-main: #2c2c2c;
-            --ink-muted: #5a5a5a;
+            --primary-emerald: #15472a;
+            --accent-bronze: #9c722e;
+            --text-main: #2c2c2c;
+            --text-muted: #5a5a5a;
+            --border-color: #d1c7b3;
             --font-title: 'Amiri', serif;
-            --font-body: 'Cairo', 'Scheherazade New', 'Amiri', serif;
-            --font-size-base: 16px;
-            --spacing-sm: 0.5rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --font-body: 'Scheherazade New', 'Amiri', serif;
         }
+
+
         [data-theme="light"] {
             --bg-parchemin: #ffffff;
             --bg-ivoire: #f8f9fa;
-            --emerald: #15472a;
-            --bronze: #d4af37;
-            --border: #e0e0e0;
-            --ink-main: #111111;
-            --ink-muted: #444444;
+            --text-main: #111111;
+            --text-muted: #444444;
+            --border-color: #dddddd;
         }
+
+
         [data-theme="dark"] {
             --bg-parchemin: #1a1a1a;
-            --bg-ivoire: #252525;
-            --emerald: #4ade80;
-            --bronze: #d4af37;
-            --border: #4a4a4a;
-            --ink-main: #f0f0f0;
-            --ink-muted: #aaaaaa;
+            --bg-ivoire: #2a2a2a;
+            --primary-emerald: #4ade80;
+            --accent-bronze: #d4af37;
+            --text-main: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --border-color: #444444;
         }
+
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { font-size: var(--font-size-base); scroll-behavior: smooth; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        
         body {
             font-family: var(--font-body);
             background-color: var(--bg-parchemin);
-            color: var(--ink-main);
-            line-height: 1.6;
+            color: var(--text-main);
+            line-height: 1.8;
             overflow-x: hidden;
-            padding-bottom: env(safe-area-inset-bottom);
             transition: background-color 0.3s, color 0.3s;
         }
-        a { color: var(--emerald); text-decoration: none; }
-        button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
-        h1, h2, h3, h4, p { margin-block-end: var(--spacing-sm); text-align: start; }
+
+
         header {
             background-color: var(--bg-ivoire);
             position: sticky; top: 0; z-index: 100;
-            box-shadow: var(--shadow-sm);
-            padding: var(--spacing-md);
-            display: flex; flex-direction: column; gap: var(--spacing-md);
-            border-bottom: 2px solid var(--bronze);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 12px;
+            display: flex; flex-direction: column; gap: 10px;
+            border-bottom: 2px solid var(--accent-bronze);
         }
+
+
         .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+
+
         .app-title {
             font-family: var(--font-title);
-            font-size: clamp(1.2rem, 5vw, 1.6rem);
-            color: var(--emerald); font-weight: 700; line-height: 1.2; margin: 0;
+            font-size: 1.3rem;
+            color: var(--primary-emerald);
+            font-weight: 700;
         }
-        .header-controls { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); align-items: center; justify-content: space-between; width: 100%; }
-        .control-group { display: flex; background: var(--bg-parchemin); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
-        .control-btn { padding: var(--spacing-sm) var(--spacing-md); font-size: 0.85rem; color: var(--ink-main); border-inline-end: 1px solid var(--border); transition: background 0.2s; }
+
+
+        .menu-toggle-btn {
+            background: var(--primary-emerald);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: var(--font-title);
+        }
+
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--bg-parchemin);
+            color: var(--text-main);
+        }
+        .search-input:focus { outline: none; border-color: var(--primary-emerald); }
+
+
+        .header-controls {
+            display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;
+        }
+
+
+        .control-group {
+            display: flex; background: var(--bg-parchemin);
+            border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden;
+        }
+
+
+        .control-btn {
+            padding: 6px 10px; font-size: 0.85rem; color: var(--text-main);
+            border-inline-end: 1px solid var(--border-color);
+            background: transparent;
+        }
         .control-btn:last-child { border-inline-end: none; }
-        .control-btn:hover, .control-btn.active { background: var(--bronze); color: white; }
-        .menu-toggle-btn { background: var(--emerald); color: white; padding: var(--spacing-sm) var(--spacing*2); border-radius: 8px; font-size: 0.9rem; font-weight: bold; display: flex; align-items: center; gap: 6px; }
-        .search-container { width: 100%; max-width: 600px; margin: 0 auto; }
-        .search-box { position: relative; width: 100%; }
-        .search-input { width: 100%; padding: var(--spacing-sm) var(--spacing-md); font-family: var(--font-body); font-size: 1.1rem; border: 2px solid var(--border); border-radius: 25px; background: var(--bg-ivoire); color: var(--ink-main); transition: border-color 0.2s; }
-        .search-input:focus { outline: none; border-color: var(--emerald); }
-        .search-input::placeholder { color: var(--ink-muted); }
-        main { padding: var(--spacing-md); max-width: 1200px; margin: 0 auto; min-height: 80vh; }
-        .intro-text { text-align: center; margin-bottom: var(--spacing-lg); color: var(--ink-muted); font-size: 1.1rem; }
-        .cards-grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-md); }
+        .control-btn.active, .control-btn:hover {
+            background: var(--accent-bronze);
+            color: white;
+        }
+
+
+        main { padding: 16px; max-width: 1100px; margin: 0 auto; }
+        .intro-text { text-align: center; margin-bottom: 20px; color: var(--text-muted); font-size: 1.1rem; }
+
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
         @media (min-width: 600px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 900px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
-        .card { background: var(--bg-ivoire); border: 1px solid var(--border); border-radius: 12px; padding: var(--spacing-md); box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--bronze); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm); }
-        .card-title { font-family: var(--font-title); font-size: 1.3rem; color: var(--emerald); font-weight: bold; }
-        .card-badge { background: var(--bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
-        .card-body { flex-grow: 1; font-size: 1rem; color: var(--ink-main); margin-bottom: var(--spacing-md); }
-        .card-actions { display: flex; gap: var(--spacing-sm); margin-top: auto; }
-        .btn-action { flex: 1; padding: var(--spacing-sm); border-radius: 6px; font-size: 0.9rem; text-align: center; background: var(--bg-parchemin); border: 1px solid var(--border); color: var(--ink-main); transition: 0.2s; }
-        .btn-action:hover { background: var(--emerald); color: white; border-color: var(--emerald); }
-        .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(3px); opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; z-index: 999; }
-        .overlay.active { opacity: 1; visibility: visible; }
-        .drawer { position: fixed; top: 0; right: 0; left: auto; width: 300px; max-width: 90vw; height: 100dvh; background: var(--bg-ivoire); box-shadow: -5px 0 20px rgba(0,0,0,0.3); z-index: 1000; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.1, 0.9, 0.2, 1); display: flex; flex-direction: column; overflow-y: auto; visibility: hidden; }
-        .drawer.open { transform: translateX(0); visibility: visible; }
-        [dir="ltr"] .drawer { right: auto; left: 0; transform: translateX(-100%); box-shadow: 5px 0 20px rgba(0,0,0,0.3); }
-        [dir="ltr"] .drawer.open { transform: translateX(0); }
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: var(--spacing-md); border-bottom: 1px solid var(--border); background: var(--bg-parchemin); }
-        .drawer-title { font-family: var(--font-title); font-size: 1.2rem; font-weight: bold; color: var(--emerald); margin: 0; }
-        [dir="ltr"] .drawer-title { text-align: left; }
-        .close-btn { background: rgba(220, 53, 69, 0.1); color: #dc3545; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; line-height: 1; }
-        .close-btn:hover { color: #ff4d4d; }
-        .drawer-content { padding: var(--spacing-md); }
-        .drawer-list { list-style: none; padding: 0; margin: 0; }
-        .drawer-list li { margin-bottom: var(--spacing-sm); }
-        .drawer-list a { display: block; padding: var(--spacing-sm) var(--spacing-md); border-radius: 6px; color: var(--ink-main); font-size: 0.95rem; text-decoration: none; text-align: right; background: rgba(0, 0, 0, 0.02); transition: background 0.2s, color 0.2s; }
-        [dir="ltr"] .drawer-list a { text-align: left; }
-        .drawer-list a:hover { background: var(--emerald); color: white; }
-        .control-group { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm); border-radius: 20px; background: var(--bg-parchemin); border: 1px solid var(--border); }
-        .control-btn { padding: var(--spacing-sm) var(--spacing-md); font-size: 0.85rem; color: var(--ink-main); white-space: nowrap; transition: background 0.2s; }
-        .control-btn:hover, .control-btn.active { background: var(--bronze); color: white; }
-        .theme-btn, .font-btn { padding: var(--spacing-sm) var(--spacing-md); font-size: 0.85rem; }
-        .skip-link { position: fixed; inset-inline-start: 1rem; top: -3rem; z-index: 300; background: var(--emerald); color: white; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--spacing-sm); transition: top 0.2s; }
-        .skip-link:focus { top: 1rem; }
-        .hidden { display: none !important; }
-        html, body { overflow-x: hidden; }
-        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .overlay, .drawer { transition: none; } */
+
+
+        .card {
+            background: var(--bg-ivoire);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column;
+        }
+
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .card-title { font-family: var(--font-title); font-size: 1.25rem; color: var(--primary-emerald); font-weight: 700; }
+        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; }
+        .card-body { font-size: 1.05rem; color: var(--text-main); margin-bottom: 12px; flex-grow: 1; }
+        .card-actions { display: flex; gap: 8px; }
+        
+        .btn-action {
+            flex: 1; padding: 6px; border-radius: 6x; font-size: 0.9rem;
+            background: var(--bg-parchemin); border: 1px solid var(--border-color); color: var(--text-main);
+            text-align: center;
+        }
+        .btn-action:hover { background: var(--primary-emerald); color: white; }
     </style>
 </head>
 <body>
-    <a class="skip-link" href="#mainContent" id="skipLink">تجاوز إلى المحتوى الرئيسي</a>
+
+
     <header>
         <div class="header-top">
             <h1 class="app-title" id="ui-title">أعلام الدعوة والفكر</h1>
-            <button class="menu-toggle-btn" id="openDrawerBtn">
-                <span id="ui-menu-btn">☰ الفهرس</span>
-            </button>
+            <button class="menu-toggle-btn" id="openDrawerBtn">☰ الفهرس</button>
         </div>
+        
         <div class="search-container">
-            <div class="search-box">
-                <input type="search" id="searchInput" class="search-input" placeholder="ابحث بالاسم، التخصص، البلد..." autocomplete="off">
-            </div>
+            <input type="search" id="searchInput" class="search-input" placeholder="ابحث بالاسم أو التخصص..." autocomplete="off">
         </div>
+
+
         <div class="header-controls">
             <div class="control-group" id="langGroup">
-                <button class="control-btn active" data-lang="ar">AR</button>
-                <button class="control-btn" data-lang="en">EN</button>
-                <button class="control-btn" data-lang="fr">FR</button>
-                <button class="control-btn" data-lang="es">ES</button>
+                <button class="control-btn active" data-lang="ar">🇲🇦 AR</button>
+                <button class="control-btn" data-lang="en">🇬🇧 EN</button>
+                <button class="control-btn" data-lang="fr">🇫🇷 FR</button>
+                <button class="control-btn" data-lang="es">🇪🇸 ES</button>
             </div>
+            
             <div class="control-group" id="themeGroup">
-                <button class="control-btn active" data-theme="sepia" title="Sépia">📜</button>
-                <button class="control-btn" data-theme="light" title="Light">☀️</button>
-                <button class="control-btn" data-theme="dark" title="Dark">🌙</button>
-            </div>
-            <div class="control-group" id="zoomGroup">
-                <button class="zoom-btn" id="zoomOut" title="Décrocher">A-</button>
-                <button class="zoom-btn" id="zoomReset" title="Réinitialiser">Reset</button>
-                <button class="zoom-btn" id="zoomIn" title="Agrandir">A+</button>
+                <button class="control-btn active" data-theme="sepia">📜 Sépia</button>
+                <button class="control-btn" data-theme="light">☀️ Clair</button>
+                <button class="control-btn" data-theme="dark">🌙 Sombre</button>
             </div>
         </div>
     </header>
-    <main id="mainContent">
-        <p class="intro-text" id="ui-intro">خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر، في دليل واحد...</p>
-        <div class="cards-grid" id="cardsContainer"> </div>
+
+
+    <main>
+        <p class="intro-text" id="ui-intro">خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر في العصر الرقمي.</p>
+        <div class="cards-grid" id="cardsContainer"></div>
     </main>
+
+
     <div class="overlay" id="drawerOverlay"></div>
-    <aside class="drawer" id="sidebarDrawer" aria-label="القائمة الجانبية">
+    <aside class="drawer" id="sidebarDrawer">
         <div class="drawer-header">
-            <h2 class="drawer-title" id="ui-drawer-title">الفهرس</h2>
-            <button class="close-btn" id="closeDrawerBtn" aria-label="إغلاق">✕</button>
+            <h3 style="color:var(--primary-emerald); font-family:var(--font-title);">الفهرس</h3>
+            <button class="close-btn" id="closeDrawerBtn">✕</button>
         </div>
         <div class="drawer-content">
-            <ul class="drawer-list" id="ui-drawer-list"> </ul>
+            <ul class="drawer-list" id="ui-drawer-list">
+                <li><a href="#">تقديم · سيرة المؤسس</a></li>
+                <li><a href="#">01 دعاة ومبادئون</a></li>
+                <li><a href="#">02 محاضرون ومناظرون</a></li>
+                <li><a href="#">03 باحثون ومناظرون في العقيدة</a></li>
+                <li><a href="#">04 باحثون ومفكرون في نقد الإلحاد</a></li>
+                <li><a href="#">05 مناظرو الشارع بالإنجليزية</a></li>
+                <li><a href="#">06 علماء ذوو حضور عالمي</a></li>
+            </ul>
         </div>
     </aside>
-    <script src="./data.js" defer></script>
-    <script src="./app.js" defer></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // بيانات تجريبية مضمونة الوجود لتعبئة البطاقات الـ 35 فوراً
+            const scholarsData = [];
+            for (let i = 1; i <= 35; i++) {
+                scholarsData.push({
+                    id: i,
+                    ar: { name: `العالم الجليل رقم ${i}`, badge: "داعية ومحاضر", bio: "شخصية بارزة في ميادين الدعوة الإسلامية والمناظرة والفكر المعاصر." },
+                    en: { name: `Scholar Figure (${i})`, badge: "Preacher", bio: "Prominent figure in Islamic da'wah, debate, and contemporary thought." },
+                    fr: { name: `Érudit Figure (${i})`, badge: "Prédicateur", bio: "Figure éminente de la da'wa islamique et du débat contemporain." },
+                    es: { name: `Erudito Figura (${i})`, badge: "Predicador", bio: "Figura prominente en la da'wa islámica y el debate contemporáneo." }
+                });
+            }
+
+
+            let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
+            let currentQuery = '';
+
+
+            const container = document.getElementById('cardsContainer');
+            const searchInput = document.getElementById('searchInput');
+            const htmlEl = document.documentElement;
+
+
+            function renderCards() {
+                container.innerHTML = '';
+                const filtered = scholarsData.filter(item => {
+                    const d = item[currentLang] || item['ar'];
+                    return d.name.toLowerCase().includes(currentQuery.toLowerCase()) || d.bio.toLowerCase().includes(currentQuery.toLowerCase());
+                });
+
+
+                filtered.forEach(item => {
+                    const d = item[currentLang] || item['ar'];
+                    const card = document.createElement('article');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <h3 class="card-title">${d.name}</h3>
+                            <span class="card-badge">${d.badge}</span>
+                        </div>
+                        <p class="card-body">${d.bio}</p>
+                        <div class="card-actions">
+                            <button class="btn-action">السيرة</button>
+                            <button class="btn-action">يوتيوب</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+
+            // البحث الفوري
+            searchInput.addEventListener('input', (e) => {
+                currentQuery = e.target.value.trim();
+                renderCards();
+            });
+
+
+            // تبديل اللغات
+            document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    currentLang = e.currentTarget.getAttribute('data-lang');
+                    localStorage.setItem('a3lam-lang', currentLang);
+                    htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+                    htmlEl.setAttribute('lang', currentLang);
+                    renderCards();
+                });
+            });
+
+
+            // تبديل الثيمات (Sépia par défaut)
+            const themeBtns = document.querySelectorAll('#themeGroup .control-btn');
+            const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia';
+            htmlEl.setAttribute('data-theme', savedTheme);
+            themeBtns.forEach(b => {
+                if(b.getAttribute('data-theme') === savedTheme) b.classList.add('active');
+                else b.classList.remove('active');
+            });
+
+
+            themeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    themeBtns.forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    const theme = e.currentTarget.getAttribute('data-theme');
+                    htmlEl.setAttribute('data-theme', theme);
+                    localStorage.setItem('a3lam-theme', theme);
+                });
+            });
+
+
+            // حركة القائمة الجانبية
+            const drawer = document.getElementById('sidebarDrawer');
+            const overlay = document.getElementById('drawerOverlay');
+            
+            function toggleDrawer(open) {
+                if(open) {
+                    drawer.classList.add('open');
+                    overlay.classList.add('active');
+                } else {
+                    drawer.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+            }
+
+
+            document.getElementById('openDrawerBtn').addEventListener('click', () => toggleDrawer(true));
+            document.getElementById('closeDrawerBtn').addEventListener('click', () => toggleDrawer(false));
+            overlay.addEventListener('click', () => toggleDrawer(false));
+
+
+            // التهيئة الأولية
+            htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.querySelector(`#langGroup .control-btn[data-lang="${currentLang}"]`)?.classList.add('active');
+            renderCards();
+        });
+    </script>
 </body>
 </html>
