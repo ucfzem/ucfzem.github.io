@@ -1,8 +1,12 @@
-const CACHE = 'a3lam-al-dawa-2026-11-15-2';
+const CACHE = 'a3lam-al-dawa-2026-11-15-3';
 const SHELL = [
   './',
   './index.html',
-  './manifest.webmanifest',
+  './manifest.json',
+  './data.js',
+  './app.js',
+  './fonts/scheherazade-new-400.woff2',
+  './fonts/scheherazade-new-700.woff2',
   './icon.svg',
   './icon-180.png',
   './icon-192.png',

@@ -1,15 +1,15 @@
 {
   "name": "أعلام الدعوة والفكر والمناظرة في العصر الرقمي",
   "short_name": "أعلام الدعوة",
-  "description": "دليل تفاعلي لأعلام الدعوة والفكر والمناظرة: 12 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.",
+  "description": "دليل تفاعلي لأعلام الدعوة والفكر والمناظرة: 35 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.",
   "lang": "ar",
   "dir": "rtl",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#f5efe0",
-  "theme_color": "#14523b",
+  "background_color": "#f8f4e8",
+  "theme_color": "#1b5e3a",
   "categories": ["education", "books", "reference"],
   "icons": [
     {

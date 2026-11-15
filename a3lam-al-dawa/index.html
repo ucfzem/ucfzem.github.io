@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#14523b">
-  <meta name="description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة في العصر الرقمي: 12 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
+  <meta name="theme-color" content="#f8f4e8">
+  <meta name="description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة في العصر الرقمي: 35 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
   <meta property="og:title" content="أعلام الدعوة والفكر والمناظرة في العصر الرقمي">
-  <meta property="og:description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة: 12 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
+  <meta property="og:description" content="دليل تفاعلي لأعلام الدعوة والفكر والمناظرة: 35 شخصية، أربع لغات، وبحث ذكي يعمل دون اتصال.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="./icon-512.png">
   <title>أعلام الدعوة والفكر والمناظرة في العصر الرقمي</title>
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icon-180.png">
-  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="manifest" href="./manifest.json">
   <style>
     @font-face {
       font-family: 'Amiri';
@@ -838,912 +838,621 @@
       body { background: #fff; color: #000; }
       .section-card, .figure-card { box-shadow: none; break-inside: avoid; }
     }
+
+    :root {
+      --bg: #f8f4e8;
+      --bg-deep: #eee4cf;
+      --surface: rgba(255, 252, 244, 0.93);
+      --surface-solid: #fffdf7;
+      --surface-soft: #f4ecdc;
+      --ink: #27231c;
+      --ink-soft: #655b4c;
+      --ink-faint: #8b7d68;
+      --green: #1b5e3a;
+      --green-2: #2b7a51;
+      --green-soft: rgba(27, 94, 58, 0.09);
+      --gold: #b48a3e;
+      --gold-bright: #d8ae5c;
+      --gold-soft: rgba(180, 138, 62, 0.13);
+      --line: rgba(83, 66, 40, 0.16);
+      --line-strong: rgba(83, 66, 40, 0.28);
+      --mark: #ffe39a;
+      --mark-ink: #2a1d00;
+      --mark-active: #f59e0b;
+      --shadow: 0 18px 55px rgba(71, 52, 24, 0.12);
+      --shadow-soft: 0 6px 22px rgba(71, 52, 24, 0.08);
+      --radius: 20px;
+      --font-body: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+      --font-title: 'Scheherazade New', 'Amiri', Georgia, serif;
+      --font-bio: 'Amiri', 'Scheherazade New', Georgia, serif;
+      --max: 1240px;
+      color-scheme: light;
+    }
+
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --bg-deep: #edf4ef;
+      --surface: rgba(255, 255, 255, 0.94);
+      --surface-solid: #ffffff;
+      --surface-soft: #f5f9f6;
+      --ink: #17221d;
+      --ink-soft: #52625a;
+      --ink-faint: #7b8b83;
+      --green: #1b5e3a;
+      --green-2: #217253;
+      --green-soft: rgba(27, 94, 58, 0.08);
+      --gold: #b48a3e;
+      --gold-bright: #c99a3f;
+      --gold-soft: rgba(180, 138, 62, 0.1);
+      --line: rgba(23, 52, 38, 0.13);
+      --line-strong: rgba(23, 52, 38, 0.24);
+      --mark: #ffe68f;
+      --mark-ink: #211700;
+      --mark-active: #f59e0b;
+      --shadow: 0 18px 55px rgba(25, 49, 37, 0.1);
+      --shadow-soft: 0 6px 22px rgba(25, 49, 37, 0.07);
+      color-scheme: light;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-deep: #0a1020;
+      --surface: rgba(20, 31, 53, 0.9);
+      --surface-solid: #162036;
+      --surface-soft: #1a2740;
+      --ink: #eef4ff;
+      --ink-soft: #b6c3d9;
+      --ink-faint: #8492aa;
+      --green: #67d2a1;
+      --green-2: #8ce3ba;
+      --green-soft: rgba(103, 210, 161, 0.11);
+      --gold: #e2b45c;
+      --gold-bright: #f3cd7c;
+      --gold-soft: rgba(226, 180, 92, 0.12);
+      --line: rgba(188, 208, 235, 0.15);
+      --line-strong: rgba(188, 208, 235, 0.26);
+      --mark: #805c13;
+      --mark-ink: #fff4c8;
+      --mark-active: #f59e0b;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.42);
+      --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.28);
+      color-scheme: dark;
+    }
+
+    :root {
+      --font-body: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+      --font-title: 'Scheherazade New', 'Amiri', Georgia, serif;
+      --font-bio: 'Amiri', 'Scheherazade New', Georgia, serif;
+    }
+    [dir="ltr"] {
+      --font-title: 'Cairo', Georgia, serif;
+      --font-bio: 'Cairo', Georgia, serif;
+    }
+
+    @font-face {
+      font-family: 'Scheherazade New';
+      src: url('./fonts/scheherazade-new-400.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+    @font-face {
+      font-family: 'Scheherazade New';
+      src: url('./fonts/scheherazade-new-700.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+    }
+
+    .brand-title,
+    .hero-title,
+    .about-title,
+    .catalog-title,
+    .category-title,
+    .figure-name,
+    .bio-card h3,
+    .empty-title,
+    .toc-title {
+      font-family: var(--font-title);
+    }
+    .prose,
+    .bio-card p,
+    .figure-desc,
+    .hero-lede {
+      font-family: var(--font-bio);
+      letter-spacing: 0;
+    }
+    [dir="ltr"] .prose,
+    [dir="ltr"] .bio-card p,
+    [dir="ltr"] .figure-desc,
+    [dir="ltr"] .hero-lede {
+      font-family: 'Cairo', Georgia, sans-serif;
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      gap: .4rem;
+      border: 1px solid color-mix(in srgb, var(--gold) 42%, var(--line));
+      border-radius: 999px;
+      background: var(--gold-soft);
+      color: var(--gold);
+      padding: .45rem .72rem;
+      font-size: .7rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .menu-toggle:hover { border-color: var(--gold); background: color-mix(in srgb, var(--gold-soft) 70%, var(--surface-solid)); }
+    .menu-toggle:focus-visible,
+    .toc-close:focus-visible,
+    .match-btn:focus-visible,
+    .copy-btn:focus-visible,
+    .youtube-link:focus-visible,
+    .toc-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+    .net-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .32rem;
+      padding: .35rem .62rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--green);
+      font-size: .66rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .net-badge.offline {
+      color: #b45309;
+      background: color-mix(in srgb, #fef3c7 80%, var(--surface-solid));
+      border-color: rgba(180, 83, 9, .25);
+    }
+    [data-theme="dark"] .net-badge.offline { color: #fbbf24; background: rgba(120, 53, 15, .35); }
+
+    .layout { grid-template-columns: 300px minmax(0, 1fr); gap: 1.45rem; }
+    .toc {
+      top: 5.4rem;
+      max-height: calc(100vh - 6.4rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line-strong) transparent;
+      padding: 1rem;
+    }
+    .toc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .6rem;
+      margin-bottom: .75rem;
+      padding-bottom: .65rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .toc-title {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: .86rem;
+      letter-spacing: .04em;
+      color: var(--gold);
+    }
+    .toc-close {
+      display: none;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface-soft);
+      color: var(--ink-soft);
+      cursor: pointer;
+    }
+    .toc-note { margin: -.25rem 0 .7rem; color: var(--ink-faint); font-size: .64rem; line-height: 1.6; }
+    .toc-list { gap: .1rem; }
+    .toc-group { margin-top: .3rem; }
+    .toc-link { align-items: center; padding: .45rem .55rem; }
+    .toc-link.active {
+      background: var(--gold-soft);
+      color: var(--gold);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 28%, transparent);
+    }
+    .toc-main { font-weight: 700; }
+    .toc-category { font-weight: 700; color: var(--ink); font-size: .76rem; }
+    .toc-figures {
+      display: flex;
+      flex-direction: column;
+      gap: .02rem;
+      margin: .08rem 0 .2rem;
+      padding-inline-start: .55rem;
+      margin-inline-start: 1.15rem;
+      border-inline-start: 1px dashed var(--line);
+    }
+    .toc-figure { padding: .3rem .42rem; font-size: .71rem; line-height: 1.45; }
+    .toc-foot { font-size: .64rem; }
+    .toc mark { padding: 0 .06em; background: transparent; color: var(--gold); box-shadow: none; font-weight: 700; }
+    .toc-overlay { display: none; }
+
+    .search-status { align-items: center; }
+    .result-summary { color: var(--ink-soft); font-weight: 700; }
+    .search-hint { color: var(--ink-faint); font-size: .66rem; }
+    .match-nav {
+      display: none;
+      align-items: center;
+      gap: .18rem;
+      padding: .16rem;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface-soft);
+    }
+    .match-nav.visible { display: inline-flex; }
+    .match-btn {
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink-soft);
+      padding: .28rem .5rem;
+      font-size: .66rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .match-btn:hover:not(:disabled) { background: var(--gold-soft); color: var(--gold); }
+    .match-btn:disabled { opacity: .35; cursor: default; }
+    .match-counter {
+      min-width: 3.6rem;
+      padding: 0 .2rem;
+      text-align: center;
+      color: var(--gold);
+      font-size: .66rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      direction: ltr;
+    }
+    mark { transition: background-color .18s ease, color .18s ease, box-shadow .18s ease; }
+    mark.active {
+      background: var(--mark-active);
+      color: #241600;
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--mark-active) 38%, transparent), 0 2px 8px rgba(245, 158, 11, .24);
+    }
+
+    .bio-profile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: .75rem;
+    }
+    .bio-avatar {
+      width: 4.2rem;
+      height: 4.2rem;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--gold) 45%, var(--line));
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 24%, color-mix(in srgb, var(--gold-bright) 45%, transparent), transparent 55%),
+        linear-gradient(145deg, var(--green), color-mix(in srgb, var(--green) 65%, #07140f));
+      color: #fff9e8;
+      font-family: var(--font-title);
+      font-size: 2rem;
+      line-height: 1;
+      box-shadow: 0 8px 20px rgba(27, 94, 58, .2);
+      user-select: none;
+    }
+    .bio-profile h3 { margin: 0; font-size: 1.25rem; }
+    .bio-role { margin: .08rem 0 0; color: var(--gold); font-size: .7rem; font-weight: 700; }
+    .bio-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+    .bio-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .32rem .6rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink-soft);
+      font-size: .66rem;
+      text-decoration: none;
+      transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+    }
+    .bio-link:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+
+    .category, .section-card, #bio, #catalog, #mainContent { scroll-margin-top: 6.8rem; }
+    .figure-card { scroll-margin-top: 7rem; }
+    .figure-card:target,
+    .figure-card.flash,
+    .category.flash,
+    .section-card.flash,
+    #bio.flash {
+      animation: a3lam-flash 1.5s ease;
+    }
+    @keyframes a3lam-flash {
+      0%, 100% { box-shadow: 0 0 0 0 transparent; border-color: var(--line); }
+      22% { box-shadow: 0 0 0 4px var(--gold-soft), 0 12px 30px rgba(180, 138, 62, .16); border-color: var(--gold); }
+    }
+    .figure-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: .3rem .65rem;
+      margin-bottom: .22rem;
+    }
+    .figure-name { margin: 0; }
+    .figure-badges { display: inline-flex; flex-wrap: wrap; gap: .28rem; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .24rem;
+      padding: .18rem .48rem;
+      border-radius: 999px;
+      font-size: .6rem;
+      font-weight: 700;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .badge-country { color: var(--green); background: var(--green-soft); }
+    .badge-spec { color: var(--gold); background: var(--gold-soft); }
+    [data-theme="dark"] .badge-country { color: var(--green-2); }
+    .figure-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-top: .55rem; }
+    .copy-btn { cursor: pointer; border-style: solid; background: var(--surface-soft); color: var(--ink-soft); }
+    .copy-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+    .youtube-link { color: #b91c1c; border-color: rgba(185, 28, 28, .22); background: rgba(185, 28, 28, .06); }
+    .youtube-link:hover { border-color: #b91c1c; background: rgba(185, 28, 28, .11); }
+    [data-theme="dark"] .youtube-link { color: #fca5a5; border-color: rgba(252, 165, 165, .25); background: rgba(185, 28, 28, .15); }
+    .channel-name {
+      max-width: 100%;
+      border-color: transparent;
+      background: transparent;
+      color: var(--ink-faint);
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .channel-name:hover { border-color: transparent; background: transparent; }
+
+    @media (max-width: 1100px) {
+      .brand-sub { display: none; }
+      .header-inner { gap: .55rem; }
+      .lang-btn { padding: .4rem .45rem; }
+    }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .content { order: 1; }
+      .menu-toggle { display: inline-flex; }
+      .toc {
+        position: fixed;
+        inset-block: 0;
+        inset-inline-start: 0;
+        inset-inline-end: auto;
+        top: 0;
+        width: min(88vw, 340px);
+        height: 100dvh;
+        max-height: none;
+        z-index: 130;
+        padding: 1.15rem 1rem 2rem;
+        border: 0;
+        border-radius: 0 18px 18px 0;
+        transform: translateX(-105%);
+        transition: transform .28s ease;
+        box-shadow: 0 0 60px rgba(0, 0, 0, .3);
+      }
+      [dir="rtl"] .toc {
+        inset-inline-start: auto;
+        inset-inline-end: 0;
+        border-radius: 18px 0 0 18px;
+        transform: translateX(105%);
+      }
+      .toc.open { transform: translateX(0); }
+      .toc-close { display: grid; }
+      .toc-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 120;
+        background: rgba(12, 20, 16, .48);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease;
+        backdrop-filter: blur(2px);
+      }
+      .toc-overlay.open { opacity: 1; pointer-events: auto; }
+      body.drawer-open { overflow: hidden; }
+      .toc-figures { margin-inline-start: .9rem; }
+    }
+
+    @media (max-width: 760px) {
+      .header-inner {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+      }
+      .brand { flex: 1 1 auto; }
+      .header-controls { width: 100%; order: 3; justify-content: space-between; gap: .35rem; }
+      .net-badge { font-size: .6rem; padding: .3rem .5rem; }
+      .hero { padding-top: 1.6rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .figure-top { align-items: flex-start; flex-direction: column; gap: .18rem; }
+      .search-hint { flex-basis: 100%; }
+      .match-nav { order: 2; }
+    }
+
+    @media (max-width: 560px) {
+      .header-controls { justify-content: flex-start; }
+      .control-group { gap: .12rem; padding: .18rem; }
+      .lang-btn { padding: .34rem .38rem; font-size: .6rem; }
+      .lang-btn .flag { font-size: .75rem; margin-inline-end: .08rem; }
+      .net-badge { order: 10; }
+      .search-status { gap: .4rem .55rem; }
+      .result-summary { flex-basis: 100%; }
+      .match-nav { width: 100%; justify-content: space-between; }
+      .match-counter { flex: 1; }
+      .figure-actions { gap: .3rem; }
+      .youtube-link, .copy-btn { font-size: .61rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .toc, .toc-overlay { transition: none; }
+      .figure-card, .category, .section-card { animation: none !important; }
+    }
+    @media print {
+      .toc-overlay, .net-badge, .figure-badges, .figure-actions, .toc-close, .menu-toggle { display: none !important; }
+    }
+
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#catalog" data-i18n="skip">تجاوز إلى الدليل</a>
+  <a class="skip-link" href="#catalog" id="skipLink">تجاوز إلى الدليل</a>
 
   <header class="site-header">
     <div class="header-inner">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-controls="toc" aria-expanded="false" aria-label="فتح الفهرس">
+        <span aria-hidden="true">☰</span>
+        <span id="menuLabel">الفهرس</span>
+      </button>
       <a class="brand" href="./" aria-label="أعلام الدعوة والفكر والمناظرة">
         <img src="./icon.svg" alt="" width="42" height="42">
         <span class="brand-copy">
-          <span class="brand-title" data-i18n="brand">أعلام الدعوة والفكر</span>
-          <span class="brand-sub">UcfZem · Maktaba</span>
+          <span class="brand-title" id="brandTitle">أعلام الدعوة والفكر</span>
+          <span class="brand-sub" id="brandSub">UcfZem · Maktaba</span>
         </span>
       </a>
       <div class="header-controls">
-        <div class="control-group" role="group" aria-label="Language">
-          <button class="lang-btn" type="button" data-lang="ar" aria-pressed="true" title="العربية"><span class="flag" aria-hidden="true">🇲🇦</span>AR</button>
-          <button class="lang-btn" type="button" data-lang="en" aria-pressed="false" title="English"><span class="flag" aria-hidden="true">🇬🇧</span>EN</button>
-          <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false" title="Français"><span class="flag" aria-hidden="true">🇫🇷</span>FR</button>
-          <button class="lang-btn" type="button" data-lang="es" aria-pressed="false" title="Español"><span class="flag" aria-hidden="true">🇪🇸</span>ES</button>
+        <div class="control-group" id="langGroup" role="group" aria-label="اختيار اللغة">
+          <button class="lang-btn" type="button" data-lang="ar" aria-pressed="true"><span class="flag" aria-hidden="true">🇲🇦</span>AR</button>
+          <button class="lang-btn" type="button" data-lang="en" aria-pressed="false"><span class="flag" aria-hidden="true">🇬🇧</span>EN</button>
+          <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false"><span class="flag" aria-hidden="true">🇫🇷</span>FR</button>
+          <button class="lang-btn" type="button" data-lang="es" aria-pressed="false"><span class="flag" aria-hidden="true">🇪🇸</span>ES</button>
         </div>
-        <div class="control-group" role="group" aria-label="Theme">
-          <button class="theme-btn" type="button" data-theme-choice="sepia" aria-pressed="true" title="Sépia" aria-label="Sépia">◒</button>
-          <button class="theme-btn" type="button" data-theme-choice="light" aria-pressed="false" title="Clair" aria-label="Clair">☀</button>
-          <button class="theme-btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Sombre" aria-label="Sombre">☾</button>
+        <div class="control-group" id="themeGroup" role="group" aria-label="اختيار المظهر">
+          <button class="theme-btn" type="button" data-theme-value="sepia" aria-pressed="true" aria-label="مظهر بارشمان" title="مظهر بارشمان">◐</button>
+          <button class="theme-btn" type="button" data-theme-value="light" aria-pressed="false" aria-label="مظهر نهاري" title="مظهر نهاري">☀</button>
+          <button class="theme-btn" type="button" data-theme-value="dark" aria-pressed="false" aria-label="مظهر ليلي" title="مظهر ليلي">☾</button>
         </div>
-        <div class="control-group" role="group" aria-label="Font size">
-          <button class="font-btn" type="button" id="fontDown" aria-label="A−">A−</button>
+        <div class="control-group" id="fontGroup" role="group" aria-label="حجم القراءة">
+          <button class="font-btn" id="fontMinus" type="button" aria-label="تصغير الخط">A−</button>
           <span class="font-readout" id="fontReadout">100%</span>
-          <button class="font-btn" type="button" id="fontUp" aria-label="A+">A+</button>
+          <button class="font-btn" id="fontReset" type="button" aria-label="إعادة حجم الخط">Reset</button>
+          <button class="font-btn" id="fontPlus" type="button" aria-label="تكبير الخط">A+</button>
         </div>
+        <span class="net-badge" id="netBadge" role="status" aria-live="polite">🟢 متصل</span>
       </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-shell">
-      <div class="hero-content">
-        <span class="eyebrow" id="heroEyebrow"></span>
-        <h1 class="hero-title" id="heroTitle"></h1>
-        <p class="hero-lede" id="heroLede"></p>
-        <div class="hero-meta" id="heroMeta"></div>
-        <div class="search-panel">
-          <div class="search-box">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <label for="searchInput" class="skip-link" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" data-i18n="searchLabel">بحث</label>
-            <input class="search-input" id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="">
-            <button class="search-clear" id="searchClear" type="button" data-i18n="clear">مسح</button>
+  <main id="mainContent">
+    <section class="hero">
+      <div class="hero-shell">
+        <div class="hero-content">
+          <span class="eyebrow" id="eyebrow">دليل تفاعلي · نسخة 2026</span>
+          <h1 class="hero-title" id="heroTitle">أعلام الدعوة والفكر والمناظرة في العصر الرقمي</h1>
+          <p class="hero-lede" id="heroLede">خمسة وثلاثون علمًا من ميادين الدعوة والمناظرة والفكر، في دليل واحد يجمع السيرة المختصرة، والبحث الذكي، وتجربة قراءة تعمل دون اتصال.</p>
+          <div class="hero-meta">
+            <span class="meta-pill" id="metaProfiles">35 بطاقة</span>
+            <span class="meta-pill gold" id="metaCategories">6 مسارات</span>
+            <span class="meta-pill" id="metaLangs">AR · EN · FR · ES</span>
           </div>
-          <div class="search-status" id="searchStatus" aria-live="polite"></div>
+          <div class="search-panel">
+            <div class="search-box">
+              <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.35-4.35M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+              <input class="search-input" id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="ابحث بالاسم، التخصص، البلد أو كلمة مفتاحية…" aria-label="البحث في الدليل">
+              <button class="search-clear" id="searchClear" type="button">مسح</button>
+            </div>
+            <div class="search-status">
+              <span class="status-item result-summary" id="resultSummary">35 علمًا · 6 مسارات</span>
+              <div class="match-nav" id="searchNav">
+                <button class="match-btn" id="prevMatch" type="button">◀ <span id="prevLabel">السابق</span></button>
+                <span class="match-counter" id="matchCounter" aria-live="polite"></span>
+                <button class="match-btn" id="nextMatch" type="button"><span id="nextLabel">التالي</span> ▶</button>
+              </div>
+              <span class="search-hint" id="searchHint">البحث يتجاهل التشكيل وفروق الهمزات ويعمل داخل النصوص المترجمة.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="toc" id="toc" aria-label="فهرس الشخصيات والأقسام">
+        <div class="toc-head">
+          <h2 class="toc-title" id="tocTitle">الفهرس</h2>
+          <button class="toc-close" id="tocClose" type="button" aria-label="إغلاق الفهرس">✕</button>
+        </div>
+        <p class="toc-note" id="tocNote">انتقل مباشرة إلى الشخصية أو القسم</p>
+        <nav class="toc-list" id="tocList" aria-label="فهرس الشخصيات والأقسام"></nav>
+        <div class="toc-foot" id="tocFoot">35 علمًا · 6 مسارات</div>
+      </aside>
+      <div class="toc-overlay" id="tocOverlay"></div>
+
+      <div class="content">
+        <section class="section-card" id="about">
+          <div class="about-grid">
+            <div>
+              <span class="section-kicker" id="introKicker">بين الميدان والمنصة</span>
+              <h2 class="about-title" id="introTitle">منارات في زمن الضجيج</h2>
+              <p class="prose" id="introP1">يجمع هذا الدليل نخبة من الدعاة والمحاورين والباحثين الذين صنعوا حضورًا مؤثرًا في الفضاء الرقمي والمعرفي. تتنوع ميادينهم بين العمل الميداني، ومناظرات الأديان، والرد على الشبهات، ونقد الإلحاد، والمحاضرات العالمية.</p>
+              <p class="prose" id="introP2" style="margin-top:.75rem">صُمم الدليل ليكون مدخلًا سريعًا للتعرف على هذه الشخصيات وأبرز مجالاتها، مع بحث يعمل بالعربية والإنجليزية والفرنسية والإسبانية، وروابط مباشرة لمحتواها المرئي، وإمكانية النسخ والمشاركة.</p>
+            </div>
+            <div class="bio-card" id="bio">
+              <div class="bio-mark" aria-hidden="true">هـ</div>
+              <div class="bio-profile">
+                <div class="bio-avatar" aria-hidden="true">هـ</div>
+                <div>
+                  <h3 id="bioName">هشام صدقي الإبراشي</h3>
+                  <p class="bio-role" id="bioRole">مؤسس الدليل · UcfZem</p>
+                </div>
+              </div>
+              <p id="bioText">عمل على جمع هذا الدليل وتنسيقه بوصفه مرجعًا رقميًا مختصرًا لأعلام الدعوة والفكر والمناظرة. يهتم بالتنظيم المعرفي، وتيسير الوصول إلى المحتوى الموثوق، وبناء أدوات عربية تعمل دون اتصال وتصل إلى القارئ حيث كان.</p>
+              <div class="bio-actions">
+                <a class="bio-link" id="bioGithub" href="https://github.com/ucfzem" target="_blank" rel="noopener">GitHub</a>
+                <a class="bio-link" id="bioWorks" href="https://ucfzem.github.io/works/" target="_blank" rel="noopener">أعمال أخرى</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="catalog-head" id="catalog">
+          <div>
+            <span class="section-kicker" id="catalogKicker">الدليل</span>
+            <h2 class="catalog-title" id="catalogTitle">الدليل</h2>
+          </div>
+          <span class="catalog-note" id="catalogNote">35 علمًا · 6 مسارات</span>
+        </div>
+
+        <div id="categories"></div>
+
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon" aria-hidden="true">⌕</div>
+          <h3 class="empty-title" id="emptyTitle">لا توجد نتائج</h3>
+          <p class="empty-hint" id="emptyHint">جرّب اسمًا آخر، أو امسح البحث لعرض كل الشخصيات.</p>
         </div>
       </div>
     </div>
-  </section>
-
-  <div class="layout">
-    <aside class="toc" aria-label="Contents">
-      <h2 class="toc-title" id="tocTitle"></h2>
-      <nav class="toc-list" id="tocList"></nav>
-      <div class="toc-foot" id="tocFoot"></div>
-    </aside>
-
-    <main class="content" id="mainContent">
-      <section class="section-card about" id="about">
-        <div class="about-grid">
-          <div>
-            <span class="section-kicker" id="aboutKicker"></span>
-            <h2 class="about-title" id="aboutTitle"></h2>
-            <p class="prose" id="aboutText"></p>
-          </div>
-          <aside class="bio-card">
-            <span class="bio-mark" aria-hidden="true">”</span>
-            <h3 id="bioTitle"></h3>
-            <p id="bioText"></p>
-          </aside>
-        </div>
-      </section>
-
-      <div class="catalog-head" id="catalog">
-        <h2 class="catalog-title" id="catalogTitle"></h2>
-        <div class="catalog-note" id="catalogNote"></div>
-      </div>
-
-      <div id="categories"></div>
-
-      <div class="empty-state" id="emptyState">
-        <div class="empty-icon" aria-hidden="true">⌕</div>
-        <h2 class="empty-title" id="emptyTitle"></h2>
-        <p class="empty-hint" id="emptyHint"></p>
-      </div>
-    </main>
-  </div>
+  </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-copy" id="footerCopy"></div>
+      <div class="footer-copy" id="footerCopy">أعلام الدعوة والفكر · دليل رقمي يعمل دون اتصال</div>
       <div class="footer-links">
-        <a class="footer-link" href="https://ucfzem.azer-tyu199p.workers.dev/works/Maktaba/" id="maktabaLink">Maktaba</a>
-        <a class="footer-link" href="https://ucfzem.github.io/works/" id="worksLink">Works</a>
-        <a class="footer-link" href="#catalog" id="topFooterLink"></a>
+        <a class="footer-link" id="footerMaktaba" href="https://ucfzem.github.io/works/Maktaba/">المكتبة</a>
+        <a class="footer-link" id="footerWorks" href="https://ucfzem.github.io/works/">أعمال أخرى</a>
+        <a class="footer-link" id="footerGithub" href="https://github.com/ucfzem/ucfzem.github.io" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </footer>
 
-  <a class="top-link" href="#" id="topLink" aria-label="Back to top">↑</a>
+  <a class="top-link" id="topLink" href="#mainContent" aria-label="العودة إلى الأعلى">↑</a>
 
-  <script>
-    const DATA = {
-      ar: {
-        dir: 'rtl',
-        title: 'أعلام الدعوة والفكر والمناظرة في العصر الرقمي',
-        brand: 'أعلام الدعوة والفكر',
-        eyebrow: 'دليل تفاعلي · أربع لغات · يعمل دون اتصال',
-        lede: 'في عصر تتقاطع فيه المنصات الرقمية مع ساحات الدعوة والفكر، برز جيل من الدعاة والمحاورين والباحثين جمع بين العلم الشرعي، وحسن البيان، والقدرة على مخاطبة الجمهور عبر الشاشات. يجمع هذا الدليل نخبة من الأعلام، ويعرّف بمساراتهم وتخصصاتهم ومنصاتهم.',
-        meta: ['12 شخصية', '4 لغات', '3 سمات', 'بحث ذكي'],
-        aboutKicker: 'تقديم',
-        aboutTitle: 'دليل الأعلام في زمن الشاشات',
-        aboutText: 'من الميدان الأفريقي إلى المناظرات المباشرة، ومن التأصيل العقدي إلى نقد الإلحاد والفكر المعاصر، تتوزع جهود هذه النخبة على أربعة مسارات كبرى. صُمم هذا الدليل ليكون مرجعًا سريعًا للباحث والمتابع، مع بحث يتجاوز اختلاف التشكيل وصور الحروف، وتجربة قراءة هادئة على اختلاف الأجهزة.',
-        bioTitle: 'هشام صدقي الإبراشي',
-        bioText: 'باحث وداعية مصري، اهتم بدراسة الأديان الوثنية والحركات الدينية في القارة الأفريقية، وبالعمل الدعوي الميداني ومخاطبة غير المسلمين. يجمع في طرحه بين التأصيل العلمي والخبرة الميدانية، وله حضور في مبادرات التعريف بالإسلام والحوار مع أتباع الديانات الأخرى.',
-        catalogTitle: 'المحاور والأعلام',
-        catalogNote: 'اختر محورًا من الفهرس أو ابحث بالاسم والتخصص.',
-        tocTitle: 'المحتويات',
-        tocFoot: 'نسخة رقمية محدثة · UcfZem · Maktaba',
-        footer: 'أعلام الدعوة والفكر والمناظرة في العصر الرقمي · دليل تفاعلي يعمل دون اتصال.',
-        emptyTitle: 'لا توجد نتائج مطابقة',
-        emptyHint: 'جرّب اسمًا آخر، أو امسح البحث لعرض الدليل كاملًا.',
-        skip: 'تجاوز إلى الدليل',
-        searchLabel: 'بحث',
-        clear: 'مسح',
-        searchPlaceholder: 'ابحث بالاسم أو التخصص أو المنصة...',
-        results: 'نتيجة',
-        figures: 'شخصية',
-        words: 'كلمة',
-        total: 'الإجمالي',
-        matches: 'تطابق',
-        offline: 'جاهز دون اتصال',
-        online: 'متصل',
-        noResults: 'لا توجد نتائج مطابقة.',
-        channel: 'القناة',
-        figure: 'شخصية',
-        category: 'محور',
-        backTop: 'إلى الأعلى',
-        langName: 'العربية',
-        categories: [
-          {
-            id: 'field',
-            num: '01',
-            title: 'دعاة ميدانيون ودعوة غير المسلمين',
-            kicker: 'من الميدان إلى الشاشة',
-            items: [
-              { id: 'sumait', name: 'الشيخ عبد الرحمن السميط (رحمه الله)', desc: 'رائد العمل الخيري والدعوي الميداني في أفريقيا، وترك أثرًا واسعًا في التعليم والصحة ودعم المجتمعات.', channel: 'جمعية العون المباشر' },
-              { id: 'hamoud', name: 'الشيخ حمود الخضر', desc: 'داعية ومنشد كويتي ينشط في الدعوة الميدانية، ويعرف بأسلوبه القريب من الشباب.', channel: 'Humood AlKhudher' },
-              { id: 'yusuf', name: 'الشيخ يوسف إستس (Yusuf Estes)', desc: 'داعية أمريكي اعتنق الإسلام عام 1991، ويقدم محاضرات وبرامج للتعريف بالإسلام باللغة الإنجليزية.', channel: 'Yusuf Estes' }
-            ]
-          },
-          {
-            id: 'live',
-            num: '02',
-            title: 'محاورون ومناظرون على منصات البث المباشر',
-            kicker: 'حوارٌ يقرّب المسافات',
-            items: [
-              { id: 'zain', name: 'الشيخ زين خير الله', desc: 'محاور ليبي متخصص في مقارنة الأديان، ويشارك في مناظرات وحوارات مباشرة.', channel: 'قناة زين خير الله' },
-              { id: 'moaz', name: 'معاذ عليان', desc: 'باحث ومناظر مصري في مقارنة الأديان، له حضور في الحوارات والمناظرات الرقمية.', channel: 'معاذ عليان' },
-              { id: 'zakir', name: 'الدكتور ذاكر نايك', desc: 'داعية هندي ومناظر عالمي، مؤسس مؤسسة البحث الإسلامي، وله محاضرات في الأديان المقارنة.', channel: 'Dr. Zakir Naik' }
-            ]
-          },
-          {
-            id: 'creed',
-            num: '03',
-            title: 'باحثون ومناظرون في العقيدة والرد على الشيعة',
-            kicker: 'تأصيلٌ وردٌّ علمي',
-            items: [
-              { id: 'othman', name: 'الشيخ عثمان الخميس', desc: 'باحث ومحدث كويتي، وأحد أبرز العلماء المعاصرين المتخصصين في العقيدة والفرق.', channel: 'الشيخ عثمان الخميس' },
-              { id: 'adnan', name: 'الشيخ عدنان العرعور', desc: 'داعية وباحث سوري بارز في دراسة الفرق والمذاهب والمناظرات.', channel: 'الشيخ عدنان العرعور' },
-              { id: 'rami', name: 'الشيخ رامي عيسى', desc: 'باحث ومناظر مصري في الرد على الشبهات الشيعية، ويقدم محتوى علميًا في العقيدة.', channel: 'قناة الشيخ رامي عيسى' },
-              { id: 'wasabi', name: 'الشيخ أبو الحسن الوصابي', desc: 'متخصص في التأصيل العقدي والرد العلمي، وله جهود في التعليم والمناظرة.', channel: 'مؤسسة الوصابي' }
-            ]
-          },
-          {
-            id: 'atheism',
-            num: '04',
-            title: 'باحثون ومفكرون في نقد الإلحاد والفكر المعاصر',
-            kicker: 'نقدٌ للشبهات والفكر',
-            items: [
-              { id: 'haitham', name: 'الدكتور هيثم طلعت', desc: 'متخصص في تفكيك شبهات الإلحاد والداروينية، وله مؤلفات ومحاضرات في نقد الفكر المعاصر.', channel: 'د. هيثم طلعت' },
-              { id: 'sami', name: 'الدكتور سامي عامري', desc: 'متخصص في دراسة الأديان ونقد الاستشراق، ويجمع بين البحث الأكاديمي والحضور الإعلامي.', channel: 'د. سامي عامري' }
-            ]
-          }
-        ]
-      },
-      en: {
-        dir: 'ltr',
-        title: "Pillars of Da'wah, Thought, and Debate in the Digital Era",
-        brand: "Pillars of Da'wah",
-        eyebrow: 'Interactive guide · Four languages · Works offline',
-        lede: "In an age where digital platforms intersect with the arenas of advocacy and thought, a generation of preachers, debaters, and researchers has emerged, combining religious scholarship, clarity of expression, and the ability to engage audiences through screens. This guide brings together leading figures and introduces their paths, specialties, and platforms.",
-        meta: ['12 figures', '4 languages', '3 themes', 'Smart search'],
-        aboutKicker: 'Introduction',
-        aboutTitle: 'A guide to leading voices in the age of screens',
-        aboutText: "From the African field to live debates, and from creedal grounding to the critique of atheism and contemporary thought, the work of this group spans four major tracks. This guide is designed as a concise reference for researchers and followers, with search that accommodates diacritics and letter variants, and a calm reading experience across devices.",
-        bioTitle: 'Hisham Sedky El-Ibrashi',
-        bioText: "An Egyptian researcher and preacher focused on pagan religions and religious movements in Africa, as well as field da'wah and outreach to non-Muslims. His work combines scholarly grounding with field experience, and he has taken part in initiatives introducing Islam and engaging in dialogue with followers of other faiths.",
-        catalogTitle: 'Tracks and Figures',
-        catalogNote: 'Choose a track from the contents or search by name and specialty.',
-        tocTitle: 'Contents',
-        tocFoot: 'Updated digital edition · UcfZem · Maktaba',
-        footer: "Pillars of Da'wah, Thought, and Debate in the Digital Era · An interactive guide that works offline.",
-        emptyTitle: 'No matching results',
-        emptyHint: 'Try another name, or clear the search to view the full guide.',
-        skip: 'Skip to the guide',
-        searchLabel: 'Search',
-        clear: 'Clear',
-        searchPlaceholder: 'Search by name, specialty, or platform...',
-        results: 'results',
-        figures: 'figures',
-        words: 'words',
-        total: 'Total',
-        matches: 'matches',
-        offline: 'Offline ready',
-        online: 'Online',
-        noResults: 'No matching results.',
-        channel: 'Channel',
-        figure: 'figure',
-        category: 'track',
-        backTop: 'Back to top',
-        langName: 'English',
-        categories: [
-          {
-            id: 'field',
-            num: '01',
-            title: 'Field Preachers & Outreach to Non-Muslims',
-            kicker: 'From the field to the screen',
-            items: [
-              { id: 'sumait', name: 'Sheikh Abdul Rahman Al-Sumait (may Allah have mercy on him)', desc: "A pioneer of field charity and da'wah in Africa, with a wide impact on education, health, and community support.", channel: 'Direct Aid Society' },
-              { id: 'hamoud', name: 'Sheikh Hamoud Al-Khudher', desc: 'A Kuwaiti preacher and singer active in field da\'wah, known for a style that resonates with young audiences.', channel: 'Humood AlKhudher' },
-              { id: 'yusuf', name: 'Sheikh Yusuf Estes', desc: 'An American preacher who embraced Islam in 1991 and lectures and produces programs introducing Islam in English.', channel: 'Yusuf Estes' }
-            ]
-          },
-          {
-            id: 'live',
-            num: '02',
-            title: 'Debaters on Live-Streaming Platforms',
-            kicker: 'Dialogue that closes distances',
-            items: [
-              { id: 'zain', name: 'Sheikh Zain Khairallah', desc: 'A Libyan debater specializing in comparative religion, taking part in live debates and dialogues.', channel: 'Zain Khairallah' },
-              { id: 'moaz', name: 'Moaz Aliian', desc: 'An Egyptian researcher and debater in comparative religion, active in digital dialogues and debates.', channel: 'Moaz Aliian' },
-              { id: 'zakir', name: 'Dr. Zakir Naik', desc: 'An Indian preacher and international debater, founder of the Islamic Research Foundation, with lectures on comparative religion.', channel: 'Dr. Zakir Naik' }
-            ]
-          },
-          {
-            id: 'creed',
-            num: '03',
-            title: "Researchers & Debaters in Creed and Responses to Shi'ism",
-            kicker: 'Grounding and scholarly response',
-            items: [
-              { id: 'othman', name: 'Sheikh Othman Al-Khamis', desc: 'A Kuwaiti scholar and hadith specialist, and one of the most prominent contemporary specialists in creed and sects.', channel: 'Othman Al-Khamis' },
-              { id: 'adnan', name: 'Sheikh Adnan Al-Arour', desc: 'A prominent Syrian preacher and researcher in the study of sects, schools of thought, and debates.', channel: 'Adnan Al-Arour' },
-              { id: 'rami', name: 'Sheikh Rami Issa', desc: "An Egyptian researcher and debater responding to Shi'i objections, presenting scholarly content on creed.", channel: 'Sheikh Rami Issa' },
-              { id: 'wasabi', name: 'Sheikh Abu al-Hasan al-Wasabi', desc: 'A specialist in creedal grounding and scholarly refutation, with work in teaching and debate.', channel: 'Al-Wasabi Foundation' }
-            ]
-          },
-          {
-            id: 'atheism',
-            num: '04',
-            title: 'Researchers & Thinkers Critiquing Atheism and Contemporary Thought',
-            kicker: 'Critique of objections and ideas',
-            items: [
-              { id: 'haitham', name: 'Dr. Haitham Talaat', desc: 'A specialist in deconstructing atheistic and Darwinian objections, with books and lectures critiquing contemporary thought.', channel: 'Dr. Haitham Talaat' },
-              { id: 'sami', name: 'Dr. Sami Ameri', desc: 'A specialist in the study of religions and critique of Orientalism, combining academic research with media presence.', channel: 'Dr. Sami Ameri' }
-            ]
-          }
-        ]
-      },
-      fr: {
-        dir: 'ltr',
-        title: "Piliers de la Da'wa, de la Pensée et du Débat à l'ère numérique",
-        brand: "Piliers de la Da'wa",
-        eyebrow: 'Guide interactif · Quatre langues · Hors ligne',
-        lede: "À l'ère où les plateformes numériques croisent les espaces de la da'wa et de la pensée, une génération de prédicateurs, de débatteurs et de chercheurs s'est distinguée par sa maîtrise des sciences religieuses, la clarté de son discours et sa capacité à dialoguer avec le public à travers les écrans. Ce guide réunit des figures majeures et présente leurs parcours, leurs spécialités et leurs plateformes.",
-        meta: ['12 figures', '4 langues', '3 thèmes', 'Recherche intelligente'],
-        aboutKicker: 'Introduction',
-        aboutTitle: "Un guide des grandes voix à l'ère des écrans",
-        aboutText: "Du terrain africain aux débats en direct, et de l'enracinement doctrinal à la critique de l'athéisme et de la pensée contemporaine, le travail de ces figures s'étend sur quatre grands axes. Ce guide se veut une référence concise pour le chercheur et le lecteur, avec une recherche adaptée aux diacritiques et aux variantes des lettres, et une lecture apaisée sur tous les appareils.",
-        bioTitle: 'Hisham Sedky El-Ibrashi',
-        bioText: "Chercheur et prédicateur égyptien spécialisé dans l'étude des religions païennes et des mouvements religieux en Afrique, ainsi que dans la da'wa de terrain et le dialogue avec les non-musulmans. Son approche allie rigueur scientifique et expérience de terrain ; il participe à des initiatives de présentation de l'islam et de dialogue avec les fidèles d'autres religions.",
-        catalogTitle: 'Axes et figures',
-        catalogNote: 'Choisissez un axe dans le sommaire ou recherchez par nom et spécialité.',
-        tocTitle: 'Sommaire',
-        tocFoot: 'Édition numérique mise à jour · UcfZem · Maktaba',
-        footer: "Piliers de la Da'wa, de la Pensée et du Débat à l'ère numérique · Guide interactif hors ligne.",
-        emptyTitle: 'Aucun résultat correspondant',
-        emptyHint: 'Essayez un autre nom ou effacez la recherche pour afficher tout le guide.',
-        skip: 'Aller au guide',
-        searchLabel: 'Rechercher',
-        clear: 'Effacer',
-        searchPlaceholder: 'Rechercher par nom, spécialité ou plateforme...',
-        results: 'résultats',
-        figures: 'figures',
-        words: 'mots',
-        total: 'Total',
-        matches: 'correspondances',
-        offline: 'Disponible hors ligne',
-        online: 'En ligne',
-        noResults: 'Aucun résultat correspondant.',
-        channel: 'Chaîne',
-        figure: 'figure',
-        category: 'axe',
-        backTop: 'Haut de page',
-        langName: 'Français',
-        categories: [
-          {
-            id: 'field',
-            num: '01',
-            title: 'Prédicateurs de terrain et dialogue avec les non-musulmans',
-            kicker: "Du terrain à l'écran",
-            items: [
-              { id: 'sumait', name: 'Cheikh Abdul Rahman Al-Sumait (qu’Allah lui fasse miséricorde)', desc: "Pionnier de l'action caritative et de la da'wa de terrain en Afrique, avec un impact majeur sur l'éducation, la santé et le soutien communautaire.", channel: 'Société Direct Aid' },
-              { id: 'hamoud', name: 'Cheikh Hamoud Al-Khudher', desc: "Prédicateur et chanteur koweïtien actif dans la da'wa de terrain, connu pour un style proche des jeunes.", channel: 'Humood AlKhudher' },
-              { id: 'yusuf', name: 'Cheikh Yusuf Estes', desc: "Prédicateur américain converti à l'islam en 1991, il donne des conférences et des programmes de présentation de l'islam en anglais.", channel: 'Yusuf Estes' }
-            ]
-          },
-          {
-            id: 'live',
-            num: '02',
-            title: 'Débatteurs sur les plateformes de diffusion en direct',
-            kicker: 'Un dialogue qui rapproche',
-            items: [
-              { id: 'zain', name: 'Cheikh Zain Khairallah', desc: 'Débatteur libyen spécialisé en religions comparées, participant à des débats et dialogues en direct.', channel: 'Zain Khairallah' },
-              { id: 'moaz', name: 'Moaz Aliian', desc: 'Chercheur et débatteur égyptien en religions comparées, actif dans les dialogues et débats numériques.', channel: 'Moaz Aliian' },
-              { id: 'zakir', name: 'Dr. Zakir Naik', desc: "Prédicateur indien et débatteur international, fondateur de l'Islamic Research Foundation, avec des conférences en religions comparées.", channel: 'Dr. Zakir Naik' }
-            ]
-          },
-          {
-            id: 'creed',
-            num: '03',
-            title: 'Chercheurs et débatteurs en croyance et réponses au chiisme',
-            kicker: 'Enracinement et réponse savante',
-            items: [
-              { id: 'othman', name: 'Cheikh Othman Al-Khamis', desc: 'Érudit et spécialiste du hadith koweïtien, l’un des plus éminents spécialistes contemporains de la croyance et des sectes.', channel: 'Othman Al-Khamis' },
-              { id: 'adnan', name: 'Cheikh Adnan Al-Arour', desc: 'Prédicateur et chercheur syrien éminent, spécialisé dans l’étude des sectes, des écoles de pensée et des débats.', channel: 'Adnan Al-Arour' },
-              { id: 'rami', name: 'Cheikh Rami Issa', desc: 'Chercheur et débatteur égyptien qui répond aux objections chiites, avec un contenu savant sur la croyance.', channel: 'Cheikh Rami Issa' },
-              { id: 'wasabi', name: 'Cheikh Abu al-Hasan al-Wasabi', desc: "Spécialiste de l'enracinement doctrinal et de la réfutation savante, avec des efforts dans l'enseignement et le débat.", channel: 'Fondation Al-Wasabi' }
-            ]
-          },
-          {
-            id: 'atheism',
-            num: '04',
-            title: "Chercheurs et penseurs critiques de l'athéisme et de la pensée contemporaine",
-            kicker: 'Critique des objections et des idées',
-            items: [
-              { id: 'haitham', name: 'Dr. Haitham Talaat', desc: "Spécialiste de la déconstruction des objections athées et darwiniennes, avec des livres et conférences critiquant la pensée contemporaine.", channel: 'Dr. Haitham Talaat' },
-              { id: 'sami', name: 'Dr. Sami Ameri', desc: "Spécialiste de l'étude des religions et de la critique de l'orientalisme, alliant recherche académique et présence médiatique.", channel: 'Dr. Sami Ameri' }
-            ]
-          }
-        ]
-      },
-      es: {
-        dir: 'ltr',
-        title: "Pilares de la Da'wa, el Pensamiento y el Debate en la Era Digital",
-        brand: "Pilares de la Da'wa",
-        eyebrow: 'Guía interactiva · Cuatro idiomas · Sin conexión',
-        lede: "En una época en la que las plataformas digitales se cruzan con los espacios de la da'wa y el pensamiento, ha surgido una generación de predicadores, debatedores e investigadores que combinan el conocimiento religioso, la claridad expositiva y la capacidad de conectar con el público a través de las pantallas. Esta guía reúne a figuras destacadas y presenta sus trayectorias, especialidades y plataformas.",
-        meta: ['12 figuras', '4 idiomas', '3 temas', 'Búsqueda inteligente'],
-        aboutKicker: 'Introducción',
-        aboutTitle: 'Una guía de grandes voces en la era de las pantallas',
-        aboutText: "Desde el campo africano hasta los debates en directo, y desde la fundamentación doctrinal hasta la crítica del ateísmo y el pensamiento contemporáneo, la labor de estas figuras abarca cuatro grandes ejes. Esta guía se concibe como una referencia breve para el investigador y el seguidor, con una búsqueda adaptada a los diacríticos y variantes de letras, y una lectura serena en todos los dispositivos.",
-        bioTitle: 'Hisham Sedky El-Ibrashi',
-        bioText: "Investigador y predicador egipcio especializado en el estudio de religiones paganas y movimientos religiosos en África, así como en la da'wa de campo y el diálogo con no musulmanes. Su enfoque combina rigor académico y experiencia sobre el terreno, y participa en iniciativas de presentación del islam y de diálogo con seguidores de otras religiones.",
-        catalogTitle: 'Ejes y figuras',
-        catalogNote: 'Elija un eje en el índice o busque por nombre y especialidad.',
-        tocTitle: 'Contenido',
-        tocFoot: 'Edición digital actualizada · UcfZem · Maktaba',
-        footer: "Pilares de la Da'wa, el Pensamiento y el Debate en la Era Digital · Guía interactiva sin conexión.",
-        emptyTitle: 'No hay resultados coincidentes',
-        emptyHint: 'Pruebe otro nombre o borre la búsqueda para ver la guía completa.',
-        skip: 'Ir a la guía',
-        searchLabel: 'Buscar',
-        clear: 'Borrar',
-        searchPlaceholder: 'Buscar por nombre, especialidad o plataforma...',
-        results: 'resultados',
-        figures: 'figuras',
-        words: 'palabras',
-        total: 'Total',
-        matches: 'coincidencias',
-        offline: 'Disponible sin conexión',
-        online: 'En línea',
-        noResults: 'No hay resultados coincidentes.',
-        channel: 'Canal',
-        figure: 'figura',
-        category: 'eje',
-        backTop: 'Volver arriba',
-        langName: 'Español',
-        categories: [
-          {
-            id: 'field',
-            num: '01',
-            title: 'Predicadores de campo y diálogo con no musulmanes',
-            kicker: 'Del campo a la pantalla',
-            items: [
-              { id: 'sumait', name: 'Jeque Abdul Rahman Al-Sumait (que Allah tenga misericordia de él)', desc: 'Pionero de la labor benéfica y la da\'wa de campo en África, con un amplio impacto en educación, salud y apoyo comunitario.', channel: 'Sociedad Direct Aid' },
-              { id: 'hamoud', name: 'Jeque Hamoud Al-Khudher', desc: 'Predicador y cantante kuwaití activo en la da\'wa de campo, conocido por un estilo cercano a los jóvenes.', channel: 'Humood AlKhudher' },
-              { id: 'yusuf', name: 'Jeque Yusuf Estes', desc: 'Predicador estadounidense que abrazó el islam en 1991; ofrece conferencias y programas de introducción al islam en inglés.', channel: 'Yusuf Estes' }
-            ]
-          },
-          {
-            id: 'live',
-            num: '02',
-            title: 'Debates en plataformas de transmisión en vivo',
-            kicker: 'Un diálogo que acorta distancias',
-            items: [
-              { id: 'zain', name: 'Jeque Zain Khairallah', desc: 'Debatedor libio especializado en religiones comparadas, participa en debates y diálogos en directo.', channel: 'Zain Khairallah' },
-              { id: 'moaz', name: 'Moaz Aliian', desc: 'Investigador y debatedor egipcio en religiones comparadas, activo en diálogos y debates digitales.', channel: 'Moaz Aliian' },
-              { id: 'zakir', name: 'Dr. Zakir Naik', desc: 'Predicador indio y debatedor internacional, fundador de la Islamic Research Foundation, con conferencias sobre religiones comparadas.', channel: 'Dr. Zakir Naik' }
-            ]
-          },
-          {
-            id: 'creed',
-            num: '03',
-            title: 'Investigadores y debatedores en creencia y respuestas al chiismo',
-            kicker: 'Fundamento y respuesta académica',
-            items: [
-              { id: 'othman', name: 'Jeque Othman Al-Khamis', desc: 'Erudito y especialista en hadiz kuwaití, uno de los más destacados especialistas contemporáneos en creencia y sectas.', channel: 'Othman Al-Khamis' },
-              { id: 'adnan', name: 'Jeque Adnan Al-Arour', desc: 'Predicador e investigador sirio destacado en el estudio de sectas, escuelas de pensamiento y debates.', channel: 'Adnan Al-Arour' },
-              { id: 'rami', name: 'Jeque Rami Issa', desc: 'Investigador y debatedor egipcio que responde a las objeciones chiíes, con contenido académico sobre creencia.', channel: 'Jeque Rami Issa' },
-              { id: 'wasabi', name: 'Jeque Abu al-Hasan al-Wasabi', desc: 'Especialista en fundamentación doctrinal y refutación académica, con labor docente y de debate.', channel: 'Fundación Al-Wasabi' }
-            ]
-          },
-          {
-            id: 'atheism',
-            num: '04',
-            title: 'Investigadores y pensadores críticos del ateísmo y el pensamiento contemporáneo',
-            kicker: 'Crítica de objeciones e ideas',
-            items: [
-              { id: 'haitham', name: 'Dr. Haitham Talaat', desc: 'Especialista en desmontar objeciones ateas y darwinistas, con libros y conferencias que critican el pensamiento contemporáneo.', channel: 'Dr. Haitham Talaat' },
-              { id: 'sami', name: 'Dr. Sami Ameri', desc: 'Especialista en el estudio de religiones y la crítica del orientalismo, que combina investigación académica y presencia mediática.', channel: 'Dr. Sami Ameri' }
-            ]
-          }
-        ]
-      }
-    };
-
-    const ALIASES = {
-      sumait: 'عبدالرحمن السميط عبد الرحمن السميط Abdul Rahman Al-Sumait Al Sumait Direct Aid Africa',
-      hamoud: 'حمود الخضر Humood AlKhudher Hamoud Al-Khudher Kuwait',
-      yusuf: 'يوسف استس يوسف إستس Yusuf Estes American',
-      zain: 'زين خير الله Zain Khairallah Libya',
-      moaz: 'معاذ عليان Moaz Aliian Egypt',
-      zakir: 'ذاكر نايك Zakir Naik India Islamic Research Foundation',
-      othman: 'عثمان الخميس Othman Al-Khamis Uthman Kuwait',
-      adnan: 'عدنان العرعور Adnan Al-Arour Adnan Arour Syria',
-      rami: 'رامي عيسى Rami Issa Egypt Shia',
-      wasabi: 'أبو الحسن الوصابي ابو الحسن الوصابي Abu al-Hasan al-Wasabi Wasabi Yemen',
-      haitham: 'هيثم طلعت Haitham Talaat atheism Darwinism',
-      sami: 'سامي عامري Sami Ameri Orientalism religions'
-    };
-
-    const THEME_KEY = 'a3lam-theme';
-    const LANG_KEY = 'a3lam-lang';
-    const SIZE_KEY = 'a3lam-size';
-    const STORAGE_BASE = 'a3lam-';
-
-    const html = document.documentElement;
-    const searchInput = document.getElementById('searchInput');
-    const searchClear = document.getElementById('searchClear');
-    const searchStatus = document.getElementById('searchStatus');
-    const categoriesEl = document.getElementById('categories');
-    const emptyState = document.getElementById('emptyState');
-    const tocList = document.getElementById('tocList');
-    const topLink = document.getElementById('topLink');
-
-    let currentLang = 'ar';
-    let currentTheme = 'sepia';
-    let readingScale = 1;
-    let activeQuery = '';
-
-    function safeGet(key) {
-      try { return localStorage.getItem(STORAGE_BASE + key); } catch (e) { return null; }
-    }
-    function safeSet(key, value) {
-      try { localStorage.setItem(STORAGE_BASE + key, value); } catch (e) {}
-    }
-
-    function normalizeChar(ch) {
-      const code = ch.charCodeAt(0);
-      if ((code >= 0x064B && code <= 0x065F) || code === 0x0670 || code === 0x06D6 || code === 0x06D7 || code === 0x06D8 || code === 0x06D9 || code === 0x06DA || code === 0x06DB || code === 0x06DC || code === 0x06DD || code === 0x06DE || code === 0x06DF || code === 0x06E0 || code === 0x06E1 || code === 0x06E2 || code === 0x06E3 || code === 0x06E4 || code === 0x06E5 || code === 0x06E6 || code === 0x06E7 || code === 0x06E8 || code === 0x06E9 || code === 0x06EA || code === 0x06EB || code === 0x06EC || code === 0x06ED) return '';
-      if (ch === '\u0640') return '';
-      if (ch === 'أ' || ch === 'إ' || ch === 'آ' || ch === 'ٱ') return 'ا';
-      if (ch === 'ى') return 'ي';
-      if (ch === 'ة') return 'ه';
-      if (ch === 'ؤ') return 'و';
-      if (ch === 'ئ') return 'ي';
-      if (ch === 'ء') return '';
-      return ch.toLowerCase();
-    }
-
-    function normalizeText(text) {
-      let out = '';
-      const map = [];
-      for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-        const normalized = normalizeChar(ch);
-        if (normalized) {
-          out += normalized;
-          for (let j = 0; j < normalized.length; j++) map.push(i);
-        }
-      }
-      return { text: out, map };
-    }
-
-    function getTokens(query) {
-      const normalized = normalizeText(query).text.trim();
-      if (!normalized) return [];
-      return Array.from(new Set(normalized.split(/\s+/).filter(Boolean)));
-    }
-
-    function tokenMatches(text, tokens) {
-      if (!tokens.length) return true;
-      const normalized = normalizeText(text).text;
-      return tokens.every(token => normalized.includes(token));
-    }
-
-    function countWords(text) {
-      const clean = String(text || '').trim();
-      if (!clean) return 0;
-      return clean.split(/\s+/).filter(Boolean).length;
-    }
-
-    function findRanges(text, tokens) {
-      if (!tokens.length || !text) return [];
-      const normalized = normalizeText(text);
-      const ranges = [];
-      tokens.forEach(token => {
-        let from = 0;
-        while (from <= normalized.text.length - token.length) {
-          const index = normalized.text.indexOf(token, from);
-          if (index === -1) break;
-          const start = normalized.map[index];
-          const end = normalized.map[index + token.length - 1] + 1;
-          if (typeof start === 'number' && typeof end === 'number' && end > start) ranges.push([start, end]);
-          from = index + Math.max(1, token.length);
-        }
-      });
-      if (!ranges.length) return ranges;
-      ranges.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-      const merged = [ranges[0]];
-      for (let i = 1; i < ranges.length; i++) {
-        const last = merged[merged.length - 1];
-        const current = ranges[i];
-        if (current[0] <= last[1]) last[1] = Math.max(last[1], current[1]);
-        else merged.push(current);
-      }
-      return merged;
-    }
-
-    function appendHighlighted(parent, text, tokens) {
-      const ranges = findRanges(text, tokens);
-      let count = 0;
-      if (!ranges.length) {
-        parent.appendChild(document.createTextNode(text));
-        return count;
-      }
-      let cursor = 0;
-      ranges.forEach(([start, end]) => {
-        if (start > cursor) parent.appendChild(document.createTextNode(text.slice(cursor, start)));
-        const mark = document.createElement('mark');
-        mark.textContent = text.slice(start, end);
-        parent.appendChild(mark);
-        cursor = end;
-        count += 1;
-      });
-      if (cursor < text.length) parent.appendChild(document.createTextNode(text.slice(cursor)));
-      return count;
-    }
-
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-
-    function formatNumber(value) {
-      try { return new Intl.NumberFormat(currentLang === 'ar' ? 'ar-MA' : currentLang, { maximumFractionDigits: 0 }).format(value); }
-      catch (e) { return String(value); }
-    }
-
-    function youtubeSearchUrl(name) {
-      return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(name);
-    }
-
-    function renderToc(visibleCategories, lang) {
-      tocList.innerHTML = '';
-      if (!visibleCategories.length) {
-        const empty = document.createElement('div');
-        empty.className = 'toc-empty';
-        empty.textContent = lang.noResults;
-        tocList.appendChild(empty);
-        return;
-      }
-      visibleCategories.forEach(cat => {
-        const link = document.createElement('a');
-        link.className = 'toc-link';
-        link.href = '#' + cat.id;
-        const num = document.createElement('span');
-        num.className = 'toc-num';
-        num.textContent = cat.num;
-        const title = document.createElement('span');
-        title.textContent = cat.title;
-        link.append(num, title);
-        tocList.appendChild(link);
-      });
-    }
-
-    function renderCategory(cat, lang, tokens) {
-      const section = document.createElement('section');
-      section.className = 'section-card category';
-      section.id = cat.id;
-
-      const head = document.createElement('div');
-      head.className = 'category-head';
-
-      const number = document.createElement('span');
-      number.className = 'category-number';
-      number.textContent = cat.num;
-
-      const titleWrap = document.createElement('div');
-      const title = document.createElement('h2');
-      title.className = 'category-title';
-      appendHighlighted(title, cat.title, tokens);
-      const kicker = document.createElement('p');
-      kicker.className = 'category-kicker';
-      appendHighlighted(kicker, cat.kicker, tokens);
-      titleWrap.append(title, kicker);
-
-      const count = document.createElement('span');
-      count.className = 'category-count';
-      count.textContent = formatNumber(cat.visibleItems.length) + ' ' + lang.figures;
-
-      head.append(number, titleWrap, count);
-
-      const grid = document.createElement('div');
-      grid.className = 'figures';
-
-      cat.visibleItems.forEach((item, index) => {
-        const card = document.createElement('article');
-        card.className = 'figure-card';
-
-        const idx = document.createElement('span');
-        idx.className = 'figure-index';
-        idx.textContent = String(index + 1).padStart(2, '0');
-
-        const body = document.createElement('div');
-        body.className = 'figure-body';
-
-        const name = document.createElement('h3');
-        name.className = 'figure-name';
-        appendHighlighted(name, item.name, tokens);
-
-        const desc = document.createElement('p');
-        desc.className = 'figure-desc';
-        appendHighlighted(desc, item.desc, tokens);
-
-        const channel = document.createElement('a');
-        channel.className = 'channel';
-        channel.href = youtubeSearchUrl(item.channel);
-        channel.target = '_blank';
-        channel.rel = 'noopener noreferrer';
-        channel.setAttribute('aria-label', lang.channel + ': ' + item.channel);
-        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        icon.setAttribute('viewBox', '0 0 24 24');
-        icon.setAttribute('fill', 'none');
-        icon.setAttribute('stroke', 'currentColor');
-        icon.setAttribute('stroke-width', '2');
-        icon.setAttribute('aria-hidden', 'true');
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', 'm10 8 6 4-6 4V8Z');
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', '3');
-        rect.setAttribute('y', '5');
-        rect.setAttribute('width', '18');
-        rect.setAttribute('height', '14');
-        rect.setAttribute('rx', '4');
-        icon.append(rect, path);
-        const channelText = document.createElement('span');
-        appendHighlighted(channelText, item.channel, tokens);
-        channel.append(icon, channelText);
-
-        body.append(name, desc, channel);
-        card.append(idx, body);
-        grid.appendChild(card);
-      });
-
-      section.append(head, grid);
-      return section;
-    }
-
-    function updateMetaCounts(lang, visibleCategories, visibleItems, shownWords, totalWords, matches) {
-      const status = document.createElement('span');
-      const parts = [];
-      const resultItem = document.createElement('span');
-      resultItem.className = 'status-item';
-      resultItem.innerHTML = '';
-      const b1 = document.createElement('b');
-      b1.textContent = formatNumber(visibleItems);
-      const b2 = document.createElement('b');
-      b2.textContent = formatNumber(12);
-      resultItem.append(b1, document.createTextNode(' / '), b2, document.createTextNode(' ' + lang.figures));
-      parts.push(resultItem);
-
-      const wordsItem = document.createElement('span');
-      wordsItem.className = 'status-item';
-      const w1 = document.createElement('b');
-      w1.textContent = formatNumber(shownWords);
-      wordsItem.append(w1, document.createTextNode(' ' + lang.words));
-      parts.push(wordsItem);
-
-      if (activeQuery) {
-        const matchesItem = document.createElement('span');
-        matchesItem.className = 'status-item';
-        const m1 = document.createElement('b');
-        m1.textContent = formatNumber(matches);
-        matchesItem.append(m1, document.createTextNode(' ' + lang.matches));
-        parts.push(matchesItem);
-      }
-
-      const totalItem = document.createElement('span');
-      totalItem.className = 'status-item';
-      totalItem.textContent = lang.total + ' ' + formatNumber(totalWords) + ' ' + lang.words;
-      parts.push(totalItem);
-
-      const online = document.createElement('span');
-      online.className = 'status-item status-online';
-      online.textContent = navigator.onLine ? lang.online : lang.offline;
-      parts.push(online);
-
-      parts.forEach((part, index) => {
-        if (index) {
-          const dot = document.createElement('span');
-          dot.className = 'status-dot';
-          status.appendChild(dot);
-        }
-        status.appendChild(part);
-      });
-      searchStatus.replaceChildren(status);
-    }
-
-    function render() {
-      const lang = DATA[currentLang] || DATA.ar;
-      html.lang = currentLang;
-      html.dir = lang.dir;
-      document.title = lang.title;
-      document.querySelector('meta[name="description"]').setAttribute('content', lang.footer);
-      document.querySelector('meta[property="og:title"]').setAttribute('content', lang.title);
-      document.querySelector('meta[property="og:description"]').setAttribute('content', lang.footer);
-
-      setText('heroEyebrow', lang.eyebrow);
-      setText('heroTitle', lang.title);
-      setText('heroLede', lang.lede);
-      setText('aboutKicker', lang.aboutKicker);
-      setText('aboutTitle', lang.aboutTitle);
-      setText('aboutText', lang.aboutText);
-      setText('bioTitle', '🔍 ' + lang.bioTitle);
-      setText('bioText', lang.bioText);
-      setText('catalogTitle', lang.catalogTitle);
-      setText('catalogNote', lang.catalogNote);
-      setText('tocTitle', lang.tocTitle);
-      setText('tocFoot', lang.tocFoot);
-      setText('footerCopy', lang.footer);
-      setText('emptyTitle', lang.emptyTitle);
-      setText('emptyHint', lang.emptyHint);
-      setText('topFooterLink', lang.backTop);
-      setText('searchClear', lang.clear);
-      setText('searchLabel', lang.searchLabel);
-      setText('brand', lang.brand);
-      document.querySelectorAll('[data-i18n="skip"]').forEach(el => el.textContent = lang.skip);
-      document.querySelectorAll('[data-i18n="searchLabel"]').forEach(el => el.textContent = lang.searchLabel);
-      document.querySelectorAll('[data-i18n="clear"]').forEach(el => el.textContent = lang.clear);
-      document.querySelectorAll('[data-i18n="brand"]').forEach(el => el.textContent = lang.brand);
-      searchInput.placeholder = lang.searchPlaceholder;
-      searchInput.setAttribute('aria-label', lang.searchLabel);
-      topLink.setAttribute('aria-label', lang.backTop);
-
-      const heroMeta = document.getElementById('heroMeta');
-      heroMeta.replaceChildren();
-      lang.meta.forEach((item, index) => {
-        const pill = document.createElement('span');
-        pill.className = 'meta-pill' + (index === 1 ? ' gold' : '');
-        pill.textContent = item;
-        heroMeta.appendChild(pill);
-      });
-
-      const queryTokens = getTokens(activeQuery);
-      let totalWords = 0;
-      DATA[currentLang].categories.forEach(cat => cat.items.forEach(item => {
-        totalWords += countWords(item.name) + countWords(item.desc) + countWords(item.channel);
-      }));
-
-      let visibleItems = 0;
-      let shownWords = 0;
-      let matches = 0;
-      const visibleCategories = [];
-
-      DATA[currentLang].categories.forEach(cat => {
-        const categoryText = cat.title + ' ' + cat.kicker;
-        const categoryMatches = tokenMatches(categoryText, queryTokens);
-        const visible = cat.items.filter(item => {
-          if (!activeQuery) return true;
-          if (categoryMatches) return true;
-          const itemText = [item.name, item.desc, item.channel, ALIASES[item.id] || ''].join(' ');
-          return tokenMatches(itemText, queryTokens);
-        });
-        if (visible.length) {
-          visibleCategories.push({ ...cat, visibleItems: visible });
-          visibleItems += visible.length;
-          visible.forEach(item => { shownWords += countWords(item.name) + countWords(item.desc) + countWords(item.channel); });
-        }
-      });
-
-      categoriesEl.replaceChildren();
-      visibleCategories.forEach(cat => {
-        const section = renderCategory(cat, lang, queryTokens);
-        categoriesEl.appendChild(section);
-        if (activeQuery) {
-          const textFields = [cat.title, cat.kicker].concat(cat.visibleItems.reduce((acc, item) => acc.concat([item.name, item.desc, item.channel, ALIASES[item.id] || '']), []));
-          textFields.forEach(text => { matches += findRanges(text, queryTokens).length; });
-        }
-      });
-
-      emptyState.classList.toggle('visible', visibleItems === 0);
-      renderToc(visibleCategories, lang);
-      updateMetaCounts(lang, visibleCategories, visibleItems, shownWords, totalWords, matches);
-
-      document.getElementById('searchClear').classList.toggle('visible', Boolean(activeQuery));
-      document.getElementById('searchClear').setAttribute('aria-hidden', activeQuery ? 'false' : 'true');
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.setAttribute('aria-pressed', String(btn.dataset.lang === currentLang));
-      });
-    }
-
-    function setLanguage(lang) {
-      if (!DATA[lang]) return;
-      currentLang = lang;
-      safeSet(LANG_KEY, lang);
-      render();
-    }
-
-    function setTheme(theme) {
-      if (!['sepia', 'light', 'dark'].includes(theme)) return;
-      currentTheme = theme;
-      html.setAttribute('data-theme', theme);
-      safeSet(THEME_KEY, theme);
-      document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.setAttribute('aria-pressed', String(btn.dataset.themeChoice === theme));
-      });
-      const meta = document.querySelector('meta[name="theme-color"]');
-      if (meta) meta.setAttribute('content', theme === 'dark' ? '#0d1714' : theme === 'light' ? '#f3f6f4' : '#f5efe0');
-    }
-
-    function setReadingScale(scale) {
-      readingScale = Math.max(0.86, Math.min(1.26, Math.round(scale * 100) / 100));
-      html.style.setProperty('--reading-scale', String(readingScale));
-      document.getElementById('fontReadout').textContent = Math.round(readingScale * 100) + '%';
-      safeSet(SIZE_KEY, String(readingScale));
-    }
-
-    function doSearch(value) {
-      activeQuery = value.trim();
-      render();
-    }
-
-    searchInput.addEventListener('input', event => doSearch(event.target.value));
-    searchClear.addEventListener('click', () => {
-      searchInput.value = '';
-      activeQuery = '';
-      searchInput.focus();
-      render();
-    });
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-    });
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-      btn.addEventListener('click', () => setTheme(btn.dataset.themeChoice));
-    });
-    document.getElementById('fontUp').addEventListener('click', () => setReadingScale(readingScale + 0.06));
-    document.getElementById('fontDown').addEventListener('click', () => setReadingScale(readingScale - 0.06));
-    window.addEventListener('online', render);
-    window.addEventListener('offline', render);
-    window.addEventListener('scroll', () => {
-      topLink.classList.toggle('visible', window.scrollY > 600);
-    }, { passive: true });
-
-    const storedLang = safeGet(LANG_KEY);
-    const storedTheme = safeGet(THEME_KEY);
-    const storedSize = parseFloat(safeGet(SIZE_KEY) || '1');
-    if (storedLang && DATA[storedLang]) currentLang = storedLang;
-    if (storedTheme && ['sepia', 'light', 'dark'].includes(storedTheme)) currentTheme = storedTheme;
-    if (!Number.isNaN(storedSize)) readingScale = Math.max(0.86, Math.min(1.26, storedSize));
-
-    setTheme(currentTheme);
-    setReadingScale(readingScale);
-    render();
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      });
-    }
-  </script>
+  <script src="./data.js" defer></script>
+  <script src="./app.js" defer></script>
 </body>
+
 </html>
