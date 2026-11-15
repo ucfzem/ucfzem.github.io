@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>أعلام الدعوة والفكر والمناظرة في العصر الرقمي</title>
     
-    <!-- الخطوط الحقيقية -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 
 
     <style>
-        /* --- التصميم الجذري المستوحى من نزهة المشتاق --- */
         :root {
             --bg-parchemin: #f4ecd8;
             --bg-ivoire: #fcf8f0;
@@ -83,13 +82,15 @@
         .menu-toggle-btn {
             background: var(--primary-emerald);
             color: white;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 6px;
             font-size: 0.9rem;
             font-family: var(--font-title);
+            cursor: pointer;
         }
 
 
+        .search-container { width: 100%; }
         .search-input {
             width: 100%;
             padding: 10px 14px;
@@ -118,6 +119,7 @@
             padding: 6px 10px; font-size: 0.85rem; color: var(--text-main);
             border-inline-end: 1px solid var(--border-color);
             background: transparent;
+            cursor: pointer;
         }
         .control-btn:last-child { border-inline-end: none; }
         .control-btn.active, .control-btn:hover {
@@ -156,11 +158,36 @@
         .card-actions { display: flex; gap: 8px; }
         
         .btn-action {
-            flex: 1; padding: 6px; border-radius: 6x; font-size: 0.9rem;
+            flex: 1; padding: 6px; border-radius: 6px; font-size: 0.9rem;
             background: var(--bg-parchemin); border: 1px solid var(--border-color); color: var(--text-main);
             text-align: center;
+            cursor: pointer;
         }
         .btn-action:hover { background: var(--primary-emerald); color: white; }
+
+
+        /* Drawer Overlay & Panel */
+        .overlay {
+            position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
+            background: rgba(0,0,0,0.6) !important; z-index: 9998 !important; opacity: 0; visibility: hidden; transition: 0.3s;
+        }
+        .overlay.active { opacity: 1 !important; visibility: visible !important; }
+
+
+        .drawer {
+            position: fixed !important; top: 0 !important; right: 0 !important; width: 280px !important; height: 100vh !important;
+            background: var(--bg-ivoire) !important; z-index: 9999 !important; box-shadow: -5px 0 20px rgba(0,0,0,0.3) !important;
+            transform: translateX(100%) !important; transition: transform 0.3s ease !important; display: flex !important; flex-direction: column !important;
+        }
+        .drawer.open { transform: translateX(0) !important; }
+        
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-parchemin); border-bottom: 1px solid var(--border-color); }
+        .close-btn { background: #fee2e2; color: #dc2626; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
+        .drawer-content { padding: 14px; overflow-y: auto; }
+        .drawer-list { list-style: none; }
+        .drawer-list li { margin-bottom: 8px; }
+        .drawer-list a { display: block; padding: 8px; color: var(--text-main); border-radius: 6px; text-decoration: none; }
+        .drawer-list a:hover { background: var(--primary-emerald); color: white; }
     </style>
 </head>
 <body>
@@ -169,7 +196,7 @@
     <header>
         <div class="header-top">
             <h1 class="app-title" id="ui-title">أعلام الدعوة والفكر</h1>
-            <button class="menu-toggle-btn" id="openDrawerBtn">☰ الفهرس</button>
+            <button class="menu-toggle-btn" id="openDrawerBtn" type="button">☰ الفهرس</button>
         </div>
         
         <div class="search-container">
@@ -179,16 +206,16 @@
 
         <div class="header-controls">
             <div class="control-group" id="langGroup">
-                <button class="control-btn active" data-lang="ar">🇲🇦 AR</button>
-                <button class="control-btn" data-lang="en">🇬🇧 EN</button>
-                <button class="control-btn" data-lang="fr">🇫🇷 FR</button>
-                <button class="control-btn" data-lang="es">🇪🇸 ES</button>
+                <button class="control-btn active" data-lang="ar" type="button">🇲🇦 AR</button>
+                <button class="control-btn" data-lang="en" type="button">🇬🇧 EN</button>
+                <button class="control-btn" data-lang="fr" type="button">🇫🇷 FR</button>
+                <button class="control-btn" data-lang="es" type="button">🇪🇸 ES</button>
             </div>
             
             <div class="control-group" id="themeGroup">
-                <button class="control-btn active" data-theme="sepia">📜 Sépia</button>
-                <button class="control-btn" data-theme="light">☀️ Clair</button>
-                <button class="control-btn" data-theme="dark">🌙 Sombre</button>
+                <button class="control-btn active" data-theme="sepia" type="button">📜 Sépia</button>
+                <button class="control-btn" data-theme="light" type="button">☀️ Clair</button>
+                <button class="control-btn" data-theme="dark" type="button">🌙 Sombre</button>
             </div>
         </div>
     </header>
@@ -203,11 +230,11 @@
     <div class="overlay" id="drawerOverlay"></div>
     <aside class="drawer" id="sidebarDrawer">
         <div class="drawer-header">
-            <h3 style="color:var(--primary-emerald); font-family:var(--font-title);">الفهرس</h3>
-            <button class="close-btn" id="closeDrawerBtn">✕</button>
+            <h3 style="color:var(--primary-emerald); font-family:var(--font-title); margin:0;">الفهرس</h3>
+            <button class="close-btn" id="closeDrawerBtn" type="button">✕</button>
         </div>
         <div class="drawer-content">
-            <ul class="drawer-list" id="ui-drawer-list">
+            <ul class="drawer-list">
                 <li><a href="#">تقديم · سيرة المؤسس</a></li>
                 <li><a href="#">01 دعاة ومبادئون</a></li>
                 <li><a href="#">02 محاضرون ومناظرون</a></li>
@@ -222,7 +249,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // بيانات تجريبية مضمونة الوجود لتعبئة البطاقات الـ 35 فوراً
+            // 35 Sample scholar records with 4-language support
             const scholarsData = [];
             for (let i = 1; i <= 35; i++) {
                 scholarsData.push({
@@ -233,6 +260,14 @@
                     es: { name: `Erudito Figura (${i})`, badge: "Predicador", bio: "Figura prominente en la da'wa islámica y el debate contemporáneo." }
                 });
             }
+
+
+            const uiText = {
+                ar: { btnBio: "السيرة", btnYouTube: "يوتيوب" },
+                en: { btnBio: "Biography", btnYouTube: "YouTube" },
+                fr: { btnBio: "Biographie", btnYouTube: "YouTube" },
+                es: { btnBio: "Biografía", btnYouTube: "YouTube" }
+            };
 
 
             let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
@@ -254,6 +289,9 @@
 
                 filtered.forEach(item => {
                     const d = item[currentLang] || item['ar'];
+                    const t = uiText[currentLang] || uiText['ar'];
+
+
                     const card = document.createElement('article');
                     card.className = 'card';
                     card.innerHTML = `
@@ -263,23 +301,36 @@
                         </div>
                         <p class="card-body">${d.bio}</p>
                         <div class="card-actions">
-                            <button class="btn-action">السيرة</button>
-                            <button class="btn-action">يوتيوب</button>
+                            <button class="btn-action btn-bio" type="button">${t.btnBio}</button>
+                            <button class="btn-action btn-youtube" type="button">${t.btnYouTube}</button>
                         </div>
                     `;
+
+
+                    // Attach working event listeners directly to dynamic buttons
+                    card.querySelector('.btn-bio').addEventListener('click', () => {
+                        alert(`${d.name}\n\n${d.bio}`);
+                    });
+
+
+                    card.querySelector('.btn-youtube').addEventListener('click', () => {
+                        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(d.name)}`, '_blank');
+                    });
+
+
                     container.appendChild(card);
                 });
             }
 
 
-            // البحث الفوري
+            // Live Search
             searchInput.addEventListener('input', (e) => {
                 currentQuery = e.target.value.trim();
                 renderCards();
             });
 
 
-            // تبديل اللغات
+            // Language Switcher
             document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'));
@@ -293,7 +344,7 @@
             });
 
 
-            // تبديل الثيمات (Sépia par défaut)
+            // Theme Switcher
             const themeBtns = document.querySelectorAll('#themeGroup .control-btn');
             const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia';
             htmlEl.setAttribute('data-theme', savedTheme);
@@ -314,7 +365,7 @@
             });
 
 
-            // حركة القائمة الجانبية
+            // Drawer Toggle Logic
             const drawer = document.getElementById('sidebarDrawer');
             const overlay = document.getElementById('drawerOverlay');
             
@@ -334,7 +385,7 @@
             overlay.addEventListener('click', () => toggleDrawer(false));
 
 
-            // التهيئة الأولية
+            // Initial Setup
             htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             document.querySelector(`#langGroup .control-btn[data-lang="${currentLang}"]`)?.classList.add('active');
             renderCards();
