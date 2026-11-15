@@ -1,4 +1,4 @@
-const CACHE_NAME = 'a3lam-al-dawa-v18';
+const CACHE_NAME = 'a3lam-al-dawa-v19';
 const IMAGE_EXT = 'jpg';
 const TOTAL_IMAGES = 38;
 
