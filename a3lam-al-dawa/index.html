@@ -160,7 +160,7 @@
         .card-actions { display: flex; gap: 8px; }
         
         .btn-action {
-            flex: 1; padding: 6px; border-radius: 6x; font-size: 0.9rem;
+            flex: 1; padding: 6px; border-radius: 6px; font-size: 0.9rem;
             background: var(--bg-parchemin); border: 1px solid var(--border-color); color: var(--text-main);
             text-align: center;
             cursor: pointer;
@@ -253,6 +253,12 @@
 
 
     <script>
+        // ✅ نطاق عام — متاح لأي دالة داخل السكريبت
+        const FALLBACK_AVATAR = 'data:image/svg+xml,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#9c722e" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Z"/></svg>'
+        );
+
+
         const scholarsData = [
             // =========================================
             // 01 مناظرة الملحدين واللادينيين والرد على الشبهات
@@ -262,7 +268,7 @@
                 ar: { name: "د. إياد قنيبي", badge: "نقد الإلحاد والتطور", bio: "يشتهر بسلاسل علمية متخصصة في نقد نظرية التطور، والرد على الإلحاد المعاصر، وترسيخ اليقين." },
                 en: { name: "Dr. Eyad Qunaibi", badge: "Atheism & Evolution", bio: "Known for specialized scientific series critiquing evolution, refuting modern atheism, and grounding certainty." },
                 fr: { name: "Dr Eyad Qunaibi", badge: "Athéisme & Évolution", bio: "Connu pour ses séries scientifiques critiquant l'évolution et réfutant l'athéisme contemporain." },
-                es: { name: "Dr. Eyad Qunaibi", badge: "Ateísmo y Evolución", bio: "Conocido por sus series científicas que critican la evolución y refutan el ateísmo." }
+                es: { name: "Dr. Eyad Qunaibi", badge: "Ateísmo y Evolución", bio: "Conocido por sus series scientifiques que critican la evolución y refutan el ateísmo." }
             },
             {
                 id: 2, category: "01",
@@ -273,7 +279,7 @@
             },
             {
                 id: 3, category: "01",
-                ar: { name: "د. عبدالله العجيري", badge: "الفكر المعاصر", bio: "باحث ومفكر يركز على القضايا الفكرية المعاصرة، ونقد الإلحاد، والتأسيس العقدي." },
+                ar: { name: "د. عبدالله العجيري", badge: "الفكر المعاصر", bio: "باحث ومفكر يركز على القضايا الفكرية المعاصرة، ونقد الإلهاد، والتأسيس العقدي." },
                 en: { name: "Dr. Abdullah Al-Ajiri", badge: "Contemporary Thought", bio: "Researcher and thinker focusing on contemporary intellectual issues, critiquing atheism, and creedal grounding." },
                 fr: { name: "Dr Abdullah Al-Ajiri", badge: "Pensée Contemporaine", bio: "Chercheur et penseur axé sur les questions intellectuelles contemporaines et la critique de l'athéisme." },
                 es: { name: "Dr. Abdullah Al-Ajiri", badge: "Pensamiento Contemporáneo", bio: "Investigador centrado en temas intelectuales contemporáneos y crítica del ateísmo." }
@@ -308,7 +314,7 @@
             },
             {
                 id: 8, category: "01",
-                ar: { name: "عبدالله الشهري", badge: "فلسفة ومنطق", bio: "متخصص في الفلسفة، والمنطق، والرد على الشبهات الفكرية والإلحادية." },
+                ar: { name: "عبدullah الشهري", badge: "فلسفة ومنطق", bio: "متخصص في الفلسفة، والمنطق، والرد على الشبهات الفكرية والإلحادية." },
                 en: { name: "Abdullah Al-Shahri", badge: "Philosophy & Logic", bio: "Specialized in philosophy, logic, and refuting intellectual and atheistic doubts." },
                 fr: { name: "Abdullah Al-Shahri", badge: "Philosophie & Logique", bio: "Spécialisé en philosophie, logique et réfutation des doutes athées." },
                 es: { name: "Abdullah Al-Shahri", badge: "Filosofía y Lógica", bio: "Especializado en filosofía, lógica y refutación de dudas ateas." }
@@ -383,7 +389,7 @@
             },
             {
                 id: 18, category: "02",
-                ar: { name: "أحمد ديدات (رحمه الله)", badge: "رائد المناظرة", bio: "رغم وفاته، لا تزال مناظراته تُبث وتُترجم وتُعد المرجع الأساسي للكثير من المحاورين المعاصرين." },
+                ar: { name: "أحمد ديدات (رحمه الله)", badge: "رائد المناظرة", bio: "رغم وفاته، لا تزال مناظره تُبث وتُترجم وتُعد المرجع الأساسي للكثير من المحاورين المعاصرين." },
                 en: { name: "Ahmed Deedat", badge: "Debate Pioneer", bio: "His translated debates remain the foundational reference for modern comparative religion debaters." },
                 fr: { name: "Ahmed Deedat", badge: "Pionnier du Débat", bio: "Ses débats traduits restent la référence fondamentale pour les débatteurs contemporains." },
                 es: { name: "Ahmed Deedat", badge: "Pionero del Debate", bio: "Sus debates traducidos siguen siendo la referencia fundamental para los debatientes actuales." }
@@ -494,7 +500,7 @@
                 ar: { name: "عبدالله رشدي", badge: "حوارات إعلامية", bio: "يشتهر بمداخلات التلفزيونية وحواراته على منصات التواصل في الرد على منكري السنة والملحدين." },
                 en: { name: "Abdullah Rushdy", badge: "Media Dialogues", bio: "Known for televised interventions and social media debates refuting Hadith rejectors and atheists." },
                 fr: { name: "Abdullah Rushdy", badge: "Dialogues Médiatiques", bio: "Connu pour ses interventions télévisées et ses débats sur les réseaux sociaux." },
-                es: { name: "Abdullah Rushdy", badge: "Diálogos Mediáticos", bio: "Conocido por sus intervenciones télévisivas et debats en redes sociales." }
+                es: { name: "Abdullah Rushdy", badge: "Diálogos Mediáticos", bio: "Conocido por sus intervenciones televisivas et debats en redes sociales." }
             },
             {
                 id: 33, category: "04",
@@ -510,7 +516,7 @@
             // =========================================
             {
                 id: 34, category: "05",
-                ar: { name: "شمس الدين الجزائري", badge: "مناظرات مفتوحة", bio: "ينشط في البثوث المباشرة والحوارات المفتوحة مع مختلف الطوائف (شيعة، نصارى، ملحدين، ومنكري سنة)." },
+                ar: { name: "شمس الدين الجزائري", badge: "مناظرات مفتوحة", bio: "ينشط في البثوث المباشرة والحوارات المفتوحة مع مختلف الطوائف (شيعة، نصارى، ملحدين، ومنكري Sonne)." },
                 en: { name: "Shams Al-Din Al-Jazairi", badge: "Open Debates", bio: "Active in live broadcasts and open dialogues across various groups (Shia, Christians, atheists, Quranists)." },
                 fr: { name: "Shams Al-Din Al-Jazairi", badge: "Débats Ouverts", bio: "Actif dans les diffusions en direct et dialogues ouverts avec divers courants." },
                 es: { name: "Shams Al-Din Al-Jazairi", badge: "Debates Abiertos", bio: "Activo en transmisiones en vivo y diálogos abiertos con diversos grupos." }
@@ -534,7 +540,7 @@
                 ar: { name: "أبو بكر الشطي", badge: "الشبهات العقدية", bio: "ينشط في الرد على الشبهات العقدية ومحاورة المخالفين." },
                 en: { name: "Abu Bakr Al-Shatti", badge: "Creedal Doubts", bio: "Active in refuting doctrinal doubts and debating opponents." },
                 fr: { name: "Abu Bakr Al-Shatti", badge: "Doutes Doctrinaux", bio: "Actif dans la réfutation des doutes doctrinaux." },
-                es: { name: "Abu Bakr Al-Shatti", badge: "Dudas Doctrinales", bio: "Activo en la refutación de dudas doctrinales." }
+                es: { name: "Abu Bakr Al-Shatti", badge: "Dudas Doctrinales", bio: "Activo en la refutación de dudas doctrinaux." }
             },
             {
                 id: 38, category: "05",
@@ -544,82 +550,6 @@
                 es: { name: "Mahmoud Shaaban", badge: "Debates Intelectuales", bio: "Conocido por sus apariciones mediáticas y debates con secularistas." }
             }
         ];
-
-
-        const uiText = {
-            ar: {
-                title: "أعلام الدعوة والفكر",
-                menuBtn: "☰ الفهرس",
-                searchPlaceholder: "ابحث بالاسم أو التخصص...",
-                intro: "دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).",
-                drawerTitle: "الفهرس",
-                btnBio: "السيرة",
-                btnYoutube: "يوتيوب",
-                noResults: "لا توجد نتائج مطابقة.",
-                categories: [
-                    { id: "all", label: "📚 كل الشخصيات (38)" },
-                    { id: "01", label: "01 مناظرة الملحدين والرد على الشبهات" },
-                    { id: "02", label: "02 مقارنة الأديان (النصارى واليهود)" },
-                    { id: "03", label: "03 الرد على الشيعة والفرق" },
-                    { id: "04", label: "04 الدفاع عن السنة والرد على القرآنيين" },
-                    { id: "05", label: "05 الرد العام والمناظرات المفتوحة" }
-                ]
-            },
-            en: {
-                title: "Flags of Da'wah & Thought",
-                menuBtn: "☰ Index",
-                searchPlaceholder: "Search by name or specialty...",
-                intro: "Directory of contemporary preachers, debaters, and researchers in comparative religion and refuting doubts (38 figures).",
-                drawerTitle: "Index",
-                btnBio: "Biography",
-                btnYoutube: "YouTube",
-                noResults: "No matching results found.",
-                categories: [
-                    { id: "all", label: "📚 All Figures (38)" },
-                    { id: "01", label: "01 Debating Atheists & Refuting Doubts" },
-                    { id: "02", label: "02 Comparative Religion" },
-                    { id: "03", label: "03 Refuting Shia & Sects" },
-                    { id: "04", label: "04 Defending Sunnah & Hadith" },
-                    { id: "05", label: "05 General & Open Debates" }
-                ]
-            },
-            fr: {
-                title: "Figures de la Da'wa & Pensée",
-                menuBtn: "☰ Index",
-                searchPlaceholder: "Rechercher par nom ou spécialité...",
-                intro: "Répertoire des prédicateurs, débatteurs et chercheurs contemporains en religion comparée (38 figures).",
-                drawerTitle: "Index",
-                btnBio: "Biographie",
-                btnYoutube: "YouTube",
-                noResults: "Aucun résultat trouvé.",
-                categories: [
-                    { id: "all", label: "📚 Toutes les figures (38)" },
-                    { id: "01", label: "01 Débats avec les athées" },
-                    { id: "02", label: "02 Religion comparée" },
-                    { id: "03", label: "03 Réfutation du chiisme" },
-                    { id: "04", label: "04 Défense de la Sunnah" },
-                    { id: "05", label: "05 Débats ouverts & généraux" }
-                ]
-            },
-            es: {
-                title: "Figuras de la Da'wa",
-                menuBtn: "☰ Índice",
-                searchPlaceholder: "Buscar por nombre o especialidad...",
-                intro: "Directorio de predicadores, debatientes e investigadores contemporáneos en religión comparada (38 figuras).",
-                drawerTitle: "Índice",
-                btnBio: "Biografía",
-                btnYoutube: "YouTube",
-                noResults: "No se encontraron resultados.",
-                categories: [
-                    { id: "all", label: "📚 Todas las figuras (38)" },
-                    { id: "01", label: "01 Debate con ateos y dudas" },
-                    { id: "02", label: "02 Religión comparada" },
-                    { id: "03", label: "03 Refutación del chiismo" },
-                    { id: "04", label: "04 Defensa de la Sunnah" },
-                    { id: "05", label: "05 Debates abiertos y generales" }
-                ]
-            }
-        };
 
 
         let currentLang = localStorage.getItem('a3lam-lang') || 'ar';

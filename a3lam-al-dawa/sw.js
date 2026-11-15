@@ -1,65 +1,77 @@
-const CACHE = 'a3lam-al-dawa-2026-11-17-v11';
-const SHELL = [
-  './',
-  './index.html',
-  './manifest.json',
-  './data.js',
-  './app.js',
-  './fonts/scheherazade-new-400.woff2',
-  './fonts/scheherazade-new-700.woff2',
-  './icon.svg',
-  './icon-180.png',
-  './icon-192.png',
-  './icon-512.png'
-];
+const CACHE_NAME = 'a3lam-al-dawa-v15';
+const IMAGE_EXT = 'jpg';
+const TOTAL_IMAGES = 38;
 
+
+// ================== INSTALL ==================
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then(cache => cache.addAll(SHELL))
-      .then(() => self.skipWaiting())
-  );
+    event.waitUntil((async () => {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.addAll(['./', './index.html', './manifest.json']);
+        const imgs = Array.from({ length: TOTAL_IMAGES }, (_, i) => `./images/${i + 1}.${IMAGE_EXT}`);
+        await Promise.allSettled(imgs.map(url => cache.add(url)));
+        console.log('[SW] Installation completed.');
+    })());
+    self.skipWaiting();
 });
 
+
+// ================== ACTIVATE ==================
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys
-        .filter(key => key.startsWith('a3lam-al-dawa-') && key !== CACHE)
-        .map(key => caches.delete(key))))
-      .then(() => self.clients.claim())
-  );
+    event.waitUntil((async () => {
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+        await self.clients.claim();
+        console.log('[SW] Activation completed. Old caches cleared.');
+    })());
 });
 
+
+// ================== FETCH ==================
 self.addEventListener('fetch', event => {
-  const request = event.request;
-  if (request.method !== 'GET') return;
-  const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
+    const req = event.request;
+    if (req.method !== 'GET') return;
 
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put(request, copy)).catch(() => {});
-          return response;
-        })
-        .catch(() => caches.match(request).then(hit => hit || caches.match('./index.html')))
+
+    const url = new URL(req.url);
+    if (url.origin !== location.origin) return;
+
+
+    // التنقل (HTML): Network-First
+    if (req.mode === 'navigate') {
+        event.respondWith((async () => {
+            try {
+                const fresh = await fetch(req);
+                if (fresh.status === 200) {
+                    const cache = await caches.open(CACHE_NAME);
+                    event.waitUntil(cache.put(req, fresh.clone())); // ✅ انتظار مضمون
+                }
+                return fresh;
+            } catch (err) {
+                const cached = await caches.match(req);
+                return cached || caches.match('./index.html');
+            }
+        })();
     );
-    return;
-  }
+        return;
+    }
 
-  event.respondWith(
-    caches.match(request).then(hit => {
-      if (hit) return hit;
-      return fetch(request).then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put(request, copy)).catch(() => {});
+
+    // باقي الملفات (صور): Cache-First
+    event.respondWith((async () => {
+        const cached = await caches.match(req);
+        if (cached) return cached;
+
+
+        try {
+            const fresh = await fetch(req);
+            if (fresh.ok) {
+                const cache = await caches.open(CACHE_NAME);
+                event.waitUntil(cache.put(req, fresh.clone())); // ✅ انتظار مضمون
+            }
+            return fresh;
+        } catch (err) {
+            return new Response('', { status: 503, statusText: 'Offline' });
         }
-        return response;
-      }).catch(() => caches.match('./index.html'));
-    })
-  );
+    })();
 });
