@@ -1,816 +1,536 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="sepia">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>أعلام الدعوة والفكر والمناظرة في العصر الرقمي</title>
-    
-    <!-- الخطوط -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أعلام الدعوة والفكر</title>
     <style>
         :root {
-            --bg-parchemin: #f4ecd8;
-            --bg-ivoire: #fcf8f0;
-            --primary-emerald: #15472a;
-            --accent-bronze: #9c722e;
-            --text-main: #2c2c2c;
-            --text-muted: #5a5a5a;
-            --border-color: #d1c7b3;
-            --font-title: 'Amiri', serif;
-            --font-body: 'Scheherazade New', 'Amiri', serif;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-color: #d4af37;
+            --border-color: #2a2a2a;
         }
 
 
-        [data-theme="light"] {
-            --bg-parchemin: #ffffff;
-            --bg-ivoire: #f8f9fa;
-            --text-main: #111111;
-            --text-muted: #444444;
-            --border-color: #dddddd;
-        }
-
-
-        [data-theme="dark"] {
-            --bg-parchemin: #1a1a1a;
-            --bg-ivoire: #2a2a2a;
-            --primary-emerald: #4ade80;
-            --accent-bronze: #d4af37;
-            --text-main: #f0f0f0;
-            --text-muted: #aaaaaa;
-            --border-color: #444444;
-        }
-
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { font-size: 16px; scroll-behavior: smooth; }
-        
         body {
-            font-family: var(--font-body);
-            background-color: var(--bg-parchemin);
-            color: var(--text-main);
-            line-height: 1.8;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 15px;
         }
 
 
         header {
-            background-color: var(--bg-ivoire);
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            padding: 12px;
-            display: flex; flex-direction: column; gap: 10px;
-            border-bottom: 2px solid var(--accent-bronze);
+            text-align: center;
+            margin-bottom: 30px;
         }
 
 
-        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-
-
-        .app-title {
-            font-family: var(--font-title);
-            font-size: 1.3rem;
-            color: var(--primary-emerald);
-            font-weight: 700;
+        h1 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin: 0 0 15px 0;
         }
 
 
-        .menu-toggle-btn {
-            background: var(--primary-emerald);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 6px;
+        .subtitle {
+            color: var(--text-secondary);
             font-size: 0.9rem;
-            font-family: var(--font-title);
-            cursor: pointer;
-            border: none;
+            margin-bottom: 20px;
         }
 
 
-        .search-container { width: 100%; }
-        .search-input {
-            width: 100%;
-            padding: 10px 14px;
-            font-family: var(--font-body);
-            font-size: 1.05rem;
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
-            background: var(--bg-parchemin);
-            color: var(--text-main);
-        }
-        .search-input:focus { outline: none; border-color: var(--primary-emerald); }
-
-
-        .header-controls {
-            display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
 
-        .control-group {
-            display: flex; background: var(--bg-parchemin);
-            border: 1px solid var(--border-color); border-radius: 15px; overflow: hidden;
-        }
-
-
-        .control-btn {
-            padding: 6px 10px; font-size: 0.85rem; color: var(--text-main);
-            border-inline-end: 1px solid var(--border-color);
-            background: transparent;
-            cursor: pointer;
-            border-top: none; border-bottom: none; border-inline-start: none;
-        }
-        .control-btn:last-child { border-inline-end: none; }
-        .control-btn.active, .control-btn:hover {
-            background: var(--accent-bronze);
-            color: white;
-        }
-
-
-        main { padding: 16px; max-width: 1100px; margin: 0 auto; }
-        .intro-text { text-align: center; margin-bottom: 20px; color: var(--text-muted); font-size: 1.1rem; }
-
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-        @media (min-width: 600px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 900px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
-
-
-        .card {
-            background: var(--bg-ivoire);
+        .scholar-card {
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
 
 
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
-        .card-title-group { display: flex; align-items: center; gap: 10px; }
-        .card-avatar {
-            width: 45px; height: 45px; border-radius: 50%; object-fit: cover;
-            border: 2px solid var(--accent-bronze); background-color: var(--bg-parchemin);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex-shrink: 0;
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
         }
-        .card-title { font-family: var(--font-title); font-size: 1.2rem; color: var(--primary-emerald); font-weight: 700; }
-        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
-        .card-body { font-size: 1.05rem; color: var(--text-main); margin-bottom: 12px; flex-grow: 1; }
-        .card-actions { display: flex; gap: 8px; }
-        
-        .btn-action {
-            flex: 1; padding: 6px; border-radius: 6px; font-size: 0.9rem;
-            background: var(--bg-parchemin); border: 1px solid var(--border-color); color: var(--text-main);
-            text-align: center; cursor: pointer;
-        }
-        .btn-action:hover { background: var(--primary-emerald); color: white; }
 
 
-        /* القائمة الجانبية (Drawer) */
-        .overlay {
-            position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important;
-            background: rgba(0,0,0,0.6) !important; z-index: 9998 !important; opacity: 0; visibility: hidden; transition: 0.3s;
+        .image-container {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #2a2a2a;
+            border: 2px solid var(--accent-color);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .overlay.active { opacity: 1 !important; visibility: visible !important; }
 
 
-        .drawer {
-            position: fixed !important; top: 0 !important; right: 0 !important; left: auto !important;
-            width: 82vw !important; max-width: 310px !important; height: 100vh !important;
-            background: var(--bg-ivoire) !important; z-index: 9999 !important; box-shadow: -5px 0 20px rgba(0,0,0,0.3) !important;
-            transform: translateX(100%) !important; transition: transform 0.3s ease !important; display: flex !important; flex-direction: column !important;
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .drawer.open { transform: translateX(0) !important; }
-        [dir="ltr"] .drawer {
-            right: auto !important; left: 0 !important;
-            transform: translateX(-100%) !important;
-            box-shadow: 5px 0 20px rgba(0,0,0,0.3) !important;
-        }
-        [dir="ltr"] .drawer.open { transform: translateX(0) !important; }
-        
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--bg-parchemin); border-bottom: 1px solid var(--border-color); }
-        .close-btn { background: #fee2e2; color: #dc2626; width: 30px; height: 30px; border-radius: 50%; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; }
-        .drawer-content { padding: 14px; overflow-y: auto; }
-        .drawer-list { list-style: none; }
-        .drawer-list li { margin-bottom: 8px; }
-        .drawer-list button { 
-            display: block; width: 100%; text-align: start; padding: 10px; color: var(--text-main); 
-            border-radius: 6px; background: transparent; border: none; font-family: inherit; font-size: 0.98rem; cursor: pointer;
-            line-height: 1.4;
-        }
-        .drawer-list button:hover, .drawer-list button.active-cat { background: var(--primary-emerald); color: white; }
 
 
-        #error-box {
-            display: none; position: fixed; top: 10px; left: 10px; right: 10px;
-            background: #ffcccc; color: #cc0000; padding: 15px; border-radius: 8px;
-            z-index: 999999; font-family: sans-serif; font-size: 14px;
+        .scholar-info {
+            flex-grow: 1;
+        }
+
+
+        .scholar-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+
+        .scholar-name {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 0;
+        }
+
+
+        .scholar-tag {
+            background-color: #2c2416;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #483b1f;
+        }
+
+
+        .scholar-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 8px 0 12px 0;
+        }
+
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #252525;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+
+        .action-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+
+        /* Modal Video Viewer Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            width: 92%;
+            max-width: 550px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--accent-color);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-tabs {
+            display: flex;
+            background: #161616;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s, background 0.2s;
+        }
+        .tab-btn.active {
+            color: var(--accent-color);
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .media-viewer {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Landscape */
+            background: #000;
+            transition: padding 0.2s ease, height 0.2s ease;
+        }
+        .media-viewer iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .media-viewer.portrait {
+            padding-top: 0;
+            height: min(65vh, 500px);
+            display: flex;
+            justify-content: center;
+        }
+        .media-viewer.portrait iframe {
+            position: relative;
+            width: auto;
+            height: 100%;
+            aspect-ratio: 9 / 16;
         }
     </style>
 </head>
 <body>
 
 
-    <div id="error-box"></div>
-
-
     <header>
-        <div class="header-top">
-            <h1 class="app-title" id="ui-title">أعلام الدعوة والفكر</h1>
-            <button class="menu-toggle-btn" id="openDrawerBtn" type="button">☰ الفهرس</button>
-        </div>
-        
-        <div class="search-container">
-            <input type="search" id="searchInput" class="search-input" placeholder="ابحث بالاسم أو التخصص..." autocomplete="off">
-        </div>
-
-
-        <div class="header-controls">
-            <div class="control-group" id="langGroup">
-                <button class="control-btn active" data-lang="ar" type="button">🇲🇦 AR</button>
-                <button class="control-btn" data-lang="en" type="button">🇬🇧 EN</button>
-                <button class="control-btn" data-lang="fr" type="button">🇫🇷 FR</button>
-                <button class="control-btn" data-lang="es" type="button">🇪🇸 ES</button>
-            </div>
-            
-            <div class="control-group" id="themeGroup">
-                <button class="control-btn active" data-theme="sepia" type="button">📜 Sépia</button>
-                <button class="control-btn" data-theme="light" type="button">☀️ Clair</button>
-                <button class="control-btn" data-theme="dark" type="button">🌙 Sombre</button>
-            </div>
-        </div>
+        <h1>أعلام الدعوة والفكر</h1>
+        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والربcontre الشبهات (38 شخصية).</div>
     </header>
 
 
     <main>
-        <p class="intro-text" id="ui-intro">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).</p>
-        <div class="cards-grid" id="cardsContainer"></div>
+        <div class="grid-container" id="grid"></div>
     </main>
 
 
-    <div class="overlay" id="drawerOverlay"></div>
-    <aside class="drawer" id="sidebarDrawer">
-        <div class="drawer-header">
-            <h3 id="ui-drawer-title" style="color:var(--primary-emerald); font-family:var(--font-title); margin:0;">الفهرس</h3>
-            <button class="close-btn" id="closeDrawerBtn" type="button">✕</button>
+    <!-- Modal Video Viewer -->
+    <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">عنوان المحتوى</h3>
+                <button type="button" class="close-btn" id="closeModal" aria-label="إغلاق">&times;</button>
+            </div>
+            <div class="modal-tabs" id="modalTabs" role="tablist">
+                <button type="button" class="tab-btn active" id="tabYoutube" role="tab" aria-selected="true" aria-controls="mediaContainer">🎥 يوتيوب (محاضرات)</button>
+                <button type="button" class="tab-btn" id="tabTiktok" role="tab" aria-selected="false" aria-controls="mediaContainer">📱 تيك توك (مقاطع قصيرة)</button>
+            </div>
+            <div class="media-viewer" id="mediaContainer"></div>
         </div>
-        <div class="drawer-content">
-            <ul class="drawer-list" id="drawerList"></ul>
-        </div>
-    </aside>
+    </div>
 
 
     <script>
-        window.onerror = function(msg, url, line) {
-            const errBox = document.getElementById('error-box');
-            errBox.style.display = 'block';
-            errBox.innerHTML = `<strong>خطأ في الكود:</strong> ${msg}<br><small>السطر: ${line}</small>`;
-            return false;
-        };
+        const AVATAR_CACHE = new Map();
 
 
-        const FALLBACK_AVATAR = 'data:image/svg+xml,' + encodeURIComponent(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#9c722e" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Z"/></svg>'
-        );
+        function generateInitialsAvatar(name) {
+            if (AVATAR_CACHE.has(name)) return AVATAR_CACHE.get(name);
+            const SIZE = 200;
+            const canvas = document.createElement('canvas');
+            canvas.width = canvas.height = SIZE;
+            const ctx = canvas.getContext('2d');
 
 
-        const scholarsData = [
-            // الشخصيات الـ 9 المطلوبة في المقدمة (من 1 إلى 9)
-            {
-                id: 1, category: "01", image: "images/1.jpg",
-                ar: { name: "الدكتور هيثم طلعت", badge: "نقد الإلحاد", bio: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية." },
-                en: { name: "Dr. Haitham Talaat", badge: "Atheism Critique", bio: "Prominent Egyptian doctor and researcher specialized in dismantling atheistic doubts." },
-                fr: { name: "Dr Haitham Talaat", badge: "Critique de l'athéisme", bio: "Médecin et chercheur égyptien spécialisé dans la réfutation de l'athéisme." },
-                es: { name: "Dr. Haitham Talaat", badge: "Crítica al ateísmo", bio: "Prominente médico e investigador egipcio especializado en refutar el ateísmo." }
-            },
-            {
-                id: 2, category: "01", image: "images/2.jpg",
-                ar: { name: "الشيخ زين خير الله", badge: "مناظرات البث المباشر", bio: "محاور بارز في مناظرات البث المباشر حول مقارنة الأديان وإثبات العقيدة." },
-                en: { name: "Sheikh Zain Khair Allah", badge: "Live Debates", bio: "Prominent debater in live-stream discussions on comparative religion and creed." },
-                fr: { name: "Cheikh Zain Khair Allah", badge: "Débats en direct", bio: "Débatteur éminent dans les discussions en direct sur la religion comparée." },
-                es: { name: "Jeque Zain Khair Allah", badge: "Debates en vivo", bio: "Prominente debatiente en transmisiones en vivo sobre religión comparada." }
-            },
-            {
-                id: 3, category: "01", image: "images/3.jpg",
-                ar: { name: "د. سامي عامري", badge: "مقارنة أديان واستشراق", bio: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين." },
-                en: { name: "Dr. Sami Ameri", badge: "Comparative Religion", bio: "Researcher and thinker specialized in comparative religion and critiquing Orientalism." },
-                fr: { name: "Dr Sami Ameri", badge: "Religion comparée", bio: "Chercheur et penseur spécialisé dans l'étude des religions et la critique de l'orientalisme." },
-                es: { name: "Dr. Sami Ameri", badge: "Religión comparada", bio: "Investigador y pensador especializado en religión comparada y crítica al orientalismo." }
-            },
-            {
-                id: 4, category: "03", image: "images/4.jpg",
-                ar: { name: "وليد إسماعيل", badge: "حوارات عقدية", bio: "باحث وداعية متخصص في الحوارات العقدية المباشرة ورد الشبهات." },
-                en: { name: "Waleed Ismail", badge: "Creed Dialogues", bio: "Researcher and preacher specialized in direct creedal dialogues and refuting doubts." },
-                fr: { name: "Waleed Ismail", badge: "Dialogues doctrinaux", bio: "Chercheur et prédicateur spécialisé dans les dialogues doctrinaux directs." },
-                es: { name: "Waleed Ismail", badge: "Diálogos doctrinales", bio: "Investigador y predicador especializado en diálogos doctrinales directos." }
-            },
-            {
-                id: 5, category: "01", image: "images/5.jpg",
-                ar: { name: "رامي عيسى", badge: "حوارات ومناظرات", bio: "داعية ومناظر بارز، له جهود واسعة في الحوارات العقدية والفكرية ومقارنة الأديان." },
-                en: { name: "Rami Issa", badge: "Dialogues & Debates", bio: "Prominent preacher and debater active in creedal and comparative religion dialogues." },
-                fr: { name: "Rami Issa", badge: "Dialogues & Débats", bio: "Prédicateur et débatteur éminent actif dans les dialogues doctrinaux." },
-                es: { name: "Rami Issa", badge: "Diálogos y Debates", bio: "Prominente predicador y debatiente activo en diálogos doctrinales." }
-            },
-            {
-                id: 6, category: "02", image: "images/6.jpg",
-                ar: { name: "د. خالد الحايك", badge: "علوم الحديث والنصوص", bio: "باحث متخصص في علوم الحديث وتخريج الأنباء ودراسة الأسانيد التاريخية." },
-                en: { name: "Dr. Khaled Al-Hayek", badge: "Hadith Sciences", bio: "Researcher specialized in Hadith sciences and historical chains of narration." },
-                fr: { name: "Dr Khaled Al-Hayek", badge: "Sciences du Hadith", bio: "Chercheur spécialisé dans les sciences du hadith et l'étude des chaînes de transmission." },
-                es: { name: "Dr. Khaled Al-Hayek", badge: "Ciencias del Hadiz", bio: "Investigador especializado en ciencias del hadiz y cadenas de transmisión." }
-            },
-            {
-                id: 7, category: "03", image: "images/7.jpg",
-                ar: { name: "خالد الوصابي", badge: "مناظر بارز", bio: "أحد أبرز المناظرين في الرد على الفرق والمخالفين، ولا تزال مقاطعه مرجعاً." },
-                en: { name: "Khaled Al-Wasabi", badge: "Prominent Debater", bio: "One of the most prominent debaters in refuting sects, whose clips remain a reference." },
-                fr: { name: "Khaled Al-Wasabi", badge: "Débatteur éminent", bio: "L'un des débatteurs les plus marquants dans la réfutation des sectes." },
-                es: { name: "Khaled Al-Wasabi", badge: "Debatiente destacado", bio: "Uno de los debatientes más destacados en la refutación de sectas." }
-            },
-            {
-                id: 8, category: "03", image: "images/8.jpg",
-                ar: { name: "عدنان العرعور", badge: "مناظرات الفرق", bio: "اشتهر بمناظراته التلفزيونية والرقمية الواسعة مع المخالفين والفرق المعاصرة." },
-                en: { name: "Adnan Al-Arour", badge: "Sectarian Debates", bio: "Famous for his extensive television and digital debates with opposing sects." },
-                fr: { name: "Adnan Al-Arour", badge: "Débats doctrinaux", bio: "Célèbre pour ses vastes débats télévisés et numériques avec les sectes." },
-                es: { name: "Adnan Al-Arour", badge: "Debates doctrinales", bio: "Famoso por sus amplios debates televisivos y digitales con sectas." }
-            },
-            {
-                id: 9, category: "01", image: "images/9.jpg",
-                ar: { name: "شمائل الندوي", badge: "داعية وباحث", bio: "داعية وباحث معروف بخوضه للعديد من الحوارات العلمية والمناظرات." },
-                en: { name: "Shama'il Nadwi", badge: "Preacher & Researcher", bio: "Preacher and researcher known for engaging in numerous scholarly dialogues and debates." },
-                fr: { name: "Shama'il Nadwi", badge: "Prédicateur & Chercheur", bio: "Prédicateur et chercheur connu pour ses nombreux dialogues scientifiques." },
-                es: { name: "Shama'il Nadwi", badge: "Predicador e Investigador", bio: "Predicador e investigador conocido por sus numerosos diálogos científicos." }
-            },
-
-
-            // باقي الشخصيات لتكتمل القائمة إلى 38
-            {
-                id: 10, category: "01", image: "images/10.jpg",
-                ar: { name: "د. إياد قنيبي", badge: "نقد الإلحاد والتطور", bio: "يشتهر بسلاسل علمية متخصصة في نقد نظرية التطور، والرد على الإلحاد المعاصر." },
-                en: { name: "Dr. Eyad Qunaibi", badge: "Atheism & Evolution", bio: "Known for specialized scientific series critiquing evolution." },
-                fr: { name: "Dr Eyad Qunaibi", badge: "Athéisme & Évolution", bio: "Connu pour ses séries scientifiques critiquant l'évolution." },
-                es: { name: "Dr. Eyad Qunaibi", badge: "Ateísmo y Evolución", bio: "Conocido por sus series científicas que critican la evolución." }
-            },
-            {
-                id: 11, category: "01", image: "images/11.jpg",
-                ar: { name: "د. عبدالله العجيري", badge: "الفكر المعاصر", bio: "باحث ومفكر يركز على القضايا الفكرية المعاصرة، ونقد الإلهاد." },
-                en: { name: "Dr. Abdullah Al-Ajiri", badge: "Contemporary Thought", bio: "Researcher focusing on contemporary intellectual issues and critiquing atheism." },
-                fr: { name: "Dr Abdullah Al-Ajiri", badge: "Pensée Contemporaine", bio: "Chercheur axé sur les questions intellectuelles contemporaines." },
-                es: { name: "Dr. Abdullah Al-Ajiri", badge: "Pensamiento Contemporáneo", bio: "Investigador centrado en temas intelectuales contemporáneos." }
-            },
-            {
-                id: 12, category: "01", image: "images/12.jpg",
-                ar: { name: "أحمد السيد", badge: "البناء الفكري", bio: "يُعنى ببناء الشباب فكريًا وعقديًا، والرد على الشبهات المثارة حول الإسلام." },
-                en: { name: "Ahmed Al-Sayed", badge: "Intellectual Building", bio: "Dedicated to building youth intellectually and refuting doubts." },
-                fr: { name: "Ahmed Al-Sayed", badge: "Construction Intellectuelle", bio: "Dédié à la formation intellectuelle de la jeunesse." },
-                es: { name: "Ahmed Al-Sayed", badge: "Formación Intelectual", bio: "Dedicado a la formación intelectual de los jóvenes." }
-            },
-            {
-                id: 13, category: "01", image: "images/13.jpg",
-                ar: { name: "مهند السويدان (أبو عمر الباحث)", badge: "مناظرات فلسفية", bio: "يشتهر بالمناظرات المباشرة والحوارات الفلسفية مع الملحدين واللادينيين." },
-                en: { name: "Muhannad Al-Suwaidan", badge: "Philosophical Debates", bio: "Known for live debates and philosophical dialogues with atheists." },
-                fr: { name: "Muhannad Al-Suwaidan", badge: "Débats Philosophiques", bio: "Connu pour ses débats en direct et dialogues philosophiques." },
-                es: { name: "Muhannad Al-Suwaidan", badge: "Debates Filosóficos", bio: "Conocido por sus debates en vivo y diálogos filosóficos." }
-            },
-            {
-                id: 14, category: "01", image: "images/14.jpg",
-                ar: { name: "محمد شاهين (التاعب)", badge: "نقد الإلحاد", bio: "باحث متمرس في مقارنة الأديان ونقد الإلحاد، وله مئات المناظرات." },
-                en: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Debates & Atheism", bio: "Seasoned researcher in comparative religion and refuting atheism." },
-                fr: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Débats & Athéisme", bio: "Chercheur chevronné en religion comparée." },
-                es: { name: "Mohamed Shaheen (Al-Ta'ib)", badge: "Debates y Ateísmo", bio: "Investigador experimentado en religión comparada." }
-            },
-            {
-                id: 15, category: "01", image: "images/15.jpg",
-                ar: { name: "أحمد سبيع", badge: "مقارنة أديان", bio: "باحث متخصص في مقارنة الأديان، والرد على الشبهات، ومحاورة النصارى." },
-                en: { name: "Ahmed Sabea", badge: "Comparative Religion", bio: "Researcher specialized in comparative religion and refuting doubts." },
-                fr: { name: "Ahmed Sabea", badge: "Religion Comparée", bio: "Chercheur spécialisé en religion comparée." },
-                es: { name: "Ahmed Sabea", badge: "Religión Comparada", bio: "Investigador especializado en religión comparada." }
-            },
-            {
-                id: 16, category: "01", image: "images/16.jpg",
-                ar: { name: "عبدالله الشهري", badge: "فلسفة ومنطق", bio: "متخصص في الفلسفة، والمنطق، والرد على الشبهات الفكرية." },
-                en: { name: "Abdullah Al-Shahri", badge: "Philosophy & Logic", bio: "Specialized in philosophy, logic, and refuting doubts." },
-                fr: { name: "Abdullah Al-Shahri", badge: "Philosophie & Logique", bio: "Spécialisé en philosophie et logique." },
-                es: { name: "Abdullah Al-Shahri", badge: "Filosofía y Lógica", bio: "Especializado en filosofía y lógica." }
-            },
-            {
-                id: 17, category: "01", image: "images/17.jpg",
-                ar: { name: "حمزة تزورتزيس", badge: "حوارات فلسفية", bio: "داعية ومحاور بريطاني شهير يركز على الحوارات الفلسفية مع الملحدين." },
-                en: { name: "Hamza Tzortzis", badge: "Philosophical Dialogues", bio: "Renowned British debater focusing on philosophical dialogues." },
-                fr: { name: "Hamza Tzortzis", badge: "Dialogues Philosophiques", bio: "Célèbre débatteur britannique axé sur les dialogues philosophiques." },
-                es: { name: "Hamza Tzortzis", badge: "Diálogos Filosóficos", bio: "Reconocido debatiente británico centrado en diálogos filosóficos." }
-            },
-            {
-                id: 18, category: "01", image: "images/18.jpg",
-                ar: { name: "محمد حجاب", badge: "مناظر هايد بارك", bio: "محاور ومناظر بريطاني بارز، يشتهر بمناظراته القوية في هايد بارك." },
-                en: { name: "Mohammed Hijab", badge: "Speakers' Corner Debater", bio: "Prominent British debater famous for powerful debates at Speakers' Corner." },
-                fr: { name: "Mohammed Hijab", badge: "Débatteur Hyde Park", bio: "Débatteur britannique célèbre pour ses débats à Hyde Park." },
-                es: { name: "Mohammed Hijab", badge: "Debatiente Hyde Park", bio: "Debatiente británico famoso por sus debates en Hyde Park." }
-            },
-            {
-                id: 19, category: "02", image: "images/19.jpg",
-                ar: { name: "د. منقذ السقار", badge: "أستاذ مقارنة الأديان", bio: "أستاذ مقارنة الأديان، وله مؤلفات ومناظرات شهيرة." },
-                en: { name: "Dr. Munqidh Al-Saqqar", badge: "Comparative Religion", bio: "Professor of comparative religion with famous books and debates." },
-                fr: { name: "Dr Munqidh Al-Saqqar", badge: "Religion Comparée", bio: "Professeur de religion comparée avec des livres et débats." },
-                es: { name: "Dr. Munqidh Al-Saqqar", badge: "Religión Comparada", bio: "Profesor de religión comparada con libros y debates." }
-            },
-            {
-                id: 20, category: "02", image: "images/20.jpg",
-                ar: { name: "معاذ عليان", badge: "نقد النصوص", bio: "باحث ومناظر متخصص في الرد على شبهات النصارى ونقد النصوص الكتابية." },
-                en: { name: "Moaz Olayan", badge: "Textual Criticism", bio: "Researcher specialized in refuting Christian doubts and textual criticism." },
-                fr: { name: "Moaz Olayan", badge: "Critique Textuelle", bio: "Chercheur spécialisé dans la critique textuelle biblique." },
-                es: { name: "Moaz Olayan", badge: "Crítica Textual", bio: "Investigador especializado en crítica textual bíblica." }
-            },
-            {
-                id: 21, category: "02", image: "images/21.jpg",
-                ar: { name: "محمود داود", badge: "مناظر رقمي", bio: "من أبرز المحاورين في الغرف الصوتية لمناظرة النصارى والرد على شبهاتهم." },
-                en: { name: "Mahmoud Daoud", badge: "Digital Debater", bio: "Prominent interlocutor in audio rooms debating Christians." },
-                fr: { name: "Mahmoud Daoud", badge: "Débatteur Numérique", bio: "Interlocuteur sur les plateformes numériques." },
-                es: { name: "Mahmoud Daoud", badge: "Debatiente Digital", bio: "Interlocutor en plataformas digitales." }
-            },
-            {
-                id: 22, category: "02", image: "images/22.jpg",
-                ar: { name: "أبو منتصر شاهين", badge: "نقد الكتاب المقدس", bio: "باحث في مقارنة الأديان وله مناظرات في نقد الكتاب المقدس." },
-                en: { name: "Abu Montaser Shaheen", badge: "Biblical Critique", bio: "Comparative religion researcher with debates critiquing the Bible." },
-                fr: { name: "Abu Montaser Shaheen", badge: "Critique Biblique", bio: "Chercheur en religion comparée." },
-                es: { name: "Abu Montaser Shaheen", badge: "Crítica Bíblica", bio: "Investigador en religión comparada." }
-            },
-            {
-                id: 23, category: "02", image: "images/23.jpg",
-                ar: { name: "إبراهيم خليل فيلوبوس", badge: "قس مصري سابق", bio: "قس مصري سابق أسلم، وله محاضرات وحوارات في مقارنة الأديان." },
-                en: { name: "Ibrahim Khalil Philobus", badge: "Former Priest", bio: "Former Egyptian priest who embraced Islam." },
-                fr: { name: "Ibrahim Khalil Philobus", badge: "Ancien Prêtre", bio: "Ancien prêtre égyptien converti à l'islam." },
-                es: { name: "Ibrahim Khalil Philobus", badge: "Ex Sacerdote", bio: "Ex sacerdote egipcio convertido al Islam." }
-            },
-            {
-                id: 24, category: "02", image: "images/24.jpg",
-                ar: { name: "يوسف إستس", badge: "قس أمريكي سابق", bio: "قس أمريكي سابق أسلم، ويُعد من أشهر الدعاة المحاورين." },
-                en: { name: "Yusuf Estes", badge: "Former Pastor", bio: "Former American pastor who embraced Islam." },
-                fr: { name: "Yusuf Estes", badge: "Ancien Pasteur", bio: "Ancien pasteur américain converti à l'islam." },
-                es: { name: "Yusuf Estes", badge: "Ex Pastor", bio: "Ex pastor estadounidense convertido al Islam." }
-            },
-            {
-                id: 25, category: "02", image: "images/25.jpg",
-                ar: { name: "د. ذاكر نايك", badge: "مقارنة الأديان", bio: "من أشهر المناظرين في العالم الإسلامي في مجال مقارنة الأديان." },
-                en: { name: "Dr. Zakir Naik", badge: "Comparative Religion", bio: "One of the Muslim world's most famous debaters." },
-                fr: { name: "Dr Zakir Naik", badge: "Religion Comparée", bio: "L'un des débatteurs les plus célèbres du monde musulman." },
-                es: { name: "Dr. Zakir Naik", badge: "Religión Comparada", bio: "Uno de los debatientes más famosos del mundo islámico." }
-            },
-            {
-                id: 26, category: "02", image: "images/26.jpg",
-                ar: { name: "أحمد ديدات", badge: "رائد المناظرة", bio: "رغم وفاته، لا تزال مناظره المرجع الأساسي للمحاورين المعاصرين." },
-                en: { name: "Ahmed Deedat", badge: "Debate Pioneer", bio: "His debates remain the foundational reference for modern debaters." },
-                fr: { name: "Ahmed Deedat", badge: "Pionnier du Débat", bio: "Ses débats restent la référence fondamentale." },
-                es: { name: "Ahmed Deedat", badge: "Pionero del Debate", bio: "Sus debates siguen siendo la referencia fundamental." }
-            },
-            {
-                id: 27, category: "03", image: "images/27.jpg",
-                ar: { name: "الشيخ عثمان الخميس", badge: "العقيدة والردود", bio: "يُعد من أبرز المشايخ المتخصصين في الرد الهادئ على الشبهات." },
-                en: { name: "Sheikh Othman Al-Khamis", badge: "Creed & Refutations", bio: "Prominent scholar known for scholarly refutations." },
-                fr: { name: "Cheikh Othman Al-Khamis", badge: "Croyance & Réfutations", bio: "Savant éminent pour ses réfutations." },
-                es: { name: "Jeque Othman Al-Khamis", badge: "Credo y Refutaciones", bio: "Erudito destacado por sus refutaciones." }
-            },
-            {
-                id: 28, category: "03", image: "images/28.jpg",
-                ar: { name: "الشيخ أبو المنتصر البلوشي", badge: "باحث ومناظر", bio: "باحث ومناظر متخصص في الرد على الفرق والمخالفين." },
-                en: { name: "Sheikh Abu Al-Muntasir Al-Balushi", badge: "Researcher & Debater", bio: "Researcher specialized in comparative creed." },
-                fr: { name: "Cheikh Abu Al-Muntasir Al-Balushi", badge: "Chercheur", bio: "Chercheur spécialisé." },
-                es: { name: "Jeque Abu Al-Muntasir Al-Balushi", badge: "Investigador", bio: "Investigador especializado." }
-            },
-            {
-                id: 29, category: "03", image: "images/29.jpg",
-                ar: { name: "الشيخ أشرف غريب", badge: "حوارات direkte", bio: "ينشط في الحوارات المباشرة على منصات التواصل." },
-                en: { name: "Sheikh Ashraf Gharib", badge: "Live Dialogues", bio: "Active on social media in live dialogues." },
-                fr: { name: "Cheikh Ashraf Gharib", badge: "Dialogues en Direct", bio: "Très actif sur les réseaux sociaux et YouTube dans les dialogues en direct." },
-                es: { name: "Jeque Ashraf Gharib", badge: "Diálogos en Vivo", bio: "Muy activo en redes sociales y YouTube en diálogos en vivo." }
-            },
-            {
-                id: 30, category: "03", image: "images/30.jpg",
-                ar: { name: "الشيخ فراج الصهيبي", badge: "بثوث حية", bio: "يشتهر بحواراته ومناظراته عبر البثوث الحية." },
-                en: { name: "Sheikh Farraj Al-Suhaibi", badge: "Live Streams", bio: "Known for his live-streamed dialogues and debates." },
-                fr: { name: "Cheikh Farraj Al-Suhaibi", badge: "Diffusions en Direct", bio: "Connu pour ses dialogues et débats en direct sur les réseaux." },
-                es: { name: "Jeque Farraj Al-Suhaibi", badge: "Transmisiones en vivo", bio: "Conocido por sus diálogos y debates en vivo." }
-            },
-            {
-                id: 31, category: "03", image: "images/31.jpg",
-                ar: { name: "الشيخ محمد بن شمس الدين", badge: "ردود direkte", bio: "ينشط في الرد على المخالفين بأسلوب مباشر." },
-                en: { name: "Sheikh Mohamed bin Shams Al-Din", badge: "Direct Refutations", bio: "Active in refuting claims with a direct style." },
-                fr: { name: "Cheikh Mohamed bin Shams Al-Din", badge: "Réfutations Directes", bio: "Actif dans la réfutation avec un style direct." },
-                es: { name: "Jeque Mohamed bin Shams Al-Din", badge: "Refutaciones Directas", bio: "Activo en refutar con un estilo directo." }
-            },
-            {
-                id: 32, category: "04", image: "images/32.jpg",
-                ar: { name: " الشيخ الدكتور عمرو نور الدين ", badge: "باحث وداعية", bio: "باحث وداعية إسلامي مصري، اشتهر ببرامجه ومرئياته المتخصصة في الرد على الشبهات الموجهة للإسلام، ومناظرة ومحاورة غير المسلمين (خاصة المسيحيين والشيعة)، والدفاع عن العقيدة الإسلامية بفهم سلف الأمة." },
-                en: { name: "Dr. Amr Nordeen", badge: "Islamic Researcher & Preacher", bio: "Egyptian Islamic researcher and preacher specialized in refuting doubts about Islam, debating non-Muslims (especially Christians and Shia), and defending Islamic doctrine with Salaf understanding." },
-                fr: { name: "Dr Amr Nordine", badge: "Chercheur et prédicateur islamique", bio: "Rechercheur et prédicateur islamique égyptien spécialisé dans la réfutation des doutes sur l'islam, les débats avec les non-musulmans (spécialement les chrétiens et les chiites), et la défense de la doctrine islamique avec la compréhension des salaf." },
-                es: { name: "Dr. Amr Nordeen", badge: "Investigador y predicador islámico", bio: "Investigador y predicador islámico egipcio especializado en refutar dudas sobre el islam, debatir con no musulmanes (especialmente cristianos y chiitas), y defender la doctrina islámica con la comprensión de los salaf." }
-            },
-            {
-                id: 33, category: "04", image: "images/33.jpg",
-                ar: { name: "د. حاتم العوني", badge: "علوم الحديث", bio: "متخصص في علوم الحديث، وله ردود علمية رصينة." },
-                en: { name: "Dr. Hatem Al-Awni", badge: "Hadith Sciences", bio: "Specialist in Hadith sciences with rigorous scholarly works." },
-                fr: { name: "Dr Hatem Al-Awni", badge: "Sciences du Hadith", bio: "Spécialiste des sciences du hadith." },
-                es: { name: "Dr. Hatem Al-Awni", badge: "Ciencias del Hadiz", bio: "Especialista en ciencias del hadiz." }
-            },
-            {
-                id: 34, category: "04", image: "images/34.jpg",
-                ar: { name: "د. عمرو بسيوني", badge: "الدفاع عن السنة", bio: "باحث متخصص في علوم الحديث والدفاع عن السنة النبوية." },
-                en: { name: "Dr. Amr Bassiouni", badge: "Defense of Sunnah", bio: "Researcher specialized in defending the Prophetic Sunnah." },
-                fr: { name: "Dr Amr Bassiouni", badge: "Défense de la Sunnah", bio: "Chercheur spécialisé dans la défense de la Sunnah." },
-                es: { name: "Dr. Amr Bassiouni", badge: "Defensa de la Sunnah", bio: "Investigador especializado en la defensa de la Sunnah." }
-            },
-            {
-                id: 35, category: "05", image: "images/35.jpg",
-                ar: { name: "شمس الدين الجزائري", badge: "مناظرات مفتوحة", bio: "ينشط في الحوارات المفتوحة مع مختلف الطوائف." },
-                en: { name: "Shams Al-Din Al-Jazairi", badge: "Open Debates", bio: "Active in open dialogues across various groups." },
-                fr: { name: "Shams Al-Din Al-Jazairi", badge: "Débats Ouverts", bio: "Actif dans les dialogues ouverts." },
-                es: { name: "Shams Al-Din Al-Jazairi", badge: "Debates Abiertos", bio: "Activo en diálogos abiertos." },
-            },
-            {
-                id: 36, category: "05", image: "images/36.jpg",
-                ar: { name: "أبو عمر الباحث", badge: "مكافح الشبهات", bio: "يدير منصة للرد على الشبهات بشتى أنواعها." },
-                en: { name: "Abu Omar Al-Bahith", badge: "Countering Doubts", bio: "Runs a platform refuting various doubts." },
-                fr: { name: "Abu Omar Al-Bahith", badge: "Réfutation Générale", bio: "Dirige une plateforme réfutant les doutes." },
-                es: { name: "Abu Omar Al-Bahith", badge: "Refutación General", bio: "Dirige una plataforma que refuta dudas." }
-            },
-            {
-                id: 37, category: "05", image: "images/37.jpg",
-                ar: { name: "علي دواه", badge: "مناظرات الشارع", bio: "محاور ينشط في الشوارع وعلى اليوتيوب لمحاورة غير المسلمين." },
-                en: { name: "Ali Dawah", badge: "Street Debates", bio: "Active on streets and YouTube debating non-Muslims." },
-                fr: { name: "Ali Dawah", badge: "Débats de Rue", bio: "Actif dans la rue et sur YouTube." },
-                es: { name: "Ali Dawah", badge: "Debates Callejeros", bio: "Activo en las calles y YouTube." }
-            },
-            {
-                id: 38, category: "05", image: "images/38.jpg",
-                ar: { name: "محمود شعبان", badge: "مناظرات فكرية", bio: "اشتهر بظهوره الإعلامي ومناظراته مع المخالفين." },
-                en: { name: "Mahmoud Shaaban", badge: "Intellectual Debates", bio: "Known for his media appearances and debates." },
-                fr: { name: "Mahmoud Shaaban", badge: "Débats Intellectuels", bio: "Connu pour ses apparitions médiatiques." },
-                es: { name: "Mahmoud Shaaban", badge: "Debates Intelectuales", bio: "Conocido por sus apariciones mediáticas." }
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = (hash * 31 + name.charCodeAt(i)) | 0;
             }
+            const hue = Math.abs(hash) % 360;
+            ctx.fillStyle = `hsl(${hue}, 40%, 25%)`;
+            ctx.fillRect(0, 0, SIZE, SIZE);
+
+
+            const TITLE = /^(?:الشيخ|الدكتور|الدكتورة|الأستاذ|الاستاذ|أ\.\s*د\.|د\.|dr\.|prof\.)\s*/i;
+            let core = name.trim(), prev;
+            do {
+                prev = core;
+                core = core.replace(TITLE, '').trim();
+            } while (core !== prev);
+
+
+            const first = Array.from(core)[0] || '؟';
+            ctx.fillStyle = '#d4af37';
+            ctx.font = 'bold 90px "Segoe UI", Tahoma, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+
+            const m = ctx.measureText(first);
+            const y = SIZE / 2 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+            ctx.fillText(first, SIZE / 2, y);
+
+
+            const uri = canvas.toDataURL('image/png');
+            AVATAR_CACHE.set(name, uri);
+            return uri;
+        }
+
+
+        // Complete 38 scholars list with descriptions, tags, and optional YouTube/TikTok IDs
+        const scholars = [
+            { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث المصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية.", tag: "نقد الإلحاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+            { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات البث المباشر حول مقارنة الأديان وإثبات العقيدة.", tag: "مناظرات البث المباشر", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+            { n: "03", name: "د. سامي عامري", desc: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين.", tag: "مقارنة أديان واستشراق", yt: "dQw4w9WgXcQ" },
+            { n: "04", name: "وليد إسماعيل", desc: "باحث وداعية متخصص في الحوارات العقدية المباشرة ورد الشبهات.", tag: "حوارات عقدية" },
+            { n: "05", name: "رامي عيسى", desc: "", tag: "" },
+            { n: "06", name: "د. خالد الحايك", desc: "", tag: "" },
+            { n: "07", name: "خالد الوصابي", desc: "", tag: "" },
+            { n: "08", name: "عدنان العرعور", desc: "", tag: "" },
+            { n: "09", name: "شمائل الندوي", desc: "", tag: "" },
+            { n: "10", name: "د. إياد قنيبي", desc: "", tag: "" },
+            { n: "11", name: "د. عبدالله العجيري", desc: "", tag: "" },
+            { n: "12", name: "أحمد السيد", desc: "", tag: "" },
+            { n: "13", name: "مهند السويدان (أبو عمر الباحث)", desc: "", tag: "" },
+            { n: "14", name: "محمد شاهين (التاعب)", desc: "", tag: "" },
+            { n: "15", name: "أحمد سبيع", desc: "", tag: "" },
+            { n: "16", name: "عبدالله الشهري", desc: "", tag: "" },
+            { n: "17", name: "حمزة تزورتزيس", desc: "", tag: "" },
+            { n: "18", name: "محمد حجاب", desc: "", tag: "" },
+            { n: "19", name: "د. منقذ السقار", desc: "", tag: "" },
+            { n: "20", name: "معاذ عليان", desc: "", tag: "" },
+            { n: "21", name: "محمود داود", desc: "", tag: "" },
+            { n: "22", name: "أبو منتصر شاهين", desc: "", tag: "" },
+            { n: "23", name: "إبراهيم خليل فيلوبوس", desc: "", tag: "" },
+            { n: "24", name: "يوسف إستس", desc: "", tag: "" },
+            { n: "25", name: "د. ذاكر نايك", desc: "", tag: "" },
+            { n: "26", name: "أحمد ديدات", desc: "", tag: "" },
+            { n: "27", name: "الشيخ عثمان الخميس", desc: "", tag: "" },
+            { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "", tag: "" },
+            { n: "29", name: "الشيخ أشرف غريب", desc: "", tag: "" },
+            { n: "30", name: "الشيخ فراجierz", desc: "", tag: "" },
+            { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "", tag: "" },
+            { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", tag: "", note: "(nouvelle nomination)" },
+            { n: "33", name: "د. حاتم العوني", desc: "", tag: "" },
+            { n: "34", name: "د. عمرو بسيوني", desc: "", tag: "" },
+            { n: "35", name: "شمس الدين الجزائري", desc: "", tag: "" },
+            { n: "36", name: "أبو عمر الباحث", desc: "", tag: "" },
+            { n: "37", name: "علي دواه", desc: "", tag: "" },
+            { n: "38", name: "محمود شعبان", desc: "", tag: "" }
         ];
 
 
-        const uiText = {
-            ar: {
-                title: "أعلام الدعوة والفكر",
-                menuBtn: "☰ الفهرس",
-                searchPlaceholder: "ابحث بالاسم أو التخصص...",
-                intro: "دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).",
-                drawerTitle: "الفهرس",
-                btnBio: "السيرة",
-                btnYoutube: "يوتيوب",
-                noResults: "لا توجد نتائج مطابقة.",
-                categories: [
-                    { id: "all", label: "📚 كل الشخصيات (38)" },
-                    { id: "01", label: "01 مناظرة الملحدين والرد على الشبهات" },
-                    { id: "02", label: "02 مقارنة الأديان (النصارى واليهود)" },
-                    { id: "03", label: "03 الرد على الشيعة والفرق" },
-                    { id: "04", label: "04 الدفاع عن السنة والرد على القرآنيين" },
-                    { id: "05", label: "05 الرد العام والمناظرات المفتوحة" }
-                ]
-            },
-            en: {
-                title: "Flags of Da'wah & Thought",
-                menuBtn: "☰ Index",
-                searchPlaceholder: "Search by name or specialty...",
-                intro: "Directory of contemporary preachers, debaters, and researchers in comparative religion and refuting doubts (38 figures).",
-                drawerTitle: "Index",
-                btnBio: "Biography",
-                btnYoutube: "YouTube",
-                noResults: "No matching results found.",
-                categories: [
-                    { id: "all", label: "📚 All Figures (38)" },
-                    { id: "01", label: "01 Debating Atheists & Refuting Doubts" },
-                    { id: "02", label: "02 Comparative Religion" },
-                    { id: "03", label: "03 Refuting Shia & Sects" },
-                    { id: "04", label: "04 Defending Sunnah & Hadith" },
-                    { id: "05", label: "05 General & Open Debates" }
-                ]
-            },
-            fr: {
-                title: "Figures de la Da'wa & Pensée",
-                menuBtn: "☰ Index",
-                searchPlaceholder: "Rechercher par nom ou spécialité...",
-                intro: "Répertoire des prédicateurs, débatteurs et chercheurs contemporains en religion comparée (38 figures).",
-                drawerTitle: "Index",
-                btnBio: "Biographie",
-                btnYoutube: "YouTube",
-                noResults: "Aucun résultat trouvé.",
-                categories: [
-                    { id: "all", label: "📚 Toutes les figures (38)" },
-                    { id: "01", label: "01 Débats avec les athées" },
-                    { id: "02", label: "02 Religion comparée" },
-                    { id: "03", label: "03 Réfutation du chiisme" },
-                    { id: "04", label: "04 Défense de la Sunnah" },
-                    { id: "05", label: "05 Débats ouverts & généraux" }
-                ]
-            },
-            es: {
-                title: "Figuras de la Da'wa",
-                menuBtn: "☰ Índice",
-                searchPlaceholder: "Buscar por nombre o especialidad...",
-                intro: "Directorio de predicadores, debatientes e investigadores contemporáneos en religión comparada (38 figuras).",
-                drawerTitle: "Índice",
-                btnBio: "Biografía",
-                btnYouTube: "YouTube",
-                noResults: "No se encontraron resultados.",
-                categories: [
-                    { id: "all", label: "📚 Todas las figuras (38)" },
-                    { id: "01", label: "01 Debate con ateos y dudas" },
-                    { id: "02", label: "02 Religión comparada" },
-                    { id: "03", label: "03 Refutación del chiismo" },
-                    { id: "04", label: "04 Defensa de la Sunnah" },
-                    { id: "05", label: "05 Debates abiertos y generales" }
-                ]
-            }
-        };
+        const esc = s => String(s).replace(/[&<>"']/g, c =>
+            ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" }[c]));
 
 
-        let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
-        let currentQuery = '';
-        let currentCategory = 'all';
-
-
-        const container = document.getElementById('cardsContainer');
-        const searchInput = document.getElementById('searchInput');
-        const htmlEl = document.documentElement;
-
-
-        function normalizeArabic(text) {
-            return text.replace(/[\u064B-\u065F\u0670]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").toLowerCase().trim();
-        }
-
-
-        function renderDrawerMenu() {
-            const t = uiText[currentLang] || uiText['ar'];
-            const listEl = document.getElementById('drawerList');
-            listEl.innerHTML = '';
-            t.categories.forEach(cat => {
-                const li = document.createElement('li');
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.textContent = cat.label;
-                if (currentCategory === cat.id) btn.classList.add('active-cat');
-                btn.addEventListener('click', () => {
-                    currentCategory = cat.id;
-                    toggleDrawer(false);
-                    renderDrawerMenu();
-                    renderCards();
-                });
-                li.appendChild(btn);
-                listEl.appendChild(li);
-            });
-        }
-
-
-        function renderCards() {
-            try {
-                const t = uiText[currentLang] || uiText['ar'];
-                container.innerHTML = ''
-
-
-                const filtered = scholarsData.filter(item => {
-                    const d = item[currentLang] || item['ar'];
-                    const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
-                    if (!matchesCategory) return false;
-                    if (!currentQuery) return true;
-
-
-                    if (currentLang === 'ar') {
-                        const q = normalizeArabic(currentQuery);
-                        return normalizeArabic(d.name).includes(q) || normalizeArabic(d.bio).includes(q) || normalizeArabic(d.badge).includes(q);
-                    } else {
-                        const q = currentQuery.toLowerCase();
-                        return d.name.toLowerCase().includes(q) || d.bio.toLowerCase().includes(q) || d.badge.toLowerCase().includes(q);
-                    }
-                });
-
-
-                if (filtered.length === 0) {
-                    container.innerHTML = `<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">${t.noResults}</p>`;
-                    return;
-                }
-
-
-                filtered.forEach(item => {
-                    const d = item[currentLang] || item['ar'];
-                    const card = document.createElement('article');
-                    card.className = 'card';
-                    
-                    const imgSrc = item.image ? item.image : FALLBACK_AVATAR;
-
-
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <div class="card-title-group">
-                                <img src="${imgSrc}" alt="${d.name}" class="card-avatar" onerror="this.src='${FALLBACK_AVATAR}'">
-                                <h3 class="card-title">${d.name}</h3>
-                            </div>
-                            <span class="card-badge">${d.badge}</span>
-                        </div>
-                        <p class="card-body">${d.bio}</p>
-                        <div class="card-actions">
-                            <button class="btn-action btn-bio" type="button">${t.btnBio}</button>
-                            <button class="btn-action btn-youtube" type="button">${t.btnYoutube}</button>
-                        </div>
-                    `;
-
-
-                    card.querySelector('.btn-bio').addEventListener('click', () => {
-                        alert(`${d.name}\n[${d.badge}]\n\n${d.bio}`);
-                    });
-
-
-                    card.querySelector('.btn-youtube').addEventListener('click', () => {
-                        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(d.name)}`, '_blank');
-                    });
-
-
-                    container.appendChild(card);
-                });
-            } catch (err) {
-                const errBox = document.getElementById('error-box');
-                errBox.style.display = 'block';
-                errBox.innerHTML = `<strong>خطأ أثناء عرض البطاقات:</strong> ${err.message}`;
-            }
-        }
-
-
-        function updateInterfaceLanguage() {
-            const t = uiText[currentLang] || uiText['ar'];
-            document.getElementById('ui-title').textContent = t.title;
-            document.getElementById('openDrawerBtn').textContent = t.menuBtn;
-            document.getElementById('ui-intro').textContent = t.intro;
-            document.getElementById('ui-drawer-title').textContent = t.drawerTitle;
-            searchInput.placeholder = t.searchPlaceholder;
-            htmlEl.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            htmlEl.setAttribute('lang', currentLang);
-            renderDrawerMenu();
-            renderCards();
-        }
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            searchInput.addEventListener('input', (e) => {
-                currentQuery = e.target.value.trim();
-                renderCards();
-            });
-
-
-            document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    currentLang = e.currentTarget.getAttribute('data-lang');
-                    localStorage.setItem('a3lam-lang', currentLang);
-                    updateInterfaceLanguage();
-                });
-            });
-
-
-            const themeBtns = document.querySelectorAll('#themeGroup .control-btn');
-            const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia';
-            htmlEl.setAttribute('data-theme', savedTheme);
-            themeBtns.forEach(b => {
-                b.classList.toggle('active', b.getAttribute('data-theme') === savedTheme);
-            });
-
-
-            themeBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    themeBtns.forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    const theme = e.currentTarget.getAttribute('data-theme');
-                    htmlEl.setAttribute('data-theme', theme);
-                    localStorage.setItem('a3lam-theme', theme);
-                });
-            });
-
-
-            const drawer = document.getElementById('sidebarDrawer');
-            const overlay = document.getElementById('drawerOverlay');
+        // Render Cards with Description, Tags, and Conditional Media Buttons
+        document.getElementById("grid").innerHTML = scholars.map(s => {
+            const img = s.img || generateInitialsAvatar(s.name);
+            const note = s.note ? `<br><small dir="ltr" style="color:#d4af37;">${esc(s.note)}</small>` : "";
+            const tagHtml = s.tag ? `<span class="scholar-tag">${esc(s.tag)}</span>` : "";
+            const descHtml = s.desc ? `<p class="scholar-desc">${esc(s.desc)}</p>` : "";
             
-            window.toggleDrawer = function(open) {
-                drawer.classList.toggle('open', open);
-                overlay.classList.toggle('active', open);
-            };
+            const ytBtn = s.yt ? `<button type="button" class="action-btn" data-open="yt" data-number="${esc(s.n)}">🎥 يوتيوب</button>` : "";
+            const ttBtn = s.tt ? `<button type="button" class="action-btn" data-open="tt" data-number="${esc(s.n)}">📱 تيك توك</button>` : "";
+            const actions = (ytBtn || ttBtn) ? `<div class="card-actions">${ytBtn}${ttBtn}</div>` : "";
 
 
-            document.getElementById('openDrawerBtn').addEventListener('click', () => toggleDrawer(true));
-            document.getElementById('closeDrawerBtn').addEventListener('click', () => toggleDrawer(false));
-            overlay.addEventListener('click', () => toggleDrawer(false));
+            return `
+                <div class="scholar-card">
+                    <div class="card-top">
+                        <div class="image-container">
+                            <img src="${esc(img)}" alt="" width="65" height="65" loading="lazy" decoding="async" class="scholar-img" data-name="${esc(s.name)}">
+                        </div>
+                        <div class="scholar-info">
+                            <div class="scholar-header-row">
+                                <h2 class="scholar-name">${esc(s.name)}${note}</h2>
+                                ${tagHtml}
+                            </div>
+                            ${descHtml}
+                        </div>
+                    </div>
+                    ${actions}
+                </div>`;
+        }).join("");
 
 
-            document.querySelectorAll('#langGroup .control-btn').forEach(b => {
-                b.classList.toggle('active', b.getAttribute('data-lang') === currentLang);
-            });
-            updateInterfaceLanguage();
+        // Modal and Player State Management
+        const modal = document.getElementById("mediaModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const mediaContainer = document.getElementById("mediaContainer");
+        const closeModal = document.getElementById("closeModal");
+        const tabYoutube = document.getElementById("tabYoutube");
+        const tabTiktok = document.getElementById("tabTiktok");
+        const modalTabs = document.getElementById("modalTabs");
+        const headerEl = document.querySelector("header");
+        const mainEl = document.querySelector("main");
+
+
+        let activeScholar = null;
+        let activeType = "yt";
+        let lastFocus = null;
+
+
+        function renderPlayer(type) {
+            activeType = type;
+            const isTikTok = type === "tt";
+            
+            mediaContainer.classList.toggle("portrait", isTikTok);
+            tabYoutube.classList.toggle("active", !isTikTok);
+            tabTiktok.classList.toggle("active", isTikTok);
+            
+            tabYoutube.setAttribute("aria-selected", String(!isTikTok));
+            tabTiktok.setAttribute("aria-selected", String(isTikTok));
+
+
+            modalTabs.style.display = (activeScholar.yt && activeScholar.tt) ? "flex" : "none";
+
+
+            if (isTikTok) {
+                mediaContainer.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${activeScholar.tt}" title="مقطع ${esc(activeScholar.name)} على تيك توك" frameborder="0" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+            } else {
+                mediaContainer.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${activeScholar.yt}" title="محاضرة ${esc(activeScholar.name)} على يوتيوب" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+            }
+        }
+
+
+        function openModal(scholar, type) {
+            activeScholar = scholar;
+            lastFocus = document.activeElement;
+            modalTitle.textContent = scholar.name;
+            
+            headerEl.inert = true;
+            mainEl.inert = true;
+
+
+            modal.classList.add("active");
+            renderPlayer(type);
+            closeModal.focus();
+        }
+
+
+        function closeModalFn() {
+            modal.classList.remove("active");
+            mediaContainer.innerHTML = "";
+            mediaContainer.classList.remove("portrait");
+
+
+            headerEl.inert = false;
+            mainEl.inert = false;
+
+
+            activeScholar = null;
+            if (lastFocus) lastFocus.focus();
+        }
+
+
+        document.getElementById("grid").addEventListener("click", e => {
+            const btn = e.target.closest("[data-open]");
+            if (!btn) return;
+            const scholar = scholars.find(s => s.n === btn.dataset.number);
+            if (!scholar) return;
+            openModal(scholar, btn.dataset.open);
         });
+
+
+        tabYoutube.addEventListener("click", () => { if (activeScholar?.yt) renderPlayer("yt"); });
+        tabTiktok.addEventListener("click", () => { if (activeScholar?.tt) renderPlayer("tt"); });
+
+
+        closeModal.addEventListener("click", closeModalFn);
+        modal.addEventListener("click", e => { if (e.target === modal) closeModalFn(); });
+
+
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeModalFn();
+            }
+            if (e.key === "Tab" && modal.classList.contains("active")) {
+                const focusables = [...modal.querySelectorAll('button, iframe')].filter(el => el.offsetParent !== null);
+                if (!focusables.length) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    last.focus();
+                    e.preventDefault();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    first.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
+
+        document.getElementById("grid").addEventListener("error", function(e) {
+            const img = e.target;
+            if (!img.matches(".scholar-img")) return;
+            const scholarName = img.getAttribute("data-name") || "";
+            img.src = generateInitialsAvatar(scholarName);
+        }, true);
     </script>
+
+
 </body>
 </html>
