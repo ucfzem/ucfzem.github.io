@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1f5c46">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="دَلَائِلُ اللِّسَان — معجم تفاعلي للعبارات واللهجات العربية وسلسلة المشايخ، يعمل دون اتصال.">
+  <meta name="author" content="UcfZem">
+  <title>دَلَائِلُ اللِّسَان — Dalail-Al-Lisan</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="preload" href="./fonts/amiri-arabic-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./fonts/cairo-arabic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./style.css">
+  <script id="themeBoot">
+    (function () {
+      var theme = "dark";
+      try {
+        theme = localStorage.getItem("dalail_theme") ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+      } catch (e) {}
+      if (theme !== "light" && theme !== "sepia") theme = "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <button class="icon-btn" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="drawer">☰</button>
+    <div class="brand">
+      <h1>دَلَائِلُ اللِّسَان</h1>
+      <p>Dalail-Al-Lisan · معجم الألسنة والسلاسل</p>
+    </div>
+    <button class="theme-btn" id="themeToggle" type="button" aria-label="تغيير وضع القراءة" title="تغيير وضع القراءة">☾</button>
+  </header>
+
+  <div class="drawer-overlay" id="drawerOverlay" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="قائمة التصفح">
+    <div class="drawer-head">
+      <div>
+        <strong>دَلَائِلُ اللِّسَان</strong>
+        <span>فهرس التصفح</span>
+      </div>
+      <button class="icon-btn" id="drawerClose" type="button" aria-label="إغلاق القائمة">×</button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="#/" data-close-drawer>الرئيسية</a>
+      <a href="#/index" data-close-drawer>الفهرس والبحث</a>
+      <a href="#/masters" data-close-drawer>سلسلة المشايخ</a>
+      <div class="drawer-label">الأبواب</div>
+      <div id="drawerSections"></div>
+    </nav>
+    <button class="install-btn" id="installBtn" type="button" hidden>تثبيت التطبيق</button>
+    <a class="hub-link" href="https://ucfzem.azer-tyu199p.workers.dev/ucfzem-ai/">↩ العودة إلى المركز</a>
+  </aside>
+
+  <main id="content" tabindex="-1"></main>
+
+  <footer>
+    <p><b>دَلَائِلُ اللِّسَان</b> — معجم الألسنة والسلاسل. الأرقام مكتوبة بالصيغة الغربية: 1، 2، 3.</p>
+    <p id="netStatus" class="net-status" hidden></p>
+    <p><a href="https://ucfzem.azer-tyu199p.workers.dev/ucfzem-ai/">العودة إلى المركز الرئيسي</a></p>
+  </footer>
+
+  <noscript>
+    <p class="noscript">هذا التطبيق يحتاج إلى JavaScript للعمل. يرجى تفعيله في المتصفح.</p>
+  </noscript>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
