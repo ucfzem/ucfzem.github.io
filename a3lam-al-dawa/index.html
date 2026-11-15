@@ -12,562 +12,162 @@
 
 
     <style>
-        :root {
-            --bg-parchemin: #f4ecd8;
-            --bg-ivoire: #fcf8f0;
-            --primary-emerald: #15472a;
-            --accent-bronze: #9c722e;
-            --text-main: #2c2c2c;
-            --text-muted: #5a5a5a;
-            --border-color: #d1c7b3;
-            
-            --font-title: 'Amiri', serif;
-            --font-body: 'Scheherazade New', 'Amiri', serif;
-            --font-size-base: 16px;
-            
-            --spacing-sm: 0.5rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-        }
+
+        /* =========================================
+           إصلاح نهائي ومطلق للقائمة الجانبية (Drawer Final Fix)
+           ========================================= */
 
 
-        [data-theme="light"] {
-            --bg-parchemin: #ffffff;
-            --bg-ivoire: #f8f9fa;
-            --text-main: #111111;
-            --text-muted: #444444;
-            --border-color: #dddddd;
-        }
-
-
-        [data-theme="dark"] {
-            --bg-parchemin: #1a1a1a;
-            --bg-ivoire: #2a2a2a;
-            --primary-emerald: #4ade80;
-            --accent-bronze: #d4af37;
-            --text-main: #f0f0f0;
-            --text-muted: #aaaaaa;
-            --border-color: #444444;
-        }
-
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { font-size: var(--font-size-base); scroll-behavior: smooth; }
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-parchemin);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-
-        h1, h2, h3, h4, p { margin-block-end: var(--spacing-sm); text-align: start; }
-        a { color: var(--primary-emerald); text-decoration: none; }
-        button { font-family: inherit; cursor: pointer; border: none; background: transparent; }
-
-
-        header {
-            background-color: var(--bg-ivoire);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow-sm);
-            padding: var(--spacing-md);
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            border-bottom: 2px solid var(--accent-bronze);
-        }
-
-
-        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-
-
-        .app-title {
-            font-family: var(--font-title);
-            font-size: clamp(1.2rem, 5vw, 1.6rem);
-            color: var(--primary-emerald);
-            font-weight: 700;
-            line-height: 1.2;
-            margin: 0;
-        }
-
-
-        .header-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-sm);
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-
-        .control-group {
-            display: flex;
-            background: var(--bg-parchemin);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-
-        .control-btn {
-            padding: 4px 10px;
-            font-size: 0.85rem;
-            color: var(--text-main);
-            border-inline-end: 1px solid var(--border-color);
-            transition: background 0.2s;
-        }
-        .control-btn:last-child { border-inline-end: none; }
-        .control-btn:hover, .control-btn.active { background: var(--accent-bronze); color: white; }
-
-
-        .menu-toggle-btn {
-            background: var(--primary-emerald);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-
-        .search-container { width: 100%; max-width: 600px; margin: 0 auto; }
-        .search-box { position: relative; width: 100%; }
-        .search-input {
-            width: 100%; padding: 12px 16px; font-family: var(--font-body);
-            font-size: 1.1rem; border: 2px solid var(--border-color);
-            border-radius: 25px; background: var(--bg-ivoire); color: var(--text-main);
-            transition: border-color 0.2s;
-        }
-        .search-input:focus { outline: none; border-color: var(--primary-emerald); }
-
-
-        main { padding: var(--spacing-md); max-width: 1200px; margin: 0 auto; min-height: 80vh; }
-        .intro-text { text-align: center; margin-bottom: var(--spacing-lg); color: var(--text-muted); font-size: 1.1rem; }
-
-
-        .cards-grid { display: grid; grid-template-columns: 1fr; gap: var(--spacing-md); }
-        @media (min-width: 600px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 900px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
-
-
-        .card {
-            background: var(--bg-ivoire); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: var(--spacing-md); box-shadow: var(--shadow-sm);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex; flex-direction: column;
-        }
-        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-bronze); }
-
-
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm); }
-        .card-title { font-family: var(--font-title); font-size: 1.3rem; color: var(--primary-emerald); font-weight: bold; }
-        .card-badge { background: var(--accent-bronze); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
-        .card-body { flex-grow: 1; font-size: 1rem; color: var(--text-main); margin-bottom: var(--spacing-md); }
-        .card-actions { display: flex; gap: var(--spacing-sm); margin-top: auto; }
-
-
-        .btn-action {
-            flex: 1; padding: 8px; border-radius: 6px; font-size: 0.9rem; text-align: center;
-            background: var(--bg-parchemin); border: 1px solid var(--border-color);
-            color: var(--text-main); transition: 0.2s;
-        }
-        .btn-action:hover { background: var(--primary-emerald); color: white; border-color: var(--primary-emerald); }
-
-
+        /* طبقة التعتيم الخلفية */
         .overlay {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(2px); opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s; z-index: 999;
+            position: fixed !important;
+            inset: 0 !important;
+            width: 100vw !important;
+            height: 100dvh !important;
+            background-color: rgba(0, 0, 0, 0.75) !important;
+            backdrop-filter: blur(4px) !important;
+            z-index: 99998 !important;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease !important;
         }
-        .overlay.active { opacity: 1; visibility: visible; }
 
 
+        .overlay.active {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+
+        /* القائمة الجانبية المحدثة */
         .drawer {
-            position: fixed; top: 0; 
-            inset-inline-end: 0; 
-            width: 300px; max-width: 85vw; height: 100dvh;
-            background: var(--bg-ivoire); box-shadow: -4px 0 15px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transform: translateX(100%); 
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; overflow-y: auto;
-            border-inline-start: 3px solid var(--primary-emerald);
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important; /* تثبيت مطلق على يمين الشاشة في وضع العربية */
+            left: auto !important;
+            width: 80vw !important;
+            max-width: 300px !important;
+            height: 100dvh !important;
+            background-color: var(--bg-ivoire, #fcf8f0) !important;
+            color: var(--text-main, #2c2c2c) !important;
+            z-index: 99999 !important;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.4) !important;
+            
+            /* إخفاء القائمة بالكامل إلى اليمين خارج الشاشة */
+            transform: translateX(100%) !important;
+            transition: transform 0.35s cubic-bezier(0.1, 0.9, 0.2, 1) !important;
+            
+            display: flex !important;
+            flex-direction: column !important;
+            overflow-y: auto !important;
+            visibility: hidden; /* مخفية تماماً لمنع أي تفاعل وهي مغلقة */
         }
-        
-        [dir="ltr"] .drawer { transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
 
 
-        .drawer.open { transform: translateX(0) !important; }
+        /* عند فتح القائمة */
+        .drawer.open {
+            transform: translateX(0) !important;
+            visibility: visible !important;
+        }
 
 
+        /* دعم اللغة الإنجليزية أو اللغات اليسارية (LTR) */
+        [dir="ltr"] .drawer {
+            right: auto !important;
+            left: 0 !important;
+            transform: translateX(-100%) !important;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.4) !important;
+        }
+
+
+        [dir="ltr"] .drawer.open {
+            transform: translateX(0) !important;
+        }
+
+
+        /* رأس القائمة الجانبية */
         .drawer-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: var(--spacing-md); border-bottom: 1px solid var(--border-color); background: var(--bg-parchemin);
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 16px !important;
+            border-bottom: 1px solid var(--border-color, #d1c7b3) !important;
+            background: var(--bg-parchemin, #f4ecd8) !important;
         }
-        .drawer-title { font-family: var(--font-title); font-size: 1.2rem; font-weight: bold; color: var(--primary-emerald); margin: 0; }
-        .close-btn { font-size: 1.5rem; color: var(--text-muted); padding: 4px; line-height: 1; }
-        .close-btn:hover { color: #ff4d4d; }
-        .drawer-content { padding: var(--spacing-md); }
-        .drawer-list { list-style: none; }
-        .drawer-list li { margin-bottom: var(--spacing-sm); }
-        .drawer-list a { display: block; padding: 8px 12px; border-radius: 6px; color: var(--text-main); font-size: 1rem; transition: background 0.2s; }
-        .drawer-list a:hover { background: var(--bg-parchemin); color: var(--primary-emerald); font-weight: bold; }
-    </style>
-</head>
-<body>
 
 
-    <header>
-        <div class="header-top">
-            <h1 class="app-title" id="ui-title">أعلام الدعوة والفكر</h1>
-            <button class="menu-toggle-btn" id="openDrawerBtn">
-                <span id="ui-menu-btn">☰ الفهرس</span>
-            </button>
-        </div>
-        
-        <div class="search-container">
-            <div class="search-box">
-                <input type="search" id="searchInput" class="search-input" placeholder="ابحث بالاسم، التخصص، البلد..." autocomplete="off">
-            </div>
-        </div>
+        /* العنوان داخل القائمة */
+        .drawer-title {
+            font-size: 1.25rem !important;
+            font-weight: bold !important;
+            color: var(--primary-emerald, #15472a) !important;
+            margin: 0 !important;
+            text-align: right !important;
+        }
 
 
-        <div class="header-controls">
-            <div class="control-group" id="langGroup">
-                <button class="control-btn active" data-lang="ar">AR</button>
-                <button class="control-btn" data-lang="en">EN</button>
-                <button class="control-btn" data-lang="fr">FR</button>
-                <button class="control-btn" data-lang="es">ES</button>
-            </div>
-            
-            <div class="control-group" id="themeGroup">
-                <button class="control-btn active" data-theme="sepia" title="سيبيا">📜</button>
-                <button class="control-btn" data-theme="light" title="فاتح">☀️</button>
-                <button class="control-btn" data-theme="dark" title="داكن">🌙</button>
-            </div>
+        [dir="ltr"] .drawer-title {
+            text-align: left !important;
+        }
 
 
-            <div class="control-group" id="zoomGroup">
-                <button class="control-btn" id="zoomOut" title="تصغير">A-</button>
-                <button class="control-btn" id="zoomReset" title="إعادة ضبط">Reset</button>
-                <button class="control-btn" id="zoomIn" title="تكبير">A+</button>
-            </div>
-        </div>
-    </header>
+        /* زر الإغلاق المنظم */
+        .close-btn {
+            background: rgba(220, 53, 69, 0.1) !important;
+            color: #dc3545 !important;
+            border: none !important;
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            font-size: 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+        }
 
 
-    <main>
-        <p class="intro-text" id="ui-intro">
-            خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر، في دليل واحد...
-        </p>
-        
-        <div class="cards-grid" id="cardsContainer">
-            <!-- سيتم حقن البطاقات هنا عبر JavaScript -->
-        </div>
-    </main>
+        /* محتوى القائمة وروابطها */
+        .drawer-content {
+            padding: 16px !important;
+            flex-grow: 1 !important;
+        }
 
 
-    <div class="overlay" id="drawerOverlay"></div>
+        .drawer-list {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
 
 
-    <aside class="drawer" id="sidebarDrawer" aria-label="القائمة الجانبية">
-        <div class="drawer-header">
-            <h2 class="drawer-title" id="ui-drawer-title">الفهرس</h2>
-            <button class="close-btn" id="closeDrawerBtn" aria-label="إغلاق">✕</button>
-        </div>
-        <div class="drawer-content">
-            <ul class="drawer-list" id="ui-drawer-list">
-                <!-- سيتم تحديث روابط القائمة بناءً على اللغة -->
-            </ul>
-        </div>
-    </aside>
+        .drawer-list li {
+            margin-bottom: 10px !important;
+        }
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            const scholarsData = [
-                {
-                    id: 1,
-                    ar: { name: "الشيخ أحمد ديدات", badge: "مناظر", bio: "من أشهر المناظرين في مقارنة الأديان." },
-                    en: { name: "Sheikh Ahmed Deedat", badge: "Debater", bio: "One of the most famous debaters in comparative religion." },
-                    fr: { name: "Cheikh Ahmed Deedat", badge: "Débatteur", bio: "L'un des débatteurs les plus célèbres en religion comparée." },
-                    es: { name: "Jeque Ahmed Deedat", badge: "Debatiente", bio: "Uno de los debatientes más famosos en religión comparada." }
-                },
-                {
-                    id: 2,
-                    ar: { name: "د. ذاكر نايك", badge: "محاضر", bio: "باحث ومحاضر في الأديان المقارنة." },
-                    en: { name: "Dr. Zakir Naik", badge: "Lecturer", bio: "Researcher and lecturer in comparative religion." },
-                    fr: { name: "Dr Zakir Naik", badge: "Conférencier", bio: "Chercheur et conférencier en religion comparée." },
-                    es: { name: "Dr. Zakir Naik", badge: "Conferenciante", bio: "Investigador y conferenciante en religión comparada." }
-                }
-                // باقي الشخصيات الـ 33 ستبدأ من هنا بنمط مماثل
-            ];
+        .drawer-list a {
+            display: block !important;
+            padding: 10px 12px !important;
+            border-radius: 6px !important;
+            color: var(--text-main, #2c2c2c) !important;
+            font-size: 0.95rem !important;
+            text-decoration: none !important;
+            text-align: right !important;
+            background: rgba(0, 0, 0, 0.02) !important;
+            transition: background 0.2s, color 0.2s !important;
+        }
 
 
-            const uiText = {
-                ar: {
-                    title: "أعلام الدعوة والفكر",
-                    menu: "☰ الفهرس",
-                    searchPlaceholder: "ابحث بالاسم، التخصص، البلد...",
-                    intro: "خمسة وثلاثون علماً من ميادين الدعوة والمناظرة والفكر، في دليل واحد يجمع السيرة المختصرة، والبحث الذكي، وتجربة قراءة تعمل دون اتصال.",
-                    drawerTitle: "الفهرس",
-                    drawerItems: [
-                        "تقديم · سيرة المؤسس",
-                        "01 دعاة ومبادئون ودعوة غير المسلمين",
-                        "02 محاضرون ومناظرون في مقارنة الأديان",
-                        "03 باحثون ومناظرون في العقيدة والرد على الشيعة",
-                        "04 باحثون ومفكرون في نقد الإلحاد والفكر المعاصر",
-                        "05 مناظرو الشارع والجامعات باللغة الإنجليزية",
-                        "06 علماء ودعاة ذوو حضور عالمي"
-                    ],
-                    btnBio: "السيرة",
-                    btnYoutube: "يوتيوب",
-                    noResults: "لا توجد نتائج مطابقة."
-                },
-                en: {
-                    title: "Flags of Da'wah and Thought",
-                    menu: "☰ Index",
-                    searchPlaceholder: "Search by name, specialty, country...",
-                    intro: "Thirty-five figures from the fields of Da'wah, debate, and thought, in one guide that combines brief biographies, smart search, and an offline reading experience.",
-                    drawerTitle: "Index",
-                    drawerItems: [
-                        "Introduction · Founder's Biography",
-                        "01 Preachers and Callers to Islam",
-                        "02 Lecturers and Debaters in Comparative Religion",
-                        "03 Researchers and Debaters in Creed and Shia Refutation",
-                        "04 Researchers and Thinkers in Atheism Refutation",
-                        "05 Street and University Debaters in English",
-                        "06 Scholars with Global Presence"
-                    ],
-                    btnBio: "Biography",
-                    btnYoutube: "YouTube",
-                    noResults: "No matching results found."
-                },
-                fr: {
-                    title: "Figures de la Da'wa et de la Pensée",
-                    menu: "☰ Index",
-                    searchPlaceholder: "Rechercher par nom, spécialité, pays...",
-                    intro: "Trente-cinq figures des domaines de la Da'wa, du débat et de la pensée, dans un seul guide qui combine de brèves biographies, une recherche intelligente et une expérience de lecture hors ligne.",
-                    drawerTitle: "Index",
-                    drawerItems: [
-                        "Introduction · Biographie du fondateur",
-                        "01 Prédicateurs et appelants à l'Islam",
-                        "02 Conférenciers et débatteurs en religion comparée",
-                        "03 Chercheurs et débatteurs en religion comparée",
-                        "04 Chercheurs et penseurs dans la réfutation de l'athéisme",
-                        "05 Débatteurs de rue et universitaires en anglais",
-                        "06 Érudits avec une présence mondiale"
-                    ],
-                    btnBio: "Biographie",
-                    btnYoutube: "YouTube",
-                    noResults: "Aucun résultat trouvé."
-                },
-                es: {
-                    title: "Figuras de la Da'wa y el Pensamiento",
-                    menu: "☰ Índice",
-                    searchPlaceholder: "Buscar por nombre, especialidad, país...",
-                    intro: "Treinta y cinco figuras de los campos de la Da'wa, el debate y el pensamiento، en una guía que combina breves biografías、智能搜索和离线阅读体验。",
-                    drawerTitle: "Índice",
-                    drawerItems: [
-                        "Introducción · Biografía del fundador",
-                        "01 Predicadores y llamadores al Islam",
-                        "02 Conferenciantes y debatientes en religión comparada",
-                        "03 Investigadores y debatientes en religión comparada",
-                        "04 Investigadores y pensadores en la refutación del ateísmo",
-                        "05 Debatientes callejeros y universitarios en inglés",
-                        "06 Eruditos con presencia global"
-                    ],
-                    btnBio: "Biografía",
-                    btnYoutube: "YouTube",
-                    noResults: "No se encontraron resultados."
-                }
-            };
+        [dir="ltr"] .drawer-list a {
+            text-align: left !important;
+        }
 
 
-            let currentLang = localStorage.getItem('a3lam-lang') || 'ar';
-            let currentQuery = ''
-
-
-            const container = document.getElementById('cardsContainer')
-            const searchInput = document.getElementById('searchInput')
-            const htmlEl = document.documentElement
-
-
-            function normalizeArabic(text) {
-                return text
-                    .replace(/[ً-ٰٟ]/g, "") 
-                    .replace(/[أإآ]/g, "a") 
-                    .replace(/ة/g, "h")
-                    .replace(/ى/g, "y")
-                    .toLowerCase()
-                    .trim()
-            }
-
-
-            function renderCards() {
-                container.innerHTML = ''
-                const t = uiText[currentLang]
-                
-                const filtered = scholarsData.filter(scholar => {
-                    const data = scholar[currentLang]
-                    if (!data) return false
-                    
-                    if (currentLang === 'ar') {
-                        const name = normalizeArabic(data.name)
-                        const bio = normalizeArabic(data.bio)
-                        const q = normalizeArabic(currentQuery)
-                        return name.includes(q) || bio.includes(q)
-                    } else {
-                        const name = data.name.toLowerCase()
-                        const bio = data.bio.toLowerCase()
-                        const q = currentQuery.toLowerCase()
-                        return name.includes(q) || bio.includes(q)
-                    }
-                })
-
-
-                if (filtered.length === 0) {
-                    container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">${t.noResults}</p>`
-                    return
-                }
-
-
-                filtered.forEach(scholar => {
-                    const data = scholar[currentLang]
-                    const card = document.createElement('article')
-                    card.className = 'card'
-                    card.innerHTML = `
-                        <div class="card-header">
-                            <h3 class="card-title">${data.name}</h3>
-                            <span class="card-badge">${data.badge}</span>
-                        </div>
-                        <p class="card-body">${data.bio}</p>
-                        <div class="card-actions">
-                            <button class="btn-action" onclick="alert('${t.btnBio}: ${data.name}')">${t.btnBio}</button>
-                            <button class="btn-action" onclick="alert('${t.btnYoutube}: ${data.name}')">${t.btnYoutube}</button>
-                        </div>
-                    `
-                    container.appendChild(card)
-                })
-            }
-
-
-            function updateUI() {
-                const t = uiText[currentLang]
-                
-                document.getElementById('ui-title').textContent = t.title
-                document.getElementById('ui-menu-btn').textContent = t.menu
-                document.getElementById('ui-intro').textContent = t.intro
-                document.getElementById('ui-drawer-title').textContent = t.drawerTitle
-                searchInput.placeholder = t.searchPlaceholder
-                
-                const drawerList = document.getElementById('ui-drawer-list')
-                drawerList.innerHTML = t.drawerItems.map(item => `<li><a href="#">${item}</a></li>`).join('')
-                
-                if (currentLang === 'ar') {
-                    htmlEl.setAttribute('dir', 'rtl')
-                    htmlEl.setAttribute('lang', 'ar')
-                    document.body.style.fontFamily = "'Scheherazade New', 'Amiri', serif"
-                } else {
-                    htmlEl.setAttribute('dir', 'ltr')
-                    htmlEl.setAttribute('lang', currentLang)
-                    document.body.style.fontFamily = "'Amiri', serif"
-                }
-                
-                renderCards()
-            }
-
-
-            searchInput.addEventListener('input', (e) => {
-                currentQuery = e.target.value
-                renderCards()
-            })
-
-
-            document.querySelectorAll('#langGroup .control-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('#langGroup .control-btn').forEach(b => b.classList.remove('active'))
-                    e.target.classList.add('active')
-                    currentLang = e.target.getAttribute('data-lang')
-                    localStorage.setItem('a3lam-lang', currentLang)
-                    updateUI()
-                })
-            })
-
-
-            const drawer = document.getElementById('sidebarDrawer')
-            const overlay = document.getElementById('drawerOverlay')
-
-
-            function openDrawer() {
-                drawer.classList.add('open')
-                overlay.classList.add('active')
-                document.body.style.overflow = 'hidden'
-            }
-
-
-            function closeDrawer() {
-                drawer.classList.remove('open')
-                overlay.classList.remove('active')
-                document.body.style.overflow = ''
-            }
-
-
-            document.getElementById('openDrawerBtn').addEventListener('click', openDrawer)
-            document.getElementById('closeDrawerBtn').addEventListener('click', closeDrawer)
-            overlay.addEventListener('click', closeDrawer)
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer() })
-
-
-            const themeBtns = document.querySelectorAll('#themeGroup .control-btn')
-            const savedTheme = localStorage.getItem('a3lam-theme') || 'sepia'
-            htmlEl.setAttribute('data-theme', savedTheme)
-            document.querySelector(`#themeGroup .control-btn[data-theme="${savedTheme}"]`).classList.add('active')
-
-
-            themeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const theme = btn.getAttribute('data-theme')
-                    htmlEl.setAttribute('data-theme', theme)
-                    localStorage.setItem('a3lam-theme', theme)
-                    themeBtns.forEach(b => b.classList.remove('active'))
-                    btn.classList.add('active')
-                })
-            })
-
-
-            let currentFontSize = parseInt(localStorage.getItem('a3lam-fontsize')) || 16
-            function applyFontSize(size) {
-                if (size < 12) size = 12
-                if (size > 24) size = 24
-                currentFontSize = size
-                htmlEl.style.fontSize = `${size}px`
-                localStorage.setItem('a3lam-fontsize', size)
-            }
-            applyFontSize(currentFontSize)
-            document.getElementById('zoomIn').addEventListener('click', () => applyFontSize(currentFontSize + 1))
-            document.getElementById('zoomOut').addEventListener('click', () => applyFontSize(currentFontSize - 1))
-            document.getElementById('zoomReset').addEventListener('click', () => applyFontSize(16))
-
-
-            document.querySelector(`#langGroup .control-btn[data-lang="${currentLang}"]`).classList.add('active')
-            updateUI()
-
-
-        })
-    </script>
-</body>
-</html>
+        .drawer-list a:hover {
+            background: var(--primary-emerald, #15472a) !important;
+            color: #ffffff !important;
+        }
+</style>
