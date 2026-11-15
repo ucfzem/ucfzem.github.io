@@ -126,7 +126,7 @@
         .scholar-desc {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            line-line-height: 1.5;
+            line-height: 1.5;
             margin: 6px 0 10px 0;
         }
 
@@ -155,9 +155,7 @@
         }
 
 
-        .action-btn:focus-visible,
-        .close-btn:focus-visible,
-        .tab-btn:focus-visible {
+        .action-btn:focus-visible, .close-btn:focus-visible, .tab-btn:focus-visible {
             outline: 2px solid var(--accent-color);
             outline-offset: 2px;
         }
@@ -166,106 +164,38 @@
         /* Modal Viewer Styles */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0; visibility: hidden;
             transition: opacity 0.25s ease, visibility 0.25s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
             background: var(--card-bg);
-            width: 92%;
-            max-width: 550px;
-            border-radius: 14px;
-            overflow: hidden;
+            width: 92%; max-width: 550px;
+            border-radius: 14px; overflow: hidden;
             border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
         .modal-header {
-            padding: 12px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
+            padding: 12px 18px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid var(--border-color);
         }
-        .modal-header h3 {
-            margin: 0;
-            font-size: 1rem;
-            color: var(--accent-color);
-        }
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.4rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-        .modal-tabs {
-            display: flex;
-            background: #161616;
-            border-bottom: 1px solid var(--border-color);
-        }
+        .modal-header h3 { margin: 0; font-size: 1rem; color: var(--accent-color); }
+        .close-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-secondary); }
+        .modal-tabs { display: flex; background: #161616; border-bottom: 1px solid var(--border-color); }
         .tab-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: var(--text-secondary);
+            flex: 1; padding: 10px; border: none; background: none;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer; color: var(--text-secondary);
         }
-        .tab-btn.active {
-            color: var(--accent-color);
-            background: var(--card-bg);
-            border-bottom: 2px solid var(--accent-color);
-        }
-        .media-viewer {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            background: #000;
-        }
-        .media-viewer iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .media-viewer.portrait {
-            padding-top: 0;
-            height: min(65vh, 500px);
-            display: flex;
-            justify-content: center;
-        }
-        .media-viewer.portrait iframe {
-            position: relative;
-            width: auto;
-            height: 100%;
-            aspect-ratio: 9 / 16;
-        }
-
-
-        @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after {
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-            }
-        }
+        .tab-btn.active { color: var(--accent-color); background: var(--card-bg); border-bottom: 2px solid var(--accent-color); }
+        .media-viewer { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        .media-viewer iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .media-viewer.portrait { padding-top: 0; height: min(65vh, 500px); display: flex; justify-content: center; }
+        .media-viewer.portrait iframe { position: relative; width: auto; height: 100%; aspect-ratio: 9 / 16; }
     </style>
 </head>
 <body>
@@ -273,16 +203,15 @@
 
     <header>
         <h1>أعلام الدعوة والفكر</h1>
-        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38 شخصية).</div>
+        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).</div>
     </header>
 
 
     <main>
-        <div class="grid-container" id="grid">جاري التحمiel...</div>
+        <div class="grid-container" id="grid">جاري التحميل...</div>
     </main>
 
 
-    <!-- Modal Viewer -->
     <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <div class="modal-header">
@@ -299,59 +228,38 @@
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", function() {
             try {
-                const AVATAR_CACHE = new Map();
+                var gridEl = document.getElementById("grid");
+                if (!gridEl) throw new Error("Element introuvable : grid");
 
 
-                function generateInitialsAvatar(name) {
-                    if (AVATAR_CACHE.has(name)) return AVATAR_CACHE.get(name);
-                    const SIZE = 200;
-                    const canvas = document.createElement('canvas');
-                    canvas.width = canvas.height = SIZE;
-                    const ctx = canvas.getContext('2d');
-
-
-                    let hash = 0;
-                    for (let i = 0; i < name.length; i++) {
-                        hash = (hash * 31 + name.charCodeAt(i)) | 0;
-                    }
-                    const hue = Math.abs(hash) % 360;
-                    ctx.fillStyle = `hsl(${hue}, 40%, 25%)`;
-                    ctx.fillRect(0, 0, SIZE, SIZE);
-
-
-                    const TITLE = /^(?:الشيخ|الدكتور|الدكتورة|الأستاذ|الاستاذ|أ\.\s*د\.|د\.|dr\.|prof\.)\s*/i;
-                    let core = name.trim(), prev;
-                    do {
-                        prev = core;
-                        core = core.replace(TITLE, '').trim();
-                    } while (core !== prev);
-
-
-                    const first = Array.from(core)[0] || '؟';
+                // Générateur d'avatar simplifié sans Regex pour éviter les erreurs de syntaxe
+                function getAvatar(name) {
+                    var canvas = document.createElement('canvas');
+                    canvas.width = canvas.height = 200;
+                    var ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#2a2a2a';
+                    ctx.fillRect(0, 0, 200, 200);
+                    
+                    var core = name.replace("الدكتور ", "").replace("الشيخ ", "").replace("د. ", "").replace("أ.د. ", "").trim();
+                    var first = core.charAt(0) || '؟';
+                    
                     ctx.fillStyle = '#d4af37';
-                    ctx.font = 'bold 90px "Segoe UI", Tahoma, sans-serif';
+                    ctx.font = 'bold 90px Arial';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-
-
-                    const m = ctx.measureText(first);
-                    const y = SIZE / 2 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
-                    ctx.fillText(first, SIZE / 2, y);
-
-
-                    const uri = canvas.toDataURL('image/png');
-                    AVATAR_CACHE.set(name, uri);
-                    return uri;
+                    ctx.fillText(first, 100, 100);
+                    
+                    return canvas.toDataURL('image/png');
                 }
 
 
-                const scholars = [
-                    { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية المادية والداروينية.", tag: "نقد الإلحاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
-                    { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات البث المباشر autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات bth directe", yt: "dQw4w9WgXcQ" },
-                    { n: "03", name: "د. سامي عامري", desc: "باحث ومفكر متخصص في دراسة الأديان، نقد الإلحاد، وتفنيد شبهات المستشرقين.", tag: "مقارنة أديان", tt: "7200000000000000000" },
-                    { n: "04", name: "وليد إسماعيل", desc: "باحث وداعية متخصص dans les dialogues contractuels directe et la réponse aux doutes.", tag: " dialogues contractuels" },
+                var scholars = [
+                    { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية materiale et la théorie darwinienne.", tag: "نقد الإلهاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+                    { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات bth directe autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات bth directe", yt: "dQw4w9WgXcQ" },
+                    { n: "03", name: "د. سامي عامري", desc: "Chercheur et penseur spcialise dans l'tude des religions, le critique de l'lhad, et la rfutation des soupons des esthrciens.", tag: "Comparison des religions", tt: "7200000000000000000" },
+                    { n: "04", name: "وليد إسماعيل", desc: "Chercheur et da'i spcialis dans les dialogues contractuels directe et la rponse aux doutes.", tag: "Dialogues contractuels" },
                     { n: "05", name: "رامي عيسى", desc: "", tag: "" },
                     { n: "06", name: "د. خالد الحايك", desc: "", tag: "" },
                     { n: "07", name: "خالد الوصابي", desc: "", tag: "" },
@@ -379,7 +287,7 @@
                     { n: "29", name: "الشيخ أشرف غريب", desc: "", tag: "" },
                     { n: "30", name: "الشيخ فرaj", desc: "", tag: "" },
                     { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "", tag: "" },
-                    { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", note: "(nouvelle nomination)" },
+                    { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", tag: "" },
                     { n: "33", name: "د. حاتم العوني", desc: "", tag: "" },
                     { n: "34", name: "د. عمرو بسيوني", desc: "", tag: "" },
                     { n: "35", name: "شمس الدين الجزائري", desc: "", tag: "" },
@@ -389,64 +297,57 @@
                 ];
 
 
-                const esc = s => String(s).replace(/[&<>"']/g, c =>
-                    ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" }[c]));
+                var html = "";
+                for (var i = 0; i < scholars.length; i++) {
+                    var s = scholars[i];
+                    var img = getAvatar(s.name);
+                    var tagHtml = s.tag ? '<span class="scholar-tag">' + s.tag + '</span>' : "";
+                    var descHtml = s.desc ? '<p class="scholar-desc">' + s.desc + '</p>' : "";
+                    var ytBtn = s.yt ? '<button type="button" class="action-btn" data-open="yt" data-number="' + s.n + '">🎥 يوتيوب</button>' : "";
+                    var ttBtn = s.tt ? '<button type="button" class="action-btn" data-open="tt" data-number="' + s.n + '">📱 تيك توك</button>' : "";
+                    var actions = (ytBtn || ttBtn) ? '<div class="card-actions">' + ytBtn + ttBtn + '</div>' : "";
 
 
-                const gridEl = document.getElementById("grid");
-                gridEl.innerHTML = scholars.map(s => {
-                    const img = s.img || generateInitialsAvatar(s.name);
-                    const note = s.note ? `<br><small dir="ltr" style="color:#d4af37;">${esc(s.note)}</small>` : "";
-                    const tagHtml = s.tag ? `<span class="scholar-tag">${esc(s.tag)}</span>` : "";
-                    const descHtml = s.desc ? `<p class="scholar-desc">${esc(s.desc)}</p>` : "";
-                    
-                    const ytBtn = s.yt ? `<button type="button" class="action-btn" data-open="yt" data-number="${esc(s.n)}">🎥 يوتيوب</button>` : "";
-                    const ttBtn = s.tt ? `<button type="button" class="action-btn" data-open="tt" data-number="${esc(s.n)}">📱 تيك توك</button>` : "";
-                    const actions = (ytBtn || ttBtn) ? `<div class="card-actions">${ytBtn}${ttBtn}</div>` : "";
+                    html += '<div class="scholar-card">' +
+                                '<div class="card-top">' +
+                                    '<div class="image-container">' +
+                                        '<img src="' + img + '" alt="" width="65" height="65" loading="lazy">' +
+                                    '</div>' +
+                                    '<div class="scholar-info">' +
+                                        '<div class="scholar-header-row">' +
+                                            '<h2 class="scholar-name">' + s.name + '</h2>' +
+                                            tagHtml +
+                                        '</div>' +
+                                        descHtml +
+                                    '</div>' +
+                                '</div>' +
+                                actions +
+                            '</div>';
+                }
+                gridEl.innerHTML = html;
 
 
-                    return `
-                        <div class="scholar-card">
-                            <div class="card-top">
-                                <div class="image-container">
-                                    <img src="${esc(img)}" alt="" width="65" height="65" loading="lazy" decoding="async" class="scholar-img" data-name="${esc(s.name)}">
-                                </div>
-                                <div class="scholar-info">
-                                    <div class="scholar-header-row">
-                                        <h2 class="scholar-name">${esc(s.name)}${note}</h2>
-                                        ${tagHtml}
-                                    </div>
-                                    ${descHtml}
-                                </div>
-                            </div>
-                            ${actions}
-                        </div>`;
-                }).join("");
+                // Logique de la Modale
+                var modal = document.getElementById("mediaModal");
+                var modalTitle = document.getElementById("modalTitle");
+                var mediaContainer = document.getElementById("mediaContainer");
+                var closeModal = document.getElementById("closeModal");
+                var tabYoutube = document.getElementById("tabYoutube");
+                var tabTiktok = document.getElementById("tabTiktok");
+                var modalTabs = document.getElementById("modalTabs");
+                var headerEl = document.querySelector("header");
+                var mainEl = document.querySelector("main");
 
 
-                const modal = document.getElementById("mediaModal");
-                const modalTitle = document.getElementById("modalTitle");
-                const mediaContainer = document.getElementById("mediaContainer");
-                const closeModal = document.getElementById("closeModal");
-                const tabYoutube = document.getElementById("tabYoutube");
-                const tabTiktok = document.getElementById("tabTiktok");
-                const modalTabs = document.getElementById("modalTabs");
-                const headerEl = document.querySelector("header");
-                const mainEl = document.querySelector("main");
-
-
-                let activeScholar = null;
-                let activeType = "yt";
-                let lastFocus = null;
+                var activeScholar = null;
+                var lastFocus = null;
 
 
                 function renderPlayer(type) {
-                    activeType = type;
-                    const isTikTok = type === "tt";
-                    
-                    mediaContainer.classList.toggle("portrait", isTikTok);
-                    tabYoutube.classList.toggle("active", !isTikTok);
-                    tabTiktok.classList.toggle("active", isTikTok);
+                    var isTikTok = (type === "tt");
+                    mediaContainer.className = "media-viewer" + (isTikTok ? " portrait" : "");
+                    tabYoutube.className = "tab-btn" + (!isTikTok ? " active" : "");
+                    tabTiktok.className = "tab-btn" + (isTikTok ? " active" : "");
                     
                     tabYoutube.setAttribute("aria-selected", String(!isTikTok));
                     tabTiktok.setAttribute("aria-selected", String(isTikTok));
@@ -456,9 +357,9 @@
 
 
                     if (isTikTok) {
-                        mediaContainer.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${activeScholar.tt}" title="مقطع ${esc(activeScholar.name)} sur Tick Tock" frameborder="0" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+                        mediaContainer.innerHTML = '<iframe src="https://www.tiktok.com/player/v1/' + activeScholar.tt + '" title="تيك توك" frameborder="0" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
                     } else {
-                        mediaContainer.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${activeScholar.yt}" title="Conférence ${esc(activeScholar.name)} sur YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+                        mediaContainer.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + activeScholar.yt + '" title="يوتيوب" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
                     }
                 }
 
@@ -468,8 +369,8 @@
                     lastFocus = document.activeElement;
                     modalTitle.textContent = scholar.name;
                     
-                    headerEl.inert = true;
-                    mainEl.inert = true;
+                    if (headerEl) headerEl.inert = true;
+                    if (mainEl) mainEl.inert = true;
 
 
                     modal.classList.add("active");
@@ -481,11 +382,11 @@
                 function closeModalFn() {
                     modal.classList.remove("active");
                     mediaContainer.innerHTML = "";
-                    mediaContainer.classList.remove("portrait");
+                    mediaContainer.className = "media-viewer";
 
 
-                    headerEl.inert = false;
-                    mainEl.inert = false;
+                    if (headerEl) headerEl.inert = false;
+                    if (mainEl) mainEl.inert = false;
 
 
                     activeScholar = null;
@@ -493,66 +394,27 @@
                 }
 
 
-                gridEl.addEventListener("click", e => {
-                    const btn = e.target.closest("[data-open]");
+                gridEl.addEventListener("click", function(e) {
+                    var btn = e.target.closest("[data-open]");
                     if (!btn) return;
-                    const scholar = scholars.find(s => s.n === btn.dataset.number);
+                    var scholar = scholars.find(function(s) { return s.n === btn.getAttribute("data-number"); });
                     if (!scholar) return;
-                    openModal(scholar, btn.dataset.open);
+                    openModal(scholar, btn.getAttribute("data-open"));
                 });
 
 
-                tabYoutube.addEventListener("click", () => { if (activeScholar?.yt) renderPlayer("yt"); });
-                tabTiktok.addEventListener("click", () => { if (activeScholar?.tt) renderPlayer("tt"); });
+                tabYoutube.addEventListener("click", function() { if (activeScholar && activeScholar.yt) renderPlayer("yt"); });
+                tabTiktok.addEventListener("click", function() { if (activeScholar && activeScholar.tt) renderPlayer("tt"); });
 
 
                 closeModal.addEventListener("click", closeModalFn);
-                modal.addEventListener("click", e => { if (e.target === modal) closeModalFn(); });
-
-
-                document.addEventListener("keydown", e => {
-                    if (e.key === "Escape" && modal.classList.contains("active")) {
-                        closeModalFn();
-                    }
-                    if (e.key === "Tab" && modal.classList.contains("active")) {
-                        const focusables = [...modal.querySelectorAll('button, iframe')].filter(el => el.offsetParent !== null);
-                        if (!focusables.length) return;
-                        const first = focusables[0];
-                        const last = focusables[focusables.length - 1];
-                        if (e.shiftKey && document.activeElement === first) {
-                            last.focus();
-                            e.preventDefault();
-                        } else if (!e.shiftKey && document.activeElement === last) {
-                            first.focus();
-                            e.preventDefault();
-                        }
-                    }
-                });
-
-
-                gridEl.addEventListener("error", function(e) {
-                    const img = e.target;
-                    if (!img.matches(".scholar-img")) return;
-                    const scholarName = img.getAttribute("data-name") || "";
-                    img.src = generateInitialsAvatar(scholarName);
-                }, true);
+                modal.addEventListener("click", function(e) { if (e.target === modal) closeModalFn(); });
 
 
             } catch (err) {
-                document.getElementById("grid").innerHTML = `<div style="color: #ff5555; padding: 20px; text-align: center;">Erreur application : ${err.message}</div>`;
+                document.getElementById("grid").innerHTML = '<div style="color: #ff5555; padding: 20px; text-align: center;">Erreur: ' + err.message + '</div>';
             }
         });
     </script>
-
-    <!-- Force Service Worker Update -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js?v=21').then(function(reg) {
-                reg.update(); // Demande au navigateur de vérifier les mises à jour
-            });
-        }
-    </script>
-
-
 </body>
 </html>
