@@ -178,6 +178,19 @@ descs; en/fr/es show 0 Arabic leaks; live hash `f6940c1c…`; SW `v21`.
   gracefully swaps to the SVG-initials avatar. 100% fallback == 100% missing files.
 - Action needed: upload portraits as `images/01.jpg` … `images/38.jpg`.
 
+## Session 7 — ordered Arabic names page with copy buttons (commit `7f15494`)
+Request: an Arabic list of the 38 scholars, ranked #01 → #38, with copy buttons.
+
+Added `names.html` (standalone, RTL, dark theme matching the app, no deps):
+- 38 rows, each `#NN` + Arabic name + «نسخ» button (copies that name only).
+- Toolbar: «نسخ الكل» (names one per line) and «نسخ مع الأرقام» (`NN. name`).
+- Clipboard API with `execCommand` textarea fallback; toast confirmation.
+- Order verified 0 mismatches against `index.html`; 0 zero-width chars.
+- `names.html` added to SW precache; cache `v21 → v22`.
+
+Tests: inline script `node --check` PASS; 38 items; first `01 الدكتور هيثم طلعت`,
+last `38 محمود شعبان`; live HTTP 200; SW `v22`.
+
 ## Pending milestones
 1. Verify the best-effort Arabic names against a source (#31 `محمد بن سن الدين`,
    #36 `أبو عمر البديع` in particular). #32/33/34/35 now follow supplied spellings.
