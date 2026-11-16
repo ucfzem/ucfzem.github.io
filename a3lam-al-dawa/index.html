@@ -350,13 +350,59 @@ window.onload = function() {
       gridEl.innerHTML = '<div style="color: #ff5555; text-align: center; padding: 20px;">Erreur init : ' + esc(err.message) + '</div>';
     }
   }
-};
+}
+
+
+// Initialisation immédiate et sécurisée
+function initApp() {
+  try {
+    setTheme(store('app-theme') || 'dark');
+    setLang(store('app-lang') || 'ar');
+    
+    var langsEl = document.getElementById('langs');
+    if (langsEl) {
+      langsEl.onclick = function (e) { 
+        var b = e.target.closest('[data-lang]'); 
+        if (b) setLang(b.getAttribute('data-lang')); 
+      };
+    }
+    
+    var themesEl = document.getElementById('themes');
+    if (themesEl) {
+      themesEl.onclick = function (e) { 
+        var b = e.target.closest('[data-theme]'); 
+        if (b) setTheme(b.getAttribute('data-theme')); 
+      };
+    }
+
+
+    var searchEl = document.getElementById('search');
+    if (searchEl) {
+      var timer;
+      searchEl.oninput = function () { 
+        clearTimeout(timer); 
+        timer = setTimeout(render, 120); 
+      };
+    }
+  } catch (err) {
+    var gridEl = document.getElementById('grid');
+    if (gridEl) {
+      gridEl.innerHTML = '<div style="color: #ff5555; text-align: center; padding: 20px;">Erreur init : ' + esc(err.message) + '</div>';
+    }
+  }
+}
+
+// Lancement direct robuste
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  initApp();
+} else {
+  window.addEventListener('DOMContentLoaded', initApp);
+  window.onload = initApp;
+}
 
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').catch(function() {});
-  });
+  navigator.serviceWorker.register('sw.js').catch(function() {});
 }
 </script>
 </body>
