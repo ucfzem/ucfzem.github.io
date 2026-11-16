@@ -7,7 +7,7 @@
 <title>أعلام الدعوة والفكر</title>
 
 
-<!-- DÉTECTEUR D'ERREUR FATALE (Indispensable) -->
+<!-- DÉTECTEUR D'ERREUR FATALE -->
 <script>
   window.onerror = function(msg, url, line, col, error) {
     var grid = document.getElementById('grid');
@@ -70,7 +70,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     </div>
   </div>
   <h1 id="title">أعلام الدعوة والفكر</h1>
-  <div class="subtitle" id="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات ({n}Persona).</div>
+  <div class="subtitle" id="subtitle">دليل الدعاة والمحاورين...</div>
 </header>
 
 
@@ -95,7 +95,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
 
 
   var scholars = [
-    { n:"01", name:"الدكتور هيثم طلعت", desc:"طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية materiale et la théorie darwinienne.", tag:"نقد الإلهاد" },
+    { n:"01", name:"الدكتور هيثم طلعت", desc:"طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرie matière et la théorie darwinienne.", tag:"نقد الإلهاد" },
     { n:"02", name:"الشيخ زين خير الله", desc:"Motorbroadcaster distinguished in live broadcasts about religion comparison and proving doctrine.", tag:"Motorbroadcast live" },
     { n:"03", name:"د. سامي عامري", desc:"Researcher and thinker specialized in studying religions, critiquing atheism, and refuting orientalist suspicions.", tag:"Religion Comparison" },
     { n:"04", name:"وليد إسماعيل", desc:"Researcher and caller specialized in direct contractual dialogues and answering doubts.", tag:"Contractual dialogues" },
@@ -123,9 +123,9 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     { n:"26", name:"أحمد ديدات", desc:"Global famous caller and debater in religion comparison.", tag:"Religion Comparison Pioneer" },
     { n:"27", name:"الشيخ عثمان الخميس", desc:"Prominent Islamic scholar and debater in jurisprudential and contractual doubts.", tag:"Jurisprudence and Doubts" },
     { n:"28", name:"الشيخ أبو المنتصر البلوشي", desc:"Caller and debater in sectarian issues.", tag:"Sects and Articles" },
-    { n:"29", name:"الشيخ أشرف غريب", desc:"Researcher in creed and countering doubts.", tag:"Creed" },
-    { n:"30", name:"الشيخ فرaj", desc:"Researcher in countering doubts and nasirisation.", tag:"Countering Doubts" },
-    { n:"31", name:"ال Sheikh Muhammad bin Sun al-Din", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
+    { n:"29", name:"الشيخ Ashraf Gharib", desc:"Researcher in creed and countering doubts.", tag:"Creed" },
+    { n:"30", name:"al-Sheikh Faraj", desc:"Researcher in countering doubts and nasirisation.", tag:"Countering Doubts" },
+    { n:"31", name:"al-Sheikh Muhammad bin Sun al-Din", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
     { n:"32", name:"al-Sheikh Dr. Amr al-Nour al-Din", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
     { n:"33", name:"D. Hatam al-Uni", desc:"Researcher in jurisprudence principles and Sharia objectives.", tag:"Jurisprudence Principles" },
     { n:"34", name:"D. Amr Bayuni", desc:"Researcher in Islamic thought and knowledge sources.", tag:"Islamic Thought" },
@@ -137,15 +137,13 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
 
 
   var I18N = {
-    ar: { dir:'rtl', title:'أعلام الدعوة والفكر', sub:'دليل الدعاة والمحاورين والباحثين المعاصرين en comparaison des religions et le réponse aux doutes ({n}Persona).', ph:'ابحث بالاسم ou le spécialité...', none:'Aucun résultat.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} Ergebnis', footer:'جميع المعلومات الواردة استرشادية قابلة للتحديث' },
-    fr: { dir:'ltr', title:'Figures de la prédication et de la pensée', sub:'Guide des prédicateurs et chercheurs contemporains en religions comparées ({n}Personnalités).', ph:'Rechercher par nom ou spécialité...', none:'Aucun résultat.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} résultat(s)', footer:'Informations indicatives sujettes à mise à jour' },
-    en: { dir:'ltr', title:'Figures of Da2019wah and Thought', sub:'Guide to contemporary preachers and researchers in comparative religion ({n} figures).', ph:'Search by name or topic...', none:'No matching results.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} result(s)', footer:'Information is indicative' },
-    es: { dir:'ltr', title:'Figuras de la predicación y el pensamiento', sub:'Guía de predicadores e investigadores contemporáneos en religiones comparadas ({n}personalidades).', ph:'Buscar por nombre o tema...', none:'Sin resultados.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} resultado(s)', footer:'La información es orientativa' }
+    ar: { dir:'rtl', title:'أعلام الدعوة والفكر', sub:'دليل الدعاة والمحاورين et les chercheurs contemporains en religions comparees ({n}Persona).', ph:'ابحث par le nom ou le spécialité...', none:'Aucun resultat.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} Ergebnis', footer:'جميع المعلومات الواردة استرشادية قابلة للتحديث' },
+    fr: { dir:'ltr', title:'Figures de la predication et de la pensee', sub:'Guide des predicateurs et chercheurs contemporains en religions comparees ({n}Personnalites).', ph:'Rechercher par nom ou specialite...', none:'Aucun resultat.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} resultat(s)', footer:'Informations indicatives sujettes a mise a jour' },
+    en: { dir:'ltr', title:'Figures of Dahawah and Thought', sub:'Guide to contemporary preachers and researchers in comparative religion ({n} figures).', ph:'Search by name or topic...', none:'No matching results.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} result(s)', footer:'Information is indicative' },
+    es: { dir:'ltr', title:'Figuras de la predicacion y el pensamiento', sub:'Guía de predicadores e investigadores contemporaneos en religiones comparadas ({n} personalidades).', ph:'Buscar por nombre o tema...', none:'Sin resultados.', yt:'🎥 YouTube', tt:'📱 TikTok', count:'{n} resultado(s)', footer:'La información es orientativa' }
   };
 
 
-  var $ = function (id) { return document.getElementById(id); };
-  var grid = $('grid'), search = $('search');
   var lang = 'ar';
 
 
@@ -164,7 +162,6 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
   }
 
 
-  // NOUVELLE NORMALISATION SANS REGEX (Anti-Crash)
   function norm(s) {
     if (!s) return '';
     var str = s.toLowerCase();
@@ -174,7 +171,6 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     return str;
   }
   
-  // NETTOYAGE DES TITRES SANS REGEX
   function cleanNameForQuery(name) {
     var core = name || '';
     var titles = ["al-sheikh ", "al-doktor ", "al-mustahfiz ", "A.D. ", "D. "];
@@ -206,7 +202,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     var c = document.createElement('canvas'); 
     c.width = c.height = 128;
     var x = c.getContext('2d');
-    if (!x) return ''; // Sécurité ultime si le canvas est bloqué
+    if (!x) return ''; 
     x.fillStyle = '#2a2a2a'; x.fillRect(0, 0, 128, 128);
     x.fillStyle = '#d4af37'; x.font = 'bold 60px Arial';
     x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(ch, 64, 68);
