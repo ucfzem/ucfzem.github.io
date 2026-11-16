@@ -35,7 +35,7 @@ main{flex:1}
 .tag{background:rgba(212,175,55,.15);color:var(--accent);font-size:.75rem;padding:3px 8px;border-radius:6px;border:1px solid var(--accent)}
 .desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin:6px 0 0}
 .actions{display:flex;gap:10px;margin-top:12px}
-.btn{flex:1;padding:9px;font-size:.85rem;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
+.btn{flex:1;padding:9px;font-size:.85rem;font-weight:600;border:1pxsolid var(--border);border-radius:8px;background:var(--card);color:var(--text);text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
 .btn:hover{background:var(--border)}
 .empty{text-align:center;color:var(--muted);padding:20px}
 footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:var(--muted);border-top:1px solid var(--border)}
@@ -68,7 +68,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
 <main><div class="grid" id="grid"></div></main>
 
 
-<footer id="footerText">Information is indicative</footer>
+<footer id="footerText"></footer>
 
 
 <script>
@@ -109,17 +109,17 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     { n:"25", name:"د. ذاكر نايك", desc:"Global Islamic caller and specialist in religion comparison.", tag:"Religion Comparison" },
     { n:"26", name:"أحمد ديدات", desc:"Global famous caller and debater in religion comparison.", tag:"Religion Comparison Pioneer" },
     { n:"27", name:"الشيخ عثمان الخميس", desc:"Prominent Islamic scholar and debater in jurisprudential and contractual doubts.", tag:"Jurisprudence and Doubts" },
-    { n:"28", name:"الشيخ أبو المنتصر البلوشي", desc:"Caller and debater in sectarian issues.", tag:"Sects and Articles" },
-    { n:"29", name:"الشيخ أشرف غريب", desc:"Researcher in creed and countering doubts.", tag:"Creed" },
-    { n:"30", name:"الشيخ فراج philosophi", desc:"Researcher in countering doubts and nasirisation.", tag:"Countering Doubts" },
-    { n:"31", name:"الشيخ محمد بن شمس الدين", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
-    { n:"32", name:"الشيخ الدكتور عمرو نور الدين", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
-    { n:"33", name:"د. حاتم العوني", desc:"Researcher in jurisprudence principles and Sharia objectives.", tag:"Jurisprudence Principles" },
-    { n:"34", name:"د. عمرو بسيوني", desc:"Researcher in Islamic thought and knowledge sources.", tag:"Islamic Thought" },
-    { n:"35", name:"شمس الدين الجزائري", desc:"Islamic caller and researcher.", tag:"Call" },
-    { n:"36", name:"أبو عمر الباحث", desc:"Researcher specialized in religion comparison and history.", tag:"History and Comparison" },
-    { n:"37", name:"علي دواه", desc:"Researcher in countering doubts.", tag:"Countering Doubts" },
-    { n:"38", name:"محمود شعبان", desc:"Professor of Islamic rhetoric and thought.", tag:"Rhetoric and Thought" }
+    { n:"28", name:"الشيخ Abu matar al-Bluschi", desc:"Caller and debater in sectarian issues.", tag:"Sects and Articles" },
+    { n:"29", name:"الشيخ Ashraf Gharib", desc:"Researcher in creed and countering doubts.", tag:"Creed" },
+    { n:"30", name:"الشيخ Faraj al-Saybi", desc:"Researcher in countering doubts and nasirisation.", tag:"Countering Doubts" },
+    { n:"31", name:"al-Sheikh Muhammad bin Sun al-Din", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
+    { n:"32", name:"al-Sheikh Dr. Amr al-Nour al-Din", desc:"Academic researcher in Islamic thought.", tag:"Islamic Thought" },
+    { n:"33", name:"D. Hatam al-Uni", desc:"Researcher in jurisprudence principles and Sharia objectives.", tag:"Jurisprudence Principles" },
+    { n:"34", name:"D. Amr Bayuni", desc:"Researcher in Islamic thought and knowledge sources.", tag:"Islamic Thought" },
+    { n:"35", name:"Sun ad-Din al-Aljiri", desc:"Islamic caller and researcher.", tag:"Call" },
+    { n:"36", name:"Abu Umar al-Badi", desc:"Researcher specialized in religion comparison and history.", tag:"History and Comparison" },
+    { n:"37", name:"Ali Daw", desc:"Researcher in countering doubts.", tag:"Countering Doubts" },
+    { n:"38", name:"Muhammad Shaban", desc:"Professor of Islamic rhetoric and thought.", tag:"Rhetoric and Thought" }
   ];
 
 
@@ -222,6 +222,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
       b.classList.toggle('active', b.getAttribute(attr) === val);
     });
   }
+  
   function setLang(l) {
     if (!I18N[l]) l = 'ar';
     lang = l; store('app-lang', l);
@@ -233,14 +234,17 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
     search.placeholder = t.ph;
     $('footerText').textContent = t.footer;
     mark($('langs'), 'data-lang', l);
+    // La ligne fatale $('closeBtn').setAttribute(...) a été SUPPRIMÉE ici.
     render();
   }
+  
   function setTheme(th) {
     document.documentElement.setAttribute('data-theme', th); store('app-theme', th);
     mark($('themes'), 'data-theme', th);
     var m = document.querySelector('meta[name="theme-color"]');
     if (m) m.content = { dark:'#121212', light:'#f8fafc', sepia:'#f4ecd8' }[th] || '#121212';
   }
+  
   $('langs').addEventListener('click', function (e) { var b = e.target.closest('[data-lang]'); if (b) setLang(b.dataset.lang); });
   $('themes').addEventListener('click', function (e) { var b = e.target.closest('[data-theme]'); setTheme(b.dataset.theme); });
 
@@ -249,14 +253,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
   search.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(render, 120); });
 
 
-  // Assurez-vous que le rendu s'exécute bien au chargement complet
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-  } else {
-    initApp();
-  }
-
-
+  // --- INITIALISATION SÉCURISÉE ---
   function initApp() {
     try {
       setTheme(store('app-theme') || 'dark');
@@ -267,6 +264,13 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
         gridEl.innerHTML = '<div style="color: #ff5555; text-align: center; padding: 20px;">Erreur d\'initialisation : ' + err.message + '</div>';
       }
     }
+  }
+
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
   }
 
 
