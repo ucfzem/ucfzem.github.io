@@ -71,7 +71,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:v
 <script>
 window.onerror = function (msg, url, line) {
   var g = document.getElementById('grid');
-  if (g) g.innerHTML = '<div style="color:#ff5555;padding:16px;direction:ltr;text-align:left;font-family:monospace;background:#222;border-radius:8px">JS error: ' + String(msg).replace(/</g, '<') + '<br>Line: ' + line + '</div>';
+  if (g) g.innerHTML = '<div style="color:#ff5555;padding:16px;direction:ltr;text-align:left;font-family:monospace;background:#222;border-radius:8px">JS error: ' + String(msg).replace(/</g, '&lt;') + '<br>Line: ' + line + '</div>';
   return false;
 };
 </script>
@@ -149,7 +149,7 @@ function store(k, v) {
 
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, function (c) {
-    return { '&':'&', '<':'<', '>':'>', '"':'"', "'":''' }[c];
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
   });
 }
 
