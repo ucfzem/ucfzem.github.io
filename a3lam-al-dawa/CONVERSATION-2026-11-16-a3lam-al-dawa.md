@@ -135,6 +135,23 @@ Fix:
 Tests: both scripts parse; DOM render shows 38 cards with the new Arabic;
 live hash `302e8dcf…`; SW `v19`.
 
+## Session 5 — PWA manifest link + theme reconciliation (commit `94823ac`)
+Found the page had **no `<link rel="manifest">`** and no apple-touch-icon, so
+install/standalone chrome was unreliable.
+
+Fix:
+- Added `<link rel="manifest" href="./manifest.json">` and
+  `<link rel="apple-touch-icon" href="./icon-180.png">` to `<head>`.
+- `manifest.json` + `manifest.webmanifest`: `theme_color` `#1b5e3a → #121212`
+  (matches the page meta theme-color and default dark theme);
+  `background_color` `#f8f4e8 → #121212` (no cream splash flash);
+  description "35 شخصية" → "38 شخصية".
+- SW cache bumped `v19 → v20`.
+
+Tests: scripts parse; manifest is valid JSON; live head has both links; live
+manifest theme/bg `#121212` and "38"; `manifest.json` + `icon-180.png` return 200;
+live hash `e2fe62c0…`; SW `v20`.
+
 ## Pending milestones
 1. Verify the 6 best-effort Arabic names (#31–36) against an authoritative source.
 2. Add `images/01.jpg` … `images/38.jpg` (currently `images/` is empty; SW naming
