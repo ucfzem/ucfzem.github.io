@@ -51,7 +51,6 @@
         }
 
 
-        /* Top Bar: Langues et Thèmes (Style Nuzhat) */
         .top-controls {
             display: flex;
             justify-content: center;
@@ -80,7 +79,7 @@
             padding: 4px 8px;
             border-radius: 12px;
             color: var(--text-primary);
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
         }
 
 
@@ -90,7 +89,6 @@
         }
 
 
-        /* Barre de recherche / Index */
         .search-container {
             max-width: 800px;
             margin: 0 auto 20px auto;
@@ -106,6 +104,13 @@
             color: var(--text-primary);
             font-size: 0.95rem;
             box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
         }
 
 
@@ -119,7 +124,7 @@
         .subtitle {
             color: var(--text-secondary);
             font-size: 0.85rem;
-            line-height: 1.4;
+            line-line-height: 1.4;
             margin-bottom: 15px;
         }
 
@@ -140,6 +145,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
+            transition: background 0.3s, border-color 0.3s;
         }
 
 
@@ -208,7 +214,7 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.5;
-            margin: 6px 0 10px 0;
+            margin: 6px 0 10x0;
         }
 
 
@@ -233,6 +239,12 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            transition: background 0.2s;
+        }
+
+
+        .action-btn:hover {
+            background: var(--border-color);
         }
 
 
@@ -277,18 +289,17 @@
 
 
     <header>
-        <!-- Barre supérieure Langues & Thèmes (Style Nuzhat) -->
         <div class="top-controls">
             <div class="lang-flags">
-                <button class="flag-btn" onclick="setLang('es')">🇪🇸 ES</button>
-                <button class="flag-btn" onclick="setLang('fr')">🇫🇷 FR</button>
-                <button class="flag-btn" onclick="setLang('en')">🇬🇧 EN</button>
-                <button class="flag-btn active" onclick="setLang('ar')">🇲🇦 AR</button>
+                <button type="button" class="flag-btn" onclick="setLang('es', this)">🇪🇸 ES</button>
+                <button type="button" class="flag-btn" onclick="setLang('fr', this)">🇫🇷 FR</button>
+                <button type="button" class="flag-btn" onclick="setLang('en', this)">🇬🇧 EN</button>
+                <button type="button" class="flag-btn active" onclick="setLang('ar', this)">🇲🇦 AR</button>
             </div>
             <div class="theme-switches">
-                <button class="theme-btn" onclick="setTheme('dark')">Sombre 🌙</button>
-                <button class="theme-btn active" onclick="setTheme('light')">Clair ☀️</button>
-                <button class="theme-btn" onclick="setTheme('sepia')">Sépia 📖</button>
+                <button type="button" class="theme-btn active" onclick="setTheme('dark', this)">Sombre 🌙</button>
+                <button type="button" class="theme-btn" onclick="setTheme('light', this)">Clair ☀️</button>
+                <button type="button" class="theme-btn" onclick="setTheme('sepia', this)">Sépia 📖</button>
             </div>
         </div>
 
@@ -298,7 +309,6 @@
     </header>
 
 
-    <!-- Barre de recherche / Index rapide -->
     <div class="search-container">
         <input type="text" id="searchInput" class="search-input" placeholder="ابحث بالاسم أو التخصص..." oninput="filterScholars()">
     </div>
@@ -309,7 +319,6 @@
     </main>
 
 
-    <!-- Modal Viewer -->
     <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <div class="modal-header">
@@ -332,7 +341,6 @@
                 if (!gridEl) throw new Error("Element introuvable : grid");
 
 
-                // Générateur d'avatar initials
                 function getAvatar(name) {
                     var canvas = document.createElement('canvas');
                     canvas.width = canvas.height = 200;
@@ -355,10 +363,10 @@
 
                 window.scholars = [
                     { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية materiale et la théorie darwinienne.", tag: "نقد الإلهاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
-                    { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات bth directe autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات bth directe", yt: "dQw4w9WgXcQ" },
+                    { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في Poster les religions et la preuve de la doctrine lors des diffusions en direct.", tag: "Diffusions en direct", yt: "dQw4w9WgXcQ" },
                     { n: "03", name: "د. سامي عامري", desc: "Chercheur et penseur spcialise dans l'tude des religions, le critique de l'lhad, et la rfutation des soupons des esthrciens.", tag: "Comparison des religions", tt: "7200000000000000000" },
                     { n: "04", name: "وليد إسماعيل", desc: "Chercheur et da'i spcialis dans les dialogues contractuels directe et la rponse aux doutes.", tag: "Dialogues contractuels" },
-                    { n: "05", name: "رامي عيسى", desc: "باحث متخصص dans le reply aux doutes contractuelles et chrétiennes.", tag: "Reply aux doutes" },
+                    { n: "05", name: "رامي عيسى", desc: "Recherche spécialisée dans le reply aux doutes contractuelles et chrétiennes.", tag: "Reply aux doutes" },
                     { n: "06", name: "د. خالد الحايك", desc: "Researcher in hadith and sunnah history.", tag: "Hadith Sciences" },
                     { n: "07", name: "خالد الوصابي", desc: "Debater and researcher in comparative religions.", tag: "Comparative Religions" },
                     { n: "08", name: "عدنان العرعور", desc: "Islamic caller and researcher in sects and articles.", tag: "Sects and Articles" },
@@ -383,7 +391,7 @@
                     { n: "27", name: "الشيخ عثمان الخميس", desc: "Prominent Islamic scholar and debater in jurisprudential and contractual doubts.", tag: "Jurisprudence and Doubts", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
                     { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "Caller and debater in sectarian issues.", tag: "Sects and Articles" },
                     { n: "29", name: "الشيخ أشرف غريب", desc: "Researcher in creed and countering doubts.", tag: "Creed" },
-                    { n: "30", name: "الشيخ فراج filosofi", desc: "Researcher in countering doubts and nasirisation.", tag: "Countering Doubts" },
+                    { n: "30", name: "الشيخ فراج 철학", desc: "Researcher in countering doubts and nasirisation.", tag: "Countering Doubts" },
                     { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "Academic researcher in Islamic thought.", tag: "Islamic Thought" },
                     { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "Academic researcher in Islamic thought.", tag: "Islamic Thought", note: "(nouvelle nomination)" },
                     { n: "33", name: "د. حاتم العوني", desc: "Researcher in jurisprudence principles and Sharia objectives.", tag: "Jurisprudence Principles" },
@@ -424,6 +432,11 @@
                                     actions +
                                 '</div>';
                     }
+                    
+                    if (list.length === 0) {
+                        html = '<div style="text-align:center; color:var(--text-secondary); padding:20px;">لا توجد Résultats correspondantes au recherche.</div>';
+                    }
+                    
                     gridEl.innerHTML = html;
                 };
 
@@ -431,7 +444,10 @@
                 window.filterScholars = function() {
                     var query = document.getElementById("searchInput").value.toLowerCase();
                     var filtered = window.scholars.filter(function(s) {
-                        return s.name.toLowerCase().indexOf(query) !== -1 || s.desc.toLowerCase().indexOf(query) !== -1 || s.tag.toLowerCase().indexOf(query) !== -1;
+                        var nameMatch = (s.name || "").toLowerCase().indexOf(query) !== -1;
+                        var descMatch = (s.desc || "").toLowerCase().indexOf(query) !== -1;
+                        var tagMatch = (s.tag || "").toLowerCase().indexOf(query) !== -1;
+                        return nameMatch || descMatch || tagMatch;
                     });
                     window.renderScholars(filtered);
                 };
@@ -440,24 +456,27 @@
                 window.renderScholars(window.scholars);
 
 
-                // Thèmes et Langues
-                window.setTheme = function(theme) {
+                window.setTheme = function(theme, btn) {
                     document.documentElement.setAttribute("data-theme", theme);
                     var btns = document.querySelectorAll(".theme-btn");
                     for(var i=0; i<btns.length; i++) btns[i].classList.remove("active");
-                    event.target.classList.add("active");
+                    if(btn) btn.classList.add("active");
                 };
 
 
-                window.setLang = function(lang) {
+                window.setLang = function(lang, btn) {
                     var btns = document.querySelectorAll(".flag-btn");
                     for(var i=0; i<btns.length; i++) btns[i].classList.remove("active");
-                    event.target.classList.add("active");
-                    // Simulation simple de changement de langue de l'interface
+                    if(btn) btn.classList.add("active");
+                    
+                    var subtitle = document.getElementById("subtitleText");
+                    if(lang === 'fr') subtitle.innerHTML = "Guide des prédicateurs et chercheurs contemporains en religions comparées (38 personnalités).";
+                    else if(lang === 'en') subtitle.innerHTML = "Guide to contemporary preachers and researchers in comparative religion (38 figures).";
+                    else if(lang === 'es') subtitle.innerHTML = "Guía de predicadores e investigadores contemporáneos en religiones comparadas (38 personalidades).";
+                    else subtitle.innerHTML = "دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).";
                 };
 
 
-                // Modale
                 var modal = document.getElementById("mediaModal");
                 var modalTitle = document.getElementById("modalTitle");
                 var mediaContainer = document.getElementById("mediaContainer");
@@ -520,3 +539,4 @@
         });
     </script>
 </body>
+</html>
