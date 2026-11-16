@@ -55,7 +55,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:v
     </div>
   </div>
   <h1 id="title">أعلام الدعوة والفكر</h1>
-  <div class="subtitle" id="subtitle">...</div>
+  <div class="subtitle" id="subtitle"></div>
 </header>
 
 
@@ -64,7 +64,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:v
 </div>
 <div class="count" id="count" aria-live="polite"></div>
 <main><div class="grid" id="grid">...</div></main>
-<footer id="footerText"></footer>
+<footer><span id="footerText"></span><br><small dir="ltr">build 2026-11-16b</small></footer>
 
 
 <!-- Debug handler lives in its OWN script block so it still works if the main script has a syntax error -->
@@ -154,123 +154,123 @@ function esc(s) {
 }
 
 
+// ASCII-only helpers (char codes, no Arabic literals or \u escapes in regexes) so copy/paste or editors cannot corrupt them
 function norm(s) {
-  if (!s) return '';
-  var str = s.toLowerCase();
-  str = str.split('أ').join('ا').split('إ').join('ا').split('آ').join('ا').split('ٱ').join('ا');
-  str = str.split('ى').join('ي').split('ة').join('ه');
-  str = str.split('َ').join('').split('ُ').join('').split('ِ').join('').split('ّ').join('').split('ْ').join('');
-  return str;
+  s = String(s || '').toLowerCase();
+  var out = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    if ((c >= 0x64B && c <= 0x65F) || c === 0x670 || c === 0x640) continue; // tashkeel, tatweel
+    if (c === 0x623 || c === 0x625 || c === 0x622 || c === 0x671) c = 0x627;  // alef variants -> alef
+    else if (c === 0x649) c = 0x64A;                                          // alef maqsura -> ya
+    else if (c === 0x629) c = 0x647;                                          // ta marbuta -> ha
+    out += String.fromCharCode(c);
+  }
+  return out;
 }
 
 
-function cleanNameForQuery(name) {
-  var core = name || '';
-  var titles = ["al-sheikh ", "al-doktor ", "al-mustahfiz ", "A.D. ", "D. "];
+function chars(codes) { return String.fromCharCode.apply(null, codes); }
+var TITLES = [
+  chars([0x627, 0x644, 0x634, 0x64A, 0x62E]),                 // sheikh
+  chars([0x627, 0x644, 0x62F, 0x643, 0x62A, 0x648, 0x631]),   // doctor
+  chars([0x627, 0x644, 0x623, 0x633, 0x62A, 0x627, 0x630]),   // professor
+  chars([0x623, 0x2E, 0x62F, 0x2E]),                          // a.d.
+  chars([0x62F, 0x2E])                                        // d.
+];
+
+
+function cleanName(name) {
+  var core = String(name || '').replace(/\s*\([^)]*\)\s*/g, ' ').replace(/^\s+|\s+$/g, '');
   var changed = true;
   while (changed) {
     changed = false;
-    for (var i = 0; i < titles.length; i++) {
-      if (core.indexOf(titles[i]) === 0) {
-        core = core.substring(titles[i].length);
+    for (var i = 0; i < TITLES.length; i++) {
+      if (core.indexOf(TITLES[i]) === 0) {
+        core = core.slice(TITLES[i].length).replace(/^\s+/, '');
         changed = true;
         break;
       }
     }
   }
-  return core.trim();
+  return core;
 }
 
 
 for (var i = 0; i < scholars.length; i++) {
-  scholars[i]._k = norm(scholars[i].name + ' ' + scholars[i].desc + ' ' + scholars[i].tag + ' ' + scholars[i].n);
+  var s0 = scholars[i];
+  s0._k = norm(s0.name + ' ' + s0.desc + ' ' + s0.tag + ' ' + s0.n);
 }
 
 
-var avatarCache = {};
 function avatar(name) {
   if (avatarCache[name]) return avatarCache[name];
-  var core = cleanNameForQuery(name);
-  var ch = (core.charAt(0)) || '؟';
-  var c = document.createElement('canvas'); 
-  c.width = c.height = 128;
+  var ch = cleanName(name).charAt(0) || '?';
+  var c = document.createElement('canvas');
+  c.width = 128; c.height = 128;
   var x = c.getContext('2d');
   if (!x) return '';
   x.fillStyle = '#2a2a2a'; x.fillRect(0, 0, 128, 128);
   x.fillStyle = '#d4af37'; x.font = 'bold 60px Arial';
   x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(ch, 64, 68);
-  return (avatarCache[name] = c.toDataURL('image/png'));
+  avatarCache[name] = c.toDataURL('image/png');
+  return avatarCache[name];
 }
 
 
 function photo(s) {
-  return s.img || (IMG_DIR ? IMG_DIR + s.n + '.jpg' : avatar(s.name));
+  if (s.img) return s.img;
+  return IMG_DIR ? IMG_DIR + s.n + '.jpg' : avatar(s.name);
 }
 
 
 function render() {
   var gridEl = document.getElementById('grid');
   var searchEl = document.getElementById('search');
-  if (!gridEl) return;
-
-
+  var t = I18N[currentLang];
   var q = norm(searchEl ? searchEl.value.trim() : '');
   var list = [];
-  
   for (var i = 0; i < scholars.length; i++) {
-    if (!q || scholars[i]._k.indexOf(q) !== -1) {
-      list.push(scholars[i]);
-    }
+    if (!q || scholars[i]._k.indexOf(q) !== -1) list.push(scholars[i]);
   }
-  
-  var t = I18N[lang];
-  
-  if (list.length === 0) {
+  if (!list.length) {
     gridEl.innerHTML = '<div class="empty">' + esc(t.none) + '</div>';
   } else {
     var html = '';
     for (var j = 0; j < list.length; j++) {
       var s = list[j];
-      var queryName = cleanNameForQuery(s.name);
-      var yt = s.yt || (YT_BASE + encodeURIComponent(queryName));
-      var tt = s.tt || (TT_BASE + encodeURIComponent(queryName));
-      
-      var ytBtn = '<a href="' + esc(yt) + '" target="_blank" rel="noopener noreferrer" class="btn">' + t.yt + '</a>';
-      var ttBtn = '<a href="' + esc(tt) + '" target="_blank" rel="noopener noreferrer" class="btn">' + t.tt + '</a>';
-      
+      var qn = encodeURIComponent(cleanName(s.name));
+      var yt = s.yt || (YT_BASE + qn);
+      var tt = s.tt || (TT_BASE + qn);
       html += '<article class="card"><div class="card-top">' +
         '<div class="avatar"><img src="' + esc(photo(s)) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy"></div>' +
         '<div class="info"><div class="row"><h2 class="name" dir="auto">' + esc(s.name) + '</h2>' +
         (s.tag ? '<span class="tag" dir="auto">' + esc(s.tag) + '</span>' : '') + '</div>' +
         (s.desc ? '<p class="desc" dir="auto">' + esc(s.desc) + '</p>' : '') + '</div></div>' +
-        '<div class="actions">' + ytBtn + ttBtn + '</div></article>';
+        '<div class="actions">' +
+        '<a class="btn" href="' + esc(yt) + '" target="_blank" rel="noopener noreferrer">' + t.yt + '</a>' +
+        '<a class="btn" href="' + esc(tt) + '" target="_blank" rel="noopener noreferrer">' + t.tt + '</a>' +
+        '</div></article>';
     }
     gridEl.innerHTML = html;
   }
-  
-  var countEl = document.getElementById('count');
-  if (countEl) {
-    countEl.textContent = t.count.replace('{n}', list.length);
-  }
+  document.getElementById('count').textContent = t.count.replace('{n}', list.length);
 }
 
 
+// 'error' doesn't bubble, so capture it once at document level for broken photos
 document.addEventListener('error', function (e) {
   var img = e.target;
-  if (!img || img.tagName !== 'IMG' || img.dataset.fb) return;
-  img.dataset.fb = '1';
-  var n = img.dataset.n;
+  if (!img || img.tagName !== 'IMG' || img.getAttribute('data-fb')) return;
+  img.setAttribute('data-fb', '1');
+  var n = img.getAttribute('data-n');
   for (var i = 0; i < scholars.length; i++) {
-    if (scholars[i].n === n) {
-      img.src = avatar(scholars[i].name);
-      break;
-    }
+    if (scholars[i].n === n) { img.src = avatar(scholars[i].name); break; }
   }
 }, true);
 
 
 function mark(box, attr, val) {
-  if (!box) return;
   var btns = box.querySelectorAll('button');
   for (var i = 0; i < btns.length; i++) {
     if (btns[i].getAttribute(attr) === val) btns[i].classList.add('active');
@@ -281,86 +281,53 @@ function mark(box, attr, val) {
 
 function setLang(l) {
   if (!I18N[l]) l = 'ar';
-  lang = l; store('app-lang', l);
+  currentLang = l;
+  store('app-lang', l);
   var t = I18N[l];
   document.documentElement.lang = l;
   document.documentElement.dir = t.dir;
   document.title = t.title;
-  
-  var titleEl = document.getElementById('title');
-  var subEl = document.getElementById('subtitle');
-  var searchEl = document.getElementById('search');
-  var footerEl = document.getElementById('footerText');
-  
-  if (titleEl) titleEl.textContent = t.title;
-  if (subEl) subEl.textContent = t.sub.replace('{n}', scholars.length);
-  if (searchEl) searchEl.placeholder = t.ph;
-  if (footerEl) footerEl.textContent = t.footer;
-  
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.sub.replace('{n}', scholars.length);
+  document.getElementById('search').placeholder = t.ph;
+  document.getElementById('footerText').textContent = t.footer;
   mark(document.getElementById('langs'), 'data-lang', l);
   render();
 }
-  
+
+
 function setTheme(th) {
-  document.documentElement.setAttribute('data-theme', th); 
+  document.documentElement.setAttribute('data-theme', th);
   store('app-theme', th);
   mark(document.getElementById('themes'), 'data-theme', th);
   var m = document.querySelector('meta[name="theme-color"]');
-  if (m) m.content = { dark:'#121212', light:'#f8fafc', sepia:'#f4ecd8' }[th] || '#121212';
+  var colors = { dark: '#121212', light: '#f8fafc', sepia: '#f4ecd8' };
+  if (m) m.setAttribute('content', colors[th] || '#121212');
 }
 
 
-var langsEl = document.getElementById('langs');
-if (langsEl) {
-  langsEl.addEventListener('click', function (e) { 
-    var b = e.target.closest('[data-lang]'); 
-    if (b) setLang(b.getAttribute('data-lang')); 
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('langs').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-lang]');
+    if (b) setLang(b.getAttribute('data-lang'));
   });
-}
-
-
-var themesEl = document.getElementById('themes');
-if (themesEl) {
-  themesEl.addEventListener('click', function (e) { 
-    var b = e.target.closest('[data-theme]'); 
-    if (b) setTheme(b.getAttribute('data-theme')); 
+  document.getElementById('themes').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-theme]');
+    if (b) setTheme(b.getAttribute('data-theme'));
   });
-}
-
-
-var searchEl = document.getElementById('search');
-if (searchEl) {
   var timer;
-  searchEl.addEventListener('input', function () { 
-    clearTimeout(timer); 
-    timer = setTimeout(render, 120); 
+  document.getElementById('search').addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(render, 120);
   });
-}
-
-
-function initApp() {
-  try {
-    setTheme(store('app-theme') || 'dark');
-    setLang(store('app-lang') || 'ar');
-  } catch (err) {
-    var gridEl = document.getElementById('grid');
-    if (gridEl) {
-      gridEl.innerHTML = '<div style="color: #ff5555; text-align: center; padding: 20px;">Erreur init : ' + esc(err.message) + '</div>';
-    }
-  }
-}
-
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
+  setTheme(store('app-theme') || 'dark');
+  setLang(store('app-lang') || 'ar');
+});
 
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js').catch(function() {});
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
   });
 }
 </script>
