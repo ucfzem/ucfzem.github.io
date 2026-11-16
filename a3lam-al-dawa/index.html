@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,18 +15,97 @@
         }
 
 
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent-color: #0284c7;
+            --border-color: #e2e8f0;
+        }
+
+
+        [data-theme="sepia"] {
+            --bg-color: #f4ecd8;
+            --card-bg: #fff8e7;
+            --text-primary: #5c4033;
+            --text-secondary: #8b6b5d;
+            --accent-color: #b8860b;
+            --border-color: #d8c29d;
+        }
+
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
             padding: 15px;
+            transition: background 0.3s, color 0.3s;
         }
 
 
         header {
             text-align: center;
             margin-bottom: 25px;
+        }
+
+
+        /* Top Bar: Langues et Thèmes (Style Nuzhat) */
+        .top-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+
+        .lang-flags, .theme-switches {
+            display: flex;
+            gap: 6px;
+            background: var(--card-bg);
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+
+        .flag-btn, .theme-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: background 0.2s;
+        }
+
+
+        .flag-btn.active, .theme-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+
+        /* Barre de recherche / Index */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+        }
+
+
+        .search-input {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            box-sizing: border-box;
         }
 
 
@@ -76,7 +155,7 @@
             height: 65px;
             border-radius: 50%;
             overflow: hidden;
-            background-color: #2a2a2a;
+            background-color: var(--border-color);
             border: 2px solid var(--accent-color);
             flex-shrink: 0;
             display: flex;
@@ -102,6 +181,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 5px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
 
@@ -114,12 +195,12 @@
 
 
         .scholar-tag {
-            background-color: #2c2416;
+            background-color: rgba(212, 175, 55, 0.15);
             color: var(--accent-color);
             font-size: 0.75rem;
             padding: 3px 8px;
             border-radius: 6px;
-            border: 1px solid #483b1f;
+            border: 1px solid var(--accent-color);
         }
 
 
@@ -145,19 +226,13 @@
             font-weight: 600;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: #252525;
+            background: var(--card-bg);
             color: var(--text-primary);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-        }
-
-
-        .action-btn:focus-visible, .close-btn:focus-visible, .tab-btn:focus-visible {
-            outline: 2px solid var(--accent-color);
-            outline-offset: 2px;
         }
 
 
@@ -186,7 +261,7 @@
         }
         .modal-header h3 { margin: 0; font-size: 1rem; color: var(--accent-color); }
         .close-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-secondary); }
-        .modal-tabs { display: flex; background: #161616; border-bottom: 1px solid var(--border-color); }
+        .modal-tabs { display: flex; background: var(--bg-color); border-bottom: 1px solid var(--border-color); }
         .tab-btn {
             flex: 1; padding: 10px; border: none; background: none;
             font-weight: 600; font-size: 0.85rem; cursor: pointer; color: var(--text-secondary);
@@ -202,9 +277,31 @@
 
 
     <header>
+        <!-- Barre supérieure Langues & Thèmes (Style Nuzhat) -->
+        <div class="top-controls">
+            <div class="lang-flags">
+                <button class="flag-btn" onclick="setLang('es')">🇪🇸 ES</button>
+                <button class="flag-btn" onclick="setLang('fr')">🇫🇷 FR</button>
+                <button class="flag-btn" onclick="setLang('en')">🇬🇧 EN</button>
+                <button class="flag-btn active" onclick="setLang('ar')">🇲🇦 AR</button>
+            </div>
+            <div class="theme-switches">
+                <button class="theme-btn" onclick="setTheme('dark')">Sombre 🌙</button>
+                <button class="theme-btn active" onclick="setTheme('light')">Clair ☀️</button>
+                <button class="theme-btn" onclick="setTheme('sepia')">Sépia 📖</button>
+            </div>
+        </div>
+
+
         <h1>أعلام الدعوة والفكر</h1>
-        <div class="subtitle">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).</div>
+        <div class="subtitle" id="subtitleText">دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات (38Persona).</div>
     </header>
+
+
+    <!-- Barre de recherche / Index rapide -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="ابحث بالاسم أو التخصص..." oninput="filterScholars()">
+    </div>
 
 
     <main>
@@ -212,6 +309,7 @@
     </main>
 
 
+    <!-- Modal Viewer -->
     <div class="modal-overlay" id="mediaModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <div class="modal-header">
@@ -234,7 +332,7 @@
                 if (!gridEl) throw new Error("Element introuvable : grid");
 
 
-                // Générateur d'avatar simplifié sans Regex pour éviter les erreurs de syntaxe
+                // Générateur d'avatar initials
                 function getAvatar(name) {
                     var canvas = document.createElement('canvas');
                     canvas.width = canvas.height = 200;
@@ -255,79 +353,111 @@
                 }
 
 
-                var scholars = [
+                window.scholars = [
                     { n: "01", name: "الدكتور هيثم طلعت", desc: "طبيب وباحث مصري بارز متخصص في تفكيك شبهات الإلحاد والنظرية materiale et la théorie darwinienne.", tag: "نقد الإلهاد", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
                     { n: "02", name: "الشيخ زين خير الله", desc: "محاور بارز في مناظرات bth directe autour comparaison les religions et la preuve de la doctrine.", tag: "مناظرات bth directe", yt: "dQw4w9WgXcQ" },
                     { n: "03", name: "د. سامي عامري", desc: "Chercheur et penseur spcialise dans l'tude des religions, le critique de l'lhad, et la rfutation des soupons des esthrciens.", tag: "Comparison des religions", tt: "7200000000000000000" },
                     { n: "04", name: "وليد إسماعيل", desc: "Chercheur et da'i spcialis dans les dialogues contractuels directe et la rponse aux doutes.", tag: "Dialogues contractuels" },
-                    { n: "05", name: "رامي عيسى", desc: "", tag: "" },
-                    { n: "06", name: "د. خالد الحايك", desc: "", tag: "" },
-                    { n: "07", name: "خالد الوصابي", desc: "", tag: "" },
-                    { n: "08", name: "عدنان العرعور", desc: "", tag: "" },
-                    { n: "09", name: "شمائل الندوي", desc: "", tag: "" },
-                    { n: "10", name: "د. إياد قنيبي", desc: "", tag: "" },
-                    { n: "11", name: "د. عبدالله العجيري", desc: "", tag: "" },
-                    { n: "12", name: "أحمد السيد", desc: "", tag: "" },
-                    { n: "13", name: "مهند السويدان (أبو عمر الباحث)", desc: "", tag: "" },
-                    { n: "14", name: "محمد شاهين (التاعب)", desc: "", tag: "" },
-                    { n: "15", name: "أحمد سبيع", desc: "", tag: "" },
-                    { n: "16", name: "عبدالله الشهري", desc: "", tag: "" },
-                    { n: "17", name: "حمزة تزورتزيس", desc: "", tag: "" },
-                    { n: "18", name: "محمد حجاب", desc: "", tag: "" },
-                    { n: "19", name: "د. منقذ السقار", desc: "", tag: "" },
-                    { n: "20", name: "معاذ عليان", desc: "", tag: "" },
-                    { n: "21", name: "محمود داود", desc: "", tag: "" },
-                    { n: "22", name: "أبو منتصر شاهين", desc: "", tag: "" },
-                    { n: "23", name: "إبراهيم خليل فيلوبوس", desc: "", tag: "" },
-                    { n: "24", name: "يوسف إستس", desc: "", tag: "" },
-                    { n: "25", name: "د. ذاكر نايك", desc: "", tag: "" },
-                    { n: "26", name: "أحمد ديدات", desc: "", tag: "" },
-                    { n: "27", name: "الشيخ عثمان الخميس", desc: "", tag: "" },
-                    { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "", tag: "" },
-                    { n: "29", name: "الشيخ أشرف غريب", desc: "", tag: "" },
-                    { n: "30", name: "الشيخ فرaj", desc: "", tag: "" },
-                    { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "", tag: "" },
-                    { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "", tag: "" },
-                    { n: "33", name: "د. حاتم العوني", desc: "", tag: "" },
-                    { n: "34", name: "د. عمرو بسيوني", desc: "", tag: "" },
-                    { n: "35", name: "شمس الدين الجزائري", desc: "", tag: "" },
-                    { n: "36", name: "أبو عمر الباحث", desc: "", tag: "" },
-                    { n: "37", name: "علي دواه", desc: "", tag: "" },
-                    { n: "38", name: "محمود شعبان", desc: "", tag: "" }
+                    { n: "05", name: "رامي عيسى", desc: "باحث متخصص dans le reply aux doutes contractuelles et chrétiennes.", tag: "Reply aux doutes" },
+                    { n: "06", name: "د. خالد الحايك", desc: "Researcher in hadith and sunnah history.", tag: "Hadith Sciences" },
+                    { n: "07", name: "خالد الوصابي", desc: "Debater and researcher in comparative religions.", tag: "Comparative Religions" },
+                    { n: "08", name: "عدنان العرعور", desc: "Islamic caller and researcher in sects and articles.", tag: "Sects and Articles" },
+                    { n: "09", name: "شمائل الندوي", desc: "Researcher and caller in Islamic thought issues.", tag: "Islamic Thought" },
+                    { n: "10", name: "د. إياد قنيبي", desc: "Islamic caller and researcher, famous for 'Journey of Certainty' series.", tag: "Journey of Certainty", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+                    { n: "11", name: "د. عبدالله العجيري", desc: "Researcher at Rabita Center, interested in atheism and contemporary thought.", tag: "Contemporary Thought" },
+                    { n: "12", name: "أحمد السيد", desc: "Academic supervisor at Zad Academy and producer of legitimate religious content.", tag: "Legitimate Content" },
+                    { n: "13", name: "مهند السويدان (أبو عمر الباحث)", desc: "Researcher in comparative religions and counter-nasirisation.", tag: "Counter-Nasirisation" },
+                    { n: "14", name: "محمد شاهين (التاعب)", desc: "Debater and researcher specialized in countering Christian and orientalist doubts.", tag: "Comparative Religions" },
+                    { n: "15", name: "أحمد سبيع", desc: "Researcher specialized in comparative religions and dialogue with People of the Book.", tag: "People of the Book" },
+                    { n: "16", name: "عبدالله الشهري", desc: "Manager of Bayna Center, researcher in atheism countering.", tag: "Atheism Countering" },
+                    { n: "17", name: "حمزة تزورتزيس", desc: "British researcher and author in Islamic philosophy and atheism critique.", tag: "Islamic Philosophy" },
+                    { n: "18", name: "محمد حجاب", desc: "Islamic researcher and debater in the West.", tag: "Western Debates" },
+                    { n: "19", name: "د. منقذ السقار", desc: "Researcher at Global Youth Islamic Conference and comparative religions.", tag: "Comparative Religions" },
+                    { n: "20", name: "معاذ عليان", desc: "Researcher in comparative religions and countering doubts.", tag: "Comparative Religions" },
+                    { n: "21", name: "محمود داود", desc: "Researcher in countering contractual doubts.", tag: "Contractual Doubts" },
+                    { n: "22", name: "أبو منتصر شاهين", desc: "Researcher in countering Christian doubts.", tag: "Christian Doubts" },
+                    { n: "23", name: "إبراهيم خليل فيلوبوس", desc: "Researcher and debater in comparative religions.", tag: "Comparative Religions" },
+                    { n: "24", name: "يوسف إستس", desc: "American Islamic caller and debater.", tag: "Global Call" },
+                    { n: "25", name: "د. ذاكر نايك", desc: "Global Islamic caller and specialist in religion comparison.", tag: "Religion Comparison", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+                    { n: "26", name: "أحمد ديدات", desc: "Global famous caller and debater in religion comparison.", tag: "Religion Comparison Pioneer" },
+                    { n: "27", name: "الشيخ عثمان الخميس", desc: "Prominent Islamic scholar and debater in jurisprudential and contractual doubts.", tag: "Jurisprudence and Doubts", yt: "dQw4w9WgXcQ", tt: "7200000000000000000" },
+                    { n: "28", name: "الشيخ أبو المنتصر البلوشي", desc: "Caller and debater in sectarian issues.", tag: "Sects and Articles" },
+                    { n: "29", name: "الشيخ أشرف غريب", desc: "Researcher in creed and countering doubts.", tag: "Creed" },
+                    { n: "30", name: "الشيخ فراج filosofi", desc: "Researcher in countering doubts and nasirisation.", tag: "Countering Doubts" },
+                    { n: "31", name: "الشيخ محمد بن شمس الدين", desc: "Academic researcher in Islamic thought.", tag: "Islamic Thought" },
+                    { n: "32", name: "الشيخ الدكتور عمرو نور الدين", desc: "Academic researcher in Islamic thought.", tag: "Islamic Thought", note: "(nouvelle nomination)" },
+                    { n: "33", name: "د. حاتم العوني", desc: "Researcher in jurisprudence principles and Sharia objectives.", tag: "Jurisprudence Principles" },
+                    { n: "34", name: "د. عمرو بسيوني", desc: "Researcher in Islamic thought and knowledge sources.", tag: "Islamic Thought" },
+                    { n: "35", name: "شمس الدين الجزائري", desc: "Islamic caller and researcher.", tag: "Call" },
+                    { n: "36", name: "أبو عمر الباحث", desc: "Researcher specialized in religion comparison and history.", tag: "History and Comparison" },
+                    { n: "37", name: "علي دواه", desc: "Researcher in countering doubts.", tag: "Countering Doubts" },
+                    { n: "38", name: "محمود شعبان", desc: "Professor of Islamic rhetoric and thought.", tag: "Rhetoric and Thought" }
                 ];
 
 
-                var html = "";
-                for (var i = 0; i < scholars.length; i++) {
-                    var s = scholars[i];
-                    var img = getAvatar(s.name);
-                    var tagHtml = s.tag ? '<span class="scholar-tag">' + s.tag + '</span>' : "";
-                    var descHtml = s.desc ? '<p class="scholar-desc">' + s.desc + '</p>' : "";
-                    var ytBtn = s.yt ? '<button type="button" class="action-btn" data-open="yt" data-number="' + s.n + '">🎥 يوتيوب</button>' : "";
-                    var ttBtn = s.tt ? '<button type="button" class="action-btn" data-open="tt" data-number="' + s.n + '">📱 تيك توك</button>' : "";
-                    var actions = (ytBtn || ttBtn) ? '<div class="card-actions">' + ytBtn + ttBtn + '</div>' : "";
+                window.renderScholars = function(list) {
+                    var html = "";
+                    for (var i = 0; i < list.length; i++) {
+                        var s = list[i];
+                        var img = s.img || getAvatar(s.name);
+                        var note = s.note ? '<br><small dir="ltr" style="color:var(--accent-color);">' + s.note + '</small>' : "";
+                        var tagHtml = s.tag ? '<span class="scholar-tag">' + s.tag + '</span>' : "";
+                        var descHtml = s.desc ? '<p class="scholar-desc">' + s.desc + '</p>' : "";
+                        var ytBtn = s.yt ? '<button type="button" class="action-btn" data-open="yt" data-number="' + s.n + '">🎥 يوتيوب</button>' : "";
+                        var ttBtn = s.tt ? '<button type="button" class="action-btn" data-open="tt" data-number="' + s.n + '">📱 تيك توك</button>' : "";
+                        var actions = (ytBtn || ttBtn) ? '<div class="card-actions">' + ytBtn + ttBtn + '</div>' : "";
 
 
-                    html += '<div class="scholar-card">' +
-                                '<div class="card-top">' +
-                                    '<div class="image-container">' +
-                                        '<img src="' + img + '" alt="" width="65" height="65" loading="lazy">' +
-                                    '</div>' +
-                                    '<div class="scholar-info">' +
-                                        '<div class="scholar-header-row">' +
-                                            '<h2 class="scholar-name">' + s.name + '</h2>' +
-                                            tagHtml +
+                        html += '<div class="scholar-card">' +
+                                    '<div class="card-top">' +
+                                        '<div class="image-container">' +
+                                            '<img src="' + img + '" alt="" width="65" height="65" loading="lazy">' +
                                         '</div>' +
-                                        descHtml +
+                                        '<div class="scholar-info">' +
+                                            '<div class="scholar-header-row">' +
+                                                '<h2 class="scholar-name">' + s.name + '</h2>' +
+                                                tagHtml +
+                                            '</div>' +
+                                            descHtml +
+                                        '</div>' +
                                     '</div>' +
-                                '</div>' +
-                                actions +
-                            '</div>';
-                }
-                gridEl.innerHTML = html;
+                                    actions +
+                                '</div>';
+                    }
+                    gridEl.innerHTML = html;
+                };
 
 
-                // Logique de la Modale
+                window.filterScholars = function() {
+                    var query = document.getElementById("searchInput").value.toLowerCase();
+                    var filtered = window.scholars.filter(function(s) {
+                        return s.name.toLowerCase().indexOf(query) !== -1 || s.desc.toLowerCase().indexOf(query) !== -1 || s.tag.toLowerCase().indexOf(query) !== -1;
+                    });
+                    window.renderScholars(filtered);
+                };
+
+
+                window.renderScholars(window.scholars);
+
+
+                // Thèmes et Langues
+                window.setTheme = function(theme) {
+                    document.documentElement.setAttribute("data-theme", theme);
+                    var btns = document.querySelectorAll(".theme-btn");
+                    for(var i=0; i<btns.length; i++) btns[i].classList.remove("active");
+                    event.target.classList.add("active");
+                };
+
+
+                window.setLang = function(lang) {
+                    var btns = document.querySelectorAll(".flag-btn");
+                    for(var i=0; i<btns.length; i++) btns[i].classList.remove("active");
+                    event.target.classList.add("active");
+                    // Simulation simple de changement de langue de l'interface
+                };
+
+
+                // Modale
                 var modal = document.getElementById("mediaModal");
                 var modalTitle = document.getElementById("modalTitle");
                 var mediaContainer = document.getElementById("mediaContainer");
@@ -335,12 +465,7 @@
                 var tabYoutube = document.getElementById("tabYoutube");
                 var tabTiktok = document.getElementById("tabTiktok");
                 var modalTabs = document.getElementById("modalTabs");
-                var headerEl = document.querySelector("header");
-                var mainEl = document.querySelector("main");
-
-
                 var activeScholar = null;
-                var lastFocus = null;
 
 
                 function renderPlayer(type) {
@@ -348,9 +473,6 @@
                     mediaContainer.className = "media-viewer" + (isTikTok ? " portrait" : "");
                     tabYoutube.className = "tab-btn" + (!isTikTok ? " active" : "");
                     tabTiktok.className = "tab-btn" + (isTikTok ? " active" : "");
-                    
-                    tabYoutube.setAttribute("aria-selected", String(!isTikTok));
-                    tabTiktok.setAttribute("aria-selected", String(isTikTok));
 
 
                     modalTabs.style.display = (activeScholar.yt && activeScholar.tt) ? "flex" : "none";
@@ -364,47 +486,28 @@
                 }
 
 
-                function openModal(scholar, type) {
+                gridEl.addEventListener("click", function(e) {
+                    var btn = e.target.closest("[data-open]");
+                    if (!btn) return;
+                    var scholar = window.scholars.find(function(s) { return s.n === btn.getAttribute("data-number"); });
+                    if (!scholar) return;
                     activeScholar = scholar;
-                    lastFocus = document.activeElement;
                     modalTitle.textContent = scholar.name;
-                    
-                    if (headerEl) headerEl.inert = true;
-                    if (mainEl) mainEl.inert = true;
-
-
                     modal.classList.add("active");
-                    renderPlayer(type);
-                    closeModal.focus();
-                }
+                    renderPlayer(btn.getAttribute("data-open"));
+                });
+
+
+                tabYoutube.addEventListener("click", function() { if (activeScholar && activeScholar.yt) renderPlayer("yt"); });
+                tabTiktok.addEventListener("click", function() { if (activeScholar && activeScholar.tt) renderPlayer("tt"); });
 
 
                 function closeModalFn() {
                     modal.classList.remove("active");
                     mediaContainer.innerHTML = "";
                     mediaContainer.className = "media-viewer";
-
-
-                    if (headerEl) headerEl.inert = false;
-                    if (mainEl) mainEl.inert = false;
-
-
                     activeScholar = null;
-                    if (lastFocus) lastFocus.focus();
                 }
-
-
-                gridEl.addEventListener("click", function(e) {
-                    var btn = e.target.closest("[data-open]");
-                    if (!btn) return;
-                    var scholar = scholars.find(function(s) { return s.n === btn.getAttribute("data-number"); });
-                    if (!scholar) return;
-                    openModal(scholar, btn.getAttribute("data-open"));
-                });
-
-
-                tabYoutube.addEventListener("click", function() { if (activeScholar && activeScholar.yt) renderPlayer("yt"); });
-                tabTiktok.addEventListener("click", function() { if (activeScholar && activeScholar.tt) renderPlayer("tt"); });
 
 
                 closeModal.addEventListener("click", closeModalFn);
@@ -417,4 +520,3 @@
         });
     </script>
 </body>
-</html>
