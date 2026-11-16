@@ -1,4 +1,4 @@
-const CACHE_NAME = 'a3lam-al-dawa-v17';
+const CACHE_NAME = 'a3lam-al-dawa-v18';
 const IMGS = Array.from({ length: 38 }, (_, i) => `./images/${String(i + 1).padStart(2, '0')}.jpg`);
 self.addEventListener('install', e => {
   e.waitUntil((async () => {

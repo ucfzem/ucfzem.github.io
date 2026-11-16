@@ -35,6 +35,9 @@ main{flex:1}
 .actions{display:flex;gap:10px;margin-top:12px}
 .btn{flex:1;padding:9px;font-size:.85rem;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
 .btn:hover{background:var(--border)}
+.btn{transition:opacity .2s ease,background .2s ease;-webkit-tap-highlight-color:transparent}
+.btn:active{opacity:.7}
+.btn.tiktok{font-weight:600}
 .empty{text-align:center;color:var(--muted);padding:20px}
 footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border)}
 </style>
@@ -244,6 +247,48 @@ function photo(s) {
 }
 
 
+// Pull an @handle out of a TikTok URL (returns '' for search URLs).
+function ttHandle(url) {
+  var m = String(url || '').match(/tiktok\.com\/@([^\/?#]+)/i);
+  return m ? m[1] : '';
+}
+
+
+// Try a native app scheme, then fall back to the web URL only if the page
+// never lost visibility (i.e. the app did not open).
+function launchApp(scheme, webUrl) {
+  var timer = null, left = false;
+  function cleanup() {
+    if (timer) { clearTimeout(timer); timer = null; }
+    document.removeEventListener('visibilitychange', onVis);
+  }
+  function onVis() { if (document.hidden) { left = true; cleanup(); } }
+  document.addEventListener('visibilitychange', onVis);
+  window.addEventListener('pagehide', function () { left = true; cleanup(); }, { once: true });
+  timer = setTimeout(function () {
+    if (!left && !document.hidden) window.location.href = webUrl;
+    cleanup();
+  }, 700);
+  window.location.href = scheme;
+}
+
+
+// Open in the native TikTok app when it is installed; otherwise the web link.
+function openTikTok(webUrl, handle) {
+  webUrl = webUrl || TT_BASE;
+  var ua = navigator.userAgent || '';
+  var isAndroid = /android/i.test(ua);
+  var isIOS = /iphone|ipad|ipod/i.test(ua);
+  if (!isAndroid && !isIOS) { window.open(webUrl, '_blank', 'noopener'); return; }
+  var hostPath = handle ? ('/@' + encodeURIComponent(handle))
+    : String(webUrl).replace(/^https?:\/\/(www\.)?tiktok\.com/i, '');
+  var scheme = isAndroid
+    ? ('intent://tiktok.com' + hostPath + '#Intent;package=com.zhiliaoapp.musically;scheme=https;end;')
+    : ('snssdk1233://www.tiktok.com' + hostPath);
+  launchApp(scheme, webUrl);
+}
+
+
 // Global image fallback, invoked by inline onerror= so it is reliable even for
 // imgs injected through innerHTML.
 window.__fb = function (img) {
@@ -282,7 +327,7 @@ function render() {
         (dsc ? '<p class="desc" dir="auto">' + esc(dsc) + '</p>' : '') + '</div></div>' +
         '<div class="actions">' +
         '<a class="btn" href="' + esc(yt) + '" target="_blank" rel="noopener noreferrer">' + t.yt + '</a>' +
-        '<a class="btn" href="' + esc(tt) + '" target="_blank" rel="noopener noreferrer">' + t.tt + '</a>' +
+        '<a class="btn tiktok" href="' + esc(tt) + '" data-tiktok="1" data-tt-handle="' + esc(ttHandle(tt)) + '" target="_blank" rel="noopener noreferrer">' + t.tt + '</a>' +
         '</div></article>';
     }
     gridEl.innerHTML = html;
@@ -296,6 +341,19 @@ document.addEventListener('error', function (e) {
   var img = e.target;
   if (img && img.tagName === 'IMG') window.__fb(img);
 }, true);
+
+
+// Delegated TikTok handler: deep-link into the native app, fall back to web
+document.addEventListener('click', function (e) {
+  var el = e.target;
+  while (el && el !== document) {
+    if (el.getAttribute && el.getAttribute('data-tiktok')) break;
+    el = el.parentNode;
+  }
+  if (!el || el === document) return;
+  e.preventDefault();
+  openTikTok(el.getAttribute('href'), el.getAttribute('data-tt-handle') || '');
+}, false);
 
 
 function mark(box, attr, val) {
