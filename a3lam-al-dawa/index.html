@@ -325,7 +325,7 @@ function render() {
       var yt = s.yt || (YT_BASE + qn);
       var tt = s.tt || (TT_BASE + qn);
       html += '<article class="card"><div class="card-top">' +
-        '<div class="avatar"><span class="mono" aria-hidden="true">' + esc((cleanName(nm) || nm || '?').trim().charAt(0) || '?') + '</span><img src="' + esc(photo(s)) + '" data-name="' + esc(nm) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy" decoding="async" onerror="window.__fb&&window.__fb(this)"></div>' +
+        '<div class="avatar"><span class="mono" aria-hidden="true">' + esc((cleanName(nm) || nm || '?').trim().charAt(0) || '?') + '</span></div>' +
         '<div class="info"><div class="row"><h2 class="name" dir="auto">' + esc(nm) + '</h2>' +
         (tg ? '<span class="tag" dir="auto">' + esc(tg) + '</span>' : '') + '</div>' +
         (dsc ? '<p class="desc" dir="auto">' + esc(dsc) + '</p>' : '') + '</div></div>' +
