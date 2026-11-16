@@ -95,6 +95,26 @@ secondary fields.
   count "38 نتيجة"; FR/EN dir=ltr and localized names; `__fb` returns SVG URI.
 - Live hash after deploy: `34a9abe7…` (Pages), scripts PASS.
 
+## Session 3 — TikTok native deep links (commit `4254f16`)
+Problem: TikTok links opened in the in-app webview / browser and hit a login wall.
+
+Implementation (vanilla, no deps):
+- `openTikTok(webUrl, handle)`: on Android uses
+  `intent://tiktok.com/<path>#Intent;package=com.zhiliaoapp.musically;scheme=https;end;`;
+  on iOS uses `snssdk1233://www.tiktok.com/<path>`; desktop opens the web URL.
+- `launchApp(scheme, webUrl)`: sets `location.href` to the scheme, then falls
+  back to the web URL after 700 ms **only if** the page never lost visibility
+  (visibilitychange/pagehide), so an installed app cancels the fallback.
+- `ttHandle(url)`: extracts `@handle` from real TikTok URLs; search URLs use the
+  path instead.
+- Delegated click handler on `[data-tiktok]` (event delegation, no inline JS).
+- CSS: `.btn:active{opacity:.7}`, tap-highlight removed, no layout shift.
+- SW cache bumped `v17 → v18`.
+
+Tests: both scripts parse; 38 cards; `data-tiktok`/`data-tt-handle` emitted;
+`ttHandle` correct; generated Android `intent://…com.zhiliaoapp.musically…` and
+iOS `snssdk1233://…` schemes verified. Live hash `dd484206…`; SW `v18`.
+
 ## Pending milestones
 1. Re-supply Arabic content for the 14 unmatched entries (descriptions still
    Latin; names #31–36 still transliterated).
