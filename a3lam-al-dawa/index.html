@@ -27,8 +27,9 @@ main{flex:1}
 .grid{display:flex;flex-direction:column;gap:14px;max-width:800px;margin:0 auto}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px}
 .card-top{display:flex;align-items:flex-start;gap:14px}
-.avatar{width:65px;height:65px;border-radius:50%;overflow:hidden;background:var(--border);border:2px solid var(--accent);flex-shrink:0}
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar{position:relative;width:65px;height:65px;border-radius:50%;overflow:hidden;background:#2a2a2a;border:2px solid var(--accent);flex-shrink:0}
+.avatar .mono{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:1.55rem;line-height:1}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
 .info{flex:1;min-width:0}
 .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .name{font-size:1.1rem;font-weight:700;color:var(--accent);margin:0}
@@ -84,6 +85,7 @@ window.onerror = function (msg, url, line) {
 
 <script>
 var IMG_DIR = 'images/';
+var IMG_EXT = 'jpg';
 var YT_BASE = 'https://www.youtube.com/results?search_query=';
 var TT_BASE = 'https://www.tiktok.com/search?q=';
 
@@ -245,7 +247,7 @@ function avatar(name) {
 
 function photo(s) {
   if (s.img) return s.img;
-  return IMG_DIR + s.n + '.jpg';
+  return IMG_DIR + s.n + '.' + IMG_EXT;
 }
 
 
@@ -297,7 +299,7 @@ window.__fb = function (img) {
   if (!img || img.getAttribute('data-fb')) return;
   img.setAttribute('data-fb', '1');
   img.onerror = null;
-  img.src = avatar(img.getAttribute('data-name') || '');
+  img.style.display = 'none';
 };
 
 
@@ -323,7 +325,7 @@ function render() {
       var yt = s.yt || (YT_BASE + qn);
       var tt = s.tt || (TT_BASE + qn);
       html += '<article class="card"><div class="card-top">' +
-        '<div class="avatar"><img src="' + esc(photo(s)) + '" data-name="' + esc(nm) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy" decoding="async" onerror="window.__fb&&window.__fb(this)"></div>' +
+        '<div class="avatar"><span class="mono" aria-hidden="true">' + esc((cleanName(nm) || nm || '?').trim().charAt(0) || '?') + '</span><img src="' + esc(photo(s)) + '" data-name="' + esc(nm) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy" decoding="async" onerror="window.__fb&&window.__fb(this)"></div>' +
         '<div class="info"><div class="row"><h2 class="name" dir="auto">' + esc(nm) + '</h2>' +
         (tg ? '<span class="tag" dir="auto">' + esc(tg) + '</span>' : '') + '</div>' +
         (dsc ? '<p class="desc" dir="auto">' + esc(dsc) + '</p>' : '') + '</div></div>' +
