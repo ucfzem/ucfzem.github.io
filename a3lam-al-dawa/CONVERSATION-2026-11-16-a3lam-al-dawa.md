@@ -115,9 +115,28 @@ Tests: both scripts parse; 38 cards; `data-tiktok`/`data-tt-handle` emitted;
 `ttHandle` correct; generated Android `intent://…com.zhiliaoapp.musically…` and
 iOS `snssdk1233://…` schemes verified. Live hash `dd484206…`; SW `v18`.
 
+## Session 4 — Arabic text for the last 14 entries (commit `119eb46`)
+The 14 entries without a clean source (#07,12,13,15,16,22,23,28,31–36) still
+showed English/French roles and bios (`Academic supervisor at Zad Academy…`,
+`Counter-Nasirisation`, `Comparative Religions`, `al-Sheikh Dr. Amr al-Nour…`).
+
+Fix:
+- Filled Arabic `desc` + `tag` for all 14 using the supplied Arabic strings
+  (e.g. `مشرف أكاديمي في أكاديمية زاد ومنتج محتوى شرعي أصيل.`,
+  `الفرق والملل`, `أصول الفقه`, `مقارعة النصيرية`, `شبهات نصرانية`,
+  `التاريخ والمقارنة`, `مصادر المعرفة`). English kept as `en/fr/es` fallback.
+- Restored Arabic display names for #31–36 (best-effort transliteration:
+  `الشيخ د. عمرو النور الدين`, `د. حاتم العوني`, `شمس الدين الجزائري`,
+  `أبو عمر البديع`, …). **These six names should be verified against a source.**
+- Result: **0/38** Latin-only descriptions; **0** zero-width/format chars;
+  **456/456** field resolutions across ar/fr/en/es.
+- SW cache bumped `v18 → v19`.
+
+Tests: both scripts parse; DOM render shows 38 cards with the new Arabic;
+live hash `302e8dcf…`; SW `v19`.
+
 ## Pending milestones
-1. Re-supply Arabic content for the 14 unmatched entries (descriptions still
-   Latin; names #31–36 still transliterated).
+1. Verify the 6 best-effort Arabic names (#31–36) against an authoritative source.
 2. Add `images/01.jpg` … `images/38.jpg` (currently `images/` is empty; SW naming
    is already two-digit lowercase `./images/XX.jpg`). Until then SVG initials show.
 3. Manifest reconciliation (name "أعلام الدعوة والفكر", colors #121212 vs current #1b5e3a).
