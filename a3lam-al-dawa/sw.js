@@ -1,77 +1,45 @@
-const CACHE_NAME = 'a3lam-al-dawa-v21';
-const IMAGE_EXT = 'jpg';
-const TOTAL_IMAGES = 38;
+const CACHE_NAME = 'a3lam-al-dawa-v16';
+const IMGS = Array.from({ length: 38 }, (_, i) => `./images/${String(i + 1).padStart(2, '0')}.jpg`);
 
 
-// ================== INSTALL ==================
-self.addEventListener('install', event => {
-    event.waitUntil((async () => {
-        const cache = await caches.open(CACHE_NAME);
-        await cache.addAll(['./', './index.html', './manifest.json']);
-        const imgs = Array.from({ length: TOTAL_IMAGES }, (_, i) => `./images/${i + 1}.${IMAGE_EXT}`);
-        await Promise.allSettled(imgs.map(url => cache.add(url)));
-        console.log('[SW] Installation completed.');
-    })());
-    self.skipWaiting();
+self.addEventListener('install', e => {
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await cache.addAll(['./', './index.html', './manifest.json']);
+    await Promise.allSettled(IMGS.map(u => cache.add(u)));
+  })());
+  self.skipWaiting();
 });
 
 
-// ================== ACTIVATE ==================
-self.addEventListener('activate', event => {
-    event.waitUntil((async () => {
-        const keys = await caches.keys();
-        await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
-        await self.clients.claim();
-        console.log('[SW] Activation completed. Old caches cleared.');
-    })());
+self.addEventListener('activate', e => {
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
 
-// ================== FETCH ==================
-self.addEventListener('fetch', event => {
-    const req = event.request;
-    if (req.method !== 'GET') return;
+self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
 
 
-    const url = new URL(req.url);
-    if (url.origin !== location.origin) return;
-
-
-    // التنقل (HTML): Network-First
-    if (req.mode === 'navigate') {
-        event.respondWith((async () => {
-            try {
-                const fresh = await fetch(req);
-                if (fresh.status === 200) {
-                    const cache = await caches.open(CACHE_NAME);
-                    event.waitUntil(cache.put(req, fresh.clone())); // ✅ انتظار مضمون
-                }
-                return fresh;
-            } catch (err) {
-                const cached = await caches.match(req);
-                return cached || caches.match('./index.html');
-            }
-        })();
+  if (req.mode === 'navigate') {            // page: network first
+    e.respondWith(
+      fetch(req).then(res => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(req, copy));
+        return res;
+      }).catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
     );
-        return;
-    }
-
-
-    // باقي الملفات (صور): Cache-First
-    event.respondWith((async () => {
-        const cached = await caches.match(req);
-        if (cached) return cached;
-
-
-        try {
-            const fresh = await fetch(req);
-            if (fresh.ok) {
-                const cache = await caches.open(CACHE_NAME);
-                event.waitUntil(cache.put(req, fresh.clone())); // ✅ انتظار مضمون
-            }
-            return fresh;
-        } catch (err) {
-            return new Response('', { status: 503, statusText: 'Offline' });
-        }
-    })();
+    return;
+  }
+  e.respondWith(                            // images etc.: cache first
+    caches.match(req).then(r => r || fetch(req).then(res => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE_NAME).then(c => c.put(req, copy)); }
+      return res;
+    }).catch(() => new Response('', { status: 503 })))
+  );
 });
