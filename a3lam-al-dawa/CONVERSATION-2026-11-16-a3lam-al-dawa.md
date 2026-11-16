@@ -191,11 +191,43 @@ Added `names.html` (standalone, RTL, dark theme matching the app, no deps):
 Tests: inline script `node --check` PASS; 38 items; first `01 الدكتور هيثم طلعت`,
 last `38 محمود شعبان`; live HTTP 200; SW `v22`.
 
+## Session 8 — instant monogram + configurable image extension (commit `b444a3c`)
+Request: no slow/empty avatar while portraits are absent; keep the door open.
+
+- Golden `.mono` monogram is always in the card; `<img>` overlays it and is
+  hidden on error by `window.__fb` + a capture-phase `error` listener.
+- `IMG_EXT='jpg'`; `photo(s)` resolves `s.img` first, then `images/NN.jpg`.
+- Folder empty and never in git history, so rendering was monogram-only.
+- SW cache `v22 → v23`.
+
+Tests: parse PASS; live index `d97a8ce7…`; SW `v23`.
+
+## Session 9 — Option A now, photos later (merge `f438b16`)
+Request: settle on monograms (no 404s) but keep per-person photos ready.
+
+- `ENABLE_PHOTOS=false` by default → no `<img>` emitted, 0 image requests.
+- Per-entry `"img":"https://…"` renders that one photo regardless of the flag;
+  global flag `true` switches all 38 to `images/NN.jpg`.
+- `<img>` keeps `onerror` → monogram, so a missing/corrupt file never breaks UI.
+- `.avatar` gains `aspect-ratio:1/1` (mobile safety).
+- SW `v23 → v24`; removed the blanket `IMGS` 38-image precache (runtime caching
+  still handles successful image responses). Precache = `./`, `index.html`,
+  `manifest.json`, `names.html`.
+- Built on `feat/avatar-photos-flag` (`e8b493b`), rebased onto `origin/main`
+  `4dfeb4c`, merged as `f438b16`. Earlier Option 3 branch
+  `chore/remove-avatar-img` (`415c2a2`) is superseded and was not merged.
+
+Tests (VM/DOM harness): default → 0 `<img>` / 38 mono / 38 avatars; flag true →
+38 `<img>` / 38 `onerror`; single `s.img` → 1 `<img>` with correct src. All PASS.
+Live: index `b2f41a58…`, SW `v24`, `/`, `names.html`, `manifest.json`, `sw.js`
+all HTTP 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic names against a source (#31 `محمد بن سن الدين`,
    #36 `أبو عمر البديع` in particular). #32/33/34/35 now follow supplied spellings.
-2. Add `images/01.jpg` … `images/38.jpg` (folder is empty; never in git history).
-   SW already precaches two-digit lowercase `./images/XX.jpg`; bump after upload.
+2. Photos are optional: `ENABLE_PHOTOS=false` by default. Add licensed
+   `images/01.jpg` … `images/38.jpg` and set the flag to `true` (or add a per-entry
+   `img`), then bump the SW. No blanket image precache anymore.
 3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
 
