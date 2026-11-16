@@ -152,12 +152,38 @@ Tests: scripts parse; manifest is valid JSON; live head has both links; live
 manifest theme/bg `#121212` and "38"; `manifest.json` + `icon-180.png` return 200;
 live hash `e2fe62c0…`; SW `v20`.
 
+## Session 6 — full 4-language localization (commit `cf85523`)
+Completed the dataset audit requested for all 38 scholars.
+
+Fix:
+- Every `name`, `tag`, `desc` is now an `{ar,en,fr,es}` object:
+  **0 plain strings, 0 Arabic leaking into en/fr/es, 0 empty resolutions**.
+- `#34` corrected `د. عمرو بيوني → د. عمرو بسيوني`; `#32 → الشيخ د. عمرو نور الدين`.
+- Added Latin transliterations for the Arabic-only names (#07,12,13,15,16,22,23,28)
+  and real FR/ES translations for the 14 patched entries (no more English-as-FR/ES).
+- Converted the two stray plain entries: `#06 د. خالد الحايك`, `#38 محمود شعبان`.
+- Fixed unaccented FR/ES UI labels and EN `Dahawah → Da'wah`.
+- SW cache bumped `v20 → v21`.
+
+Tests: parse PASS; DOM render 38 cards in ar/en/fr/es; AR shows 38/38 Arabic
+descs; en/fr/es show 0 Arabic leaks; live hash `f6940c1c…`; SW `v21`.
+
+### Avatar image audit (no fix applied — no assets exist)
+- `a3lam-al-dawa/images/` contains **0 files**.
+- `git log --all -- '*images*'` shows **no a3lam images ever committed** (hits
+  belong to another project, `al-a3chab-attebiah`), so there is nothing to
+  recover from history.
+- Path logic is already correct: `IMG_DIR='images/'` + `s.n + '.jpg'` →
+  `images/01.jpg` (relative, works under the Pages subpath); `onerror`
+  gracefully swaps to the SVG-initials avatar. 100% fallback == 100% missing files.
+- Action needed: upload portraits as `images/01.jpg` … `images/38.jpg`.
+
 ## Pending milestones
-1. Verify the 6 best-effort Arabic names (#31–36) against an authoritative source.
-2. Add `images/01.jpg` … `images/38.jpg` (currently `images/` is empty; SW naming
-   is already two-digit lowercase `./images/XX.jpg`). Until then SVG initials show.
-3. Manifest reconciliation (name "أعلام الدعوة والفكر", colors #121212 vs current #1b5e3a).
-4. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
+1. Verify the best-effort Arabic names against a source (#31 `محمد بن سن الدين`,
+   #36 `أبو عمر البديع` in particular). #32/33/34/35 now follow supplied spellings.
+2. Add `images/01.jpg` … `images/38.jpg` (folder is empty; never in git history).
+   SW already precaches two-digit lowercase `./images/XX.jpg`; bump after upload.
+3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
 
 ## Links
