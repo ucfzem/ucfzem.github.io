@@ -249,8 +249,25 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:0.75rem;color:
   search.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(render, 120); });
 
 
-  setTheme(store('app-theme') || 'dark');
-  setLang(store('app-lang') || 'ar');
+  // Assurez-vous que le rendu s'exécute bien au chargement complet
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+
+
+  function initApp() {
+    try {
+      setTheme(store('app-theme') || 'dark');
+      setLang(store('app-lang') || 'ar');
+    } catch (err) {
+      var gridEl = document.getElementById('grid');
+      if (gridEl) {
+        gridEl.innerHTML = '<div style="color: #ff5555; text-align: center; padding: 20px;">Erreur d\'initialisation : ' + err.message + '</div>';
+      }
+    }
+  }
 
 
   // Enregistrement PWA Service Worker
