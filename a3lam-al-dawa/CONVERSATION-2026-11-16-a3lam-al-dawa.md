@@ -272,14 +272,27 @@ Tests: parse PASS; DOM harness 34 buttons, all `href=https://www.tiktok.com/`,
 Live: index `110d5fa4…`, SW `v27`, 0 `search?q=` in served HTML; `/`, `names.html`,
 `manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` all 200.
 
+## Session 13 — TikTok buttons removed entirely (merge `3f21b41`)
+Request: remove the TikTok buttons.
+
+- Removed the TikTok `<a>` from the card template; each card now has only the
+  YouTube button.
+- Removed `TT_BASE`, `ttHandle()`, `launchApp()`, `openTikTok()`, the delegated
+  `data-tiktok` click handler, the `.btn.tiktok` CSS rule and the `tt` label from
+  all four I18N objects. 63 lines deleted, 6 inserted.
+- SW `v27 → v28`.
+
+Tests: parse PASS; DOM harness 34 cards / 34 YouTube / **0 TikTok** / 34 `<img>`
+in ar, en, fr and es; 0 `tiktok` references left in `index.html`.
+Live: index `1ffa4cd1…`, SW `v28`, 0 `tiktok` / 0 `data-tiktok` in served HTML;
+`/`, `names.html`, `manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
    are gone; the rest follow the supplied spellings.
 2. Portraits complete (34/34); no image work remains.
 3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
-4. Official TikTok profiles may be added later via a per-entry `tt` URL; until
-   then all buttons go to the TikTok home page.
 
 ## Links
 - Live (GitHub Pages): https://ucfzem.github.io/a3lam-al-dawa/
