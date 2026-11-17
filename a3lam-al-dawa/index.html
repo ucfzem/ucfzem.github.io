@@ -88,7 +88,7 @@ var IMG_DIR = 'images/';
 var IMG_EXT = 'jpg';
 var ENABLE_PHOTOS = true;
 var YT_BASE = 'https://www.youtube.com/results?search_query=';
-var TT_BASE = 'https://www.tiktok.com/search?q=';
+var TT_BASE = 'https://www.tiktok.com/';
 
 
 // Optional per-person overrides: img, yt, tt (full URLs). Leave out to use defaults.
@@ -320,7 +320,7 @@ function render() {
       var tg = L(s.tag);
       var qn = encodeURIComponent(cleanName(nm));
       var yt = s.yt || (YT_BASE + qn);
-      var tt = s.tt || (TT_BASE + qn);
+      var tt = s.tt || TT_BASE;
       var imgTag = (ENABLE_PHOTOS || s.img)
         ? '<img src="' + esc(photo(s)) + '" data-name="' + esc(nm) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy" decoding="async" onerror="window.__fb&&window.__fb(this)">'
         : '';
