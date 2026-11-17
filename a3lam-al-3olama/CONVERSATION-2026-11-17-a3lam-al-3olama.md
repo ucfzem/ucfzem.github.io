@@ -1,0 +1,68 @@
+# Conversation Backup — a3lam-al-3olama — 2026-11-17
+
+## Session 1 — initial self-contained directory (commit `b6e959b`)
+
+Created `a3lam-al-3olama/index.html` as a single, self-contained HTML file per the
+brief (22,638 B):
+
+- RTL Arabic (`dir="rtl"`, `lang="ar"`), light/dark themes via CSS variables +
+  toggle, persisted in `localStorage` (`a3lam-theme`).
+- Google Fonts: IBM Plex Sans Arabic (400–700) + Noto Naskh Arabic.
+- Masonry via `column-count` (1 / 2 / 3) with `break-inside: avoid`; header with
+  title, description, dynamic count badge, theme toggle; search bar with SVG icon.
+- Card: initials avatar, title, meta, role, tag pills, two bios, platforms block,
+  series block (diamond bullets), works list (`<strong>` titles), quote block.
+- Live search on each card's `data-search` (name, tags, role, platforms, series),
+  dynamic `N من M` count, "no results" state.
+- Smart links: `getPlatformURL()` (YouTube/Facebook/Instagram/X/TikTok/SoundCloud
+  search URLs, Telegram via `site:t.me`, Website/Podcasts via Google) and
+  `getSeriesURL()` (YouTube `"series" scholar`). All links
+  `target="_blank" rel="noopener noreferrer"`.
+- Security: `escapeHTML()` everywhere; `sanitizeWorks()` re-enables only
+  `<strong>` after escaping, so `<img>`/`<script>` payloads are neutralised.
+- Data: only the supplied `othman-al-khamees` sample; 26 of 27 still pending.
+- Tests: 26/26 with a DOM shim. Live hash `523813bc…` matched local; Pages built.
+
+## Session 2 — multilingual AR/EN/FR/ES + translations schema (commit `171ccfd`)
+
+- Language selector in the header next to the theme toggle:
+  🇲🇦 AR · 🇬🇧 EN · 🇫🇷 FR · 🇪🇸 ES, active pill highlighted, persisted in
+  `localStorage` (`a3lam-lang`).
+- Dynamic direction: AR → `<html dir="rtl" lang="ar">`; EN/FR/ES →
+  `<html dir="ltr" lang="…">`. CSS converted to logical properties
+  (`padding-inline`, `border-inline-start`, `inset-inline-start`,
+  `margin-inline`); search padding and quote border/radius fixed for mirroring.
+- Fonts switch: IBM Plex Sans Arabic for AR; Inter/system-ui for EN/FR/ES
+  (including `h1`, quote, avatar overrides).
+- `uiStrings` dictionary with the specified keys plus `noResultsHint`,
+  `appTitle`, `eyebrow`, `lede`, `footer`, `themeToggle`, `cardsLabel`,
+  `searchLabel`. Updates search placeholder, section labels, count
+  (`N of M Profiles` etc.), empty state, footer, `document.title`, aria labels.
+- Data schema upgraded to:
+  `name {ar,en,fr,es}`, localized `meta`, `tags {ar,en,fr,es}`, and
+  `translations.{ar,en,fr,es} = { title, role, upbringing,
+  daWahAndPositions, works, quote }`; `digitalPresence` unchanged.
+  Helpers: `T()`, `scholarName()`, `localizedTags()`; the search index spans all
+  four languages.
+- Generated EN/FR/ES translations for the supplied Arabic sample (truncated
+  Arabic text kept as "…" to avoid inventing content).
+- Tests: **82/82** — language switching, `lang`/`dir`, per-language rendering,
+  cross-language search, AR fallback, XSS sanitisation, theme, logical CSS.
+- File 35,416 B, SHA-256 `8ae05de5…`; deployed and verified live == local.
+
+## Pending
+
+1. **26 of 27 scholars missing** — paste them into the `scholars` array using
+   the same schema (`name`, `meta`, `tags`, `translations`, `digitalPresence`).
+2. Count badge is dynamic, so adding the rest automatically shows `27 من 27`.
+3. No service worker / manifest in this single-file project (by design).
+4. Revoke the recovery PAT after the work is finished.
+
+## Links
+
+- Live: https://ucfzem.github.io/a3lam-al-3olama/
+- Repo folder: https://github.com/ucfzem/ucfzem.github.io/tree/main/a3lam-al-3olama
+- index.html: https://github.com/ucfzem/ucfzem.github.io/blob/main/a3lam-al-3olama/index.html
+- Initial commit: https://github.com/ucfzem/ucfzem.github.io/commit/b6e959b60cad090c43beb2360b7975793710dd2f
+- Multilingual commit: https://github.com/ucfzem/ucfzem.github.io/commit/171ccfd5e661e689bac6bc79d61aede7b3dc9153
+- Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
