@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>أعلام العلماء | دليل علماء الإسلام المعاصرين</title>
+<meta name="description" content="دليل رقمي مختصر لسِيَر علماء الإسلام المعاصرين، ومنصاتهم، وأبرز سلاسلهم ومؤلفاتهم.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<script>
+(function () {
+  try {
+    if (localStorage.getItem('a3lam-theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+  :root {
+    --bg: #f5f7f9;
+    --card: #ffffff;
+    --text: #1b2430;
+    --muted: #5b6b7c;
+    --accent: #0e7c66;
+    --accent-soft: #e6f4f0;
+    --border: #e4e8ee;
+    --on-accent: #ffffff;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 10px 28px rgba(16, 24, 40, .06);
+    --shadow-hover: 0 2px 6px rgba(16, 24, 40, .06), 0 16px 36px rgba(16, 24, 40, .10);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0d1319;
+    --card: #131a22;
+    --text: #e8edf3;
+    --muted: #9fb0c0;
+    --accent: #3ddcbb;
+    --accent-soft: #12312a;
+    --border: #222c38;
+    --on-accent: #062a23;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 12px 30px rgba(0, 0, 0, .30);
+    --shadow-hover: 0 2px 8px rgba(0, 0, 0, .40), 0 18px 44px rgba(0, 0, 0, .40);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    background:
+      radial-gradient(900px 420px at 100% -8%, var(--accent-soft), transparent 62%),
+      var(--bg);
+    font-family: "IBM Plex Sans Arabic", system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    transition: background-color .25s ease, color .25s ease;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    width: min(1240px, 100% - 32px);
+    margin-inline: auto;
+  }
+
+  /* ===== Header ===== */
+  .site-header {
+    padding: 38px 0 22px;
+  }
+
+  .header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .brand { max-width: 720px; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: "Noto Naskh Arabic", "IBM Plex Sans Arabic", serif;
+    font-size: clamp(30px, 4.6vw, 48px);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+
+  .lede {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 15.5px;
+    max-width: 62ch;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 6px;
+  }
+
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid transparent;
+    font-size: 13.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .theme-toggle:focus-visible,
+  .search-input:focus-visible,
+  .pill:focus-visible,
+  .series a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+  /* ===== Search ===== */
+  .search {
+    position: relative;
+    margin: 26px 0 30px;
+  }
+
+  .search svg {
+    position: absolute;
+    inset-inline-start: 17px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 56px;
+    padding: 0 50px 0 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+    font-size: 15.5px;
+    box-shadow: var(--shadow);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .search-input::placeholder { color: var(--muted); opacity: .85; }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  /* ===== Masonry cards ===== */
+  .cards {
+    column-count: 1;
+    column-gap: 18px;
+    padding-bottom: 44px;
+  }
+
+  @media (min-width: 720px)  { .cards { column-count: 2; } }
+  @media (min-width: 1120px) { .cards { column-count: 3; } }
+
+  .card {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 20px;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+    vertical-align: top;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card.is-hidden { display: none; }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+
+  .avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 58%, #0b3d33));
+    color: var(--on-accent);
+    font-family: "Noto Naskh Arabic", serif;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+
+  .ident { min-width: 0; }
+
+  .ident h2 {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  .honorific {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .meta {
+    margin: 12px 0 0;
+    color: var(--accent);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .role {
+    margin: 6px 0 0;
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 0;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.7;
+  }
+
+  .bio {
+    margin: 12px 0 0;
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .block { margin-top: 16px; }
+
+  .block-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 9px;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .block-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ===== Platforms ===== */
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease,
+                transform .18s ease, box-shadow .18s ease;
+  }
+
+  .pill::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: background-color .18s ease;
+  }
+
+  .pill:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .pill:hover::before { background: var(--on-accent); }
+
+  /* ===== Series ===== */
+  .series {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .series li + li { margin-top: 7px; }
+
+  .series a {
+    display: inline-block;
+    position: relative;
+    padding-inline-start: 15px;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.7;
+    text-decoration: none;
+    transition: color .18s ease, transform .18s ease;
+  }
+
+  .series a::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 1px;
+    top: .68em;
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .series a:hover {
+    color: var(--accent);
+    transform: translateX(-4px);
+  }
+
+  /* ===== Works ===== */
+  .works {
+    margin: 0;
+    padding-inline-start: 18px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .works li { margin: 6px 0; }
+  .works li::marker { color: var(--accent); }
+  .works strong:first-child { color: var(--accent); font-weight: 700; } 
+  .works strong { color: var(--accent); font-weight: 700; }
+
+  /* ===== Quote ===== */
+  .quote {
+    margin: 16px 0 0;
+    padding: 11px 14px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    background: linear-gradient(135deg, var(--accent-soft), transparent 78%);
+    color: var(--text);
+    font-family: "Noto Naskh Arabic", serif;
+    font-size: 14.5px;
+    line-height: 1.9;
+  }
+
+  /* ===== Empty state ===== */
+  .empty {
+    margin: 8px 0 54px;
+    padding: 46px 24px;
+    border: 1px dashed var(--border);
+    border-radius: 18px;
+    background: var(--card);
+    color: var(--muted);
+    text-align: center;
+    font-size: 14.5px;
+  }
+
+  .empty strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text);
+    font-size: 17px;
+  }
+
+  [hidden] { display: none !important; }
+
+  /* ===== Footer ===== */
+  .site-footer {
+    padding: 18px 0 34px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12.5px;
+    text-align: center;
+  }
+
+  @media (max-width: 560px) {
+    .site-header { padding-top: 26px; }
+    .header-actions { width: 100%; justify-content: space-between; }
+    .card { padding: 17px; }
+    .avatar { width: 48px; height: 48px; font-size: 17px; }
+    .ident h2 { font-size: 17.5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .card:hover, .pill:hover, .series a:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <div class="header-row">
+        <div class="brand">
+          <p class="eyebrow">دليل علماء الإسلام المعاصرين</p>
+          <h1>أعلام العلماء</h1>
+          <p class="lede">سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.</p>
+        </div>
+        <div class="header-actions">
+          <span class="count-badge" id="count" aria-live="polite">0 من 0</span>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="تبديل الوضع الليلي" title="تبديل الوضع الليلي">
+            <svg class="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+            </svg>
+            <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m20 20-3.2-3.2"/>
+        </svg>
+        <input class="search-input" id="search" type="search" inputmode="search"
+               placeholder="ابحث بالاسم أو التخصص أو المنصة…" aria-label="البحث في الدليل" autocomplete="off">
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="cards" id="cards" aria-label="بطاقات العلماء"></section>
+    <div class="empty" id="empty" hidden>
+      <strong>لا توجد نتائج</strong>
+      لم نجد عالمًا يطابق بحثك. جرّب كلمة أخرى أو اسمًا مختلفًا.
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">أعلام العلماء — دليل رقمي لعلماء الإسلام المعاصرين</div>
+  </footer>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   البيانات
+   أضف بقية العلماء (حتى 27) داخل المصفوفة بنفس البنية تمامًا، مفصولين بفواصل.
+   ========================================================================= */
+const scholars = [
+  {
+    id: "othman-al-khamees",
+    name: "عثمان الخميس",
+    initials: "ع.خ",
+    title: "فضيلة الشيخ الدكتور عثمان بن محمد الخميس",
+    meta: "مواليد 1962 م | الكويت",
+    role: "باحث في التاريخ الإسلامي والحديث، وداعية بارز عبر المنصات الرقمية",
+    tags: ["الحديث الشريف", "العقيدة", "التاريخ الإسلامي"],
+    upbringing: "وُلد في الكويت عام 1962 م...",
+    daWahAndPositions: "تولى الإمامة والخطابة...",
+    digitalPresence: {
+      platforms: ["YouTube", "Telegram", "X (Twitter)", "الموقع الرسمي"],
+      notableSeries: ["شرح كتاب التوحيد...", "سلسلة حقبة من التاريخ..."]
+    },
+    works: [
+      "<strong>حقبة من التاريخ:</strong> عرض تحليلي...",
+      "<strong>كشف الجاني...</strong>"
+    ],
+    quote: "طلب العلم الشرعي..."
+  }
+  // ← الصق بقية العلماء هنا، مثال:
+  // , { id: "...", name: "...", ... }
+];
+
+/* =========================================================================
+   أدوات الأمان
+   ========================================================================= */
+function escapeHTML(value) {
+  return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+  });
+}
+
+/* يسمح فقط بوسم <strong> ويعطّل كل وسوم HTML الأخرى. */
+function sanitizeWorks(html) {
+  return escapeHTML(html)
+    .replace(/&lt;strong&gt;/gi, "<strong>")
+    .replace(/&lt;\/strong&gt;/gi, "</strong>");
+}
+
+/* =========================================================================
+   روابط المنصات والسلاسل الذكية
+   ========================================================================= */
+function getPlatformURL(platform, scholarName) {
+  var p = String(platform || "").trim();
+  var key = p.toLowerCase();
+  var name = encodeURIComponent(scholarName || "");
+  var q = encodeURIComponent("\"" + (scholarName || "") + "\"");
+
+  var searchMap = {
+    "youtube": "https://www.youtube.com/results?search_query=" + q,
+    "يوتيوب": "https://www.youtube.com/results?search_query=" + q,
+    "facebook": "https://www.facebook.com/search/top?q=" + name,
+    "فيسبوك": "https://www.facebook.com/search/top?q=" + name,
+    "instagram": "https://www.instagram.com/explore/search/keyword/?q=" + name,
+    "انستغرام": "https://www.instagram.com/explore/search/keyword/?q=" + name,
+    "إنستغرام": "https://www.instagram.com/explore/search/keyword/?q=" + name,
+    "twitter": "https://twitter.com/search?q=" + q,
+    "x (twitter)": "https://twitter.com/search?q=" + q,
+    "x": "https://twitter.com/search?q=" + q,
+    "تويتر": "https://twitter.com/search?q=" + q,
+    "tiktok": "https://www.tiktok.com/search?q=" + name,
+    "تيك توك": "https://www.tiktok.com/search?q=" + name,
+    "soundcloud": "https://soundcloud.com/search?q=" + name,
+    "ساوند كلاود": "https://soundcloud.com/search?q=" + name,
+    "telegram": "https://www.google.com/search?q=" + encodeURIComponent("site:t.me " + (scholarName || "")),
+    "تيليجرام": "https://www.google.com/search?q=" + encodeURIComponent("site:t.me " + (scholarName || ""))
+  };
+
+  if (searchMap[key]) return searchMap[key];
+
+  if (key.indexOf("موقع") !== -1 || key.indexOf("website") !== -1) {
+    return "https://www.google.com/search?q=" + encodeURIComponent((scholarName || "") + " الموقع الرسمي");
+  }
+
+  return "https://www.google.com/search?q=" + encodeURIComponent((scholarName || "") + " " + p + " الموقع الرسمي");
+}
+
+function getSeriesURL(seriesName, scholarName) {
+  var q = '"' + (seriesName || "") + '" ' + (scholarName || "");
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+}
+
+/* =========================================================================
+   بناء البطاقة
+   ========================================================================= */
+function buildSearchIndex(s) {
+  var platforms = (s.digitalPresence && s.digitalPresence.platforms) || [];
+  var series = (s.digitalPresence && s.digitalPresence.notableSeries) || [];
+  return [
+    s.name, s.title, s.role, s.meta,
+    (s.tags || []).join(" "),
+    platforms.join(" "),
+    series.join(" ")
+  ].join(" ").toLowerCase();
+}
+
+function cardHTML(s) {
+  var tags = (s.tags || []).map(function (t) {
+    return '<span class="tag">' + escapeHTML(t) + "</span>";
+  }).join("");
+
+  var platforms = (s.digitalPresence && s.digitalPresence.platforms) || [];
+  var platformLinks = platforms.map(function (p) {
+    return '<a class="pill" href="' + escapeHTML(getPlatformURL(p, s.name)) + '" target="_blank" rel="noopener noreferrer">' +
+      escapeHTML(p) + "</a>";
+  }).join("");
+
+  var series = (s.digitalPresence && s.digitalPresence.notableSeries) || [];
+  var seriesLinks = series.map(function (x) {
+    return '<li><a href="' + escapeHTML(getSeriesURL(x, s.name)) + '" target="_blank" rel="noopener noreferrer">' +
+      escapeHTML(x) + "</a></li>";
+  }).join("");
+
+  var works = (s.works || []).map(function (w) {
+    return "<li>" + sanitizeWorks(w) + "</li>";
+  }).join("");
+
+  return (
+    '<article class="card" data-search="' + escapeHTML(buildSearchIndex(s)) + '">' +
+      '<div class="card-top">' +
+        '<div class="avatar" aria-hidden="true">' + escapeHTML(s.initials || "") + "</div>" +
+        '<div class="ident">' +
+          "<h2>" + escapeHTML(s.name) + "</h2>" +
+          '<p class="honorific">' + escapeHTML(s.title || "") + "</p>" +
+        "</div>" +
+      "</div>" +
+      '<p class="meta">' + escapeHTML(s.meta || "") + "</p>" +
+      '<p class="role">' + escapeHTML(s.role || "") + "</p>" +
+      (tags ? '<div class="tags">' + tags + "</div>" : "") +
+      '<p class="bio">' + escapeHTML(s.upbringing || "") + "</p>" +
+      '<p class="bio">' + escapeHTML(s.daWahAndPositions || "") + "</p>" +
+      (platformLinks
+        ? '<div class="block"><h3 class="block-title">المنصات</h3><div class="platforms">' + platformLinks + "</div></div>"
+        : "") +
+      (seriesLinks
+        ? '<div class="block"><h3 class="block-title">سلاسل مختارة</h3><ul class="series">' + seriesLinks + "</ul></div>"
+        : "") +
+      (works
+        ? '<div class="block"><h3 class="block-title">من مؤلفاته</h3><ul class="works">' + works + "</ul></div>"
+        : "") +
+      (s.quote ? '<blockquote class="quote">' + escapeHTML(s.quote) + "</blockquote>" : "") +
+    "</article>"
+  );
+}
+
+/* =========================================================================
+   العرض والبحث والوضع الليلي
+   ========================================================================= */
+var grid = document.getElementById("cards");
+var countEl = document.getElementById("count");
+var emptyEl = document.getElementById("empty");
+var searchEl = document.getElementById("search");
+var themeBtn = document.getElementById("theme-toggle");
+
+grid.innerHTML = scholars.map(cardHTML).join("");
+
+var cards = Array.prototype.slice.call(grid.querySelectorAll(".card"));
+var total = cards.length;
+
+function updateCount(visible) {
+  countEl.textContent = visible + " من " + total;
+}
+
+function applyFilter(rawQuery) {
+  var q = String(rawQuery || "").trim().toLowerCase();
+  var visible = 0;
+
+  cards.forEach(function (card) {
+    var match = !q || (card.getAttribute("data-search") || "").indexOf(q) !== -1;
+    card.classList.toggle("is-hidden", !match);
+    if (match) visible += 1;
+  });
+
+  updateCount(visible);
+  emptyEl.hidden = visible !== 0;
+}
+
+searchEl.addEventListener("input", function () {
+  applyFilter(searchEl.value);
+});
+
+themeBtn.addEventListener("click", function () {
+  var root = document.documentElement;
+  var isDark = root.getAttribute("data-theme") === "dark";
+  if (isDark) {
+    root.removeAttribute("data-theme");
+  } else {
+    root.setAttribute("data-theme", "dark");
+  }
+  try {
+    localStorage.setItem("a3lam-theme", isDark ? "light" : "dark");
+  } catch (e) {}
+});
+
+applyFilter("");
+</script>
+</body>
+</html>
