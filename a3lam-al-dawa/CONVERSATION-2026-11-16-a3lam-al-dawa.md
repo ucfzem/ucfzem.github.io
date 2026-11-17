@@ -361,6 +361,27 @@ Tests: parse PASS; DOM harness 34 cards / 34 YouTube / 18 website; #12 URL prese
 `theodal.com` absent. Live index `1ed4990f…`, SW `v34`;
 `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 20 — session-loss recovery + state verification (docs only)
+
+Abrupt shutdown destroyed the prior conversation state and the PAT held in it.
+Recovery performed on 2026-11-17 without retyping the project history:
+
+- Old token treated as unavailable and revoked/replaced by the user; new PAT
+  validated against `GET /user` (user `ucfzem`, scopes `repo`,
+  `admin:gpg_key`, `admin:ssh_signing_key`) with `push`/`admin` on the repo.
+  The token was not written to disk, committed, or logged.
+- Local state: no clone on disk (`/tmp/opencode/ucfz` absent); cwd `/` is not
+  a git repo. Therefore no uncommitted changes, stash, lock files, partial
+  writes, or detached HEAD to recover.
+- Remote: `main` HEAD `5223da9` (session 19 docs); last fix `5786930`;
+  0 open PRs.
+- Deploy: live `index.html` SHA-256 `1ed4990f…` identical to `main@5223da9`;
+  SW cache `a3lam-al-dawa-v34`. Nothing unpushed.
+- No code or asset changes in this session; docs-only commit. SW cache not
+  bumped (no site-facing change).
+
+Reminder: revoke the recovery PAT after the work is finished.
+
 ## Pending milestones
 1. Portraits complete (34/34); no image work remains.
 2. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
