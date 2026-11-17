@@ -240,12 +240,27 @@ Tests: parse PASS; DOM harness 38 cards / 38 `<img>` / 38 `onerror`; src paths
 Live: index `d3061e1a…`, SW `v25`, `images/01.jpg` and `images/20.jpg` HTTP 200,
 #21/#38 fail and fall back; `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 11 — final 34-name roster + 34 portraits (merge `aeca57a`)
+Request: remove 4 names, renumber 01→34, add the remaining 14 photos, deploy.
+
+- Removed (old numbering) #22 `أبو منتصر شاهين`, #23 `إبراهيم خليل فيلوبوس`,
+  #31 `الشيخ محمد بن سن الدين`, #37 `علي دعوة`; the rest renumbered.
+- `scholars` and `names.html` regenerated from the supplied 34-name list,
+  0 name mismatches; `names.html` subtitle → 01→34.
+- `manifest.json` / `manifest.webmanifest` description → `34 شخصية`.
+- `machaikhs14.zip` supplied `21.jpg`…`34.jpg` (14 valid JPEGs); all 34 portraits
+  now present. `PORTRAITS` = 01…34; SW `v25 → v26`.
+- Built on `refactor/34-scholars-34-photos` (`aeca57a`), merged to `main`.
+
+Tests: parse PASS; DOM harness 34 cards / 34 `<img>` / 34 `onerror`; names order
+matches the supplied list; 34 JPEGs valid; all live images 01…34 HTTP 200.
+Live: index `bf9a5861…`, SW `v26`, `ENABLE_PHOTOS=true`, `من 01 إلى 34`,
+`34 شخصية`, `/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
-1. Verify the best-effort Arabic names against a source (#31 `محمد بن سن الدين`,
-   #36 `أبو عمر البديع` in particular). #32/33/34/35 now follow supplied spellings.
-2. Remaining 18 portraits: `images/21.jpg` … `images/38.jpg` are absent. When added,
-   extend `PORTRAITS` in `sw.js`, bump the cache and redeploy. Until then they
-   display monograms.
+1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
+   are gone; the rest follow the supplied spellings.
+2. Portraits complete (34/34); no image work remains.
 3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
 
