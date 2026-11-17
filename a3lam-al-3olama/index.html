@@ -3,1088 +3,389 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>أعلام العلماء | دليل علماء الإسلام المعاصرين</title>
-<meta name="description" content="دليل رقمي مختصر لسِيَر علماء الإسلام المعاصرين، ومنصاتهم، وأبرز سلاسلهم ومؤلفاتهم.">
+<title>A'lam al-Dawa | أعلام الدعوة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
-<script>
-(function () {
-  try {
-    if (localStorage.getItem('a3lam-theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-    var lang = localStorage.getItem('a3lam-lang');
-    if (lang && ['ar', 'en', 'fr', 'es'].indexOf(lang) !== -1) {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    }
-  } catch (e) {}
-})();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f5f7f9;
-    --card: #ffffff;
-    --text: #1b2430;
-    --muted: #5b6b7c;
-    --accent: #0e7c66;
-    --accent-soft: #e6f4f0;
-    --border: #e4e8ee;
-    --on-accent: #ffffff;
-    --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 10px 28px rgba(16, 24, 40, .06);
-    --shadow-hover: 0 2px 6px rgba(16, 24, 40, .06), 0 16px 36px rgba(16, 24, 40, .10);
+  :root{
+    --bg:#f5f7f9; --bg-glow:#dff1eb; --fg:#1b2430; --muted:#5b6675;
+    --card:#ffffff; --line:#e4e8ee; --accent:#0e7c66; --accent-soft:#e6f4f0;
+    --shadow:0 1px 2px rgba(16,24,40,.04); --shadow-hover:0 10px 30px rgba(16,24,40,.10);
+    --radius:18px;
   }
-
-  [data-theme="dark"] {
-    --bg: #0d1319;
-    --card: #131a22;
-    --text: #e8edf3;
-    --muted: #9fb0c0;
-    --accent: #3ddcbb;
-    --accent-soft: #12312a;
-    --border: #222c38;
-    --on-accent: #062a23;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 12px 30px rgba(0, 0, 0, .30);
-    --shadow-hover: 0 2px 8px rgba(0, 0, 0, .40), 0 18px 44px rgba(0, 0, 0, .40);
+  :root[data-theme="dark"]{
+    --bg:#0d1319; --bg-glow:#12312a; --fg:#e8edf3; --muted:#93a1b1;
+    --card:#131a22; --line:#222c38; --accent:#3ddcbb; --accent-soft:#12312a;
+    --shadow:0 1px 2px rgba(0,0,0,.4); --shadow-hover:0 10px 30px rgba(0,0,0,.55);
   }
-
-  * { box-sizing: border-box; }
-
-  html { -webkit-text-size-adjust: 100%; }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    color: var(--text);
-    background:
-      radial-gradient(900px 420px at 100% -8%, var(--accent-soft), transparent 62%),
-      var(--bg);
-    font-family: "IBM Plex Sans Arabic", system-ui, -apple-system, sans-serif;
-    font-size: 15px;
-    line-height: 1.75;
-    transition: background-color .25s ease, color .25s ease;
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body{
+    margin:0; min-height:100vh; padding:clamp(1rem, 3vw, 2.75rem);
+    background: radial-gradient(1100px 520px at 100% -8%, var(--bg-glow), transparent 62%), var(--bg);
+    color:var(--fg); line-height:1.7; font-size:16px; -webkit-font-smoothing:antialiased;
+    transition: background 0.3s ease, color 0.3s ease;
   }
+  body[dir="rtl"] { font-family:"IBM Plex Sans Arabic", system-ui, sans-serif; }
+  body[dir="ltr"] { font-family:"Inter", system-ui, sans-serif; }
 
-  html[lang="en"] body,
-  html[lang="fr"] body,
-  html[lang="es"] body {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    line-height: 1.65;
-  }
+  .page-head{ display:flex; flex-wrap:wrap; gap:1.25rem; align-items:flex-end; justify-content:space-between; max-width:1400px; margin:0 auto clamp(1.5rem,3vw,2.5rem); }
+  .eyebrow{ margin:0 0 .35rem; font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .page-head h1{ margin:0; font-size:clamp(1.8rem, 4vw, 2.6rem); font-weight:700; line-height:1.25; }
+  .lede{ margin:.6rem 0 0; max-width:60ch; font-size:clamp(.9rem, 1.6vw, 1rem); color:var(--muted); }
+  .page-head__side{ display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
 
-  a { color: inherit; }
 
-  .wrap {
-    width: min(1240px, 100% - 32px);
-    margin-inline: auto;
-  }
+  /* Language Switcher */
+  .lang-switcher { display: flex; gap: 0.4rem; background: var(--card); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--line); }
+  .lang-btn { background: transparent; border: none; cursor: pointer; padding: 0.4rem 0.7rem; border-radius: 8px; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; color: var(--muted); transition: all 0.2s ease; }
+  .lang-btn:hover { background: var(--accent-soft); color: var(--accent); }
+  .lang-btn.active { background: var(--accent); color: #fff; }
 
-  /* ===== Header ===== */
-  .site-header { padding: 38px 0 22px; }
 
-  .header-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
+  .count{ font-size:.8rem; font-weight:600; color:var(--muted); background:var(--card); border:1px solid var(--line); padding:.5rem .9rem; border-radius:999px; white-space:nowrap; }
+  .theme-toggle{ width:44px; height:44px; display:grid; place-items:center; font-size:1.15rem; cursor:pointer; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:50%; transition:transform .18s ease; }
+  .theme-toggle:hover{ transform:rotate(-12deg) scale(1.06); border-color:var(--accent); }
 
-  .brand { max-width: 720px; }
 
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 10px;
-    padding: 4px 12px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--card);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .02em;
-  }
+  .toolbar{ max-width:1400px; margin:0 auto clamp(1.25rem,2.5vw,2rem); display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+  .search-wrap{ flex:1 1 280px; position:relative; display:flex; align-items:center; }
+  .search-wrap svg{ position:absolute; inset-inline-start:1rem; width:18px; height:18px; color:var(--muted); pointer-events:none; }
+  .search-input{ width:100%; padding:.75rem 2.6rem .75rem 1rem; font-family:inherit; font-size:.92rem; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:12px; transition:border-color .18s ease; }
+  .search-input:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
 
-  .eyebrow::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-  }
 
-  h1 {
-    margin: 0;
-    font-family: "Noto Naskh Arabic", "IBM Plex Sans Arabic", serif;
-    font-size: clamp(30px, 4.6vw, 48px);
-    line-height: 1.25;
-    font-weight: 600;
-    letter-spacing: -.01em;
-  }
+  .grid{ max-width:1400px; margin:0 auto; column-count:2; column-gap:clamp(1rem, 2vw, 1.75rem); }
+  @media (max-width:900px){ .grid{ column-count:1; } }
+  @media (min-width:1600px){ .grid{ column-count:3; } }
 
-  html:not([lang="ar"]) h1 {
-    font-family: "Inter", system-ui, sans-serif;
-    font-weight: 700;
-    letter-spacing: -.025em;
-    line-height: 1.15;
-  }
 
-  .lede {
-    margin: 10px 0 0;
-    color: var(--muted);
-    font-size: 15.5px;
-    max-width: 62ch;
-  }
+  .scholar-card{ display:block; width:100%; break-inside:avoid; margin:0 0 clamp(1rem, 2vw, 1.75rem); padding:clamp(1.1rem, 2vw, 1.6rem); background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); transition:all .22s ease; animation:rise .5s ease both; }
+  .scholar-card:hover{ box-shadow:var(--shadow-hover); transform:translateY(-3px); border-color:color-mix(in srgb, var(--accent) 35%, var(--line)); }
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
 
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    padding-top: 6px;
-  }
 
-  .count-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    border: 1px solid transparent;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
+  .scholar-card__head{ display:flex; gap:.9rem; align-items:flex-start; }
+  .scholar-card__avatar{ flex:0 0 58px; height:58px; border-radius:50%; display:grid; place-items:center; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:.92rem; border:1px solid color-mix(in srgb, var(--accent) 18%, transparent); }
+  .scholar-card__title{ margin:0; font-size:clamp(1rem, 1.8vw, 1.12rem); font-weight:700; line-height:1.45; }
+  .scholar-card__meta{ margin:.25rem 0 0; font-size:.78rem; color:var(--muted); font-weight:500; }
+  .scholar-card__role{ margin:.4rem 0 0; font-size:.86rem; font-weight:600; color:var(--accent); line-height:1.5; }
+  .scholar-card__tags{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.85rem; }
+  .tag{ font-size:.72rem; font-weight:600; color:var(--muted); padding:.18rem .6rem; border-radius:6px; border:1px dashed color-mix(in srgb, var(--muted) 40%, transparent); }
+  .scholar-card__body p{ margin:.9rem 0 0; font-size:.92rem; }
+  .scholar-card__block{ margin-top:1.3rem; }
+  .scholar-card__label{ margin:0 0 .55rem; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
 
-  /* ===== Language switch ===== */
-  .lang-switch {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 4px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-  }
 
-  .lang-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 6px 9px;
-    border: 0;
-    border-radius: 9px;
-    background: transparent;
-    color: var(--muted);
-    font: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .01em;
-    cursor: pointer;
-    transition: background-color .18s ease, color .18s ease, transform .18s ease;
-  }
+  .pill-list{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0; padding:0; list-style:none; }
+  .pill{ display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none; font-size:.76rem; font-weight:600; padding:.28rem .78rem; border-radius:999px; background:var(--accent-soft); color:var(--accent); border:1px solid color-mix(in srgb, var(--accent) 16%, transparent); transition:all .2s ease; }
+  .pill:hover{ background:var(--accent); color:var(--card); transform:translateY(-2px); }
+  .pill::after{ content:"↗"; font-size:.85em; opacity:.6; }
 
-  .lang-btn .flag {
-    font-size: 14px;
-    line-height: 1;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  }
 
-  .lang-btn:hover {
-    background: var(--accent-soft);
-    color: var(--text);
-  }
+  .series-list{ margin:0; padding:0; list-style:none; display:grid; gap:.5rem; }
+  .series-list__item{ display:block; text-decoration:none; color:var(--fg); position:relative; padding-inline-start:1.3rem; font-size:.88rem; transition:color .2s ease; }
+  .series-list__item::before{ content:""; position:absolute; inset-inline-start:.15rem; top:.6em; width:.48rem; height:.48rem; border-radius:2px; background:var(--accent); transform:rotate(45deg); }
+  .series-list__item:hover{ color:var(--accent); }
 
-  .lang-btn[aria-pressed="true"] {
-    background: var(--accent);
-    color: var(--on-accent);
-    box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 28%, transparent);
-  }
 
-  .theme-toggle {
-    display: inline-grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    color: var(--text);
-    cursor: pointer;
-    transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--accent);
-    transform: translateY(-1px);
-  }
-
-  .theme-toggle:focus-visible,
-  .lang-btn:focus-visible,
-  .search-input:focus-visible,
-  .pill:focus-visible,
-  .series a:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  .theme-toggle .icon-sun { display: none; }
-  [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-  [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
-
-  /* ===== Search ===== */
-  .search {
-    position: relative;
-    margin: 26px 0 30px;
-  }
-
-  .search svg {
-    position: absolute;
-    inset-inline-start: 17px;
-    top: 50%;
-    width: 20px;
-    height: 20px;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    height: 56px;
-    padding-block: 0;
-    padding-inline: 50px 18px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: var(--card);
-    color: var(--text);
-    font: inherit;
-    font-size: 15.5px;
-    box-shadow: var(--shadow);
-    transition: border-color .2s ease, box-shadow .2s ease;
-  }
-
-  .search-input::placeholder { color: var(--muted); opacity: .85; }
-
-  .search-input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-  }
-
-  /* ===== Masonry cards ===== */
-  .cards {
-    column-count: 1;
-    column-gap: 18px;
-    padding-bottom: 44px;
-  }
-
-  @media (min-width: 720px)  { .cards { column-count: 2; } }
-  @media (min-width: 1120px) { .cards { column-count: 3; } }
-
-  .card {
-    display: inline-block;
-    width: 100%;
-    margin: 0 0 18px;
-    padding: 20px;
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    background: var(--card);
-    box-shadow: var(--shadow);
-    vertical-align: top;
-    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-  }
-
-  .card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
-    box-shadow: var(--shadow-hover);
-  }
-
-  .card.is-hidden { display: none; }
-
-  .card-top {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-  }
-
-  .avatar {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 58%, #0b3d33));
-    color: var(--on-accent);
-    font-family: "Noto Naskh Arabic", serif;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: .01em;
-    box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent);
-  }
-
-  html:not([lang="ar"]) .avatar {
-    font-family: "Inter", system-ui, sans-serif;
-    font-size: 17px;
-  }
-
-  .ident { min-width: 0; }
-
-  .ident h2 {
-    margin: 0;
-    font-size: 19px;
-    line-height: 1.4;
-    font-weight: 700;
-  }
-
-  .honorific {
-    margin: 2px 0 0;
-    color: var(--muted);
-    font-size: 12.5px;
-    line-height: 1.6;
-  }
-
-  .meta {
-    margin: 12px 0 0;
-    color: var(--accent);
-    font-size: 12.5px;
-    font-weight: 600;
-  }
-
-  .role {
-    margin: 6px 0 0;
-    color: var(--text);
-    font-size: 13.5px;
-    line-height: 1.7;
-  }
-
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 12px 0 0;
-  }
-
-  .tag {
-    padding: 3px 10px;
-    border: 1px solid color-mix(in srgb, var(--accent) 24%, var(--border));
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 11.5px;
-    font-weight: 600;
-    line-height: 1.7;
-  }
-
-  .bio {
-    margin: 12px 0 0;
-    font-size: 13.5px;
-    line-height: 1.9;
-  }
-
-  html:not([lang="ar"]) .bio { line-height: 1.75; }
-
-  .block { margin-top: 16px; }
-
-  .block-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 9px;
-    color: var(--muted);
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
-
-  html[lang="ar"] .block-title { text-transform: none; }
-
-  .block-title::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ===== Platforms ===== */
-  .platforms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-  }
-
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--card);
-    color: var(--text);
-    font-size: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color .18s ease, color .18s ease, border-color .18s ease,
-                transform .18s ease, box-shadow .18s ease;
-  }
-
-  .pill::before {
-    content: "";
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
-    transition: background-color .18s ease;
-  }
-
-  .pill:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--on-accent);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 28%, transparent);
-  }
-
-  .pill:hover::before { background: var(--on-accent); }
-
-  /* ===== Series ===== */
-  .series {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .series li + li { margin-top: 7px; }
-
-  .series a {
-    display: inline-block;
-    position: relative;
-    padding-inline-start: 15px;
-    color: var(--text);
-    font-size: 13px;
-    line-height: 1.7;
-    text-decoration: none;
-    transition: color .18s ease, transform .18s ease;
-  }
-
-  .series a::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 1px;
-    top: .68em;
-    width: 6px;
-    height: 6px;
-    transform: rotate(45deg);
-    background: var(--accent);
-    border-radius: 1px;
-  }
-
-  .series a:hover {
-    color: var(--accent);
-    transform: translateX(-4px);
-  }
-
-  /* ===== Works ===== */
-  .works {
-    margin: 0;
-    padding-inline-start: 18px;
-    font-size: 13px;
-    line-height: 1.8;
-  }
-
-  .works li { margin: 6px 0; }
-  .works li::marker { color: var(--accent); }
-  .works strong { color: var(--accent); font-weight: 700; }
-
-  /* ===== Quote ===== */
-  .quote {
-    margin: 16px 0 0;
-    padding: 11px 14px;
-    border-inline-start: 3px solid var(--accent);
-    border-start-start-radius: 0;
-    border-start-end-radius: 12px;
-    border-end-end-radius: 12px;
-    border-end-start-radius: 0;
-    background: linear-gradient(135deg, var(--accent-soft), transparent 78%);
-    color: var(--text);
-    font-family: "Noto Naskh Arabic", serif;
-    font-size: 14.5px;
-    line-height: 1.9;
-  }
-
-  html:not([lang="ar"]) .quote {
-    font-family: "Inter", system-ui, sans-serif;
-    font-size: 14px;
-    line-height: 1.75;
-  }
-
-  /* ===== Empty state ===== */
-  .empty {
-    margin: 8px 0 54px;
-    padding: 46px 24px;
-    border: 1px dashed var(--border);
-    border-radius: 18px;
-    background: var(--card);
-    color: var(--muted);
-    text-align: center;
-    font-size: 14.5px;
-  }
-
-  .empty strong {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--text);
-    font-size: 17px;
-  }
-
-  .empty span { display: block; }
-
-  [hidden] { display: none !important; }
-
-  /* ===== Footer ===== */
-  .site-footer {
-    padding: 18px 0 34px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 12.5px;
-    text-align: center;
-  }
-
-  @media (max-width: 640px) {
-    .site-header { padding-top: 26px; }
-    .header-actions { width: 100%; }
-    .lang-switch { order: 3; width: 100%; justify-content: space-between; }
-    .lang-btn { flex: 1; justify-content: center; }
-    .card { padding: 17px; }
-    .avatar { width: 48px; height: 48px; font-size: 17px; }
-    .ident h2 { font-size: 17.5px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { transition: none !important; animation: none !important; }
-    .card:hover, .pill:hover, .series a:hover { transform: none; }
-  }
+  .works-list{ margin:0; padding-inline-start:1.1rem; font-size:.88rem; }
+  .works-list__item{ margin-bottom:.45rem; }
+  .works-list__item strong{ color:var(--accent); font-weight:700; }
+  .scholar-card__quote{ margin:1.3rem 0 0; padding:.8rem 1rem; font-size:.88rem; font-style:italic; border-inline-start:3px solid var(--accent); background:linear-gradient(to left, var(--accent-soft), transparent 85%); border-radius:0 var(--radius) var(--radius) 0; }
+  body[dir="ltr"] .scholar-card__quote { background:linear-gradient(to right, var(--accent-soft), transparent 85%); }
+  .no-results{ display:none; max-width:1400px; margin:2rem auto; padding:2rem; text-align:center; color:var(--muted); background:var(--card); border:1px dashed var(--line); border-radius:var(--radius); }
+  .no-results.is-visible{ display:block; }
 </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap">
-      <div class="header-row">
-        <div class="brand">
-          <p class="eyebrow" id="eyebrow">دليل علماء الإسلام المعاصرين</p>
-          <h1 id="app-title">أعلام العلماء</h1>
-          <p class="lede" id="lede">سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.</p>
-        </div>
-        <div class="header-actions">
-          <span class="count-badge" id="count" aria-live="polite">0 / 0</span>
-          <nav class="lang-switch" aria-label="Language">
-            <button class="lang-btn" type="button" data-lang="ar" aria-pressed="true"><span class="flag">🇲🇦</span> AR</button>
-            <button class="lang-btn" type="button" data-lang="en" aria-pressed="false"><span class="flag">🇬🇧</span> EN</button>
-            <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false"><span class="flag">🇫🇷</span> FR</button>
-            <button class="lang-btn" type="button" data-lang="es" aria-pressed="false"><span class="flag">🇪🇸</span> ES</button>
-          </nav>
-          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="تبديل الوضع الليلي" title="تبديل الوضع الليلي">
-            <svg class="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
-            </svg>
-            <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"/>
-          <path d="m20 20-3.2-3.2"/>
-        </svg>
-        <input class="search-input" id="search" type="search" inputmode="search"
-               placeholder="ابحث بالاسم أو الوسم أو المنصة…" aria-label="البحث في الدليل" autocomplete="off">
-      </div>
+
+<header class="page-head">
+  <div>
+    <p class="eyebrow" id="ui-eyebrow">قاعدة البيانات التعريفية</p>
+    <h1 id="ui-title">أعلام الدعوة</h1>
+    <p class="lede" id="ui-lede">27 ملفاً تعريفياً لعلماء وباحثين ودعاة معاصرين.</p>
+  </div>
+  <div class="page-head__side">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ar">🇲🇦 AR</button>
+      <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+      <button class="lang-btn" data-lang="fr">🇫🇷 FR</button>
+      <button class="lang-btn" data-lang="es">🇪🇸 ES</button>
     </div>
-  </header>
+    <span class="count" id="count">27</span>
+    <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+  </div>
+</header>
 
-  <main class="wrap">
-    <section class="cards" id="cards" aria-label="بطاقات العلماء"></section>
-    <div class="empty" id="empty" hidden>
-      <strong id="empty-title"></strong>
-      <span id="empty-hint"></span>
-    </div>
-  </main>
 
-  <footer class="site-footer">
-    <div class="wrap" id="footer-text"></div>
-  </footer>
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input class="search-input" id="searchInput" type="search" placeholder="ابحث...">
+  </div>
+</div>
+
+
+<main class="grid" id="grid"></main>
+<p class="no-results" id="noResults"></p>
+
 
 <script>
-"use strict";
-
-/* =========================================================================
-   القواميس
-   ========================================================================= */
-const uiStrings = {
-  ar: {
-    searchPlaceholder: "ابحث بالاسم أو الوسم أو المنصة…",
-    platforms: "المنصات (اضغط للبحث)",
-    series: "سلاسل بارزة (اضغط للمشاهدة)",
-    works: "من مؤلفاته وأعماله",
-    noResults: "لا توجد نتائج مطابقة لبحثك.",
-    countLabel: "ملفاً تعريفياً",
-    countFiltered: "من",
-    noResultsHint: "جرّب كلمة أخرى أو اسمًا مختلفًا.",
-    appTitle: "أعلام العلماء",
-    eyebrow: "دليل علماء الإسلام المعاصرين",
-    lede: "سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.",
-    footer: "أعلام العلماء — دليل رقمي لعلماء الإسلام المعاصرين",
-    themeToggle: "تبديل الوضع الليلي",
-    cardsLabel: "بطاقات العلماء",
-    searchLabel: "البحث في الدليل"
-  },
-  en: {
-    searchPlaceholder: "Search by name, tag, or platform...",
-    platforms: "Platforms (Click to Search)",
-    series: "Notable Series (Click to Watch)",
-    works: "Works & Publications",
-    noResults: "No matching results found.",
-    countLabel: "Profiles",
-    countFiltered: "of",
-    noResultsHint: "Try another keyword or a different name.",
-    appTitle: "Scholars Directory",
-    eyebrow: "Contemporary Islamic Scholars",
-    lede: "Concise profiles of contemporary scholars and preachers, with their key platforms, series, and publications in one interface.",
-    footer: "Scholars Directory — A digital directory of contemporary Islamic scholars",
-    themeToggle: "Toggle dark mode",
-    cardsLabel: "Scholar cards",
-    searchLabel: "Search the directory"
-  },
-  fr: {
-    searchPlaceholder: "Rechercher par nom, tag ou plateforme...",
-    platforms: "Plateformes (Cliquez pour chercher)",
-    series: "Séries notables (Cliquez pour regarder)",
-    works: "Œuvres et publications",
-    noResults: "Aucun résultat trouvé.",
-    countLabel: "Profils",
-    countFiltered: "sur",
-    noResultsHint: "Essayez un autre mot-clé ou un autre nom.",
-    appTitle: "Répertoire des savants",
-    eyebrow: "Savants islamiques contemporains",
-    lede: "Des profils concis de savants et de prédicateurs contemporains, avec leurs plateformes, séries et publications dans une seule interface.",
-    footer: "Répertoire des savants — Un annuaire numérique des savants islamiques contemporains",
-    themeToggle: "Basculer le mode sombre",
-    cardsLabel: "Fiches des savants",
-    searchLabel: "Rechercher dans le répertoire"
-  },
-  es: {
-    searchPlaceholder: "Buscar por nombre, etiqueta o plataforma...",
-    platforms: "Plataformas (Clic para buscar)",
-    series: "Series destacadas (Clic para ver)",
-    works: "Obras y publicaciones",
-    noResults: "No se encontraron resultados.",
-    countLabel: "Perfiles",
-    countFiltered: "de",
-    noResultsHint: "Prueba con otra palabra clave u otro nombre.",
-    appTitle: "Directorio de sabios",
-    eyebrow: "Eruditos islámicos contemporáneos",
-    lede: "Perfiles concisos de eruditos y predicadores contemporáneos, con sus plataformas, series y publicaciones en una sola interfaz.",
-    footer: "Directorio de sabios — Un directorio digital de eruditos islámicos contemporáneos",
-    themeToggle: "Alternar modo oscuro",
-    cardsLabel: "Fichas de eruditos",
-    searchLabel: "Buscar en el directorio"
-  }
+/* =====================================================================
+   1) UI Translations
+   ===================================================================== */
+const UI = {
+  ar: { dir:"rtl", eyebrow:"قاعدة البيانات التعريفية", title:"أعلام الدعوة", lede:"27 ملفاً تعريفياً لعلماء وباحثين ودعاة معاصرين.", search:"ابحث بالاسم أو الوسم أو المنصة…", platforms:"المنصات (اضغط للبحث)", series:"سلاسل بارزة (اضغط للمشاهدة)", works:"من مؤلفاته وأعماله", noResults:"لا توجد نتائج مطابقة لبحثك." },
+  en: { dir:"ltr", eyebrow:"Scholars Database", title:"A'lam al-Dawa", lede:"27 profiles of contemporary scholars, researchers, and preachers.", search:"Search by name, tag, or platform...", platforms:"Platforms (Click to Search)", series:"Notable Series (Click to Watch)", works:"Works & Publications", noResults:"No matching results found." },
+  fr: { dir:"ltr", eyebrow:"Base de données", title:"A'lam al-Dawa", lede:"27 profils d'érudits, de chercheurs et de prédicateurs contemporains.", search:"Rechercher par nom, tag ou plateforme...", platforms:"Plateformes (Cliquez pour chercher)", series:"Séries notables (Cliquez pour regarder)", works:"Œuvres et publications", noResults:"Aucun résultat trouvé." },
+  es: { dir:"ltr", eyebrow:"Base de datos", title:"A'lam al-Dawa", lede:"27 perfiles de eruditos, investigadores y predicadores contemporáneos.", search:"Buscar por nombre, etiqueta o plataforma...", platforms:"Plataformas (Clic para buscar)", series:"Series destacadas (Clic para ver)", works:"Obras y publicaciones", noResults:"No se encontraron resultados." }
 };
 
-/* =========================================================================
-   البيانات
-   أضف بقية العلماء (حتى 27) داخل المصفوفة بنفس البنية تمامًا، مفصولين بفواصل.
-   كل عالم: name + tags متعدد اللغات + translations (ar/en/fr/es)
-   + digitalPresence (platforms / notableSeries).
-   ========================================================================= */
+
+/* =====================================================================
+   2) Data (27 Scholars with Fallback Logic)
+   ===================================================================== */
 const scholars = [
-  {
-    id: "othman-al-khamees",
-    name: {
-      ar: "عثمان الخميس",
-      en: "Othman Al-Khamees",
-      fr: "Othman Al-Khamees",
-      es: "Othman Al-Khamees"
-    },
-    initials: "ع.خ",
-    meta: {
-      ar: "1962 | الكويت",
-      en: "1962 | Kuwait",
-      fr: "1962 | Koweït",
-      es: "1962 | Kuwait"
-    },
-    tags: {
-      ar: ["الحديث", "العقيدة"],
-      en: ["Hadith", "Aqeedah"],
-      fr: ["Hadith", "Aqidah"],
-      es: ["Hadiz", "Aqidah"]
-    },
-    translations: {
-      ar: {
-        title: "فضيلة الشيخ الدكتور عثمان بن محمد الخميس",
-        role: "باحث في التاريخ الإسلامي والحديث، وداعية بارز عبر المنصات الرقمية",
-        upbringing: "وُلد في الكويت عام 1962 م...",
-        daWahAndPositions: "تولى الإمامة والخطابة...",
-        works: [
-          "<strong>حقبة من التاريخ:</strong> عرض تحليلي...",
-          "<strong>كشف الجاني:</strong> ..."
-        ],
-        quote: "طلب العلم الشرعي..."
-      },
-      en: {
-        title: "Sheikh Dr. Othman bin Muhammad Al-Khamees",
-        role: "Researcher in Islamic history and Hadith, and a prominent preacher across digital platforms",
-        upbringing: "Born in Kuwait in 1962...",
-        daWahAndPositions: "He led prayers and delivered sermons...",
-        works: [
-          "<strong>Era of History:</strong> An analytical presentation...",
-          "<strong>Kashf al-Jani:</strong> ..."
-        ],
-        quote: "Seeking Islamic knowledge..."
-      },
-      fr: {
-        title: "Cheikh Dr. Othman bin Muhammad Al-Khamees",
-        role: "Chercheur en histoire islamique et en Hadith, et prédicateur de premier plan sur les plateformes numériques",
-        upbringing: "Né au Koweït en 1962...",
-        daWahAndPositions: "Il a dirigé la prière et prononcé des sermons...",
-        works: [
-          "<strong>Une époque de l'histoire :</strong> Une présentation analytique...",
-          "<strong>Kachf al-Jani :</strong> ..."
-        ],
-        quote: "La recherche du savoir islamique..."
-      },
-      es: {
-        title: "Jeque Dr. Othman bin Muhammad Al-Khamees",
-        role: "Investigador en historia islámica y Hadiz, y predicador destacado en las plataformas digitales",
-        upbringing: "Nacido en Kuwait en 1962...",
-        daWahAndPositions: "Dirigió la oración y pronunció sermones...",
-        works: [
-          "<strong>Una era de la historia:</strong> Una presentación analítica...",
-          "<strong>Kashf al-Jani:</strong> ..."
-        ],
-        quote: "Buscar el conocimiento islámico..."
-      }
-    },
-    digitalPresence: {
-      platforms: ["YouTube", "Telegram", "X (Twitter)", "Website"],
-      notableSeries: ["شرح كتاب التوحيد...", "سلسلة حقبة من التاريخ..."]
-    }
-  }
-  // ← الصق بقية العلماء هنا، مثال:
-  // , { id: "...", name: { ar: "...", en: "..." }, ... }
+  { id:"othman", initials:"ع.خ", meta:{ar:"1962 | الكويت",en:"1962 | Kuwait",fr:"1962 | Koweït",es:"1962 | Kuwait"}, tags:{ar:["الحديث","العقيدة"],en:["Hadith","Aqeedah"],fr:["Hadith","Aqidah"],es:["Hadiz","Aqidah"]}, platforms:["YouTube","Telegram","X (Twitter)","Website"], series:{ar:["شرح كتاب التوحيد","سلسلة حقبة من التاريخ"],en:["Explanation of Kitab al-Tawheed","A Period of History"]}, tr:{ ar:{title:"فضيلة الشيخ الدكتور عثمان بن محمد الخميس", role:"باحث في التاريخ الإسلامي والحديث", up:"وُلد في الكويت عام 1962 م، وتلقى تعليمه الجامعي في جامعة الإمام محمد بن سعود الإسلامية بالرياض حيث تخرج في قسم الحديث الشريف، ثم حصل على درجتي الماجستير والدكتوراه في الدراسات الحديثية والتاريخية بتقدير امتياز.", da:"تولى الإمامة والخطابة في الكويت لسنوات طويلة، واشتهر بقدرته الفائقة على تبسيط المسائل العقدية والتاريخية والفقهية بأسلوب ميسر يجمع بين الرصانة العلمية والقرب من الناس.", works:["<strong>حقبة من التاريخ:</strong> عرض تحليلي موثق للأحداث التاريخية.","<strong>كشف الجاني محمد التيجاني:</strong> دراسة نقدية حديثية."], quote:"طلب العلم الشرعي في هذا العصر صار ميسوراً بضغطة زر، لكن البركة تبقى في الصبر والملازمة." }, en:{title:"Sheikh Dr. Othman bin Mohammed Al-Khamees", role:"Researcher in Islamic History and Hadith", up:"Born in Kuwait in 1962, he graduated from Imam Muhammad ibn Saud Islamic University in Riyadh in the Department of Hadith, then earned his Master's and PhD in Hadith and Historical Studies with honors.", da:"He served as an Imam in Kuwait for years. He is known for his ability to simplify theological and historical issues combining academic rigor with accessibility.", works:["<strong>A Period of History:</strong> Documented analytical presentation of historical events.","<strong>Exposing Muhammad al-Tijani:</strong> A critical Hadith study."], quote:"Seeking Islamic knowledge today is easy with a click, but blessing remains in patience and consistency." } } },
+
+
+  { id:"said", initials:"س.ك", meta:{ar:"1972 | المغرب",en:"1972 | Morocco",fr:"1972 | Maroc",es:"1972 | Marruecos"}, tags:{ar:["الفقه المالكي","الحديث"],en:["Maliki Fiqh","Hadith"],fr:["Fiqh Malékite","Hadith"],es:["Fiqh Malikí","Hadiz"]}, platforms:["YouTube","Facebook","Instagram","Podcasts"], series:{ar:["شرح موطأ الإمام مالك","شرح صحيح البخاري"],en:["Explanation of Muwatta Imam Malik","Explanation of Sahih Al-Bukhari"]}, tr:{ ar:{title:"فضيلة الشيخ الدكتور سعيد بن محمد الكملي", role:"فقيه مالكي ومحدث وأستاذ التعليم العالي", up:"وُلد في مدينة الرباط بالمغرب عام 1972 م، وحفظ القرآن الكريم في صغره، ثم جمع بين الدراسة الأكاديمية والرحلة في طلب العلم على كبار علماء المغرب والمشرق.", da:"يُعد من أبرز المجددين في أسلوب الإلقاء العلمي المعاصر؛ حيث يمزج بين دقة الاستنباط الفقهي على مذهب الإمام مالك، وبين البلاغة الأدبية والشعر العربي الأصيل.", works:["<strong>الأحكام الشرعية في الأسفار الجوية:</strong> بحث فقهي معاصر.","<strong>جني الثمرات من نظم الورقات</strong> في أصول الفقه."], quote:"العلم رحم بين أهله، ولا يُنال إلا بالتواضع للأشياخ والصبر على جرد المطولات." }, en:{title:"Sheikh Dr. Said bin Mohammed Al-Kamali", role:"Maliki Jurist, Hadith Scholar, and Professor", up:"Born in Rabat, Morocco in 1972, he memorized the Quran young, combining academic studies with travels to study under senior scholars of Morocco and the East.", da:"He is considered one of the most prominent innovators in contemporary academic delivery, blending precise Maliki jurisprudential deduction with literary rhetoric.", works:["<strong>Islamic Rulings on Air Travel:</strong> Contemporary Fiqh research.","<strong>Harvesting Fruits from Nadhm al-Waraqat</strong> in Usul al-Fiqh."], quote:"Knowledge is a mercy among its people, attained only through humility to teachers." } } },
+
+
+  { id:"ayman", initials:"أ.ع", meta:{ar:"1973 | مصر",en:"1973 | Egypt",fr:"1973 | Égypte",es:"1973 | Egipto"}, tags:{ar:["اللغة العربية","الفكر"],en:["Arabic Language","Thought"],fr:["Langue Arabe","Pensée"],es:["Lengua Árabe","Pensamiento"]}, platforms:["YouTube","Telegram","SoundCloud"], series:{ar:["دورة تأسيس وعي المسلم المعاصر"],en:["Foundations of Contemporary Muslim Awareness"]}, tr:{ ar:{title:"المهندس الباحث أيمن عبد الرحيم", role:"باحث في العلوم الإنسانية واللغوية", up:"نشأ في مصر وجمع بين التكوين الهندسي الدقيق والدراسة الموسوعية في علوم اللغة العربية، والتاريخ، والاجتماع.", da:"اشتهر عبر منصات الإنترنت بسلاسل محاضراته التأسيسية التي تخاطب العقل الشبابي المثقف، وتهدف إلى بناء أرضية معرفية متماسكة.", works:["<strong>سلاسل صوتية ومرئية مفرغة:</strong> تحولت إلى مقررات قراءة ذاتية."], quote:"أزمة المسلم المعاصر ليست في نقص المعلومات، بل في غياب الخريطة المعرفية." }, en:{title:"Eng. Ayman Abdel Rahim", role:"Researcher in Humanities and Linguistics", up:"Raised in Egypt, he combined engineering training with encyclopedic studies in Arabic language, history, and sociology.", da:"He became famous online for his foundational lecture series addressing educated youth, aiming to build a coherent epistemological base.", works:["<strong>Transcribed Audio/Video Series:</strong> Turned into self-study curricula."], quote:"The crisis of the contemporary Muslim is the absence of an epistemological map." } } },
+
+
+  { id:"eyad", initials:"إ.ق", meta:{ar:"1975 | الأردن",en:"1975 | Jordan",fr:"1975 | Jordanie",es:"1975 | Jordania"}, tags:{ar:["الإلحاد المعاصر","علم الأدوية"],en:["Atheism","Pharmacology"],fr:["Athéisme","Pharmacologie"],es:["Ateísmo","Farmacología"]}, platforms:["YouTube","Telegram","Facebook"], series:{ar:["سلسلة رحلة اليقين"],en:["Journey of Certainty"]}, tr:{ ar:{title:"الدكتور إياد بن عبد الحافظ قنيبي", role:"أستاذ جامعي في علم الأدوية وباحث في القضايا الفكرية", up:"حصل على درجة الدكتوراه في علم الأدوية من جامعة هيوستن بالولايات المتحدة الأمريكية، وعمل أستاذاً جامعياً في الأردن.", da:"برز على الساحة الرقمية كأحد أهم المتخصصين في تفكيك الشبهات الفلسفية والعلمية الموجهة للشباب المسلم.", works:["<strong>أبحاث علمية محكمة:</strong> في مجال الصيدلة وعلم الأدوية."], quote:"العلم التجريبي الصحيح إذا تجرد من الأيديولوجيا فإنه يقود حتماً إلى الإيمان." }, en:{title:"Dr. Eyad bin Abdul Hafiz Qunaibi", role:"Professor of Pharmacology & Intellectual Researcher", up:"He earned his PhD in Pharmacology from the University of Houston, USA, and worked as a university professor in Jordan.", da:"He emerged digitally as a key specialist in deconstructing philosophical and scientific doubts facing Muslim youth.", works:["<strong>Peer-Reviewed Research:</strong> In pharmacy and pharmacology."], quote:"Correct empirical science, stripped of ideology, inevitably leads to faith." } } },
+
+
+  { id:"menk", initials:"م.م", meta:{ar:"1975 | زيمبابوي",en:"1975 | Zimbabwe",fr:"1975 | Zimbabwe",es:"1975 | Zimbabue"}, tags:{ar:["الفقه","الدعوة"],en:["Fiqh","Da'wah"],fr:["Fiqh","Da'wah"],es:["Fiqh","Da'wah"]}, platforms:["YouTube","Facebook","Instagram","X (Twitter)"], series:{ar:["سلسلة قصص الأنبياء"],en:["Stories of the Prophets"]}, tr:{ ar:{title:"فضيلة المفتي إسماعيل بن موسى منك", role:"المفتي الأكبر في زيمبابوي", up:"وُلد في هراري بزيمبابوي عام 1975 م، وحفظ القرآن الكريم في سن مبكرة، وتخرج في كلية الشريعة بالجامعة الإسلامية بالمدينة المنورة.", da:"يُعد من أكثر الدعاة المسلمين تأثيراً على المستوى العالمي، ويشغل منصب المفتي الأكبر في زيمبابوي.", works:["<strong>محاضرات ودروس صوتية ومرئية:</strong> تُعد من أكثر المحتوى الإسلامي انتشاراً."], quote:"أحسن الظن بالله، واعمل صالحاً، ولا تحقرن من المعروف شيئاً." }, en:{title:"Mufti Ismail ibn Musa Menk", role:"Grand Mufti of Zimbabwe", up:"Born in Harare, Zimbabwe in 1975, he memorized the Quran young and graduated from the Islamic University of Madinah.", da:"He is one of the most influential Muslim preachers globally, serving as the Grand Mufti of Zimbabwe.", works:["<strong>Audio/Video Lectures:</strong> Among the most widespread Islamic content."], quote:"Think well of Allah, do good, and never belittle a good deed." } } },
+
+
+  { id:"omar", initials:"ع.س", meta:{ar:"1986 | أمريكا",en:"1986 | USA",fr:"1986 | États-Unis",es:"1986 | EE.UU."}, tags:{ar:["البحوث الإسلامية"],en:["Islamic Research"],fr:["Recherche Islamique"],es:["Investigación Islámica"]}, platforms:["YouTube","Instagram","Facebook","X (Twitter)"], series:{ar:["شرح أسماء الله الحسنى"],en:["Names of Allah"]}, tr:{ ar:{title:"الإمام الدكتور عمر سليمان", role:"مؤسس ورئيس معهد يقين للبحوث الإسلامية", up:"وُلد في الولايات المتحدة عام 1986 م، وحصل على الدكتوراه في الفكر الإسلامي.", da:"مؤسس ورئيس معهد يقين للبحوث الإسلامية، وأستاذ الدراسات الإسلامية بجامعة ساوثرن ميثوديست.", works:["<strong>مؤلفات وبحوث محكمة</strong> في الفكر الإسلامي."], quote:"الإيمان ليس مجرد شعور، بل هو منظومة معرفية وأخلاقية." }, en:{title:"Imam Dr. Omar Suleiman", role:"Founder of Yaqeen Institute", up:"Born in the USA in 1986, he holds a PhD in Islamic Thought.", da:"Founder and President of Yaqeen Institute and Professor of Islamic Studies at Southern Methodist University.", works:["<strong>Books and Research</strong> in Islamic Thought."], quote:"Faith is not just a feeling; it is a knowledge and moral system." } } },
+
+
+  { id:"yasir", initials:"ي.ق", meta:{ar:"1975 | أمريكا",en:"1975 | USA",fr:"1975 | États-Unis",es:"1975 | EE.UU."}, tags:{ar:["العقيدة"],en:["Aqeedah"],fr:["Aqidah"],es:["Aqidah"]}, platforms:["YouTube","Facebook","X (Twitter)"], series:{ar:["شرح العقيدة الطحاوية"],en:["Aqeedah Tahawiyyah"]}, tr:{ ar:{title:"الشيخ الدكتور ياسر قاضي", role:"عالم مسلم وباحث في العقيدة", up:"وُلد في هيوستن، وحصل على الدكتوراه من جامعة ييل.", da:"من أبرز العلماء المسلمين في أمريكا الشمالية، وعميد الشؤون الأكاديمية في معهد المغرب.", works:["<strong>مؤلفات في العقيدة.</strong>"], quote:"لا خير في علم لا يورث خشية." }, en:{title:"Sheikh Dr. Yasir Qadhi", role:"Scholar and Researcher in Aqeedah", up:"Born in Houston, he holds a PhD from Yale University.", da:"One of the most prominent Muslim scholars in North America and Dean of Academic Affairs at Al-Maghrib Institute.", works:["<strong>Books on Aqeedah.</strong>"], quote:"There is no good in knowledge that does not breed piety." } } },
+
+
+  { id:"nouman", initials:"ن.ع", meta:{ar:"1978 | ألمانيا",en:"1978 | Germany",fr:"1978 | Allemagne",es:"1978 | Alemania"}, tags:{ar:["اللغة العربية"],en:["Arabic"],fr:["Arabe"],es:["Árabe"]}, platforms:["YouTube","Instagram","Facebook"], series:{ar:["تفسير جزء عم"],en:["Tafsir Juz Amma"]}, tr:{ ar:{title:"الأستاذ نعمان علي خان", role:"مؤسس معهد البيان", up:"وُلد في برلين عام 1978 لأبوين باكستانيين، ونشأ في الولايات المتحدة.", da:"من أبرز الدعاة والمربين المسلمين في الغرب، ويُعرف بقدرته الفائقة على تبسيط علوم القرآن.", works:["<strong>سلسلة محاضرات ودروس.</strong>"], quote:"القرآن ليس كتاباً يُقرأ فحسب، بل هو خطاب حي." }, en:{title:"Ustadh Nouman Ali Khan", role:"Founder of Bayyinah Institute", up:"Born in Berlin in 1978 to Pakistani parents, he grew up in the USA.", da:"One of the most prominent Muslim educators in the West, known for his ability to simplify Quranic sciences.", works:["<strong>Lecture Series.</strong>"], quote:"The Quran is not just a book to be read; it is a living address." } } },
+
+
+  { id:"zakir", initials:"ذ.ن", meta:{ar:"1965 | الهند",en:"1965 | India",fr:"1965 | Inde",es:"1965 | India"}, tags:{ar:["الأديان المقارنة"],en:["Comparative Religion"],fr:["Religions Comparées"],es:["Religión Comparada"]}, platforms:["YouTube","Facebook","Website"], series:{ar:["الأديان المقارنة"],en:["Comparative Religion"]}, tr:{ ar:{title:"الدكتور ذاكر عبد الكريم نايك", role:"محاضر دولي في الأديان المقارنة", up:"وُلد في مومباي بالهند عام 1965 م، وتخرج طبيباً في الطب والجراحة.", da:"مؤسس ورئيس مؤسسة البحوث الإسلامية، وأحد أشهر المحاضرين الدوليين في الأديان المقارنة.", works:["<strong>محاضرات وندوات مسجلة.</strong>"], quote:"أفضل طريقة للدعوة هي أن تعرض الإسلام كما هو." }, en:{title:"Dr. Zakir Abdul Karim Naik", role:"International Lecturer in Comparative Religion", up:"Born in Mumbai, India in 1965, he graduated as a medical doctor.", da:"Founder of the Islamic Research Foundation and one of the most famous international lecturers in comparative religion.", works:["<strong>Recorded Lectures.</strong>"], quote:"The best way to give Da'wah is to present Islam as it is." } } },
+  { id:"hamza", initials:"ح.ي", meta:{ar:"1958 | أمريكا",en:"1958 | USA",fr:"1958 | États-Unis",es:"1958 | EE.UU."}, tags:{ar:["الفقه","التزكية"],en:["Fiqh","Spirituality"],fr:["Fiqh","Spiritualité"],es:["Fiqh","Espiritualidad"]}, platforms:["YouTube","Facebook","Podcasts"], series:{ar:["شرح متن الآجرومية"],en:["Al-Ajrumiyyah"]}, tr:{ ar:{title:"الشيخ حمزة يوسف هانسون", role:"مؤسس ورئيس كلية زيتونة", up:"وُلد في واشنطن عام 1958 م، واعتنق الإسلام عام 1977 م، ثم درس العلوم الشرعية لأكثر من عشر سنوات.", da:"مؤسس ورئيس كلية زيتونة في كاليفورنيا، وهي أول كلية إسلامية معتمدة في الولايات المتحدة.", works:["<strong>ترجمات ومؤلفات.</strong>"], quote:"التجديد الحقيقي ليس في تغيير الدين." }, en:{title:"Sheikh Hamza Yusuf Hanson", role:"Founder of Zaytuna College", up:"Born in Washington in 1958, he embraced Islam in 1977 and studied Islamic sciences for over a decade.", da:"Founder and President of Zaytuna College in California, the first accredited Islamic college in the USA.", works:["<strong>Translations and Books.</strong>"], quote:"True renewal is not changing the religion." } } },
+
+
+  { id:"tariq", initials:"ط.ج", meta:{ar:"1953 | باكستان",en:"1953 | Pakistan",fr:"1953 | Pakistan",es:"1953 | Pakistán"}, tags:{ar:["التزكية"],en:["Spirituality"],fr:["Spiritualité"],es:["Espiritualidad"]}, platforms:["YouTube","Facebook"], series:{ar:["خطب الجمعة"],en:["Friday Sermons"]}, tr:{ ar:{title:"المولانا طارق جميل", role:"داعية باكستاني", up:"وُلد في باكستان عام 1953 م، وتلقى تعليمه الديني في المدارس الإسلامية.", da:"من أشهر الدعاة في باكستان والعالم الإسلامي، ويُعرف بخطبه المؤثرة في التزكية.", works:["<strong>خطب ومحاضرات مسجلة.</strong>"], quote:"الدعوة ليست كلاماً يُقال، بل حال يُرى." }, en:{title:"Maulana Tariq Jameel", role:"Pakistani Preacher", up:"Born in Pakistan in 1953, he received his religious education in Islamic schools.", da:"One of the most famous preachers in Pakistan and the Islamic world, known for his impactful sermons.", works:["<strong>Recorded Sermons.</strong>"], quote:"Da'wah is not words spoken, but a state seen." } } },
+
+
+  { id:"ahmed", initials:"أ.ش", meta:{ar:"1973 | السعودية",en:"1973 | KSA",fr:"1973 | Arabie Saoudite",es:"1973 | Arabia Saudita"}, tags:{ar:["الإعلام"],en:["Media"],fr:["Médias"],es:["Medios"]}, platforms:["YouTube","X (Twitter)","Instagram"], series:{ar:["برنامج خواطر"],en:["Khawater"]}, tr:{ ar:{title:"الأستاذ أحمد الشقيري", role:"إعلامي وداعية", up:"وُلد في جدة عام 1973 م، ودرس إدارة نظم المعلومات في جامعة كاليفورنيا.", da:"من أبرز الإعلاميين في العالم العربي، اشتهر ببرنامجه 'خواطر'.", works:["<strong>برامج تلفزيونية.</strong>"], quote:"التغيير يبدأ من الداخل." }, en:{title:"Ustadh Ahmed Al-Shugairi", role:"Media Personality and Preacher", up:"Born in Jeddah in 1973, he studied Information Systems at the University of California.", da:"One of the most prominent media figures in the Arab world, famous for his show 'Khawater'.", works:["<strong>TV Shows.</strong>"], quote:"Change starts from within." } } },
+
+
+  { id:"amr", initials:"ع.خ", meta:{ar:"1967 | مصر",en:"1967 | Egypt",fr:"1967 | Égypte",es:"1967 | Egipto"}, tags:{ar:["الدعوة"],en:["Da'wah"],fr:["Da'wah"],es:["Da'wah"]}, platforms:["YouTube","Facebook"], series:{ar:["صناع الحياة"],en:["Life Makers"]}, tr:{ ar:{title:"الدكتور عمرو خالد", role:"داعية ومفكر", up:"وُلد في الإسكندرية عام 1967 م، وتخرج في كلية التجارة.", da:"من أشهر الدعاة في العالم العربي، وأحد أوائل من استخدموا الإعلام الرقمي في الدعوة.", works:["<strong>برامج دعوية.</strong>"], quote:"الدعوة الناجحة تُعيد للإنسان إنسانيته." }, en:{title:"Dr. Amr Khaled", role:"Preacher and Thinker", up:"Born in Alexandria in 1967, he graduated from the Faculty of Commerce.", da:"One of the most famous preachers in the Arab world, and a pioneer in using digital media for Da'wah.", works:["<strong>Da'wah Programs.</strong>"], quote:"Successful Da'wah restores a person's humanity." } } },
+
+
+  { id:"ali", initials:"ع.ج", meta:{ar:"1952 | مصر",en:"1952 | Egypt",fr:"1952 | Égypte",es:"1952 | Egipto"}, tags:{ar:["أصول الفقه"],en:["Usul al-Fiqh"],fr:["Usul al-Fiqh"],es:["Usul al-Fiqh"]}, platforms:["YouTube","Facebook","Website"], series:{ar:["دروس أصول الفقه"],en:["Usul al-Fiqh Lessons"]}, tr:{ ar:{title:"فضيلة الأستاذ الدكتور علي جمعة", role:"مفتي الديار المصرية الأسبق", up:"وُلد في بني سويف عام 1952 م، والتحق بجامعة الأزهر.", da:"شغل منصب مفتي الديار المصرية من 2003 إلى 2013.", works:["<strong>مؤلفات في أصول الفقه.</strong>"], quote:"الفقه ليس مجرد أحكام، بل هو فهم للحياة." }, en:{title:"Sheikh Dr. Ali Gomaa", role:"Former Grand Mufti of Egypt", up:"Born in Beni Suef in 1952, he joined Al-Azhar University.", da:"Served as the Grand Mufti of Egypt from 2003 to 2013.", works:["<strong>Books on Usul al-Fiqh.</strong>"], quote:"Fiqh is not just rulings; it is understanding life." } } },
+
+
+  { id:"belal", initials:"ب.أ", meta:{ar:"1970s | أستراليا",en:"1970s | Australia",fr:"1970s | Australie",es:"1970s | Australia"}, tags:{ar:["الشريعة"],en:["Sharia"],fr:["Charia"],es:["Sharia"]}, platforms:["YouTube","Instagram"], series:{ar:["خطب الجمعة"],en:["Friday Sermons"]}, tr:{ ar:{title:"الشيخ بلال أسعد", role:"داعية ومحاضر", up:"حصل على درجة في الشريعة والدعوة من لبنان.", da:"من الدعاة البارزين في أستراليا.", works:["<strong>محاضرات وخطب.</strong>"], quote:"الدين ليس عاطفة عابرة." }, en:{title:"Sheikh Belal Assaad", role:"Preacher and Lecturer", up:"Holds a degree in Sharia and Da'wah from Lebanon.", da:"One of the prominent preachers in Australia.", works:["<strong>Lectures and Sermons.</strong>"], quote:"Religion is not a passing emotion." } } },
+
+
+  { id:"adnaan", initials:"ع.م", meta:{ar:"1980s | بريطانيا",en:"1980s | UK",fr:"1980s | Royaume-Uni",es:"1980s | Reino Unido"}, tags:{ar:["الاقتصاد"],en:["Economics"],fr:["Économie"],es:["Economía"]}, platforms:["YouTube","Instagram"], series:{ar:["التزكية"],en:["Spirituality"]}, tr:{ ar:{title:"الشيخ عدنان منك", role:"عالم إسلامي", up:"وُلد في إنجلترا ونشأ في زيمبابوي.", da:"من الدعاة البارزين في المملكة المتحدة.", works:["<strong>محاضرات.</strong>"], quote:"الامتنان ليس مجرد كلمة." }, en:{title:"Sheikh Adnaan Menk", role:"Islamic Scholar", up:"Born in England and raised in Zimbabwe.", da:"One of the prominent preachers in the UK.", works:["<strong>Lectures.</strong>"], quote:"Gratitude is not just a word." } } },
+
+
+  { id:"yahya", initials:"ي.ر", meta:{ar:"1990s | بريطانيا",en:"1990s | UK",fr:"1990s | Royaume-Uni",es:"1990s | Reino Unido"}, tags:{ar:["القرآن"],en:["Quran"],fr:["Coran"],es:["Corán"]}, platforms:["YouTube","Instagram","TikTok"], series:{ar:["تلاوات"],en:["Recitations"]}, tr:{ ar:{title:"الأستاذ يحيى الرعابي", role:"معلم إسلامي ومقرئ", up:"وُلد في الدنمارك وانتقل إلى المملكة المتحدة.", da:"من المعلمين البارزين في المملكة المتحدة.", works:["<strong>تلاوات قرآنية.</strong>"], quote:"القرآن إذا دخل القلب، غيّر صاحبه." }, en:{title:"Ustadh Yahya Raaby", role:"Islamic Teacher and Reciter", up:"Born in Denmark and moved to the UK.", da:"One of the prominent teachers in the UK.", works:["<strong>Quranic Recitations.</strong>"], quote:"When the Quran enters the heart, it changes its owner." } } },
+
+
+  { id:"abdelkafy", initials:"ع.ع", meta:{ar:"1951 | مصر",en:"1951 | Egypt",fr:"1951 | Égypte",es:"1951 | Egipto"}, tags:{ar:["الإعجاز العلمي"],en:["Scientific Miracles"],fr:["Miracles Scientifiques"],es:["Milagros Científicos"]}, platforms:["YouTube","Facebook"], series:{ar:["الإعجاز العلمي"],en:["Scientific Miracles"]}, tr:{ ar:{title:"فضيلة الشيخ الدكتور عمر عبد الكافي", role:"داعية", up:"وُلد في المنيا بصعيد مصر عام 1951 م.", da:"من الدعاة البارزين في العالم العربي.", works:["<strong>موسوعة الإعجاز العلمي.</strong>"], quote:"العلم الصحيح يزيد المؤمن إيماناً." }, en:{title:"Sheikh Dr. Omar Abdelkafy", role:"Preacher", up:"Born in Minya, Egypt in 1951.", da:"One of the prominent preachers in the Arab world.", works:["<strong>Encyclopedia of Scientific Miracles.</strong>"], quote:"Correct science increases a believer's faith." } } },
+  { id:"mustafa", initials:"م.ح", meta:{ar:"1978 | مصر",en:"1978 | Egypt",fr:"1978 | Égypte",es:"1978 | Egipto"}, tags:{ar:["التزكية"],en:["Spirituality"],fr:["Spiritualité"],es:["Espiritualidad"]}, platforms:["YouTube","Facebook"], series:{ar:["برامج التزكية"],en:["Spirituality Programs"]}, tr:{ ar:{title:"الأستاذ مصطفى حسني", role:"داعية", up:"وُلد في مصر عام 1978 م.", da:"من الدعاة البارزين في مصر.", works:["<strong>برامج تلفزيونية.</strong>"], quote:"القلب إذا صلح صلح الجسد كله." }, en:{title:"Ustadh Mustafa Hosny", role:"Preacher", up:"Born in Egypt in 1978.", da:"One of the prominent preachers in Egypt.", works:["<strong>TV Programs.</strong>"], quote:"If the heart is sound, the whole body is sound." } } },
+
+
+  { id:"yaqoubi", initials:"م.ي", meta:{ar:"1963 | سوريا",en:"1963 | Syria",fr:"1963 | Syrie",es:"1963 | Siria"}, tags:{ar:["الحديث"],en:["Hadith"],fr:["Hadith"],es:["Hadiz"]}, platforms:["YouTube","Facebook"], series:{ar:["دروس الحديث"],en:["Hadith Lessons"]}, tr:{ ar:{title:"الشيخ الدكتور محمد أبو الهدى اليعقوبي", role:"عالم إسلامي", up:"وُلد في سوريا عام 1963 م.", da:"من العلماء البارزين في سوريا.", works:["<strong>مؤلفات في الحديث.</strong>"], quote:"العلم النافع هو الذي يزيدك تواضعاً." }, en:{title:"Sheikh Dr. Muhammad Abu al-Huda al-Yaqoubi", role:"Islamic Scholar", up:"Born in Syria in 1963.", da:"One of the prominent scholars in Syria.", works:["<strong>Books on Hadith.</strong>"], quote:"Beneficial knowledge is what increases your humility." } } },
+
+
+  { id:"shams", initials:"م.ش", meta:{ar:"1980s | سوريا",en:"1980s | Syria",fr:"1980s | Syrie",es:"1980s | Siria"}, tags:{ar:["العقيدة"],en:["Aqeedah"],fr:["Aqidah"],es:["Aqidah"]}, platforms:["YouTube","Facebook"], series:{ar:["محاضرات العقيدة"],en:["Aqeedah Lectures"]}, tr:{ ar:{title:"الشيخ محمد بن شمس الدين", role:"داعية", up:"وُلد في سوريا وانتقل إلى ألمانيا.", da:"من الدعاة البارزين على يوتيوب.", works:["<strong>محاضرات.</strong>"], quote:"التوحيد ليس مجرد اعتقاد في القلب." }, en:{title:"Sheikh Mohammed bin Shams al-Din", role:"Preacher", up:"Born in Syria and moved to Germany.", da:"One of the prominent preachers on YouTube.", works:["<strong>Lectures.</strong>"], quote:"Tawheed is not just a belief in the heart." } } },
+
+
+  { id:"philips", initials:"ب.ف", meta:{ar:"1947 | كندا",en:"1947 | Canada",fr:"1947 | Canada",es:"1947 | Canadá"}, tags:{ar:["العقيدة"],en:["Aqeedah"],fr:["Aqidah"],es:["Aqidah"]}, platforms:["YouTube","Facebook"], series:{ar:["دورات العقيدة"],en:["Aqeedah Courses"]}, tr:{ ar:{title:"الدكتور بلال فيليبس", role:"عالم إسلامي", up:"وُلد في جامايكا عام 1947 م.", da:"مؤسس الجامعة الإسلامية المفتوحة.", works:["<strong>مؤلفات وترجمات.</strong>"], quote:"العلم الشرعي يجب أن يكون في متناول كل مسلم." }, en:{title:"Dr. Bilal Philips", role:"Islamic Scholar", up:"Born in Jamaica in 1947.", da:"Founder of the International Open University.", works:["<strong>Books and Translations.</strong>"], quote:"Islamic knowledge should be accessible to every Muslim." } } },
+
+
+  { id:"siraj", initials:"س.و", meta:{ar:"1950 | أمريكا",en:"1950 | USA",fr:"1950 | États-Unis",es:"1950 | EE.UU."}, tags:{ar:["الإصلاح"],en:["Reform"],fr:["Réforme"],es:["Reforma"]}, platforms:["YouTube","Facebook"], series:{ar:["خطب الجمعة"],en:["Friday Sermons"]}, tr:{ ar:{title:"الإمام سراج وهاج", role:"إمام مسجد", up:"وُلد في بروكلين بنيويورك عام 1950 م.", da:"من أبرز القادة المسلمين في الولايات المتحدة.", works:["<strong>خطب ومحاضرات.</strong>"], quote:"الإسلام ليس مجرد عبادة فردية." }, en:{title:"Imam Siraj Wahhaj", role:"Imam", up:"Born in Brooklyn, NY in 1950.", da:"One of the most prominent Muslim leaders in the USA.", works:["<strong>Sermons and Lectures.</strong>"], quote:"Islam is not just individual worship." } } },
+
+
+  { id:"suhaib", initials:"ص.و", meta:{ar:"1972 | أمريكا",en:"1972 | USA",fr:"1972 | États-Unis",es:"1972 | EE.UU."}, tags:{ar:["الفقه"],en:["Fiqh"],fr:["Fiqh"],es:["Fiqh"]}, platforms:["YouTube","Snapchat"], series:{ar:["محاضرات الفقه"],en:["Fiqh Lectures"]}, tr:{ ar:{title:"الإمام صهيب ويب", role:"داعية", up:"وُلد في أوكلاهوما عام 1972 م.", da:"من الدعاة البارزين في الولايات المتحدة.", works:["<strong>محاضرات.</strong>"], quote:"الدعوة في العصر الرقمي تحتاج إلى حكمة." }, en:{title:"Imam Suhaib Webb", role:"Preacher", up:"Born in Oklahoma in 1972.", da:"One of the prominent preachers in the USA.", works:["<strong>Lectures.</strong>"], quote:"Da'wah in the digital age needs wisdom." } } },
+
+
+  { id:"masood", initials:"ط.م", meta:{ar:"1975 | باكستان",en:"1975 | Pakistan",fr:"1975 | Pakistan",es:"1975 | Pakistán"}, tags:{ar:["الإفتاء"],en:["Fatwa"],fr:["Fatwa"],es:["Fatwa"]}, platforms:["YouTube","Facebook"], series:{ar:["فتاوى"],en:["Fatwas"]}, tr:{ ar:{title:"المفتي طارق مسعود", role:"مفتي", up:"وُلد في باكستان عام 1975 م.", da:"من العلماء البارزين في باكستان.", works:["<strong>فتاوى.</strong>"], quote:"الفقه ليس تعقيداً." }, en:{title:"Mufti Tariq Masood", role:"Mufti", up:"Born in Pakistan in 1975.", da:"One of the prominent scholars in Pakistan.", works:["<strong>Fatwas.</strong>"], quote:"Fiqh is not complication." } } },
+
+
+  { id:"ourayfi", initials:"م.ع", meta:{ar:"1970 | السعودية",en:"1970 | KSA",fr:"1970 | Arabie Saoudite",es:"1970 | Arabia Saudita"}, tags:{ar:["العقيدة"],en:["Aqeedah"],fr:["Aqidah"],es:["Aqidah"]}, platforms:["YouTube","X (Twitter)"], series:{ar:["خطب"],en:["Sermons"]}, tr:{ ar:{title:"الشيخ الدكتور محمد العريفي", role:"داعية", up:"وُلد في السعودية عام 1970 م.", da:"من الدعاة البارزين في السعودية.", works:["<strong>مؤلفات.</strong>"], quote:"العقيدة الصحيحة هي الأساس." }, en:{title:"Sheikh Dr. Mohammed Al-Ourayfi", role:"Preacher", up:"Born in KSA in 1970.", da:"One of the prominent preachers in KSA.", works:["<strong>Books.</strong>"], quote:"Correct Aqeedah is the foundation." } } },
+
+
+  { id:"nabil", initials:"ن.ع", meta:{ar:"1970 | الكويت",en:"1970 | Kuwait",fr:"1970 | Koweït",es:"1970 | Kuwait"}, tags:{ar:["التربية"],en:["Education"],fr:["Éducation"],es:["Educación"]}, platforms:["YouTube","Facebook"], series:{ar:["قصص السيرة"],en:["Seerah Stories"]}, tr:{ ar:{title:"الشيخ الدكتور نبيل العوضي", role:"داعية", up:"وُلد في الكويت عام 1970 م.", da:"من الدعاة البارزين في الكويت.", works:["<strong>محاضرات.</strong>"], quote:"التربية بالقدوة أبلغ." }, en:{title:"Sheikh Dr. Nabil Al-Awadhi", role:"Preacher", up:"Born in Kuwait in 1970.", da:"One of the prominent preachers in Kuwait.", works:["<strong>Lectures.</strong>"], quote:"Education by example is more effective." } } }
 ];
 
-/* =========================================================================
-   الحالة واللغة
-   ========================================================================= */
-var currentLang = document.documentElement.lang || "ar";
-if (!uiStrings[currentLang]) currentLang = "ar";
 
-function STR(key) {
-  var table = uiStrings[currentLang] || uiStrings.ar;
-  return table[key] != null ? table[key] : (uiStrings.ar[key] || "");
+/* =====================================================================
+   3) Logic & Rendering
+   ===================================================================== */
+let currentLang = localStorage.getItem('dawa-lang') || 'ar';
+let currentTheme = localStorage.getItem('dawa-theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light');
+
+
+const grid = document.getElementById('grid');
+const searchInput = document.getElementById('searchInput');
+const noResults = document.getElementById('noResults');
+const countEl = document.getElementById('count');
+const langBtns = document.querySelectorAll('.lang-btn');
+
+
+// Helper: Fallback to English if FR/ES is missing, then Arabic
+function getT(scholar, field) {
+  const langData = scholar.tr[currentLang] || scholar.tr['en'] || scholar.tr['ar'];
+  return langData[field] || scholar.tr['en'][field] || scholar.tr['ar'][field];
 }
-
-function L(value) {
-  if (value && typeof value === "object" && !Array.isArray(value)) {
-    if (value[currentLang] != null) return value[currentLang];
-    if (value.ar != null) return value.ar;
-    if (value.en != null) return value.en;
-    var keys = Object.keys(value);
-    return keys.length ? value[keys[0]] : "";
-  }
-  return value == null ? "" : value;
+function getArr(scholar, field) {
+  const langData = scholar.tr[currentLang] || scholar.tr['en'] || scholar.tr['ar'];
+  return langData[field] || scholar.tr['en'][field] || scholar.tr['ar'][field];
 }
+function getMeta(scholar) { return scholar.meta[currentLang] || scholar.meta['en']; }
+function getTags(scholar) { return scholar.tags[currentLang] || scholar.tags['en']; }
+function getSeries(scholar) { return scholar.series[currentLang] || scholar.series['en']; }
 
-function localizedList(value) {
-  if (Array.isArray(value)) return value;
-  if (value && typeof value === "object") {
-    var v = value[currentLang] || value.ar || value.en;
-    return Array.isArray(v) ? v : [];
-  }
-  return [];
+
+// Smart Links
+function getPlatformURL(platform, name) {
+  const q = encodeURIComponent(name);
+  const p = platform.toLowerCase();
+  if (p.includes('youtube')) return `https://www.youtube.com/results?search_query=${q}`;
+  if (p.includes('facebook')) return `https://www.facebook.com/search/top?q=${q}`;
+  if (p.includes('instagram')) return `https://www.instagram.com/explore/search/keyword/?q=${q}`;
+  if (p.includes('twitter')) return `https://twitter.com/search?q=${q}&f=user`;
+  if (p.includes('telegram')) return `https://www.google.com/search?q=site%3At.me+${q}`;
+  if (p.includes('tiktok')) return `https://www.tiktok.com/search?q=${q}`;
+  if (p.includes('soundcloud')) return `https://soundcloud.com/search?q=${q}`;
+  if (p.includes('snapchat')) return `https://www.snapchat.com/add/${q}`;
+  if (p.includes('website')) return `https://www.google.com/search?q=${q}+الموقع+الرسمي`;
+  return `https://www.google.com/search?q=${q}+${encodeURIComponent(platform)}`;
 }
-
-/* يقرأ حقلاً من translations مع الرجوع إلى العربية ثم إلى الحقل القديم. */
-function T(s, field) {
-  var tr = s.translations;
-  if (tr && typeof tr === "object") {
-    if (tr[currentLang] && tr[currentLang][field] != null) return tr[currentLang][field];
-    if (tr.ar && tr.ar[field] != null) return tr.ar[field];
-    if (tr.en && tr.en[field] != null) return tr.en[field];
-  }
-  return L(s[field]);
-}
-
-function scholarName(s) {
-  var tr = s.translations;
-  if (tr && tr[currentLang] && tr[currentLang].name != null) return tr[currentLang].name;
-  return L(s.name);
-}
-
-/* الوسوم قد تكون مصفوفة واحدة أو كائنًا بحسب اللغة. */
-function localizedTags(s) {
-  var v = s.tags;
-  if (Array.isArray(v)) return v;
-  if (v && typeof v === "object") {
-    var arr = v[currentLang] || v.ar || v.en || [];
-    return Array.isArray(arr) ? arr : [];
-  }
-  return [];
-}
-
-/* =========================================================================
-   أدوات الأمان
-   ========================================================================= */
-function escapeHTML(value) {
-  return String(value == null ? "" : value).replace(/[&<>"']/g, function (ch) {
-    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
-  });
-}
-
-/* يسمح فقط بوسم <strong> ويعطّل كل وسوم HTML الأخرى. */
-function sanitizeWorks(html) {
-  return escapeHTML(html)
-    .replace(/&lt;strong&gt;/gi, "<strong>")
-    .replace(/&lt;\/strong&gt;/gi, "</strong>");
-}
-
-/* =========================================================================
-   روابط المنصات والسلاسل الذكية
-   ========================================================================= */
-function getPlatformURL(platform, scholarName) {
-  var p = String(platform || "").trim();
-  var key = p.toLowerCase();
-  var name = encodeURIComponent(scholarName || "");
-  var q = encodeURIComponent("\"" + (scholarName || "") + "\"");
-
-  var searchMap = {
-    "youtube": "https://www.youtube.com/results?search_query=" + q,
-    "يوتيوب": "https://www.youtube.com/results?search_query=" + q,
-    "facebook": "https://www.facebook.com/search/top?q=" + name,
-    "فيسبوك": "https://www.facebook.com/search/top?q=" + name,
-    "instagram": "https://www.instagram.com/explore/search/keyword/?q=" + name,
-    "انستغرام": "https://www.instagram.com/explore/search/keyword/?q=" + name,
-    "إنستغرام": "https://www.instagram.com/explore/search/keyword/?q=" + name,
-    "twitter": "https://twitter.com/search?q=" + q,
-    "x (twitter)": "https://twitter.com/search?q=" + q,
-    "x": "https://twitter.com/search?q=" + q,
-    "تويتر": "https://twitter.com/search?q=" + q,
-    "tiktok": "https://www.tiktok.com/search?q=" + name,
-    "تيك توك": "https://www.tiktok.com/search?q=" + name,
-    "soundcloud": "https://soundcloud.com/search?q=" + name,
-    "ساوند كلاود": "https://soundcloud.com/search?q=" + name,
-    "telegram": "https://www.google.com/search?q=" + encodeURIComponent("site:t.me " + (scholarName || "")),
-    "تيليجرام": "https://www.google.com/search?q=" + encodeURIComponent("site:t.me " + (scholarName || ""))
-  };
-
-  if (searchMap[key]) return searchMap[key];
-
-  if (key.indexOf("موقع") !== -1 || key.indexOf("website") !== -1) {
-    return "https://www.google.com/search?q=" + encodeURIComponent((scholarName || "") + " الموقع الرسمي");
-  }
-
-  return "https://www.google.com/search?q=" + encodeURIComponent((scholarName || "") + " " + p + " الموقع الرسمي");
-}
-
 function getSeriesURL(seriesName, scholarName) {
-  var q = '"' + (seriesName || "") + '" ' + (scholarName || "");
-  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+  const q = encodeURIComponent(`"${seriesName}" ${scholarName}`);
+  return `https://www.youtube.com/results?search_query=${q}`;
 }
 
-/* =========================================================================
-   بناء البطاقة
-   ========================================================================= */
-function flatten(value) {
-  if (value == null) return "";
-  if (Array.isArray(value)) return value.map(flatten).join(" ");
-  if (typeof value === "object") {
-    return Object.keys(value).map(function (k) { return flatten(value[k]); }).join(" ");
-  }
-  return String(value);
-}
 
-function buildSearchIndex(s) {
-  return flatten([
-    s.name, s.title, s.role, s.meta,
-    s.tags, s.translations,
-    s.digitalPresence && s.digitalPresence.platforms,
-    s.digitalPresence && s.digitalPresence.notableSeries
-  ]).toLowerCase();
-}
-
+// Render Card
 function cardHTML(s) {
-  var name = scholarName(s);
-
-  var tags = localizedTags(s).map(function (t) {
-    return '<span class="tag">' + escapeHTML(L(t)) + "</span>";
-  }).join("");
-
-  var platforms = localizedList(s.digitalPresence && s.digitalPresence.platforms);
-  var platformLinks = platforms.map(function (p) {
-    var platformName = L(p);
-    return '<a class="pill" href="' + escapeHTML(getPlatformURL(platformName, name)) + '" target="_blank" rel="noopener noreferrer">' +
-      escapeHTML(platformName) + "</a>";
-  }).join("");
-
-  var series = localizedList(s.digitalPresence && s.digitalPresence.notableSeries);
-  var seriesLinks = series.map(function (x) {
-    var seriesName = L(x);
-    return '<li><a href="' + escapeHTML(getSeriesURL(seriesName, name)) + '" target="_blank" rel="noopener noreferrer">' +
-      escapeHTML(seriesName) + "</a></li>";
-  }).join("");
-
-  var works = localizedList(T(s, "works")).map(function (w) {
-    return "<li>" + sanitizeWorks(L(w)) + "</li>";
-  }).join("");
-
-  var quote = T(s, "quote");
-
-  return (
-    '<article class="card" data-search="' + escapeHTML(buildSearchIndex(s)) + '">' +
-      '<div class="card-top">' +
-        '<div class="avatar" aria-hidden="true">' + escapeHTML(L(s.initials)) + "</div>" +
-        '<div class="ident">' +
-          "<h2>" + escapeHTML(name) + "</h2>" +
-          '<p class="honorific">' + escapeHTML(T(s, "title")) + "</p>" +
-        "</div>" +
-      "</div>" +
-      '<p class="meta">' + escapeHTML(L(s.meta)) + "</p>" +
-      '<p class="role">' + escapeHTML(T(s, "role")) + "</p>" +
-      (tags ? '<div class="tags">' + tags + "</div>" : "") +
-      '<p class="bio">' + escapeHTML(T(s, "upbringing")) + "</p>" +
-      '<p class="bio">' + escapeHTML(T(s, "daWahAndPositions")) + "</p>" +
-      (platformLinks
-        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("platforms")) + '</h3><div class="platforms">' + platformLinks + "</div></div>"
-        : "") +
-      (seriesLinks
-        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("series")) + '</h3><ul class="series">' + seriesLinks + "</ul></div>"
-        : "") +
-      (works
-        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("works")) + '</h3><ul class="works">' + works + "</ul></div>"
-        : "") +
-      (quote ? '<blockquote class="quote">' + escapeHTML(quote) + "</blockquote>" : "") +
-    "</article>"
-  );
+  const name = getT(s, 'title'); // Use title for search links
+  const platforms = s.platforms.map(p => `<li><a href="${getPlatformURL(p, name)}" target="_blank" rel="noopener noreferrer" class="pill">${p}</a></li>`).join("");
+  const series = getSeries(s).map(x => `<li><a href="${getSeriesURL(x, name)}" target="_blank" rel="noopener noreferrer" class="series-list__item">${x}</a></li>`).join("");
+  const works = getArr(s, 'works').map(w => `<li class="works-list__item">${w}</li>`).join("");
+  const tags = getTags(s).map(t => `<span class="tag">${t}</span>`).join("");
+  
+  return `
+  <article class="scholar-card" data-search="${(name + ' ' + getT(s,'role') + ' ' + getTags(s).join(' ') + ' ' + s.platforms.join(' ')).toLowerCase()}">
+    <header class="scholar-card__head">
+      <div class="scholar-card__avatar">${s.initials}</div>
+      <div class="scholar-card__ident">
+        <h2 class="scholar-card__title">${name}</h2>
+        <p class="scholar-card__meta">${getMeta(s)}</p>
+        <p class="scholar-card__role">${getT(s, 'role')}</p>
+      </div>
+    </header>
+    <div class="scholar-card__tags">${tags}</div>
+    <div class="scholar-card__body">
+      <p>${getT(s, 'up')}</p>
+      <p>${getT(s, 'da')}</p>
+    </div>
+    <section class="scholar-card__block">
+      <h3 class="scholar-card__label">${UI[currentLang].platforms}</h3>
+      <ul class="pill-list">${platforms}</ul>
+    </section>
+    <section class="scholar-card__block">
+      <h3 class="scholar-card__label">${UI[currentLang].series}</h3>
+      <ul class="series-list">${series}</ul>
+    </section>
+    <section class="scholar-card__block">
+      <h3 class="scholar-card__label">${UI[currentLang].works}</h3>
+      <ul class="works-list">${works}</ul>
+    </section>
+    <blockquote class="scholar-card__quote">${getT(s, 'quote')}</blockquote>
+  </article>`;
 }
 
-/* =========================================================================
-   العرض والبحث والوضع الليلي واللغة
-   ========================================================================= */
-var grid = document.getElementById("cards");
-var countEl = document.getElementById("count");
-var emptyEl = document.getElementById("empty");
-var emptyTitleEl = document.getElementById("empty-title");
-var emptyHintEl = document.getElementById("empty-hint");
-var searchEl = document.getElementById("search");
-var themeBtn = document.getElementById("theme-toggle");
-var appTitleEl = document.getElementById("app-title");
-var eyebrowEl = document.getElementById("eyebrow");
-var ledeEl = document.getElementById("lede");
-var footerEl = document.getElementById("footer-text");
-var cards = [];
-var total = 0;
 
-function updateCount(visible) {
-  countEl.textContent = visible + " " + STR("countFiltered") + " " + total + " " + STR("countLabel");
-}
-
-function applyFilter(rawQuery) {
-  var q = String(rawQuery || "").trim().toLowerCase();
-  var visible = 0;
-
-  cards.forEach(function (card) {
-    var match = !q || (card.getAttribute("data-search") || "").indexOf(q) !== -1;
-    card.classList.toggle("is-hidden", !match);
-    if (match) visible += 1;
-  });
-
-  updateCount(visible);
-  emptyEl.hidden = visible !== 0;
-}
-
+// Main Render
 function render() {
+  // Set Direction & Lang
+  document.body.dir = UI[currentLang].dir;
+  document.documentElement.dir = UI[currentLang].dir;
+  document.documentElement.lang = currentLang;
+  
+  // Update UI Text
+  document.getElementById('ui-eyebrow').textContent = UI[currentLang].eyebrow;
+  document.getElementById('ui-title').textContent = UI[currentLang].title;
+  document.getElementById('ui-lede').textContent = UI[currentLang].lede;
+  searchInput.placeholder = UI[currentLang].search;
+  noResults.textContent = UI[currentLang].noResults;
+  
+  // Update Buttons
+  langBtns.forEach(btn => {
+    const active = btn.dataset.lang === currentLang;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+
+
+  // Render Grid
   grid.innerHTML = scholars.map(cardHTML).join("");
-  cards = Array.prototype.slice.call(grid.querySelectorAll(".card"));
-  total = cards.length;
-  applyFilter(searchEl.value);
+  
+  // Re-apply search filter
+  searchInput.dispatchEvent(new Event('input'));
 }
 
-function updateChrome() {
-  searchEl.placeholder = STR("searchPlaceholder");
-  searchEl.setAttribute("aria-label", STR("searchLabel"));
-  appTitleEl.textContent = STR("appTitle");
-  eyebrowEl.textContent = STR("eyebrow");
-  ledeEl.textContent = STR("lede");
-  footerEl.textContent = STR("footer");
-  emptyTitleEl.textContent = STR("noResults");
-  emptyHintEl.textContent = STR("noResultsHint");
-  themeBtn.setAttribute("aria-label", STR("themeToggle"));
-  themeBtn.setAttribute("title", STR("themeToggle"));
-  grid.setAttribute("aria-label", STR("cardsLabel"));
-  document.title = STR("appTitle") + " | " + STR("eyebrow");
-}
 
-function applyLanguage(lang, persist) {
-  if (!uiStrings[lang]) lang = "ar";
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-
-  if (persist !== false) {
-    try { localStorage.setItem("a3lam-lang", lang); } catch (e) {}
-  }
-
-  var buttons = document.querySelectorAll(".lang-btn");
-  Array.prototype.forEach.call(buttons, function (btn) {
-    btn.setAttribute("aria-pressed", btn.getAttribute("data-lang") === lang ? "true" : "false");
+// Search Logic
+searchInput.addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase().trim();
+  let visible = 0;
+  [...grid.children].forEach(card => {
+    const match = !q || card.dataset.search.includes(q);
+    card.style.display = match ? "" : "none";
+    if (match) visible++;
   });
-
-  updateChrome();
-  render();
-}
-
-searchEl.addEventListener("input", function () {
-  applyFilter(searchEl.value);
+  noResults.classList.toggle('is-visible', visible === 0);
+  countEl.textContent = q ? `${visible} / ${scholars.length}` : scholars.length;
 });
 
-themeBtn.addEventListener("click", function () {
-  var root = document.documentElement;
-  var isDark = root.getAttribute("data-theme") === "dark";
-  if (isDark) {
-    root.removeAttribute("data-theme");
-  } else {
-    root.setAttribute("data-theme", "dark");
-  }
-  try {
-    localStorage.setItem("a3lam-theme", isDark ? "light" : "dark");
-  } catch (e) {}
-});
 
-Array.prototype.forEach.call(document.querySelectorAll(".lang-btn"), function (btn) {
-  btn.addEventListener("click", function () {
-    applyLanguage(btn.getAttribute("data-lang"));
+// Lang Switch
+langBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentLang = btn.dataset.lang;
+    localStorage.setItem('dawa-lang', currentLang);
+    render();
   });
 });
 
-applyLanguage(currentLang, false);
+
+// Theme Logic
+const themeToggle = document.getElementById('themeToggle');
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+}
+themeToggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('dawa-theme', currentTheme);
+  applyTheme();
+});
+
+
+// Init
+applyTheme();
+render();
 </script>
 </body>
 </html>
