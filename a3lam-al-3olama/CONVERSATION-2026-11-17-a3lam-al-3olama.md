@@ -68,13 +68,34 @@ brief (22,638 B):
   5 webapp cards, no duplicate IDs, SW v6, icon SVG valid). Live Maktaba ==
   local; live app hash `8ae05de5…` unchanged.
 
+## Session 4 — final 27-scholar rewrite + deployment (commit `ae22b0a`)
+
+- Replaced the whole app with the user's supplied final single-file HTML:
+  - **27 scholars** complete, schema `tr.{ar,en}` with `getT()`/`getArr()`
+    fallback to English when a field is missing.
+  - UI strings fully translated for **AR / EN / FR / ES**; direction and `<html
+    lang>` update per language. Long-form FR/ES content (titles, roles, bios,
+    works, series) intentionally falls back to English; tags are localised.
+  - Header with 27-count badge, language pills (AR/EN/FR/ES), theme toggle,
+    live search, no-results state, quote blocks, smart platform/series links.
+  - Minimal patches to the supplied code: every generated `<a>` now carries
+    `target="_blank" rel="noopener noreferrer"`, and
+    `document.documentElement.dir` is set alongside `document.body.dir`.
+- **Tests: 63/63** (Node `vm` + DOM shim): 27 parsed objects, 27 cards,
+  AR/EN/FR/ES switching, `lang`/`dir`, FR/ES fallback-to-EN, search filtering
+  (`1 / 27`, `0 / 27`, reset `27`), empty state, theme persistence, link
+  `target`/`rel`, smart URL helpers. `node --check` passes.
+- File: 50,141 B; SHA-256
+  `dfe40aa14cd182d224d762d75484e8f87c09193429b8d7445c7545081644dd38`.
+- Note: the app brands itself «أعلام الدعوة / A'lam al-Dawa» while living in
+  `a3lam-al-3olama/`; the Maktaba card still reads «أعلام العلماء». Optional
+  follow-up: align the card title / directory name.
+
 ## Pending
 
-1. **26 of 27 scholars missing** — paste them into the `scholars` array using
-   the same schema (`name`, `meta`, `tags`, `translations`, `digitalPresence`).
-2. Count badge is dynamic, so adding the rest automatically shows `27 من 27`.
-3. No service worker / manifest in this single-file project (by design).
-4. Revoke the recovery PAT after the work is finished.
+1. No service worker / manifest in this single-file project (by design).
+2. Revoke the recovery PAT after the work is finished.
+3. Optional: align the Maktaba card title or move the app to `a3lam-al-dawa/`.
 
 ## Links
 
@@ -84,6 +105,7 @@ brief (22,638 B):
 - Initial commit: https://github.com/ucfzem/ucfzem.github.io/commit/b6e959b60cad090c43beb2360b7975793710dd2f
 - Multilingual commit: https://github.com/ucfzem/ucfzem.github.io/commit/171ccfd5e661e689bac6bc79d61aede7b3dc9153
 - Maktaba commit: https://github.com/ucfzem/ucfzem.github.io/commit/e1c96ed0c8e01817485cd957884d60daf4340a2f
+- Final 27-scholar commit: https://github.com/ucfzem/ucfzem.github.io/commit/ae22b0a55ba59444f9a5abdb1eea928320666465
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
