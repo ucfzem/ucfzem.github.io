@@ -7,12 +7,17 @@
 <meta name="description" content="دليل رقمي مختصر لسِيَر علماء الإسلام المعاصرين، ومنصاتهم، وأبرز سلاسلهم ومؤلفاتهم.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
 <script>
 (function () {
   try {
     if (localStorage.getItem('a3lam-theme') === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    var lang = localStorage.getItem('a3lam-lang');
+    if (lang && ['ar', 'en', 'fr', 'es'].indexOf(lang) !== -1) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     }
   } catch (e) {}
 })();
@@ -61,6 +66,13 @@
     transition: background-color .25s ease, color .25s ease;
   }
 
+  html[lang="en"] body,
+  html[lang="fr"] body,
+  html[lang="es"] body {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.65;
+  }
+
   a { color: inherit; }
 
   .wrap {
@@ -69,9 +81,7 @@
   }
 
   /* ===== Header ===== */
-  .site-header {
-    padding: 38px 0 22px;
-  }
+  .site-header { padding: 38px 0 22px; }
 
   .header-row {
     display: flex;
@@ -115,6 +125,13 @@
     letter-spacing: -.01em;
   }
 
+  html:not([lang="ar"]) h1 {
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1.15;
+  }
+
   .lede {
     margin: 10px 0 0;
     color: var(--muted);
@@ -126,6 +143,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
     padding-top: 6px;
   }
 
@@ -138,9 +156,54 @@
     background: var(--accent-soft);
     color: var(--accent);
     border: 1px solid transparent;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
+  }
+
+  /* ===== Language switch ===== */
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card);
+  }
+
+  .lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 9px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease, transform .18s ease;
+  }
+
+  .lang-btn .flag {
+    font-size: 14px;
+    line-height: 1;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  }
+
+  .lang-btn:hover {
+    background: var(--accent-soft);
+    color: var(--text);
+  }
+
+  .lang-btn[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 28%, transparent);
   }
 
   .theme-toggle {
@@ -163,6 +226,7 @@
   }
 
   .theme-toggle:focus-visible,
+  .lang-btn:focus-visible,
   .search-input:focus-visible,
   .pill:focus-visible,
   .series a:focus-visible {
@@ -194,7 +258,8 @@
   .search-input {
     width: 100%;
     height: 56px;
-    padding: 0 50px 0 18px;
+    padding-block: 0;
+    padding-inline: 50px 18px;
     border: 1px solid var(--border);
     border-radius: 16px;
     background: var(--card);
@@ -269,6 +334,11 @@
     box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 32%, transparent);
   }
 
+  html:not([lang="ar"]) .avatar {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 17px;
+  }
+
   .ident { min-width: 0; }
 
   .ident h2 {
@@ -321,8 +391,9 @@
     margin: 12px 0 0;
     font-size: 13.5px;
     line-height: 1.9;
-    color: var(--text);
   }
+
+  html:not([lang="ar"]) .bio { line-height: 1.75; }
 
   .block { margin-top: 16px; }
 
@@ -337,6 +408,8 @@
     letter-spacing: .06em;
     text-transform: uppercase;
   }
+
+  html[lang="ar"] .block-title { text-transform: none; }
 
   .block-title::after {
     content: "";
@@ -434,20 +507,28 @@
 
   .works li { margin: 6px 0; }
   .works li::marker { color: var(--accent); }
-  .works strong:first-child { color: var(--accent); font-weight: 700; } 
   .works strong { color: var(--accent); font-weight: 700; }
 
   /* ===== Quote ===== */
   .quote {
     margin: 16px 0 0;
     padding: 11px 14px;
-    border-left: 3px solid var(--accent);
-    border-radius: 0 12px 12px 0;
+    border-inline-start: 3px solid var(--accent);
+    border-start-start-radius: 0;
+    border-start-end-radius: 12px;
+    border-end-end-radius: 12px;
+    border-end-start-radius: 0;
     background: linear-gradient(135deg, var(--accent-soft), transparent 78%);
     color: var(--text);
     font-family: "Noto Naskh Arabic", serif;
     font-size: 14.5px;
     line-height: 1.9;
+  }
+
+  html:not([lang="ar"]) .quote {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.75;
   }
 
   /* ===== Empty state ===== */
@@ -469,6 +550,8 @@
     font-size: 17px;
   }
 
+  .empty span { display: block; }
+
   [hidden] { display: none !important; }
 
   /* ===== Footer ===== */
@@ -480,9 +563,11 @@
     text-align: center;
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 640px) {
     .site-header { padding-top: 26px; }
-    .header-actions { width: 100%; justify-content: space-between; }
+    .header-actions { width: 100%; }
+    .lang-switch { order: 3; width: 100%; justify-content: space-between; }
+    .lang-btn { flex: 1; justify-content: center; }
     .card { padding: 17px; }
     .avatar { width: 48px; height: 48px; font-size: 17px; }
     .ident h2 { font-size: 17.5px; }
@@ -499,12 +584,18 @@
     <div class="wrap">
       <div class="header-row">
         <div class="brand">
-          <p class="eyebrow">دليل علماء الإسلام المعاصرين</p>
-          <h1>أعلام العلماء</h1>
-          <p class="lede">سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.</p>
+          <p class="eyebrow" id="eyebrow">دليل علماء الإسلام المعاصرين</p>
+          <h1 id="app-title">أعلام العلماء</h1>
+          <p class="lede" id="lede">سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.</p>
         </div>
         <div class="header-actions">
-          <span class="count-badge" id="count" aria-live="polite">0 من 0</span>
+          <span class="count-badge" id="count" aria-live="polite">0 / 0</span>
+          <nav class="lang-switch" aria-label="Language">
+            <button class="lang-btn" type="button" data-lang="ar" aria-pressed="true"><span class="flag">🇲🇦</span> AR</button>
+            <button class="lang-btn" type="button" data-lang="en" aria-pressed="false"><span class="flag">🇬🇧</span> EN</button>
+            <button class="lang-btn" type="button" data-lang="fr" aria-pressed="false"><span class="flag">🇫🇷</span> FR</button>
+            <button class="lang-btn" type="button" data-lang="es" aria-pressed="false"><span class="flag">🇪🇸</span> ES</button>
+          </nav>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="تبديل الوضع الليلي" title="تبديل الوضع الليلي">
             <svg class="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
@@ -523,7 +614,7 @@
           <path d="m20 20-3.2-3.2"/>
         </svg>
         <input class="search-input" id="search" type="search" inputmode="search"
-               placeholder="ابحث بالاسم أو التخصص أو المنصة…" aria-label="البحث في الدليل" autocomplete="off">
+               placeholder="ابحث بالاسم أو الوسم أو المنصة…" aria-label="البحث في الدليل" autocomplete="off">
       </div>
     </div>
   </header>
@@ -531,46 +622,233 @@
   <main class="wrap">
     <section class="cards" id="cards" aria-label="بطاقات العلماء"></section>
     <div class="empty" id="empty" hidden>
-      <strong>لا توجد نتائج</strong>
-      لم نجد عالمًا يطابق بحثك. جرّب كلمة أخرى أو اسمًا مختلفًا.
+      <strong id="empty-title"></strong>
+      <span id="empty-hint"></span>
     </div>
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">أعلام العلماء — دليل رقمي لعلماء الإسلام المعاصرين</div>
+    <div class="wrap" id="footer-text"></div>
   </footer>
 
 <script>
 "use strict";
 
 /* =========================================================================
+   القواميس
+   ========================================================================= */
+const uiStrings = {
+  ar: {
+    searchPlaceholder: "ابحث بالاسم أو الوسم أو المنصة…",
+    platforms: "المنصات (اضغط للبحث)",
+    series: "سلاسل بارزة (اضغط للمشاهدة)",
+    works: "من مؤلفاته وأعماله",
+    noResults: "لا توجد نتائج مطابقة لبحثك.",
+    countLabel: "ملفاً تعريفياً",
+    countFiltered: "من",
+    noResultsHint: "جرّب كلمة أخرى أو اسمًا مختلفًا.",
+    appTitle: "أعلام العلماء",
+    eyebrow: "دليل علماء الإسلام المعاصرين",
+    lede: "سِيَر مختصرة لعلماء ودعاة معاصرين، مع أبرز منصاتهم الرقمية وسلاسلهم ومؤلفاتهم، في واجهة عربية واحدة.",
+    footer: "أعلام العلماء — دليل رقمي لعلماء الإسلام المعاصرين",
+    themeToggle: "تبديل الوضع الليلي",
+    cardsLabel: "بطاقات العلماء",
+    searchLabel: "البحث في الدليل"
+  },
+  en: {
+    searchPlaceholder: "Search by name, tag, or platform...",
+    platforms: "Platforms (Click to Search)",
+    series: "Notable Series (Click to Watch)",
+    works: "Works & Publications",
+    noResults: "No matching results found.",
+    countLabel: "Profiles",
+    countFiltered: "of",
+    noResultsHint: "Try another keyword or a different name.",
+    appTitle: "Scholars Directory",
+    eyebrow: "Contemporary Islamic Scholars",
+    lede: "Concise profiles of contemporary scholars and preachers, with their key platforms, series, and publications in one interface.",
+    footer: "Scholars Directory — A digital directory of contemporary Islamic scholars",
+    themeToggle: "Toggle dark mode",
+    cardsLabel: "Scholar cards",
+    searchLabel: "Search the directory"
+  },
+  fr: {
+    searchPlaceholder: "Rechercher par nom, tag ou plateforme...",
+    platforms: "Plateformes (Cliquez pour chercher)",
+    series: "Séries notables (Cliquez pour regarder)",
+    works: "Œuvres et publications",
+    noResults: "Aucun résultat trouvé.",
+    countLabel: "Profils",
+    countFiltered: "sur",
+    noResultsHint: "Essayez un autre mot-clé ou un autre nom.",
+    appTitle: "Répertoire des savants",
+    eyebrow: "Savants islamiques contemporains",
+    lede: "Des profils concis de savants et de prédicateurs contemporains, avec leurs plateformes, séries et publications dans une seule interface.",
+    footer: "Répertoire des savants — Un annuaire numérique des savants islamiques contemporains",
+    themeToggle: "Basculer le mode sombre",
+    cardsLabel: "Fiches des savants",
+    searchLabel: "Rechercher dans le répertoire"
+  },
+  es: {
+    searchPlaceholder: "Buscar por nombre, etiqueta o plataforma...",
+    platforms: "Plataformas (Clic para buscar)",
+    series: "Series destacadas (Clic para ver)",
+    works: "Obras y publicaciones",
+    noResults: "No se encontraron resultados.",
+    countLabel: "Perfiles",
+    countFiltered: "de",
+    noResultsHint: "Prueba con otra palabra clave u otro nombre.",
+    appTitle: "Directorio de sabios",
+    eyebrow: "Eruditos islámicos contemporáneos",
+    lede: "Perfiles concisos de eruditos y predicadores contemporáneos, con sus plataformas, series y publicaciones en una sola interfaz.",
+    footer: "Directorio de sabios — Un directorio digital de eruditos islámicos contemporáneos",
+    themeToggle: "Alternar modo oscuro",
+    cardsLabel: "Fichas de eruditos",
+    searchLabel: "Buscar en el directorio"
+  }
+};
+
+/* =========================================================================
    البيانات
    أضف بقية العلماء (حتى 27) داخل المصفوفة بنفس البنية تمامًا، مفصولين بفواصل.
+   كل عالم: name + tags متعدد اللغات + translations (ar/en/fr/es)
+   + digitalPresence (platforms / notableSeries).
    ========================================================================= */
 const scholars = [
   {
     id: "othman-al-khamees",
-    name: "عثمان الخميس",
-    initials: "ع.خ",
-    title: "فضيلة الشيخ الدكتور عثمان بن محمد الخميس",
-    meta: "مواليد 1962 م | الكويت",
-    role: "باحث في التاريخ الإسلامي والحديث، وداعية بارز عبر المنصات الرقمية",
-    tags: ["الحديث الشريف", "العقيدة", "التاريخ الإسلامي"],
-    upbringing: "وُلد في الكويت عام 1962 م...",
-    daWahAndPositions: "تولى الإمامة والخطابة...",
-    digitalPresence: {
-      platforms: ["YouTube", "Telegram", "X (Twitter)", "الموقع الرسمي"],
-      notableSeries: ["شرح كتاب التوحيد...", "سلسلة حقبة من التاريخ..."]
+    name: {
+      ar: "عثمان الخميس",
+      en: "Othman Al-Khamees",
+      fr: "Othman Al-Khamees",
+      es: "Othman Al-Khamees"
     },
-    works: [
-      "<strong>حقبة من التاريخ:</strong> عرض تحليلي...",
-      "<strong>كشف الجاني...</strong>"
-    ],
-    quote: "طلب العلم الشرعي..."
+    initials: "ع.خ",
+    meta: {
+      ar: "1962 | الكويت",
+      en: "1962 | Kuwait",
+      fr: "1962 | Koweït",
+      es: "1962 | Kuwait"
+    },
+    tags: {
+      ar: ["الحديث", "العقيدة"],
+      en: ["Hadith", "Aqeedah"],
+      fr: ["Hadith", "Aqidah"],
+      es: ["Hadiz", "Aqidah"]
+    },
+    translations: {
+      ar: {
+        title: "فضيلة الشيخ الدكتور عثمان بن محمد الخميس",
+        role: "باحث في التاريخ الإسلامي والحديث، وداعية بارز عبر المنصات الرقمية",
+        upbringing: "وُلد في الكويت عام 1962 م...",
+        daWahAndPositions: "تولى الإمامة والخطابة...",
+        works: [
+          "<strong>حقبة من التاريخ:</strong> عرض تحليلي...",
+          "<strong>كشف الجاني:</strong> ..."
+        ],
+        quote: "طلب العلم الشرعي..."
+      },
+      en: {
+        title: "Sheikh Dr. Othman bin Muhammad Al-Khamees",
+        role: "Researcher in Islamic history and Hadith, and a prominent preacher across digital platforms",
+        upbringing: "Born in Kuwait in 1962...",
+        daWahAndPositions: "He led prayers and delivered sermons...",
+        works: [
+          "<strong>Era of History:</strong> An analytical presentation...",
+          "<strong>Kashf al-Jani:</strong> ..."
+        ],
+        quote: "Seeking Islamic knowledge..."
+      },
+      fr: {
+        title: "Cheikh Dr. Othman bin Muhammad Al-Khamees",
+        role: "Chercheur en histoire islamique et en Hadith, et prédicateur de premier plan sur les plateformes numériques",
+        upbringing: "Né au Koweït en 1962...",
+        daWahAndPositions: "Il a dirigé la prière et prononcé des sermons...",
+        works: [
+          "<strong>Une époque de l'histoire :</strong> Une présentation analytique...",
+          "<strong>Kachf al-Jani :</strong> ..."
+        ],
+        quote: "La recherche du savoir islamique..."
+      },
+      es: {
+        title: "Jeque Dr. Othman bin Muhammad Al-Khamees",
+        role: "Investigador en historia islámica y Hadiz, y predicador destacado en las plataformas digitales",
+        upbringing: "Nacido en Kuwait en 1962...",
+        daWahAndPositions: "Dirigió la oración y pronunció sermones...",
+        works: [
+          "<strong>Una era de la historia:</strong> Una presentación analítica...",
+          "<strong>Kashf al-Jani:</strong> ..."
+        ],
+        quote: "Buscar el conocimiento islámico..."
+      }
+    },
+    digitalPresence: {
+      platforms: ["YouTube", "Telegram", "X (Twitter)", "Website"],
+      notableSeries: ["شرح كتاب التوحيد...", "سلسلة حقبة من التاريخ..."]
+    }
   }
   // ← الصق بقية العلماء هنا، مثال:
-  // , { id: "...", name: "...", ... }
+  // , { id: "...", name: { ar: "...", en: "..." }, ... }
 ];
+
+/* =========================================================================
+   الحالة واللغة
+   ========================================================================= */
+var currentLang = document.documentElement.lang || "ar";
+if (!uiStrings[currentLang]) currentLang = "ar";
+
+function STR(key) {
+  var table = uiStrings[currentLang] || uiStrings.ar;
+  return table[key] != null ? table[key] : (uiStrings.ar[key] || "");
+}
+
+function L(value) {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    if (value[currentLang] != null) return value[currentLang];
+    if (value.ar != null) return value.ar;
+    if (value.en != null) return value.en;
+    var keys = Object.keys(value);
+    return keys.length ? value[keys[0]] : "";
+  }
+  return value == null ? "" : value;
+}
+
+function localizedList(value) {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object") {
+    var v = value[currentLang] || value.ar || value.en;
+    return Array.isArray(v) ? v : [];
+  }
+  return [];
+}
+
+/* يقرأ حقلاً من translations مع الرجوع إلى العربية ثم إلى الحقل القديم. */
+function T(s, field) {
+  var tr = s.translations;
+  if (tr && typeof tr === "object") {
+    if (tr[currentLang] && tr[currentLang][field] != null) return tr[currentLang][field];
+    if (tr.ar && tr.ar[field] != null) return tr.ar[field];
+    if (tr.en && tr.en[field] != null) return tr.en[field];
+  }
+  return L(s[field]);
+}
+
+function scholarName(s) {
+  var tr = s.translations;
+  if (tr && tr[currentLang] && tr[currentLang].name != null) return tr[currentLang].name;
+  return L(s.name);
+}
+
+/* الوسوم قد تكون مصفوفة واحدة أو كائنًا بحسب اللغة. */
+function localizedTags(s) {
+  var v = s.tags;
+  if (Array.isArray(v)) return v;
+  if (v && typeof v === "object") {
+    var arr = v[currentLang] || v.ar || v.en || [];
+    return Array.isArray(arr) ? arr : [];
+  }
+  return [];
+}
 
 /* =========================================================================
    أدوات الأمان
@@ -634,82 +912,98 @@ function getSeriesURL(seriesName, scholarName) {
 /* =========================================================================
    بناء البطاقة
    ========================================================================= */
+function flatten(value) {
+  if (value == null) return "";
+  if (Array.isArray(value)) return value.map(flatten).join(" ");
+  if (typeof value === "object") {
+    return Object.keys(value).map(function (k) { return flatten(value[k]); }).join(" ");
+  }
+  return String(value);
+}
+
 function buildSearchIndex(s) {
-  var platforms = (s.digitalPresence && s.digitalPresence.platforms) || [];
-  var series = (s.digitalPresence && s.digitalPresence.notableSeries) || [];
-  return [
+  return flatten([
     s.name, s.title, s.role, s.meta,
-    (s.tags || []).join(" "),
-    platforms.join(" "),
-    series.join(" ")
-  ].join(" ").toLowerCase();
+    s.tags, s.translations,
+    s.digitalPresence && s.digitalPresence.platforms,
+    s.digitalPresence && s.digitalPresence.notableSeries
+  ]).toLowerCase();
 }
 
 function cardHTML(s) {
-  var tags = (s.tags || []).map(function (t) {
-    return '<span class="tag">' + escapeHTML(t) + "</span>";
+  var name = scholarName(s);
+
+  var tags = localizedTags(s).map(function (t) {
+    return '<span class="tag">' + escapeHTML(L(t)) + "</span>";
   }).join("");
 
-  var platforms = (s.digitalPresence && s.digitalPresence.platforms) || [];
+  var platforms = localizedList(s.digitalPresence && s.digitalPresence.platforms);
   var platformLinks = platforms.map(function (p) {
-    return '<a class="pill" href="' + escapeHTML(getPlatformURL(p, s.name)) + '" target="_blank" rel="noopener noreferrer">' +
-      escapeHTML(p) + "</a>";
+    var platformName = L(p);
+    return '<a class="pill" href="' + escapeHTML(getPlatformURL(platformName, name)) + '" target="_blank" rel="noopener noreferrer">' +
+      escapeHTML(platformName) + "</a>";
   }).join("");
 
-  var series = (s.digitalPresence && s.digitalPresence.notableSeries) || [];
+  var series = localizedList(s.digitalPresence && s.digitalPresence.notableSeries);
   var seriesLinks = series.map(function (x) {
-    return '<li><a href="' + escapeHTML(getSeriesURL(x, s.name)) + '" target="_blank" rel="noopener noreferrer">' +
-      escapeHTML(x) + "</a></li>";
+    var seriesName = L(x);
+    return '<li><a href="' + escapeHTML(getSeriesURL(seriesName, name)) + '" target="_blank" rel="noopener noreferrer">' +
+      escapeHTML(seriesName) + "</a></li>";
   }).join("");
 
-  var works = (s.works || []).map(function (w) {
-    return "<li>" + sanitizeWorks(w) + "</li>";
+  var works = localizedList(T(s, "works")).map(function (w) {
+    return "<li>" + sanitizeWorks(L(w)) + "</li>";
   }).join("");
+
+  var quote = T(s, "quote");
 
   return (
     '<article class="card" data-search="' + escapeHTML(buildSearchIndex(s)) + '">' +
       '<div class="card-top">' +
-        '<div class="avatar" aria-hidden="true">' + escapeHTML(s.initials || "") + "</div>" +
+        '<div class="avatar" aria-hidden="true">' + escapeHTML(L(s.initials)) + "</div>" +
         '<div class="ident">' +
-          "<h2>" + escapeHTML(s.name) + "</h2>" +
-          '<p class="honorific">' + escapeHTML(s.title || "") + "</p>" +
+          "<h2>" + escapeHTML(name) + "</h2>" +
+          '<p class="honorific">' + escapeHTML(T(s, "title")) + "</p>" +
         "</div>" +
       "</div>" +
-      '<p class="meta">' + escapeHTML(s.meta || "") + "</p>" +
-      '<p class="role">' + escapeHTML(s.role || "") + "</p>" +
+      '<p class="meta">' + escapeHTML(L(s.meta)) + "</p>" +
+      '<p class="role">' + escapeHTML(T(s, "role")) + "</p>" +
       (tags ? '<div class="tags">' + tags + "</div>" : "") +
-      '<p class="bio">' + escapeHTML(s.upbringing || "") + "</p>" +
-      '<p class="bio">' + escapeHTML(s.daWahAndPositions || "") + "</p>" +
+      '<p class="bio">' + escapeHTML(T(s, "upbringing")) + "</p>" +
+      '<p class="bio">' + escapeHTML(T(s, "daWahAndPositions")) + "</p>" +
       (platformLinks
-        ? '<div class="block"><h3 class="block-title">المنصات</h3><div class="platforms">' + platformLinks + "</div></div>"
+        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("platforms")) + '</h3><div class="platforms">' + platformLinks + "</div></div>"
         : "") +
       (seriesLinks
-        ? '<div class="block"><h3 class="block-title">سلاسل مختارة</h3><ul class="series">' + seriesLinks + "</ul></div>"
+        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("series")) + '</h3><ul class="series">' + seriesLinks + "</ul></div>"
         : "") +
       (works
-        ? '<div class="block"><h3 class="block-title">من مؤلفاته</h3><ul class="works">' + works + "</ul></div>"
+        ? '<div class="block"><h3 class="block-title">' + escapeHTML(STR("works")) + '</h3><ul class="works">' + works + "</ul></div>"
         : "") +
-      (s.quote ? '<blockquote class="quote">' + escapeHTML(s.quote) + "</blockquote>" : "") +
+      (quote ? '<blockquote class="quote">' + escapeHTML(quote) + "</blockquote>" : "") +
     "</article>"
   );
 }
 
 /* =========================================================================
-   العرض والبحث والوضع الليلي
+   العرض والبحث والوضع الليلي واللغة
    ========================================================================= */
 var grid = document.getElementById("cards");
 var countEl = document.getElementById("count");
 var emptyEl = document.getElementById("empty");
+var emptyTitleEl = document.getElementById("empty-title");
+var emptyHintEl = document.getElementById("empty-hint");
 var searchEl = document.getElementById("search");
 var themeBtn = document.getElementById("theme-toggle");
-
-grid.innerHTML = scholars.map(cardHTML).join("");
-
-var cards = Array.prototype.slice.call(grid.querySelectorAll(".card"));
-var total = cards.length;
+var appTitleEl = document.getElementById("app-title");
+var eyebrowEl = document.getElementById("eyebrow");
+var ledeEl = document.getElementById("lede");
+var footerEl = document.getElementById("footer-text");
+var cards = [];
+var total = 0;
 
 function updateCount(visible) {
-  countEl.textContent = visible + " من " + total;
+  countEl.textContent = visible + " " + STR("countFiltered") + " " + total + " " + STR("countLabel");
 }
 
 function applyFilter(rawQuery) {
@@ -724,6 +1018,47 @@ function applyFilter(rawQuery) {
 
   updateCount(visible);
   emptyEl.hidden = visible !== 0;
+}
+
+function render() {
+  grid.innerHTML = scholars.map(cardHTML).join("");
+  cards = Array.prototype.slice.call(grid.querySelectorAll(".card"));
+  total = cards.length;
+  applyFilter(searchEl.value);
+}
+
+function updateChrome() {
+  searchEl.placeholder = STR("searchPlaceholder");
+  searchEl.setAttribute("aria-label", STR("searchLabel"));
+  appTitleEl.textContent = STR("appTitle");
+  eyebrowEl.textContent = STR("eyebrow");
+  ledeEl.textContent = STR("lede");
+  footerEl.textContent = STR("footer");
+  emptyTitleEl.textContent = STR("noResults");
+  emptyHintEl.textContent = STR("noResultsHint");
+  themeBtn.setAttribute("aria-label", STR("themeToggle"));
+  themeBtn.setAttribute("title", STR("themeToggle"));
+  grid.setAttribute("aria-label", STR("cardsLabel"));
+  document.title = STR("appTitle") + " | " + STR("eyebrow");
+}
+
+function applyLanguage(lang, persist) {
+  if (!uiStrings[lang]) lang = "ar";
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+  if (persist !== false) {
+    try { localStorage.setItem("a3lam-lang", lang); } catch (e) {}
+  }
+
+  var buttons = document.querySelectorAll(".lang-btn");
+  Array.prototype.forEach.call(buttons, function (btn) {
+    btn.setAttribute("aria-pressed", btn.getAttribute("data-lang") === lang ? "true" : "false");
+  });
+
+  updateChrome();
+  render();
 }
 
 searchEl.addEventListener("input", function () {
@@ -743,7 +1078,13 @@ themeBtn.addEventListener("click", function () {
   } catch (e) {}
 });
 
-applyFilter("");
+Array.prototype.forEach.call(document.querySelectorAll(".lang-btn"), function (btn) {
+  btn.addEventListener("click", function () {
+    applyLanguage(btn.getAttribute("data-lang"));
+  });
+});
+
+applyLanguage(currentLang, false);
 </script>
 </body>
 </html>
