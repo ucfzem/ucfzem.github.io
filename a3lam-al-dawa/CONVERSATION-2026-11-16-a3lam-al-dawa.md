@@ -339,6 +339,17 @@ Tests: parse PASS; DOM harness 34 cards, #33 name/site/YouTube correct in the fo
 languages, old name absent; live index `90d2c73f…`, SW `v32`, image hash matches;
 `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 18 — direct YouTube channel for Mahmoud Shaban (merge `52018ed`)
+Request: fix the YouTube link for #34 الشيخ محمود شعبان.
+
+- Set `yt=https://www.youtube.com/@dr.mahmoud_shaban` for #34 (tracking `?si=`
+  removed); the button no longer falls back to a YouTube search.
+- SW `v32 → v33`.
+
+Tests: parse PASS; DOM harness 34 cards / 34 YouTube / 18 website; #34 channel
+present and no search link for him. Live index `4aef9d28…`, SW `v33`;
+`/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
 1. Portraits complete (34/34); no image work remains.
 2. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
