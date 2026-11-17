@@ -326,11 +326,22 @@ Report: #10's website `https://www.iyadqunaibi.com/` did not respond.
 Tests: parse PASS; old URL absent, new URL present once; live index `3346ef53…`,
 SW `v31`; `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 17 — #33 replaced with Sheikh Dr. Yasir Qadhi (merge `1e0b7ba`)
+Request: replace image #33 and its name with الشيخ د. ياسر قاضي, plus site and YouTube.
+
+- New `images/33.jpg` (JPEG 816×852) installed; live hash matches local `da45aa01…`.
+- #33 identity replaced in ar/en/fr/es; tag and desc updated to match (old
+  `أبو عمر البديع` text removed); `website=https://www.yasirqadhi.com/`;
+  `yt=https://www.youtube.com/@yasirqadhi`.
+- `names.html` row 33 updated; non-empty websites now 18; SW `v31 → v32`.
+
+Tests: parse PASS; DOM harness 34 cards, #33 name/site/YouTube correct in the four
+languages, old name absent; live index `90d2c73f…`, SW `v32`, image hash matches;
+`/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
-1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
-   are gone; the rest follow the supplied spellings.
-2. Portraits complete (34/34); no image work remains.
-3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
+1. Portraits complete (34/34); no image work remains.
+2. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
 
 ## Links
