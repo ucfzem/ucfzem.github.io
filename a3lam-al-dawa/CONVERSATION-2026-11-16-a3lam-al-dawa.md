@@ -222,12 +222,30 @@ Tests (VM/DOM harness): default → 0 `<img>` / 38 mono / 38 avatars; flag true 
 Live: index `b2f41a58…`, SW `v24`, `/`, `names.html`, `manifest.json`, `sw.js`
 all HTTP 200.
 
+## Session 10 — portraits activated, first 20 uploaded (merge `0c1926b`)
+Request: enable photos, SW v25, push main, deploy.
+
+- User supplied `machaikhs20.zip` via tmpfiles.org (the direct download needed the
+  `/dl/<token>/...` href, not the preview URL). 20 valid JPEGs, `01.jpg`…`20.jpg`,
+  ~1.1 MB total.
+- Installed in `a3lam-al-dawa/images/`; `ENABLE_PHOTOS = true`.
+- SW `v24 → v25`; `PORTRAITS` precaches exactly the 20 existing files via
+  `Promise.allSettled` (install never fails); runtime caching covers later arrivals.
+- Missing #21…#38 return 404/503 and fall back to the monogram via `onerror`.
+- Built on `feat/enable-20-portraits` (`867e0b9`), rebased onto `origin/main`
+  (`b7a33b1` download script + `35fffcf` root redirect), merged as `0c1926b`.
+
+Tests: parse PASS; DOM harness 38 cards / 38 `<img>` / 38 `onerror`; src paths
+`images/01.jpg`, `images/20.jpg`, `images/21.jpg` all wired.
+Live: index `d3061e1a…`, SW `v25`, `images/01.jpg` and `images/20.jpg` HTTP 200,
+#21/#38 fail and fall back; `/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic names against a source (#31 `محمد بن سن الدين`,
    #36 `أبو عمر البديع` in particular). #32/33/34/35 now follow supplied spellings.
-2. Photos are optional: `ENABLE_PHOTOS=false` by default. Add licensed
-   `images/01.jpg` … `images/38.jpg` and set the flag to `true` (or add a per-entry
-   `img`), then bump the SW. No blanket image precache anymore.
+2. Remaining 18 portraits: `images/21.jpg` … `images/38.jpg` are absent. When added,
+   extend `PORTRAITS` in `sw.js`, bump the cache and redeploy. Until then they
+   display monograms.
 3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
 
