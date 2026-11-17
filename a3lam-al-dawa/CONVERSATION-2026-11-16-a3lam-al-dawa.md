@@ -302,6 +302,21 @@ Tests: parse PASS; DOM harness in ar/en/fr/es: 34 cards, 34 YouTube, **9 website
 0 TikTok, exact 9 URLs. Live: index `a40c367c…`, SW `v29`, 0 `tiktok`, 9 URLs
 present; `/`, `names.html`, `manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` 200.
 
+## Session 15 — 8 more official websites + direct YouTube for Wesabi (merge `8afcf87`)
+Request: add websites for #01–#09 and fix #07's YouTube link.
+
+- Resolved the supplied `share.google` redirects to canonical sites and added:
+  #01 `haithamt.com`, #02 Facebook page, #03 `samiameri.almobadarah.com`,
+  #04 `waleedismail.com`, #05 `ramy-essa.com/home.aspx`, #06 `addyaiya.com`,
+  #08 `islamwasat.com`, #09 `muftishamail.com`.
+- #07 خالد الوصابي: no website supplied; `yt` set to
+  `https://www.youtube.com/@khaledwesabi` (direct channel instead of search).
+- Total non-empty websites: 17. SW `v29 → v30`.
+
+Tests: parse PASS; DOM harness 34 cards / 34 YouTube / **17 website** / 0 TikTok;
+all 8 new URLs present; #07 YouTube channel correct.
+Live: index `41aacdf1…`, SW `v30`, 17 websites, 0 `tiktok`; endpoints 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
    are gone; the rest follow the supplied spellings.
