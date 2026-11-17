@@ -257,12 +257,29 @@ matches the supplied list; 34 JPEGs valid; all live images 01…34 HTTP 200.
 Live: index `bf9a5861…`, SW `v26`, `ENABLE_PHOTOS=true`, `من 01 إلى 34`,
 `34 شخصية`, `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 12 — TikTok fallback to home, no generic search (merge `acb1c96`)
+Report: the TikTok button opened `/search?q=<name>` for every scholar.
+
+- Confirmed 0 `tt`/`tiktok` fields in the 34 entries; all buttons came from
+  `TT_BASE + cleanName(name)`.
+- `TT_BASE` → `https://www.tiktok.com/`; `tt = s.tt || TT_BASE` (no query string).
+- Per-entry `tt` overrides and native deep links (Android intent / iOS
+  `snssdk1233`) kept; empty handle now means TikTok home.
+- SW `v26 → v27`.
+
+Tests: parse PASS; DOM harness 34 buttons, all `href=https://www.tiktok.com/`,
+0 `search?q=`; Android fallback scheme opens TikTok home.
+Live: index `110d5fa4…`, SW `v27`, 0 `search?q=` in served HTML; `/`, `names.html`,
+`manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` all 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
    are gone; the rest follow the supplied spellings.
 2. Portraits complete (34/34); no image work remains.
 3. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
    to avoid layout shift.
+4. Official TikTok profiles may be added later via a per-entry `tt` URL; until
+   then all buttons go to the TikTok home page.
 
 ## Links
 - Live (GitHub Pages): https://ucfzem.github.io/a3lam-al-dawa/
