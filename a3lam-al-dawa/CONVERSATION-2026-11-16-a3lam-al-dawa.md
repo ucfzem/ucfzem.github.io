@@ -287,6 +287,21 @@ in ar, en, fr and es; 0 `tiktok` references left in `index.html`.
 Live: index `1ffa4cd1…`, SW `v28`, 0 `tiktok` / 0 `data-tiktok` in served HTML;
 `/`, `names.html`, `manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` 200.
 
+## Session 14 — website field + conditional button (merge `877a46c`)
+Request: replace the TikTok field with `website`, render a website button only
+when the URL is non-empty.
+
+- Added `website` to all 34 entries (9 supplied URLs, 25 empty), matched by
+  index; names, tags, descriptions, numbers and images left untouched.
+- `webTag` emitted only for non-empty `http(s)` URLs; `site` label added to the
+  four I18N objects (موقع / Website / Site / Sitio web).
+- YouTube button stays on all 34 cards; 0 TikTok traces in HTML/JS/data.
+- SW `v28 → v29`.
+
+Tests: parse PASS; DOM harness in ar/en/fr/es: 34 cards, 34 YouTube, **9 website**,
+0 TikTok, exact 9 URLs. Live: index `a40c367c…`, SW `v29`, 0 `tiktok`, 9 URLs
+present; `/`, `names.html`, `manifest.json`, `sw.js`, `images/01.jpg`, `images/34.jpg` 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
    are gone; the rest follow the supplied spellings.
