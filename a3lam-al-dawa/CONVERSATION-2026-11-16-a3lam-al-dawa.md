@@ -350,6 +350,17 @@ Tests: parse PASS; DOM harness 34 cards / 34 YouTube / 18 website; #34 channel
 present and no search link for him. Live index `4aef9d28…`, SW `v33`;
 `/`, `names.html`, `manifest.json`, `sw.js` 200.
 
+## Session 19 — Ahmed Elsayed site added, Ajiri site removed (merge `5786930`)
+Request: add the site for #12 الشيخ أحمد السيد and remove #11's site.
+
+- Resolved the share link to `https://ahmadalsayed.net/books`; set for #12.
+- Cleared `website` on #11 الدكتور عبد الله العجيري.
+- Non-empty websites remains 18; SW `v33 → v34`.
+
+Tests: parse PASS; DOM harness 34 cards / 34 YouTube / 18 website; #12 URL present,
+`theodal.com` absent. Live index `1ed4990f…`, SW `v34`;
+`/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
 1. Portraits complete (34/34); no image work remains.
 2. Fonts: `fonts/` only has Scheherazade New (Cairo/Amiri absent); left unchanged
