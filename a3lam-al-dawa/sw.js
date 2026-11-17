@@ -1,8 +1,10 @@
-const CACHE_NAME = 'a3lam-al-dawa-v24';
+const CACHE_NAME = 'a3lam-al-dawa-v25';
+const PORTRAITS = ['./images/01.jpg', './images/02.jpg', './images/03.jpg', './images/04.jpg', './images/05.jpg', './images/06.jpg', './images/07.jpg', './images/08.jpg', './images/09.jpg', './images/10.jpg', './images/11.jpg', './images/12.jpg', './images/13.jpg', './images/14.jpg', './images/15.jpg', './images/16.jpg', './images/17.jpg', './images/18.jpg', './images/19.jpg', './images/20.jpg'];
 self.addEventListener('install', e => {
   e.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     await cache.addAll(['./', './index.html', './manifest.json', './names.html']);
+    await Promise.allSettled(PORTRAITS.map(u => cache.add(u)));
   })());
   self.skipWaiting();
 });
