@@ -317,6 +317,15 @@ Tests: parse PASS; DOM harness 34 cards / 34 YouTube / **17 website** / 0 TikTok
 all 8 new URLs present; #07 YouTube channel correct.
 Live: index `41aacdf1…`, SW `v30`, 17 websites, 0 `tiktok`; endpoints 200.
 
+## Session 16 — fix Qunaibi website URL (merge `f638d3f`)
+Report: #10's website `https://www.iyadqunaibi.com/` did not respond.
+
+- Resolved the supplied share link to `https://eyadqunaibi.com/` and updated #10.
+- Non-empty websites remains 17; SW `v30 → v31`.
+
+Tests: parse PASS; old URL absent, new URL present once; live index `3346ef53…`,
+SW `v31`; `/`, `names.html`, `manifest.json`, `sw.js` 200.
+
 ## Pending milestones
 1. Verify the best-effort Arabic name #33 `أبو عمر البديع` (old #36). Removed names
    are gone; the rest follow the supplied spellings.
