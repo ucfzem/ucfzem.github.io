@@ -40,7 +40,6 @@ main{flex:1}
 .btn:hover{background:var(--border)}
 .btn{transition:opacity .2s ease,background .2s ease;-webkit-tap-highlight-color:transparent}
 .btn:active{opacity:.7}
-.btn.tiktok{font-weight:600}
 .empty{text-align:center;color:var(--muted);padding:20px}
 footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border)}
 </style>
@@ -88,10 +87,9 @@ var IMG_DIR = 'images/';
 var IMG_EXT = 'jpg';
 var ENABLE_PHOTOS = true;
 var YT_BASE = 'https://www.youtube.com/results?search_query=';
-var TT_BASE = 'https://www.tiktok.com/';
 
 
-// Optional per-person overrides: img, yt, tt (full URLs). Leave out to use defaults.
+// Optional per-person overrides: img, yt (full URLs). Leave out to use defaults.
 var scholars = [
   {"n":"01","name":{"ar":"الدكتور هيثم طلعت","en":"Dr. Haitham Talaat","fr":"Dr Haïtham Talaat","es":"Dr. Haitham Talaat"},"tag":{"ar":"نقد الإلحاد","en":"critique of atheism","fr":"critique de l'athéisme","es":"crítica del ateísmo"},"desc":{"ar":"طبيب وباحث مصري في نقد الإلحاد والفكر المعاصر، له مؤلفات ومحاضرات في العلم والفلسفة. يناقش دعاوى الملحدين من زاوية علمية وعقلية.","en":"An Egyptian physician and researcher critiquing atheism and contemporary thought, with books and lectures on science and philosophy. He examines atheist claims from scientific and rational perspectives.","fr":"Médecin et chercheur égyptien critique de l'athéisme et de la pensée contemporaine, il a publié livres et conférences sur science et philosophie. Il examine les thèses athées d'un point de vue scientifique et rationnel.","es":"Médico e investigador egipcio crítico del ateísmo y el pensamiento contemporáneo, con libros y conferencias sobre ciencia y filosofía. Examina las tesis ateas desde perspectivas científicas y racionales."}},
   {"n":"02","name":{"ar":"الشيخ زين خير الله","en":"Sheikh Zain Khairallah","fr":"Cheikh Zaïn Khaïrallah","es":"Sheij Zain Khairallah"},"tag":{"ar":"مناظرات ومقارنة أديان","en":"debate and comparative religion","fr":"débat et religions comparées","es":"debate y religiones comparadas"},"desc":{"ar":"باحث ليبي في مقارنة الأديان، عُرف بمناظراته الهادئة وتحليله للنصوص والمصادر. يركز على الحوار العقلاني وكشف التناقضات في الطروحات المعارضة للإسلام.","en":"A Libyan researcher in comparative religion, known for calm debates and careful analysis of texts and sources. He focuses on rational dialogue and on exposing inconsistencies in arguments against Islam.","fr":"Chercheur libyen en religions comparées, il est connu pour ses débats posés et son analyse rigoureuse des textes et des sources. Il privilégie le dialogue rationnel et la mise en évidence des contradictions des discours opposés à l'islam.","es":"Investigador libio en religiones comparadas, conocido por sus debates serenos y su análisis cuidadoso de textos y fuentes. Se centra en el diálogo racional y en mostrar las contradicciones de los discursos contrarios al islam."}},
@@ -131,10 +129,10 @@ var scholars = [
 
 
 var I18N = {
-  ar: { dir: 'rtl', title: 'أعلام الدعوة والفكر', sub: 'دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات ({n} شخصية).', ph: 'ابحث بالاسم أو التخصص...', none: 'لا توجد نتائج.', yt: '🎥 YouTube', tt: '📱 TikTok', count: '{n} نتيجة', footer: 'جميع المعلومات الواردة استرشادية قابلة للتحديث' },
-  fr: { dir: 'ltr', title: 'Figures de la prédication et de la pensée', sub: 'Guide des prédicateurs et chercheurs contemporains en religions comparées ({n} personnalités).', ph: 'Rechercher par nom ou spécialité...', none: 'Aucun résultat.', yt: '🎥 YouTube', tt: '📱 TikTok', count: '{n} résultat(s)', footer: 'Informations indicatives sujettes à mise à jour' },
-  en: { dir: 'ltr', title: 'Figures of Da\'wah and Thought', sub: 'Guide to contemporary preachers and researchers in comparative religion ({n} figures).', ph: 'Search by name or topic...', none: 'No matching results.', yt: '🎥 YouTube', tt: '📱 TikTok', count: '{n} result(s)', footer: 'Information is indicative' },
-  es: { dir: 'ltr', title: 'Figuras de la predicación y el pensamiento', sub: 'Guía de predicadores e investigadores contemporáneos en religiones comparadas ({n} personalidades).', ph: 'Buscar por nombre o tema...', none: 'Sin resultados.', yt: '🎥 YouTube', tt: '📱 TikTok', count: '{n} resultado(s)', footer: 'La información es orientativa' }
+  ar: { dir: 'rtl', title: 'أعلام الدعوة والفكر', sub: 'دليل الدعاة والمحاورين والباحثين المعاصرين في مقارنة الأديان والرد على الشبهات ({n} شخصية).', ph: 'ابحث بالاسم أو التخصص...', none: 'لا توجد نتائج.', yt: '🎥 YouTube', count: '{n} نتيجة', footer: 'جميع المعلومات الواردة استرشادية قابلة للتحديث' },
+  fr: { dir: 'ltr', title: 'Figures de la prédication et de la pensée', sub: 'Guide des prédicateurs et chercheurs contemporains en religions comparées ({n} personnalités).', ph: 'Rechercher par nom ou spécialité...', none: 'Aucun résultat.', yt: '🎥 YouTube', count: '{n} résultat(s)', footer: 'Informations indicatives sujettes à mise à jour' },
+  en: { dir: 'ltr', title: 'Figures of Da\'wah and Thought', sub: 'Guide to contemporary preachers and researchers in comparative religion ({n} figures).', ph: 'Search by name or topic...', none: 'No matching results.', yt: '🎥 YouTube', count: '{n} result(s)', footer: 'Information is indicative' },
+  es: { dir: 'ltr', title: 'Figuras de la predicación y el pensamiento', sub: 'Guía de predicadores e investigadores contemporáneos en religiones comparadas ({n} personalidades).', ph: 'Buscar por nombre o tema...', none: 'Sin resultados.', yt: '🎥 YouTube', count: '{n} resultado(s)', footer: 'La información es orientativa' }
 };
 
 
@@ -248,48 +246,6 @@ function photo(s) {
 }
 
 
-// Pull an @handle out of a TikTok URL (returns '' for search URLs).
-function ttHandle(url) {
-  var m = String(url || '').match(/tiktok\.com\/@([^\/?#]+)/i);
-  return m ? m[1] : '';
-}
-
-
-// Try a native app scheme, then fall back to the web URL only if the page
-// never lost visibility (i.e. the app did not open).
-function launchApp(scheme, webUrl) {
-  var timer = null, left = false;
-  function cleanup() {
-    if (timer) { clearTimeout(timer); timer = null; }
-    document.removeEventListener('visibilitychange', onVis);
-  }
-  function onVis() { if (document.hidden) { left = true; cleanup(); } }
-  document.addEventListener('visibilitychange', onVis);
-  window.addEventListener('pagehide', function () { left = true; cleanup(); }, { once: true });
-  timer = setTimeout(function () {
-    if (!left && !document.hidden) window.location.href = webUrl;
-    cleanup();
-  }, 700);
-  window.location.href = scheme;
-}
-
-
-// Open in the native TikTok app when it is installed; otherwise the web link.
-function openTikTok(webUrl, handle) {
-  webUrl = webUrl || TT_BASE;
-  var ua = navigator.userAgent || '';
-  var isAndroid = /android/i.test(ua);
-  var isIOS = /iphone|ipad|ipod/i.test(ua);
-  if (!isAndroid && !isIOS) { window.open(webUrl, '_blank', 'noopener'); return; }
-  var hostPath = handle ? ('/@' + encodeURIComponent(handle))
-    : String(webUrl).replace(/^https?:\/\/(www\.)?tiktok\.com/i, '');
-  var scheme = isAndroid
-    ? ('intent://tiktok.com' + hostPath + '#Intent;package=com.zhiliaoapp.musically;scheme=https;end;')
-    : ('snssdk1233://www.tiktok.com' + hostPath);
-  launchApp(scheme, webUrl);
-}
-
-
 // Global image fallback, invoked by inline onerror= so it is reliable even for
 // imgs injected through innerHTML.
 window.__fb = function (img) {
@@ -320,7 +276,6 @@ function render() {
       var tg = L(s.tag);
       var qn = encodeURIComponent(cleanName(nm));
       var yt = s.yt || (YT_BASE + qn);
-      var tt = s.tt || TT_BASE;
       var imgTag = (ENABLE_PHOTOS || s.img)
         ? '<img src="' + esc(photo(s)) + '" data-name="' + esc(nm) + '" data-n="' + s.n + '" alt="" width="65" height="65" loading="lazy" decoding="async" onerror="window.__fb&&window.__fb(this)">'
         : '';
@@ -331,7 +286,6 @@ function render() {
         (dsc ? '<p class="desc" dir="auto">' + esc(dsc) + '</p>' : '') + '</div></div>' +
         '<div class="actions">' +
         '<a class="btn" href="' + esc(yt) + '" target="_blank" rel="noopener noreferrer">' + t.yt + '</a>' +
-        '<a class="btn tiktok" href="' + esc(tt) + '" data-tiktok="1" data-tt-handle="' + esc(ttHandle(tt)) + '" target="_blank" rel="noopener noreferrer">' + t.tt + '</a>' +
         '</div></article>';
     }
     gridEl.innerHTML = html;
@@ -347,17 +301,6 @@ document.addEventListener('error', function (e) {
 }, true);
 
 
-// Delegated TikTok handler: deep-link into the native app, fall back to web
-document.addEventListener('click', function (e) {
-  var el = e.target;
-  while (el && el !== document) {
-    if (el.getAttribute && el.getAttribute('data-tiktok')) break;
-    el = el.parentNode;
-  }
-  if (!el || el === document) return;
-  e.preventDefault();
-  openTikTok(el.getAttribute('href'), el.getAttribute('data-tt-handle') || '');
-}, false);
 
 
 function mark(box, attr, val) {
