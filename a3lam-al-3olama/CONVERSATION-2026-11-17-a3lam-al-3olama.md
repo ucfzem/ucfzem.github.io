@@ -50,6 +50,24 @@ brief (22,638 B):
   cross-language search, AR fallback, XSS sanitisation, theme, logical CSS.
 - File 35,416 B, SHA-256 `8ae05de5…`; deployed and verified live == local.
 
+## Session 3 — Maktaba link tree integration (commit `e1c96ed`)
+
+- Added `a3lam-al-3olama/icon.svg` (gold open book on deep green, four dots for
+  the four languages; 884 B, valid XML).
+- Added the final multilingual version to the Maktaba link tree
+  (`works/Maktaba/index.html`) in the **Webapps** section, directly under the
+  A3lam al-Dawa entry:
+  - title «أعلام العلماء · Scholars Directory», tag
+    «Directory · AR / EN / FR / ES», link
+    `https://ucfzem.github.io/a3lam-al-3olama/`, icon from the new `icon.svg`.
+  - counts updated: 4 → 5 apps, subtitle 4 → 5 webapps, meta description.
+- `works/Maktaba/sw.js`: `CACHE` `maktaba-main-v5` → `v6`; the new icon added
+  to `EXTERNAL`.
+- A3lam al-Dawa entry left intact and unchanged.
+- Tests: app **82/82**; Maktaba **16/16** (new link once, Dawa link intact,
+  5 webapp cards, no duplicate IDs, SW v6, icon SVG valid). Live Maktaba ==
+  local; live app hash `8ae05de5…` unchanged.
+
 ## Pending
 
 1. **26 of 27 scholars missing** — paste them into the `scholars` array using
@@ -65,4 +83,8 @@ brief (22,638 B):
 - index.html: https://github.com/ucfzem/ucfzem.github.io/blob/main/a3lam-al-3olama/index.html
 - Initial commit: https://github.com/ucfzem/ucfzem.github.io/commit/b6e959b60cad090c43beb2360b7975793710dd2f
 - Multilingual commit: https://github.com/ucfzem/ucfzem.github.io/commit/171ccfd5e661e689bac6bc79d61aede7b3dc9153
+- Maktaba commit: https://github.com/ucfzem/ucfzem.github.io/commit/e1c96ed0c8e01817485cd957884d60daf4340a2f
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
+- Maktaba live: https://ucfzem.github.io/works/Maktaba/
+- Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
+- Icon: https://ucfzem.github.io/a3lam-al-3olama/icon.svg
