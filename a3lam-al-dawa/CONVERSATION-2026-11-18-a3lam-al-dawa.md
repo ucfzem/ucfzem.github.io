@@ -102,3 +102,25 @@ Expand and rewrite biography datasets for all figures in the A'lam al-Dawa & Al-
 ### Verification
 - JS: both inline `<script>` blocks parse (`new Function`).
 - n=13: correct name (Tarek al-Sayed), Egyptian/Cairo/1980, YouTube + blog links, channel name referenced, 2 paragraphs per language; no Syrian/Muhannad misattribution; 34 scholars total.
+
+## Session 5 — Research & correction pass (multiple bios)
+
+Reviewed all 34 scholar entries and researched/fixed identity, birth/origin, and factual inaccuracies found (sources checked via web search: Wikipedia/Arabic Wikipedia and primary/reference profiles such as almobadarah, amrnoureldeen, etc.).
+
+### Corrections applied
+- **n=03 الدكتور سامي عامري / Dr. Sami Ameri:** birth/origin corrected to **1975, Tunisia** (was 1970s); profile updated to comparative-religion researcher and critic of atheism/New Atheism, co-founder/scientific supervisor of مبادرة البحث العلمي لمقارنة الأديان, PhD (GTU, Berkeley); website added `https://almobadarah.com/profile/sami-ameri`; tag/bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+- **n=16 عبدالله الشهري / Abdullah al-Shahri:** removed unverified attribution as “director of Bayyinah Center (مركز بيّنة)”; kept Saudi researcher/writer (born 1980s, Saudi Arabia) focused on critiquing atheism and responding to doubts; tag/bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+- **n=18 محمد حجاب / Mohammed Hijab:** birth date corrected to **19 October 1991** (was 5 October 1991), London, England; bios updated (AR/EN/FR/ES, 2 paragraphs).
+- **n=19 الدكتور منقذ السقار / Dr. Munqidh Al-Saqqar:** birth/origin added **1967, Hama, Syria** (was 1970s); profile updated (Umm al-Qura graduate BA/MA/PhD in comparative religion/Christian scriptures & doctrines, preaching in Makkah since 1990); bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+- **n=20 معاذ عليان / Moaz Aliian:** birth/origin corrected to **1982, Cairo, Egypt** (was 1980s); profile updated (active in comparative/Muslim–Christian dialogue since 2004, founded «المخلّص» channel 2009, author/co-author); bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+- **n=22 الشيخ يوسف إستس / Sheikh Yusuf Estes:** birth/place corrected to **1 January 1944, Ohio, USA** (raised in Texas) and wording refined (Christian minister/preacher before Islam) — replaced incorrect Midlothian/Texas birth claim; bios updated (AR/EN/FR/ES, 2 paragraphs).
+- **n=29 الشيخ الدكتور عمرو نور الدين / Dr. Amr Nour al-Din:** identity corrected to the Egyptian preacher/researcher (not a generic “Amr al-Nour al-Din” academic) — born **1 June 1987, Al-Bayoum, Zagazig (Sharqia), Egypt**; imam/khatib of مسجد الفاروق عمر in Obour City; known for comparative religion/responding to doubts and project «قذائف الحق»; website added `https://amrnoureldeen.com/`; tag/name/bios rewritten (AR/EN/FR/ES, 2 paragraphs). (Distinct from the philosopher/writer of the same name on إضاءات.)
+- **n=31 د. عمرو بسيوني / Dr. Amr Basyouni:** birth/origin added **22 September 1985, Alexandria, Egypt** (was 1970s); name normalized (Amr Basyouni); profile updated (researcher/writer/editor, Islamic heritage/contemporary thought/philosophy/methodology, Alexandria Univ. graduate); bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+- **n=32 الشيخ شمس الدين الجزائري / Sheikh Shams al-Din al-Jaza'iri:** identity clarified (real name شمس الدين بوروبي) and birth/origin corrected to **17 January 1965, Algiers, Algeria** (was 1970s/generic preacher); profile updated (media da'wah/guidance programs); name/bios rewritten (AR/EN/FR/ES, 2 paragraphs).
+
+### Unchanged but noted
+- Other entries (e.g. 30 حاتم العوني 1966 الطائف; 33 ياسر قاضي 1975 Houston; 17 حمزة تزورتزيس 1980) matched known facts; many less-documented figures retain cautious approximate decades/origins where reliable specifics were unavailable. Schema/keys/links/order for non-targeted fields preserved.
+
+### Build/cache & verification
+- `index.html` build `2026-11-18f`; `sw.js` cache bumped to `a3lam-al-dawa-v40`.
+- JS: both inline `<script>` blocks parse (`new Function`); 34 scholars total; corrected entries verified for key facts/dates/origins/links and 2 paragraphs per language.
