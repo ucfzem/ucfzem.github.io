@@ -314,3 +314,31 @@ brief (22,638 B):
 - Conversation backup (raw): https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
 - Conversation backup (served): https://ucfzem.github.io/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
 
+
+## Session 12 (2026-11-18) — remove copy-names button (all languages)
+
+- Removed the “copy names” button/feature in every language from `a3lam-al-3olama/index.html`:
+  - Deleted the button markup and related CSS (`.copy-names` styles).
+  - Removed UI strings (`copyNames` / `copied`) from AR/EN/FR/ES.
+  - Removed JS references and logic (`copyBtn`/`copyLabel`, `copyScholarNames`, click handler/clipboard fallback).
+- Preserved all other functionality and content (27 scholars, portraits, enriched AR/EN/FR/ES biographies, series, multilingual UI/search/theme/platform links, offline-safe/no external resources).
+- Tests: `FILE=/tmp/ucfzem-site/a3lam-al-3olama/index.html node /tmp/opencode/test-final.js` → **103/103 passed** (copy-names tests removed along with the feature).
+- App commit: `58cfce87854d45391b116d787a91b6cf79d864e9`
+  (“a3lam-al-3olama: remove copy names button in all languages”).
+  Local/deployed `index.html` SHA-256 `5ad6e5a71f8ed8496504b633dcdf279c13fe583c1451f52723ee0f41e5c8322c`.
+
+### Current state (end of session 12)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, 27 portraits, enriched biographies in **AR/EN/FR/ES** (with FR/ES series), multilingual UI (AR/EN/FR/ES), search/theme, 103/103 tests, offline-safe; **no copy-names button**.
+- **Pending:** optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»); no other functional work pending.
+
+### Additional links (session 12)
+
+- Remove copy-names commit: https://github.com/ucfzem/ucfzem.github.io/commit/58cfce87854d45391b116d787a91b6cf79d864e9
+- EN/FR/ES enrichment commit: https://github.com/ucfzem/ucfzem.github.io/commit/8cf297db5e13d9c8c8280be1f166820fb3d53843
+- Bio enrichment + offline commit: https://github.com/ucfzem/ucfzem.github.io/commit/b126b23d540531d525af87b8b8a476672c6f1360
+- Portrait commits: https://github.com/ucfzem/ucfzem.github.io/commit/72b8c1c0914d1a2c842963f0347fcb05715a1e0a , https://github.com/ucfzem/ucfzem.github.io/commit/6f6e6ee009050772fcc713d1565a59f164647cb7 , https://github.com/ucfzem/ucfzem.github.io/commit/a44bf948b90361b33d2a3f39d9b33dc6ccb22cf4
+- Conversation backup (blob): https://github.com/ucfzem/ucfzem.github.io/blob/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (raw): https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (served): https://ucfzem.github.io/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+
