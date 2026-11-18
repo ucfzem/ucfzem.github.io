@@ -84,3 +84,21 @@ Expand and rewrite biography datasets for all figures in the A'lam al-Dawa & Al-
 ### Verification
 - JS: both inline `<script>` blocks parse (`new Function`).
 - n=12: correct name/birth(1985)/origin(Yanbu, Saudi Arabia)/profile; 2 paragraphs per language; no Egypt/1970s/Zad misattribution; website intact; 34 scholars total.
+
+## Session 4 — Correction: أبو عمر الباحث / مكافح الشبهات (n=13)
+
+### Correction (per user-provided details)
+- **Identity/name:** corrected to `أبو عمر الباحث (طارق السيد)` / `Abu Omar al-Bahith (Tarek al-Sayed)` (AR/EN/FR/ES) — replaced incorrect `مهند السويدان (أبو عمر الباحث)` / `Muhannad al-Suwaidan`.
+- **Nationality/birth:** corrected to Egyptian, born in Cairo in **1980** — replaced incorrect Syrian born in the 1970s.
+- **Background/profile:** preacher/researcher focused on comparative religion and responding to doubts about Islam and the Sunnah; Sunni following the Salafi methodology; early Islamic studies at Ibn al-Jazari Institute, study at Dar al-Ulum (Cairo University), and ijazah in Hafs ‘an ‘Asim.
+- **Activity/platforms:** early da'wah content creator on YouTube in refuting misconceptions (active since ~2008–2009), known for detailed responses and on-screen source documentation; content expanded to address missionaries, atheism, Qur’anists, secularism, Shi’ism, etc. Publishes via “Mukafih al-Shubuhat” (مكافح الشبهات) platforms.
+- **Links:** YouTube `https://www.youtube.com/@antishubohat` (channel: مكافح الشبهات) added as `yt`; blog `https://antishubohat.wordpress.com/` added as `website`.
+- **Tags:** updated to `مكافح الشبهات والردود` / `Refuting doubts and misconceptions` / `Réfutation des doutes et des idées fausses` / `Refutación de dudas e ideas erróneas`.
+- **Bios:** rich 2-paragraph narratives in AR/EN/FR/ES with birth/origin and channel/platform details integrated. Schema/keys/other scholars unchanged.
+
+### Build/cache
+- `index.html` build `2026-11-18e`; `sw.js` cache bumped to `a3lam-al-dawa-v39`.
+
+### Verification
+- JS: both inline `<script>` blocks parse (`new Function`).
+- n=13: correct name (Tarek al-Sayed), Egyptian/Cairo/1980, YouTube + blog links, channel name referenced, 2 paragraphs per language; no Syrian/Muhannad misattribution; 34 scholars total.
