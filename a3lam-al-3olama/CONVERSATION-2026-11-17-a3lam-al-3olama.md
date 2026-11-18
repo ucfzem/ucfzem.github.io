@@ -287,3 +287,30 @@ brief (22,638 B):
 - Conversation backup (raw): https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
 - Conversation backup (served): https://ucfzem.github.io/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
 
+## Session 11 (2026-11-18) — enriched EN/FR/ES biographies & translations
+
+- Added substantial text for the **three Latin languages** across all 27 scholars in `a3lam-al-3olama/index.html`:
+  - **EN:** expanded `tr.en.up` and `tr.en.da` to 2+ substantial paragraphs each (birth/background, education/lineage, roles/contributions, methodology/impact), while preserving titles, roles, works, and quotes.
+  - **FR:** added full `tr.fr` for every scholar (`title, role, up, da, works, quote` where applicable) with 2+ paragraph biographies and translated works/quotes.
+  - **ES:** added full `tr.es` for every scholar (`title, role, up, da, works, quote` where applicable) with 2+ paragraph biographies and translated works/quotes.
+  - **Series:** added `series.fr` and `series.es` translations for every scholar (alongside existing `ar`/`en`).
+- Preserved all other fields and structure (ids, initials, meta, tags, platforms, Arabic content, works/quotes semantics, FR/ES UI labels/fallback behavior) and kept the app **offline-safe** (no external `http(s)` resources in `index.html`; portraits local in `pictures/`).
+- Tests: `FILE=/tmp/ucfzem-site/a3lam-al-3olama/index.html node /tmp/opencode/test-final.js` → **135/135 passed** (updated to assert FR/ES content instead of EN fallback).
+- App commit: `8cf297db5e13d9c8c8280be1f166820fb3d53843`
+  (“a3lam-al-3olama: add enriched EN/FR/ES biographies and translations for all scholars”).
+  Local/deployed `index.html` SHA-256 `732d6e4812bc700d200b031bb32313ac97d2012207f46cb9c0a981a3e3fa1323`.
+
+### Current state (end of session 11)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, 27 portraits, enriched biographies in **AR/EN/FR/ES** for all scholars (with FR/ES series), multilingual UI (AR/EN/FR/ES), copy-names button, 135/135 tests, offline-safe.
+- **Pending:** optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»); no other functional work pending.
+
+### Additional links (session 11)
+
+- EN/FR/ES enrichment commit: https://github.com/ucfzem/ucfzem.github.io/commit/8cf297db5e13d9c8c8280be1f166820fb3d53843
+- Bio enrichment + offline commit: https://github.com/ucfzem/ucfzem.github.io/commit/b126b23d540531d525af87b8b8a476672c6f1360
+- Portrait commits: https://github.com/ucfzem/ucfzem.github.io/commit/72b8c1c0914d1a2c842963f0347fcb05715a1e0a , https://github.com/ucfzem/ucfzem.github.io/commit/6f6e6ee009050772fcc713d1565a59f164647cb7 , https://github.com/ucfzem/ucfzem.github.io/commit/a44bf948b90361b33d2a3f39d9b33dc6ccb22cf4
+- Conversation backup (blob): https://github.com/ucfzem/ucfzem.github.io/blob/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (raw): https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (served): https://ucfzem.github.io/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+
