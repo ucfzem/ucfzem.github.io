@@ -67,7 +67,8 @@
 
 
   .scholar-card__head{ display:flex; gap:.9rem; align-items:flex-start; }
-  .scholar-card__avatar{ flex:0 0 58px; height:58px; border-radius:50%; display:grid; place-items:center; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:.92rem; border:1px solid color-mix(in srgb, var(--accent) 18%, transparent); }
+  .scholar-card__avatar{ position:relative; flex:0 0 58px; height:58px; border-radius:50%; display:grid; place-items:center; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:.92rem; border:1px solid color-mix(in srgb, var(--accent) 18%, transparent); overflow:hidden; }
+  .scholar-card__avatar img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
   .scholar-card__title{ margin:0; font-size:clamp(1rem, 1.8vw, 1.12rem); font-weight:700; line-height:1.45; }
   .scholar-card__meta{ margin:.25rem 0 0; font-size:.78rem; color:var(--muted); font-weight:500; }
   .scholar-card__role{ margin:.4rem 0 0; font-size:.86rem; font-weight:600; color:var(--accent); line-height:1.5; }
@@ -290,6 +291,8 @@ function getSeriesURL(seriesName, scholarName) {
 
 
 // Render Card
+const PHOTO_IDS = new Set(["othman","said","ayman","eyad","menk","omar","yasir","nouman","zakir","hamza","tariq","ahmed","amri","yahya","abdelkafy","huwaini","yaqoubi","benhamza","philips","siraj","suhaib","masood","ourayfi","nabil"]);
+
 function cardHTML(s) {
   const name = getT(s, 'title'); // Use title for search links
   const platforms = s.platforms.map(p => `<li><a href="${getPlatformURL(p, name)}" target="_blank" rel="noopener noreferrer" class="pill">${p}</a></li>`).join("");
@@ -297,11 +300,12 @@ function cardHTML(s) {
   const works = getArr(s, 'works').map(w => `<li class="works-list__item">${w}</li>`).join("");
   const tags = getTags(s).map(t => `<span class="tag">${t}</span>`).join("");
   const quote = getT(s, 'quote');
+  const photo = PHOTO_IDS.has(s.id) ? `<img src="pictures/${s.id}.jpg" alt="" loading="lazy" decoding="async">` : "";
   
   return `
   <article class="scholar-card" data-search="${(name + ' ' + getT(s,'role') + ' ' + getTags(s).join(' ') + ' ' + s.platforms.join(' ')).toLowerCase()}">
     <header class="scholar-card__head">
-      <div class="scholar-card__avatar">${s.initials}</div>
+      <div class="scholar-card__avatar"><span>${s.initials}</span>${photo}</div>
       <div class="scholar-card__ident">
         <h2 class="scholar-card__title">${name}</h2>
         <p class="scholar-card__meta">${getMeta(s)}</p>
