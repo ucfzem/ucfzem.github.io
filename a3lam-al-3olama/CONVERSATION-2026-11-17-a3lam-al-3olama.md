@@ -207,3 +207,18 @@ brief (22,638 B):
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
 - Icon: https://ucfzem.github.io/a3lam-al-3olama/icon.svg
+
+
+## Session 9 (continued 2026-11-18) — 24 identity-mapped scholar portraits
+
+- User provided portrait zip: `https://tmpfiles.org/wJA2t5hLoCDG/machaikhsother1.zip` (direct: `https://tmpfiles.org/dl/1795009097.bf4c89da1c33255f/wJA2t5hLoCDG/machaikhsother1.zip`, 27 images in `Machaikhs other1/`, `01.jpeg` + `02-27.jpg`).
+- Yandex reverse-image identified the set as not 1:1 with the current 27-scholar list: clear matches 01 Othman, 02 Said Al-Kamali, 03 Ayman Abdel Rahim, 04 Eyad Qunaibi, 06 Omar Suleiman, 07 Yasir Qadhi, 08 Nouman Ali Khan, 09 Zakir Naik, 10 Hamza Yusuf, 11 Tariq Jameel, 12 Ahmed Shugairi, 13 Yassine El Amri, 17 Yahya Raaby, 18 Omar Abdelkafy, 19 Abu Ishaq al-Huwaini, 20 Muhammad Abu al-Huda al-Yaqoubi, 21 Mustapha Ben Hamza, 22 Bilal Philips, 23 Siraj Wahhaj, 24 Suhaib Webb, 25 Tariq Masood, 26 Mohammed Al-Ourayfi, 27 Nabil Al-Awadhi. Mismatches/other: 05 Mishary Rashid Alafasy (not in list), 14 Muhammad Tahir ul-Qadri (not Rachid Nafi), 15 unidentified, 16 Mufti Ismail Menk (matches #5 Ismail Menk, not #16 Adnaan Menk).
+- Implemented **identity-mapped** portraits (recommended): `pictures/` added with 24 cropped 300×300 JPGs (`abdelkafy,ahmed,amri,ayman,benhamza,eyad,hamza,huwaini,masood,menk,nabil,nouman,omar,othman,ourayfi,philips,said,siraj,suhaib,tariq,yahya,yaqoubi,yasir,zakir`). `#14 Rachid Nafi`, `#15 Belal Assaad`, `#16 Adnaan Menk` intentionally keep initials fallback (no matching image in provided zip). Skipped unused zip images `05,14,15`.
+- `index.html`: avatar CSS updated (`position:relative; overflow:hidden` + `img` absolute/object-fit cover); `PHOTO_IDS` set + `<img src="pictures/${id}.jpg" ...>` rendered over initials fallback.
+- Tests: local and live `FILE=... node /tmp/opencode/test-final.js` → **134/134 passed**.
+- App commit: `72b8c1c0914d1a2c842963f0347fcb05715a1e0a` (25 files). Live `index.html` SHA-256 `03c490e01c0c48201ef6b882f66a1423e13446cbe9613a23e537a92a136e1137`; `pictures/menk.jpg`/`pictures/othman.jpg` HTTP 200, `pictures/nafi.jpg`/`pictures/belal.jpg`/`pictures/adnaan.jpg` HTTP 404 (fallback expected).
+
+### Current state (end of session 9)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, 24 portraits, initials fallback for Rachid Nafi/Belal Assaad/Adnaan Menk, copy-names button, 134/134 tests.
+- **Pending:** optional correct portraits for Rachid Nafi, Belal Assaad, Adnaan Menk; optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»).
