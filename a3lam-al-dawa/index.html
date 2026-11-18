@@ -26,15 +26,17 @@ h1{font-size:1.5rem;margin:0 0 8px}
 main{flex:1}
 .grid{display:flex;flex-direction:column;gap:14px;max-width:800px;margin:0 auto}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:15px}
-.card-top{display:flex;align-items:flex-start;gap:14px}
+.card-top{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:start}
 .avatar{position:relative;width:65px;height:65px;aspect-ratio:1/1;border-radius:50%;overflow:hidden;background:#2a2a2a;border:2px solid var(--accent);flex-shrink:0}
 .avatar .mono{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:1.55rem;line-height:1}
 .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1}
-.info{flex:1;min-width:0}
+.head-info{min-width:0;align-self:center}
 .row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
 .name{font-size:1.1rem;font-weight:700;color:var(--accent);margin:0}
 .tag{background:rgba(212,175,55,.15);color:var(--accent);font-size:.75rem;padding:3px 8px;border-radius:6px;border:1px solid var(--accent)}
-.desc{font-size:.85rem;color:var(--muted);line-height:1.6;margin:6px 0 0}
+.desc-wrap{grid-column:1 / -1;width:100%}
+.desc{font-size:.85rem;color:var(--muted);line-height:1.7;margin:0 0 8px;text-align:justify}
+.desc:last-child{margin-bottom:0}
 .actions{display:flex;gap:10px;margin-top:12px}
 .btn{flex:1;padding:9px;font-size:.85rem;font-weight:600;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);text-decoration:none;text-align:center;display:inline-block;cursor:pointer}
 .btn:hover{background:var(--border)}
@@ -69,7 +71,7 @@ footer{text-align:center;margin-top:30px;padding:15px 0;font-size:.75rem;color:v
 </div>
 <div class="count" id="count" aria-live="polite"></div>
 <main><div class="grid" id="grid">...</div></main>
-<footer><span id="footerText"></span><br><small dir="ltr">build 2026-11-18a</small></footer>
+<footer><span id="footerText"></span><br><small dir="ltr">build 2026-11-18b</small></footer>
 
 
 <!-- Debug handler lives in its OWN script block so it still works if the main script has a syntax error -->
@@ -256,9 +258,10 @@ function render() {
       }
       html += '<article class="card"><div class="card-top">' +
         '<div class="avatar"><span class="mono" aria-hidden="true">' + esc((cleanName(nm) || nm || '?').trim().charAt(0) || '?') + '</span>' + imgTag + '</div>' +
-        '<div class="info"><div class="row"><h2 class="name" dir="auto">' + esc(nm) + '</h2>' +
-        (tg ? '<span class="tag" dir="auto">' + esc(tg) + '</span>' : '') + '</div>' +
-        descHtml + '</div></div>' +
+        '<div class="head-info"><div class="row"><h2 class="name" dir="auto">' + esc(nm) + '</h2>' +
+        (tg ? '<span class="tag" dir="auto">' + esc(tg) + '</span>' : '') + '</div></div>' +
+        (descHtml ? '<div class="desc-wrap">' + descHtml + '</div>' : '') +
+        '</div>' +
         '<div class="actions">' +
         '<a class="btn" href="' + esc(yt) + '" target="_blank" rel="noopener noreferrer">' + t.yt + '</a>' + webTag +
         '</div></article>';

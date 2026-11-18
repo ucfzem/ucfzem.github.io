@@ -32,3 +32,38 @@ Expand and rewrite biography datasets for all figures in the A'lam al-Dawa & Al-
 ### Notes
 - Portraits/images, platform/website/YouTube links, tags, names, and UI strings were preserved; no schema migration.
 - Some birth details for less-documented figures are given as approximate decades/origins based on available public context to satisfy origin/year integration while avoiding fabricated specifics.
+
+## Session 2 — Card layout: full-width description (no gap under avatar)
+
+### Changes
+- **Layout fix:** Reworked `.card-top` from flex to CSS grid (`grid-template-columns: auto 1fr`) so the avatar and header (name/tag) stay aligned at the top row, while the description block spans the full card content width.
+- **Full-width text flow:** Moved `desc` paragraphs out of the side info column into a `.desc-wrap` container placed as `grid-column: 1 / -1; width: 100%`, eliminating the empty vertical whitespace under the avatar.
+- **Typography/readability:** `.desc` set to `text-align: justify; line-height: 1.7;` with paragraph spacing; `dir="auto"` preserved on content for correct RTL/LTR rendering (Arabic justified/right-flow per direction). Build marker `2026-11-18b`.
+- **Offline/cache:** Service worker cache bumped to `a3lam-al-dawa-v36`.
+
+### HTML/CSS snippet (key changes)
+```css
+.card-top{display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:10px;align-items:start}
+.avatar{...;flex-shrink:0}
+.head-info{min-width:0;align-self:center}
+.desc-wrap{grid-column:1 / -1;width:100%}
+.desc{font-size:.85rem;color:var(--muted);line-height:1.7;margin:0 0 8px;text-align:justify}
+.desc:last-child{margin-bottom:0}
+```
+```html
+<article class="card">
+  <div class="card-top">
+    <div class="avatar">…</div>
+    <div class="head-info">
+      <div class="row"><h2 class="name" dir="auto">…</h2><span class="tag" dir="auto">…</span></div>
+    </div>
+    <div class="desc-wrap"><p class="desc" dir="auto">…</p><p class="desc" dir="auto">…</p></div>
+  </div>
+  <div class="actions">…</div>
+</article>
+```
+
+### Verification
+- JS: both inline `<script>` blocks pass `new Function(...)` parse.
+- Structure/CSS present: grid card-top, `.head-info`, `.desc-wrap` with `grid-column:1 / -1`, `.desc` with `text-align:justify`.
+- Data integrity: 34 scholars intact, multi-paragraph desc preserved in all 4 languages.
