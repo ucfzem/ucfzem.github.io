@@ -234,3 +234,16 @@ brief (22,638 B):
 
 - **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, **25 portraits**, initials fallback for **Rachid Nafi** and **Adnaan Menk** only.
 - **Pending:** correct portraits for Rachid Nafi (#14) and Adnaan Menk (#16).
+
+
+## Session 9 (continued 2026-11-18) — Rachid Nafi & Adnaan Menk portraits added (user-verified override)
+
+- User manually verified the provided images and instructed a force override to use them for **#14 Rachid Nafi** and **#16 Adnaan Menk**.
+- Added `pictures/nafi.jpg` and `pictures/adnaan.jpg` (300×300) from `https://tmpfiles.org/w3AFth4QOz80/rest.zip` (`14.jpg`, `16.jpg`) and included `nafi`,`adnaan` in `PHOTO_IDS`.
+- Tests: local and live `FILE=... node /tmp/opencode/test-final.js` → **134/134 passed**.
+- App commit: `a44bf948b90361b33d2a3f39d9b33dc6ccb22cf4`. Live `index.html` SHA-256 `9277aeebae8e8e6e20231974381686a367e8e5a1cc2cd82fa3eb5323ad8407e6`; `pictures/nafi.jpg` and `pictures/adnaan.jpg` HTTP 200.
+
+### Current state (end of session 9, final)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, **27 portraits** (all identity-mapped per user verification), copy-names button, 134/134 tests.
+- **Pending:** none for portraits; optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»).
