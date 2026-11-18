@@ -97,6 +97,13 @@
   body[dir="ltr"] .scholar-card__quote { background:linear-gradient(to right, var(--accent-soft), transparent 85%); }
   .no-results{ display:none; max-width:1400px; margin:2rem auto; padding:2rem; text-align:center; color:var(--muted); background:var(--card); border:1px dashed var(--line); border-radius:var(--radius); }
   .no-results.is-visible{ display:block; }
+
+  /* Copy names */
+  .copy-names{ display:inline-flex; align-items:center; gap:.5rem; padding:.72rem 1rem; font-family:inherit; font-size:.85rem; font-weight:600; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:12px; cursor:pointer; white-space:nowrap; transition:color .18s ease, border-color .18s ease, background .18s ease; }
+  .copy-names:hover{ color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
+  .copy-names:focus-visible{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+  .copy-names svg{ width:16px; height:16px; flex:none; }
+  .copy-names.is-copied{ color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
 </style>
 </head>
 <body>
@@ -126,6 +133,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
     <input class="search-input" id="searchInput" type="search" placeholder="ابحث...">
   </div>
+  <button class="copy-names" id="copyNames" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+    <span id="copyNamesLabel" aria-live="polite">نسخ الأسماء</span>
+  </button>
 </div>
 
 
@@ -138,10 +149,10 @@
    1) UI Translations
    ===================================================================== */
 const UI = {
-  ar: { dir:"rtl", eyebrow:"قاعدة البيانات التعريفية", title:"أعلام الدعوة", lede:"27 ملفاً تعريفياً لعلماء وباحثين ودعاة معاصرين.", search:"ابحث بالاسم أو الوسم أو المنصة…", platforms:"المنصات (اضغط للبحث)", series:"سلاسل بارزة (اضغط للمشاهدة)", works:"من مؤلفاته وأعماله", noResults:"لا توجد نتائج مطابقة لبحثك." },
-  en: { dir:"ltr", eyebrow:"Scholars Database", title:"A'lam al-Dawa", lede:"27 profiles of contemporary scholars, researchers, and preachers.", search:"Search by name, tag, or platform...", platforms:"Platforms (Click to Search)", series:"Notable Series (Click to Watch)", works:"Works & Publications", noResults:"No matching results found." },
-  fr: { dir:"ltr", eyebrow:"Base de données", title:"A'lam al-Dawa", lede:"27 profils d'érudits, de chercheurs et de prédicateurs contemporains.", search:"Rechercher par nom, tag ou plateforme...", platforms:"Plateformes (Cliquez pour chercher)", series:"Séries notables (Cliquez pour regarder)", works:"Œuvres et publications", noResults:"Aucun résultat trouvé." },
-  es: { dir:"ltr", eyebrow:"Base de datos", title:"A'lam al-Dawa", lede:"27 perfiles de eruditos, investigadores y predicadores contemporáneos.", search:"Buscar por nombre, etiqueta o plataforma...", platforms:"Plataformas (Clic para buscar)", series:"Series destacadas (Clic para ver)", works:"Obras y publicaciones", noResults:"No se encontraron resultados." }
+  ar: { dir:"rtl", eyebrow:"قاعدة البيانات التعريفية", title:"أعلام الدعوة", lede:"27 ملفاً تعريفياً لعلماء وباحثين ودعاة معاصرين.", search:"ابحث بالاسم أو الوسم أو المنصة…", platforms:"المنصات (اضغط للبحث)", series:"سلاسل بارزة (اضغط للمشاهدة)", works:"من مؤلفاته وأعماله", noResults:"لا توجد نتائج مطابقة لبحثك.", copyNames:"نسخ الأسماء", copied:"تم النسخ" },
+  en: { dir:"ltr", eyebrow:"Scholars Database", title:"A'lam al-Dawa", lede:"27 profiles of contemporary scholars, researchers, and preachers.", search:"Search by name, tag, or platform...", platforms:"Platforms (Click to Search)", series:"Notable Series (Click to Watch)", works:"Works & Publications", noResults:"No matching results found.", copyNames:"Copy names", copied:"Copied" },
+  fr: { dir:"ltr", eyebrow:"Base de données", title:"A'lam al-Dawa", lede:"27 profils d'érudits, de chercheurs et de prédicateurs contemporains.", search:"Rechercher par nom, tag ou plateforme...", platforms:"Plateformes (Cliquez pour chercher)", series:"Séries notables (Cliquez pour regarder)", works:"Œuvres et publications", noResults:"Aucun résultat trouvé.", copyNames:"Copier les noms", copied:"Copié" },
+  es: { dir:"ltr", eyebrow:"Base de datos", title:"A'lam al-Dawa", lede:"27 perfiles de eruditos, investigadores y predicadores contemporáneos.", search:"Buscar por nombre, etiqueta o plataforma...", platforms:"Plataformas (Clic para buscar)", series:"Series destacadas (Clic para ver)", works:"Obras y publicaciones", noResults:"No se encontraron resultados.", copyNames:"Copiar nombres", copied:"Copiado" }
 };
 
 
@@ -238,6 +249,8 @@ const grid = document.getElementById('grid');
 const searchInput = document.getElementById('searchInput');
 const noResults = document.getElementById('noResults');
 const countEl = document.getElementById('count');
+const copyBtn = document.getElementById('copyNames');
+const copyLabel = document.getElementById('copyNamesLabel');
 const langBtns = document.querySelectorAll('.lang-btn');
 
 
@@ -329,6 +342,9 @@ function render() {
   document.getElementById('ui-lede').textContent = UI[currentLang].lede;
   searchInput.placeholder = UI[currentLang].search;
   noResults.textContent = UI[currentLang].noResults;
+  copyLabel.textContent = UI[currentLang].copyNames;
+  copyBtn.classList.remove('is-copied');
+  clearTimeout(copyBtn._copyTimer);
   
   // Update Buttons
   langBtns.forEach(btn => {
@@ -368,6 +384,37 @@ langBtns.forEach(btn => {
     render();
   });
 });
+
+
+// Copy all names
+async function copyScholarNames() {
+  const names = scholars.map((s, i) => `${i + 1}. ${getT(s, 'title')}`).join('\n');
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(names);
+    ok = true;
+  } catch (err) {
+    const ta = document.createElement('textarea');
+    ta.value = names;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    ta.style.top = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ok = document.execCommand('copy');
+    ta.remove();
+  }
+  if (!ok) return;
+  copyLabel.textContent = UI[currentLang].copied;
+  copyBtn.classList.add('is-copied');
+  clearTimeout(copyBtn._copyTimer);
+  copyBtn._copyTimer = setTimeout(() => {
+    copyLabel.textContent = UI[currentLang].copyNames;
+    copyBtn.classList.remove('is-copied');
+  }, 2000);
+}
+copyBtn.addEventListener('click', copyScholarNames);
 
 
 // Theme Logic
