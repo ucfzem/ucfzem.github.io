@@ -91,6 +91,21 @@ brief (22,638 B):
   `a3lam-al-3olama/`; the Maktaba card still reads «أعلام العلماء». Optional
   follow-up: align the card title / directory name.
 
+## Session 5 — copy-all-names button (commit `a0dced1`)
+
+- Added a toolbar button «نسخ الأسماء / Copy names» that copies the 27
+  scholar titles, numbered `1.` → `27.`, one per line, in the current
+  language.
+- Uses `navigator.clipboard.writeText` with a hidden-`<textarea>` +
+  `document.execCommand('copy')` fallback; shows «تم النسخ / Copied /
+  Copié / Copiado» for 2 seconds, then resets.
+- Localised labels added to all four UI dictionaries; label resets on
+  language switch. Clipboard icon is inline SVG (no new dependencies).
+- Tests: **80/80** (previous 63 + 17 copy checks: EN/AR content, 27 lines,
+  first/last, feedback, FR fallback, clipboard-denied fallback).
+- File: 52,650 B; SHA-256
+  `da083e5b8e9b3375b1c379d7bc5045d7971c1f39f210e4e9fbdf7f6cd42d28ef`.
+
 ## Pending
 
 1. No service worker / manifest in this single-file project (by design).
@@ -106,6 +121,7 @@ brief (22,638 B):
 - Multilingual commit: https://github.com/ucfzem/ucfzem.github.io/commit/171ccfd5e661e689bac6bc79d61aede7b3dc9153
 - Maktaba commit: https://github.com/ucfzem/ucfzem.github.io/commit/e1c96ed0c8e01817485cd957884d60daf4340a2f
 - Final 27-scholar commit: https://github.com/ucfzem/ucfzem.github.io/commit/ae22b0a55ba59444f9a5abdb1eea928320666465
+- Copy-names commit: https://github.com/ucfzem/ucfzem.github.io/commit/a0dced13abff0bd91065821ea26b983a798b80d6
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
