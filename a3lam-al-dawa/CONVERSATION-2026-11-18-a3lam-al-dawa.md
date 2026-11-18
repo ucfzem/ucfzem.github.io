@@ -67,3 +67,20 @@ Expand and rewrite biography datasets for all figures in the A'lam al-Dawa & Al-
 - JS: both inline `<script>` blocks pass `new Function(...)` parse.
 - Structure/CSS present: grid card-top, `.head-info`, `.desc-wrap` with `grid-column:1 / -1`, `.desc` with `text-align:justify`.
 - Data integrity: 34 scholars intact, multi-paragraph desc preserved in all 4 languages.
+
+## Session 3 — Correction: أحمد بن يوسف السيد (n=12)
+
+### Correction (per https://ar.wikipedia.org/wiki/أحمد_بن_يوسف_السيد)
+- **Identity/name:** corrected to full name `أحمد بن يوسف السيد` / `Ahmed bin Yusuf al-Sayyid` (AR/EN/FR/ES).
+- **Birth/origin:** corrected to born **1985 in Yanbu, Saudi Arabia** (raised there, later moved to Madinah) — replaced incorrect “born in Egypt in the 1970s”.
+- **Role/profile:** corrected to Saudi preacher, researcher, and author focused on da'wah education/intellectual development and youth formation (reviving the Prophetic method); removed incorrect attribution as “academic supervisor at Zad Academy”.
+- **Work/programs:** bios now reflect supervision/involvement in projects such as «البناء المنهجي», «برد اليقين», «أكاديمية الجيل الصاعد», «صناعة المحاور», and «المحاورون», with books/lectures in creed, Hadith, and contemporary thought. Website preserved: https://ahmadalsayed.net/books
+- **Tags:** updated to `دعوة وبناء معرفي` / `Da'wah and intellectual development` / `Prédication et formation intellectuelle` / `Da'wa y desarrollo intelectual`.
+- **Bios:** rich 2-paragraph narratives in AR/EN/FR/ES with birth year/origin integrated. Schema/keys/other scholars unchanged.
+
+### Build/cache
+- `index.html` build `2026-11-18c`; `sw.js` cache bumped to `a3lam-al-dawa-v37`.
+
+### Verification
+- JS: both inline `<script>` blocks parse (`new Function`).
+- n=12: correct name/birth(1985)/origin(Yanbu, Saudi Arabia)/profile; 2 paragraphs per language; no Egypt/1970s/Zad misattribution; website intact; 34 scholars total.
