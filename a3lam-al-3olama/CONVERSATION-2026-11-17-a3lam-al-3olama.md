@@ -247,3 +247,43 @@ brief (22,638 B):
 
 - **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, **27 portraits** (all identity-mapped per user verification), copy-names button, 134/134 tests.
 - **Pending:** none for portraits; optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»).
+
+
+## Session 10 (2026-11-18) — enriched Arabic biographies & offline-safe
+
+- Rewrote/expanded `tr.ar.up` and `tr.ar.da` for **all 27 scholars** in
+  `a3lam-al-3olama/index.html` to 2–3 substantial, factually accurate Arabic
+  paragraphs each (birth/background, education & academic lineage, scholarly
+  roles/contributions, methodology/style, and impact), preserving all other
+  fields and structure (ids, initials, meta, tags, platforms, series, works,
+  quotes, translations/fallback behavior).
+- Made the app **offline-safe** (loads without network): removed external Google
+  Fonts (`fonts.googleapis.com` / `fonts.gstatic.com` preconnect & stylesheet)
+  and replaced with system/local Arabic-safe font stacks (`Noto Naskh Arabic`,
+  `Noto Sans Arabic`, Tahoma, system-ui, etc.). `index.html` now has no external
+  `http(s)` resource references; portraits remain local in `pictures/`.
+- Tests: `FILE=/tmp/ucfzem-site/a3lam-al-3olama/index.html node /tmp/opencode/test-final.js`
+  → **134/134 passed**.
+- App commit: `b126b23d540531d525af87b8b8a476672c6f1360`
+  (“a3lam-al-3olama: enrich Arabic biographies for all scholars (offline-safe fonts)”).
+  Live `index.html` SHA-256 `5870f686eea780dccec0ea9353bdad31cff2bcf5d35fe6d66e23599a1fbdd052`.
+
+### Current state (end of session 10)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, 27
+  portraits (initials fallback available), enriched Arabic biographies for all
+  scholars, multilingual UI (AR/EN/FR/ES), copy-names button, 134/134 tests,
+  offline-safe (no external resources).
+- **Pending:** optional Maktaba card title alignment («أعلام العلماء» vs
+  «أعلام الدعوة»); no other functional work pending.
+
+### Additional links
+
+- Portraits commit (24): https://github.com/ucfzem/ucfzem.github.io/commit/72b8c1c0914d1a2c842963f0347fcb05715a1e0a
+- Belal portrait commit: https://github.com/ucfzem/ucfzem.github.io/commit/6f6e6ee009050772fcc713d1565a59f164647cb7
+- Nafi/Adnaan portraits commit: https://github.com/ucfzem/ucfzem.github.io/commit/a44bf948b90361b33d2a3f39d9b33dc6ccb22cf4
+- Bio enrichment + offline commit: https://github.com/ucfzem/ucfzem.github.io/commit/b126b23d540531d525af87b8b8a476672c6f1360
+- Conversation backup: https://github.com/ucfzem/ucfzem.github.io/blob/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (raw): https://raw.githubusercontent.com/ucfzem/ucfzem.github.io/main/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+- Conversation backup (served): https://ucfzem.github.io/a3lam-al-3olama/CONVERSATION-2026-11-17-a3lam-al-3olama.md
+
