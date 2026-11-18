@@ -222,3 +222,15 @@ brief (22,638 B):
 
 - **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, 24 portraits, initials fallback for Rachid Nafi/Belal Assaad/Adnaan Menk, copy-names button, 134/134 tests.
 - **Pending:** optional correct portraits for Rachid Nafi, Belal Assaad, Adnaan Menk; optional Maktaba card title alignment («أعلام العلماء» vs «أعلام الدعوة»).
+
+
+## Session 9 (continued 2026-11-18) — Belal Assaad portrait added
+
+- New zip received: `https://tmpfiles.org/w3AFth4QOz80/rest.zip` (direct `https://tmpfiles.org/dl/1795013900.1cc706677db8b5cf/w3AFth4QOz80/rest.zip`). Yandex check: `15.jpg` matched Belal Assaad (added); `14.jpg` matched Muhammad Tahir ul-Qadri (not Rachid Nafi, skipped); `16.jpg` matched Mishary Rashid Alafasy (not Adnaan Menk, skipped).
+- Added `pictures/belal.jpg` (300×300) and included `belal` in `PHOTO_IDS`. `#14 Rachid Nafi` and `#16 Adnaan Menk` remain with initials fallback pending correct photos.
+- App commit: `6f6e6ee009050772fcc713d1565a59f164647cb7`. Live `index.html` SHA-256 `1507da73ad77e687a8b289a2512cbbf22331a488d694c2b5c305dad62efbb5b3`; `pictures/belal.jpg` HTTP 200. Tests 134/134.
+
+### Current state (end of session 9, final)
+
+- **Live app:** https://ucfzem.github.io/a3lam-al-3olama/ — 27 scholars, **25 portraits**, initials fallback for **Rachid Nafi** and **Adnaan Menk** only.
+- **Pending:** correct portraits for Rachid Nafi (#14) and Adnaan Menk (#16).
