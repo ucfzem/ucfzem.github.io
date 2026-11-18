@@ -158,6 +158,30 @@ brief (22,638 B):
 - File: 61,826 B; SHA-256
   `b70c381f84c6ed03f66848e354658a0e42382089014f8bf3b78f72d71ee230f1`.
 
+## Session 8 — replace Mustafa Hosny with Abu Ishaq al-Huwaini (commit `0488f92`)
+
+- **#19** replaced: الأستاذ مصطفى حسني → **فضيلة الشيخ أبو إسحاق الحويني**
+  (`id:"huwaini"`).
+- Biography (Arabic Wikipedia / BBC Arabic / Al-Azhar): born 10 June 1956 in
+  Huwain, Kafr El-Sheikh; graduated from Ain Shams University (Al-Alsun,
+  Spanish Department) with honors; studied under Muhammad Najib al-Muti'i,
+  al-Albani (closest influence), Ibn Baz, Ibn Uthaymeen, Ibn Jibrin and
+  Abdullah ibn Qu'ud; preached at the Sheikh al-Islam Mosque and Ibn Taymiyyah
+  Mosque; presented «فضفضة» on Al-Nas TV and worked with Al-Hekma, Al-Rahma
+  and Al-Nada. Died in Doha on 17 Ramadan 1446 / 17 March 2025; buried in
+  Mesaimeer Cemetery.
+- Works: «فصل الخطاب بنقد المغني عن الحفظ والكتاب» (1985),
+  «الانشراح في آداب النكاح» (1987),
+  «النافلة في الأحاديث الضعيفة والباطلة» (1988).
+- Quote (his own): «دراستي لكتاب السلسلة الضعيفة مدة سنتين أيام الجامعة كانت
+  أعظم فائدة من كل سني التحصيل العلمي الأخرى.»
+- Meta shows `1956–2025`; tags الحديث / الفقه الشافعي; platforms YouTube,
+  Facebook; series فضفضة, أصداف اللؤلؤ.
+- Tests: **134/134** (previous 117 + 17 checks: #19 AR/EN card, dates, works,
+  quote, death, Mustafa Hosny absent, copy list line #19 in AR/EN).
+- File: 64,765 B; SHA-256
+  `ab2ef1a6bf5dfa21d024077b7d6e18792b76d4500bb88955de0f8ce37147ca1c`.
+
 ## Pending
 
 1. Scholar portraits: user will provide small pictures; add `pictures/` and
@@ -178,6 +202,7 @@ brief (22,638 B):
 - Copy-names commit: https://github.com/ucfzem/ucfzem.github.io/commit/a0dced13abff0bd91065821ea26b983a798b80d6
 - Ben Hamza commit: https://github.com/ucfzem/ucfzem.github.io/commit/a39162eb06a055b21d1d90f61c71f3307c72de34
 - New-list commit: https://github.com/ucfzem/ucfzem.github.io/commit/e23754b08a306cbde3cf78f2322a0bf0b84b1f21
+- Huwaini commit: https://github.com/ucfzem/ucfzem.github.io/commit/0488f928b803a631e51b591d855b738f074a4aff
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
