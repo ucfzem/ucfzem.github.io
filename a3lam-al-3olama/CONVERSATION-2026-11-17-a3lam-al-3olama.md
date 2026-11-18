@@ -132,6 +132,32 @@ brief (22,638 B):
 - Next: user will supply small portraits for every scholar; wire them into
   the card avatars with the current initials as fallback.
 
+## Session 7 — new list: #13, #14 and #21 title (commit `e23754b`)
+
+- **#13** replaced: الدكتور عمرو خالد → **الأستاذ الداعية ياسين العمري**
+  (`id:"amri"`). Bio from his official site (`el-amri.com/biography`):
+  Moroccan preacher, student of knowledge and educational lecturer; diploma in
+  teaching expression/communication, licentiate in French language and
+  literature, studies in Sharia and education. Series: السيرة النبوية, شرح
+  الأربعون النووية, مجالس القرآن. Quote: «العلم النافع نورٌ يهدي الله به
+  القلوب والعقول إلى طريق الاستقامة.» Birth year deliberately left out
+  (sources conflict); meta is country only.
+- **#14** replaced: فضيلة الأستاذ الدكتور علي جمعة → **فضيلة الشيخ الدكتور
+  رشيد نافع** (`id:"nafi"`). Born Rabat, 16 Ramadan 1382 / 23 Feb 1961;
+  studied under al-Hilali and Hammad al-Ansari; licentiate from the Islamic
+  University of Madinah (Aqeedah); higher studies at Mohammed V; State
+  Doctorate in Hadith from Hassan II. Member of the League of Moroccan
+  Scholars; preacher of the Unity Mosque, Rabat; relief work in Bosnia,
+  Zaatari, Cox's Bazar and Morocco; founding member of the 2005 Bahrain
+  conference. Works: يوسف بن تاشفين ودعوته, أيها التائب أقبل, المرسل الخفي
+  وحجيته. No verified personal quote, so the quote block is hidden.
+- **#21** title shortened to **العلامة مصطفى بن حمزة** (EN: Allama Mustapha
+  Ben Hamza), matching the new list.
+- Tests: **117/117** (previous 95 + 22 checks: new #13/#14 AR/EN content,
+  tags/works/series, old names absent, copy list lines #13/#14, #21 title).
+- File: 61,826 B; SHA-256
+  `b70c381f84c6ed03f66848e354658a0e42382089014f8bf3b78f72d71ee230f1`.
+
 ## Pending
 
 1. Scholar portraits: user will provide small pictures; add `pictures/` and
@@ -151,6 +177,7 @@ brief (22,638 B):
 - Final 27-scholar commit: https://github.com/ucfzem/ucfzem.github.io/commit/ae22b0a55ba59444f9a5abdb1eea928320666465
 - Copy-names commit: https://github.com/ucfzem/ucfzem.github.io/commit/a0dced13abff0bd91065821ea26b983a798b80d6
 - Ben Hamza commit: https://github.com/ucfzem/ucfzem.github.io/commit/a39162eb06a055b21d1d90f61c71f3307c72de34
+- New-list commit: https://github.com/ucfzem/ucfzem.github.io/commit/e23754b08a306cbde3cf78f2322a0bf0b84b1f21
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
