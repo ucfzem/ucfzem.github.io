@@ -106,11 +106,39 @@ brief (22,638 B):
 - File: 52,650 B; SHA-256
   `da083e5b8e9b3375b1c379d7bc5045d7971c1f39f210e4e9fbdf7f6cd42d28ef`.
 
+## Session 6 — replace Shams al-Din with Mustapha Ben Hamza (commit `a39162e`)
+
+- Removed scholar **#21 محمد بن شمس الدين** (`id:"shams"`) and replaced him
+  with **العلامة الدكتور مصطفى بن حمزة** (`id:"benhamza"`).
+- New entry: born 17 July 1949 in Oujda (21 Ramadan 1368 AH); Sharia degree
+  from Fez (Al-Qarawiyyin) + Arabic Literature from Rabat (Mohammed V);
+  higher studies at Dar al-Hadith al-Hassania; State Doctorate from Mohammed
+  First University, Oujda. President of the Regional Scientific Council of
+  the Oriental Region; member of the Supreme Scientific Council, Mohammed VI
+  Foundation for African Ulema, and Muslim Council of Elders; director of the
+  Institute of Islamic Revival in Oujda; Alawite Order of Commander (2007).
+- Works added: «حقوق المعوقين في الإسلام» (1993), «نظرية العامل في النحو
+  العربي» (2004), «شخصية الفقه المالكي», «الأسس الثقافية لمنع تطبيق الشريعة».
+- Tags: الفقه المالكي / الدراسات الإسلامية; platforms: YouTube, Website;
+  series: الدروس الحسنية الرمضانية, برامج الفتوى. AR + EN full text; FR/ES
+  fall back to EN as before.
+- No verified personal quote was available, so the quote field is omitted for
+  this entry and `cardHTML()` now renders the quote block conditionally.
+- Tests: **95/95** (previous 80 + 15 replacement checks: AR/EN card #21,
+  tags/meta, Shams removed, no `undefined`, no empty quote block, copy list
+  line #21 in AR/EN). `node --check` passes.
+- File: 56,930 B; SHA-256
+  `35e8eb3578bc08741421268322b12b8ee32d91580949c19b99490496ac1e0880`.
+- Next: user will supply small portraits for every scholar; wire them into
+  the card avatars with the current initials as fallback.
+
 ## Pending
 
-1. No service worker / manifest in this single-file project (by design).
-2. Revoke the recovery PAT after the work is finished.
-3. Optional: align the Maktaba card title or move the app to `a3lam-al-dawa/`.
+1. Scholar portraits: user will provide small pictures; add `pictures/` and
+   map each `id` to an image, falling back to initials.
+2. No service worker / manifest in this single-file project (by design).
+3. Revoke the recovery PAT after the work is finished.
+4. Optional: align the Maktaba card title or move the app to `a3lam-al-dawa/`.
 
 ## Links
 
@@ -122,6 +150,7 @@ brief (22,638 B):
 - Maktaba commit: https://github.com/ucfzem/ucfzem.github.io/commit/e1c96ed0c8e01817485cd957884d60daf4340a2f
 - Final 27-scholar commit: https://github.com/ucfzem/ucfzem.github.io/commit/ae22b0a55ba59444f9a5abdb1eea928320666465
 - Copy-names commit: https://github.com/ucfzem/ucfzem.github.io/commit/a0dced13abff0bd91065821ea26b983a798b80d6
+- Ben Hamza commit: https://github.com/ucfzem/ucfzem.github.io/commit/a39162eb06a055b21d1d90f61c71f3307c72de34
 - Folder history: https://github.com/ucfzem/ucfzem.github.io/commits/main/a3lam-al-3olama
 - Maktaba live: https://ucfzem.github.io/works/Maktaba/
 - Maktaba source: https://github.com/ucfzem/ucfzem.github.io/blob/main/works/Maktaba/index.html
