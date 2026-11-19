@@ -1,4 +1,4 @@
-const CACHE = 'maktaba-main-v6';
+const CACHE = 'maktaba-main-v7';
 const CORE = [
   './',
   './index.html',
@@ -29,6 +29,7 @@ const CORE = [
 const EXTERNAL = [
   'https://ucfzem.github.io/a3lam-al-dawa/icon.svg',
   'https://ucfzem.github.io/a3lam-al-3olama/icon.svg',
+  'https://ucfzem.github.io/shubuhat-wa-rudud/icon.svg',
   'https://ucfzem.github.io/mapamundi/icon.svg',
   'https://ucfzem.github.io/works/assets/quran.png',
   'https://ucfzem.github.io/works/assets/tanger.png'

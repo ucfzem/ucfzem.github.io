@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">شبهات وردود</title>
+  <desc id="desc">درع وكتاب مفتوح يرمزان إلى الرد على الشبهات والانتصار للسنة</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a5f47"/>
+      <stop offset=".55" stop-color="#124736"/>
+      <stop offset="1" stop-color="#0b2e24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".35" cy=".22" r=".85">
+      <stop offset="0" stop-color="#4ca882" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#0b2e24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4d890"/>
+      <stop offset=".45" stop-color="#d4a446"/>
+      <stop offset="1" stop-color="#a87428"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffdf6"/>
+      <stop offset="1" stop-color="#f1e0bc"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#glow)"/>
+  <rect x="22" y="22" width="468" height="468" rx="96" fill="none" stroke="#d4a446" stroke-opacity=".28" stroke-width="3"/>
+
+  <g fill="none" stroke="#f4d890" stroke-opacity=".18" stroke-width="2">
+    <circle cx="256" cy="248" r="188"/>
+    <path d="M256 60 444 248 256 436 68 248Z"/>
+  </g>
+
+  <path d="M256 86c-54 28-108 40-160 36v150c0 86 64 150 160 186 96-36 160-100 160-186V122c-52 4-106-8-160-36Z"
+        fill="#08271f" fill-opacity=".22" stroke="url(#gold)" stroke-width="12" stroke-linejoin="round"/>
+
+  <g transform="translate(0 18)">
+    <path d="M256 206c-40-29-86-38-128-25v124c42-13 88-4 128 25 40-29 86-38 128-25V181c-42-13-88-4-128 25Z"
+          fill="url(#paper)" stroke="#8a5c26" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M256 206v124" stroke="#8a5c26" stroke-width="8" stroke-linecap="round"/>
+    <path d="M256 223c-28-19-61-27-93-22M256 248c-28-19-61-27-93-22M256 273c-28-19-61-27-93-22
+             M256 223c28-19 61-27 93-22M256 248c28-19 61-27 93-22M256 273c28-19 61-27 93-22"
+          fill="none" stroke="#b9893b" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+  </g>
+
+  <g transform="translate(256 126)">
+    <path d="M0-18 5-4l14 0-11 8 4 14-12-9-12 9 4-14-11-8 14 0z" fill="url(#gold)"/>
+  </g>
+
+  <path d="M196 368c18 18 36 27 60 27 48 0 76-28 96-66" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M340 314l22 18-26 34" fill="none" stroke="url(#gold)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,45 +1,43 @@
-# Conversation Backup — shubuhat-wa-rudud (blocked, pending content) — 2026-11-19
+# Conversation Backup — shubuhat-wa-rudud integration — 2026-11-19
 
 ## Objective
-- Maintain `a3lam-al-dawa` and `a3lam-al-3olama` in `ucfzem/ucfzem.github.io` (Cairo typography applied, works/Maktaba links intact) and add the new `shubuhat-wa-rudud` project to Maktaba and works (both) using provided assets, then test/deploy/backup/share links.
+- Maintain `a3lam-al-dawa` and `a3lam-al-3olama` in `ucfzem/ucfzem.github.io` (typography/links intact), add/integrate `shubuhat-wa-rudud` (last provided expanded version) into both `works/index.html` and `works/Maktaba/` additively with a fitting icon, then verify, commit/push/deploy, save/update this backup, and share all links.
 
 ## Important Details
-- **Repo/deploy:** `ucfzem/ucfzem.github.io`, branch `main`, GitHub Pages auto-deploys on push. Deploy repo `/tmp/ucfzem-site` (sparse checkout). Git push works via stored credentials; `GH_TOKEN` absent; do not echo tokens. No force-push/reset/clean; check `git status`/`git diff` before commits; avoid unrelated deletions/overwrites.
-- **Constraints/directives:** Preserve schema/localization/tags/links/CSS/SW/offline behavior and existing sites/apps. `https://ucfzem.github.io/works/Maktaba` must remain safe; add new unlocked/webapp entries carefully (additive). Test, commit/push/deploy, save/backup conversation GitHub `.md`, share all relevant links.
-- **`a3lam-al-3olama`:** Live `https://ucfzem.github.io/a3lam-al-3olama/` (27 scholars, enriched AR/EN/FR/ES, portraits, offline-safe, Cairo typography self-hosted/applied). Commit `4481658`.
-- **`a3lam-al-dawa`:** Live `https://ucfzem.github.io/a3lam-al-dawa/` (worker `https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/`), 34 entries, Cairo typography/build `2026-11-19a`, SW `a3lam-al-dawa-v41` (fonts precached). Commit `4481658`.
-- **`works` / Maktaba (inspected):** `works/index.html` unlocked/public includes `a3lam-al-dawa` (#19, worker URL) and `a3lam-al-3olama` (#20) as cards and a `Maktaba` folder (`maktaba` array inside, opened) with numbered books/apps; public count dynamic `publicProjects.length + maktaba.length` (19 + 31 = 50). `works/sw.js` `maktaba-v15` precaches app icons incl. a3lam icons. `works/Maktaba/index.html` lists 5 webapps (Quran Majeed v3, A3lam al-Dawa, A3lam al-3olama, Tanger, Mapamundi) and a library of Arabic books/apps with counts/titles/tags and QR section; `works/Maktaba/sw.js` present. Commits `5977d43`, `439fce0`.
-- **Requested addition:** Add `shubuhat-wa-rudud` to link tree at `ucfzem.github.io/works` (Maktaba folder/unlocked webapps area) and in `ucfzem.github.io/works/Maktaba/` alongside other webapps, carefully/additively, choose good icon. Metadata specified by user: Folder `shubuhat-wa-rudud/`, AR Title `شبهات وردود — ضوابط المنهج الشرعي`, EN Title `Shubuhat wa Rudud`, Tags `العقيدة والمنهج`, `السنة والصحيحين`, `الرد على الشبهات`. Instruction: create from Arabic academic study in conversation ("ضوابط المنهج الشرعي في تلقي العلم، ونقد الإشكالات المنهجية في خطاب بعض المتصدرين المعاصرين، والرد على دعاوى التيار القرآني، مع بيان منزلة السنة والصحيحين"), following conventions of sibling apps in `works/Maktaba/` and repo.
+- **Repo/deploy:** `ucfzem/ucfzem.github.io`, branch `main`, GitHub Pages auto-deploys on push. Deploy repo `/tmp/ucfzem-site`. Git push via stored credentials; `GH_TOKEN` absent (no tokens echoed). No force-push/reset/clean; `git status`/`git diff` checked before commits; no unrelated deletions/overwrites.
+- **Constraints/directives:** Preserved schema/localization/tags/links/CSS/SW/offline behavior and existing sites/apps. `https://ucfzem.github.io/works/Maktaba` kept safe; new unlocked/webapp entry added carefully and additively.
+- **`shubuhat-wa-rudud` (implemented):** Folder `shubuhat-wa-rudud/` at repo root with provided last/expanded self-contained `index.html` (“شبهات وردود — دراسة علمية نقدية موسّعة”, `lang="ar" dir="rtl"`, 6-part study with inline CSS/JS, Google Fonts Amiri/Aref Ruqaa/Cairo/Scheherazade New, search/TOC/theme/font-size/progress/reading-position, localStorage keys `shubuhat_theme_v1`, `shubuhat_font_v1`, `shubuhat_size_v1`, `shubuhat_last_part_v1`) and fitting `icon.svg` (shield + open book, green/gold, sibling-style). URL: `https://ucfzem.github.io/shubuhat-wa-rudud/`.
+- **Metadata/tags:** AR title `شبهات وردود — ضوابط المنهج الشرعي`, EN title `Shubuhat wa Rudud`, tags/context `العقيدة والمنهج` / `السنة والصحيحين` / `الرد على الشبهات`.
+- **`works/index.html`:** Added as public project #21 (`🛡️`, icon `https://ucfzem.github.io/shubuhat-wa-rudud/icon.svg`, URL `https://ucfzem.github.io/shubuhat-wa-rudud/`, `newTab: true`, tag `العقيدة والمنهج`) after A3lam al-3olama; public count remains dynamic `publicProjects.length + maktaba.length` (now 20 + 31 = 51).
+- **`works/Maktaba/index.html`:** Added as 6th webapp card alongside other webapps (after A3lam al-3olama) with icon/title/tags and external link; updated header/meta/counts to “29 Arabic books & 6 webapps · UcfZem” and “Webapps … 6 apps” (library remains 29 `app-row`s).
+- **Service workers (additive cache bumps):** `works/sw.js` `maktaba-v15` → `maktaba-v16` with `https://ucfzem.github.io/shubuhat-wa-rudud/icon.svg` precached; `works/Maktaba/sw.js` `maktaba-main-v6` → `maktaba-main-v7` with same icon in `EXTERNAL`.
+- **Preserved apps:** `a3lam-al-3olama` live `https://ucfzem.github.io/a3lam-al-3olama/` (commit `4481658` chain) and `a3lam-al-dawa` live `https://ucfzem.github.io/a3lam-al-dawa/` / worker `https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/` (Cairo, build `2026-11-19a`, SW `a3lam-al-dawa-v41`) unchanged.
+- **Prior context/commits:** `5977d43` `feat(works): add a3lam-al-3olama to link tree and bump SW cache`; `439fce0` `docs(works): add conversation backup for a3lam links update`; `4481658` `style(a3lam): apply Cairo typography to titles and scholar names`; `73c2540`/`c936445` prior (blocked/pending) backups for shubuhat-wa-rudud.
 
 ## Work State
 ### Completed
-- `a3lam-al-3olama` and `a3lam-al-dawa` maintained (Cairo typography applied/deployed, content/links preserved) — `4481658`.
-- `a3lam-al-3olama` added to works link tree and SW bumped — `5977d43`, `439fce0`.
-- Repo inspected for `shubuhat*`, sibling app conventions (`works/index.html`, `works/Maktaba/index.html`, `works/sw.js`, `works/Maktaba/`, `a3lam-al-dawa`), and environment: no `shubuhat*` exists; no study/file contents found.
-- Conversation backups committed/pushed: `CONVERSATION-2026-11-19-cairo-typography.md`, `works/CONVERSATION-2026-11-19-works-links.md`, this file updated.
+- Created `shubuhat-wa-rudud/` with provided expanded `index.html` and fitting `icon.svg`.
+- Integrated additively into `works/index.html` and `works/Maktaba/index.html` with requested metadata/tags; updated relevant counts/meta and bumped `works/sw.js`/`works/Maktaba/sw.js` caches; no unrelated files changed.
+- Verified via `git status`/`git diff --stat`, content/grep checks (new URLs/icons present, counts consistent: 6 webapp cards, 29 library rows).
 
 ### Active
-- None (no project files created/modified).
+- Commit, push to `main`, confirm GitHub Pages deploy, and share all links (including this backup and commit hash).
 
 ### Blocked
-- **Missing source content:** The Arabic academic study text ("ضوابط المنهج الشرعي...") and the “last version” project file contents (`index.html`, `assets/css/style.css`, `assets/js/app.js`, `assets/data/content.json`, `opencode.json`, `AGENTS.md`) are not present in this conversation or on disk in `/tmp/ucfzem-site`. Cannot invent or approximate scholarly content; `shubuhat-wa-rudud/` not created and no listings added.
-- **Still to confirm once content provided (if not specified in files):** exact icon asset/SVG, canonical URL/hosting (GitHub Pages path vs worker), and precise Maktaba/works placement/count/SW-cache updates consistent with sibling conventions.
+- None.
 
 ## Next Move
-1. Obtain the Arabic study text and/or the exact `shubuhat-wa-rudud` file contents (`index.html`, `assets/css/style.css`, `assets/js/app.js`, `assets/data/content.json`, `opencode.json`, `AGENTS.md`).
-2. Create `shubuhat-wa-rudud/` from that content following sibling app conventions, add a fitting icon, and add it additively to `works/index.html` and `works/Maktaba/index.html` (and update relevant SWs/counts/metadata) without breaking existing entries.
-3. Verify, `git status`/`git diff`, commit/push to `main`, confirm Pages deploy, save/update conversation backup `.md`, and share all links.
+- None pending; future maintenance as requested.
 
 ## Relevant Files
-- `/tmp/ucfzem-site/works/index.html` (public unlocked + Maktaba folder arrays, dynamic count)
-- `/tmp/ucfzem-site/works/sw.js` (`maktaba-v15`)
-- `/tmp/ucfzem-site/works/Maktaba/index.html`
-- `/tmp/ucfzem-site/works/Maktaba/sw.js`
-- `/tmp/ucfzem-site/a3lam-al-dawa/` (sibling app convention reference)
-- `/tmp/ucfzem-site/CONVERSATION-2026-11-19-shubuhat-wa-rudud.md` (this backup)
+- `shubuhat-wa-rudud/index.html`, `shubuhat-wa-rudud/icon.svg`
+- `works/index.html`, `works/Maktaba/index.html`, `works/sw.js`, `works/Maktaba/sw.js`
+- `CONVERSATION-2026-11-19-shubuhat-wa-rudud.md` (this backup)
 
 ## Links
 - Repo: https://github.com/ucfzem/ucfzem.github.io
-- Backup (this file): https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-2026-11-19-shubuhat-wa-rudud.md
+- Backup: https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-2026-11-19-shubuhat-wa-rudud.md
 - Prior backups: https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-2026-11-19-cairo-typography.md , https://github.com/ucfzem/ucfzem.github.io/blob/main/works/CONVERSATION-2026-11-19-works-links.md
-- Deployed: https://ucfzem.github.io/works/ , https://ucfzem.github.io/works/Maktaba/ , https://ucfzem.github.io/a3lam-al-dawa/ , https://ucfzem.github.io/a3lam-al-3olama/ , https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/
+- New app: https://ucfzem.github.io/shubuhat-wa-rudud/
+- Works: https://ucfzem.github.io/works/ , https://ucfzem.github.io/works/Maktaba/
+- Existing: https://ucfzem.github.io/a3lam-al-dawa/ , https://ucfzem.github.io/a3lam-al-3olama/ , https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/

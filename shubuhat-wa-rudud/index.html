@@ -1,0 +1,1838 @@
+<!DOCTYPE html><html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شبهات وردود — دراسة علمية نقدية موسّعة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg-page: #faf5eb;
+      --bg-surface: #fffdf8;
+      --bg-subtle: #f2e8d5;
+      --bg-card: #f7efe0;
+      --bg-accent-soft: #f6e3be;
+      --text-main: #281c12;
+      --text-sub: #57412f;
+      --text-muted: #7d6148;
+      --border-soft: #decba9;
+      --border-strong: #c2a576;
+      --gold-dark: #966618;
+      --gold-warm: #c48a26;
+      --amber-deep: #b45616;
+      --mark-bg: #bbf7d0;
+      --mark-text: #064e3b;
+      --mark-active-bg: #16a34a;
+      --mark-active-text: #ffffff;
+      --shadow-card: 0 8px 24px rgba(40, 28, 18, 0.07);
+      --shadow-header: 0 2px 10px rgba(40, 28, 18, 0.06);
+      --reader-font: 'Amiri', 'Scheherazade New', serif;
+      --ui-font: 'Cairo', sans-serif;
+      --reader-size: 1.16rem;
+      --reader-leading: 2.02;
+      --radius-xs: 6px;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+      --header-h: 66px;
+      --sidebar-w: 320px;
+    }
+
+
+    html[data-theme="dark"] {
+      --bg-page: #16110d;
+      --bg-surface: #221a14;
+      --bg-subtle: #2b2018;
+      --bg-card: #261d16;
+      --bg-accent-soft: #3a2917;
+      --text-main: #f6ecd9;
+      --text-sub: #d7c3a3;
+      --text-muted: #a68c6c;
+      --border-soft: #3d2e21;
+      --border-strong: #5a432f;
+      --gold-dark: #e0b152;
+      --gold-warm: #f2c566;
+      --amber-deep: #e38638;
+      --mark-bg: #14532d;
+      --mark-text: #dcfce7;
+      --mark-active-bg: #16a34a;
+      --mark-active-text: #ffffff;
+      --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.45);
+      --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--ui-font);
+      line-height: 1.75;
+      overflow-x: hidden;
+      transition: background-color 0.22s ease, color 0.22s ease;
+    }
+
+
+    button, input, select {
+      font-family: var(--ui-font);
+      color: inherit;
+    }
+
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--gold-warm);
+      outline-offset: 2px;
+    }
+
+
+    .progress-track {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background-color: transparent;
+      z-index: 80;
+      pointer-events: none;
+    }
+
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-image: linear-gradient(90deg, var(--gold-dark), var(--amber-deep), var(--gold-warm));
+      transition: width 0.12s linear;
+    }
+
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      min-height: var(--header-h);
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-header);
+      padding: 0.55rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-width: 0;
+    }
+
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .brand-subtitle {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      min-height: 40px;
+      padding: 0.42rem 0.75rem;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border-soft);
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+
+    .btn:hover {
+      background-color: var(--bg-accent-soft);
+      border-color: var(--gold-dark);
+    }
+
+
+    .btn.active {
+      background-color: var(--gold-dark);
+      color: #fffdf8;
+      border-color: var(--gold-dark);
+    }
+
+
+    .drawer-toggle-btn { display: none; }
+
+
+    .settings-panel {
+      display: none;
+      background-color: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.75rem 1rem;
+    }
+
+
+    .settings-panel.open { display: block; }
+
+
+    .settings-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+
+    .setting-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+
+    .font-select {
+      min-height: 40px;
+      padding: 0.4rem 0.65rem;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+
+    .size-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+
+    .size-value {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+      padding: 0 0.3rem;
+    }
+
+
+    .search-bar-wrap {
+      background-color: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.65rem 1rem;
+    }
+
+
+    .search-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+
+    .search-field-box {
+      position: relative;
+      flex: 1 1 260px;
+      display: flex;
+      align-items: center;
+    }
+
+
+    .search-glyph {
+      position: absolute;
+      right: 0.8rem;
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: 0.92rem;
+    }
+
+
+    .search-input {
+      width: 100%;
+      min-height: 42px;
+      padding: 0.45rem 2.3rem 0.45rem 2.2rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+
+
+    .search-input:focus {
+      border-color: var(--gold-dark);
+      box-shadow: 0 0 0 3px rgba(150, 102, 24, 0.16);
+    }
+
+
+    .clear-input-btn {
+      position: absolute;
+      left: 0.55rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background-color: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+
+    .clear-input-btn.visible { display: inline-flex; }
+
+
+    .clear-input-btn:hover {
+      background-color: var(--bg-accent-soft);
+      color: var(--text-main);
+    }
+
+
+    .search-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+
+    .match-badge {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-sub);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      padding: 0.35rem 0.72rem;
+      border-radius: var(--radius-pill);
+      min-width: 92px;
+      text-align: center;
+    }
+
+
+    .page-shell {
+      max-width: 1340px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      gap: 1.4rem;
+      padding: 1.25rem 1rem 3.5rem;
+      align-items: start;
+    }
+
+
+    .toc-sidebar {
+      position: sticky;
+      top: calc(var(--header-h) + 0.85rem);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      box-shadow: var(--shadow-header);
+      max-height: calc(100vh - var(--header-h) - 1.8rem);
+      overflow-y: auto;
+    }
+
+
+    .toc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.55rem;
+      margin-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+
+    .toc-heading {
+      margin: 0;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+    }
+
+
+    .toc-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+
+    .toc-btn {
+      display: block;
+      width: 100%;
+      text-align: right;
+      padding: 0.52rem 0.7rem;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      background-color: transparent;
+      color: var(--text-sub);
+      font-size: 0.84rem;
+      font-weight: 600;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+
+    .toc-btn:hover {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-soft);
+    }
+
+
+    .toc-btn.active {
+      background-color: var(--bg-accent-soft);
+      color: var(--gold-dark);
+      border-color: var(--gold-dark);
+      font-weight: 800;
+    }
+
+
+    .mobile-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(20, 14, 9, 0.58);
+      z-index: 60;
+    }
+
+
+    .mobile-backdrop.open { display: block; }
+
+
+    .reader-area { min-width: 0; }
+
+
+    .hero-card {
+      background-image: linear-gradient(140deg, var(--bg-surface), var(--bg-card));
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1.55rem 1.5rem;
+      margin-bottom: 1.4rem;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .hero-top-bar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 5px;
+      background-image: linear-gradient(90deg, var(--gold-dark), var(--amber-deep), var(--gold-warm));
+    }
+
+
+    .hero-pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--amber-deep);
+      background-color: var(--bg-accent-soft);
+      padding: 0.24rem 0.72rem;
+      border-radius: var(--radius-pill);
+      margin-bottom: 0.6rem;
+    }
+
+
+    .hero-title {
+      margin: 0 0 0.55rem;
+      font-family: var(--reader-font);
+      font-size: clamp(1.55rem, 3.2vw, 2.3rem);
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--text-main);
+    }
+
+
+    .hero-desc {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-sub);
+    }
+
+
+    .section-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 1.45rem 1.5rem;
+      margin-bottom: 1.4rem;
+      box-shadow: var(--shadow-card);
+      scroll-margin-top: calc(var(--header-h) + 1rem);
+    }
+
+
+    .section-title {
+      margin: 0 0 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--border-soft);
+      font-family: var(--reader-font);
+      font-size: clamp(1.28rem, 2.3vw, 1.7rem);
+      font-weight: 700;
+      color: var(--gold-dark);
+      line-height: 1.45;
+    }
+
+
+    .sub-title {
+      margin: 1.35rem 0 0.55rem;
+      font-family: var(--reader-font);
+      font-size: clamp(1.1rem, 1.8vw, 1.32rem);
+      font-weight: 700;
+      color: var(--amber-deep);
+      line-height: 1.5;
+    }
+
+
+    .prose-body {
+      font-family: var(--reader-font);
+      font-size: var(--reader-size);
+      line-height: var(--reader-leading);
+      color: var(--text-main);
+    }
+
+
+    .prose-body p { margin: 0 0 0.9rem; }
+
+
+    .prose-list {
+      margin: 0.35rem 0 1.05rem;
+      padding-right: 1.3rem;
+    }
+
+
+    .prose-list li { margin-bottom: 0.6rem; }
+
+
+    .context-callout {
+      background-color: var(--bg-card);
+      border-right: 4px solid var(--amber-deep);
+      border-radius: var(--radius-xs);
+      padding: 0.85rem 1rem;
+      margin: 0.9rem 0 1.1rem;
+      color: var(--text-sub);
+    }
+
+
+    .verse-box {
+      background-color: var(--bg-accent-soft);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1.1rem;
+      margin: 0.9rem 0 1.1rem;
+      font-family: var(--reader-font);
+      font-size: 1.08em;
+      line-height: 1.95;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+
+    .verse-box .verse-ref {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 0.85em;
+      color: var(--gold-dark);
+      font-weight: 700;
+      font-family: var(--ui-font);
+    }
+
+
+    .hadith-box {
+      background-color: var(--bg-card);
+      border-right: 4px solid var(--gold-dark);
+      border-radius: var(--radius-xs);
+      padding: 0.85rem 1rem;
+      margin: 0.9rem 0 1.1rem;
+      font-family: var(--reader-font);
+      font-size: 1.02em;
+      line-height: 1.95;
+      color: var(--text-main);
+    }
+
+
+    .hadith-box .hadith-ref {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: 0.82em;
+      color: var(--amber-deep);
+      font-weight: 700;
+      font-family: var(--ui-font);
+    }
+
+
+    .ornament-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.6rem 0 1rem;
+      opacity: 0.85;
+    }
+
+
+    .ornament-divider svg {
+      width: 100%;
+      max-width: 260px;
+      height: 22px;
+      display: block;
+    }
+
+
+    .audit-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+      margin: 0.9rem 0 1.1rem;
+    }
+
+
+    .audit-mini-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+    }
+
+
+    .audit-mini-title {
+      margin: 0 0 0.35rem;
+      font-family: var(--ui-font);
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+    }
+
+
+    .audit-mini-text {
+      margin: 0;
+      font-size: 0.95em;
+      color: var(--text-sub);
+      line-height: 1.75;
+      font-family: var(--reader-font);
+    }
+
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin: 0.85rem 0 1.2rem;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-card);
+    }
+
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 620px;
+      font-family: var(--ui-font);
+      font-size: 0.9rem;
+    }
+
+
+    .data-table th,
+    .data-table td {
+      padding: 0.72rem 0.85rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border-soft);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+
+    .data-table th {
+      background-color: var(--bg-accent-soft);
+      color: var(--gold-dark);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+
+    .data-table tbody tr:hover { background-color: var(--bg-surface); }
+
+
+    mark.hit-mark {
+      background-color: var(--mark-bg);
+      color: var(--mark-text);
+      padding: 0.04rem 0.22rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+
+    mark.hit-mark.active-hit {
+      background-color: var(--mark-active-bg);
+      color: var(--mark-active-text);
+    }
+
+
+    .empty-search-box {
+      display: none;
+      background-color: var(--bg-card);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 1.1rem;
+      text-align: center;
+      color: var(--text-sub);
+      margin-bottom: 1.1rem;
+    }
+
+
+    .empty-search-box.visible { display: block; }
+
+
+    .closing-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.35rem;
+      margin-top: 1.25rem;
+    }
+
+
+    .site-footer {
+      text-align: center;
+      padding: 1.4rem 0.8rem 0.4rem;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+
+    .toast-banner {
+      position: fixed;
+      bottom: 1rem;
+      left: 1rem;
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--gold-dark);
+      box-shadow: var(--shadow-card);
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      z-index: 90;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+
+
+    .toast-banner.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    @media (max-width: 960px) {
+      .page-shell {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 0.85rem 0.7rem 3rem;
+      }
+
+
+      .drawer-toggle-btn { display: inline-flex; }
+
+
+      .toc-sidebar {
+        position: fixed;
+        top: 0;
+        right: -340px;
+        bottom: 0;
+        width: min(var(--sidebar-w), 86vw);
+        max-height: 100vh;
+        border-radius: 0;
+        z-index: 65;
+        transition: right 0.24s ease;
+      }
+
+
+      .toc-sidebar.open { right: 0; }
+    }
+
+
+    @media (max-width: 600px) {
+      .site-header { padding: 0.5rem 0.65rem; }
+      .brand-title { font-size: 0.95rem; }
+      .brand-subtitle { display: none; }
+      .btn { padding: 0.38rem 0.58rem; font-size: 0.8rem; }
+      .section-card, .hero-card { padding: 1.05rem 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-track" aria-hidden="true">
+    <div id="progressFill" class="progress-fill"></div>
+  </div>
+
+
+  <header class="site-header" role="banner">
+    <div class="brand-group">
+      <button
+        id="openTocBtn"
+        type="button"
+        class="btn drawer-toggle-btn"
+        aria-label="فتح قائمة المحاور"
+        aria-expanded="false"
+        aria-controls="tocSidebar"
+      >
+        ☰ المحاور
+      </button>
+
+
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="34" height="34" rx="10" fill="currentColor" style="color: var(--bg-accent-soft); stroke: var(--gold-dark);" stroke-width="1.5" />
+        <polygon points="19,8 25,19 19,30 13,19" stroke="currentColor" style="color: var(--amber-deep);" stroke-width="1.6" fill="none" />
+        <circle cx="19" cy="19" r="3.2" fill="currentColor" style="color: var(--gold-dark);" />
+      </svg>
+
+
+      <div class="brand-titles">
+        <h1 class="brand-title">شبهات وردود</h1>
+        <p class="brand-subtitle">دراسة علمية نقدية موسّعة في المنهج والسنة والصحيحين</p>
+      </div>
+    </div>
+
+
+    <div class="header-controls">
+      <button id="toggleSettingsBtn" type="button" class="btn" aria-expanded="false" aria-controls="settingsPanel">
+        الخط والقراءة
+      </button>
+      <button id="themeSwitchBtn" type="button" class="btn" aria-label="تبديل الوضع الليلي والنهاري">
+        <span id="themeIcon" aria-hidden="true">🌙</span>
+        <span id="themeText">داكن</span>
+      </button>
+    </div>
+  </header>
+
+
+  <section id="settingsPanel" class="settings-panel" aria-label="إعدادات الخط وحجم النص">
+    <div class="settings-grid">
+      <div class="setting-item">
+        <label for="fontChoiceSelect" class="setting-label">خط المتن العربي</label>
+        <select id="fontChoiceSelect" class="font-select">
+          <option value="'Amiri', 'Scheherazade New', serif">أميري (Amiri) — تراثي أنيق</option>
+          <option value="'Scheherazade New', 'Amiri', serif">شهرزاد الجديد — نسخ واضح</option>
+          <option value="'Cairo', sans-serif">القاهرة (Cairo) — معاصر متوازن</option>
+          <option value="'Aref Ruqaa', serif">عارف رقعة — رقعة فني</option>
+        </select>
+      </div>
+
+
+      <div class="setting-item">
+        <span class="setting-label">حجم خط القراءة</span>
+        <div class="size-row">
+          <button id="smallerFontBtn" type="button" class="btn" aria-label="تصغير الخط">أ-</button>
+          <span id="fontPercentLabel" class="size-value">116%</span>
+          <button id="largerFontBtn" type="button" class="btn" aria-label="تكبير الخط">أ+</button>
+          <button id="defaultFontBtn" type="button" class="btn" aria-label="استعادة الحجم الافتراضي">افتراضي</button>
+        </div>
+      </div>
+
+
+      <div class="setting-item">
+        <span class="setting-label">آخر موضع قراءة</span>
+        <div>
+          <button id="resumeSectionBtn" type="button" class="btn">العودة إلى آخر محور</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="search-bar-wrap" aria-label="البحث الفوري في الدراسة">
+    <div class="search-bar-inner">
+      <div class="search-field-box">
+        <span class="search-glyph" aria-hidden="true">🔍</span>
+        <input
+          id="liveSearchInput"
+          type="search"
+          class="search-input"
+          placeholder="ابحث في الدراسة (مثال: البخاري، شحرور، القرآنيين، السنة، عصيد...)"
+          aria-label="ابحث في الدراسة"
+          autocomplete="off"
+        />
+        <button id="clearSearchBtn" type="button" class="clear-input-btn" aria-label="مسح البحث">✕</button>
+      </div>
+
+
+      <div class="search-nav-group">
+        <span id="searchMatchCount" class="match-badge" aria-live="polite">0 / 0</span>
+        <button id="prevHitBtn" type="button" class="btn" aria-label="النتيجة السابقة">▲ سابق</button>
+        <button id="nextHitBtn" type="button" class="btn" aria-label="النتيجة التالية">▼ تالٍ</button>
+      </div>
+    </div>
+  </section>
+
+
+  <div id="mobileBackdrop" class="mobile-backdrop" aria-hidden="true"></div>
+
+
+  <div class="page-shell">
+    <aside id="tocSidebar" class="toc-sidebar" aria-label="فهرس المحاور">
+      <div class="toc-head">
+        <h2 class="toc-heading">محاور الدراسة</h2>
+        <button id="closeTocBtn" type="button" class="btn drawer-toggle-btn" aria-label="إغلاق قائمة المحاور">✕</button>
+      </div>
+
+
+      <nav aria-label="الانتقال السريع بين المحاور">
+        <ul class="toc-menu">
+          <li><button type="button" class="toc-btn active" data-target="part-intro">مقدمة منهجية</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-1">١. تأصيل المنهج وضوابط التلقي</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-2">٢. الإشكالات المنهجية عالميًا</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-3">٣. الرد على التيار القرآني</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-4">٤. منزلة الصحيحين</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-5">٥. العلماء الربانيون وردودهم</button></li>
+          <li><button type="button" class="toc-btn" data-target="part-6">٦. التوصيات والخاتمة</button></li>
+        </ul>
+      </nav>
+    </aside>
+
+
+    <main id="reviewMain" class="reader-area" role="main" tabindex="-1">
+      <section class="hero-card" aria-label="عنوان الدراسة">
+        <div class="hero-top-bar"></div>
+        <span class="hero-pill">شبهات وردود • دراسة علمية نقدية موسّعة</span>
+        <h2 class="hero-title">
+          ضوابط المنهج الشرعي، وتفكيك شبهات المتصدرين والتيار القرآني عالميًا، والانتصار للسنة النبوية والصحيحين
+        </h2>
+        <p class="hero-desc">
+          دراسة تحليلية نقدية موسّعة تستند إلى نصوص الوحيين وعلوم الشريعة المعتبرة، تعالج الظاهرة عبر خريطة جغرافية تمتد من المشرق إلى المغرب وشبه القارة الهندية وتركيا وماليزيا وبنغلاديش، وتُبرز جهود العلماء الربانيين في الرد على الشبهات، وتُفصّل الرد على دعاوى القرآنيين، وتُبيّن منزلة الصحيحين وتدفع الشبهات عنهما، وتُقدّم توصيات تطبيقية عملية.
+        </p>
+      </section>
+
+
+      <div id="emptySearchBox" class="empty-search-box" role="status" aria-live="polite">
+        لا توجد نتائج مطابقة لعبارة البحث الحالية. جرّب مصطلحاً آخر أو امسح خانة البحث.
+      </div>
+
+
+      <article id="part-intro" class="section-card" data-section-id="part-intro">
+        <h2 class="section-title">مقدمة منهجية</h2>
+        <div class="prose-body">
+          <div class="context-callout">
+            <strong>تنويه منهجي:</strong> تقوم هذه الدراسة على منهج تحليلي نقدي يستند إلى نصوص الوحيين، وعلوم الشريعة المعتبرة، وقواعد أصول الفقه ومصطلح الحديث. وغايتها بيان ضوابط العلم الشرعي، وتفكيك الإشكالات المنهجية التي يثيرها بعض الخطابات المعاصرة في دول ومناطق متعددة، والانتصار للسنة النبوية وللصحيحين بالأدلة والمنهج العلمي، مع التمييز الدقيق بين نقد الأفكار والمناهج وبين التجريح الشخصي.
+          </div>
+          <p>
+            وتنتظم الدراسة في ستة محاور: تبدأ بتأصيل المنهج الصحيح وضوابط تلقي العلم الشرعي، ثم تنتقل إلى تحليل الإشكالات المنهجية في خطاب المتصدرين المعاصرين عالميًا بخريطة جغرافية موسّعة، ثم تُفصّل الرد على دعاوى التيار القرآني من القرآن والسنة والإجماع والعقل، ثم تُبيّن منزلة الصحيحين وتدفع الشبهات المثارة حولهما، ثم تُبرز جهود العلماء الربانيين في الرد على الشبهات، وتختم بالتوصيات التطبيقية العملية.
+          </p>
+        </div>
+      </article>
+
+
+      <div class="ornament-divider" aria-hidden="true">
+        <svg viewBox="0 0 260 22" fill="none">
+          <line x1="8" y1="11" x2="105" y2="11" stroke="currentColor" style="color: var(--border-strong);" stroke-width="1.2" />
+          <polygon points="130,3 138,11 130,19 122,11" stroke="currentColor" style="color: var(--gold-dark);" stroke-width="1.4" fill="none" />
+          <line x1="155" y1="11" x2="252" y2="11" stroke="currentColor" style="color: var(--border-strong);" stroke-width="1.2" />
+        </svg>
+      </div>
+
+
+      <article id="part-1" class="section-card" data-section-id="part-1">
+        <h2 class="section-title">١. تأصيل المنهج الصحيح وضوابط تلقي العلم الشرعي</h2>
+        <div class="prose-body">
+          <p>
+            يُعرَّف المنهج الشرعي عند أهل السنة والجماعة بأنه فهم نصوص الوحي وفق قواعد اللغة العربية، وأصول الفقه، ومقاصد الشريعة، ومصطلح الحديث، وبفهم سلف الأمة. ولا يستقيم النظر في الشريعة إذا استُبدلت هذه الضوابط بالأهواء أو المقولات الإيديولوجية أو الخطاب الجماهيري.
+          </p>
+
+
+          <h3 class="sub-title">ضوابط تلقي العلم الشرعي</h3>
+          <ul class="prose-list">
+            <li><strong>الإخلاص وقصد الحق:</strong> فالعلم الشرعي عبادة، وغايته معرفة مراد الله تعالى، لا الشهرة أو الانتصار للرأي.</li>
+            <li><strong>التلقي عن أهل الاختصاص:</strong> بالتلقي المنهجي والتدرج في طلب العلم، لا بالقراءة السطحية أو الاجتزاء من غير أدوات.</li>
+            <li><strong>الجمع بين الرواية والدراية:</strong> بمعرفة ثبوت النصوص وفهم دلالاتها، مع مراعاة قواعد الاستنباط والمقاصد.</li>
+            <li><strong>الالتزام بالإجماع المعتبر:</strong> فلا تُخرَق الأصول القطعية أو الأحكام المجمع عليها بآراء شاذة منقطعة عن المنهج العلمي.</li>
+            <li><strong>التمييز بين العلم والدعوى:</strong> فليس كل من تكلم في الشريعة عالمًا، بل العالم من جمع بين التأصيل المنهجي والأهلية العلمية والعدالة والضبط.</li>
+          </ul>
+
+
+          <h3 class="sub-title">العالم الرباني والمتصدر بغير أهله</h3>
+          <div class="audit-cards-grid">
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">العالم الرباني</h4>
+              <p class="audit-mini-text">
+                يلتزم حدود النص، ويعترف بما لا يعلم، ويحيل إلى المتخصصين، ويراعي المصالح والمفاسد، ويتربّى الناس بصغار العلم قبل كباره، ويوازن بين الأدلة ويجمع بين النصوص.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">المتصدر بغير أهله</h4>
+              <p class="audit-mini-text">
+                يجمع بين الجرأة على التفسير والفتوى وبين ضعف التأصيل، وقد يتخذ من عناوين «التجديد» أو «النقد التاريخي» أو «القراءة العلمية» ستارًا لتفكيك الثوابت.
+              </p>
+            </div>
+          </div>
+
+
+          <p>
+            وكما لا يُؤتمن في الطب أو الهندسة من لم يتقن أصولهما، فإن الشريعة أولى بصيانة التخصص؛ لأن الخطأ فيها يتعلق بالدين والاعتقاد والتكليف. وقد حذّر القرآن الكريم من القول على الله بغير علم، وجعل المرجع في المسائل المشكلة إلى أهل الذكر والعلم الراسخين.
+          </p>
+        </div>
+      </article>
+
+
+      <article id="part-2" class="section-card" data-section-id="part-2">
+        <h2 class="section-title">٢. الإشكالات المنهجية في خطاب المتصدرين المعاصرين عالميًا</h2>
+        <div class="prose-body">
+          <p>
+            يمكن تحليل الظاهرة من خلال الإشكالات المنهجية الآتية، مع التنبيه إلى أن المقصود نقد الأفكار والمناهج لا الأشخاص. وتتنوع هذه الإشكالات بتنوع الشخصيات والمناطق الجغرافية.
+          </p>
+
+
+          <h3 class="sub-title">١) الخروج عن التخصص</h3>
+          <ul class="prose-list">
+            <li><strong>الدكتور محمد الفايد (المغرب):</strong> تخصصه الأساسي في علوم الأغذية والميكروبيولوجيا، غير أنه يتوسع كثيراً في الحديث عن الشريعة والتفسير والطب والأعشاب والقضايا العقدية والتاريخية بصفة المرجع.</li>
+            <li><strong>علي كيالي (سوريا):</strong> يشتهر بخطاب يمزج بين الفيزياء والهندسة وتفسير القرآن، بينما لا يمتلك أدوات علم التفسير وعلوم القرآن ولسان العرب.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٢) تقديم العقل الانتقائي على النقل</h3>
+          <ul class="prose-list">
+            <li><strong>عدنان إبراهيم (فلسطين/النمسا):</strong> يردّ عدداً من الأحاديث الثابتة في الصحيحين (مثل بعض ما ورد في أشراط الساعة أو نزول عيسى عليه السلام أو الدجال) بناءً على استشكالات عقلية أو ذوقية، متجاوزاً قواعد النقد الحديثي، ويجعل العقل أو الذوق المعاصر حكماً على النصوص الشرعية.</li>
+            <li><strong>محمد شحرور (سوريا):</strong> صاحب «القراءة المعاصرة»، التي أعادت تقسيم القرآن إلى «الكتاب» و«القرآن»، وأدت إلى إقصاء السنة من أصول الاستدلال.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٣) الطعن في السنة أو في أحاديث الصحيحين</h3>
+          <ul class="prose-list">
+            <li><strong>أحمد صبحي منصور (مصر/الولايات المتحدة):</strong> زعيم «القرآنيين» في العصر الحديث، ألّف كتاباً سمّاه «السم الهاري في تنقية البخاري»، تطاول فيه على الصحيحين والخلفاء الراشدين.</li>
+            <li><strong>رشاد خليفة (مصر/الولايات المتحدة):</strong> أنكر السنة بالكلية، وادّعى أن القرآن محفوظ برمز رياضي، ووصف السنة بأنها «عمل شيطاني» ورواتها «مجرمون خونة» كما نقل عنه العلماء.</li>
+            <li><strong>جمال البنا (مصر):</strong> أنكر كثيرًا من المعلوم من الدين بالضرورة، وقال: «وما يدرينا أن السنة قد ثبتت؟!»، واعتبر السنة العملية فقط دون القولية والتقريرية.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٤) إثارة الشبهات حول الصحابة والثوابت</h3>
+          <ul class="prose-list">
+            <li><strong>حسن فرحان المالكي (السعودية):</strong> طعن في الصحابة وحصر الصحبة في المهاجرين والأنصار فقط، وقال بعدم عدالتهم في الجملة، وزعم أن هذا التعريف عليه جمهرة من المحدثين وأكثر الصحابة.</li>
+            <li><strong>أحمد عصيد (المغرب):</strong> صدرت عنه تصريحات ومواقف تمسّ ثوابت الإسلام وأحكامه وتشريعاته وتاريخه، وبلغ به الأمر في بعض أطروحاته إلى تشبيه أسلوب القرآن أو مقاربته بسجع الكهان.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٥) الخطاب الجماهيري بدل المنهج العلمي</h3>
+          <ul class="prose-list">
+            <li><strong>الدكتور الفايد (المغرب):</strong> يغلب على خطابه الطابع التعبوي والعاطفي والانفعالي، واستقطاب الجمهور عبر الصدام مع المؤسسات أو المخالفين.</li>
+            <li><strong>علي كيالي (سوريا):</strong> يعتمد على الإبهار الخطابي والربط السريع بين ظواهر طبيعية وآيات قرآنية بما يستهوي العامة، دون تحقيق علمي لنصوص التفسير.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٦) مخالفة إجماع أهل العلم</h3>
+          <ul class="prose-list">
+            <li><strong>محمد شحرور (سوريا):</strong> خالف إجماع الأمة في مسائل كثيرة، منها إنكار حديث أركان الإسلام الذي أجمعت الأمة على صحته، وانتقاد الإمام مسلم في نقله للسنة.</li>
+            <li><strong>محمد الطالبي (تونس):</strong> أنكر السنة النبوية واعتبرها ليست وحيًا، ودعا إلى الاكتفاء بالقرآن، وزعم أنه لا توجد في القرآن آيات تحرم الخمر والبغاء بشكل صريح.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٧) الخريطة الجغرافية لامتداد الظاهرة</h3>
+          <p>
+            لا تقتصر الظاهرة على المشرق العربي، بل تمتد إلى مناطق ودول عدة؛ ويمكن إيجاز ذلك في الجدول الآتي:
+          </p>
+
+
+          <div class="table-scroll-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">المنطقة / الدولة</th>
+                  <th scope="col">أبرز الأسماء</th>
+                  <th scope="col">طبيعة الإشكال</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>بلاد الشام (سوريا / فلسطين)</td>
+                  <td>محمد شحرور، عدنان إبراهيم، علي كيالي</td>
+                  <td>إعادة قراءة القرآن، تقديم العقل الانتقائي، الخروج عن التخصص</td>
+                </tr>
+                <tr>
+                  <td>مصر</td>
+                  <td>أحمد صبحي منصور، رشاد خليفة، جمال البنا</td>
+                  <td>إنكار السنة، الطعن في الصحيحين، الدعوة للاكتفاء بالقرآن</td>
+                </tr>
+                <tr>
+                  <td>المغرب</td>
+                  <td>أحمد عصيد، محمد الفايد</td>
+                  <td>النقد الحداثي، الطعن في الثوابت، الخروج عن التخصص</td>
+                </tr>
+                <tr>
+                  <td>الجزيرة العربية</td>
+                  <td>حسن فرحان المالكي</td>
+                  <td>الطعن في الصحابة وإثارة الشبهات التاريخية</td>
+                </tr>
+                <tr>
+                  <td>شبه القارة الهندية</td>
+                  <td>أحمد خان، عبد الله الجكرالوي، المولوي جراغ علي</td>
+                  <td>شروط تعجيزية لقبول الحديث، إنكار السنة</td>
+                </tr>
+                <tr>
+                  <td>بنغلاديش</td>
+                  <td>شويكت شاودوري، أكاش ملك، أبو القاسم، أصف محي الدين</td>
+                  <td>نشر شبهات إنكار السنة بين الشباب</td>
+                </tr>
+                <tr>
+                  <td>ماليزيا</td>
+                  <td>قاسم أحمد</td>
+                  <td>الدعوة إلى «العودة إلى القرآن» وإنكار حجية السنة</td>
+                </tr>
+                <tr>
+                  <td>تركيا</td>
+                  <td>مصطفى إسلام أوغلو، جانر تاسلامان، أديب يوكسل</td>
+                  <td>مركزية القرآن، مراجعة الموروث، تبني أفكار رشاد خليفة</td>
+                </tr>
+                <tr>
+                  <td>السودان</td>
+                  <td>عماد الدين الدباغ، الحزب الجمهوري</td>
+                  <td>بلورة أفكار القرآنيين في تنظيم حزبي</td>
+                </tr>
+                <tr>
+                  <td>ليبيا</td>
+                  <td>مصطفى كمال المهدوي، علي حسن اوريث</td>
+                  <td>الدعوة إلى إنكار السنة</td>
+                </tr>
+                <tr>
+                  <td>الجزائر</td>
+                  <td>محمد صالح بنور</td>
+                  <td>القراءة العقلانية للقرآن</td>
+                </tr>
+                <tr>
+                  <td>إيران</td>
+                  <td>محمد صادقي طهراني</td>
+                  <td>اتجاه قرآني في الجوانب الفقهية</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+
+      <article id="part-3" class="section-card" data-section-id="part-3">
+        <h2 class="section-title">٣. الرد على دعاوى التيار القرآني</h2>
+        <div class="prose-body">
+          <p>
+            ظهرت دعوات الاكتفاء بالقرآن وإنكار حجية السنة بأشكال متفرقة في التاريخ الإسلامي، ثم برزت في العصر الحديث تحت تأثير مقولات عقلانية ووضعية واستشراقية. وتقوم دعواهم على أن القرآن كافٍ بذاته، وأن السنة مجرد روايات ظنية لا يلزم منها التشريع. والرد عليهم من الوجوه الآتية:
+          </p>
+
+
+          <h3 class="sub-title">أولاً: الرد من القرآن الكريم</h3>
+          <div class="verse-box">
+            ﴿يَا أَيُّهَا الَّذِينَ آمَنُوا أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنْكُمْ﴾
+            <span class="verse-ref">[النساء: ٥٩]</span>
+          </div>
+          <div class="verse-box">
+            ﴿مَنْ يُطِعِ الرَّسُولَ فَقَدْ أَطَاعَ اللَّهَ﴾
+            <span class="verse-ref">[النساء: ٨٠]</span>
+          </div>
+          <div class="verse-box">
+            ﴿وَأَنْزَلْنَا إِلَيْكَ الذِّكْرَ لِتُبَيِّنَ لِلنَّاسِ مَا نُزِّلَ إِلَيْهِمْ﴾
+            <span class="verse-ref">[النحل: ٤٤]</span>
+          </div>
+          <div class="verse-box">
+            ﴿وَمَا آتَاكُمُ الرَّسُولُ فَخُذُوهُ وَمَا نَهَاكُمْ عَنْهُ فَانْتَهُوا﴾
+            <span class="verse-ref">[الحشر: ٧]</span>
+          </div>
+          <p>
+            فهذه النصوص تدل على أن طاعة الرسول ﷺ مستقلة في البيان والتشريع، وأن وظيفته لا تقتصر على مجرد التلاوة. ولو كانت الطاعة مقصورة على القرآن وحده لكفى الأمر بطاعة الله، أما إفراد الرسول بالذكر فيدل على أن له ﷺ طاعة مستقلة في سنته وبيانه وتشريعه.
+          </p>
+
+
+          <h3 class="sub-title">ثانياً: الرد على الاستدلال بآية الأنعام</h3>
+          <p>
+            يستدل المنكرون بقوله تعالى: ﴿مَا فَرَّطْنَا فِي الْكِتَابِ مِنْ شَيْءٍ﴾ [الأنعام: ٣٨]. والجواب أن المراد بالكتاب عند جمهور المفسرين اللوح المحفوظ الذي أحاط بكل شيء علماً وكتابة، وعلى القول بأنه القرآن فالمعنى أنه لم يغفل أصلاً من أصول الدين ولا قاعدة من قواعد الهداية، وقد أحال القرآن نفسه إلى الرسول ﷺ في البيان والتفصيل كما قال: ﴿وَأَنْزَلْنَا إِلَيْكَ الذِّكْرَ لِتُبَيِّنَ لِلنَّاسِ مَا نُزِّلَ إِلَيْهِمْ﴾ [النحل: ٤٤].
+          </p>
+
+
+          <h3 class="sub-title">ثالثاً: الرد من السنة الصحيحة</h3>
+          <div class="hadith-box">
+            «ألا إني أوتيت الكتاب ومثله معه، ألا يوشك رجل شبعان على أريكته يقول: عليكم بهذا القرآن، فما وجدتم فيه من حلال فأحلوه، وما وجدتم فيه من حرام فحرموه»
+            <span class="hadith-ref">أخرجه أبو داود (٤٦٠٤)، والترمذي (٢٦٦٤)، وصححه الألباني في صحيح الجامع (٢٦٤٣)</span>
+          </div>
+          <div class="hadith-box">
+            «كل أمتي يدخلون الجنة إلا من أبى»، قيل: يا رسول الله ومن يأبى؟ قال: «من أطاعني دخل الجنة، ومن عصاني فقد أبى»
+            <span class="hadith-ref">رواه البخاري (٧٢٨٠)</span>
+          </div>
+
+
+          <h3 class="sub-title">رابعاً: الرد من الإجماع والتاريخ</h3>
+          <p>
+            لم يُنقل عن أحد من الصحابة رضي الله عنهم أنه أنكر حجية السنة أو قال إن القرآن يغني عنها؛ بل كانوا يسألون النبي ﷺ عن تفاصيل العبادات والمعاملات، ويحفظون سنته ويعملون بها، ويعلمونها الناس بعد وفاته. ووصلنا القرآن الكريم والسنة النبوية عبر الصحابة ثم التابعين فمن بعدهم؛ فالذي نقل إلينا القرآن هو الذي نقل إلينا السنة، والقدح في منهج النقل جملة واحدة يفضي إلى التشكيك في القرآن ذاته، وهو تناقض ظاهر.
+          </p>
+
+
+          <h3 class="sub-title">خامساً: الرد من العقل</h3>
+          <p>
+            إن زعم الاكتفاء بالقرآن وحده يؤدي إلى تعطيل كثير من الفرائض والأحكام العملية التي أمر القرآن بها دون أن يذكر تفصيلها العملي في آياته؛ فالصلاة مفروضة في القرآن لكن عدد ركعاتها وهيئاتها ومواقيتها وأركانها بُيّنت بالسنة، والزكاة واجبة في القرآن لكن أنصباءها ومقاديرها وشروطها بُيّنت بالسنة، وكذلك تفاصيل الصيام والحج والمواريث والحدود. فالعقل السليم يدرك أن تكليف الناس بعبادات وأحكام لا يُعرف تفصيلها العملي إلا بالبيان النبوي هو أمر متعذر لولا السنة الصحيحة.
+          </p>
+
+
+          <h3 class="sub-title">سادساً: الرد على شبهة «القرآن كافٍ» عند قاسم أحمد</h3>
+          <p>
+            ادعى قاسم أحمد أن القرآن كافٍ ولا حاجة إلى السنة، وأن الإمام الشافعي هو أول من استحدث فكرة حجية السنة. وقد فنّد الباحثون هذه الدعوى بأن الشافعي إنما حرّر القاعدة وأقام الحجة، ولم يبتدع أصل حجية السنة الذي هو إجماع الصحابة والتابعين، وأن دعوى «الكفاية» تتعارض مع نصوص القرآن الآمرة بطاعة الرسول ﷺ، ومع الواقع العملي للعبادات التي لا تُعرف تفاصيلها إلا بالبيان النبوي.
+          </p>
+        </div>
+      </article>
+
+
+      <article id="part-4" class="section-card" data-section-id="part-4">
+        <h2 class="section-title">٤. منزلة الصحيحين والرد على الشبهات المثارة حولهما</h2>
+        <div class="prose-body">
+          <p>
+            يُعد صحيح البخاري ثم صحيح مسلم أصح الكتب المصنفة بعد كتاب الله تعالى بإجماع أهل العلم المعتبرين. ويرجع قبول الأمة لهما إلى شدة تحري الإمامين في شروط الصحة، وسعة علمهما بالعلل وأحوال الرجال، وتلقي الأمة لهما بالقبول.
+          </p>
+
+
+          <h3 class="sub-title">مفهوم «تلقّي الأمة بالقبول»</h3>
+          <p>
+            هو أن الأمة – علماءً وعامةً – تلقت أحاديث الصحيحين بالقبول والاعتماد، وجعلتهما مرجعًا في الصحيح، وهذا الإجماع العملي يضفي على أحاديثهما مرتبة عالية من الثبوت والاطمئنان، وإن كان لا يعني عصمة كل فرد من أفرادهما، بل يعني أن ما وقع فيه كلام لبعض الحفاظ قليل جدًا ومحرر في كتب العلل والشروح، ولا يقدح في أصل الصحيحين ولا في حجيتهما.
+          </p>
+
+
+          <h3 class="sub-title">منزلة علم الإسناد والجرح والتعديل</h3>
+          <p>
+            تميزت الأمة الإسلامية بالإسناد الذي وصفه ابن المبارك بأنه من الدين، وقال: «لولا الإسناد لقال من شاء ما شاء». ونشأ معه علم الجرح والتعديل الذي يدرس أحوال الرواة من حيث الحفظ، والضبط، والعدالة، واللقاء والمعاصرة، والعلل الخفية. وهذه منظومة علمية دقيقة لا يجوز تجاوزها بأهواء أو قراءات متأخرة.
+          </p>
+
+
+          <h3 class="sub-title">الرد على أبرز الشبهات المثارة</h3>
+          <div class="audit-cards-grid">
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">دعوى عدم العصمة</h4>
+              <p class="audit-mini-text">
+                العصمة للأنبياء وللإجماع، وأحاديث الصحيحين تلقتها الأمة بالقبول. وما وقع فيه كلام لبعض الحفاظ قليل ومحرر في كتب العلل والشروح، ولا يقدح في أصل الصحيحين.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">استشكال بعض المتون</h4>
+              <p class="audit-mini-text">
+                كثير من الإشكالات ناشئ عن سوء فهم اللغة، أو الجهل بالسياق وأسباب الورود، أو الخلط بين الحقائق العلمية القطعية والفرضيات المؤقتة، أو اجتزاء الحديث عن قرائنه.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">النقد العلمي المنضبط</h4>
+              <p class="audit-mini-text">
+                يقوم به حفاظ الحديث وأهل الشأن وفق قواعد المصطلح والعلل، بأدب وإنصاف، بهدف تمييز الصحيح من الضعيف أو تحرير مسألة إسنادية أو فقهية، دون هدم لأصل السنة أو الصحيحين.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">الطعن المبتدع</h4>
+              <p class="audit-mini-text">
+                يهدف إلى التشكيك في أصل حجية السنة أو إسقاط الصحيحين أو السخرية من الثوابت، مستنداً إلى الهوى أو العقل المجرد أو المنهج الإيديولوجي بعيداً عن قواعد علم الحديث.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+
+      <article id="part-5" class="section-card" data-section-id="part-5">
+        <h2 class="section-title">٥. العلماء الربانيون وجهودهم في الرد على الشبهات</h2>
+        <div class="prose-body">
+          <p>
+            لم تخلُ الأمة من علماء ربانيين تصدوا لهذه الشبهات وأبانوا الحق بأدلة علمية رصينة. وفيما يلي أبرز جهودهم مرتبة بحسب التيار أو الشخصية المستهدفة.
+          </p>
+
+
+          <h3 class="sub-title">١) الرد على منكري السنة والقرآنيين</h3>
+          <ul class="prose-list">
+            <li><strong>الإمام الشافعي (ت ٢٠٤هـ):</strong> له حوار مطول في كتاب «الأم» مع منكر للسنة، استسلم في النهاية لقول الشافعي وقبول الحق.</li>
+            <li><strong>الشيخ عبد العزيز بن باز (السعودية):</strong> له كلمة تحذيرية حول إنكار رشاد خليفة للسنة، وبيّن أن من أنكر السنة فقد أنكر الكتاب، ومن أنكرهما أو أحدهما فهو كافر بالإجماع.</li>
+            <li><strong>الشيخ يوسف القرضاوي (مصر/قطر):</strong> رد على مزاعم رشاد خليفة حول تحديد موعد قيام الساعة.</li>
+            <li><strong>الدكتور علي جمعة (الأزهر، مصر):</strong> بيّن في ندوة للأزهر أن من أبرز أسباب إنكار السنة: الصدام عند عدم التهيؤ، وعدم القدرة على الرد على الشبهات، والخلل العقلي والنفسي، والهوى، والجهل بصحيح الدين.</li>
+            <li><strong>جلال الدين القاسمي:</strong> له «رد علمي رصين على مغالطات منكري السنة» باللغة الأردية.</li>
+            <li><strong>خادم حسين إلهي بخش (جامعة أم القرى):</strong> كتاب «القرآنيون وشبهاتهم حول السنة».</li>
+            <li><strong>محمود محمد مزروعة:</strong> كتاب «شبهات القرآنيين حول السنة النبوية».</li>
+            <li><strong>عبد الغني عبد الخالق:</strong> كتاب «حجية السنة».</li>
+            <li><strong>مصطفى السباعي:</strong> كتاب «السنة ومكانتها في التشريع الإسلامي».</li>
+          </ul>
+
+
+          <h3 class="sub-title">٢) الرد على عدنان إبراهيم</h3>
+          <ul class="prose-list">
+            <li><strong>الشيخ مشهور بن حسن آل سلمان:</strong> بيّن أن عدنان إبراهيم رجل عقلاني ليس من أهل العلم، ويتكلم بعقله لا بالنقل، والنقل عنده أمره سهل.</li>
+            <li><strong>الشيخ عدنان البخاري:</strong> له كتاب «القول القويم في الرد على عدنان إبراهيم».</li>
+            <li><strong>فتاوى إسلام ويب:</strong> حذّرت من انحرافه في مسائل العقيدة وموقفه من الصحابة، ونصحت بعدم الإصغاء إليه.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٣) الرد على حسن فرحان المالكي</h3>
+          <ul class="prose-list">
+            <li><strong>الشيخ ربيع بن هادي المدخلي:</strong> كتاب «دحر افتراءات أهل الزيغ والإرتياب».</li>
+            <li><strong>الشيخ عبد العزيز بن فيصل الراجحي:</strong> كتاب «قمع الدجاجلة الطاعنين في معتقد أئمة الإسلام الحنابلة».</li>
+            <li><strong>الشيخ صالح الفوزان:</strong> قدّم للكتاب السابق.</li>
+            <li><strong>الشيخ علي بن خضير الخضير والشيخ حمود بن عقلاء الشعيبي:</strong> لهما ردود عليه.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٤) الرد على محمد شحرور</h3>
+          <ul class="prose-list">
+            <li><strong>طائفة كبيرة من العلماء:</strong> ردوا على كتابه «الكتاب والقرآن: قراءة معاصرة»، ومنهم الدكتور عبد المعطى بيومي والدكتور عبد الصبور شاهين.</li>
+            <li><strong>دراسات أكاديمية:</strong> أكدت أن تقسيمات شحرور لا تصمد أمام الاختبار العلمي الأكاديمي، وأن غياب الدليل النبوي كان سببًا في الضلال في التطبيقات الفقهية.</li>
+          </ul>
+
+
+          <h3 class="sub-title">٥) الرد على جمال البنا وأحمد صبحي منصور</h3>
+          <ul class="prose-list">
+            <li><strong>علماء الأزهر:</strong> ردوا على جمال البنا في مسائل متعددة، وبيّنوا أنه لم يتخرج على مؤهل جامعي في العلوم الشرعية، وأن آراءه «انحرافات فكرية».</li>
+            <li><strong>باحثون وأكاديميون:</strong> نقدوا عقيدة أحمد صبحي منصور في البرزخ وسؤال القبر، وبيّنوا مغالطاته في تفسير النصوص.</li>
+            <li><strong>كتاب «القرآنيون، نشأهم – عقائدهم – أدلتهم»:</strong> تضمن ردودًا مفصلة على دعاويه.</li>
+          </ul>
+        </div>
+      </article>
+
+
+      <article id="part-6" class="section-card" data-section-id="part-6">
+        <h2 class="section-title">٦. التوصيات التطبيقية والخاتمة</h2>
+        <div class="prose-body">
+          <h3 class="sub-title">توصيات عملية للمسلم</h3>
+          <ol class="prose-list">
+            <li><strong>التحقق من التخصص والأهلية:</strong> بالنظر في تكوين المتحدث ومرجعيته العلمية، وهل تلقى العلم عن أهله.</li>
+            <li><strong>النظر في المنهج والاستدلال:</strong> هل يلتزم بقواعد التفسير والحديث وأصول الفقه، أم يعتمد على الانتقائية والهوى؟</li>
+            <li><strong>عدم الانخداع بالخطاب الجماهيري:</strong> فالحق يعرف بالدليل لا بكثرة المتابعين أو البلاغة وحدها.</li>
+            <li><strong>التحقق من النصوص وعزوها:</strong> بالرجوع إلى المصادر المعتبرة ودرجة الحديث.</li>
+            <li><strong>التعامل الحكيم مع الشبهات:</strong> بعدم نشرها بلا علم، وتثبيت الأصول أولاً، وطلب الجواب العلمي الهادئ من أهل الاختصاص.</li>
+            <li><strong>الرجوع إلى المؤلفات المتخصصة:</strong> مثل كتب الشيخ ابن باز وابن عثيمين والقرضاوي، ومؤلفات عبد الغني عبد الخالق ومصطفى السباعي، والدراسات الأكاديمية المحكمة.</li>
+          </ol>
+
+
+          <h3 class="sub-title">أهم المراجع</h3>
+          <div class="audit-cards-grid">
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">في التفسير وعلوم القرآن</h4>
+              <p class="audit-mini-text">
+                تفسير الطبري (جامع البيان)، تفسير القرآن العظيم لابن كثير، الإتقان في علوم القرآن للسيوطي.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">في الحديث ومصطلحه</h4>
+              <p class="audit-mini-text">
+                صحيح البخاري بشرح فتح الباري لابن حجر، صحيح مسلم بشرح النووي، مقدمة ابن الصلاح، نزهة النظر لابن حجر.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">في حجية السنة وأصول الفقه</h4>
+              <p class="audit-mini-text">
+                الرسالة للإمام الشافعي، حجية السنة لعبد الغني عبد الخالق، السنة ومكانتها في التشريع لمصطفى السباعي.
+              </p>
+            </div>
+            <div class="audit-mini-card">
+              <h4 class="audit-mini-title">في العقيدة والرد على التيارات</h4>
+              <p class="audit-mini-text">
+                مجموع فتاوى ابن تيمية في المسائل المنهجية والعقدية، ومؤلفات المعاصرين المتخصصين في الرد على الشبهات والتيارات الفكرية.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="closing-box">
+            <p style="margin: 0;">
+              <strong>خاتمة:</strong> إن صيانة العلم الشرعي تقتضي الالتزام بضوابط التلقي، والرجوع إلى أهل الاختصاص، وتمييز النقد العلمي المنضبط من الطعن المبتدع. والسنة النبوية أصل ثابت من أصول الدين، والصحيحان محل قبول الأمة، ودعاوى الاكتفاء بالقرآن أو إسقاط حجية السنة لا تصح لا من جهة النقل ولا من جهة العقل ولا من جهة الإجماع. وقد هيأ الله لهذه الأمة في كل عصر علماء ربانيين يذبون عن الدين ويوضحون الحقائق، فعلى طالب العلم أن يلزم غرزهم وأن يستقي من معينهم.
+            </p>
+          </div>
+        </div>
+      </article>
+
+
+      <footer class="site-footer" role="contentinfo">
+        شبهات وردود — دراسة علمية نقدية موسّعة • يحفظ إعدادات الخط والوضع والموضع محلياً.
+      </footer>
+    </main>
+  </div>
+
+
+  <div id="toastBanner" class="toast-banner" role="status" aria-live="polite"></div>
+
+
+  <script>
+    (function () {
+      'use strict';
+
+
+      var KEYS = {
+        THEME: 'shubuhat_theme_v1',
+        FONT_FAMILY: 'shubuhat_font_v1',
+        FONT_SIZE: 'shubuhat_size_v1',
+        LAST_PART: 'shubuhat_last_part_v1'
+      };
+
+
+      var DEFAULT_SIZE = 1.16;
+      var MIN_SIZE = 0.92;
+      var MAX_SIZE = 1.62;
+      var STEP_SIZE = 0.08;
+
+
+      var rootEl = document.documentElement;
+      var themeSwitchBtn = document.getElementById('themeSwitchBtn');
+      var themeIcon = document.getElementById('themeIcon');
+      var themeText = document.getElementById('themeText');
+
+
+      var toggleSettingsBtn = document.getElementById('toggleSettingsBtn');
+      var settingsPanel = document.getElementById('settingsPanel');
+      var fontChoiceSelect = document.getElementById('fontChoiceSelect');
+      var smallerFontBtn = document.getElementById('smallerFontBtn');
+      var largerFontBtn = document.getElementById('largerFontBtn');
+      var defaultFontBtn = document.getElementById('defaultFontBtn');
+      var fontPercentLabel = document.getElementById('fontPercentLabel');
+      var resumeSectionBtn = document.getElementById('resumeSectionBtn');
+
+
+      var liveSearchInput = document.getElementById('liveSearchInput');
+      var clearSearchBtn = document.getElementById('clearSearchBtn');
+      var searchMatchCount = document.getElementById('searchMatchCount');
+      var prevHitBtn = document.getElementById('prevHitBtn');
+      var nextHitBtn = document.getElementById('nextHitBtn');
+      var emptySearchBox = document.getElementById('emptySearchBox');
+
+
+      var openTocBtn = document.getElementById('openTocBtn');
+      var closeTocBtn = document.getElementById('closeTocBtn');
+      var tocSidebar = document.getElementById('tocSidebar');
+      var mobileBackdrop = document.getElementById('mobileBackdrop');
+      var tocButtons = Array.prototype.slice.call(document.querySelectorAll('.toc-btn'));
+
+
+      var reviewMain = document.getElementById('reviewMain');
+      var sectionCards = Array.prototype.slice.call(document.querySelectorAll('.section-card'));
+      var progressFill = document.getElementById('progressFill');
+      var toastBanner = document.getElementById('toastBanner');
+
+
+      function getPref(key, fallback) {
+        try {
+          var v = window.localStorage.getItem(key);
+          return v !== null ? v : fallback;
+        } catch (_e) { return fallback; }
+      }
+
+
+      function setPref(key, value) {
+        try { window.localStorage.setItem(key, value); } catch (_e) {}
+      }
+
+
+      var toastTimer = null;
+      function notify(msg) {
+        if (!toastBanner) return;
+        toastBanner.textContent = msg;
+        toastBanner.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+          toastBanner.classList.remove('show');
+        }, 2200);
+      }
+
+
+      function setTheme(mode) {
+        var isDark = mode === 'dark';
+        rootEl.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        setPref(KEYS.THEME, isDark ? 'dark' : 'light');
+        if (isDark) {
+          themeIcon.textContent = '☀️';
+          themeText.textContent = 'نهاري';
+          themeSwitchBtn.setAttribute('aria-pressed', 'true');
+        } else {
+          themeIcon.textContent = '🌙';
+          themeText.textContent = 'داكن';
+          themeSwitchBtn.setAttribute('aria-pressed', 'false');
+        }
+      }
+
+
+      themeSwitchBtn.addEventListener('click', function () {
+        var current = rootEl.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+      });
+
+
+      var currentSize = parseFloat(getPref(KEYS.FONT_SIZE, String(DEFAULT_SIZE)));
+      if (isNaN(currentSize)) currentSize = DEFAULT_SIZE;
+
+
+      function setFontFamily(fontCss) {
+        rootEl.style.setProperty('--reader-font', fontCss);
+        fontChoiceSelect.value = fontCss;
+        setPref(KEYS.FONT_FAMILY, fontCss);
+      }
+
+
+      function setFontSize(valRem) {
+        var clamped = Math.min(MAX_SIZE, Math.max(MIN_SIZE, Number(valRem.toFixed(2))));
+        currentSize = clamped;
+        rootEl.style.setProperty('--reader-size', clamped + 'rem');
+        fontPercentLabel.textContent = Math.round(clamped * 100) + '%';
+        setPref(KEYS.FONT_SIZE, String(clamped));
+      }
+
+
+      toggleSettingsBtn.addEventListener('click', function () {
+        var opened = settingsPanel.classList.toggle('open');
+        toggleSettingsBtn.setAttribute('aria-expanded', String(opened));
+        toggleSettingsBtn.classList.toggle('active', opened);
+      });
+
+
+      fontChoiceSelect.addEventListener('change', function (e) {
+        setFontFamily(e.target.value);
+        notify('تم تحديث خط القراءة');
+      });
+
+
+      smallerFontBtn.addEventListener('click', function () { setFontSize(currentSize - STEP_SIZE); });
+      largerFontBtn.addEventListener('click', function () { setFontSize(currentSize + STEP_SIZE); });
+      defaultFontBtn.addEventListener('click', function () {
+        setFontSize(DEFAULT_SIZE);
+        notify('تمت استعادة حجم الخط الافتراضي');
+      });
+
+
+      function openToc() {
+        tocSidebar.classList.add('open');
+        mobileBackdrop.classList.add('open');
+        openTocBtn.setAttribute('aria-expanded', 'true');
+        closeTocBtn.focus();
+      }
+
+
+      function closeToc() {
+        tocSidebar.classList.remove('open');
+        mobileBackdrop.classList.remove('open');
+        openTocBtn.setAttribute('aria-expanded', 'false');
+      }
+
+
+      openTocBtn.addEventListener('click', openToc);
+      closeTocBtn.addEventListener('click', closeToc);
+      mobileBackdrop.addEventListener('click', closeToc);
+
+
+      function markActiveToc(targetId) {
+        tocButtons.forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-target') === targetId);
+        });
+      }
+
+
+      function jumpToSection(targetId, savePos) {
+        var el = document.getElementById(targetId);
+        if (!el) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        markActiveToc(targetId);
+        if (savePos !== false) setPref(KEYS.LAST_PART, targetId);
+      }
+
+
+      tocButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var targetId = btn.getAttribute('data-target');
+          jumpToSection(targetId, true);
+          if (window.innerWidth <= 960) closeToc();
+        });
+      });
+
+
+      resumeSectionBtn.addEventListener('click', function () {
+        var saved = getPref(KEYS.LAST_PART, 'part-intro');
+        jumpToSection(saved, false);
+        notify('تم الانتقال إلى آخر محور محفوظ');
+      });
+
+
+      function onScrollUpdate() {
+        var totalScrollable = document.documentElement.scrollHeight - window.innerHeight;
+        var currentY = window.scrollY || window.pageYOffset || 0;
+        var ratio = totalScrollable > 0 ? Math.min(100, Math.max(0, (currentY / totalScrollable) * 100)) : 0;
+        progressFill.style.width = ratio.toFixed(1) + '%';
+
+
+        var activeSec = sectionCards.length > 0 ? sectionCards[0].id : null;
+        for (var i = 0; i < sectionCards.length; i++) {
+          var rect = sectionCards[i].getBoundingClientRect();
+          if (rect.top <= 150) activeSec = sectionCards[i].id;
+        }
+        if (activeSec) {
+          markActiveToc(activeSec);
+          setPref(KEYS.LAST_PART, activeSec);
+        }
+      }
+
+
+      window.addEventListener('scroll', onScrollUpdate, { passive: true });
+
+
+      var TASHKEEL_RE = /[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g;
+
+
+      function normalizeChar(ch) {
+        var clean = ch.replace(TASHKEEL_RE, '');
+        if (!clean) return '';
+        if (clean === 'أ' || clean === 'إ' || clean === 'آ' || clean === 'ٱ') return 'ا';
+        if (clean === 'ى') return 'ي';
+        if (clean === 'ة') return 'ه';
+        return clean.toLowerCase();
+      }
+
+
+      function mapNormalizedString(raw) {
+        var norm = '';
+        var spans = [];
+        for (var i = 0; i < raw.length; i++) {
+          var ch = raw[i];
+          if (TASHKEEL_RE.test(ch)) { TASHKEEL_RE.lastIndex = 0; continue; }
+          TASHKEEL_RE.lastIndex = 0;
+          var mapped = normalizeChar(ch);
+          for (var j = 0; j < mapped.length; j++) {
+            norm += mapped[j];
+            spans.push({ start: i, end: i + 1 });
+          }
+        }
+        return { norm: norm, spans: spans };
+      }
+
+
+      var hits = [];
+      var activeHitIdx = -1;
+
+
+      function resetHighlights() {
+        var marks = Array.prototype.slice.call(reviewMain.querySelectorAll('mark.hit-mark'));
+        marks.forEach(function (m) {
+          var p = m.parentNode;
+          if (!p) return;
+          p.replaceChild(document.createTextNode(m.textContent), m);
+          p.normalize();
+        });
+        hits = [];
+        activeHitIdx = -1;
+        emptySearchBox.classList.remove('visible');
+        refreshCounter();
+      }
+
+
+      function refreshCounter() {
+        if (hits.length === 0) {
+          searchMatchCount.textContent = '0 / 0';
+          return;
+        }
+        var currentDisp = activeHitIdx >= 0 ? activeHitIdx + 1 : 0;
+        searchMatchCount.textContent = currentDisp + ' / ' + hits.length;
+      }
+
+
+      function selectHit(idx, doScroll) {
+        if (hits.length === 0) { activeHitIdx = -1; refreshCounter(); return; }
+        var wrapped = ((idx % hits.length) + hits.length) % hits.length;
+        if (activeHitIdx >= 0 && hits[activeHitIdx]) hits[activeHitIdx].classList.remove('active-hit');
+        activeHitIdx = wrapped;
+        var target = hits[activeHitIdx];
+        target.classList.add('active-hit');
+        refreshCounter();
+        if (doScroll !== false) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+
+      function collectTextNodes() {
+        var containers = Array.prototype.slice.call(reviewMain.querySelectorAll('.prose-body, .data-table td, .data-table th, .verse-box, .hadith-box'));
+        var out = [];
+        containers.forEach(function (box) {
+          var walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, {
+            acceptNode: function (node) {
+              if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+              var parent = node.parentElement;
+              if (!parent) return NodeFilter.FILTER_REJECT;
+              if (parent.tagName === 'MARK' || parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE') return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          });
+          var n = walker.nextNode();
+          while (n) { out.push(n); n = walker.nextNode(); }
+        });
+        return out;
+      }
+
+
+      function runSearch(queryRaw) {
+        resetHighlights();
+        var normQuery = mapNormalizedString(queryRaw).norm.trim();
+        clearSearchBtn.classList.toggle('visible', queryRaw.length > 0);
+        if (!normQuery) return;
+
+
+        var nodes = collectTextNodes();
+        var foundMarks = [];
+
+
+        nodes.forEach(function (textNode) {
+          var orig = textNode.nodeValue;
+          var mappedObj = mapNormalizedString(orig);
+          var hay = mappedObj.norm;
+          var spans = mappedObj.spans;
+          if (!hay || normQuery.length > hay.length) return;
+
+
+          var ranges = [];
+          var pos = 0;
+          while (pos <= hay.length - normQuery.length) {
+            var idx = hay.indexOf(normQuery, pos);
+            if (idx === -1) break;
+            ranges.push({ start: spans[idx].start, end: spans[idx + normQuery.length - 1].end });
+            pos = idx + normQuery.length;
+          }
+          if (ranges.length === 0) return;
+
+
+          var frag = document.createDocumentFragment();
+          var cursor = 0;
+          ranges.forEach(function (r) {
+            if (r.start > cursor) frag.appendChild(document.createTextNode(orig.slice(cursor, r.start)));
+            var mk = document.createElement('mark');
+            mk.className = 'hit-mark';
+            mk.textContent = orig.slice(r.start, r.end);
+            frag.appendChild(mk);
+            foundMarks.push(mk);
+            cursor = r.end;
+          });
+          if (cursor < orig.length) frag.appendChild(document.createTextNode(orig.slice(cursor)));
+          if (textNode.parentNode) textNode.parentNode.replaceChild(frag, textNode);
+        });
+
+
+        hits = foundMarks;
+        if (hits.length > 0) {
+          selectHit(0, true);
+        } else {
+          emptySearchBox.classList.add('visible');
+          refreshCounter();
+        }
+      }
+
+
+      var debounceHandle = null;
+      liveSearchInput.addEventListener('input', function (e) {
+        var val = e.target.value;
+        clearTimeout(debounceHandle);
+        debounceHandle = setTimeout(function () { runSearch(val); }, 110);
+      });
+
+
+      liveSearchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (hits.length > 0) selectHit(activeHitIdx + 1, true);
+          else runSearch(liveSearchInput.value);
+        } else if (e.key === 'Escape') {
+          liveSearchInput.value = '';
+          runSearch('');
+        }
+      });
+
+
+      clearSearchBtn.addEventListener('click', function () {
+        liveSearchInput.value = '';
+        runSearch('');
+        liveSearchInput.focus();
+      });
+
+
+      nextHitBtn.addEventListener('click', function () { if (hits.length > 0) selectHit(activeHitIdx + 1, true); });
+      prevHitBtn.addEventListener('click', function () { if (hits.length > 0) selectHit(activeHitIdx - 1, true); });
+
+
+      function init() {
+        setTheme(getPref(KEYS.THEME, 'light'));
+        setFontFamily(getPref(KEYS.FONT_FAMILY, "'Amiri', 'Scheherazade New', serif"));
+        setFontSize(currentSize);
+        markActiveToc(getPref(KEYS.LAST_PART, 'part-intro'));
+        onScrollUpdate();
+      }
+
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
