@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A'lam al-Dawa | أعلام الدعوة</title>
 <style>
+  /* Cairo (self-hosted, variable woff2 covering 400-700) - https://fonts.google.com/specimen/Cairo */
+  @font-face {
+    font-family: "Cairo";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("./fonts/cairo-arabic.woff2") format("woff2");
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+  }
+  @font-face {
+    font-family: "Cairo";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("./fonts/cairo-latin-ext.woff2") format("woff2");
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: "Cairo";
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("./fonts/cairo-latin.woff2") format("woff2");
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
   :root{
     --bg:#f5f7f9; --bg-glow:#dff1eb; --fg:#1b2430; --muted:#5b6675;
     --card:#ffffff; --line:#e4e8ee; --accent:#0e7c66; --accent-soft:#e6f4f0;
@@ -24,24 +49,24 @@
     color:var(--fg); line-height:1.7; font-size:16px; -webkit-font-smoothing:antialiased;
     transition: background 0.3s ease, color 0.3s ease;
   }
-  body[dir="rtl"] { font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; }
-  body[dir="ltr"] { font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif; }
+  body[dir="rtl"] { font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-weight:400; }
+  body[dir="ltr"] { font-family:"Cairo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif; font-weight:400; }
 
   .page-head{ display:flex; flex-wrap:wrap; gap:1.25rem; align-items:flex-end; justify-content:space-between; max-width:1400px; margin:0 auto clamp(1.5rem,3vw,2.5rem); }
-  .eyebrow{ margin:0 0 .35rem; font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-  .page-head h1{ margin:0; font-size:clamp(1.8rem, 4vw, 2.6rem); font-weight:700; line-height:1.25; }
-  .lede{ margin:.6rem 0 0; max-width:60ch; font-size:clamp(.9rem, 1.6vw, 1rem); color:var(--muted); }
+  .eyebrow{ margin:0 0 .35rem; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .page-head h1{ margin:0; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:clamp(1.8rem, 4vw, 2.6rem); font-weight:700; line-height:1.25; }
+  .lede{ margin:.6rem 0 0; max-width:60ch; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:clamp(.9rem, 1.6vw, 1rem); font-weight:400; color:var(--muted); }
   .page-head__side{ display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
 
 
   /* Language Switcher */
   .lang-switcher { display: flex; gap: 0.4rem; background: var(--card); padding: 0.35rem; border-radius: 12px; border: 1px solid var(--line); }
-  .lang-btn { background: transparent; border: none; cursor: pointer; padding: 0.4rem 0.7rem; border-radius: 8px; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; color: var(--muted); transition: all 0.2s ease; }
+  .lang-btn { background: transparent; border: none; cursor: pointer; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; padding: 0.4rem 0.7rem; border-radius: 8px; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; color: var(--muted); transition: all 0.2s ease; }
   .lang-btn:hover { background: var(--accent-soft); color: var(--accent); }
   .lang-btn.active { background: var(--accent); color: #fff; }
 
 
-  .count{ font-size:.8rem; font-weight:600; color:var(--muted); background:var(--card); border:1px solid var(--line); padding:.5rem .9rem; border-radius:999px; white-space:nowrap; }
+  .count{ font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:.8rem; font-weight:600; color:var(--muted); background:var(--card); border:1px solid var(--line); padding:.5rem .9rem; border-radius:999px; white-space:nowrap; }
   .theme-toggle{ width:44px; height:44px; display:grid; place-items:center; font-size:1.15rem; cursor:pointer; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:50%; transition:transform .18s ease; }
   .theme-toggle:hover{ transform:rotate(-12deg) scale(1.06); border-color:var(--accent); }
 
@@ -66,14 +91,14 @@
   .scholar-card__head{ display:flex; gap:.9rem; align-items:flex-start; }
   .scholar-card__avatar{ position:relative; flex:0 0 58px; height:58px; border-radius:50%; display:grid; place-items:center; background:var(--accent-soft); color:var(--accent); font-weight:700; font-size:.92rem; border:1px solid color-mix(in srgb, var(--accent) 18%, transparent); overflow:hidden; }
   .scholar-card__avatar img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
-  .scholar-card__title{ margin:0; font-size:clamp(1rem, 1.8vw, 1.12rem); font-weight:700; line-height:1.45; }
+  .scholar-card__title{ margin:0; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:clamp(1rem, 1.8vw, 1.12rem); font-weight:700; line-height:1.45; }
   .scholar-card__meta{ margin:.25rem 0 0; font-size:.78rem; color:var(--muted); font-weight:500; }
-  .scholar-card__role{ margin:.4rem 0 0; font-size:.86rem; font-weight:600; color:var(--accent); line-height:1.5; }
+  .scholar-card__role{ margin:.4rem 0 0; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:.86rem; font-weight:600; color:var(--accent); line-height:1.5; }
   .scholar-card__tags{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.85rem; }
   .tag{ font-size:.72rem; font-weight:600; color:var(--muted); padding:.18rem .6rem; border-radius:6px; border:1px dashed color-mix(in srgb, var(--muted) 40%, transparent); }
-  .scholar-card__body p{ margin:.9rem 0 0; font-size:.92rem; }
+  .scholar-card__body p{ margin:.9rem 0 0; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:.92rem; font-weight:400; }
   .scholar-card__block{ margin-top:1.3rem; }
-  .scholar-card__label{ margin:0 0 .55rem; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  .scholar-card__label{ margin:0 0 .55rem; font-family:"Cairo","Noto Naskh Arabic","Noto Sans Arabic",Tahoma,system-ui,sans-serif; font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
 
 
   .pill-list{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0; padding:0; list-style:none; }
