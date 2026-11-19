@@ -132,6 +132,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
 
@@ -140,6 +141,7 @@
       align-items: center;
       gap: 0.65rem;
       min-width: 0;
+      flex: 1 1 auto;
     }
 
 
@@ -147,6 +149,7 @@
       display: flex;
       flex-direction: column;
       min-width: 0;
+      flex: 1 1 auto;
     }
 
 
@@ -176,6 +179,10 @@
       align-items: center;
       gap: 0.45rem;
       flex-wrap: wrap;
+    }
+
+    .header-controls .btn {
+      flex-shrink: 0;
     }
 
 
@@ -832,9 +839,19 @@
 
 
     @media (max-width: 600px) {
-      .site-header { padding: 0.5rem 0.65rem; }
-      .brand-title { font-size: 0.95rem; }
+      .site-header { padding: 0.5rem 0.65rem; gap: 0.5rem; row-gap: 0.4rem; }
+      .brand-group { flex: 1 1 10rem; min-width: 0; gap: 0.5rem; }
+      .brand-titles { min-width: 0; flex: 1 1 auto; }
+      .brand-title {
+        font-size: 0.92rem;
+        line-height: 1.25;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
       .brand-subtitle { display: none; }
+      .header-controls { gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+      .header-controls .btn { min-height: 36px; padding: 0.32rem 0.55rem; font-size: 0.78rem; }
       .btn { padding: 0.38rem 0.58rem; font-size: 0.8rem; }
       .section-card, .hero-card { padding: 1.05rem 0.95rem; }
     }

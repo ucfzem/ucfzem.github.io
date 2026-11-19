@@ -11,14 +11,14 @@
 - **`works/index.html`:** Added as public project #21 (`🛡️`, icon `https://ucfzem.github.io/shubuhat-wa-rudud/icon.svg`, URL `https://ucfzem.github.io/shubuhat-wa-rudud/`, `newTab: true`, tag `العقيدة والمنهج`) after A3lam al-3olama; public count remains dynamic `publicProjects.length + maktaba.length` (now 20 + 31 = 51).
 - **`works/Maktaba/index.html`:** Added as 6th webapp card alongside other webapps (after A3lam al-3olama) with icon/title/tags and external link; updated header/meta/counts to “29 Arabic books & 6 webapps · UcfZem” and “Webapps … 6 apps” (library remains 29 `app-row`s).
 - **Service workers (additive cache bumps):** `works/sw.js` `maktaba-v15` → `maktaba-v16` with `https://ucfzem.github.io/shubuhat-wa-rudud/icon.svg` precached; `works/Maktaba/sw.js` `maktaba-main-v6` → `maktaba-main-v7` with same icon in `EXTERNAL`.
-- **Preserved apps:** `a3lam-al-3olama` live `https://ucfzem.github.io/a3lam-al-3olama/` (commit `4481658` chain) and `a3lam-al-dawa` live `https://ucfzem.github.io/a3lam-al-dawa/` / worker `https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/` (Cairo, build `2026-11-19a`, SW `a3lam-al-dawa-v41`) unchanged.
-- **Prior context/commits:** `5977d43` `feat(works): add a3lam-al-3olama to link tree and bump SW cache`; `439fce0` `docs(works): add conversation backup for a3lam links update`; `4481658` `style(a3lam): apply Cairo typography to titles and scholar names`; `73c2540`/`c936445` prior (blocked/pending) backups for shubuhat-wa-rudud.
+- **Mobile header fix (shubuhat-wa-rudud):** Prevented brand title truncation (`شبهات ور...`) on narrow portrait screens by making `.site-header` wrap cleanly, giving `.brand-group`/`.brand-titles` flexible min-width (`flex: 1 1 auto; min-width: 0`), keeping `.header-controls .btn` `flex-shrink: 0`, and on `@media (max-width: 600px)` using compact controls (`min-height: 36px; padding: 0.32rem 0.55rem; font-size: 0.78rem; gap: 0.35rem`) with `.brand-title` readable without mid-word ellipsis (`font-size: 0.92rem; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip`), subtitle hidden, while preserving theme/RTL/layout/functionality.
+- **Preserved apps:** `a3lam-al-3olama` live `https://ucfzem.github.io/a3lam-al-3olama/` and `a3lam-al-dawa` live `https://ucfzem.github.io/a3lam-al-dawa/` / worker `https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/` unchanged.
+- **Prior context/commits:** `5977d43` works links, `439fce0` works links backup, `4481658` Cairo typography, `73c2540`/`c936445` prior blocked/pending shubuhat backups, `77166d0` initial shubuhat integration.
 
 ## Work State
 ### Completed
-- Created `shubuhat-wa-rudud/` with provided expanded `index.html` and fitting `icon.svg`.
-- Integrated additively into `works/index.html` and `works/Maktaba/index.html` with requested metadata/tags; updated relevant counts/meta and bumped `works/sw.js`/`works/Maktaba/sw.js` caches; no unrelated files changed.
-- Verified via `git status`/`git diff --stat`, content/grep checks (new URLs/icons present, counts consistent: 6 webapp cards, 29 library rows).
+- Created/integrated `shubuhat-wa-rudud/` into `works/index.html` and `works/Maktaba/index.html` with metadata/tags, counts, SW bumps, and fitting icon (additive; no unrelated changes). Commit `77166d0`.
+- Fixed mobile header brand-title truncation in `shubuhat-wa-rudud/index.html` (targeted responsive/header CSS). Pending commit/push in this update.
 
 ### Active
 - Commit, push to `main`, confirm GitHub Pages deploy, and share all links (including this backup and commit hash).
