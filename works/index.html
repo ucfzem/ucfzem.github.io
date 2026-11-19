@@ -605,7 +605,7 @@
     <img src="./assets/avatar.png" alt="Avatar" class="avatar" id="avatarImg" onerror="this.style.display='none'; document.getElementById('avatarFallback').style.display='flex';">
     <div class="avatar-fallback" id="avatarFallback" style="display:none;">UcfZem</div>
     <h1 class="title">🌳 My Works</h1>
-    <p class="subtitle">26 projets publics</p>
+    <p class="subtitle" id="publicCount">26 projets publics</p>
   </div>
 
 
@@ -667,7 +667,8 @@
     { num: 16, emoji: "🔍", name: "API JobFinder", tag: "Jobs", icon: null, url: "https://ucfzem.github.io/api-job-finder/" },
     { num: 17, emoji: "🎮", name: "SavoirsEnJouant", tag: "Kids Learning", icon: null, url: "https://ucfzem.github.io/childsgame/", newTab: true },
     { num: 18, emoji: "♟️", name: "Checkers Master", tag: "Jeux", icon: "data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org%2F2000%2Fsvg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%231e293b%22/%3E%3Ccircle cx=%2262%22 cy=%2238%22 r=%2212%22 fill=%22%23ffffff%22 opacity=%220.35%22/%3E%3C/svg%3E", url: "https://ucfzem.github.io/checkers/", newTab: true },
-    { num: 19, emoji: "🕌", name: "أعلام الدعوة والفكر والمناظرة", tag: "Directory", icon: "https://ucfzem.github.io/a3lam-al-dawa/icon.svg", url: "https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/", newTab: true }
+    { num: 19, emoji: "🕌", name: "أعلام الدعوة والفكر والمناظرة", tag: "Directory", icon: "https://ucfzem.github.io/a3lam-al-dawa/icon.svg", url: "https://ucfzem.azer-tyu199p.workers.dev/a3lam-al-dawa/", newTab: true },
+    { num: 20, emoji: "🕌", name: "أعلام العلماء", tag: "Directory", icon: "https://ucfzem.github.io/a3lam-al-3olama/icon.svg", url: "https://ucfzem.github.io/a3lam-al-3olama/", newTab: true }
   ];
 
   const maktaba = [
@@ -770,6 +771,8 @@ function ico(p) {
 
 function renderPublic() {
     const container = document.getElementById('publicProjects');
+    const countEl = document.getElementById('publicCount');
+    if (countEl) countEl.textContent = (publicProjects.length + maktaba.length) + ' projets publics';
     const card = p => `
       <a href="${p.url || '#'}" class="card"${p.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''}>
         <span class="card-num">${p.num}</span>
