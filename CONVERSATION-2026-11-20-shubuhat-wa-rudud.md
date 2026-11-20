@@ -12,43 +12,55 @@
 
 ## Session Summary
 
-This session added mobile navigation aids and an app-scoped offline Service Worker to `shubuhat-wa-rudud` while preserving all existing study content, search behavior, and preserved sites.
+This session enhanced `shubuhat-wa-rudud` additively with mobile navigation, an app-scoped offline Service Worker, and integrated user-provided methodological/reference sections (reading grid, critique comparison, detailed shubuhat matrix, and filtered trend/scholar profiles) while preserving all existing study content, search behavior, and preserved sites.
 
 ## 1. UI & Navigation Enhancements (`shubuhat-wa-rudud/index.html`)
 
 - **Mobile quick TOC drawer (`.mobile-toc-bar`, `#mobile-toc-toggle`, `#mobile-toc-drawer`):**
-  - Added a quick section index for small screens (visible at `max-width: 860px`).
-  - Links to existing study sections: مقدمة منهجية, أجزاء ١–٨, ومناظرة الإمام الشافعي.
+  - Quick section index for small screens (visible at `max-width: 860px`).
+  - Links to existing and newly added study sections.
   - Drawer toggles via `aria-expanded`/`[hidden]` and **auto-closes** when any `.mobile-toc-link` is selected.
 - **Back-to-top button (`#back-to-top-btn`, `.back-to-top-btn`):**
-  - Fixed button that becomes visible after scrolling (`scrollY > 360px`, `.is-visible`).
+  - Fixed button visible after scrolling (`scrollY > 360px`, `.is-visible`).
   - Smooth scroll to top with fallback (`window.scrollTo(0, 0)`).
-- **Styling:** Added responsive/mobile-compatible CSS for the quick TOC bar/drawer and back-to-top control without altering existing header/content behavior.
 
-## 2. Offline / Caching (`shubuhat-wa-rudud/sw.js`)
+## 2. Integrated Additive Study Sections (before `part-8`)
 
-- **New app-scoped Service Worker:** `shubuhat-wa-rudud/sw.js`
-  - Versioned caches: `shubuhat-wa-rudud-v2026-11-20-static` and `-runtime`.
+All added as searchable/trackable `section-card study-section` blocks with TOC (sidebar + mobile drawer) entries and scroll-tracking compatibility:
+
+- **`#shubha-vs-radd-grid` — شبكة القراءة المنهجية: الشبهة مقابل الرد**
+  - 4-step methodological grid: تحديد المقدمة المضمرة، ضبط المعنى والسياق التاريخي والاصطلاحي، التمييز بين نقد الجزئي وهدم الكلي، مقارنة الحجج ومراتب الخلاف.
+- **`#critique-vs-attack` — الفرق بين النقد العلمي المنضبط والطعن المبتدع**
+  - Comparison table (الغاية والمنطلق، الأدوات والمنهج، التعامل مع النصوص والروايات، الإنصاف والأمانة العلمية، الأثر المعرفي والتربوي) + practical callout note.
+- **`#detailed-shubuhat-table` — تفكيك الشبهات وتعيين قائليها والرد عليها**
+  - Matrix table covering sample cases (e.g. إنكار السنة التشريعية، تاريخانية النصوص والأحكام، التشكيك في الصحيحين، الطعن في عدالة الصحابة) with proponents, claims, methodological responses, and source references.
+- **`#extra-categories-profiles` — تصنيف الاتجاهات وبطاقات إضافية (الشبهات والعلماء)**
+  - Filter bar (`data-filter="all|shubha-trend|scholars-classic|scholars-modern"`) toggling `.profile-card[data-category]` visibility.
+  - Trend cards (تيار القرآنيين ومنكرو حجية السنة، التأويل التاريخاني والتفكيكي، الخطاب الإعلامي والانتقائي المعاصر) and scholar/researcher profiles (الشافعي، الخطابي، الشاطبي، ابن حجر العسقلاني؛ مصطفى السباعي، عبد الغني عبد الخالق، الشنقيطي وابن عاشور، ابن باز وابن عثيمين والفوزان والقرضاوي).
+
+## 3. Search, Styling & Scripting
+
+- **Live search indexing extended** (existing implementation preserved: `#liveSearchInput`, `#searchMatchCount`, hit navigation/counters, `mark.hit-mark`/`active-hit`, Arabic normalization/highlighting logic): `collectTextNodes()` now also scans `.comparison-table td/th`, `.shubuhat-matrix-table td/th`, `.grid-card`, `.profile-card`, `.callout-note`, `.section-intro` so new sections are searchable.
+- **CSS:** Added styles for `.study-section`, `.grid-4/.grid-card/.step-badge`, `.filter-bar/.filter-btn/.cards-grid/.profile-card(.is-hidden)`, `.comparison-table`, `.shubuhat-matrix-table`, `.proponent-badge`, `.callout-note`, and responsive table adjustments.
+- **Filter JS:** Inline script for profile category filtering (active state + show/hide by `data-category`).
+
+## 4. Offline / Caching
+
+- **App-scoped Service Worker:** `shubuhat-wa-rudud/sw.js`
+  - Versioned caches: `shubuhat-wa-rudud-v2026-11-20b-static` and `-runtime`.
   - **Precache:** `./`, `./index.html`, `./icon.svg`.
   - **Lifecycle:** `install` precaches and `skipWaiting()`; `activate` cleans outdated caches and calls `clients.claim()`.
-  - **Fetch strategy:**
-    - Navigate requests: **Network First** with cache fallback (`./index.html` / `./`) for updates when online and offline access when needed.
-    - Same-origin GET assets: **Cache First** with safe runtime caching of basic OK responses.
-    - Cross-origin GET (e.g. fonts): **Network First** with cache fallback, without breaking browsing on failure.
-- **Registration:** Added `navigator.serviceWorker.register('./sw.js')` on page load in `shubuhat-wa-rudud/index.html`.
+  - **Fetch strategy:** Navigate requests **Network First** with cache fallback; same-origin GET **Cache First** with safe runtime caching; cross-origin GET **Network First** with cache fallback.
+  - Registered on page load via `navigator.serviceWorker.register('./sw.js')`.
+- **Works SW cache bumps (maintenance):** `works/sw.js` `maktaba-v16` → `maktaba-v17`; `works/Maktaba/sw.js` `maktaba-main-v7` → `maktaba-main-v8` (icon precaches retained).
 
-## 3. Works SW Cache Version Bumps (maintenance)
-
-- `works/sw.js`: bumped cache `maktaba-v16` → `maktaba-v17` (icon precache retained).
-- `works/Maktaba/sw.js`: bumped cache `maktaba-main-v7` → `maktaba-main-v8` (EXTERNAL/icon precache retained).
-
-## 4. Safety / Verification Notes
+## 5. Safety / Verification Notes
 
 - Changes were additive and limited to: `shubuhat-wa-rudud/index.html`, `shubuhat-wa-rudud/sw.js`, `works/sw.js`, `works/Maktaba/sw.js`, and this backup file.
 - Preserved apps/pages were not modified: `a3lam-al-dawa`, `a3lam-al-3olama`, `works/Maktaba` library content/rows, and other existing works entries.
-- Existing in-app live search implementation (`#liveSearchInput`, `#searchMatchCount`, `#reviewMain`, `mark.hit-mark`/`active-hit`, hit navigation/counters) and TOC/scroll tracking were left intact.
+- Existing TOC/scroll tracking, theme/font/size/last-part persistence, and in-app live search behavior/IDs were preserved.
 
-## 5. Pre-Deploy / Follow-up Checklist
+## 6. Pre-Deploy / Follow-up Checklist
 
 - On future content or asset changes to `shubuhat-wa-rudud`, bump `CACHE_VERSION` in `shubuhat-wa-rudud/sw.js` and add any new local assets/fonts to `PRECACHE_URLS` as needed.
-- If additional user-provided study sections (e.g. شبكة القراءة `#shubha-vs-radd-grid`, تصنيف الاتجاهات/بطاقات العلماء `#extra-categories-profiles`, مقارنة النقد والطعن `#critique-vs-attack`, filter/search normalization variants) are to be integrated, add them as compatible `section-card` blocks with TOC/search tracking hooks and reconcile any differing element IDs/classes with the existing implementation before publishing.
+- Verify rendering and interactions (mobile TOC drawer, filters, back-to-top, search hits, offline reload) on GitHub Pages after deploy.

@@ -935,6 +935,150 @@
       .btn { padding: 0.38rem 0.58rem; font-size: 0.8rem; }
       .section-card, .hero-card { padding: 1.05rem 0.95rem; }
     }
+  
+    /* ===== إضافات: شبكة القراءة، المقارنة، مصفوفة الشبهات، البطاقات والتصفية ===== */
+    .study-section {
+      margin: 2rem 0;
+    }
+
+    .section-intro {
+      max-width: 72ch;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-card,
+    .profile-card {
+      border: 1px solid rgba(128, 128, 128, 0.28);
+      border-radius: 10px;
+      padding: 1rem;
+      line-height: 1.7;
+      min-width: 0;
+      background-color: var(--bg-card);
+    }
+
+    .grid-card h3,
+    .profile-card h3 {
+      margin: 0.25rem 0 0.45rem;
+      font-family: var(--reader-font);
+      font-size: 1.08rem;
+      color: var(--text-main);
+    }
+
+    .step-badge,
+    .card-tag {
+      display: inline-block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(180, 130, 40, 0.14);
+      margin-bottom: 0.5rem;
+      color: var(--gold-dark);
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-btn {
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(128, 128, 128, 0.35);
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .filter-btn.is-active {
+      font-weight: 700;
+      border-color: currentColor;
+      background: rgba(180, 130, 40, 0.18);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 1rem;
+    }
+
+    .profile-card.is-hidden {
+      display: none;
+    }
+
+    .comparison-table,
+    .shubuhat-matrix-table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      line-height: 1.65;
+      font-size: 0.95rem;
+      background-color: var(--bg-card, #ffffff);
+      color: var(--text-main, #2b2b2b);
+    }
+
+    .comparison-table th,
+    .comparison-table td,
+    .shubuhat-matrix-table th,
+    .shubuhat-matrix-table td {
+      border: 1px solid rgba(128, 128, 128, 0.3);
+      padding: 0.75rem 0.9rem;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    .comparison-table thead th,
+    .shubuhat-matrix-table thead th {
+      background: rgba(180, 130, 40, 0.14);
+      font-weight: 700;
+      color: var(--gold-dark);
+    }
+
+    .proponent-badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(180, 130, 40, 0.12);
+      border: 1px solid rgba(180, 130, 40, 0.32);
+      padding: 0.15rem 0.48rem;
+      border-radius: 5px;
+      margin-top: 0.3rem;
+      margin-inline-end: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .callout-note {
+      margin: 1rem 0 0;
+      padding: 0.85rem 1rem;
+      border-right: 4px solid rgba(180, 130, 40, 0.75);
+      background: rgba(180, 130, 40, 0.08);
+      border-radius: 6px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .shubuhat-matrix-table,
+      .comparison-table {
+        font-size: 0.85rem;
+      }
+      .shubuhat-matrix-table th,
+      .shubuhat-matrix-table td,
+      .comparison-table th,
+      .comparison-table td {
+        padding: 0.6rem 0.75rem;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1064,6 +1208,10 @@
           <li><button type="button" class="toc-btn" data-target="part-5">٥. العلماء الربانيون وردودهم</button></li>
           <li><button type="button" class="toc-btn" data-target="part-6">٦. لائحة أصحاب الشبهات وشبهاتهم</button></li>
           <li><button type="button" class="toc-btn" data-target="part-7">٧. لائحة العلماء الأجلاء وردودهم</button></li>
+          <li><button type="button" class="toc-btn" data-target="shubha-vs-radd-grid">شبكة القراءة: الشبهة مقابل الرد</button></li>
+          <li><button type="button" class="toc-btn" data-target="critique-vs-attack">النقد العلمي المنضبط والطعن المبتدع</button></li>
+          <li><button type="button" class="toc-btn" data-target="detailed-shubuhat-table">تفكيك الشبهات وقائليها والرد عليها</button></li>
+          <li><button type="button" class="toc-btn" data-target="extra-categories-profiles">تصنيف الاتجاهات وبطاقات العلماء</button></li>
           <li><button type="button" class="toc-btn" data-target="part-8">٨. التوصيات والخاتمة</button></li>
         </ul>
       </nav>
@@ -1102,6 +1250,10 @@
           <a href="#part-5" class="mobile-toc-link">٥. العلماء الربانيون وردودهم</a>
           <a href="#part-6" class="mobile-toc-link">٦. لائحة أصحاب الشبهات وشبهاتهم</a>
           <a href="#part-7" class="mobile-toc-link">٧. لائحة العلماء الأجلاء وردودهم</a>
+          <a href="#shubha-vs-radd-grid" class="mobile-toc-link">شبكة القراءة: الشبهة مقابل الرد</a>
+          <a href="#critique-vs-attack" class="mobile-toc-link">النقد العلمي المنضبط والطعن المبتدع</a>
+          <a href="#detailed-shubuhat-table" class="mobile-toc-link">تفكيك الشبهات وقائليها والرد عليها</a>
+          <a href="#extra-categories-profiles" class="mobile-toc-link">تصنيف الاتجاهات وبطاقات العلماء</a>
           <a href="#part-8" class="mobile-toc-link">٨. التوصيات والخاتمة</a>
         </nav>
       </div>
@@ -1828,6 +1980,268 @@
         </div>
       </article>
 
+
+      <article id="shubha-vs-radd-grid" class="section-card study-section" data-section-id="shubha-vs-radd-grid">
+        <h2 id="grid-title" class="section-title">شبكة القراءة المنهجية: الشبهة مقابل الرد</h2>
+        <div class="prose-body">
+          <p class="section-intro">
+            تساعد هذه الشبكة القارئ على تفكيك أي شبهة أو إشكال منهجي قبل الحكم عليه، والتمييز بين النقد العلمي المنضبط والطعن العشوائي أو الانتقائي.
+          </p>
+          <div class="grid-4">
+            <article class="grid-card">
+              <span class="step-badge">1 · الفرضية الخفية</span>
+              <h3>تحديد المقدمة المضمرة</h3>
+              <p><strong>الشبهة:</strong> تفترض غالبًا مقدمة غير معلنة (مثل الخلط بين «شمول القرآن للأصول والمقاصد» و«الاستغناء عن البيان النبوي التطبيقي»).</p>
+              <p><strong>الرد:</strong> إبراز المقدمة الخفية واختبار صحتها من النص والسياق قبل مناقشة النتيجة المترتبة عليها.</p>
+            </article>
+            <article class="grid-card">
+              <span class="step-badge">2 · السياق والاصطلاح</span>
+              <h3>ضبط المعنى والسياق التاريخي</h3>
+              <p><strong>الشبهة:</strong> تنتزع لفظًا أو حادثة أو رأيًا فقهيًا من سياقه اللغوي أو التاريخي أو الأصولي وتحمّله ما لا يحتمل.</p>
+              <p><strong>الرد:</strong> ردّ اللفظ إلى استعماله الشرعي أو اللغوي، وربط الواقعة بملابساتها والقاعدة التي تندرج تحتها.</p>
+            </article>
+            <article class="grid-card">
+              <span class="step-badge">3 · مستوى الإشكال</span>
+              <h3>التمييز بين نقد الجزئي وهدم الكلي</h3>
+              <p><strong>الشبهة:</strong> تستثمر وجود خلاف فقهي أو ضعف رواية معينة لتعميم التشكيك على أصل العلم أو منظومة الإسناد بأكملها.</p>
+              <p><strong>الرد:</strong> الفصل بين مناقشة مسألة جزئية أو سند بعينه وبين إسقاط أصل متواتر أو علم راسخ بقواعده.</p>
+            </article>
+            <article class="grid-card">
+              <span class="step-badge">4 · ميزان الأدلة</span>
+              <h3>مقارنة الحجج ومراتب الخلاف</h3>
+              <p><strong>الشبهة:</strong> تقدّم اجتهادًا فرديًا أو قراءة مستحدثة كحقيقة قطعية متجاوزة للأدلة المتضافرة وإجماع السلف.</p>
+              <p><strong>الرد:</strong> وزن الأدلة وفق قواعد الاستدلال، وتوضيح ما هو من مسائل الاجتهاد السائغ وما هو مخالف للأصول القطعية.</p>
+            </article>
+          </div>
+        </div>
+      </article>
+
+      <article id="critique-vs-attack" class="section-card study-section" data-section-id="critique-vs-attack">
+        <h2 id="critique-title" class="section-title">الفرق بين النقد العلمي المنضبط والطعن المبتدع</h2>
+        <div class="prose-body">
+          <p class="section-intro">
+            التمييز بين <strong>النقد المنهجي المؤصَّل</strong> و<strong>الطعن العشوائي أو الانتقائي</strong> هو حجر الزاوية لفهم تراثنا الفكري والحديثي؛ فالعلم يرحب بالتحقيق المنضبط بأدواته، بينما يرفض الهدم غير المؤصَّل أو الانتقاء الموجَّه.
+          </p>
+          <div class="table-wrap">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th scope="col">وجه المقارنة</th>
+                  <th scope="col">النقد العلمي المنضبط</th>
+                  <th scope="col">الطعن المبتدع / الانتقائي</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>الغاية والمنطلق</strong></td>
+                  <td>كشف الصواب من الخطأ، وتجلية المعنى، وصيانة الأصول والأدلة بإنصاف وموضوعية.</td>
+                  <td>تشكيك الجمهور في الثوابت أو إثارة الجدل وإسقاط منظومة كاملة بدوافع غير علمية أو انتقائية.</td>
+                </tr>
+                <tr>
+                  <td><strong>الأدوات والمنهج</strong></td>
+                  <td>الالتزام بقواعد الفن (اللغة، أصول الفقه، علوم الحديث، التاريخ الموثّق) ومراعاة السياق والاصطلاح.</td>
+                  <td>تجاهل قواعد الاختصاص، أو تحميل النصوص معاني دخيلة، أو القفز فوق القواعد المقررة.</td>
+                </tr>
+                <tr>
+                  <td><strong>التعامل مع النصوص والروايات</strong></td>
+                  <td>التفريق بين الصحيح والضعيف، والجمع بين المختلف، وفهم أسباب الورود والملابسات قبل الحكم.</td>
+                  <td>التعميم من رواية واحدة أو مسألة خلافية لتعميم التشكيك على الكتاب أو السنة أو الصحابة.</td>
+                </tr>
+                <tr>
+                  <td><strong>الإنصاف والأمانة العلمية</strong></td>
+                  <td>نقل المخالف بدقة، وذكر حجته كاملة، والاعتراف بالحق أو الخلاف السائغ متى ظهر.</td>
+                  <td>بتر النصوص، أو تضخيم الهفوات، أو نسبة أقوال غير محققة إلى العلماء والكتب.</td>
+                </tr>
+                <tr>
+                  <td><strong>الأثر المعرفي والتربوي</strong></td>
+                  <td>يعمّق الفهم، ويرسّخ الثقة بالموازين الصحيحة، ويفتح باب البحث الرصين.</td>
+                  <td>يولّد البلبلة والاضطراب والسطحية، ويفصل القارئ عن مصادر العلم الرصينة.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <blockquote class="callout-note">
+            <strong>ضابط عملي للقارئ:</strong> اسأل نفسك عند قراءة أي نقد: <em>هل يصحّح الناقدُ مسارًا داخل علمٍ بقواعده، أم يهدم أصلًا ثابتًا بأدوات دخيلة وبدون بديل علمي منضبط؟</em>
+          </blockquote>
+        </div>
+      </article>
+
+      <article id="detailed-shubuhat-table" class="section-card study-section" data-section-id="detailed-shubuhat-table">
+        <h2 id="detailed-table-title" class="section-title">تفكيك الشبهات وتعيين قائليها والرد عليها</h2>
+        <div class="prose-body">
+          <p class="section-intro">
+            تضم هذه الشبكة أشهر الشبهات المثارة تاريخيًا ومعاصرًا، مع تحديد أبرز من يروّج لها، ومستندهم، والرد العلمي المفصل عليها من كبار العلماء والباحثين مع توثيق المصادر.
+          </p>
+          <div class="table-wrap">
+            <table class="shubuhat-matrix-table">
+              <thead>
+                <tr>
+                  <th scope="col">الشبهة والداعي إليها</th>
+                  <th scope="col">المستند العلمي / الشبهة</th>
+                  <th scope="col">المجيب والرد المنهجي</th>
+                  <th scope="col">المصدر والتوثيق</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>إنكار السنة التشريعية</strong><br>
+                    <span class="proponent-badge">رشاد خليفة</span>
+                    <span class="proponent-badge">أحمد صبحي منصور</span>
+                  </td>
+                  <td>
+                    الادعاء بالاكتفاء بالقرآن لقوله تعالى: <em>«مَّا فَرَّطْنَا فِي الْكِتَابِ مِن شَيْءٍ»</em> وزعم أن السنة لم تُدوّن في عهد النبي فهي غير مضمونة.
+                  </td>
+                  <td>
+                    <strong>الإمام الشافعي ود. مصطفى السباعي:</strong><br>
+                    طاعة الرسول مستقلة بنص القرآن، و«الكتاب» في الآية يُقصد به اللوح المحفوظ أو القرآن كمنهج كلي يحتاج لبيان تطبيقي. التدوين بدأ مبكرًا عبر الصحابة (كالصحيفة الصادقة) وقواعد المحدثين صارمة علميًا.
+                  </td>
+                  <td>
+                    <em>الرسالة</em> للشافعي،<br>
+                    <em>السنة ومكانتها</em> للسباعي.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>تاريخانية النصوص والأحكام</strong><br>
+                    <span class="proponent-badge">نصر حامد أبو زيد</span>
+                    <span class="proponent-badge">محمد شحرور</span>
+                  </td>
+                  <td>
+                    القول بأن الأحكام الشرعية منتج ثقافي وتاريخي يرتبط بعصر النزول فقط ويجب إعادة صياغته أو إسقاط ثباته.
+                  </td>
+                  <td>
+                    <strong>الشيخ محمد الطاهر ابن عاشور والإمام الشاطبي:</strong><br>
+                    التمييز بين الثوابت القطعية والمتغيرات الاجتهادية؛ فالشريعة صالحة لكل زمان ومكان لأنها تضبط المتغيرات بأصول ومقاصد منضبطة لا بالهوى أو التبعية.
+                  </td>
+                  <td>
+                    <em>مقاصد الشريعة</em> لابن عاشور،<br>
+                    <em>الموافقات</em> للشاطبي.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>التشكيك في الصحيحين</strong><br>
+                    <span class="proponent-badge">عدنان إبراهيم</span>
+                    <span class="proponent-badge">محمد الفايد</span>
+                  </td>
+                  <td>
+                    إثارة إشكالات بدعوى تعارض بعض الأحاديث مع العقل أو المعطيات العلمية أو الذوق العام.
+                  </td>
+                  <td>
+                    <strong>الحافظ ابن حجر العسقلاني والشيخ أحمد شاكر:</strong><br>
+                    شروط الشيخين من أدق مناهج الضبط والنقد، والإشكال غالبًا في الفهم المجتزأ أو تجاهل السياق واللغة والجمع بين المختلف لا في أصل الرواية المنضبطة.
+                  </td>
+                  <td>
+                    <em>فتح الباري</em> لابن حجر،<br>
+                    <em>مقدمة ابن الصلاح بشرحه</em>.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>الطعن في عدالة الصحابة</strong><br>
+                    <span class="proponent-badge">حسن فرحان المالكي</span>
+                  </td>
+                  <td>
+                    استثمار الفتن والخلافات السياسية أو الحربية بين الصحابة لإسقاط عدالتهم والتشكيك في نقلهم للدين.
+                  </td>
+                  <td>
+                    <strong>شيخ الإسلام ابن تيمية والحافظ ابن كثير:</strong><br>
+                    الصحابة ليسوا معصومين عن الخطأ الفردي، لكن عدالتهم في نقل الدين ثابتة بتزكية القرآن، وما جرى بين بعضهم بابه الاجتهاد والفتنة، والمنهج السليم الإمساك عما شجر بينهم مع حفظ مكانتهم.
+                  </td>
+                  <td>
+                    <em>منهاج السنة</em> لابن تيمية،<br>
+                    <em>البداية والنهاية</em> لابن كثير.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article id="extra-categories-profiles" class="section-card study-section" data-section-id="extra-categories-profiles">
+        <h2 id="profiles-title" class="section-title">تصنيف الاتجاهات وبطاقات إضافية (الشبهات والعلماء)</h2>
+        <div class="prose-body">
+          <div class="filter-bar" role="group" aria-label="تصفية البطاقات">
+            <button type="button" class="filter-btn is-active" data-filter="all">الكل</button>
+            <button type="button" class="filter-btn" data-filter="shubha-trend">اتجاهات الشبهات</button>
+            <button type="button" class="filter-btn" data-filter="scholars-classic">علماء ومؤسسون (تراث)</button>
+            <button type="button" class="filter-btn" data-filter="scholars-modern">علماء وباحثون (حديث/معاصر)</button>
+          </div>
+          <div class="cards-grid">
+            <article class="profile-card" data-category="shubha-trend">
+              <div class="card-tag">اتجاه شبهاتي · إنكار السنة التشريعية</div>
+              <h3>تيار «القرآنيين» ومنكرو حجية السنة</h3>
+              <p><strong>أبرز الأسماء المرتبطة بهذا الخط:</strong> رشاد خليفة، إديب يوكسل، قاسم أحمد، وأحمد صبحي منصور.</p>
+              <p><strong>جوهر الشبهة:</strong> حصر التشريع في ظاهر القرآن دون السنة النبوية، والتشكيك في التدوين والرواية.</p>
+              <p><strong>مدخل الرد:</strong> إثبات حجية السنة بالقرآن نفسه (أمر الطاعة والاتباع والبيان)، وتكامل الوحيين في إقامة الأحكام والعبادات.</p>
+            </article>
+            <article class="profile-card" data-category="shubha-trend">
+              <div class="card-tag">اتجاه شبهاتي · قراءات تفكيكية وتاريخانية</div>
+              <h3>التأويل التاريخاني والتفكيكي للنصوص والتراث</h3>
+              <p><strong>أبرز الأسماء المرتبطة بهذا الخط:</strong> نصر حامد أبو زيد، محمد أركون، حسن حنفي، ومحمد شحرور.</p>
+              <p><strong>جوهر الشبهة:</strong> التعامل مع النصوص أو المفاهيم الشرعية بوصفها منتجًا تاريخيًا أو خطابيًا خاضعًا للتحوير المستمر بما يفرغ الأحكام من ثباتها.</p>
+              <p><strong>مدخل الرد:</strong> التمييز بين التاريخية المنهجية السليمة وبين نسف الثوابت القطعية، والالتزام بقواعد اللغة وأصول التفسير.</p>
+            </article>
+            <article class="profile-card" data-category="shubha-trend">
+              <div class="card-tag">اتجاه شبهاتي · خطاب جماهيري وانتقائية</div>
+              <h3>الخطاب الإعلامي والانتقائي المعاصر</h3>
+              <p><strong>أبرز الأسماء المرتبطة بهذا الخط:</strong> عدنان إبراهيم، علي منصور الكيالي، محمد الفايد، وأحمد عصيد.</p>
+              <p><strong>جوهر الشبهة:</strong> مزج المسائل الشرعية بالتاريخ أو العلم أو السياسة بأسلوب خطابي جذاب مع إغفال الضوابط العلمية أو تضخيم الإشكالات.</p>
+              <p><strong>مدخل الرد:</strong> تفكيك الخلط بين التخصصات، ومراجعة النقول والروايات والأقوال العلمية من مصادرها المعتمدة.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-classic">
+              <div class="card-tag">عالم ومؤسس · أصول الفقه والسنة</div>
+              <h3>الإمام الشافعي (ت 204هـ)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>الرسالة</em>، <em>الأم</em> (وفيه <em>جماع العلم</em>).</p>
+              <p><strong>إسهامه المنهجي:</strong> تحرير حجية السنة وبيان منزلتها من الكتاب، وتقعيد أصول الاستدلال ومناظرة منكري الأخبار بحجة محكمة.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-classic">
+              <div class="card-tag">عالم ومحدث · شرح السنة واللغة</div>
+              <h3>الإمام الخطابي (ت 388هـ)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>معالم السنن</em>، <em>أعلام الحديث</em>.</p>
+              <p><strong>إسهامه المنهجي:</strong> الجمع بين فقه الحديث واللغة والرد على الشبهات الواردة على المتون والأسانيد بأسلوب علمي رصين.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-classic">
+              <div class="card-tag">عالم ومقاصدي · أصول الفقه</div>
+              <h3>الإمام الشاطبي (ت 790هـ)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>الموافقات</em>، <em>الاعتصام</em>.</p>
+              <p><strong>إسهامه المنهجي:</strong> ضبط العلاقة بين المقاصد والنصوص، والتحذير من اتباع الهوى أو التلاعب بالأدلة تحت دعوى المصلحة أو التأويل.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-classic">
+              <div class="card-tag">حافظ ومحدث · مصطلح وشرح الحديث</div>
+              <h3>الحافظ ابن حجر العسقلاني (ت 852هـ)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>فتح الباري</em>، <em>نزهة النظر</em>، <em>تهذيب التهذيب</em>.</p>
+              <p><strong>إسهامه المنهجي:</strong> إرساء الدقة في نقد الرواة والجمع بين المختلف من الحديث، وتجلية منهج أئمة الحديث في الصحيحين وغيرهما.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-modern">
+              <div class="card-tag">باحث ومحدث · الدفاع عن السنة</div>
+              <h3>د. مصطفى السباعي (ت 1964م)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>السنة ومكانتها في التشريع الإسلامي</em>.</p>
+              <p><strong>إسهامه المنهجي:</strong> دراسة تاريخية ومنهجية شاملة لحجية السنة وتدوينها والرد على شبهات المستشرقين ومنكري السنة بأسلوب أكاديمي واضح.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-modern">
+              <div class="card-tag">عالم أصولي · حجية السنة</div>
+              <h3>الشيخ عبد الغني عبد الخالق (ت 1983م)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>حجية السنة</em>.</p>
+              <p><strong>إسهامه المنهجي:</strong> تأصيل حجية السنة أصوليًا وعقليًا ونقليًا، وتفنيد الشبهات المتعلقة بكفاية القرآن أو تأخر التدوين.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-modern">
+              <div class="card-tag">مفسر وأصولي · التفسير والأصول</div>
+              <h3>الشيخ محمد الأمين الشنقيطي (ت 1973م) والشيخ محمد الطاهر ابن عاشور (ت 1973م)</h3>
+              <p><strong>أبرز الآثار:</strong> <em>أضواء البيان</em> للشنقيطي؛ <em>التحرير والتنوير</em> و<em>مقاصد الشريعة</em> لابن عاشور.</p>
+              <p><strong>إسهامهما المنهجي:</strong> الجمع بين عمق التفسير اللغوي والأصولي والمقاصدي، وضبط فهم النصوص بعيدًا عن الشطط أو الجمود.</p>
+            </article>
+            <article class="profile-card" data-category="scholars-modern">
+              <div class="card-tag">علماء معاصرون · الفتوى والرد على الشبهات</div>
+              <h3>الشيخ عبد العزيز بن باز، الشيخ محمد بن عثيمين، الشيخ صالح الفوزان، والشيخ يوسف القرضاوي</h3>
+              <p><strong>أبرز الجهود:</strong> شروح العقيدة والحديث والفقه، وفتاوى ورسائل في التحذير من الشبهات والغلو والتفلت المنهجي، وبيان منزلة السنة والصحابة.</p>
+            </article>
+          </div>
+        </div>
+      </article>
+
       <article id="part-8" class="section-card" data-section-id="part-8">
         <h2 class="section-title">٨. التوصيات التطبيقية والخاتمة</h2>
         <div class="prose-body">
@@ -2185,7 +2599,7 @@
 
 
       function collectTextNodes() {
-        var containers = Array.prototype.slice.call(reviewMain.querySelectorAll('.prose-body, .data-table td, .data-table th, .verse-box, .hadith-box, .audit-mini-title, .audit-mini-text'));
+        var containers = Array.prototype.slice.call(reviewMain.querySelectorAll('.prose-body, .data-table td, .data-table th, .verse-box, .hadith-box, .audit-mini-title, .audit-mini-text, .comparison-table td, .comparison-table th, .shubuhat-matrix-table td, .shubuhat-matrix-table th, .grid-card, .profile-card, .callout-note, .section-intro'));
         var out = [];
         containers.forEach(function (box) {
           var walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT, {
@@ -2356,5 +2770,34 @@
       });
     }
   </script>
+
+  <script>
+    (function () {
+      var filterBar = document.querySelector('#extra-categories-profiles .filter-bar');
+      if (!filterBar) return;
+      var buttons = Array.prototype.slice.call(filterBar.querySelectorAll('.filter-btn[data-filter]'));
+      var cards = Array.prototype.slice.call(document.querySelectorAll('#extra-categories-profiles .profile-card[data-category]'));
+      if (!buttons.length || !cards.length) return;
+
+      filterBar.addEventListener('click', function (e) {
+        var btn = e.target.closest('.filter-btn[data-filter]');
+        if (!btn) return;
+        var filter = btn.getAttribute('data-filter') || 'all';
+
+        buttons.forEach(function (b) {
+          var active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        cards.forEach(function (card) {
+          var cat = card.getAttribute('data-category');
+          var show = (filter === 'all' || cat === filter);
+          card.classList.toggle('is-hidden', !show);
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
