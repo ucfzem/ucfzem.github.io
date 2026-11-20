@@ -838,6 +838,86 @@
     }
 
 
+
+    /* شريط الفهرس السريع للموبايل وزر العودة للأعلى */
+    .mobile-toc-bar {
+      display: none;
+      margin: 0.75rem 0 1rem;
+      position: relative;
+    }
+
+    .mobile-toc-btn {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid rgba(128, 128, 128, 0.35);
+      background: rgba(180, 130, 40, 0.12);
+      color: inherit;
+      font: inherit;
+      font-weight: 700;
+      text-align: right;
+      cursor: pointer;
+    }
+
+    .mobile-toc-drawer {
+      margin-top: 0.45rem;
+      border: 1px solid rgba(128, 128, 128, 0.3);
+      border-radius: 10px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background-color: var(--bg-surface);
+    }
+
+    .mobile-toc-drawer[hidden] {
+      display: none;
+    }
+
+    .mobile-toc-link {
+      text-decoration: none;
+      color: inherit;
+      padding: 0.5rem 0.65rem;
+      border-radius: 6px;
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    .mobile-toc-link:hover,
+    .mobile-toc-link:focus {
+      background: rgba(180, 130, 40, 0.16);
+    }
+
+    .back-to-top-btn {
+      position: fixed;
+      left: 1rem;
+      bottom: 1rem;
+      z-index: 50;
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(128, 128, 128, 0.4);
+      background: rgba(35, 30, 25, 0.9);
+      color: #f8f5ee;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .back-to-top-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 860px) {
+      .mobile-toc-bar {
+        display: block;
+      }
+    }
+
     @media (max-width: 600px) {
       .site-header { padding: 0.5rem 0.65rem; gap: 0.5rem; row-gap: 0.4rem; }
       .brand-group { flex: 1 1 10rem; min-width: 0; gap: 0.5rem; }
@@ -1005,6 +1085,25 @@
 
       <div id="emptySearchBox" class="empty-search-box" role="status" aria-live="polite">
         لا توجد نتائج مطابقة لعبارة البحث الحالية. جرّب مصطلحاً آخر أو امسح خانة البحث.
+      </div>
+
+      <!-- قائمة فهرس سريعة للموبايل -->
+      <div class="mobile-toc-bar" aria-label="الفهرس السريع">
+        <button type="button" id="mobile-toc-toggle" class="mobile-toc-btn" aria-expanded="false" aria-controls="mobile-toc-drawer">
+          الفهرس السريع للأقسام
+        </button>
+        <nav id="mobile-toc-drawer" class="mobile-toc-drawer" hidden aria-label="روابط الأقسام">
+          <a href="#part-intro" class="mobile-toc-link">مقدمة منهجية</a>
+          <a href="#part-1" class="mobile-toc-link">١. تأصيل المنهج وضوابط التلقي</a>
+          <a href="#part-2" class="mobile-toc-link">٢. الإشكالات المنهجية عالميًا</a>
+          <a href="#part-3" class="mobile-toc-link">٣. الرد على التيار القرآني</a>
+          <a href="#part-munazara" class="mobile-toc-link">مناظرة الإمام الشافعي في حجية السنة</a>
+          <a href="#part-4" class="mobile-toc-link">٤. منزلة الصحيحين</a>
+          <a href="#part-5" class="mobile-toc-link">٥. العلماء الربانيون وردودهم</a>
+          <a href="#part-6" class="mobile-toc-link">٦. لائحة أصحاب الشبهات وشبهاتهم</a>
+          <a href="#part-7" class="mobile-toc-link">٧. لائحة العلماء الأجلاء وردودهم</a>
+          <a href="#part-8" class="mobile-toc-link">٨. التوصيات والخاتمة</a>
+        </nav>
       </div>
 
 
@@ -1788,6 +1887,11 @@
   </div>
 
 
+  <!-- زر العودة إلى الأعلى -->
+  <button type="button" id="back-to-top-btn" class="back-to-top-btn" aria-label="العودة إلى أعلى الصفحة" title="العودة إلى الأعلى">
+    ↑ الأعلى
+  </button>
+
   <div id="toastBanner" class="toast-banner" role="status" aria-live="polite"></div>
 
 
@@ -2202,6 +2306,55 @@
         init();
       }
     })();
+  </script>
+
+  <script>
+    (function () {
+      var toggleBtn = document.getElementById('mobile-toc-toggle');
+      var drawer = document.getElementById('mobile-toc-drawer');
+      var backToTopBtn = document.getElementById('back-to-top-btn');
+
+      if (toggleBtn && drawer) {
+        toggleBtn.addEventListener('click', function () {
+          var isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+          toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+          drawer.hidden = isExpanded;
+        });
+
+        drawer.addEventListener('click', function (event) {
+          var link = event.target.closest('a.mobile-toc-link');
+          if (!link) return;
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          drawer.hidden = true;
+        });
+      }
+
+      if (backToTopBtn) {
+        function updateBackToTopVisibility() {
+          var scrollY = window.scrollY || window.pageYOffset || 0;
+          backToTopBtn.classList.toggle('is-visible', scrollY > 360);
+        }
+
+        window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+        updateBackToTopVisibility();
+
+        backToTopBtn.addEventListener('click', function () {
+          try {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+      });
+    }
   </script>
 </body>
 </html>
