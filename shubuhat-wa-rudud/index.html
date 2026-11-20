@@ -69,17 +69,25 @@
     *, *::before, *::after { box-sizing: border-box; }
 
 
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-x: clip;
+    }
 
 
     body {
       margin: 0;
       padding: 0;
+      max-width: 100%;
       background-color: var(--bg-page);
       color: var(--text-main);
       font-family: var(--ui-font);
       line-height: 1.75;
       overflow-x: hidden;
+      overflow-x: clip;
       transition: background-color 0.22s ease, color 0.22s ease;
     }
 
@@ -827,9 +835,12 @@
         right: -340px;
         bottom: 0;
         width: min(var(--sidebar-w), 86vw);
+        max-width: 92vw;
         max-height: 100vh;
         border-radius: 0;
         z-index: 65;
+        overflow-x: hidden;
+        overflow-y: auto;
         transition: right 0.24s ease;
       }
 
@@ -1076,6 +1087,74 @@
       .comparison-table th,
       .comparison-table td {
         padding: 0.6rem 0.75rem;
+      }
+    }
+
+  
+    /* ===== إصلاحات استجابة وعرض على الشاشات الضيقة (إضافي) ===== */
+    .page-shell,
+    .reader-area,
+    .hero-card,
+    .section-card,
+    .study-section,
+    .grid-4,
+    .cards-grid,
+    .grid-card,
+    .profile-card,
+    .prose-body,
+    .audit-cards-grid,
+    .audit-mini-card,
+    .filter-bar,
+    .search-bar-inner,
+    .settings-grid,
+    .site-header,
+    .brand-group,
+    .brand-titles,
+    .header-controls {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .table-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 1rem 0 1.25rem;
+    }
+
+    .comparison-table,
+    .shubuhat-matrix-table,
+    .data-table {
+      max-width: 100%;
+    }
+
+    .toc-btn,
+    .mobile-toc-link,
+    .mobile-toc-drawer a {
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .brand-title,
+    .brand-subtitle {
+      min-width: 0;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+    }
+
+    @media (max-width: 860px) {
+      .mobile-toc-drawer {
+        max-width: 100%;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
     }
 
