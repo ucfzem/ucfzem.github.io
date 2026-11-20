@@ -3,6 +3,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>شبهات وردود — دراسة علمية نقدية موسّعة</title>
+  <link rel="icon" type="image/png" href="./icon.png" />
+  <link rel="apple-touch-icon" href="./icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -147,9 +149,17 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.7rem;
       min-width: 0;
-      flex: 1 1 auto;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      max-width: 100%;
+      min-width: 0;
+      flex: 0 0 auto;
+      display: block;
     }
 
 
@@ -1158,6 +1168,60 @@
       }
     }
 
+
+    .sahifa-cta-box {
+      margin: 0.9rem 0 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .sahifa-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 8px;
+      border: 1px solid rgba(200,168,75,0.45);
+      background: var(--bg-accent-soft);
+      color: var(--gold-dark);
+      text-decoration: none;
+      font-weight: 700;
+      line-height: 1.6;
+      max-width: 100%;
+      white-space: normal;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+    .sahifa-link-btn:hover,
+    .sahifa-link-btn:focus-visible {
+      background: rgba(200,168,75,0.2);
+      border-color: rgba(200,168,75,0.65);
+      transform: translateY(-1px);
+    }
+    .sahifa-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.9rem;
+      margin: 0.85rem 0 1rem;
+    }
+    .sahifa-detail-card {
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      background: var(--bg-surface);
+      padding: 0.95rem 1rem;
+    }
+    .sahifa-detail-card h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1.05rem;
+      color: var(--gold-dark);
+      line-height: 1.5;
+    }
+    .sahifa-detail-card ul {
+      margin: 0;
+      padding-right: 1.1rem;
+    }
+    .sahifa-detail-card li { margin-bottom: 0.45rem; }
+    .sahifa-detail-card li:last-child { margin-bottom: 0; }
+
   </style>
 </head>
 <body>
@@ -1180,11 +1244,7 @@
       </button>
 
 
-      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" aria-hidden="true">
-        <rect x="2" y="2" width="34" height="34" rx="10" fill="currentColor" style="color: var(--bg-accent-soft); stroke: var(--gold-dark);" stroke-width="1.5" />
-        <polygon points="19,8 25,19 19,30 13,19" stroke="currentColor" style="color: var(--amber-deep);" stroke-width="1.6" fill="none" />
-        <circle cx="19" cy="19" r="3.2" fill="currentColor" style="color: var(--gold-dark);" />
-      </svg>
+      <img src="./icon.svg" alt="" class="brand-icon" width="38" height="38" aria-hidden="true" decoding="async" />
 
 
       <div class="brand-titles">
@@ -1282,6 +1342,7 @@
           <li><button type="button" class="toc-btn" data-target="part-1">١. تأصيل المنهج وضوابط التلقي</button></li>
           <li><button type="button" class="toc-btn" data-target="part-2">٢. الإشكالات المنهجية عالميًا</button></li>
           <li><button type="button" class="toc-btn" data-target="part-3">٣. الرد على التيار القرآني</button></li>
+          <li><button type="button" class="toc-btn" data-target="early-suhuf-guide">دليل الصحف الحديثية المبكرة</button></li>
           <li><button type="button" class="toc-btn" data-target="part-munazara">مناظرة الإمام الشافعي في حجية السنة (كتاب الأم)</button></li>
           <li><button type="button" class="toc-btn" data-target="part-4">٤. منزلة الصحيحين</button></li>
           <li><button type="button" class="toc-btn" data-target="part-5">٥. العلماء الربانيون وردودهم</button></li>
@@ -1324,6 +1385,7 @@
           <a href="#part-1" class="mobile-toc-link">١. تأصيل المنهج وضوابط التلقي</a>
           <a href="#part-2" class="mobile-toc-link">٢. الإشكالات المنهجية عالميًا</a>
           <a href="#part-3" class="mobile-toc-link">٣. الرد على التيار القرآني</a>
+          <a href="#early-suhuf-guide" class="mobile-toc-link">دليل الصحف الحديثية المبكرة</a>
           <a href="#part-munazara" class="mobile-toc-link">مناظرة الإمام الشافعي في حجية السنة</a>
           <a href="#part-4" class="mobile-toc-link">٤. منزلة الصحيحين</a>
           <a href="#part-5" class="mobile-toc-link">٥. العلماء الربانيون وردودهم</a>
@@ -1567,9 +1629,12 @@
             <li><strong>الصحيفة الصادقة (عبد الله بن عمرو بن العاص رضي الله عنهما):</strong> صحيفة سمعها منه وكتبها بإذن النبي ﷺ، وفيها نحو ألف حديث مما سمعه مباشرة. قال: «استأذنت رسول الله ﷺ أن أكتب ما أسمع منه، فأذن لي» (ورد في مسند أحمد وغيره). ومنها قوله ﷺ: «اكتب؛ فوالذي نفسي بيده ما يخرج منه إلا حق».</li>
             <li><strong>صحيفة علي بن أبي طالب رضي الله عنه:</strong> كانت معه في قراب سيفه، وتضمنت أحكامًا في الديات وفكاك الأسير وغير ذلك مما ورد في السنن.</li>
             <li><strong>صحيفة همام بن منبه عن أبي هريرة رضي الله عنه:</strong> من أقدم الصحف المدونة الباقية نصًا، وتضم أحاديث كثيرة مطابقة لما في الصحيحين، وهي شاهد على التدوين المبكر والدقة في النقل.</li>
-            <li><strong>صحيفة جابر بن عبد الله رضي الله عنهما:</strong> عُرف عنه عنايته بتدوين ما سمعه، وكان التابعون يقرؤون عليه ويأخذون عنه.</li>
+            <li><strong>صحيفة جابر بن عبد الله رضي الله عنهما:</strong> عُرف عنه عنايته بتلقي العلم وحفظه وتبليغه، وتضم مروياته في مناسك الحج وغيرها مما تحمّله عنه تلاميذه، ومن أشهر ذلك حديث صفة حجة النبي ﷺ.</li>
             <li><strong>الكتب والوثائق الرسمية النبوية:</strong> مثل كتاب الصدقات الذي كان عند عماله، وصحيفة المدينة، ورسائل النبي ﷺ إلى الملوك والوفود، مما يدل على أصل الكتابة والتوثيق في عهده ﷺ.</li>
           </ul>
+          <div class="sahifa-cta-box">
+            <a href="#early-suhuf-guide" class="sahifa-link-btn">استعراض الصحف المبكرة واحدة تلو الأخرى (تبديد شبهة تأخر التدوين) ←</a>
+          </div>
 
           <h3 class="sub-title">2. الرد على شبهة «تأخر تدوين السنة»</h3>
           <ul class="prose-list">
@@ -1611,6 +1676,70 @@
           <blockquote class="callout-note">
             <strong>خلاصة منهجية:</strong> النقد العلمي للأخبار لا يكون بإسقاط السنة، بل بتمييز صحيحها من سقيمها بقواعد أهل الاختصاص، مع التسليم بأن القرآن والسنة متلازمان في الهداية والتشريع.
           </blockquote>
+        </div>
+      </article>
+
+
+      <article id="early-suhuf-guide" class="section-card study-section" data-section-id="early-suhuf-guide">
+        <h2 id="early-suhuf-title" class="section-title">دليل الصحف الحديثية المبكرة: عرض مفصّل لإزالة شبهة تأخر التدوين</h2>
+        <div class="prose-body">
+          <p class="section-intro">
+            يُروَّج أحيانًا أن السنة لم تُكتب إلا بعد قرون، والحقيقة أن التدوين والحفظ بدأا في العهد النبوي وعصر الصحابة بصور متعددة (صحف شخصية، مكاتبات، وثائق رسمية) ثم تكامل مع الحفظ والإسناد والتصنيف الجامع. وفيما يلي عرض لأبرز الصحف المبكرة مع أربع نقاط ثابتة لكل صحيفة: <strong>صاحبها وراويها</strong>، <strong>مضمونها وأمثلة من مروياتها</strong>، <strong>كيف وصلت إلينا</strong>، و<strong>كيف تردّ على شبهة تأخر التدوين</strong>.
+          </p>
+
+          <div class="sahifa-detail-grid">
+            <div class="sahifa-detail-card">
+              <h3>١. الصحيفة الصادقة (عبد الله بن عمرو بن العاص رضي الله عنهما)</h3>
+              <ul class="prose-list">
+                <li><strong>صاحبها وراويها:</strong> الصحابي عبد الله بن عمرو بن العاص رضي الله عنهما، وكان معروفًا بالحرص على ضبط العلم والكتابة بإذن النبي ﷺ.</li>
+                <li><strong>مضمونها وأمثلة:</strong> صحيفة جامعة لأحاديث سمعها منه مباشرة في موضوعات متعددة (علم، أخلاق، أحكام، رقائق). ومن أشهر ما يدل على أصل تدوينها قوله لما استأذن في الكتابة: «اكتب؛ فوالذي نفسي بيده ما يخرج منه إلا حق» (في مسند أحمد وغيره)، وتُنسب إليها مرويات كثيرة انتشرت في دواوين السنة.</li>
+                <li><strong>كيف وصلت إلينا:</strong> عُرفت وانتقلت عبر ذريته والرواة عنه، ومن أشهر طرقها ما جاء من طريق عمرو بن شعيب عن أبيه عن جده، كما انتشرت مروياتها في المسند والسنن والمصنفات الحديثية.</li>
+                <li><strong>الرد على الشبهة:</strong> تثبت وجود كتابة حديثية مبكرة بإذنٍ نبوي صريح في حياة النبي ﷺ، فلا يصح حصر التدوين في مرحلة متأخرة بعد قرون.</li>
+              </ul>
+            </div>
+
+            <div class="sahifa-detail-card">
+              <h3>٢. صحيفة همام بن منبه (عن أبي هريرة رضي الله عنه)</h3>
+              <ul class="prose-list">
+                <li><strong>صاحبها وراويها:</strong> التابعي همام بن منبه الصنعاني، دوّنها سماعًا عن شيخه الصحابي أبي هريرة رضي الله عنه.</li>
+                <li><strong>مضمونها وأمثلة:</strong> تضم نحو 138 حديثًا في الإيمان والعبادات والأخلاق والرقائق وغيرها، وتمثل مادة حديثية مبكرة محددة النص يمكن مراجعتها.</li>
+                <li><strong>كيف وصلت إلينا:</strong> وصلت بنصها محفوظًا ونُشرت محققة في العصر الحديث، وتوجد مروياتها في مسند الإمام أحمد وغيره، كما تتطابق نصوص كثيرة منها مع ما في الصحيحين، مما يتيح المقارنة العلمية بين الروايات.</li>
+                <li><strong>الرد على الشبهة:</strong> وجود صحيفة مبكرة محفوظة النص قابلة للمقارنة مع الجوامع والمسانيد اللاحقة يُبطل دعوى أن الأحاديث اختُلقت متأخرًا بلا أصل مكتوب أو مضبوط.</li>
+              </ul>
+            </div>
+
+            <div class="sahifa-detail-card">
+              <h3>٣. صحيفة علي بن أبي طالب رضي الله عنه</h3>
+              <ul class="prose-list">
+                <li><strong>صاحبها وراويها:</strong> الصحابي علي بن أبي طالب رضي الله عنه، ونُقل أن عنده صحيفة/كتابًا كان يُرجع إليه في بعض الأحكام.</li>
+                <li><strong>مضمونها وأمثلة:</strong> اشتملت على أحكام عملية وقضائية، ومن أشهر ما ذُكر فيها أحكام الديات (العقل)، وفكاك الأسير، وتحريم المدينة وما يتعلق بها، وقد وردت أحاديث من هذا الباب في الصحيحين والسنن.</li>
+                <li><strong>كيف وصلت إلينا:</strong> لم تصل ككتاب مستقل متداول بذاته اليوم كصحيفة همام، لكن مضمونها ونصوصًا منها وصلت مسندة في كتب الحديث المعتمدة عبر طرق الرواية المعروفة.</li>
+                <li><strong>الرد على الشبهة:</strong> تدل على أن الصحابة اعتمدوا الكتابة في حفظ الأحكام والقضايا إلى جانب الحفظ، وأن التدوين العملي كان حاضرًا في صدر الإسلام.</li>
+              </ul>
+            </div>
+
+            <div class="sahifa-detail-card">
+              <h3>٤. صحيفة/مرويات جابر بن عبد الله رضي الله عنهما</h3>
+              <ul class="prose-list">
+                <li><strong>صاحبها وراويها:</strong> الصحابي جابر بن عبد الله رضي الله عنهما، من أكثر الصحابة رواية وعناية بتلقي العلم وتبليغه وتلامذته.</li>
+                <li><strong>مضمونها وأمثلة:</strong> اشتُهر بحفظ ونقل أحاديث مهمة في العبادات والمناسك وغيرها، ومن أشهر ذلك وصفه لحجة النبي ﷺ (حديث حجة الوداع) في صحيح مسلم، إضافة إلى مروياته التي اعتنى بها التابعون ودونوها.</li>
+                <li><strong>كيف وصلت إلينا:</strong> وصلت مروياته مسندة عبر تلامذته وأئمة الحديث في الصحاح والمسانيد والسنن، فحُفظت ضمن منظومة الإسناد والنقد.</li>
+                <li><strong>الرد على الشبهة:</strong> تُظهر أن نقل السنة وتقييدها وتداولها تعليميًا بين الصحابة والتابعين كان ممارسة مستمرة، وأن الجمع الرسمي اللاحق في الأبواب لم يكن بداية الحفظ أو الكتابة.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="context-callout">
+            <strong>خلاصة دليل الصحف:</strong> تعدد الصحف والوثائق والمرويات المبكرة، مع ثبوت الإذن بالكتابة والسماع المتصل والإسناد، يدل على أن السنة حُفظت كتابةً وحفظًا ونقدًا منذ عهد مبكر؛ وما حدث لاحقًا في القرن الثاني هو <em>التصنيف الجامع والترتيب</em>، لا اختراع التدوين من العدم.
+          </div>
+
+          <h3 class="sub-title">كيف تقرأ هذا الدليل أمام شبهة تأخر التدوين؟</h3>
+          <ul class="prose-list">
+            <li><strong>ميّز بين مرحلتين:</strong> كتابة وتقييد مبكر (عهد نبوي وصحابة) مقابل تصنيف جامع مبوّب (قرن ثاني وما بعده).</li>
+            <li><strong>انظر إلى وسيلة الحفظ:</strong> الجمع بين الكتابة والحفظ والإسناد والجرح والتعديل، لا الاعتماد على صحف مجهولة بلا سند.</li>
+            <li><strong>قارن النصوص:</strong> وجود نماذج محفوظة (كصحيفة همام) ومرويات مسندة متطابقة في مصادر متعددة يعزز الثبات والضبط.</li>
+            <li><strong>اربِط بالواقع التشريعي:</strong> حاجة الأمة لبيان عملي للأحكام منذ البداية تفسر عناية الصحابة بحفظ السنة وتدوينها ونقلها.</li>
+          </ul>
         </div>
       </article>
 
@@ -2249,6 +2378,9 @@
                   <td>
                     <strong>الإمام الشافعي ود. مصطفى السباعي:</strong><br>
                     طاعة الرسول مستقلة بنص القرآن، و«الكتاب» في الآية يُقصد به اللوح المحفوظ أو القرآن كمنهج كلي يحتاج لبيان تطبيقي. التدوين بدأ مبكرًا في عهد النبي ﷺ والصحابة (كالصحيفة الصادقة، وصحيفة همام بن منبه، وصحيفة علي وجابر رضي الله عنهم) ثم جاء التصنيف الجامع مع منظومة الإسناد والجرح والتعديل، فالحفظ والنقد سبقا الجمع في الأبواب.
+                    <div class="sahifa-cta-box">
+                      <a href="#early-suhuf-guide" class="sahifa-link-btn">استعراض الصحف المبكرة واحدة تلو الأخرى (تبديد الشبهة) ↓</a>
+                    </div>
                   </td>
                   <td>
                     <em>الرسالة</em> للشافعي،<br>
