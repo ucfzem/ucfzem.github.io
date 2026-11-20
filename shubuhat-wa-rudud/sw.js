@@ -1,5 +1,5 @@
 /* Service Worker لـ shubuhat-wa-rudud */
-var CACHE_VERSION = 'shubuhat-wa-rudud-v2026-11-20c';
+var CACHE_VERSION = 'shubuhat-wa-rudud-v2026-11-20d';
 var STATIC_CACHE = CACHE_VERSION + '-static';
 var RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 
