@@ -36,7 +36,7 @@
 - `9b74d7a` `fix(taw7id): override sticky search bar in mobile media query`
 - `948fafb` `feat(taw7id): toggle search bar from header button`
 
-## Verification (2026-11-21)
+## Verification (2026-11-21, latest check)
 - Syntax: `node -c taw7id/js/app.js taw7id/js/book-data.js taw7id/sw.js` OK.
 - Manifest JSON parse OK.
 - Offline audit: no `http(s)://`/CDN in `taw7id/`; SW precache paths all exist.
@@ -57,3 +57,10 @@
 - Live PWA: https://ucfzem.github.io/taw7id/
 - Works: https://ucfzem.github.io/works/
 - Maktaba: https://ucfzem.github.io/works/Maktaba/
+
+
+## Latest Verification/Deploy Check
+- Re-ran syntax/JSON/offline/SW-precache/ID/content audit: all OK (`node -c` app/book-data/sw, manifest JSON, no external URLs, precache files exist, required IDs present, 16 sections/5 parts/22 scholar quotes).
+- No taw7id code changes required; only backup refreshed for deployment check record.
+- GitHub Pages probes: HTTP 200 for `/taw7id/`, `/works/`, `/works/Maktaba/`.
+- Via vs Chrome visual difference (screenshot report): likely Via/WebView stale cache or SW old bundle; verify in Via private/incognito, clear site data for `ucfzem.github.io`, disable Via night/page scripts for test. Code audit shows `#btn-search-toggle` always present in header, no CSS hides it when search open; search bar is static and toggled by JS.
