@@ -17,7 +17,7 @@ html[data-theme="light"] {
   --hit-bg:#c8e6c9; --hit-fg:#1b3a1b; --hit-active:#81c784;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--bg);color:var(--text);min-height:100%;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:none}
+html{background:var(--bg);color:var(--text);min-height:100%;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:none}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-ui);font-size:16px;line-height:1.6;overflow-x:clip;overflow-y:auto;overscroll-behavior-y:none}
 img{max-width:100%;height:auto}
 button,input{font:inherit;color:inherit}

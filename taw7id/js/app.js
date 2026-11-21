@@ -255,7 +255,7 @@
     if (!el) return;
     state.suppressScrollSpy = true;
     setActiveTOC(id);
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.scrollIntoView({ behavior: 'auto', block: 'start' });
     localStorage.setItem(LAST_KEY, id);
     setTimeout(() => { state.suppressScrollSpy = false; }, 700);
   }
@@ -313,7 +313,11 @@
     els.quickParts.querySelectorAll('.quick-part-btn').forEach((btn) => {
       const active = btn.dataset.part === sec.part;
       btn.classList.toggle('active', active);
-      if (active) btn.scrollIntoView({ inline: 'center', block: 'nearest' });
+      if (active) {
+        const c = els.quickParts;
+        const left = btn.offsetLeft - (c.clientWidth - btn.offsetWidth) / 2;
+        c.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+      }
     });
   }
 
@@ -463,7 +467,7 @@
     const mark = state.searchMarks[idx];
     mark.classList.add('active');
     els.searchCount.textContent = 'النتائج: ' + total + ' — (' + (idx + 1) + '/' + total + ')';
-    if (scroll) mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (scroll) mark.scrollIntoView({ behavior: 'auto', block: 'center' });
   }
 
   function computeBookStats() {
@@ -720,7 +724,7 @@
     window.addEventListener('scroll', () => {
       els.btnTop.classList.toggle('visible', window.scrollY > 400);
     }, { passive: true });
-    els.btnTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    els.btnTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'auto' }));
   }
 
   function init() {

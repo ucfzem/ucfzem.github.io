@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tawhid-book-v12';
+const CACHE_NAME = 'tawhid-book-v13';
 const PRECACHE = [
   './',
   './index.html',
