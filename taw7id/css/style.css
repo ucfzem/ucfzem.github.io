@@ -36,7 +36,7 @@ html[data-theme="light"] .app-header{background:rgba(244,234,210,.96)}
 .icon-btn:hover,.icon-btn:focus-visible{background:var(--bg-elev);border-color:var(--gold);color:var(--gold-bright)}
 .icon-btn:active{transform:scale(.98)}
 
-.search-bar{position:sticky;top:72px;z-index:90;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:var(--bg-elev);border-bottom:1px solid var(--border-soft)}
+.search-bar{position:static;top:auto;z-index:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:var(--bg-elev);border-bottom:1px solid var(--border-soft)}
 #search-input{flex:1;min-width:180px;min-height:42px;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text)}
 #search-input::placeholder{color:var(--text-dim)}
 .search-clear{min-width:42px}
