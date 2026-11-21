@@ -133,7 +133,7 @@ mark.search-hit.active{background:var(--hit-active);color:#fff;box-shadow:0 0 0 
 @media(max-width:640px){
   .app-header{top:0;flex-wrap:wrap;gap:8px;padding:10px}
   .header-title-wrap{order:3;width:100%}
-  .search-bar{top:112px;padding:8px 10px}
+  .search-bar{position:static;top:auto;padding:8px 10px}
   .search-status{width:100%;justify-content:space-between}
   .reading{padding:12px 10px 56px}
   .section{scroll-margin-top:180px}
