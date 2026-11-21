@@ -33,6 +33,8 @@
     els.tocFilter = q('toc-filter');
     els.tocList = q('toc-list');
     els.content = q('content');
+    els.searchBar = q('search-bar');
+    els.btnSearchToggle = q('btn-search-toggle');
     els.searchInput = q('search-input');
     els.searchClear = q('btn-search-clear');
     els.searchCount = q('search-count');
@@ -660,19 +662,46 @@
     });
   }
 
+  function openSearch(focusInput) {
+    els.searchBar.hidden = false;
+    els.btnSearchToggle.setAttribute('aria-expanded', 'true');
+    els.btnSearchToggle.setAttribute('aria-label', 'إغلاق البحث');
+    if (focusInput) setTimeout(() => els.searchInput.focus(), 30);
+  }
+
+  function closeSearch(clear) {
+    els.searchBar.hidden = true;
+    els.btnSearchToggle.setAttribute('aria-expanded', 'false');
+    els.btnSearchToggle.setAttribute('aria-label', 'فتح البحث');
+    els.searchDropdown.hidden = true;
+    if (clear) {
+      els.searchInput.value = '';
+      clearSearchHighlights();
+      els.searchDropdown.innerHTML = '';
+      els.searchCount.textContent = 'النتائج: 0';
+    }
+  }
+
+  function toggleSearch() {
+    if (els.searchBar.hidden) openSearch(true);
+    else closeSearch(false);
+  }
+
   function wireEvents() {
     els.btnMenu.addEventListener('click', openTOC);
     els.btnTocClose.addEventListener('click', closeTOC);
     els.backdrop.addEventListener('click', closeTOC);
+    els.btnSearchToggle.addEventListener('click', toggleSearch);
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (els.tocDrawer.classList.contains('open')) { closeTOC(); return; }
-        if (!els.searchDropdown.hidden) { els.searchDropdown.hidden = true; return; }
+        if (!els.searchDropdown.hidden) { els.searchDropdown.hidden = true; els.searchInput.focus(); return; }
+        if (!els.searchBar.hidden) { closeSearch(false); els.btnSearchToggle.focus(); return; }
       }
       if (e.key === '/' && document.activeElement !== els.searchInput && document.activeElement !== els.tocFilter) {
         const tag = document.activeElement?.tagName;
-        if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); els.searchInput.focus(); }
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA') { e.preventDefault(); openSearch(true); }
       }
     });
 
@@ -708,12 +737,8 @@
       if (e.key === 'Escape') { els.searchDropdown.hidden = true; }
     });
     els.searchClear.addEventListener('click', () => {
-      els.searchInput.value = '';
-      clearSearchHighlights();
-      els.searchDropdown.innerHTML = '';
-      els.searchDropdown.hidden = true;
-      els.searchCount.textContent = 'النتائج: 0';
-      els.searchInput.focus();
+      closeSearch(true);
+      els.btnSearchToggle.focus();
     });
     els.searchPrev.addEventListener('click', () => { if (state.searchMarks.length) activateMark(state.searchIndex - 1, true); });
     els.searchNext.addEventListener('click', () => { if (state.searchMarks.length) activateMark(state.searchIndex + 1, true); });

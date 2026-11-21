@@ -19,6 +19,7 @@
     <p class="title-sub">أقوال العلماء المحققين</p>
   </div>
   <div class="header-controls">
+    <button class="icon-btn" id="btn-search-toggle" type="button" aria-label="فتح البحث" aria-controls="search-bar" aria-expanded="false">🔍</button>
     <button class="icon-btn" id="btn-font-up" type="button" aria-label="تكبير الخط">A+</button>
     <button class="icon-btn" id="btn-font-down" type="button" aria-label="تصغير الخط">A−</button>
     <button class="icon-btn" id="btn-font-reset" type="button" aria-label="إعادة حجم الخط">↺</button>
@@ -26,7 +27,7 @@
   </div>
 </header>
 
-<div class="search-bar">
+<div class="search-bar" id="search-bar" hidden>
   <input id="search-input" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="ابحث في الكتاب..." aria-label="البحث في الكتاب">
   <button class="icon-btn search-clear" id="btn-search-clear" type="button" aria-label="مسح البحث">×</button>
   <div id="search-status" class="search-status" aria-live="polite">
