@@ -64,3 +64,10 @@
 - No taw7id code changes required; only backup refreshed for deployment check record.
 - GitHub Pages probes: HTTP 200 for `/taw7id/`, `/works/`, `/works/Maktaba/`.
 - Via vs Chrome visual difference (screenshot report): likely Via/WebView stale cache or SW old bundle; verify in Via private/incognito, clear site data for `ucfzem.github.io`, disable Via night/page scripts for test. Code audit shows `#btn-search-toggle` always present in header, no CSS hides it when search open; search bar is static and toggled by JS.
+
+
+## Final Deploy Check (latest request)
+- Re-ran full verification: `node -c` JS/SW OK, manifest JSON OK, no external URLs, SW precache complete, required IDs present, 16 sections/5 parts/22 scholar quotes, no external URLs in book data.
+- No `taw7id` code/content changes required in this pass; only backup refreshed for traceability.
+- GitHub Pages probes after push: HTTP 200 for `/taw7id/`, `/works/`, `/works/Maktaba/`.
+- Working tree kept clean except pre-existing unstaged: `shubuhat-wa-rudud/index.html`, `shubuhat-wa-rudud/sw.js`.
