@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1c140d">
+  <meta name="description" content="توحيد الربوبية وتوحيد الألوهية — أقوال العلماء المحققين">
+  <title>توحيد الربوبية وتوحيد الألوهية</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<header class="app-header">
+  <button class="icon-btn" id="btn-menu" type="button" aria-label="فتح الفهرس" aria-controls="toc-drawer" aria-expanded="false">☰</button>
+  <div class="header-title-wrap">
+    <h1 class="title-main">توحيد الربوبية وتوحيد الألوهية</h1>
+    <p class="title-sub">أقوال العلماء المحققين</p>
+  </div>
+  <div class="header-controls">
+    <button class="icon-btn" id="btn-font-up" type="button" aria-label="تكبير الخط">A+</button>
+    <button class="icon-btn" id="btn-font-down" type="button" aria-label="تصغير الخط">A−</button>
+    <button class="icon-btn" id="btn-font-reset" type="button" aria-label="إعادة حجم الخط">↺</button>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="تبديل المظهر">🌙</button>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input id="search-input" type="search" inputmode="search" autocomplete="off" spellcheck="false" placeholder="ابحث في الكتاب..." aria-label="البحث في الكتاب">
+  <button class="icon-btn search-clear" id="btn-search-clear" type="button" aria-label="مسح البحث">×</button>
+  <div id="search-status" class="search-status" aria-live="polite">
+    <span id="search-count">النتائج: 0</span>
+    <button class="icon-btn search-nav-btn" id="btn-match-prev" type="button" aria-label="النتيجة السابقة">▲</button>
+    <button class="icon-btn search-nav-btn" id="btn-match-next" type="button" aria-label="النتيجة التالية">▼</button>
+  </div>
+  <div id="search-dropdown" class="search-dropdown" hidden></div>
+</div>
+
+<aside class="toc-drawer" id="toc-drawer" aria-label="فهرس الكتاب" aria-hidden="true">
+  <div class="toc-header">
+    <h2 class="toc-title">فهرس الكتاب</h2>
+    <button class="icon-btn" id="btn-toc-close" type="button" aria-label="إغلاق الفهرس">×</button>
+  </div>
+  <input id="toc-filter" type="search" class="toc-filter" placeholder="تصفية الفهرس..." aria-label="تصفية الفهرس">
+  <nav id="toc-list" class="toc-list"></nav>
+</aside>
+<div class="backdrop" id="backdrop" hidden></div>
+
+<main class="reading" id="reading-area">
+  <nav class="quick-parts" id="quick-parts" aria-label="تنقل سريع بين الأبواب"></nav>
+  <div class="reading-progress" id="reading-progress" aria-label="نسبة التقدم">
+    <div class="reading-progress-meta">
+      <span class="reading-progress-label" id="reading-progress-label">التقدم: 0%</span>
+      <span class="reading-progress-pos" id="reading-progress-pos">القسم 1 من 1</span>
+    </div>
+    <div class="reading-progress-track" id="reading-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="reading-progress-fill" id="reading-progress-fill"></div>
+    </div>
+  </div>
+  <div class="book-stats" id="book-stats"></div>
+  <div class="reading-inner" id="content"></div>
+</main>
+<button class="back-to-top" id="btn-top" type="button" aria-label="العودة للأعلى">↑</button>
+
+<script src="./js/book-data.js" defer></script>
+<script src="./js/app.js" defer></script>
+</body>
+</html>

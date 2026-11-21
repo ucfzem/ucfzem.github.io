@@ -1,0 +1,16 @@
+{
+  "name": "توحيد الربوبية وتوحيد الألوهية — أقوال العلماء المحققين",
+  "short_name": "توحيد",
+  "description": "كتاب في توحيد الربوبية وتوحيد الألوهية وأقوال العلماء المحققين",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1c140d",
+  "theme_color": "#1c140d",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "./assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
