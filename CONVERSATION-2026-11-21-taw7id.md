@@ -78,3 +78,9 @@
 - Re-ran verification: `node -c` app.js/book-data.js/sw.js OK, manifest JSON OK, no external URLs, SW precache complete (`tawhid-book-v18`), required IDs present, 16 sections/5 parts/22 scholar quotes, no external URLs in book data.
 - Committed only intended `taw7id/` + backup, pushed `main` to `origin/main`, probed Pages 200 for `/taw7id/`, `/works/`, `/works/Maktaba/`.
 - Kept `shubuhat-wa-rudud/index.html` and `shubuhat-wa-rudud/sw.js` unstaged.
+
+
+## Redeploy verification (requested rerun)
+- Re-ran full verification with no new `taw7id` code changes: `node -c` app.js/book-data.js/sw.js OK, manifest JSON OK, no external URLs, SW precache complete (`tawhid-book-v18`), required IDs present, 16 sections/5 parts/22 scholar quotes, no external URLs in book data.
+- Git state inspected; only `shubuhat-wa-rudud/index.html` and `shubuhat-wa-rudud/sw.js` were dirty and left unstaged.
+- Staged only this backup file, committed/pushed to `main`, and probed GitHub Pages (200 for `/taw7id/`, `/works/`, `/works/Maktaba/`).
