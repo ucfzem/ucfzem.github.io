@@ -464,11 +464,19 @@
 
 
         .history-more,
+        .history-more:link,
         .history-more:visited,
         .history-more:hover,
         .history-more:focus,
+        .history-more:focus-visible,
         .history-more:active {
+            background: linear-gradient(135deg, #f3cf5d, #d4af37) !important;
+            background-color: #d4af37 !important;
             color: #3B230E !important;
+            border-color: #b38f27 !important;
+            text-decoration: none !important;
+            outline: none;
+            -webkit-text-fill-color: #3B230E !important;
         }
         .history-more {
             display: flex;
@@ -481,31 +489,36 @@
             padding: 14px 32px;
             border-radius: 8px;
             border: 1px solid #b38f27;
-            background: linear-gradient(135deg, #f3cf5d, #d4af37);
-            color: #3B230E !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
             font-family: 'Cinzel', serif;
             font-weight: 700;
             font-size: 1rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            text-decoration: none;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25);
-            transition: all 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .history-more:hover,
+        .history-more:focus-visible,
         .history-more:active {
             transform: translateY(-2px);
-            background: linear-gradient(135deg, #fce182, #d4af37);
+            background: linear-gradient(135deg, #fce182, #d4af37) !important;
+            background-color: #d4af37 !important;
             box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
-            color: #3B230E !important;
         }
-        .history-more span,
-        .history-more:visited span,
-        .history-more:hover span,
-        .history-more:active span,
-        .history-more:focus span {
-            display: inline-block;
+        .history-more *,
+        .history-more:link *,
+        .history-more:visited *,
+        .history-more:hover *,
+        .history-more:focus *,
+        .history-more:focus-visible *,
+        .history-more:active * {
             color: #3B230E !important;
+            fill: currentColor !important;
+            stroke: currentColor !important;
+            -webkit-text-fill-color: #3B230E !important;
+        }
+        .history-more span {
+            display: inline-block;
             transition: transform 0.2s ease;
         }
         .history-more:hover span,
