@@ -644,7 +644,7 @@
       var target = null;
       for (var i=0;i<APPS.length;i++) { if (APPS[i].url === u) { target = APPS[i]; break; } }
       document.body.innerHTML = '<main style="max-width:720px;margin:0 auto;padding:24px 16px;font-family:system-ui;background:#0d0d0d;color:#e8e0d0;min-height:100vh"><a href="./" style="color:#c9a84c;text-decoration:none">← Maktaba</a><h1 style="font-size:1.35rem;margin:18px 0 8px;color:#f0c866">'+(target?target.name:'App')+'</h1><p style="color:#8a7a5a;margin:0 0 16px">'+(navigator.onLine?'Opening…':'Offline: opening cached copy if available…')+'</p><p style="color:#8a7a5a;line-height:1.6">If it does not load offline, open it once while online so its own service worker/cache can be saved.</p></main>';
-      setTimeout(function(){ location.href = u; }, target ? 150 : 0);
+      setTimeout(function(){ location.replace(u); }, target ? 150 : 0);
       return;
     }
     if ('serviceWorker' in navigator) {
