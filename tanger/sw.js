@@ -1,4 +1,4 @@
-const CACHE = 'tanger-v2';
+const CACHE = 'tanger-v3';
 const CORE = ['./', './index.html', './favicon.ico'];
 
 self.addEventListener('install', (event) => {
