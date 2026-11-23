@@ -1,6 +1,7 @@
 <!DOCTYPE html><!-- ROLLBACK: previous live = ucfzem/tanger@1b48b12689f5e07a7bc9093d5d7343abeb0b285c (index.html blob c88421028e59ff04260bb049dbd8a42e938232e7). Restore: `git checkout 1b48b12 -- index.html` or Contents API PUT with that blob. This upgrade is additive; theme/colors unchanged. See ROLLBACK.md in session-backups. --><html lang="fr" dir="ltr" data-lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="color-scheme" content="dark">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tanger d'Antan – Photos Historiques &amp; Patrimoine du Maroc</title>
     <meta name="description" content="Découvrez Tanger telle qu'elle était : une collection de photos d'archive restaurées, comparées avant/après. Plongez dans l'histoire et le patrimoine de la ville.">
@@ -472,6 +473,9 @@
         .history-more:active {
             background: linear-gradient(135deg, #f3cf5d, #d4af37) !important;
             background-color: #d4af37 !important;
+            background-image: linear-gradient(135deg, #f3cf5d, #d4af37) !important;
+            background-clip: border-box !important;
+            -webkit-background-clip: border-box !important;
             color: #3B230E !important;
             border-color: #b38f27 !important;
             text-decoration: none !important;
@@ -503,6 +507,7 @@
             transform: translateY(-2px);
             background: linear-gradient(135deg, #fce182, #d4af37) !important;
             background-color: #d4af37 !important;
+            background-image: linear-gradient(135deg, #fce182, #d4af37) !important;
             box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
         }
         .history-more *,
@@ -513,6 +518,10 @@
         .history-more:focus-visible *,
         .history-more:active * {
             color: #3B230E !important;
+            background: none !important;
+            background-image: none !important;
+            -webkit-background-clip: border-box !important;
+            background-clip: border-box !important;
             fill: currentColor !important;
             stroke: currentColor !important;
             -webkit-text-fill-color: #3B230E !important;
