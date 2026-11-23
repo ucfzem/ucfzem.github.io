@@ -662,7 +662,13 @@
     });
   }
 
+  function syncHeaderHeight() {
+    const h = els.header ? els.header.getBoundingClientRect().height : 72;
+    document.documentElement.style.setProperty('--header-h', Math.ceil(h) + 'px');
+  }
+
   function openSearch(focusInput) {
+    syncHeaderHeight();
     els.searchBar.hidden = false;
     els.btnSearchToggle.setAttribute('aria-expanded', 'true');
     els.btnSearchToggle.setAttribute('aria-label', 'إغلاق البحث');
@@ -692,6 +698,7 @@
     els.btnTocClose.addEventListener('click', closeTOC);
     els.backdrop.addEventListener('click', closeTOC);
     els.btnSearchToggle.addEventListener('click', toggleSearch);
+    window.addEventListener('resize', syncHeaderHeight, { passive: true });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -758,6 +765,7 @@
     applyFontSize();
     applyTheme();
     renderBook();
+    syncHeaderHeight();
     buildTOC();
     buildQuickParts();
     renderBookStats();
