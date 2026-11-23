@@ -1,0 +1,2164 @@
+<!DOCTYPE html><!-- ROLLBACK: previous live = ucfzem/tanger@1b48b12689f5e07a7bc9093d5d7343abeb0b285c (index.html blob c88421028e59ff04260bb049dbd8a42e938232e7). Restore: `git checkout 1b48b12 -- index.html` or Contents API PUT with that blob. This upgrade is additive; theme/colors unchanged. See ROLLBACK.md in session-backups. --><html lang="fr" dir="ltr" data-lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanger d'Antan – Photos Historiques &amp; Patrimoine du Maroc</title>
+    <meta name="description" content="Découvrez Tanger telle qu'elle était : une collection de photos d'archive restaurées, comparées avant/après. Plongez dans l'histoire et le patrimoine de la ville.">
+    <meta name="author" content="Tanger d'Antan">
+    <meta name="google-site-verification" content="kgaiVtITflzkTc27Z2fTV45r_LzlFfajzPxwQp_Ja14">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://ucfzem.github.io/tanger/">
+    <meta property="og:title" content="Tanger d'Antan – Photos Historiques &amp; Patrimoine">
+    <meta property="og:description" content="Collection de photos d'archive restaurées avec slider avant/après.">
+    <meta property="og:image" content="https://ucfzem.github.io/tanger/images/grand-socco-1925.jpg">
+    <meta property="og:locale" content="fr_FR">
+    <link rel="canonical" href="https://ucfzem.github.io/tanger/">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Tanger d'Antan",
+      "url": "https://ucfzem.github.io/tanger/",
+      "description": "Collection de photos d'archive restaurées de Tanger, Maroc. Découvrez Tanger telle qu'elle était avec un slider avant/après.",
+      "inLanguage": ["fr", "en", "es", "ar"]
+    }
+    </script>
+
+
+    <script>
+(function(){
+  try { history.scrollRestoration='manual'; } catch(e){}
+  var h=document.documentElement;
+  function t(){
+    try {
+      var s=h.style,b=s.scrollBehavior;
+      s.scrollBehavior='auto';
+      window.scrollTo(0,0);
+      s.scrollBehavior=b;
+    } catch(e){}
+  }
+  t();
+  window.addEventListener('pageshow',t);
+  window.addEventListener('load',t);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',t);
+})();
+</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Cinzel:wght@400;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dim: #8a6e2f;
+            --black: #0a0805;
+            --dark: #110e08;
+            --dark2: #1a1508;
+            --dark3: #221c0a;
+            --cream: #f5ead0;
+            --cream-dim: #c4b08a;
+            --white: #fdf8ef;
+        }
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+        html { scroll-behavior: smooth; }
+
+
+        body {
+            background: var(--black);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+
+        /* ── GRAIN OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.35;
+        }
+
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(ellipse at 50% 60%, #2a1f08 0%, #110e06 45%, #0a0805 100%);
+            overflow: hidden;
+        }
+
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 180px;
+            background: linear-gradient(to bottom, transparent, var(--black));
+            z-index: 2;
+        }
+
+
+        .hero-ornament {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeUp 1s ease both;
+        }
+
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 400;
+            line-height: 0.9;
+            text-align: center;
+            color: var(--white);
+            letter-spacing: -0.02em;
+            animation: fadeUp 1s ease 0.2s both;
+        }
+
+        @media (min-width: 2000px) {
+            .hero-title { font-size: clamp(3.5rem, 9vw, 14rem); }
+        }
+
+
+        .hero-title em {
+            font-style: italic !important;
+            color: var(--gold) !important;
+            display: block;
+        }
+
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: 300;
+            color: var(--cream-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            animation: fadeUp 1s ease 0.4s both;
+        }
+
+
+        .gold-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 2rem auto;
+            animation: fadeUp 1s ease 0.5s both;
+        }
+
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--cream-dim);
+            text-align: center;
+            max-width: 480px;
+            line-height: 1.8;
+            padding: 0 2rem;
+            animation: fadeUp 1s ease 0.6s both;
+        }
+
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeUp 1s ease 1s both;
+        }
+
+
+        .scroll-hint span {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+        }
+
+
+        .scroll-hint .arrow {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold-dim), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+
+        /* ── NAVIGATION ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 8, 5, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+            padding: 1.2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+
+        .nav-links a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.15em;
+            color: var(--cream-dim);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+
+        .nav-links a:hover { color: var(--gold); }
+
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.2);
+            color: var(--cream-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.1em;
+            padding: 0.2rem 0.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: rgba(201,168,76,0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .lang-flag {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            font-style: normal;
+            line-height: 1;
+            margin-inline-end: 0.3em;
+            vertical-align: -0.05em;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.8rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .nav-brand { font-size: 0.75rem; letter-spacing: 0.15em; }
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; }
+            .lang-btn { font-size: 0.5rem; padding: 0.15rem 0.3rem; letter-spacing: 0.05em; }
+        }
+        @media (max-width: 480px) {
+            nav {
+                justify-content: center;
+                padding: 0.6rem 0.5rem;
+            }
+            .nav-brand { width: 100%; text-align: center; margin-bottom: 0.3rem; }
+            .nav-links { gap: 0.8rem; }
+            .nav-links a { font-size: 0.75rem; }
+            .lang-btn { font-size: 0.45rem; padding: 0.1rem 0.25rem; }
+        }
+
+
+        html[dir="rtl"] .hero-title { letter-spacing: 0; }
+        html[dir="rtl"] .hero-subtitle { letter-spacing: 0.1em; }
+        html[dir="rtl"] .nav-links a { letter-spacing: 0.05em; }
+
+        html[lang="ar"] body { font-family: 'Cormorant Garamond', serif; }
+        html[lang="ar"] .hero-title { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-weight: 700; letter-spacing: 0; line-height: 1.1; }
+        html[lang="ar"] .hero-title em { font-style: normal; }
+        html[lang="ar"] .hero-subtitle { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-weight: 400; letter-spacing: 0; text-transform: none; line-height: 1.6; }
+        html[lang="ar"] .section-title { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-weight: 700; line-height: 1.3; }
+        html[lang="ar"] .section-title em { font-style: normal; }
+        html[lang="ar"] .nav-brand { font-family: 'Cinzel', serif; letter-spacing: 0; }
+        html[lang="ar"] .nav-links a { font-family: 'Cormorant Garamond', serif; letter-spacing: 0; }
+        html[lang="ar"] .caption-title { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-weight: 700; line-height: 1.45; }
+        html[lang="ar"] .lightbox-title { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-weight: 700; line-height: 1.4; }
+        html[lang="ar"] .lightbox-desc { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-size: 1.05rem; line-height: 1.8; }
+        html[lang="ar"] .ba-label { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; font-size: 0.85rem; letter-spacing: 0; text-transform: none; line-height: 1.4; }
+        html[lang="ar"] .lightbox-nav button,
+        html[lang="ar"] .share-title,
+        html[lang="ar"] .share-sub { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', 'Traditional Arabic', serif; letter-spacing: 0; text-transform: none; }
+        html[lang="ar"] .hero-desc { font-family: 'Cormorant Garamond', serif; }
+        html[lang="ar"] footer p { font-family: 'Cormorant Garamond', serif; }
+        html[lang="ar"] .lightbox-year { font-family: 'Cinzel', serif; }
+        html[lang="ar"] .history-intro { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; font-style: normal; }
+        html[lang="ar"] .history-year { font-family: 'Amiri', 'Geeza Pro', 'Noto Naskh Arabic', serif; letter-spacing: 0; }
+
+
+        /* ── SECTION TITLES ── */
+        .section-header {
+            text-align: center;
+            padding: 6rem 2rem 3rem;
+        }
+
+
+        .section-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.5em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 400;
+            color: var(--white);
+        }
+
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+
+        /* ── HISTORY ── */
+        .history-section {
+            padding: 2rem 2rem 6rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+        .history-section .section-header {
+            padding: 2rem 0 3rem;
+        }
+
+
+        .history-content {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+
+        .history-intro {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+            font-style: italic;
+            color: var(--gold-light);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+
+        .history-content p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--cream-dim);
+            margin-bottom: 1.3rem;
+        }
+
+
+        .history-timeline {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            padding-top: 2.5rem;
+        }
+
+
+        .history-item {
+            border-left: 1px solid rgba(201, 168, 76, 0.2);
+            padding-left: 1rem;
+        }
+
+
+        .history-year {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+
+        .history-item p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--cream-dim);
+            margin-bottom: 0;
+        }
+
+
+        @media (max-width: 900px) {
+            .history-timeline { grid-template-columns: repeat(2, 1fr); }
+        }
+
+
+        @media (max-width: 600px) {
+            .history-section { padding: 2rem 1.2rem 4rem; }
+            .history-timeline { grid-template-columns: 1fr; gap: 1rem; }
+        }
+
+
+        html[dir="rtl"] .history-item {
+            border-left: none;
+            border-right: 1px solid rgba(201, 168, 76, 0.2);
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+
+
+        .history-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: fit-content;
+            min-height: 44px;
+            margin: 32px auto;
+            padding: 12px 28px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 168, 67, 0.65);
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.16), rgba(212, 168, 67, 0.06));
+            color: #f6ebd2;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .history-more:hover,
+        .history-more:active {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.28), rgba(212, 168, 67, 0.14));
+            border-color: #e2b857;
+            transform: translateY(-1px);
+        }
+        .history-more span {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        .history-more:hover span,
+        .history-more:active span {
+            transform: translateX(-4px);
+        }
+        html[lang="ar"] .history-more { font-family: 'Amiri', 'Geeza Pro', serif; letter-spacing: 0; font-size: 1rem; }
+
+        /* ── GALLERY ── */
+        .gallery-section {
+            padding: 2rem 2rem 6rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 2000px) {
+            .gallery-section { max-width: 2000px; padding: 2rem 4rem 6rem; }
+        }
+
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+
+        @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+        @media (max-width: 550px) { .gallery-grid { grid-template-columns: 1fr; gap: 0.8rem; } }
+        @media (min-width: 1400px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 1.3rem; } }
+        @media (min-width: 2000px) { .gallery-grid { grid-template-columns: repeat(5, 1fr); gap: 1.5rem; } }
+
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+
+        .gallery-item:hover::before { opacity: 1; }
+
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s ease;
+            filter: sepia(20%) contrast(1.05);
+        }
+
+
+        .gallery-item:hover img { transform: scale(1.04); }
+
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 2;
+            padding: 1.2rem 1rem 1rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+
+        .caption-year {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+
+        .caption-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--white);
+            margin-top: 0.2rem;
+        }
+
+
+        .before-after-badge {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.4);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            padding: 0.3rem 0.6rem;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+
+        /* ── LIGHTBOX ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(5, 4, 2, 0.97);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        @media (min-width: 2000px) { .lightbox { padding: 4rem; } }
+
+        .lightbox.active { display: flex; }
+
+
+        .lightbox-inner {
+            position: relative;
+            max-width: 1000px;
+            width: 100%;
+            animation: lightboxIn 0.3s ease;
+        }
+
+        @media (min-width: 1400px) { .lightbox-inner { max-width: 1200px; } }
+        @media (min-width: 2000px) { .lightbox-inner { max-width: 1600px; } }
+
+
+        /* ── BEFORE/AFTER SLIDER ── */
+        .ba-container {
+            position: relative;
+            width: 100%;
+            user-select: none;
+            border: 1px solid rgba(201, 168, 76, 0.2);
+        }
+
+        .ba-img {
+            display: block;
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+        }
+
+        .ba-after { filter: sepia(20%) contrast(1.05); }
+
+        .ba-stack {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .ba-stack img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            max-height: 75vh;
+        }
+
+        .ba-divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--gold);
+            transform: translateX(-50%);
+            cursor: ew-resize;
+            z-index: 10;
+        }
+
+
+        .ba-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--black);
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(201,168,76,0.5);
+            cursor: ew-resize;
+        }
+
+
+        .ba-label {
+            position: absolute;
+            bottom: 1rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            background: rgba(0,0,0,0.6);
+            padding: 0.3rem 0.7rem;
+            text-transform: uppercase;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+
+        .ba-label.avant { left: 1rem; }
+        .ba-label.apres { right: 1rem; }
+
+
+        .lightbox-meta {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+
+        .lightbox-year {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+
+        .lightbox-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--white);
+            margin-top: 0.3rem;
+        }
+
+
+        .lightbox-desc {
+            font-size: 0.95rem;
+            color: var(--cream-dim);
+            margin-top: 0.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+
+        .lightbox-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            font-size: 1.2rem;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+
+        .lightbox-close:hover {
+            background: rgba(201,168,76,0.1);
+        }
+
+
+        .lightbox-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+
+        .lightbox-nav button {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+
+        .lightbox-nav button:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+
+
+        /* ── SHARE SECTION ── */
+        .share-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+
+        .share-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+
+        .share-sub {
+            color: var(--cream-dim);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: #1877F2;
+            color: white;
+            padding: 0.9rem 2rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+
+        .share-btn:hover { opacity: 0.85; }
+
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(201,168,76,0.1);
+        }
+
+
+        footer .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.4em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+        }
+
+
+        footer p {
+            font-size: 0.85rem;
+            color: rgba(196,176,138,0.4);
+            margin-top: 1rem;
+        }
+
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+
+        @keyframes lightboxIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+
+        .reset-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        .reset-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201,168,76,0.05);
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 0.8rem;
+            left: 0.8rem;
+            z-index: 20;
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .mode-btn {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--cream-dim);
+            font-family: 'Cinzel', serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.15em;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: rgba(201,168,76,0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .mode-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .lightbox-year[contenteditable]:hover,
+        .lightbox-title[contenteditable]:hover,
+        .lightbox-desc[contenteditable]:hover {
+            outline: 1px dashed var(--gold-dim);
+            cursor: text;
+        }
+
+        .lightbox-year[contenteditable]:focus,
+        .lightbox-title[contenteditable]:focus,
+        .lightbox-desc[contenteditable]:focus {
+            outline: 1px solid var(--gold);
+            background: rgba(201,168,76,0.08);
+        }
+
+        .edit-hint {
+            font-family: 'Cinzel', serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-dim);
+            margin-top: 0.3rem;
+        }
+
+        /* ── MUSIC PLAYER ── */
+        .music-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            padding: 2rem;
+        }
+        .music-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .music-player {
+            background: var(--surface);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .music-info {
+            margin-bottom: 1rem;
+        }
+        .music-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+        .music-artist {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            color: var(--gold-dim);
+            margin-top: 0.2rem;
+        }
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .music-btn {
+            background: none;
+            border: 1px solid rgba(201,168,76,0.3);
+            color: var(--gold);
+            font-size: 1.2rem;
+            padding: 0.5rem 0.8rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .music-btn:hover {
+            background: rgba(201,168,76,0.1);
+            border-color: var(--gold);
+        }
+        .music-progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .music-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--dark3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .music-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .music-time {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            color: var(--gold-dim);
+        }
+
+        /* ═══ TANGER UPGRADE (ADDITIVE) — live theme & colors preserved ═══ */
+        :root{
+            /* v1 tokens merged for accents/reuse; does NOT override live palette */
+            --sand:#f5efe4; --sand-light:#fbf7f0;
+            --terracotta:#b5563a; --terracotta-dark:#8a3d28;
+            --blue-deep:#1e3a5f; --blue-mid:#2c5b8a;
+            --ink:#2a2118; --muted:#6b5d4f; --line:#d9cdb8;
+            --radius:8px;
+            --shadow-soft:0 2px 6px rgba(42,33,24,.08);
+            --shadow-figure:0 8px 28px rgba(42,33,24,.09);
+            --shadow-card:0 20px 60px rgba(42,33,24,.12);
+            --shadow-deep:0 20px 60px rgba(30,58,95,.25);
+            --shadow-accent:0 20px 60px rgba(181,86,58,.30);
+        }
+
+        /* Language bar: text-only codes — original nav geometry preserved */
+
+        /* Focus rings (keyboard + TV) */
+        :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+        button:focus-visible,a:focus-visible,[tabindex]:focus-visible{box-shadow:0 0 0 4px rgba(201,168,76,.28)}
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce){
+            html{scroll-behavior:auto!important}
+            *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+        }
+
+        /* Low-end devices: flat, fast, no effects */
+        .low-end body::before{display:none!important}
+        .low-end .hero{background:var(--dark)!important}
+        .low-end .hero::after{display:none!important}
+        .low-end .gallery-item::before,
+        .low-end .gold-line,
+        .low-end .scroll-hint .arrow{display:none!important}
+        .low-end *{box-shadow:none!important;text-shadow:none!important}
+        .low-end .gallery-item img{filter:none!important;transition:none!important}
+        .low-end .gallery-item:hover img{transform:none!important}
+        .low-end .gallery-item,
+        .low-end .gallery-item .gallery-caption{opacity:1!important;transform:none!important;transition:none!important}
+        .low-end .music-player,.low-end .lightbox{backdrop-filter:none!important}
+
+        /* TV / large screens */
+        @media (min-width:1920px){
+            .music-btn{min-width:64px;min-height:64px;font-size:1.5rem}
+            .reset-btn,.lightbox-nav button{min-height:64px;padding:.8rem 1.6rem}
+            :focus-visible{outline:4px solid var(--gold);outline-offset:4px;box-shadow:0 0 0 6px rgba(201,168,76,.25)}
+        }
+
+        /* RTL: mirror before/after labels */
+        html[dir="rtl"] .ba-label.avant{left:auto;right:1rem}
+        html[dir="rtl"] .ba-label.apres{right:auto;left:1rem}
+
+        /* Skip link — fixed off-canvas; absolute left:-9999px would create 9999px RTL overflow */
+        .skip-link{position:fixed;left:1rem;top:-100px;z-index:10001;background:var(--gold);color:var(--black);padding:.6rem 1rem;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none}
+        html[dir="rtl"] .skip-link{left:auto;right:1rem}
+        .skip-link:focus{top:1rem}
+    </style>
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a30fd89985dc4555b08862b0d83bb975"}'></script><!-- End Cloudflare Web Analytics -->
+</head>
+<body>
+
+<a class="skip-link" href="#histoire" data-i18n="skip_link">Aller au contenu</a>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-ornament" data-i18n="hero_label">Patrimoine Visuel · Maroc</div>
+    <h1 class="hero-title" data-i18n="site_name">
+        Tanger
+        <em>d'Antan</em>
+    </h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Photos Historiques Restaurées</p>
+    <div class="gold-line"></div>
+    <p class="hero-desc" data-i18n="hero_desc">Des siècles d'histoire gravés dans les pierres et les visages de la cité du Détroit</p>
+    <div class="scroll-hint">
+        <span data-i18n="scroll_hint">Découvrir</span>
+        <div class="arrow"></div>
+    </div>
+</section>
+
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-brand" data-i18n="brand_name">Tanger d'Antan</a>
+    <ul class="nav-links">
+        <li><a href="histoire/" data-i18n="nav_history">Histoire</a></li>
+        <li><a href="#galerie" data-i18n="nav_gallery">Galerie</a></li>
+        <li><a href="#musique" data-i18n="nav_music">Musique</a></li>
+        <li><a href="#partager" data-i18n="nav_share">Partager</a></li>
+    </ul>
+    <div class="lang-switcher" role="group" aria-label="Langue / Language">
+        <button class="lang-btn active" data-lang="fr" aria-pressed="true"><span class="lang-flag" aria-hidden="true">🇫🇷</span>FR</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇬🇧</span>EN</button>
+        <button class="lang-btn" data-lang="es" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇪🇸</span>ES</button>
+        <button class="lang-btn" data-lang="ar" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇲🇦</span>AR</button>
+    </div>
+</nav>
+
+
+<!-- HISTORY -->
+<section class="history-section" id="histoire">
+    <div class="section-header">
+        <span class="section-label" data-i18n="history_label">Mémoire</span>
+        <h2 class="section-title" data-i18n="history_title">Histoire de <em>Tanger</em></h2>
+        <div class="gold-line"></div>
+    </div>
+    <div class="history-content">
+        <p class="history-intro" data-i18n="history_intro">Au-delà des images, la cité du Détroit raconte des siècles de rencontres entre l'Europe et l'Afrique.</p>
+        <p data-i18n="history_p1">Fondée sur les rives du Détroit de Gibraltar, la cité antique de Tingis fut tour à tour phénicienne, carthaginoise, romaine puis arabe. Sa position stratégique entre deux continents et deux mers en fit très tôt un carrefour de commerce, de langues et de cultures.</p>
+        <p data-i18n="history_p2">En 1923, Tanger devient une zone internationale administrée par plusieurs puissances. Pendant plus de trois décennies, la ville attire écrivains, musiciens, peintres et voyageurs. Les cafés de la médina, le port et les grands boulevards deviennent les décors d'une vie cosmopolite unique au Maroc.</p>
+        <p data-i18n="history_p3">Après l'indépendance en 1956, Tanger retrouve sa place dans le royaume tout en conservant la mémoire de cette époque. Les photographies de ce site sont autant de fenêtres ouvertes sur ce passé : elles préservent les visages, les rues et les lieux d'une ville en perpétuelle transformation.</p>
+        <div class="history-timeline">
+            <div class="history-item">
+                <span class="history-year">1923</span>
+                <p data-i18n="history_t1">Tanger devient zone internationale.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year">1940–1950</span>
+                <p data-i18n="history_t2">Années cosmopolites : écrivains, artistes et musiciens se croisent dans la ville.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year">1956</span>
+                <p data-i18n="history_t3">Indépendance du Maroc ; Tanger réintègre le royaume.</p>
+            </div>
+            <div class="history-item">
+                <span class="history-year" data-i18n="history_today">Aujourd'hui</span>
+                <p data-i18n="history_t4">Le patrimoine photographique continue de raconter la mémoire de la cité.</p>
+            </div>
+        </div>
+        <a class="history-more" href="histoire/" data-i18n="history_more">Lire l'histoire complète <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+
+
+<!-- GALLERY -->
+<div class="section-header" id="galerie">
+    <span class="section-label" data-i18n="section_label">Collection</span>
+    <h2 class="section-title" data-i18n="section_title">La Galerie <em>Complète</em></h2>
+    <div class="gold-line"></div>
+</div>
+
+
+<section class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Photos générées par JS -->
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+        <button onclick="resetPhotos()" class="reset-btn" data-i18n="reset_btn">↻ Réinitialiser la galerie</button>
+    </div>
+</section>
+
+
+<!-- MUSIQUE -->
+<section class="music-section" id="musique">
+    <div class="section-header">
+        <span class="section-label" data-i18n="music_label">Ambiance Sonore</span>
+        <h2 class="section-title" data-i18n="music_title">La Bande <em>Sonore</em></h2>
+        <div class="gold-line"></div>
+    </div>
+    <div class="music-container">
+        <div class="music-player" id="musicPlayer">
+            <div class="music-info">
+                <div class="music-title" id="musicTitle"></div>
+                <div class="music-artist" id="musicArtist"></div>
+            </div>
+            <div class="music-controls">
+                <button class="music-btn" id="playBtn" aria-label="Play" data-i18n-aria="aria_play">▶</button>
+                <button class="music-btn" id="prevBtn" aria-label="Previous" data-i18n-aria="aria_prev_track">⏮</button>
+                <button class="music-btn" id="nextBtn" aria-label="Next" data-i18n-aria="aria_next_track">⏭</button>
+            </div>
+            <div class="music-progress-container">
+                <div class="music-progress" id="musicProgress">
+                    <div class="music-progress-bar" id="musicProgressBar"></div>
+                </div>
+                <div class="music-time">
+                    <span id="musicCurrent">0:00</span>
+                    <span id="musicDuration">0:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SHARE -->
+<section class="share-section" id="partager">
+    <h3 class="share-title" data-i18n="share_title">Partagez ce patrimoine</h3>
+    <p class="share-sub" data-i18n="share_sub">Aidez à faire connaître l'histoire de Tanger</p>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://tangerdantan.is-a.dev/" target="_blank" class="share-btn" id="shareFb">
+        <span data-i18n="share_btn">Partager sur Facebook</span>
+    </a>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="logo" data-i18n="brand_name">Tanger d'Antan</div>
+    <p data-i18n="footer_copyright">© 2026 — Projet de préservation du patrimoine visuel de Tanger</p>
+</footer>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+        <button class="lightbox-close" id="lightboxClose" data-i18n="close">✕ Fermer</button>
+        <div class="ba-container" id="baContainer">
+            <img class="ba-img ba-after" id="baAfter" src="" alt="">
+            <div class="ba-stack" id="baStack">
+                <img class="ba-img" id="baBefore" src="" alt="">
+            </div>
+            <div class="ba-divider" id="baDivider" tabindex="0" role="slider" aria-label="Comparateur avant/après" data-i18n-aria="aria_compare" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <div class="ba-handle">⟺</div>
+            </div>
+            <span class="ba-label avant" data-i18n="before_label">Avant</span>
+            <span class="ba-label apres" data-i18n="after_label">Après</span>
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="bw" data-i18n="bw_btn">B&W</button>
+                <button class="mode-btn" data-mode="color" data-i18n="color_btn">Colorisé</button>
+            </div>
+        </div>
+        <div class="lightbox-meta">
+            <div class="lightbox-year" id="lbYear"></div>
+            <div class="lightbox-title" id="lbTitle"></div>
+            <div class="lightbox-desc" id="lbDesc"></div>
+        </div>
+        <div class="lightbox-nav">
+            <button id="lbPrev" data-i18n="prev">← Précédente</button>
+            <button id="lbNext" data-i18n="next">Suivante →</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+console.log("Section 2 chargée !");
+// ── TRANSLATIONS ──
+const i18n = {
+    fr: {
+        site_name: "Tanger <em>d'Antan</em>",
+        brand_name: "Tanger d'Antan",
+        hero_label: "Patrimoine Visuel · Maroc",
+        hero_subtitle: "Photos Historiques Restaurées",
+        hero_desc: "Des siècles d'histoire gravés dans les pierres et les visages de la cité du Détroit",
+        scroll_hint: "Découvrir",
+        nav_gallery: "Galerie",
+        nav_music: "Musique",
+        nav_share: "Partager",
+        nav_history: "Histoire",
+        history_label: "Mémoire",
+        history_title: "Histoire de <em>Tanger</em>",
+        history_intro: "Au-delà des images, la cité du Détroit raconte des siècles de rencontres entre l'Europe et l'Afrique.",
+        history_p1: "Fondée sur les rives du Détroit de Gibraltar, la cité antique de Tingis fut tour à tour phénicienne, carthaginoise, romaine puis arabe. Sa position stratégique entre deux continents et deux mers en fit très tôt un carrefour de commerce, de langues et de cultures.",
+        history_p2: "En 1923, Tanger devient une zone internationale administrée par plusieurs puissances. Pendant plus de trois décennies, la ville attire écrivains, musiciens, peintres et voyageurs. Les cafés de la médina, le port et les grands boulevards deviennent les décors d'une vie cosmopolite unique au Maroc.",
+        history_p3: "Après l'indépendance en 1956, Tanger retrouve sa place dans le royaume tout en conservant la mémoire de cette époque. Les photographies de ce site sont autant de fenêtres ouvertes sur ce passé : elles préservent les visages, les rues et les lieux d'une ville en perpétuelle transformation.",
+        history_t1: "Tanger devient zone internationale.",
+        history_t2: "Années cosmopolites : écrivains, artistes et musiciens se croisent dans la ville.",
+        history_t3: "Indépendance du Maroc ; Tanger réintègre le royaume.",
+        history_t4: "Le patrimoine photographique continue de raconter la mémoire de la cité.",
+        history_today: "Aujourd'hui",
+        history_more: "Lire l'histoire complète <span aria-hidden=\"true\">→</span>",
+        section_label: "Collection",
+        section_title: "La Galerie <em>Complète</em>",
+        before_label: "Avant",
+        after_label: "Après",
+        bw_btn: "B&W",
+        color_btn: "Colorisé",
+        close: "✕ Fermer",
+        prev: "← Précédente",
+        next: "Suivante →",
+        music_label: "Ambiance Sonore",
+        music_title: "La Bande <em>Sonore</em>",
+        share_title: "Partagez ce patrimoine",
+        share_sub: "Aidez à faire connaître l'histoire de Tanger",
+        share_btn: "Partager sur Facebook",
+        footer_copyright: "© 2026 — Projet de préservation du patrimoine visuel de Tanger",
+        edit_hint: "✎ Mode édition — modifie le texte, Enter pour valider",
+        reset_btn: "↻ Réinitialiser la galerie",
+        skip_link: "Aller au contenu",
+        aria_play: "Lecture",
+        aria_pause: "Pause",
+        aria_prev_track: "Piste précédente",
+        aria_next_track: "Piste suivante",
+        aria_compare: "Comparateur avant/après",
+        before_after_badge: "Avant / Après"
+    },
+    en: {
+        site_name: "Tangier <em>of Yesteryear</em>",
+        brand_name: "Tangier of Yesteryear",
+        hero_label: "Visual Heritage · Morocco",
+        hero_subtitle: "Restored Historical Photos",
+        hero_desc: "Centuries of history etched in the stones and faces of the City of the Strait",
+        scroll_hint: "Discover",
+        nav_gallery: "Gallery",
+        nav_music: "Music",
+        nav_share: "Share",
+        nav_history: "History",
+        history_label: "Memory",
+        history_title: "History of <em>Tangier</em>",
+        history_intro: "Beyond the images, the City of the Strait tells centuries of encounters between Europe and Africa.",
+        history_p1: "Founded on the shores of the Strait of Gibraltar, the ancient city of Tingis was successively Phoenician, Carthaginian, Roman and Arab. Its strategic position between two continents and two seas made it an early crossroads of trade, languages and cultures.",
+        history_p2: "In 1923, Tangier became an international zone administered by several powers. For more than three decades, the city attracted writers, musicians, painters and travellers. The cafés of the medina, the port and the grand boulevards became the setting for a cosmopolitan life unique in Morocco.",
+        history_p3: "After independence in 1956, Tangier took its place within the kingdom while preserving the memory of that era. The photographs on this site are windows onto that past: they preserve the faces, streets and places of a city in constant transformation.",
+        history_t1: "Tangier becomes an international zone.",
+        history_t2: "Cosmopolitan years: writers, artists and musicians cross paths in the city.",
+        history_t3: "Morocco's independence; Tangier rejoins the kingdom.",
+        history_t4: "The photographic heritage keeps telling the story of the city.",
+        history_today: "Today",
+        history_more: "Read the full history <span aria-hidden=\"true\">→</span>",
+        section_label: "Collection",
+        section_title: "The <em>Complete</em> Gallery",
+        before_label: "Before",
+        after_label: "After",
+        bw_btn: "B&W",
+        color_btn: "Colorized",
+        close: "✕ Close",
+        prev: "← Previous",
+        next: "Next →",
+        music_label: "Soundscape",
+        music_title: "The <em>Soundtrack</em>",
+        share_title: "Share this heritage",
+        share_sub: "Help spread the history of Tangier",
+        share_btn: "Share on Facebook",
+        footer_copyright: "© 2026 — Tangier visual heritage preservation project",
+        edit_hint: "✎ Edit mode — click text to edit, Enter to save",
+        reset_btn: "↻ Reset gallery",
+        skip_link: "Skip to content",
+        aria_play: "Play",
+        aria_pause: "Pause",
+        aria_prev_track: "Previous track",
+        aria_next_track: "Next track",
+        aria_compare: "Before/after comparator",
+        before_after_badge: "Before / After"
+    },
+    es: {
+        site_name: "Tánger <em>de Antaño</em>",
+        brand_name: "Tánger de Antaño",
+        hero_label: "Patrimonio Visual · Marruecos",
+        hero_subtitle: "Fotos Históricas Restauradas",
+        hero_desc: "Siglos de historia grabados en las piedras y los rostros de la Ciudad del Estrecho",
+        scroll_hint: "Descubrir",
+        nav_gallery: "Galería",
+        nav_music: "Música",
+        nav_share: "Compartir",
+        nav_history: "Historia",
+        history_label: "Memoria",
+        history_title: "Historia de <em>Tánger</em>",
+        history_intro: "Más allá de las imágenes, la Ciudad del Estrecho cuenta siglos de encuentros entre Europa y África.",
+        history_p1: "Fundada a orillas del Estrecho de Gibraltar, la antigua ciudad de Tingis fue sucesivamente fenicia, cartaginesa, romana y árabe. Su posición estratégica entre dos continentes y dos mares la convirtió muy pronto en un cruce de comercio, lenguas y culturas.",
+        history_p2: "En 1923, Tánger se convierte en una zona internacional administrada por varias potencias. Durante más de tres décadas, la ciudad atrae a escritores, músicos, pintores y viajeros. Los cafés de la medina, el puerto y los grandes bulevares se convierten en el escenario de una vida cosmopolita única en Marruecos.",
+        history_p3: "Tras la independencia en 1956, Tánger recupera su lugar en el reino conservando la memoria de aquella época. Las fotografías de este sitio son ventanas abiertas a ese pasado: preservan los rostros, las calles y los lugares de una ciudad en constante transformación.",
+        history_t1: "Tánger se convierte en zona internacional.",
+        history_t2: "Años cosmopolitas: escritores, artistas y músicos se cruzan en la ciudad.",
+        history_t3: "Independencia de Marruecos; Tánger se reintegra en el reino.",
+        history_t4: "El patrimonio fotográfico sigue contando la memoria de la ciudad.",
+        history_today: "Hoy",
+        history_more: "Leer la historia completa <span aria-hidden=\"true\">→</span>",
+        section_label: "Colección",
+        section_title: "La Galería <em>Completa</em>",
+        before_label: "Antes",
+        after_label: "Después",
+        bw_btn: "ByN",
+        color_btn: "Coloreado",
+        close: "✕ Cerrar",
+        prev: "← Anterior",
+        next: "Siguiente →",
+        music_label: "Ambiente Sonoro",
+        music_title: "La Banda <em>Sonora</em>",
+        share_title: "Comparte este patrimonio",
+        share_sub: "Ayuda a difundir la historia de Tánger",
+        share_btn: "Compartir en Facebook",
+        footer_copyright: "© 2026 — Proyecto de preservación del patrimonio visual de Tánger",
+        edit_hint: "✎ Modo edición — haz clic en el texto para editar, Enter para guardar",
+        reset_btn: "↻ Restablecer galería",
+        skip_link: "Ir al contenido",
+        aria_play: "Reproducir",
+        aria_pause: "Pausa",
+        aria_prev_track: "Pista anterior",
+        aria_next_track: "Pista siguiente",
+        aria_compare: "Comparador antes/después",
+        before_after_badge: "Antes / Después"
+    },
+    ar: {
+        site_name: "طنجة <em>الزمن الجميل</em>",
+        brand_name: "طنجة الزمن الجميل",
+        hero_label: "تراث بصري · المغرب",
+        hero_subtitle: "صور تاريخية مستعادة",
+        hero_desc: "قرون من التاريخ منقوشة في حجارة ووجوه مدينة المضيق",
+        scroll_hint: "اكتشف",
+        nav_gallery: "معرض",
+        nav_music: "موسيقى",
+        nav_share: "مشاركة",
+        nav_history: "التاريخ",
+        history_label: "ذاكرة",
+        history_title: "تاريخ <em>طنجة</em>",
+        history_intro: "ما وراء الصور، تحكي مدينة المضيق قروناً من اللقاءات بين أوروبا وإفريقيا.",
+        history_p1: "تأسست مدينة تينجيس القديمة على ضفاف مضيق جبل طارق، وكانت على التوالي فينيقية وقرطاجية ورومانية ثم عربية. وقد جعلها موقعها الاستراتيجي بين قارتين وبحرين ملتقى للتجارة واللغات والثقافات منذ وقت مبكر.",
+        history_p2: "في عام 1923، أصبحت طنجة منطقة دولية تديرها عدة قوى. وعلى مدى أكثر من ثلاثة عقود، استقطبت المدينة الكتاب والموسيقيين والرسامين والمسافرين. وأصبحت مقاهي المدينة القديمة والميناء والشوارع الكبرى مسرحاً لحياة عالمية فريدة في المغرب.",
+        history_p3: "بعد الاستقلال عام 1956، استعادت طنجة مكانتها داخل المملكة مع الحفاظ على ذاكرة تلك الحقبة. الصور الفوتوغرافية في هذا الموقع نوافذ مفتوحة على ذلك الماضي: تحفظ الوجوه والأزقة والأماكن لمدينة في تحول دائم.",
+        history_t1: "طنجة تصبح منطقة دولية.",
+        history_t2: "سنوات عالمية: كتاب وفنانون وموسيقيون يتقاطرون على المدينة.",
+        history_t3: "استقلال المغرب؛ طنجة تعود إلى المملكة.",
+        history_t4: "التراث الفوتوغرافي يواصل سرد ذاكرة المدينة.",
+        history_today: "اليوم",
+        history_more: "اقرأ التاريخ كاملاً <span aria-hidden=\"true\">←</span>",
+        section_label: "مجموعة",
+        section_title: "المعرض <em>الكامل</em>",
+        before_label: "قبل",
+        after_label: "بعد",
+        bw_btn: "أبيض وأسود",
+        color_btn: "ملون",
+        close: "✕ إغلاق",
+        prev: "→ السابق",
+        next: "التالي ←",
+        music_label: "أجواء موسيقية",
+        music_title: "الموسيقى <em>التصويرية</em>",
+        share_title: "شارك هذا التراث",
+        share_sub: "ساعد في نشر تاريخ طنجة",
+        share_btn: "مشاركة على فيسبوك",
+        footer_copyright: "© 2026 — مشروع الحفاظ على التراث البصري لطنجة",
+        edit_hint: "✎ وضع التحرير — انقر على النص للتحرير، Enter للحفظ",
+        reset_btn: "↻ إعادة تعيين المعرض",
+        skip_link: "انتقل إلى المحتوى",
+        aria_play: "تشغيل",
+        aria_pause: "إيقاف مؤقت",
+        aria_prev_track: "المقطع السابق",
+        aria_next_track: "المقطع التالي",
+        aria_compare: "مقارن قبل/بعد",
+        before_after_badge: "قبل / بعد"
+    }
+};
+
+let currentLang = 'fr';
+
+const TITLES = {
+    fr: "Tanger d'Antan – Photos Historiques & Patrimoine du Maroc",
+    en: "Tangier of Yesteryear – Historical Photos & Heritage of Morocco",
+    es: "Tánger de Antaño – Fotos Históricas y Patrimonio de Marruecos",
+    ar: "طنجة الزمن الجميل – صور تاريخية وتراث المغرب"
+};
+
+
+function applyLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dataset.lang = lang;
+    document.title = TITLES[lang] || TITLES.fr;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang] && i18n[lang][key]) {
+            el.innerHTML = i18n[lang][key];
+        }
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+        const key = el.dataset.i18nAria;
+        if (i18n[lang] && i18n[lang][key]) el.setAttribute('aria-label', i18n[lang][key]);
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(b => {
+        const active = b.dataset.lang === lang;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+
+    // Update photo captions in gallery
+    if (typeof photos !== 'undefined') {
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach((item, i) => {
+            const p = photos[i];
+            if (!p) return;
+            const caps = item.querySelectorAll('.gallery-caption div');
+            if (caps[0]) caps[0].textContent = p.year;
+            if (caps[1]) caps[1].textContent = p['title_' + lang] || p.title;
+            const img = item.querySelector('img');
+            if (img) img.alt = (p['title_' + lang] || p.title) + ' — Photo historique de Tanger ' + p.year;
+        });
+        // Update lightbox if open
+        const lb = document.getElementById('lightbox');
+        if (lb.classList.contains('active') && typeof currentIndex !== 'undefined') {
+            const p = photos[currentIndex];
+            if (p) {
+                document.getElementById('lbTitle').textContent = p['title_' + lang] || p.title;
+                document.getElementById('lbDesc').textContent = p['desc_' + lang] || p.desc;
+            }
+        }
+    }
+
+    // Update music player song title (if loaded)
+    if (window._musicReady && typeof songs !== 'undefined') {
+        const s = songs[currentSong];
+        const tk = 'song' + (currentSong + 1) + '_title';
+        const ak = 'song' + (currentSong + 1) + '_artist';
+        document.getElementById('musicTitle').textContent = i18n[lang][tk] || s.title;
+        document.getElementById('musicArtist').textContent = i18n[lang][ak] || s.artist;
+    }
+    // Update before/after badges
+    document.querySelectorAll('.before-after-badge').forEach(el => {
+        el.textContent = (i18n[lang] && i18n[lang].before_after_badge) || 'Avant / Après';
+    });
+
+    // Update play/pause aria label from current button state
+    const playBtnEl = document.getElementById('playBtn');
+    if (playBtnEl) {
+        const playing = playBtnEl.textContent === '⏸';
+        const ariaKey = playing ? 'aria_pause' : 'aria_play';
+        if (i18n[lang] && i18n[lang][ariaKey]) playBtnEl.setAttribute('aria-label', i18n[lang][ariaKey]);
+    }
+
+    try {
+        localStorage.setItem('tangier-lang', lang);
+        localStorage.setItem('tanger_lang', lang);
+    } catch(e) {}
+}
+
+
+// Load saved language
+try {
+    const saved = localStorage.getItem('tangier-lang') || localStorage.getItem('tanger_lang');
+    if (saved && i18n[saved]) currentLang = saved;
+} catch(e) {}
+const urlLang = new URLSearchParams(window.location.search).get('lang');
+if (urlLang && i18n[urlLang]) currentLang = urlLang;
+
+
+// ── LANGUAGE SWITCHER ──
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+
+// ── PHOTO DATA ──
+const DEFAULT_PHOTOS = [
+    { id:1,  year:"1960", title:"Grand Socco", desc:"La grande place du marché, cœur animé de Tanger.", title_en:"Grand Socco", desc_en:"The great market square, beating heart of Tangier.", title_es:"Gran Socco", desc_es:"La gran plaza del mercado, corazón de Tánger.", title_ar:"السوق الكبير", desc_ar:"ساحة السوق الكبير، قلب طنجة النابض.", src:"images/grand-socco-1925.jpg",      srcBefore:"", srcColor:"" },
+    { id:2,  year:"1984", title:"Route de la Plage", desc:"La route menant aux plages tangéroises.", title_en:"Beach Road", desc_en:"The road leading to Tangier's beaches.", title_es:"Carretera de la Playa", desc_es:"La carretera que lleva a las playas de Tánger.", title_ar:"طريق الشاطئ", desc_ar:"الطريق المؤدي إلى شواطئ طنجة.", src:"images/petit-socco-1938.jpg",      srcBefore:"", srcColor:"" },
+    { id:3,  year:"1960", title:"Place des Toréadors", desc:"L'ancienne place des arènes de Tanger.", title_en:"Bullring Square", desc_en:"The former bullring square of Tangier.", title_es:"Plaza de Toros", desc_es:"La antigua plaza de toros de Tánger.", title_ar:"ساحة الطورو", desc_ar:"ساحة مصارعة الثيران القديمة في طنجة.", src:"images/place-gouvernement-1952.jpg", srcBefore:"", srcColor:"" },
+    { id:4,  year:"1948", title:"École Espagnole", desc:"L'école espagnole de Tanger, témoin de l'héritage hispanique.", title_en:"Spanish School", desc_en:"The Spanish school of Tangier, witness to Hispanic heritage.", title_es:"Colegio Español", desc_es:"El colegio español de Tánger, testigo del legado hispánico.", title_ar:"المدرسة الإسبانية", desc_ar:"المدرسة الإسبانية في طنجة، شاهد على الإرث الإسباني.", src:"images/kasbah-1940.jpg",             srcBefore:"", srcColor:"" },
+    { id:5,  year:"1950", title:"Le Titan", desc:"L'immense grue du port de Tanger, symbole visuel de la ville pendant des décennies.", title_en:"The Titan", desc_en:"The giant crane of Tangier port, a visual landmark of the city for decades.", title_es:"El Titán", desc_es:"La inmensa grúa del puerto de Tánger, símbolo visual de la ciudad durante décadas.", title_ar:"التايتن", desc_ar:"الرافعة العملاقة في ميناء طنجة، رمز بصري للمدينة لعقود.", src:"images/port-1930.jpg",               srcBefore:"", srcColor:"" },
+    { id:6,  year:"1965", title:"Rue Mly Abdellah", desc:"L'artère commerçante du centre-ville de Tanger.", title_en:"Mly Abdellah Street", desc_en:"The shopping artery of downtown Tangier.", title_es:"Calle Mly Abdellah", desc_es:"La arteria comercial del centro de Tánger.", title_ar:"شارع مولاي عبد الله", desc_ar:"الشريان التجاري لوسط مدينة طنجة.", src:"images/bd-pasteur-1955.jpg",          srcBefore:"", srcColor:"" },
+    { id:7,  year:"1960", title:"L'Entrée de la Kasbah", desc:"La porte d'entrée de la célèbre Kasbah de Tanger.", title_en:"The Kasbah Entrance", desc_en:"The gateway to the famous Kasbah of Tangier.", title_es:"La Entrada de la Kasbah", desc_es:"La puerta de entrada a la famosa Kasbah de Tánger.", title_ar:"مدخل القصبة", desc_ar:"بوابة دخول القصبة الشهيرة في طنجة.", src:"images/medina-1945.jpg",             srcBefore:"", srcColor:"" },
+    { id:8,  year:"1980", title:"La Corniche", desc:"La promenade en bord de mer de Tanger.", title_en:"The Corniche", desc_en:"Tangier's seaside promenade.", title_es:"La Corniche", desc_es:"El paseo marítimo de Tánger.", title_ar:"الكورنيش", desc_ar:"ممشى الكورنيش المطل على البحر في طنجة.", src:"images/corniche-1960.jpg",           srcBefore:"", srcColor:"" },
+    { id:9,  year:"1971", title:"Hôtel Solazur", desc:"L'hôtel mythique de la corniche tangéroise.", title_en:"Hotel Solazur", desc_en:"The legendary hotel on Tangier's corniche.", title_es:"Hotel Solazur", desc_es:"El mítico hotel de la cornisa tanjerina.", title_ar:"فندق سولازور", desc_ar:"الفندق الأسطوري على كورنيش طنجة.", src:"images/cafe-hafa-1935.jpg",           srcBefore:"", srcColor:"" },
+    { id:10, year:"1984", title:"Corniche", desc:"La vue imprenable sur la baie de Tanger depuis la corniche.", title_en:"Corniche", desc_en:"The stunning view of Tangier Bay from the corniche.", title_es:"Cornisa", desc_es:"La vista impresionante de la bahía de Tánger desde la cornisa.", title_ar:"كورنيش", desc_ar:"إطلالة رائعة على خليج طنجة من الكورنيش.", src:"images/rue-liberte-1948.jpg",       srcBefore:"", srcColor:"" },
+    { id:11, year:"1965", title:"Plaza de Toros", desc:"Les arènes de Tanger, témoins de la culture espagnole.", title_en:"Bullring", desc_en:"Tangier's bullring, witness to Spanish culture.", title_es:"Plaza de Toros", desc_es:"La plaza de toros de Tánger, testigo de la cultura española.", title_ar:"حلبة مصارعة الثيران", desc_ar:"حلبة مصارعة الثيران في طنجة، شاهد على الثقافة الإسبانية.", src:"images/cap-spartel-1920.jpg",         srcBefore:"", srcColor:"" },
+    { id:12, year:"1980", title:"Mosquée des Siriens et Charf", desc:"La mosquée emblématique du quartier du Charf.", title_en:"Syrian Mosque & Charf", desc_en:"The iconic mosque of the Charf district.", title_es:"Mezquita de los Sirios y Charf", desc_es:"La emblemática mezquita del barrio del Charf.", title_ar:"مسجد السوريين والشرف", desc_ar:"المسجد الشهير في حي الشرف.", src:"images/ville-nouvelle-1958.jpg",     srcBefore:"", srcColor:"" },
+    { id:13, year:"1930", title:"Grand Socco Bab Fahs", desc:"La célèbre porte de la médina animée par le marché.", title_en:"Grand Socco Bab Fahs", desc_en:"The famous medina gate animated by the market.", title_es:"Gran Socco Bab Fahs", desc_es:"La famosa puerta de la medina animada por el mercado.", title_ar:"السوق الكبير باب فحص", desc_ar:"باب فحص الشهير في ساحة السوق الكبير.", src:"images/marche-central-1942.jpg",    srcBefore:"", srcColor:"" },
+    { id:14, year:"1965", title:"Puerta del Mar", desc:"La porte maritime de la médina de Tanger.", title_en:"Sea Gate", desc_en:"The maritime gate of Tangier's medina.", title_es:"Puerta del Mar", desc_es:"La puerta marítima de la medina de Tánger.", title_ar:"باب البحر", desc_ar:"البوابة البحرية للمدينة القديمة في طنجة.", src:"images/puerta-del-mar-1965.jpg",      srcBefore:"", srcColor:"" },
+    { id:15, year:"1889", title:"Villa Harris", desc:"La résidence historique du célèbre journaliste Walter Harris.", title_en:"Villa Harris", desc_en:"The historic residence of the famous journalist Walter Harris.", title_es:"Villa Harris", desc_es:"La residencia histórica del famoso periodista Walter Harris.", title_ar:"فيلا هاريس", desc_ar:"المقر التاريخي للصحافي الشهير والتر هاريس.", src:"images/bab-fahs-1933.jpg",             srcBefore:"", srcColor:"" },
+    { id:16, year:"1925", title:"Boulevard Pasteur", desc:"L'élégante avenue du Tanger international.", title_en:"Boulevard Pasteur", desc_en:"The elegant avenue of international Tangier.", title_es:"Bulevar Pasteur", desc_es:"La elegante avenida del Tánger internacional.", title_ar:"شارع باستور", desc_ar:"الجادة الأنيقة في طنجة الدولية.", src:"images/cinema-rif-1970.jpg",          srcBefore:"", srcColor:"" },
+    { id:17, year:"1970", title:"Rond-point Ain-Ktiwet", desc:"Le célèbre rond-point du quartier Ain-Ktiwet.", title_en:"Ain-Ktiwet Roundabout", desc_en:"The famous roundabout of the Ain-Ktiwet district.", title_es:"Rotonda de Ain-Ktiwet", desc_es:"La famosa rotonda del barrio de Ain-Ktiwet.", title_ar:"مدار عين كتيوة", desc_ar:"مدار عين كتيوة الشهير في حي عين كتيوة.", src:"images/marshan-1928.jpg",             srcBefore:"", srcColor:"" },
+    { id:18, year:"1978", title:"La Gare CTM", desc:"L'ancienne gare routière CTM de Tanger.", title_en:"CTM Station", desc_en:"The old CTM bus station of Tangier.", title_es:"La Estación CTM", desc_es:"La antigua estación de autobuses CTM de Tánger.", title_ar:"محطة CTM", desc_ar:"محطة الباصات القديمة CTM في طنجة.", src:"images/gare-1975.jpg",                srcBefore:"", srcColor:"" },
+    { id:19, year:"1968", title:"Hôtel Miramar", desc:"Le palace de la corniche tangerina, élégance et vue sur mer.", title_en:"Hotel Miramar", desc_en:"The palace on the Tangier corniche, elegance and sea views.", title_es:"Hotel Miramar", desc_es:"El palacio de la cornisa tanjerina, elegancia y vistas al mar.", title_ar:"فندق ميرامار", desc_ar:"قصر كورنيش طنجة، أناقة وإطلالة على البحر.", src:"images/hotel-miramar-1968.jpg", srcBefore:"", srcColor:"" },
+    { id:20, year:"1982", title:"Nejma", desc:"Le quartier populaire et animé de la médina de Tanger.", title_en:"Nejma", desc_en:"The lively popular neighborhood of Tangier's medina.", title_es:"Nejma", desc_es:"El barrio popular y animado de la medina de Tánger.", title_ar:"النجمة", desc_ar:"الحي الشعبي النابض بالحياة في مدينة طنجة القديمة.", src:"images/nejma-1982.jpg",            srcBefore:"", srcColor:"" },
+    { id:21, year:"1912", title:"Grand Hôtel Villa de France", desc:"L'hôtel mythique perché sur la colline, vue imprenable sur la baie.", title_en:"Grand Hôtel Villa de France", desc_en:"The legendary hotel atop the hill, stunning view over the bay.", title_es:"Grand Hôtel Villa de France", desc_es:"El mítico hotel en la colina, vista impresionante sobre la bahía.", title_ar:"فندق فيلا دو فرانس الكبير", desc_ar:"الفندق الأسطوري على قمة التل، إطلالة رائعة على الخليج.", src:"images/villa-de-france-1912.jpg",                srcBefore:"", srcColor:"" },
+    { id:22, year:"1913", title:"Lycée Regnault", desc:"L'établissement scolaire français le plus ancien de Tanger.", title_en:"Lycée Regnault", desc_en:"The oldest French school in Tangier.", title_es:"Lycée Regnault", desc_es:"El centro escolar francés más antiguo de Tánger.", title_ar:"ثانوية رينو", desc_ar:"أقدم مدرسة فرنسية في طنجة.", src:"images/lycee-regnault-1913.jpg",                     srcBefore:"", srcColor:"" },
+    { id:23, year:"1923", title:"Premier autobus public", desc:"Le tout premier autobus de transport public de Tanger, juillet 1923.", title_en:"First public bus", desc_en:"The very first public transport bus of Tangier, July 1923.", title_es:"Primer autobús público", desc_es:"El primer autobús de transporte público de Tánger, julio 1923.", title_ar:"أول حافلة عمومية", desc_ar:"أول حافلة نقل عمومي في طنجة، يوليو 1923.", src:"images/premier-autobus-1923.jpg",                srcBefore:"", srcColor:"" },
+    { id:24, year:"1936", title:"Dar Al-Salaf", desc:"La maison traditionnelle Dar Al-Salaf, mémoire du détroit.", title_en:"Dar Al-Salaf", desc_en:"The traditional Dar Al-Salaf house, memory of the strait.", title_es:"Dar Al-Salaf", desc_es:"La casa tradicional Dar Al-Salaf, memoria del estrecho.", title_ar:"دار السلف", desc_ar:"الدار التقليدية دار السلف، ذاكرة المضيق.", src:"images/dar-al-salaf-1936.jpg",                     srcBefore:"", srcColor:"" },
+    { id:25, year:"1948", title:"Route de Bouaarakia", desc:"La route pittoresque menant au quartier de Bouaarakia.", title_en:"Route of Bouaarakia", desc_en:"The picturesque road leading to the Bouaarakia district.", title_es:"Carretera de Bouaarakia", desc_es:"La pintoresca carretera que lleva al barrio de Bouaarakia.", title_ar:"طريق بوعرقية", desc_ar:"الطريق الخلابة المؤدية إلى حي بوعرقية.", src:"images/route-bouaarakia-1948.jpg",                srcBefore:"", srcColor:"" },
+    { id:26, year:"1950", title:"Plage de Tanger", desc:"Les belles plages tangéroises, destination prisée des visiteurs.", title_en:"Tangier Beach", desc_en:"The beautiful beaches of Tangier, a favorite destination.", title_es:"Playa de Tánger", desc_es:"Las hermosas playas de Tánger, destino favorito de visitantes.", title_ar:"شاطئ طنجة", desc_ar:"شواطئ طنجة الجميلة، وجهة مفضلة للزوار.", src:"images/plage-tanger-1950.jpg",                     srcBefore:"", srcColor:"" },
+    { id:27, year:"1953", title:"Église Notre-Dame de l'Assomption", desc:"La magnifique église catholique du centre-ville de Tanger.", title_en:"Church of Notre-Dame de l'Assomption", desc_en:"The magnificent Catholic church in downtown Tangier.", title_es:"Iglesia de Notre-Dame de l'Assomption", desc_es:"La magnífica iglesia católica del centro de Tánger.", title_ar:"كنيسة نوتردام دو لاسومسيون", desc_ar:"الكنيسة الكاثوليكية الرائعة في وسط مدينة طنجة.", src:"images/eglise-notre-dame-1953.jpg",               srcBefore:"", srcColor:"" },
+    { id:28, year:"1953", title:"Musiciens de la Ghaita", desc:"Les musiciens traditionnels de la ghaita, âme musicale de Tanger.", title_en:"Ghaita Musicians", desc_en:"Traditional ghaita musicians, the musical soul of Tangier.", title_es:"Músicos de la Ghaita", desc_es:"Los músicos tradicionales de la ghaita, alma musical de Tánger.", title_ar:"موسيقيو الغيطة", desc_ar:"موسيقيو الغيطة التقليديون، الروح الموسيقية لطنجة.", src:"images/musiciens-ghaita-1953.jpg",                 srcBefore:"", srcColor:"" },
+    { id:29, year:"1956", title:"Café & Cinéma Roxy", desc:"Le célèbre café-cinéma du centre-ville, lieu de rencontres et de culture.", title_en:"Café & Cinema Roxy", desc_en:"The famous café-cinema downtown, a meeting place and cultural hub.", title_es:"Café & Cine Roxy", desc_es:"El famoso café-cine del centro, lugar de encuentro y cultura.", title_ar:"مقهى وسينما روكسي", desc_ar:"مقهى السينما الشهير في وسط المدينة، مكان للقاءات والثقافة.", src:"images/cafe-cinema-roxy-1956.jpg",                srcBefore:"", srcColor:"" },
+    { id:30, year:"1956", title:"Marché aux puces de Sidi Bou Abid", desc:"Le marché aux puces animé du quartier Sidi Bou Abid, trésors et antiquités.", title_en:"Sidi Bou Abid Flea Market", desc_en:"The lively flea market of Sidi Bou Abid, treasures and antiques.", title_es:"Mercadillo de Sidi Bou Abid", desc_es:"El animado mercadillo de Sidi Bou Abid, tesoros y antigüedades.", title_ar:"سوق السلع المستعملة سيدي بوعبيد", desc_ar:"سوق السلع المستعملة النابض في حي سيدي بوعبيد، كنوز وتحف.", src:"images/marche-sidi-bou-abid-1956.jpg",            srcBefore:"", srcColor:"" },
+    { id:31, year:"1961", title:"Fenêtre sur le Détroit", desc:"Une fenêtre ouverte sur la perle du détroit, vue emblématique de Tanger.", title_en:"Window on the Strait", desc_en:"An open window onto the pearl of the strait, iconic Tangier view.", title_es:"Ventana al Estrecho", desc_es:"Una ventana abierta a la perla del estrecho, vista emblemática de Tánger.", title_ar:"نافذة على المضيق", desc_ar:"نافذة مفتوحة على لؤلؤة المضيق، منظر أيقوني لطنجة.", src:"images/fenetre-detroit-1961.jpg",                  srcBefore:"", srcColor:"" },
+    { id:32, year:"1968", title:"Port de Tanger", desc:"L'activité du port de Tanger, carrefour maritime entre l'Afrique et l'Europe.", title_en:"Port of Tangier", desc_en:"The bustling port of Tangier, maritime crossroads between Africa and Europe.", title_es:"Puerto de Tánger", desc_es:"La actividad del puerto de Tánger, encrucijada marítima entre África y Europa.", title_ar:"ميناء طنجة", desc_ar:"نشاط ميناء طنجة، مفترق طرق بحري بين أفريقيا وأوروبا.", src:"images/port-tanger-1968.jpg",                      srcBefore:"", srcColor:"" },
+    { id:33, year:"1970", title:"Phare de Charf", desc:"Le phare emblématique du quartier du Charf, veilleur de la baie de Tanger.", title_en:"Charf Lighthouse", desc_en:"The iconic lighthouse of the Charf district, guardian of Tangier Bay.", title_es:"Faro de Charf", desc_es:"El emblemático faro del barrio del Charf, vigía de la bahía de Tánger.", title_ar:"منارة الشرف", desc_ar:"المنارة الشهيرة في حي الشرف، حارس خليج طنجة.", src:"images/phare-charf-1970.jpg",                      srcBefore:"", srcColor:"" },
+    { id:34, year:"1981", title:"Marché de Casabarata", desc:"L'âge d'or du marché de Casabarata, âme commerçante de Tanger.", title_en:"Casabarata Market", desc_en:"The golden age of Casabarata market, the commercial soul of Tangier.", title_es:"Mercado de Casabarata", desc_es:"La edad de oro del mercado de Casabarata, alma comercial de Tánger.", title_ar:"سوق كازاباراتا", desc_ar:"العصر الذهبي لسوق كازاباراتا، الروح التجارية لطنجة.", src:"images/marche-casabarata-1981.jpg",                srcBefore:"", srcColor:"" },
+    { id:35, year:"1983", title:"Merkala Café Merri", desc:"Le café populaire de Merkala, lieu de convivialité et de traditions.", title_en:"Merkala Café Merri", desc_en:"The popular café of Merkala, a place of conviviality and traditions.", title_es:"Merkala Café Merri", desc_es:"El café popular de Merkala, lugar de convivencia y tradiciones.", title_ar:"مقهى مركالة مري", desc_ar:"المقهى الشعبي في مركالة، مكان للتواصل والتقاليد.", src:"images/merkala-cafe-merri-1983.jpg",               srcBefore:"", srcColor:"" },
+    { id:36, year:"1913", title:"Théâtre Cervantes", desc:"Le majestueux Théâtre Cervantes, joyau architectural et culturel de Tanger.", title_en:"Cervantes Theatre", desc_en:"The majestic Cervantes Theatre, architectural and cultural jewel of Tangier.", title_es:"Teatro Cervantes", desc_es:"El majestuoso Teatro Cervantes, joya arquitectónica y cultural de Tánger.", title_ar:"مسرح سيرفانتس", desc_ar:"مسرح سيرفانتس المهيب، جوهرة معمارية وثقافية في طنجة.", src:"images/theatre-cervantes-1913.jpg",                 srcBefore:"", srcColor:"" },
+    { id:37, year:"1984", title:"Paul Bowles au Café Hafa", desc:"L'écrivain américain Paul Bowles au mythique Café Hafa, légende de Tanger.", title_en:"Paul Bowles at Café Hafa", desc_en:"American writer Paul Bowles at the legendary Café Hafa, a Tangier icon.", title_es:"Paul Bowles en Café Hafa", desc_es:"El escritor estadounidense Paul Bowles en el mítico Café Hafa, leyenda de Tánger.", title_ar:"بول بولز في مقهى حافة", desc_ar:"الكاتب الأمريكي بول بولز في مقهى حافة الأسطوري، أيقونة طنجة.", src:"images/paul-bowles-cafe-hafa-1984.jpg",            srcBefore:"", srcColor:"" },
+    { id:38, year:"1932", title:"Zone Internationale de Tanger", desc:"Perspective urbaine de la Zone Internationale, époque cosmopolite de Tanger.", title_en:"Tangier International Zone", desc_en:"Urban perspective of the International Zone, Tangier's cosmopolitan era.", title_es:"Zona Internacional de Tánger", desc_es:"Perspectiva urbana de la Zona Internacional, época cosmopolita de Tánger.", title_ar:"المنطقة الدولية بطنجة", desc_ar:"منظر حضري للمنطقة الدولية، عصر طنجة العالمي.", src:"images/zone-internationale-1932.jpg",               srcBefore:"", srcColor:"" },
+    { id:39, year:"1928", title:"Rue de Fès", desc:"L'animation de la Rue de Fès, artère commerçante historique de la médina.", title_en:"Fez Street", desc_en:"The lively Fez Street, historic commercial artery of the medina.", title_es:"Calle de Fez", desc_es:"La animada Calle de Fez, arteria comercial histórica de la medina.", title_ar:"شارع فاس", desc_ar:"حيوية شارع فاس، الشريان التجاري التاريخي للمدينة.", src:"images/rue-de-fes-1928.jpg",                       srcBefore:"", srcColor:"" },
+    { id:40, year:"1928", title:"Willie Hudson à Tanger", desc:"La nageuse britannique Willie Hudson, l'épopée interrompue des détroits.", title_en:"Willie Hudson in Tangier", desc_en:"British swimmer Willie Hudson, the interrupted epic of the straits.", title_es:"Willie Hudson en Tánger", desc_es:"La nadadora británica Willie Hudson, la épica interrumpida de los estrechos.", title_ar:"ويلي هدسون في طنجة", desc_ar:"السباحة البريطانية ويلي هدسون، الملحفة المتقطعة للمضيق.", src:"images/willie-hudson-1928.jpg",                    srcBefore:"", srcColor:"" },
+    { id:41, year:"1973", title:"Pente de Dradeb", desc:"La pente de Dradeb, aussi connue comme Aqbat Al Koumir, rue emblématique de Tanger.", title_en:"Dradeb Slope", desc_en:"The Dradeb slope, also known as Aqbat Al Koumir, an iconic Tangier street.", title_es:"Cuesta de Dradeb", desc_es:"La cuesta de Dradeb, también conocida como Aqbat Al Koumir, calle emblemática de Tánger.", title_ar:"منحدر درادب", desc_ar:"منحدر درادب، أو ما يعرف بعقبة الكومير، شارع أيقوني في طنجة.", src:"images/pente-de-dradeb-1973.jpg",                         srcBefore:"", srcColor:"" },
+    { id:42, year:"1977", title:"Cinéma Maroc", desc:"La façade emblématique du Cinéma Maroc, temple du 7e art tangérois.", title_en:"Cinema Maroc", desc_en:"The iconic facade of Cinema Maroc, a Tangier movie palace.", title_es:"Cine Maroc", desc_es:"La icónica fachada del Cine Maroc, templo del séptimo arte tanjerino.", title_ar:"سينما المغرب", desc_ar:"الواجهة الأيقونية لسينما المغرب، معبد الفن السابع في طنجة.", src:"images/cinema-maroc-1977.jpg",                              srcBefore:"", srcColor:"" },
+    { id:43, year:"1912", title:"Tanger vue aérienne", desc:"Une vue aérienne rare de Tanger au début du XXe siècle, la ville endormie au bord du détroit.", title_en:"Tangier Aerial View", desc_en:"A rare aerial view of Tangier in the early 20th century, the city asleep by the strait.", title_es:"Vista aérea de Tánger", desc_es:"Una rara vista aérea de Tánger a principios del siglo XX, la ciudad dormida junto al estrecho.", title_ar:"منظر جوي لطنجة", desc_ar:"منظر جوي نادر لطنجة في بداية القرن العشرين، المدينة النائمة على المضيق.", src:"images/tanger-vue-aerienne-1912.jpg",                      srcBefore:"", srcColor:"" },
+    { id:44, year:"1923", title:"Femmes voilées sur la Route de la Plage", desc:"Femmes voilées marchant sur la route de la plage, témoignage d'une époque.", title_en:"Veiled Women on Beach Road", desc_en:"Veiled women walking on the beach road, a glimpse of a bygone era.", title_es:"Mujeres veladas en la Carretera de la Playa", desc_es:"Mujeres veladas caminando por la carretera de la playa, testimonio de una época.", title_ar:"نساء منتقبات على طريق الشاطئ", desc_ar:"نساء منتقبات يسيرن على طريق الشاطئ، شهادة على عصر مضى.", src:"images/femmes-voilees-1956.jpg",                           srcBefore:"", srcColor:"" },
+    { id:45, year:"1956", title:"Rue des Vignes", desc:"La rue des Vignes, avec l'École Berchet visible à l'arrière-plan.", title_en:"Rue des Vignes", desc_en:"Rue des Vignes, with the Berchet School visible in the background.", title_es:"Rue des Vignes", desc_es:"La calle Rue des Vignes, con la Escuela Berchet visible al fondo.", title_ar:"شارع الكروم", desc_ar:"شارع الكروم، مع مدرسة بيرشيه في الخلفية.", src:"images/rue-des-vignes-1923.jpg",                           srcBefore:"", srcColor:"" },
+    { id:46, year:"1944", title:"La grande Poste", desc:"L'édifice majestueux de la Grande Poste de Tanger, chef-d'œuvre architectural.", title_en:"The Main Post Office", desc_en:"The majestic Main Post Office building of Tangier, an architectural masterpiece.", title_es:"La Gran Casa de Correos", desc_es:"El majestuoso edificio de la Gran Casa de Correos de Tánger, obra maestra arquitectónica.", title_ar:"مكتب البريد الكبير", desc_ar:"مبنى مكتب البريد الكبير المهيب في طنجة، تحفة معمارية.", src:"images/la-grande-poste-1944.jpg",                          srcBefore:"", srcColor:"" },
+    { id:47, year:"1970", title:"Cafés las Campanas", desc:"La célèbre boutique où l'on vendait le café moulu ou en grains, institution tangéroise.", title_en:"Cafés las Campanas", desc_en:"The famous shop where coffee was sold ground or whole bean, a Tangier institution.", title_es:"Cafés las Campanas", desc_es:"La famosa tienda donde se vendía café molido o en grano, institución tanjerina.", title_ar:"كافيه لاس كامباناس", desc_ar:"المتجر الشهير حيث كان يُباع البن المطحون أو الحب، مؤسسة طنجاوية.", src:"images/cafe-las-campanas-1970.jpg",                        srcBefore:"", srcColor:"" },
+    { id:48, year:"1911", title:"École Adrien Berchet", desc:"L'école Adrien Berchet, institution éducative française à Tanger au début du siècle.", title_en:"Adrien Berchet School", desc_en:"The Adrien Berchet school, a French educational institution in early 20th century Tangier.", title_es:"Escuela Adrien Berchet", desc_es:"La escuela Adrien Berchet, institución educativa francesa en el Tánger de principios de siglo.", title_ar:"مدرسة أدريان بيرشيه", desc_ar:"مدرسة أدريان بيرشيه، مؤسسة تعليمية فرنسية في طنجة بداية القرن.", src:"images/ecole-adrien-berchet-1911.jpg",                    srcBefore:"", srcColor:"" },
+    { id:49, year:"1911", title:"Route de la Plage — Hôtesses", desc:"Deux femmes en costume d'hôtesses sur la route de la plage, élégance d'une époque révolue.", title_en:"Beach Road — Hostesses", desc_en:"Two women in hostess costumes on the beach road, elegance of a bygone era.", title_es:"Carretera de la Playa — Azafatas", desc_es:"Dos mujeres con traje de azafatas en la carretera de la playa, elegancia de una época pasada.", title_ar:"طريق الشاطئ — مضيفات", desc_ar:"امرأتان بزي مضيفات على طريق الشاطئ، أناقة عصر مضى.", src:"images/route-de-la-plage-hotesses-1911.jpg",               srcBefore:"", srcColor:"" },
+    { id:50, year:"1921", title:"Ba M'hemed du Café El Hafa", desc:"Ba M'hemed, le fondateur légendaire du mythique Café El Hafa, veilleur sur la baie.", title_en:"Ba M'hemed of Café El Hafa", desc_en:"Ba M'hemed, the legendary founder of the mythical Café El Hafa, guardian of the bay.", title_es:"Ba M'hemed del Café El Hafa", desc_es:"Ba M'hemed, el legendario fundador del mítico Café El Hafa, vigía de la bahía.", title_ar:"با محمد من مقهى حافة", desc_ar:"با محمد، المؤسس الأسطوري لمقهى حافة الشهير، حارس الخليج.", src:"images/ba-mhemed-cafe-el-hafa-1921.jpg",                   srcBefore:"", srcColor:"" },
+    { id:51, year:"1938", title:"Route de la Plage — Le Port", desc:"La route de la plage en direction du port, artère vitale de la cité du Détroit.", title_en:"Beach Road — The Port", desc_en:"The beach road heading toward the port, a vital artery of the City of the Strait.", title_es:"Carretera de la Playa — El Puerto", desc_es:"La carretera de la playa en dirección al puerto, arteria vital de la Ciudad del Estrecho.", title_ar:"طريق الشاطئ — الميناء", desc_ar:"طريق الشاطئ المؤدي إلى الميناء، شريان حيوي لمدينة المضيق.", src:"images/route-de-la-plage-port-1938.jpg",                   srcBefore:"", srcColor:"" },
+    { id:52, year:"1940", title:"Quartier Monopolio", desc:"Le quartier Monopolio de Tanger, témoin de l'architecture cosmopolite de la Zone Internationale.", title_en:"Monopolio District", desc_en:"The Monopolio district of Tangier, witness to the cosmopolitan architecture of the International Zone.", title_es:"Barrio Monopolio", desc_es:"El barrio Monopolio de Tánger, testigo de la arquitectura cosmopolita de la Zona Internacional.", title_ar:"حي مونوبوليو", desc_ar:"حي مونوبوليو في طنجة، شاهد على العمارة العالمية للمنطقة الدولية.", src:"images/quartier-monopolio-1940.jpg",                       srcBefore:"", srcColor:"" },
+    { id:53, year:"1980", title:"Station de Bus et Cinéma Rif", desc:"La station de bus avec en toile de fond l'emblématique Cinéma Rif, scène de la vie quotidienne.", title_en:"Bus Station & Cinema Rif", desc_en:"The bus station with the iconic Cinema Rif in the background, a daily life scene.", title_es:"Estación de Autobuses y Cine Rif", desc_es:"La estación de autobuses con el emblemático Cine Rif al fondo, escena de la vida cotidiana.", title_ar:"محطة الباصات وسينما الريف", desc_ar:"محطة الباصات وخلفيتها سينما الريف الشهيرة، مشهد من الحياة اليومية.", src:"images/station-bus-cinema-rif-1980.jpg",                   srcBefore:"", srcColor:"" },
+    { id:54, year:"1960", title:"Rue de la Liberté", desc:"L'animation de la rue de la Liberté, artère commerçante et cosmopolite du centre-ville.", title_en:"Liberty Street", desc_en:"The lively Liberty Street, a commercial and cosmopolitan artery of downtown.", title_es:"Calle de la Libertad", desc_es:"La animada calle de la Libertad, arteria comercial y cosmopolita del centro.", title_ar:"شارع الحرية", desc_ar:"حركة شارع الحرية، الشريان التجاري والعالمي لوسط المدينة.", src:"images/rue-de-la-liberte-1960.jpg",                         srcBefore:"", srcColor:"" },
+    { id:55, year:"1934", title:"Place Roudani", desc:"L'élégante place Roudani, lieu de promenade et de rencontres au cœur de Tanger.", title_en:"Roudani Square", desc_en:"The elegant Roudani Square, a place for strolls and meetings in the heart of Tangier.", title_es:"Plaza Roudani", desc_es:"La elegante plaza Roudani, lugar de paseo y encuentros en el corazón de Tánger.", title_ar:"ساحة الرداني", desc_ar:"ساحة الرداني الأنيقة، مكان للتنزه واللقاءات في قلب طنجة.", src:"images/place-roudani-1934.jpg",                              srcBefore:"", srcColor:"" },
+    { id:56, year:"1984", title:"Sucrerie Al Raihani", desc:"La célèbre pâtisserie-confiserie Al Raihani, douceur et traditions sucrées de Tanger.", title_en:"Al Raihani Confectionery", desc_en:"The famous Al Raihani pastry and confectionery shop, sweetness and sweet traditions of Tangier.", title_es:"Confitería Al Raihani", desc_es:"La famosa pastelería-confitería Al Raihani, dulzura y tradiciones azucaradas de Tánger.", title_ar:"حلويات الريحاني", desc_ar:"محل الحلويات الشهير الريحاني، حلاوة وتقاليد حلوة في طنجة.", src:"images/sucrerie-al-rai-hani-1984.jpg",                      srcBefore:"", srcColor:"" },
+    { id:57, year:"1968", title:"La Pente Cervantes", desc:"La pente Cervantes, rue pentue et emblématique du paysage tangérois.", title_en:"Cervantes Slope", desc_en:"The Cervantes slope, a steep and iconic Tangier street.", title_es:"La Cuesta Cervantes", desc_es:"La cuesta Cervantes, calle empinada y emblemática del paisaje tanjerino.", title_ar:"منحدر ثيربانتس", desc_ar:"منحدر ثيربانتس، شارع منحدر وأيقوني في المشهد الطنجاوي.", src:"images/pente-cervantes-1968.jpg",                        srcBefore:"", srcColor:"" },
+    { id:58, year:"1958", title:"La Montée de Marchan", desc:"La montée de Marchan (Rue Hassan II), perspective majestueuse sur la baie de Tanger.", title_en:"Marchan Rise", desc_en:"The Marchan rise (Hassan II Street), a majestic perspective over Tangier Bay.", title_es:"La Cuesta de Marchan", desc_es:"La cuesta de Marchan (calle Hassan II), perspectiva majestuosa sobre la bahía de Tánger.", title_ar:"مصعد مرشان", desc_ar:"مصعد مرشان (شارع الحسن الثاني)، إطلالة مهيبة على خليج طنجة.", src:"images/montee-marchan-rue-hassan-2-1958.jpg",              srcBefore:"", srcColor:"" },
+    { id:59, year:"1978", title:"Café Gibraltar", desc:"Le Café Gibraltar, institution tangéroise au bord de l'eau, vue imprenable sur le détroit.", title_en:"Café Gibraltar", desc_en:"Café Gibraltar, a Tangier institution by the water, stunning view of the strait.", title_es:"Café Gibraltar", desc_es:"El Café Gibraltar, institución tanjerina junto al agua, vista impresionante del estrecho.", title_ar:"مقهى جبل طارق", desc_ar:"مقهى جبل طارق، مؤسسة طنجاوية على الماء، إطلالة رائعة على المضيق.", src:"images/cafe-gibraltar-1978.jpg",                            srcBefore:"", srcColor:"" },
+    { id:60, year:"1950", title:"Club de Tir El Ghandouri", desc:"Le club de tir au pigeon El Ghandouri, divertissement prisé de la haute société tangéroise.", title_en:"El Ghandouri Shooting Club", desc_en:"The El Ghandouri pigeon shooting club, a favored pastime of Tangier high society.", title_es:"Club de Tiro El Ghandouri", desc_es:"El club de tiro al pigeon El Ghandouri, pasatiempo favorito de la alta sociedad tanjerina.", title_ar:"نادي الرماية الغندوري", desc_ar:"نادي رمي الحمام الغندوري، هواية مفضلة لمجتمع طنجة الراقي.", src:"images/club-tir-pigeon-el-ghandouri-1950.jpg",              srcBefore:"", srcColor:"" },
+];
+
+// ── LOAD/SAVE PHOTOS (admin edits) ──
+function loadPhotos() {
+    try {
+        if (new URLSearchParams(window.location.search).has('reset')) {
+            localStorage.removeItem('tanger_photos');
+        }
+        const saved = localStorage.getItem('tanger_photos');
+        if (saved) {
+            const p = JSON.parse(saved);
+            if (Array.isArray(p) && p.length) {
+                return p.map((photo, i) => {
+                    const def = DEFAULT_PHOTOS[i] || {};
+                    return { ...photo, ...def };
+                });
+            }
+        }
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
+}
+function savePhotos() { try { localStorage.setItem('tanger_photos', JSON.stringify(photos)); } catch(e) {} }
+function resetPhotos() {
+    try { localStorage.removeItem('tanger_photos'); } catch(e) {}
+    photos = JSON.parse(JSON.stringify(DEFAULT_PHOTOS));
+    renderGallery();
+}
+let photos = loadPhotos();
+
+
+// ── ESCAPE HTML ──
+function esc(str) { return String(str).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]; }); }
+
+// ── GÉNÉRER N&B VIEILLI (type photo abîmée) ──
+function toBW(src, callback) {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const d = ctx.getImageData(0, 0, w, h);
+        const px = d.data;
+        // Seed from pixel data
+        let seed = (px[0] * 9301 + px[1] * 49297 + px[2] * 233280) % 233280;
+
+        // 1. Desaturate with sepia bias + assombrissement
+        for (let i = 0; i < px.length; i += 4) {
+            const g = px[i] * 0.299 + px[i+1] * 0.587 + px[i+2] * 0.114;
+            // Darker, like old underexposed film
+            const darkened = g * 0.85 + 10;
+            // Sepia tint: old paper brown
+            px[i]   = Math.min(255, darkened * 1.05 + 12);
+            px[i+1] = Math.min(255, darkened * 0.93 + 8);
+            px[i+2] = Math.min(255, darkened * 0.80 + 4);
+        }
+
+        // 2. Film grain
+        for (let i = 0; i < px.length; i += 4) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const noise = (seed / 233280) * 32 - 16;
+            px[i]   = Math.max(0, Math.min(255, px[i]   + noise));
+            px[i+1] = Math.max(0, Math.min(255, px[i+1] + noise));
+            px[i+2] = Math.max(0, Math.min(255, px[i+2] + noise));
+        }
+
+        // 3. Random dust spots / scratches
+        const numSpots = Math.floor((w * h) / 60000) + 4;
+        for (let s = 0; s < numSpots; s++) {
+            seed = (seed * 9301 + 49297) % 233280;
+            const sx = Math.floor((seed / 233280) * w);
+            seed = (seed * 9301 + 49297) % 233280;
+            const sy = Math.floor((seed / 233280) * h);
+            seed = (seed * 9301 + 49297) % 233280;
+            const radius = Math.floor((seed / 233280) * 12) + 2;
+            const bright = (seed / 233280) > 0.5;
+            for (let dy = -radius; dy <= radius; dy++) {
+                for (let dx = -radius; dx <= radius; dx++) {
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > radius) continue;
+                    const px2 = ((sy + dy) * w + (sx + dx)) * 4;
+                    if (px2 < 0 || px2 >= px.length - 3) continue;
+                    const falloff = 1 - dist / radius;
+                    const amt = falloff * (bright ? 35 : -30);
+                    px[px2]   = Math.max(0, Math.min(255, px[px2]   + amt));
+                    px[px2+1] = Math.max(0, Math.min(255, px[px2+1] + amt));
+                    px[px2+2] = Math.max(0, Math.min(255, px[px2+2] + amt));
+                }
+            }
+        }
+
+        // 4. Vignette
+        const cx = w / 2, cy = h / 2;
+        const maxDist = Math.sqrt(cx * cx + cy * cy);
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                const i = (y * w + x) * 4;
+                const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2) / maxDist;
+                const vig = 1 - dist * dist * 0.6;
+                px[i]   = Math.max(0, Math.min(255, px[i]   * vig));
+                px[i+1] = Math.max(0, Math.min(255, px[i+1] * vig));
+                px[i+2] = Math.max(0, Math.min(255, px[i+2] * vig));
+            }
+        }
+
+        ctx.putImageData(d, 0, 0);
+        callback(c.toDataURL('image/jpeg', 0.7));
+    };
+    img.onerror = () => callback('');
+    img.src = src;
+}
+
+// ── PLACEHOLDER IMAGE (gris sépia) ──
+function placeholder(text, w=600, h=450) {
+    const colors = ['#2a2015','#1e180a','#251c0d','#1a1408','#2e2210'];
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="${c}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#c9a84c55" font-family="Georgia,serif" font-size="14">${safe}</text></svg>`)}`;
+}
+
+
+// ── BUILD GALLERY ──
+function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    grid.innerHTML = '';
+    photos.forEach((p, i) => {
+        const heights = [280,350,300,400,260,380,320,290,370,310];
+        const h = heights[i % heights.length];
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.dataset.index = i;
+        const hasColor = !!p.srcColor;
+        item.innerHTML = `
+            <span class="before-after-badge">${esc((i18n[currentLang] && i18n[currentLang].before_after_badge) || 'Avant / Après')}</span>
+            <img src="${p.src}"
+                 alt="${esc(p.title)} — Photo historique de Tanger ${p.year}" loading="eager" decoding="async"
+                 onerror="this.onerror=null;this.src='${placeholder(esc(p.title), 600, h)}'">
+            <div class="gallery-caption">
+                <div class="caption-year">${p.year}</div>
+                <div class="caption-title">${esc(p['title_' + currentLang] || p.title)}</div>
+            </div>
+        `;
+        item.addEventListener('click', () => openLightbox(i));
+        grid.appendChild(item);
+    });
+
+}
+
+
+renderGallery();
+
+
+// ── LIGHTBOX ──
+const urlParams = new URLSearchParams(window.location.search);
+let adminMode = urlParams.has('edit');
+let currentIndex = 0;
+let currentMode = 'bw';
+
+
+function openLightbox(index) {
+    currentIndex = index;
+    const p = photos[index];
+    const lb = document.getElementById('lightbox');
+
+
+    const afterImg = document.getElementById('baAfter');
+    const beforeImg = document.getElementById('baBefore');
+    const stack = document.getElementById('baStack');
+
+
+    afterImg.src = placeholder(p.title + ' — Restaurée', 900, 600);
+    beforeImg.src = placeholder(p.title + ' — Original', 900, 600);
+    stack.style.clipPath = 'inset(0 50% 0 0)';
+
+
+    // Try real images
+    const tAfter = new Image();
+    tAfter.onload = () => { afterImg.src = p.src; };
+    tAfter.src = p.src;
+
+
+    if (p.srcBefore) {
+        const tBefore = new Image();
+        tBefore.onload = () => { beforeImg.src = p.srcBefore; };
+        tBefore.onerror = () => { toBW(p.src, url => { if (url) beforeImg.src = url; }); };
+        tBefore.src = p.srcBefore;
+    } else {
+        toBW(p.src, url => { if (url) beforeImg.src = url; });
+    }
+
+
+    document.getElementById('lbYear').textContent = p.year;
+    document.getElementById('lbTitle').textContent = p['title_' + currentLang] || p.title;
+    document.getElementById('lbDesc').textContent = p['desc_' + currentLang] || p.desc;
+
+    // Enable editing if admin mode
+    document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(f => f.contentEditable = adminMode);
+
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    resetSlider();
+    // Focus close button for keyboard users
+    setTimeout(function(){ document.getElementById('lightboxClose').focus(); }, 100);
+}
+
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+
+document.getElementById('lbPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    openLightbox(currentIndex);
+});
+
+
+document.getElementById('lbNext').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % photos.length;
+    openLightbox(currentIndex);
+});
+
+
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') { closeLightbox(); return; }
+    if (e.key === 'ArrowLeft') { document.getElementById('lbPrev').click(); return; }
+    if (e.key === 'ArrowRight') { document.getElementById('lbNext').click(); return; }
+    // Focus trap
+    if (e.key === 'Tab') {
+        const focusable = document.querySelectorAll('#lightbox button, #lightbox [tabindex]:not([tabindex="-1"]), #lightbox [contenteditable]');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    }
+});
+
+
+// ── MODE TOGGLE (B&W / Colorisé) ──
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        if (mode === currentMode) return;
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+        const p = photos[currentIndex];
+        const afterImg = document.getElementById('baAfter');
+        const src = mode === 'color' && p.srcColor ? p.srcColor : p.src;
+        const test = new Image();
+        test.onload = () => { afterImg.src = src; };
+        test.onerror = () => { afterImg.src = p.src; };
+        test.src = src;
+    });
+});
+
+
+// Hide colorized button if no image has a color variant
+if (!photos.some(function(p){ return p.srcColor; })) {
+  var cb = document.querySelector('.mode-btn[data-mode="color"]');
+  if (cb) cb.style.display = 'none';
+}
+
+// Apply language
+applyLang(currentLang);
+
+
+// ── ADMIN UI ──
+if (adminMode) {
+    const hint = document.createElement('div');
+    hint.className = 'edit-hint';
+    hint.id = 'editHint';
+    hint.textContent = i18n[currentLang].edit_hint || '✎ Edit mode — click text to edit, Enter to save';
+    document.querySelector('.lightbox-meta').appendChild(hint);
+}
+
+
+// ── INLINE EDITING ──
+document.querySelectorAll('#lbYear, #lbTitle, #lbDesc').forEach(el => {
+    el.addEventListener('blur', () => {
+        if (!adminMode) return;
+        const p = photos[currentIndex];
+        if (!p) return;
+        const val = el.textContent.trim();
+        if (el.id === 'lbYear') p.year = val;
+        else if (el.id === 'lbTitle') p.title = val;
+        else if (el.id === 'lbDesc') p.desc = val;
+        savePhotos();
+        const items = document.querySelectorAll('.gallery-item');
+        if (items[currentIndex]) {
+            const caps = items[currentIndex].querySelectorAll('.gallery-caption div');
+            if (caps[0]) caps[0].textContent = photos[currentIndex].year;
+            if (caps[1]) caps[1].textContent = photos[currentIndex]['title_' + currentLang] || photos[currentIndex].title;
+        }
+    });
+    el.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    });
+});
+
+
+// ── DYNAMIC SHARE URL ──
+var shareFb = document.getElementById('shareFb');
+if (shareFb) shareFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href);
+
+// ── BEFORE/AFTER SLIDER ──
+const divider = document.getElementById('baDivider');
+const stack = document.getElementById('baStack');
+const baContainer = document.getElementById('baContainer');
+let dragging = false;
+
+
+function resetSlider() {
+    const rtl = document.documentElement.dir === 'rtl';
+    stack.style.clipPath = rtl ? 'inset(0 0 0 50%)' : 'inset(0 50% 0 0)';
+    divider.style.left = '50%';
+}
+
+
+function setSliderPos(clientX) {
+    const rtl = document.documentElement.dir === 'rtl';
+    const rect = baContainer.getBoundingClientRect();
+    let pct = ((clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(2, Math.min(98, pct));
+    stack.style.clipPath = rtl ? ('inset(0 0 0 ' + pct + '%)') : ('inset(0 ' + (100 - pct) + '% 0 0)');
+    divider.style.left = pct + '%';
+}
+
+
+divider.addEventListener('mousedown', e => { dragging = true; e.preventDefault(); });
+divider.addEventListener('touchstart', e => { dragging = true; }, { passive: true });
+divider.addEventListener('keydown', e => {
+    const step = e.shiftKey ? 10 : 5;
+    let val = parseFloat(divider.style.left) || 50;
+    if (e.key === 'ArrowLeft') val = Math.max(2, val - step);
+    else if (e.key === 'ArrowRight') val = Math.min(98, val + step);
+    else return;
+    e.preventDefault();
+    const rtl = document.documentElement.dir === 'rtl';
+    stack.style.clipPath = rtl ? ('inset(0 0 0 ' + val + '%)') : ('inset(0 ' + (100 - val) + '% 0 0)');
+    divider.style.left = val + '%';
+    divider.setAttribute('aria-valuenow', val);
+});
+
+document.addEventListener('mousemove', e => { if (dragging) setSliderPos(e.clientX); });
+document.addEventListener('touchmove', e => { if (dragging) setSliderPos(e.touches[0].clientX); }, { passive: true });
+document.addEventListener('mouseup', () => { dragging = false; });
+document.addEventListener('touchend', () => { dragging = false; });
+
+// ── MUSIC PLAYER ──
+const songs = [
+    { title: 'Arab Appal', artist: 'Noisy Oyster', src: 'music/noisy-oyster-arab-appal.mp3' },
+    { title: "Prince d'Arabie", artist: 'Grand Project', src: 'music/grand_project-prince-of-arabia-main-162625.mp3' },
+    { title: 'Moroccan Style', artist: 'Free Melody Studio', src: 'music/free_melody_studio-moroccan-style-v1-402903.mp3' },
+    { title: 'Beats of Oriental Mirage', artist: 'Eliza Music', src: 'music/eliza_music-beats-of-oriental-mirage-431547.mp3' },
+    { title: 'Sahara Sunset', artist: 'Djovan', src: 'music/djovan-sahara-sunset-oriental-relax-ambiance-desert-flute-oud-489155.mp3' },
+    { title: 'Oasis of Peace', artist: 'Djovan', src: 'music/djovan-oasis-of-peace-maghreb-instrumental-lounge-489146.mp3' },
+    { title: "Nomad's Rest", artist: 'Djovan', src: 'music/djovan-nomads-rest-oud-for-sleep-489150.mp3' },
+    { title: 'Mystic Sahara', artist: 'Djovan', src: 'music/djovan-mystic-sahara-489157.mp3' },
+    { title: 'Mystic Maghreb', artist: 'Djovan', src: 'music/djovan-mystic-maghreb-oud-amp-desert-wind-489153.mp3' },
+    { title: 'Medina Lights', artist: 'Djovan', src: 'music/djovan-medina-lights-soft-oud-amp-kanun-489145.mp3' },
+    { title: 'Golden Sand', artist: 'Djovan', src: 'music/djovan-golden-sand-oriental-chillout-oud-489156.mp3' },
+    { title: 'Celestial Oud', artist: 'Djovan', src: 'music/djovan-celestial-oud-deep-relaxation-489152.mp3' },
+    { title: 'Andalusian Oud Dreams', artist: 'Djovan', src: 'music/djovan-andalusian-oud-dreams-spiritual-instrumental-489154.mp3' },
+    { title: 'Andalusian Oud & Percussions', artist: 'Djovan', src: 'music/djovan-andalusian-oud-amp-percussions-soft-489148.mp3' }
+];
+let currentSong = 0;
+let audio = null;
+
+function loadSong(index) {
+    const s = songs[index];
+    const titleKey = 'song' + (index + 1) + '_title';
+    const artistKey = 'song' + (index + 1) + '_artist';
+    document.getElementById('musicTitle').textContent = i18n[currentLang][titleKey] || s.title;
+    document.getElementById('musicArtist').textContent = i18n[currentLang][artistKey] || s.artist;
+    if (audio) { audio.pause(); audio = null; }
+    audio = new Audio(s.src);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', () => {
+        document.getElementById('musicDuration').textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('ended', nextSong);
+}
+
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function updateProgress() {
+    if (!audio || !audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('musicProgressBar').style.width = pct + '%';
+    document.getElementById('musicCurrent').textContent = formatTime(audio.currentTime);
+}
+
+function setPlayAria(playing) {
+    const btn = document.getElementById('playBtn');
+    if (!btn) return;
+    const key = playing ? 'aria_pause' : 'aria_play';
+    const val = (i18n[currentLang] && i18n[currentLang][key]) || (playing ? 'Pause' : 'Play');
+    btn.setAttribute('aria-label', val);
+}
+
+function playSong() {
+    if (!audio) loadSong(currentSong);
+    if (audio.paused) {
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+        setPlayAria(true);
+    } else {
+        audio.pause();
+        document.getElementById('playBtn').textContent = '▶';
+        setPlayAria(false);
+    }
+}
+
+function prevSong() {
+    currentSong = (currentSong - 1 + songs.length) % songs.length;
+    loadSong(currentSong);
+    audio.addEventListener('canplay', function handler() {
+        audio.removeEventListener('canplay', handler);
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+        setPlayAria(true);
+    });
+}
+
+
+function nextSong() {
+    currentSong = (currentSong + 1) % songs.length;
+    loadSong(currentSong);
+    audio.addEventListener('canplay', function handler() {
+        audio.removeEventListener('canplay', handler);
+        audio.play();
+        document.getElementById('playBtn').textContent = '⏸';
+        setPlayAria(true);
+    });
+}
+
+document.getElementById('playBtn').addEventListener('click', playSong);
+document.getElementById('prevBtn').addEventListener('click', prevSong);
+document.getElementById('nextBtn').addEventListener('click', nextSong);
+
+document.getElementById('musicProgress').addEventListener('click', (e) => {
+    if (!audio || !audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+});
+
+loadSong(0);
+window._musicReady = true;
+// Update song title for current language
+if (typeof i18n !== 'undefined' && i18n[currentLang]) {
+    const s = songs[0];
+    const tk = 'song1_title';
+    const ak = 'song1_artist';
+    document.getElementById('musicTitle').textContent = i18n[currentLang][tk] || s.title;
+    document.getElementById('musicArtist').textContent = i18n[currentLang][ak] || s.artist;
+}
+
+// ── EXPORT (ajouter ?export à l'URL) ──
+if (new URLSearchParams(window.location.search).has('export')) {
+    const lines = photos.map(function(p,i){ return (i+1) + '. ' + p.year + ' · ' + p.title + ' · ' + p.desc; });
+    var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'tanger-photos.txt';
+    a.textContent = '📥 Télécharger le fichier d\'export';
+    a.style.cssText = 'display:inline-block;margin:2rem auto;padding:1rem 2rem;color:var(--gold);border:1px solid var(--gold);font-family:Cinzel;letter-spacing:0.2em;text-transform:uppercase;font-size:0.7rem;text-decoration:none';
+    document.querySelector('.share-section').after(a);
+}
+</script>
+<script>
+// ── LOW-END DEVICE DETECTION ──
+(function () {
+    try {
+        var dm = navigator.deviceMemory;
+        var hc = navigator.hardwareConcurrency;
+        if ((typeof dm === 'number' && dm < 2) || (typeof hc === 'number' && hc < 3)) {
+            document.documentElement.classList.add('low-end');
+        }
+    } catch (e) {}
+})();
+
+// ── TV / REMOTE KEYBOARD ──
+document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    var typing = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+    if (typing) return;
+    if (e.key === 'Home' || e.key === 'Backspace') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    } else if (e.key === 'End') {
+        e.preventDefault();
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'auto' });
+    }
+}, { passive: false });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js').catch(function () {});
+    }, { once: true });
+}
+</script>
+</body>
+</html>
