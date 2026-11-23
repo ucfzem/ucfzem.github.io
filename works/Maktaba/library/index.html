@@ -723,7 +723,7 @@ els.copyUrl.addEventListener("click", copyUrl);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    navigator.serviceWorker.register("./sw.js?v=maktaba-library-v2").catch(() => {});
   });
 }
 </script>
