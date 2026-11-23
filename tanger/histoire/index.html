@@ -2586,6 +2586,11 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => { ref
 initLang();
 requestAnimationFrame(() => { syncStickyNavHeight(); scrollToCurrentHash(true); });
 setTimeout(() => scrollToCurrentHash(true), 350);
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('../sw.js?v=2026-11-23-v4-offline').catch(function () {});
+    });
+}
 </script>
 </body>
 </html>
