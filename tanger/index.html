@@ -463,6 +463,13 @@
         }
 
 
+        .history-more,
+        .history-more:visited,
+        .history-more:hover,
+        .history-more:focus,
+        .history-more:active {
+            color: #3B230E !important;
+        }
         .history-more {
             display: flex;
             align-items: center;
@@ -475,7 +482,7 @@
             border-radius: 8px;
             border: 1px solid #b38f27;
             background: linear-gradient(135deg, #f3cf5d, #d4af37);
-            color: #4a2e15;
+            color: #3B230E !important;
             font-family: 'Cinzel', serif;
             font-weight: 700;
             font-size: 1rem;
@@ -490,9 +497,15 @@
             transform: translateY(-2px);
             background: linear-gradient(135deg, #fce182, #d4af37);
             box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+            color: #3B230E !important;
         }
-        .history-more span {
+        .history-more span,
+        .history-more:visited span,
+        .history-more:hover span,
+        .history-more:active span,
+        .history-more:focus span {
             display: inline-block;
+            color: #3B230E !important;
             transition: transform 0.2s ease;
         }
         .history-more:hover span,
