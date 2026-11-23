@@ -1,0 +1,15 @@
+{
+  "name": "أعلام العلماء والدعاة",
+  "short_name": "أعلام العلماء",
+  "description": "دليل تفاعلي لأعلام العلماء والدعاة المعاصرين",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#047857",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
