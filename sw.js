@@ -61,7 +61,10 @@ const SHELLS = [
   'al-ajwiba-al-musaddada',
   'basair02',
   'al-a3chab-attebiah',
-  'earth-proofs-pwa'
+  'earth-proofs-pwa',
+  'a3lam-al-3olama',
+  'shubuhat-wa-rudud',
+  'taw7id'
 ];
 
 // Every app slug we know (used for the bare-URL redirect).
@@ -106,7 +109,10 @@ const APPS = [
   'al-ajwiba-al-musaddada',
   'basair02',
   'al-a3chab-attebiah',
-  'earth-proofs-pwa'
+  'earth-proofs-pwa',
+  'a3lam-al-3olama',
+  'shubuhat-wa-rudud',
+  'taw7id'
 ];
 
 // Shared third-party assets the shells need to render offline.
@@ -128,7 +134,7 @@ const CDN = [
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&display=swap',
   'https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700;800&family=Scheherazade+New:wght@400;700&display=swap'
 ];
-const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com'];
+const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'unpkg.com', 'api.alquran.cloud', 'api.quran.com', 'api.qurancdn.com', 'cdn.islamic.network', 'everyayah.com', 'upload.wikimedia.org', 'commons.wikimedia.org', 'iiif.archive.org', 'archive.org', 'tile.openstreetmap.org', 'a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org', 'tile.openstreetmap.fr', 'server.arcgisonline.com', 'basemaps.cartocdn.com'];
 
 // Bounded fetch: a single stalled TCP connection (flaky network, captive
 // portal) must never hang install/prefetch forever.
@@ -171,7 +177,7 @@ async function cacheOpaque(cache, url) {
 // (data/index.json + per-letter files) fetch their text at runtime, so the shell
 // alone is not enough offline. Triggered from the works page to limit the
 // download to library visitors.
-const DATA_MARKER = '/__bookdata-v37';
+const DATA_MARKER = '/__bookdata-v38';
 
 const ASSET_EXT = /\.(?:html?|css|js|mjs|json|md|txt|csv|xml|png|jpe?g|gif|webp|svg|ico|webmanifest|woff2?|ttf|otf|mp3|ogg|wav|wasm|dzi)(?:[?#]|$)/i;
 

@@ -1,4 +1,4 @@
-const CACHE = 'maktaba-main-v9';
+const CACHE = 'maktaba-main-v10';
 const CORE = [
   './',
   './index.html',
