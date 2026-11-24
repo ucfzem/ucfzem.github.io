@@ -767,7 +767,7 @@
   // Offline support (app shell + runtime caching)
   if (navigator.storage && navigator.storage.persist) { navigator.storage.persist().catch(() => {}); }
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+    window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {}); });
   }
   </script>
 </body>
