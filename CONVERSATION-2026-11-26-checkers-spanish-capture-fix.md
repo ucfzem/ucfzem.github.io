@@ -80,7 +80,18 @@
 - Previous Maktaba backup: https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-2026-11-24-maktaba-all-offline-final.md
 - This backup: https://github.com/ucfzem/ucfzem.github.io/blob/main/CONVERSATION-2026-11-26-checkers-spanish-capture-fix.md
 
+## Live Verification After Push
+- Push result: `b47bb03..a55b63d main -> main`.
+- First Pages probe still served the old `game.js`; a retry after 10 seconds served the committed file. No source change was needed.
+- Final live check:
+  - `https://ucfzem.github.io/checkers/game.js`: HTTP 200, 49436 bytes, sha256 prefix `b4754f433de8`, byte-identical to local committed file.
+  - `https://ucfzem.github.io/checkers/ai.js`: HTTP 200, 14405 bytes, sha256 prefix `8a1c28a0e1e5`, byte-identical to local committed file.
+  - Backup raw URL: HTTP 200.
+  - Backup Pages URL: HTTP 200.
+- Local harness against committed files: `TOTAL 7/7`.
+- Live harness against `https://ucfzem.github.io/checkers/game.js` and `https://ucfzem.github.io/checkers/ai.js`: `TOTAL 7/7`.
+
 ## Notes
 - No interface or style files were modified.
 - No secrets are included in this file or in the code changes.
-- Live-page verification is performed after push; this backup records the verified local state and the exact expected live URLs.
+- What was tested from this side: source equality, syntax checks, rule/AI/online-simulation harness, live source equality, and live backup availability. Actual human gameplay interaction in a browser from this side was not performed.
