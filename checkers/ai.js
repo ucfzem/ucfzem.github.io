@@ -47,10 +47,11 @@ class CheckersAI {  constructor(gameInstance) {
 
 
   collectCapturedPieces(steps, lastMove) {
-    if (lastMove && Array.isArray(lastMove.capturedPieces)) return lastMove.capturedPieces.slice();
+    const copy = (p) => ({ r: p.r, c: p.c, piece: p.piece ? Object.assign({}, p.piece) : null });
+    if (lastMove && Array.isArray(lastMove.capturedPieces)) return lastMove.capturedPieces.map(copy);
     const out = [];
     for (const step of steps) {
-      if (step.captured) out.push({ r: step.captured.r, c: step.captured.c });
+      if (step.captured) out.push(copy(step.captured));
     }
     return out;
   }
@@ -111,6 +112,12 @@ class CheckersAI {  constructor(gameInstance) {
 
   applySequence(boardState, sequence) {
     for (const step of sequence.steps) this.applyMoveOnSimulation(boardState, step);
+    if (this.game.variant === 'spanish' && sequence.steps.length) {
+      const capturedPieces = this.collectCapturedPieces(sequence.steps, sequence.steps[sequence.steps.length - 1]);
+      for (const p of capturedPieces) {
+        if (this.game.isValidSquare(p.r, p.c) && boardState[p.r][p.c]) boardState[p.r][p.c] = null;
+      }
+    }
   }
 
 
@@ -357,7 +364,7 @@ class CheckersAI {  constructor(gameInstance) {
     if (!piece) return;
     boardState[move.fromR][move.fromC] = null;
     boardState[move.toR][move.toC] = piece;
-    if (move.captured) boardState[move.captured.r][move.captured.c] = null;
+    if (move.captured && this.game.variant !== 'spanish') boardState[move.captured.r][move.captured.c] = null;
 
     if (!piece.estDame) {
       if ((piece.couleur === COLOR_WHITE && move.toR === 0) || (piece.couleur === COLOR_BLACK && move.toR === BOARD_SIZE - 1)) {
